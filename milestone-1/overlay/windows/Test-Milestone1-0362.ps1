@@ -36,6 +36,8 @@ function Port-Owners([int]$Port = 48713) { @(Get-NetTCPConnection -LocalPort $Po
 $script:TestStart = [DateTime]::Now
 # Every process created since this test started (a still-listening socket whose owner has exited is held by an inheriting process).
 function New-Processes { @(Get-CimInstance Win32_Process -ErrorAction SilentlyContinue | Where-Object { $_.CreationDate -and $_.CreationDate -gt $script:TestStart } | ForEach-Object { $_.Name + ' pid ' + $_.ProcessId + ' parent ' + $_.ParentProcessId + ' started ' + $_.CreationDate.ToString('HH:mm:ss.fff') + ' cmd: ' + $(if ($_.CommandLine) { $_.CommandLine.Substring(0, [Math]::Min(220, $_.CommandLine.Length)) } else { '' }) }) }
+# Browser windows the window host opened on its dashboard URL (only processes created during this test).
+function Dashboard-Browsers { @(Get-CimInstance Win32_Process -ErrorAction SilentlyContinue | Where-Object { $_.CreationDate -and $_.CreationDate -gt $script:TestStart -and $_.CommandLine -and $_.CommandLine.Contains('127.0.0.1:48713/' + [char]35 + 'desktop-token=') }) }
 function Wait-PortFree([int]$Ms = 15000) { $w = [Diagnostics.Stopwatch]::StartNew(); while ($w.ElapsedMilliseconds -lt $Ms) { if (-not @(Port-Owners).Count) { return $w.ElapsedMilliseconds }; Start-Sleep -Milliseconds 200 }; throw ('port 48713 still listening after ' + $Ms + ' ms: ' + (@(Port-Owners) -join ' | ') + ' || processes created during this test and still running: ' + (@(New-Processes) -join ' | ')) }
 function Wait-Until([scriptblock]$Condition, [int]$Ms, [int]$Step = 100) { $w = [Diagnostics.Stopwatch]::StartNew(); while ($w.ElapsedMilliseconds -lt $Ms) { if (& $Condition) { return $true }; Start-Sleep -Milliseconds $Step }; return [bool](& $Condition) }
 function Alive([int]$ProcessId) { try { $p = [Diagnostics.Process]::GetProcessById($ProcessId); return -not $p.HasExited } catch { return $false } }
@@ -229,6 +231,7 @@ try {
         ('pid ' + $script:gui.process.Id + ' window "' + $script:gui.process.MainWindowTitle + '" ready in ' + $script:gui.ms + ' ms; health OK; driver pid ' + $script:guiDriver + $(if ($shot) { '; screenshot desktop-host-window.png' } else { '' }))
     }
     if ($gui) {
+        Check 'host' 'Window host opened the dashboard in a browser' { if (-not (Wait-Until { @(Dashboard-Browsers).Count -gt 0 } 15000 250)) { throw 'no browser process on http://127.0.0.1:48713 within 15 s' }; $b = @(Dashboard-Browsers)[0]; ($b.Name + ' pid ' + $b.ProcessId + ' --app on the host URL (left open while the host is closed, as a user would)') } $false
         Check 'shutdown' 'Window host: closing the window stops host and input driver' {
             if (-not $script:gui.process.CloseMainWindow()) { throw 'WM_CLOSE could not be posted' }
             if (-not $script:gui.process.WaitForExit(20000)) { throw 'still running 20 s after the window was closed' }
@@ -248,6 +251,7 @@ try {
 } finally {
     # ===== 8d. no process this script started may survive =====
     foreach ($s in $script:started) { if (Alive $s.pid) { Start-Sleep -Milliseconds 500 } }
+    $browsers = @(Dashboard-Browsers); if ($browsers.Count) { foreach ($b in $browsers) { try { & "$env:SystemRoot\System32\taskkill.exe" /PID $b.ProcessId /T /F 2>&1 | Out-Null } catch {} }; Write-Host ('closed ' + $browsers.Count + ' dashboard browser process(es) opened by the window host') }
     $owners = @(Port-Owners); if ($owners.Count) { Add-Check 'shutdown' 'Loopback port 48713 released at the end' $false ('still listening: ' + ($owners -join ' | ') + ' || processes created during this test and still running: ' + (@(New-Processes) -join ' | ')) }
     $left = @(Our-Leftovers); $leftNames = @(Name-Leftovers $watchedNames $preexisting)
     Add-Check 'shutdown' 'No leftover processes' (($left.Count + $leftNames.Count) -eq 0) $(if (($left.Count + $leftNames.Count) -eq 0) { ($script:started.Count.ToString() + ' processes started by this test have all exited; no new EightMax/mwcli processes remain') } else { 'still running: ' + ((@($left) + @($leftNames) | Select-Object -Unique) -join ', ') })

@@ -84,6 +84,9 @@ public sealed class DesktopHost {
     object CurrentView(){return current==null?new{format="eightmax-desktop-current",version=1,job=(object)null,status=(object)null}:current.RecoveryView();}
     public void Run(bool headless){
         try{uiThread=Native.GetCurrentThreadId();}catch(Exception){uiThread=0;}listener=new TcpListener(IPAddress.Loopback,Port);try{listener.Start(8);}catch(SocketException e){throw new Exception("Port "+Port+" on 127.0.0.1 is already in use by another program (error "+e.SocketErrorCode+"). Close that program or restart Windows, then start the workbench again.");}
+        // 0.36.2: the listening socket must not be inherited. The dashboard browser, the input driver and native jobs are started
+        // with handle inheritance; an inherited listener kept port 48713 bound after the host exited, so the next start failed.
+        NoInherit(listener.Server);
         // 0.28.0: the UI-thread invoker exists before the ready file, so a shutdown request can always reach the message loop.
         invoker=new Control();invoker.CreateControl();IntPtr forceHandle=invoker.Handle;
         context=new ApplicationContext();
@@ -98,6 +101,7 @@ public sealed class DesktopHost {
         if(!headless)OpenBrowser();
         try{Application.Run(context);}finally{Stop();requests.Note("host-exit","message loop ended; shutdownRequested="+shutdownRequested);requests.Flush();if(invoker!=null)try{invoker.Dispose();}catch{}}
     }
+    static void NoInherit(Socket socket){try{Native.SetHandleInformation(socket.Handle,1/*HANDLE_FLAG_INHERIT*/,0);}catch{}}
     void OpenBrowser(){
         string address="http://127.0.0.1:"+Port+"/#desktop-token="+token;
         List<string> candidates=new List<string>();foreach(string folder in new[]{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86)}){candidates.Add(Path.Combine(folder,"Microsoft","Edge","Application","msedge.exe"));candidates.Add(Path.Combine(folder,"Google","Chrome","Application","chrome.exe"));}candidates.Add(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"Google","Chrome","Application","chrome.exe"));
@@ -234,7 +238,7 @@ public sealed class DesktopHost {
     // 0.28.0: connections are served concurrently (at most 8 at once) so an idle socket - e.g. a browser preconnect that
     // never sends a request - can no longer stall every other request, including shutdown, for the read timeout.
     readonly Semaphore connectionSlots=new Semaphore(8,8);
-    void ServerLoop(){while(!closing){TcpClient client=null;try{client=listener.AcceptTcpClient();}catch{if(closing)return;continue;}
+    void ServerLoop(){while(!closing){TcpClient client=null;try{client=listener.AcceptTcpClient();}catch{if(closing)return;continue;}NoInherit(client.Client);
         if(!connectionSlots.WaitOne(0)){try{using(client){NetworkStream busy=client.GetStream();Fail(busy,null,503,"host-busy","Eight requests are already in progress; retry shortly.");}}catch{}continue;}
         TcpClient accepted=client;ThreadPool.QueueUserWorkItem(delegate{try{Serve(accepted);}finally{connectionSlots.Release();}});}}
     void Serve(TcpClient client){
@@ -547,6 +551,7 @@ public sealed class DesktopHost {
         [DllImport("kernel32.dll")]public static extern bool TerminateProcess(IntPtr process,uint code);
         [DllImport("kernel32.dll")]public static extern bool GetExitCodeProcess(IntPtr process,out uint code);
         [DllImport("kernel32.dll")]public static extern bool CloseHandle(IntPtr handle);
+        [DllImport("kernel32.dll",SetLastError=true)]public static extern bool SetHandleInformation(IntPtr handle,uint mask,uint flags);
         [DllImport("kernel32.dll")]public static extern uint WaitForSingleObject(IntPtr handle,uint milliseconds);
     }
     // 0.19: startup/shutdown failures leave a bounded, human-readable record for diagnostics export.
