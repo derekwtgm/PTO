@@ -1,0 +1,431 @@
+{
+  "format": "eightmax-simulator-benchmark",
+  "version": 2,
+  "app": "0.36.2-dev",
+  "at": "2026-11-22T23:36:09.406Z",
+  "environment": {
+    "node": "v22.23.5",
+    "cpus": 4,
+    "cpu": "AMD EPYC 9V74 80-Core Processor                ",
+    "ramGiB": 16,
+    "host": {
+      "appVersion": "0.36.2-dev",
+      "inputDriver": true
+    },
+    "motion": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0.12,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+    },
+    "movement": {
+      "pattern": "straight",
+      "seed": 1,
+      "direction": "left"
+    },
+    "driver": {
+      "signedCurves": true,
+      "maxDeviationPx": true,
+      "singleClickGuardMaxMs": 540,
+      "operations": [
+        "cursor",
+        "monitors",
+        "list-windows",
+        "window-info",
+        "exe-identity",
+        "register-target",
+        "unregister-target",
+        "focus",
+        "move",
+        "move-click",
+        "click",
+        "double-click",
+        "mouse-down",
+        "mouse-up",
+        "key",
+        "type",
+        "clear-field",
+        "read-text",
+        "enter-text",
+        "uia-controls",
+        "wait"
+      ],
+      "sendInput": true,
+      "virtual": false,
+      "uiAutomation": true,
+      "rawInputOverride": true,
+      "hotkey": "Ctrl+Alt+F12",
+      "hotkeyRegistered": true,
+      "maxQueue": 8,
+      "dpiAwareness": "per-monitor-v2",
+      "note": ""
+    },
+    "monitors": [
+      {
+        "id": 0,
+        "name": "\\\\.\\DISPLAY1",
+        "bounds": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1080
+        },
+        "work": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1032
+        },
+        "dpiScale": 1,
+        "primary": true
+      }
+    ]
+  },
+  "workload": {
+    "decisions": "SCRIPTED test policy (labelled; measures control, not strategy)",
+    "decisionWindowMs": 10000,
+    "secondsPerCount": 45,
+    "windowWidth": 960,
+    "layout": "cascade (overlapping windows; the driver brings each to the front before clicking)",
+    "capture": "desktop host PrintWindow",
+    "workloads": [
+      {
+        "name": "stress",
+        "turnDelayMs": 2500
+      }
+    ]
+  },
+  "sustainableTables": {
+    "stress": 1
+  },
+  "note": "sustainable = the largest count for which this and every smaller count had zero ambiguous/timed-out actions, zero incorrect clicks or wagers, zero missed deadlines, zero driver/focus errors and no paused table",
+  "workloads": [
+    {
+      "name": "stress",
+      "turnDelayMs": 2500,
+      "sustainableTables": 1,
+      "runs": [
+        {
+          "tables": 1,
+          "seconds": 45.3,
+          "turnDelayMs": 2500,
+          "decisionWindowMs": 10000,
+          "windowWidth": 960,
+          "actions": {
+            "attempted": 13,
+            "confirmed": 13,
+            "rejected": 0,
+            "ambiguous": 0,
+            "timedOut": 0,
+            "cancelled": 0,
+            "blocked": 0,
+            "perMinute": 17.2
+          },
+          "correctness": {
+            "matchedToOracle": 13,
+            "incorrectClicks": 0,
+            "incorrectWagers": 0,
+            "oracleActionsWithoutConfirmation": 0
+          },
+          "deadlines": {
+            "missed": 0,
+            "schedulerRejected": {}
+          },
+          "latencyMs": {
+            "queueWait": {
+              "n": 13,
+              "mean": 0.02,
+              "p50": 0.01,
+              "p95": 0.15,
+              "p99": 0.15,
+              "max": 0.15
+            },
+            "cursorTravel": {
+              "n": 13,
+              "mean": 366.55,
+              "p50": 381.36,
+              "p95": 889.04,
+              "p99": 889.04,
+              "max": 889.04
+            },
+            "inputOperation": {
+              "n": 13,
+              "mean": 1133.38,
+              "p50": 896.85,
+              "p95": 2353.99,
+              "p99": 2353.99,
+              "max": 2353.99
+            },
+            "endToEnd": {
+              "n": 13,
+              "mean": 1157.82,
+              "p50": 915.66,
+              "p95": 2374.24,
+              "p99": 2374.24,
+              "max": 2374.24
+            },
+            "confirmation": {
+              "n": 13,
+              "mean": 144.13,
+              "p50": 144.81,
+              "p95": 171.59,
+              "p99": 171.59,
+              "max": 171.59
+            },
+            "slackAtStart": {
+              "n": 13,
+              "mean": 8299.53,
+              "p50": 8788.28,
+              "p95": 9156.38,
+              "p99": 9156.38,
+              "max": 9156.38
+            }
+          },
+          "errors": {
+            "driver": 0,
+            "focus": 0,
+            "recognitionRejectedFrames": 0,
+            "loop": 0,
+            "pausedTables": []
+          },
+          "resources": {
+            "peakWorkingSetMiB": 282.2,
+            "cpuSecondsAllProcesses": 13.08,
+            "cpuPercentOfOneCore": 28.9,
+            "logicalCpus": 4,
+            "samples": [
+              {
+                "at": 1795390550922,
+                "byName": {
+                  "EightMaxInput": {
+                    "count": 1,
+                    "workingSetMiB": 30.3,
+                    "cpuSeconds": 1.06
+                  },
+                  "EightMaxTestTable": {
+                    "count": 1,
+                    "workingSetMiB": 44.6,
+                    "cpuSeconds": 0.84
+                  },
+                  "EightMaxWorkbench": {
+                    "count": 1,
+                    "workingSetMiB": 38.7,
+                    "cpuSeconds": 1.38
+                  },
+                  "node": {
+                    "count": 2,
+                    "workingSetMiB": 146.4,
+                    "cpuSeconds": 8.27
+                  }
+                },
+                "totalMiB": 260,
+                "totalCpuSeconds": 11.55
+              },
+              {
+                "at": 1795390560922,
+                "byName": {
+                  "EightMaxInput": {
+                    "count": 1,
+                    "workingSetMiB": 30.7,
+                    "cpuSeconds": 1.17
+                  },
+                  "EightMaxTestTable": {
+                    "count": 1,
+                    "workingSetMiB": 45.9,
+                    "cpuSeconds": 1.09
+                  },
+                  "EightMaxWorkbench": {
+                    "count": 1,
+                    "workingSetMiB": 38.8,
+                    "cpuSeconds": 1.86
+                  },
+                  "node": {
+                    "count": 2,
+                    "workingSetMiB": 166.8,
+                    "cpuSeconds": 10.56
+                  }
+                },
+                "totalMiB": 282.2,
+                "totalCpuSeconds": 14.69
+              },
+              {
+                "at": 1795390565890,
+                "byName": {
+                  "EightMaxInput": {
+                    "count": 1,
+                    "workingSetMiB": 31.1,
+                    "cpuSeconds": 1.28
+                  },
+                  "EightMaxTestTable": {
+                    "count": 1,
+                    "workingSetMiB": 46.4,
+                    "cpuSeconds": 1.19
+                  },
+                  "EightMaxWorkbench": {
+                    "count": 1,
+                    "workingSetMiB": 38.8,
+                    "cpuSeconds": 2.02
+                  },
+                  "node": {
+                    "count": 2,
+                    "workingSetMiB": 161.5,
+                    "cpuSeconds": 11.3
+                  }
+                },
+                "totalMiB": 277.7,
+                "totalCpuSeconds": 15.78
+              }
+            ]
+          },
+          "driver": {
+            "ops": 34,
+            "moves": 397,
+            "clicks": 16,
+            "keys": 0,
+            "chars": 10,
+            "refused": 0,
+            "cancelled": 0,
+            "errors": 0,
+            "corrections": 0,
+            "maxCorrectionPx": 0,
+            "doubleClickGuards": 0
+          },
+          "scheduler": {
+            "submitted": 13,
+            "started": 13,
+            "completed": 13,
+            "failed": 0,
+            "rejected": {},
+            "deadlineMisses": 0,
+            "peakQueue": 1,
+            "queueWaitMs": {
+              "n": 13,
+              "mean": 0.02,
+              "p50": 0.01,
+              "p95": 0.15,
+              "p99": 0.15,
+              "max": 0.15
+            },
+            "runMs": {
+              "n": 13,
+              "mean": 906.61,
+              "p50": 692.73,
+              "p95": 2157.55,
+              "p99": 2157.55,
+              "max": 2157.55
+            },
+            "slackAtStartMs": {
+              "n": 13,
+              "mean": 8299.53,
+              "p50": 8788.28,
+              "p95": 9156.38,
+              "p99": 9156.38,
+              "max": 9156.38
+            }
+          },
+          "perTable": [
+            {
+              "table": 1,
+              "hwnd": "0x50288",
+              "paused": null,
+              "counts": {
+                "frames": 153,
+                "rejectedFrames": 0,
+                "decisions": 13,
+                "solverDecisions": 0,
+                "scriptedDecisions": 13,
+                "unavailable": 13,
+                "attempted": 13,
+                "confirmed": 13,
+                "rejected": 0,
+                "ambiguous": 0,
+                "timedOut": 0,
+                "cancelled": 0,
+                "blocked": 0,
+                "deadlineMisses": 0,
+                "focusErrors": 0,
+                "driverErrors": 0,
+                "errors": 0
+              },
+              "latencyMs": {
+                "endToEnd": {
+                  "n": 13,
+                  "mean": 1157.82,
+                  "p50": 915.66,
+                  "p95": 2374.24,
+                  "p99": 2374.24,
+                  "max": 2374.24
+                },
+                "cursorTravel": {
+                  "n": 13,
+                  "mean": 366.55,
+                  "p50": 381.36,
+                  "p95": 889.04,
+                  "p99": 889.04,
+                  "max": 889.04
+                },
+                "inputOperation": {
+                  "n": 13,
+                  "mean": 1133.38,
+                  "p50": 896.85,
+                  "p95": 2353.99,
+                  "p99": 2353.99,
+                  "max": 2353.99
+                },
+                "confirmation": {
+                  "n": 13,
+                  "mean": 144.13,
+                  "p50": 144.81,
+                  "p95": 171.59,
+                  "p99": 171.59,
+                  "max": 171.59
+                }
+              },
+              "executor": {
+                "executed": 0,
+                "scripted": 13,
+                "blocked": 0,
+                "rejected": 0,
+                "unconfirmed": 0
+              },
+              "capture": {
+                "frames": 179,
+                "failures": 0
+              },
+              "oracle": {
+                "mouseDown": 16,
+                "mouseUp": 16,
+                "downOutsideControls": 0,
+                "downOnDisabled": 0,
+                "doubleClicks": 0,
+                "rightClicks": 0,
+                "keys": 10,
+                "actions": 13,
+                "accepted": 13,
+                "staleClicks": 0,
+                "illegal": 0,
+                "wagerRejected": 0,
+                "byType": {
+                  "fold": 5,
+                  "call": 5,
+                  "raise": 3
+                }
+              },
+              "oracleAccepted": 13,
+              "completedHands": [],
+              "streets": [
+                "preflop",
+                "flop"
+              ],
+              "exactWagerActions": 3
+            }
+          ],
+          "reliable": true
+        }
+      ]
+    }
+  ]
+}

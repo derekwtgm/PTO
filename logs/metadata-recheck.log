@@ -1,0 +1,345 @@
+TAP version 13
+# Subtest: strategy quality view: plain-language statuses, separate heads-up and multiway measures, never "GTO"
+ok 1 - strategy quality view: plain-language statuses, separate heads-up and multiway measures, never "GTO"
+  ---
+  duration_ms: 24.0283
+  type: 'test'
+  ...
+# Subtest: opponent range view: source, missing information and history per seat; 13x13 grid
+ok 2 - opponent range view: source, missing information and history per seat; 13x13 grid
+  ---
+  duration_ms: 1.9048
+  type: 'test'
+  ...
+# Subtest: dashboard panels, host routes, launch tools and launchers agree (0.31)
+ok 3 - dashboard panels, host routes, launch tools and launchers agree (0.31)
+  ---
+  duration_ms: 11.3775
+  type: 'test'
+  ...
+# Subtest: release metadata: one version everywhere, honest component statuses, new reports and docs present
+ok 4 - release metadata: one version everywhere, honest component statuses, new reports and docs present
+  ---
+  duration_ms: 9.771
+  type: 'test'
+  ...
+# Subtest: Windows long-duration acceptance script parses and covers every listed workload
+ok 5 - Windows long-duration acceptance script parses and covers every listed workload
+  ---
+  duration_ms: 0.4659
+  type: 'test'
+  ...
+# Subtest: range calculator works in a real browser without the desktop host
+ok 6 - range calculator works in a real browser without the desktop host # SKIP Playwright not installed
+  ---
+  duration_ms: 0.1324
+  type: 'test'
+  ...
+# Subtest: research view: preflop figures carry their kind; full-game exploitability is unavailable, never 0; never "GTO"
+ok 7 - research view: preflop figures carry their kind; full-game exploitability is unavailable, never 0; never "GTO"
+  ---
+  duration_ms: 21.3432
+  type: 'test'
+  ...
+# Subtest: research view: linked studies, coverage columns kept apart, memory and turn solver
+ok 8 - research view: linked studies, coverage columns kept apart, memory and turn solver
+  ---
+  duration_ms: 1.3857
+  type: 'test'
+  ...
+# Subtest: research summary tool writes the dashboard document from release reports without training anything
+ok 9 - research summary tool writes the dashboard document from release reports without training anything
+  ---
+  duration_ms: 71.3331
+  type: 'test'
+  ...
+# Subtest: dashboard Research panel, host route and launch tools agree; launchers are CRLF and name the current version (0.35.0)
+ok 10 - dashboard Research panel, host route and launch tools agree; launchers are CRLF and name the current version (0.35.0)
+  ---
+  duration_ms: 3.1075
+  type: 'test'
+  ...
+# Subtest: deep-stack simulation: fixed 100 bb stacks reach turns and rivers; every street is counted (no solver: all scripted, labelled)
+ok 11 - deep-stack simulation: fixed 100 bb stacks reach turns and rivers; every street is counted (no solver: all scripted, labelled)
+  ---
+  duration_ms: 18013.077
+  type: 'test'
+  ...
+# Subtest: shared memory scales: 10 worker threads viewing one 96 MB SharedArrayBuffer add far less memory than 10 private copies
+ok 12 - shared memory scales: 10 worker threads viewing one 96 MB SharedArrayBuffer add far less memory than 10 private copies
+  ---
+  duration_ms: 406.394
+  type: 'test'
+  ...
+# Subtest: release metadata (0.32 rules, current release): version everywhere, honest component statuses, 0.32 reports present, solver build unchanged
+ok 13 - release metadata (0.32 rules, current release): version everywhere, honest component statuses, 0.32 reports present, solver build unchanged
+  ---
+  duration_ms: 4.0833
+  type: 'test'
+  ...
+# Subtest: 0.31 defect fixed: worker threads opening a NEW strategy library at the same time never fail (marker written under the lock)
+not ok 14 - 0.31 defect fixed: worker threads opening a NEW strategy library at the same time never fail (marker written under the lock)
+  ---
+  duration_ms: 1591.8958
+  type: 'test'
+  location: 'D:\\a\\PTO\\PTO\\work\\EightMax-Test-Workbench\\tests\\release-032.test.cjs:68:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + [
+    +   "ERR EPERM: operation not permitted, open 'C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\em032race-HLDXwA\\write.lock'",
+    +   "ERR EPERM: operation not permitted, open 'C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\em032race-cDwBQs\\write.lock'"
+    + ]
+    - []
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+    0: "ERR EPERM: operation not permitted, open 'C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\em032race-HLDXwA\\write.lock'"
+    1: "ERR EPERM: operation not permitted, open 'C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\em032race-cDwBQs\\write.lock'"
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (D:\a\PTO\PTO\work\EightMax-Test-Workbench\tests\release-032.test.cjs:71:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: coverage accounting on unseen hands: exact, abstracted and on-demand are separate columns with Wilson 95% intervals
+ok 15 - coverage accounting on unseen hands: exact, abstracted and on-demand are separate columns with Wilson 95% intervals
+  ---
+  duration_ms: 1.7948
+  type: 'test'
+  ...
+# Subtest: river strategy utilisation in a deep-stack simulation: heads-up rivers are solved on demand, validated and used (no native engine needed)
+ok 16 - river strategy utilisation in a deep-stack simulation: heads-up rivers are solved on demand, validated and used (no native engine needed)
+  ---
+  duration_ms: 35562.2644
+  type: 'test'
+  ...
+# Subtest: dashboard Solver research panel, host allow-list, launchers (CRLF, existing tools) and preserved user controls agree
+ok 17 - dashboard Solver research panel, host allow-list, launchers (CRLF, existing tools) and preserved user controls agree
+  ---
+  duration_ms: 9.7467
+  type: 'test'
+  ...
+# Subtest: Solver research views keep classifications: approximate modes explained, unresolved gains not called profitable, unavailable never 0
+ok 18 - Solver research views keep classifications: approximate modes explained, unresolved gains not called profitable, unavailable never 0
+  ---
+  duration_ms: 19.903
+  type: 'test'
+  ...
+# Subtest: research summary 0.33 keeps the 0.32 keys and adds the v033 block from release reports without training anything
+ok 19 - research summary 0.33 keeps the 0.32 keys and adds the v033 block from release reports without training anything
+  ---
+  duration_ms: 170.273
+  type: 'test'
+  ...
+# Subtest: release metadata 0.33: component statuses come from evidence; binary versions distinguish carried-over and rebuilt components; the native engine is unchanged
+ok 20 - release metadata 0.33: component statuses come from evidence; binary versions distinguish carried-over and rebuilt components; the native engine is unchanged
+  ---
+  duration_ms: 73.9908
+  type: 'test'
+  ...
+# Subtest: checksum manifest covers every shipped file and verifies
+ok 21 - checksum manifest covers every shipped file and verifies
+  ---
+  duration_ms: 131.9827
+  type: 'test'
+  ...
+# Subtest: strategy-library ranges command runs end to end and writes ranges-latest.json beside the library (0.33 Windows CI regression)
+ok 22 - strategy-library ranges command runs end to end and writes ranges-latest.json beside the library (0.33 Windows CI regression) # SKIP native EightMax CLI not available (set EIGHTMAX_TEST_CLI)
+  ---
+  duration_ms: 0.1668
+  type: 'test'
+  ...
+# Subtest: status strip: round trip at every width, refuses corrupted or scaled strips, overlaps nothing the reader uses
+ok 23 - status strip: round trip at every width, refuses corrupted or scaled strips, overlaps nothing the reader uses
+  ---
+  duration_ms: 19.543
+  type: 'test'
+  ...
+# Subtest: dealer: frames are the controlled renderer plus the strip; stale clicks, illegal controls and bad wagers change nothing; raise-by converts
+ok 24 - dealer: frames are the controlled renderer plus the strip; stale clicks, illegal controls and bad wagers change nothing; raise-by converts
+  ---
+  duration_ms: 129.8393
+  type: 'test'
+  ...
+# Subtest: controlled fixture C\# and the shipped profile use the same control geometry; the fixture reports to an oracle, never to the decision path
+ok 25 - controlled fixture C\# and the shipped profile use the same control geometry; the fixture reports to an oracle, never to the decision path
+  ---
+  duration_ms: 3.6989
+  type: 'test'
+  ...
+# Subtest: launchers are CRLF and resolve to existing tools; the host whitelists them and refuses the benchmark while it is running
+ok 26 - launchers are CRLF and resolve to existing tools; the host whitelists them and refuses the benchmark while it is running
+  ---
+  duration_ms: 2.5636
+  type: 'test'
+  ...
+# Subtest: dashboard: every id the Simulator Controls UI uses exists; START.html inlines the 0.35 modules
+ok 27 - dashboard: every id the Simulator Controls UI uses exists; START.html inlines the 0.35 modules
+  ---
+  duration_ms: 3.3041
+  type: 'test'
+  ...
+# Subtest: EightMax 5.1 is unchanged: native engine binary, vendored libraries and build id
+ok 28 - EightMax 5.1 is unchanged: native engine binary, vendored libraries and build id
+  ---
+  duration_ms: 6.7497
+  type: 'test'
+  ...
+# Subtest: one application version everywhere
+ok 29 - one application version everywhere
+  ---
+  duration_ms: 131.0225
+  type: 'test'
+  ...
+# Subtest: engine identity is unchanged: vendor files and native build match the provenance record
+ok 30 - engine identity is unchanged: vendor files and native build match the provenance record
+  ---
+  duration_ms: 6.1685
+  type: 'test'
+  ...
+# Subtest: every new module is wired into the standalone build and the dashboard
+ok 31 - every new module is wired into the standalone build and the dashboard
+  ---
+  duration_ms: 10.2539
+  type: 'test'
+  ...
+# Subtest: standalone START.html is exactly what tools/build.py produces from the sources
+ok 32 - standalone START.html is exactly what tools/build.py produces from the sources
+  ---
+  duration_ms: 394.5543
+  type: 'test'
+  ...
+# Subtest: Windows scripts and launchers exist; prebuilt host is a 64-bit PE and is referenced by the launcher
+ok 33 - Windows scripts and launchers exist; prebuilt host is a 64-bit PE and is referenced by the launcher
+  ---
+  duration_ms: 1.1412
+  type: 'test'
+  ...
+# Subtest: no module in the new code references live-client interaction, process memory or evasion
+ok 34 - no module in the new code references live-client interaction, process memory or evasion
+  ---
+  duration_ms: 3.3755
+  type: 'test'
+  ...
+# Subtest: catalogue: WGC is compiled-but-unrun, manual-only; documents and component file say so plainly
+ok 35 - catalogue: WGC is compiled-but-unrun, manual-only; documents and component file say so plainly
+  ---
+  duration_ms: 2.9233
+  type: 'test'
+  ...
+# Subtest: the shipped helper is a win-x64 PE32+ executable and component rebuild claims match the release build evidence
+ok 36 - the shipped helper is a win-x64 PE32+ executable and component rebuild claims match the release build evidence
+  ---
+  duration_ms: 14.8032
+  type: 'test'
+  ...
+# Subtest: the helper source compiles for win-x64 (cross-compiled; needs the .NET 8 SDK)
+ok 37 - the helper source compiles for win-x64 (cross-compiled; needs the .NET 8 SDK)
+  ---
+  duration_ms: 1560.9562
+  type: 'test'
+  ...
+# Subtest: the PNG writer used by the helper is bit-exact (CRC-32 and every pixel verified here)
+ok 38 - the PNG writer used by the helper is bit-exact (CRC-32 and every pixel verified here)
+  ---
+  duration_ms: 1272.7706
+  type: 'test'
+  ...
+# Subtest: source uses documented capture APIs and refuses blank, stale, lost, reused-handle, minimised and resized targets
+ok 39 - source uses documented capture APIs and refuses blank, stale, lost, reused-handle, minimised and resized targets
+  ---
+  duration_ms: 0.6727
+  type: 'test'
+  ...
+# Subtest: host route: WGC only on explicit request, identity-checked first, time-limited, persistent session (0.29), no fallback
+ok 40 - host route: WGC only on explicit request, identity-checked first, time-limited, persistent session (0.29), no fallback
+  ---
+  duration_ms: 0.9634
+  type: 'test'
+  ...
+# Subtest: safety: no memory access, injection, hooks, input synthesis, hidden windows or network in the helper or its scripts
+ok 41 - safety: no memory access, injection, hooks, input synthesis, hidden windows or network in the helper or its scripts
+  ---
+  duration_ms: 1.3286
+  type: 'test'
+  ...
+# Subtest: launchers and acceptance script exist and report honestly
+ok 42 - launchers and acceptance script exist and report honestly
+  ---
+  duration_ms: 0.4023
+  type: 'test'
+  ...
+# Subtest: catalogue: WGC is implemented but unverified on Windows; documents say compiled / not run
+ok 43 - catalogue: WGC is implemented but unverified on Windows; documents say compiled / not run
+  ---
+  duration_ms: 2.7102
+  type: 'test'
+  ...
+# Subtest: the shipped helper is a Windows x64 PE that identifies itself as 0.35.0 and matches its recorded hash
+ok 44 - the shipped helper is a Windows x64 PE that identifies itself as 0.35.0 and matches its recorded hash
+  ---
+  duration_ms: 45.0554
+  type: 'test'
+  ...
+# Subtest: source uses documented capture APIs and refuses lost, reused-handle, minimised, stale, blank and unsupported targets
+ok 45 - source uses documented capture APIs and refuses lost, reused-handle, minimised, stale, blank and unsupported targets
+  ---
+  duration_ms: 0.4866
+  type: 'test'
+  ...
+# Subtest: safety: no memory access, injection, hooks, input synthesis, hidden windows or network in the helper or its scripts
+ok 46 - safety: no memory access, injection, hooks, input synthesis, hidden windows or network in the helper or its scripts
+  ---
+  duration_ms: 1.5212
+  type: 'test'
+  ...
+# Subtest: the host advertises WGC only when the helper exists and never substitutes another backend (0.27 route in CaptureService)
+ok 47 - the host advertises WGC only when the helper exists and never substitutes another backend (0.27 route in CaptureService)
+  ---
+  duration_ms: 0.7866
+  type: 'test'
+  ...
+# Subtest: launchers exist, call the right script and the acceptance script reports honestly
+ok 48 - launchers exist, call the right script and the acceptance script reports honestly
+  ---
+  duration_ms: 0.7006
+  type: 'test'
+  ...
+# Subtest: 0.28 acceptance orchestrator: structure, honest reporting, loopback-only HTTP, no downloads (NOT executed here: no Windows PowerShell)
+ok 49 - 0.28 acceptance orchestrator: structure, honest reporting, loopback-only HTTP, no downloads (NOT executed here: no Windows PowerShell)
+  ---
+  duration_ms: 3.445
+  type: 'test'
+  ...
+# Subtest: current host and Windows scripts agree; unchanged capture helper retains its own version
+ok 50 - current host and Windows scripts agree; unchanged capture helper retains its own version
+  ---
+  duration_ms: 2.921
+  type: 'test'
+  ...
+# Subtest: rebuilt Windows executables carry 0.35.0 and are x64 PE32+; their sources compile with Mono at C\# 5 (cross-compilation only: NOT Windows execution)
+ok 51 - rebuilt Windows executables carry 0.35.0 and are x64 PE32+; their sources compile with Mono at C\# 5 (cross-compilation only: NOT Windows execution) # SKIP Mono mcs not installed
+  ---
+  duration_ms: 0.1307
+  type: 'test'
+  ...
+# Subtest: capture catalogue and host agree: Windows Graphics Capture exists only as an installed helper and is manual-only
+ok 52 - capture catalogue and host agree: Windows Graphics Capture exists only as an installed helper and is manual-only
+  ---
+  duration_ms: 8.4764
+  type: 'test'
+  ...
+1..52
+# tests 52
+# suites 0
+# pass 48
+# fail 1
+# cancelled 0
+# skipped 3
+# todo 0
+# duration_ms 55772.2402
