@@ -24,6 +24,8 @@ jobs:
         shell: pwsh
         run: |
           python -c "import pathlib,base64,zipfile,io; p=pathlib.Path('build-input'); data=base64.b64decode(''.join(f.read_text() for f in sorted(p.glob('*.b64')))); zipfile.ZipFile(io.BytesIO(data)).extractall('.')"
+          Copy-Item -Path overrides/* -Destination . -Recurse -Force
+          Remove-Item -Recurse -Force overrides
           Copy-Item (Get-Command node).Source runtime/node/node.exe -Force
       - name: Compile current Windows sources
         shell: powershell
@@ -53,6 +55,7 @@ jobs:
           node --test tests/*.test.cjs *> "$env:RUNNER_TEMP/regression-0362.log"
           if ($LASTEXITCODE -ne 0) { throw 'Regression failed' }
       - name: Execute Windows input acceptance
+        timeout-minutes: 5
         if: success() || failure()
         shell: pwsh
         run: |
@@ -60,10 +63,11 @@ jobs:
           node tools/input-acceptance-035.cjs --out "$env:RUNNER_TEMP/input-acceptance.json" --oracle-dir "$env:RUNNER_TEMP/input-oracle"
           if ($LASTEXITCODE -ne 0) { throw 'Input acceptance failed' }
       - name: Execute real screen and input benchmark
+        timeout-minutes: 20
         if: success() || failure()
         shell: pwsh
         run: |
-          node tools/simulator-benchmark-035.cjs --tables 1,2,5,8,10 --seconds 60 --out "$env:RUNNER_TEMP/benchmark.json" --work "$env:RUNNER_TEMP/benchmark-work"
+          node tools/simulator-benchmark-035.cjs --tables 1,2,5,8,10 --seconds 60 --width 640 --out "$env:RUNNER_TEMP/benchmark.json" --work "$env:RUNNER_TEMP/benchmark-work"
           if ($LASTEXITCODE -ne 0) { throw 'Benchmark execution failed' }
       - name: Package actual build and evidence
         if: always()
