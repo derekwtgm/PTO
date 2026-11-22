@@ -8,7 +8,7 @@ permissions:
 jobs:
   reference:
     runs-on: windows-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -35,6 +35,12 @@ jobs:
         shell: pwsh
         working-directory: app/PTO
         run: node tools/native-reference-0362.cjs "$env:RUNNER_TEMP/native-reference"
+      - name: Demonstrate a native decision through actual screen capture and input
+        if: success() || failure()
+        timeout-minutes: 14
+        shell: pwsh
+        working-directory: app/PTO
+        run: node tools/native-screen-reference-0362.cjs --width 960 --layout stack --workloads reference:0 --out "$env:RUNNER_TEMP/native-reference/screen-reference.json" --work "$env:RUNNER_TEMP/native-reference/screen-work"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
