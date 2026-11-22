@@ -33,7 +33,7 @@
       ok(!this.p[this.button].folded, 'Button must be a funded seat');
       this.sbSeat = this.live.length === 2 ? this.button : this._next(this.button, q => !q.folded); this.bbSeat = this._next(this.sbSeat, q => !q.folded);
       this._pay(this.sbSeat, this.sb, true); this._pay(this.bbSeat, this.bb, true);
-      this.currentBet = Math.max(...this.p.map((q) => q.bet));
+      this.currentBet = Math.max(this.bb, ...this.p.map((q) => q.bet));
       this.p.forEach((q) => { q.needs = true; });
       this.actor = this._next(this.bbSeat, (q) => q.needs);
       this._settleTurnOrder(this.bbSeat);

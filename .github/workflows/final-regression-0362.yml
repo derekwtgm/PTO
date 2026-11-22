@@ -48,6 +48,7 @@ jobs:
         shell: pwsh
         working-directory: app/PTO
         run: |
+          python tools/release-manifest-0362.py
           python tools/package-0362.py "$env:RUNNER_TEMP/EightMax-0.36.2-Tested-Candidate.zip"
       - uses: actions/upload-artifact@v4
         if: always()

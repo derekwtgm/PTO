@@ -22,16 +22,16 @@ async function main(){
   const until=Date.now()+600000;let observed;
   while(Date.now()<until){await sleep(1000);observed=await page.evaluate(()=>{const s=window.WorkbenchSimulatorControlsUi.state,t=s.tables[0];return {running:s.running,status:document.getElementById('simc-status').textContent,table:t?{state:t.state,paused:t.paused,report:t.report(),log:t.log}:null};});
    if(observed.table&&observed.table.paused)throw Error('Dashboard paused: '+observed.table.paused);
-   if(observed.table){const logs=observed.table.log.filter(e=>e.status==='confirmed');if(observed.table.state&&observed.table.state.hand>=4&&['preflop','flop','turn','river'].every(s=>logs.some(e=>e.street===s))&&logs.some(e=>e.action&&e.action.type==='raise'))break;}
+   if(observed.table){const hand=observed.table.state&&observed.table.state.hand;const logs=observed.table.log.filter(e=>e.status==='confirmed'&&e.hand>=hand-3&&e.hand<hand);if(observed.table.state&&observed.table.state.hand>=4&&['preflop','flop','turn','river'].every(s=>logs.some(e=>e.street===s))&&logs.some(e=>e.action&&e.action.type==='raise'))break;}
   }
   report.observed=observed;await page.click('#simc-estop');await sleep(750);report.emergencyStatus=await api.request('/api/input/status');
   const download=page.waitForEvent('download');await page.click('#simc-diag');await (await download).saveAs(path.join(WORK,'dashboard-diagnostics.json'));
   await page.screenshot({path:path.join(WORK,'dashboard-stopped.png'),fullPage:true});
   const base=path.join(process.env.LOCALAPPDATA,'EightMax-Test-Workbench','Acceptance-0.36.1');const dirs=fs.readdirSync(base).filter(n=>n.startsWith('manual-')).map(n=>path.join(base,n)).filter(p=>fs.statSync(p).mtimeMs>=started-2000).sort((a,b)=>fs.statSync(b).mtimeMs-fs.statSync(a).mtimeMs);
   if(!dirs.length)throw Error('Launched simulator oracle not found');const file=path.join(dirs[0],'oracle-table-01.jsonl');const ev=fs.readFileSync(file,'utf8').trim().split(/\r?\n/).map(JSON.parse);fs.copyFileSync(file,path.join(WORK,'oracle-table-01.jsonl'));
-  const complete=ev.filter(e=>e.kind==='hand-complete').map(e=>e.hand),first=new Set(complete.slice(0,3));const confirmed=observed.table.log.filter(e=>e.status==='confirmed'&&first.has(e.hand)),applied=ev.filter(e=>e.kind==='action'&&e.result==='accepted'&&first.has(e.applied.hand)).map(e=>e.applied);
+  const complete=ev.filter(e=>e.kind==='hand-complete').map(e=>e.hand),first=new Set(complete.slice(-3));const confirmed=observed.table.log.filter(e=>e.status==='confirmed'&&first.has(e.hand)),applied=ev.filter(e=>e.kind==='action'&&e.result==='accepted'&&first.has(e.applied.hand)).map(e=>e.applied);
   const matched=confirmed.length===applied.length&&confirmed.every((e,i)=>e.hand===applied[i].hand&&e.seat===applied[i].seat&&e.action.type===applied[i].type&&(e.action.type!=='raise'||e.action.amount===applied[i].amount));
-  report.completedHands=complete;report.confirmedActionsInFirstThree=confirmed.length;report.oracleMatched=matched;report.pageErrors=errors;report.streets=[...new Set(confirmed.map(e=>e.street))];report.wagerActions=confirmed.filter(e=>e.action.type==='raise').length;
+  report.completedHands=complete;report.confirmedActionsInCompletedHands=confirmed.length;report.oracleMatched=matched;report.pageErrors=errors;report.streets=[...new Set(confirmed.map(e=>e.street))];report.wagerActions=confirmed.filter(e=>e.action.type==='raise').length;
   report.ok=complete.length>=3&&matched&&confirmed.length>0&&report.wagerActions>0&&['preflop','flop','turn','river'].every(s=>report.streets.includes(s))&&errors.length===0&&!!report.emergencyStatus.driver.estop;
  }catch(e){report.error=e.stack;if(page)try{report.status=await page.textContent('#simc-status');await page.screenshot({path:path.join(WORK,'dashboard-failure.png'),fullPage:true});}catch(_){}}
  finally{

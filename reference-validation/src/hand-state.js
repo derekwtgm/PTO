@@ -170,7 +170,7 @@
       } else if (this.bankroll !== null && status === 'playing' && obs.pot + seats.reduce((n, p) => n + p.stack, 0) !== this.bankroll) {
         bad('inconsistent-pot', 'Pot ' + obs.pot + ' + stacks ' + seats.reduce((n, p) => n + p.stack, 0) + ' != chips in play ' + this.bankroll); return null;
       } else if (obs.pot < sumBets) { bad('inconsistent-pot', 'Pot ' + obs.pot + ' below current street bets ' + sumBets); return null; }
-      const currentBet = Math.max(...seats.map((p) => p.bet));
+      const currentBet = Math.max(obs.street === 'preflop' ? this.opt.bb : 0, ...seats.map((p) => p.bet));
       if (status === 'playing' && obs.currentBet !== undefined && obs.currentBet !== currentBet) { bad('contradiction', 'Reported bet to match ' + obs.currentBet + ' != largest wager ' + currentBet); return null; }
       const history = obs.actions === undefined ? null : obs.actions;
       if (history !== null) {

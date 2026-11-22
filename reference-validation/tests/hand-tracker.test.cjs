@@ -118,3 +118,8 @@ test('persistent tournaments track eliminated seats across consecutive hands', (
  assert.ok(eliminated); assert.ok(t.hand>=3);
  }
 });
+
+test('short big blind still requires a full nominal blind to call',()=>{
+ const t=new EM.Table(1,42,8,{persistentStacks:true}),e=engine();t.setNextStacks([2500,2500,100,2500,2500,2500,2500,2500]);t.startHand();
+ const r=e.ingest(screen(t,0));assert.ok(r.accepted,JSON.stringify(r.issues));assert.equal(t.players[2].bet,90);assert.equal(r.state.legal.toCall,100);assert.equal(r.state.legal.minRaiseTo,200);
+});
