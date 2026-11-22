@@ -35,11 +35,13 @@ function Screenshot([string]$Name) {
     try { $b = [Windows.Forms.SystemInformation]::VirtualScreen; $bmp = New-Object Drawing.Bitmap $b.Width, $b.Height; $g = [Drawing.Graphics]::FromImage($bmp); $g.CopyFromScreen($b.X, $b.Y, 0, 0, $bmp.Size); $f = Join-Path $OutDir $Name; $bmp.Save($f, [Drawing.Imaging.ImageFormat]::Png); $g.Dispose(); $bmp.Dispose(); return $f } catch { return $null }
 }
 # Run a console program, capture stdout/stderr, enforce a timeout (works for GUI-subsystem executables too).
-function Run-Exe([string]$Exe, [string]$Arguments, [int]$TimeoutMs = 30000) {
-    $psi = New-Object Diagnostics.ProcessStartInfo($Exe, $Arguments); $psi.UseShellExecute = $false; $psi.RedirectStandardOutput = $true; $psi.RedirectStandardError = $true; $psi.CreateNoWindow = $true
-    $p = [Diagnostics.Process]::Start($psi); $o = $p.StandardOutput.ReadToEndAsync(); $e = $p.StandardError.ReadToEndAsync()
+function Run-Exe([string]$Exe, [string]$Arguments, [int]$TimeoutMs = 30000, [string]$Window = 'Hidden') {
+    # Output goes to files (never pipes): a pipe can stay open after the program exits and block the caller.
+    $tag = [guid]::NewGuid().ToString('N'); $of = Join-Path $env:TEMP ('em-m1-' + $tag + '.out'); $ef = Join-Path $env:TEMP ('em-m1-' + $tag + '.err')
+    $p = Start-Process -FilePath $Exe -ArgumentList $Arguments -RedirectStandardOutput $of -RedirectStandardError $ef -WindowStyle $Window -PassThru; $null = $p.Handle
     if (-not $p.WaitForExit($TimeoutMs)) { try { $p.Kill() } catch {}; throw ('Timed out after ' + $TimeoutMs + ' ms: ' + $Exe + ' ' + $Arguments) }
-    $p.WaitForExit(); return [pscustomobject]@{ code = $p.ExitCode; out = $o.Result.Trim(); err = $e.Result.Trim() }
+    $read = { param($f) $t = ''; for ($i = 0; $i -lt 20; $i++) { try { $t = [IO.File]::ReadAllText($f); break } catch { Start-Sleep -Milliseconds 100 } }; Remove-Item -LiteralPath $f -Force -ErrorAction SilentlyContinue; $t.Trim() }
+    return [pscustomobject]@{ code = $p.ExitCode; out = (& $read $of); err = (& $read $ef) }
 }
 # PE header: PE32+ (0x20B) and AMD64 machine (0x8664); CLR header present for managed assemblies.
 function Get-PeInfo([string]$Path) {
@@ -65,8 +67,8 @@ function Driver([string]$Cmd, $Extra = @{}) { $m = @{ cmd = $Cmd }; foreach ($k 
 function Start-HostProcess([bool]$Headless, [string]$Ready) {
     if (Test-Path -LiteralPath $Ready) { Remove-Item -LiteralPath $Ready -Force }
     $a = '--root ' + (Quote-WorkbenchPath $root) + ' --ready ' + (Quote-WorkbenchPath $Ready) + $(if ($Headless) { ' --headless' } else { '' })
-    $psi = New-Object Diagnostics.ProcessStartInfo((Bin 'EightMaxWorkbench.exe'), $a); $psi.UseShellExecute = $false; $psi.WorkingDirectory = $root
-    $watch = [Diagnostics.Stopwatch]::StartNew(); $p = [Diagnostics.Process]::Start($psi); Track $p $(if ($Headless) { 'desktop host (headless)' } else { 'desktop host (window)' })
+    # Start-Process (shell execute): the host inherits no handles from this script, exactly like a double-click launch.
+    $watch = [Diagnostics.Stopwatch]::StartNew(); $p = Start-Process -FilePath (Bin 'EightMaxWorkbench.exe') -ArgumentList $a -WorkingDirectory $root -PassThru; $null = $p.Handle; Track $p $(if ($Headless) { 'desktop host (headless)' } else { 'desktop host (window)' })
     if (-not (Wait-Until { (Test-Path -LiteralPath $Ready) -or $p.HasExited } 30000)) { throw 'host did not write its ready file within 30 s' }
     if ($p.HasExited) { $log = Join-Path $env:LOCALAPPDATA 'EightMax-Test-Workbench\Logs\desktop-host.log'; $tail = $(if (Test-Path $log) { (Get-Content $log -Tail 3) -join ' | ' } else { 'no host log' }); throw ('host exited during startup with code ' + $p.ExitCode + '; ' + $tail) }
     $session = $js.DeserializeObject([IO.File]::ReadAllText($Ready)); $script:Origin = [string]$session['origin']; $script:Token = [string]$session['token']
@@ -231,7 +233,7 @@ try {
 
     # ===== optional: driver self-test (real visible input inside the driver's own window) =====
     if ($WithInputSelfTest) {
-        Check 'input' 'Input driver self-test (EightMaxInput.exe --selftest)' { $out = Join-Path $OutDir 'input-selftest.json'; $r = Run-Exe (Bin 'EightMaxInput.exe') ('--selftest --out ' + (Quote-WorkbenchPath $out)) 120000; $j = $null; try { $j = $js.DeserializeObject([IO.File]::ReadAllText($out)) } catch {}; $sum = $(if ($j) { 'driver ' + $j['driver'] + ', ' + $j['passed'] + '/' + $j['total'] + ' checks passed, ok=' + $j['ok'] + ', dpi ' + $j['dpiAwareness'] } else { 'no report' }); if ($j -and $j['ok'] -ne $true) { throw ('self-test not ok: ' + $sum) }; if ($r.code -ne 0) { throw ('exit ' + $r.code + '; ' + $sum + '; ' + $r.err) }; ('exit 0; ' + $sum) }
+        Check 'input' 'Input driver self-test (EightMaxInput.exe --selftest)' { $out = Join-Path $OutDir 'input-selftest.json'; $r = Run-Exe (Bin 'EightMaxInput.exe') ('--selftest --out ' + (Quote-WorkbenchPath $out)) 120000 'Normal'; $j = $null; try { $j = $js.DeserializeObject([IO.File]::ReadAllText($out)) } catch {}; $sum = $(if ($j) { 'driver ' + $j['driver'] + ', ' + $j['passed'] + '/' + $j['total'] + ' checks passed, ok=' + $j['ok'] + ', dpi ' + $j['dpiAwareness'] } else { 'no report' }); if ($j -and $j['ok'] -ne $true) { throw ('self-test not ok: ' + $sum) }; if ($r.code -ne 0) { throw ('exit ' + $r.code + '; ' + $sum + '; ' + $r.err) }; ('exit 0; ' + $sum) }
     }
 } catch {
     Add-Check 'harness' 'Unexpected harness error' $false ($_.Exception.Message + ' at ' + $_.InvocationInfo.PositionMessage)

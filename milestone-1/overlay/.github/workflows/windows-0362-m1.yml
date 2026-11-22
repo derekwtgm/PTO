@@ -8,7 +8,7 @@ on:
     paths: ['milestone-1/overlay/**', '.github/workflows/windows-0362-m1.yml']
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write   # only to publish this run's evidence to its own m1-results/<run id> branch
 jobs:
   build-and-verify:
     runs-on: windows-latest
@@ -67,11 +67,12 @@ jobs:
           if ($LASTEXITCODE) { throw 'generation failed' }
       - name: Milestone 1 focused Windows checks
         id: m1
+        timeout-minutes: 15
         shell: pwsh
         run: |
           Set-Location $env:W
-          powershell -NoProfile -ExecutionPolicy Bypass -File windows\Test-Milestone1-0362.ps1 -OutDir "$env:RUNNER_TEMP\m1" -WithInputSelfTest *> "$env:RUNNER_TEMP\logs\milestone1-test.log"
-          $code = $LASTEXITCODE; Get-Content "$env:RUNNER_TEMP\logs\milestone1-test.log"; "exit=$code" | Out-File "$env:RUNNER_TEMP\m1\exit-code.txt"
+          powershell -NoProfile -ExecutionPolicy Bypass -File windows\Test-Milestone1-0362.ps1 -OutDir "$env:RUNNER_TEMP\m1" -WithInputSelfTest 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP\logs\milestone1-test.log"
+          $code = $LASTEXITCODE; "exit=$code" | Out-File "$env:RUNNER_TEMP\m1\exit-code.txt"
           if ($code -ne 0) { throw "Milestone 1 checks failed (exit $code)" }
       - name: Compatibility smoke - input acceptance on the controlled test tables
         if: success() || failure()
@@ -79,16 +80,16 @@ jobs:
         shell: pwsh
         run: |
           Set-Location $env:W
-          & .\runtime\node\node.exe tools\input-acceptance-035.cjs --out "$env:RUNNER_TEMP\m1\input-acceptance.json" --oracle-dir "$env:RUNNER_TEMP\input-oracle" *> "$env:RUNNER_TEMP\logs\input-acceptance.log"
-          $code = $LASTEXITCODE; Get-Content "$env:RUNNER_TEMP\logs\input-acceptance.log"; if ($code -ne 0) { throw "input acceptance exit $code" }
+          & .\runtime\node\node.exe tools\input-acceptance-035.cjs --out "$env:RUNNER_TEMP\m1\input-acceptance.json" --oracle-dir "$env:RUNNER_TEMP\input-oracle" 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP\logs\input-acceptance.log"
+          $code = $LASTEXITCODE; if ($code -ne 0) { throw "input acceptance exit $code" }
       - name: Communication smoke - host capture and input broker against one test table
         if: success() || failure()
         timeout-minutes: 6
         shell: pwsh
         run: |
           Set-Location $env:W
-          & .\runtime\node\node.exe tools\simulator-benchmark-035.cjs --tables 1 --seconds 45 --workloads stress:2500 --width 960 --out "$env:RUNNER_TEMP\m1\benchmark-smoke.json" --work "$env:RUNNER_TEMP\benchmark-work" *> "$env:RUNNER_TEMP\logs\benchmark-smoke.log"
-          $code = $LASTEXITCODE; Get-Content "$env:RUNNER_TEMP\logs\benchmark-smoke.log"; if ($code -ne 0) { throw "benchmark smoke exit $code" }
+          & .\runtime\node\node.exe tools\simulator-benchmark-035.cjs --tables 1 --seconds 45 --workloads stress:2500 --width 960 --out "$env:RUNNER_TEMP\m1\benchmark-smoke.json" --work "$env:RUNNER_TEMP\benchmark-work" 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP\logs\benchmark-smoke.log"
+          $code = $LASTEXITCODE; if ($code -ne 0) { throw "benchmark smoke exit $code" }
       - name: Existing regression suite with the bundled Node runtime
         if: success() || failure()
         timeout-minutes: 25
@@ -122,6 +123,28 @@ jobs:
           python -I tools/release-manifest-0362.py
           . .\windows\Common.ps1; $f = @(Get-WorkbenchHashFailures $env:W); "final manifest failures: $($f.Count)"; if ($f.Count) { throw ($f -join '; ') }
           python -I tools/package-0361.py "$env:RUNNER_TEMP\EightMax-0.36.2-M1-candidate.zip"
+      - name: Publish evidence to the m1-results/<run id> branch (artifacts are not reachable from the dev session)
+        if: always()
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $R = "$env:RUNNER_TEMP\results"; New-Item -ItemType Directory -Force "$R\logs", "$R\m1" | Out-Null
+          Copy-Item "$env:RUNNER_TEMP\logs\*" "$R\logs" -Force -ErrorAction SilentlyContinue
+          if (Test-Path "$env:RUNNER_TEMP\m1") { Get-ChildItem "$env:RUNNER_TEMP\m1" -File | Where-Object { $_.Name -notlike '*-session.json' } | Copy-Item -Destination "$R\m1" -Force }
+          $z = "$env:RUNNER_TEMP\EightMax-0.36.2-M1-candidate.zip"; if (Test-Path $z) { Copy-Item $z $R; "$((Get-FileHash $z).Hash.ToLowerInvariant())  EightMax-0.36.2-M1-candidate.zip" | Out-File -Encoding ascii "$R\EightMax-0.36.2-M1-candidate.zip.sha256" }
+          Get-ChildItem -Recurse $R -File | ForEach-Object { "$($_.Length)`t$($_.FullName.Substring($R.Length + 1))" }
+          Set-Location $R; "* -text" | Out-File -Encoding ascii .gitattributes
+          git init -q; git config user.name "github-actions"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A; git commit -q -m "Milestone 1 evidence from run $env:GITHUB_RUN_ID (source $env:GITHUB_SHA)"
+          git push -q "https://x-access-token:$env:GH_TOKEN@github.com/$env:GITHUB_REPOSITORY.git" "HEAD:refs/heads/m1-results/$env:GITHUB_RUN_ID"
+          "published to branch m1-results/$env:GITHUB_RUN_ID"
+      - name: Print all logs
+        if: always()
+        shell: pwsh
+        run: |
+          foreach ($f in Get-ChildItem "$env:RUNNER_TEMP\logs" -File -Filter *.log) { "===== $($f.Name)"; Get-Content $f.FullName -Tail 400 }
+          if (Test-Path "$env:RUNNER_TEMP\m1\milestone1-results.txt") { '===== milestone1-results.txt'; Get-Content "$env:RUNNER_TEMP\m1\milestone1-results.txt" }
       - uses: actions/upload-artifact@v4
         if: always()
         with:
