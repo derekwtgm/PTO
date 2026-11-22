@@ -28,11 +28,65 @@ jobs:
         shell: powershell
         working-directory: work/EightMax-Test-Workbench
         run: ./windows/Build-Executables.ps1 -SkipWgc
-      - name: Upload build evidence and components
+      - name: Install browser tests
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force "$env:RUNNER_TEMP/browser" | Out-Null
+          Set-Location "$env:RUNNER_TEMP/browser"
+          npm install playwright
+          npx playwright install chromium
+          "NODE_PATH=$env:RUNNER_TEMP/browser/node_modules" >> $env:GITHUB_ENV
+          $chrome = node -e "console.log(require('playwright').chromium.executablePath())"
+          "CHROME_PATH=$chrome" >> $env:GITHUB_ENV
+      - name: Rebuild dashboard and integrity metadata
+        working-directory: work/EightMax-Test-Workbench
+        run: |
+          python tools/build.py
+          python tools/make-components.py
+          python tools/release-manifest-0361.py
+      - name: Windows regression
+        continue-on-error: true
+        working-directory: work/EightMax-Test-Workbench
+        shell: pwsh
+        run: |
+          $env:EIGHTMAX_TEST_CLI = (Resolve-Path native/mwcli.exe).Path
+          node --test tests/*.test.cjs *> "$env:RUNNER_TEMP/regression-0362.log"
+          if ($LASTEXITCODE -ne 0) { throw 'Regression failures' }
+      - name: Input acceptance
+        continue-on-error: true
+        working-directory: work/EightMax-Test-Workbench
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force evidence/0.36.2 | Out-Null
+          ./desktop/bin/EightMaxInput.exe --selftest --out evidence/0.36.2/input-selftest.json
+          node tools/input-acceptance-035.cjs --out evidence/0.36.2/input-acceptance.json --oracle-dir evidence/0.36.2/input-oracle
+          if ($LASTEXITCODE -ne 0) { throw 'Input acceptance failed' }
+      - name: Real capture and input complete hands
+        continue-on-error: true
+        working-directory: work/EightMax-Test-Workbench
+        shell: pwsh
+        run: |
+          node tools/simulator-benchmark-035.cjs --tables 1 --seconds 300 --workloads complete-hands:250 --window 30000 --out evidence/0.36.2/complete-hands.json --work evidence/0.36.2/complete-hands
+          if ($LASTEXITCODE -ne 0) { throw 'Complete hand execution failed' }
+      - name: Multi-table baseline
+        continue-on-error: true
+        working-directory: work/EightMax-Test-Workbench
+        shell: pwsh
+        run: |
+          node tools/simulator-benchmark-035.cjs --tables 1,2,5,8,10 --seconds 30 --out evidence/0.36.2/multitable.json --work evidence/0.36.2/multitable
+          if ($LASTEXITCODE -ne 0) { throw 'Benchmark failed' }
+      - name: Collect evidence
+        if: always()
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force work/EightMax-Test-Workbench/evidence/0.36.2 | Out-Null
+          Copy-Item "$env:RUNNER_TEMP/regression-0362.log" work/EightMax-Test-Workbench/evidence/0.36.2/ -ErrorAction SilentlyContinue
+      - name: Upload build and runtime evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: windows-components
+          name: windows-0362-components-evidence
           path: |
             work/EightMax-Test-Workbench/desktop/bin
             work/EightMax-Test-Workbench/evidence/build-evidence.json
+            work/EightMax-Test-Workbench/evidence/0.36.2
