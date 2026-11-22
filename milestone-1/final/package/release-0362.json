@@ -1,0 +1,37 @@
+{
+  "format": "eightmax-release",
+  "version": "0.36.2-dev",
+  "milestone": "0.36.2 Milestone 1: Windows compilation and executable verification",
+  "status": "development-milestone-1-passed-full-acceptance-incomplete",
+  "fullyOperationalAcceptancePassed": false,
+  "baseline": { "archive": "EightMax-Test-Workbench-0.36.1-Complete-Simulator.zip", "sha256": "2586ebf67103937bd6fadbfc2aa4d32a5787cf02693a8fb215876d4ea038e487" },
+  "nativeEngine": { "version": "5.1", "build": "7d08acc7eb4577ee", "sha256": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72", "changed": false },
+  "windowsBinariesRebuilt": true,
+  "windowsBuild": { "ci": "GitHub Actions windows-latest (Windows Server 2025 Datacenter 10.0.26100)", "repository": "derekwtgm/PTO", "runId": 45083913369, "commit": "5063e9616d08820a35a0d17505d064489a643c54", "compiler": "Microsoft (R) Visual C# Compiler version 4.8.9221.0" },
+  "executables": {
+    "desktop/bin/EightMaxWorkbench.exe": { "fileVersion": "0.36.2.0", "sha256": "845578b9a6596009e68ce6f182d47ae20ddd511f58b9c37a3d4b12e1c7f32290" },
+    "desktop/bin/EightMaxInput.exe": { "fileVersion": "0.36.2.0", "sha256": "93867a03f43534d65d41853901b706bb892456894cb118f89b5d4a80bce71da1" },
+    "desktop/bin/EightMaxTestTable.exe": { "fileVersion": "0.36.2.0", "sha256": "3e5a76995a24d169336179e7e3805ddeb57271d951029226b43653c217464348" },
+    "desktop/bin/EightMaxCapture.exe": { "fileVersion": "0.35.0.0", "sha256": "8180c32910bfd1d5053c42f8c9ccf484bb6146022dc1284e45dbbde622124da0" },
+    "desktop/bin/EightMaxWgc.exe": { "version": "0.35.0", "sha256": "bc001504382306e180af0f76abf0836d561faa07e8c210317df73048e55cafc1", "rebuilt": false }
+  },
+  "windowsResults": {
+    "milestone1Checks": { "total": 50, "passed": 50, "failed": 0 },
+    "inputSelfTest": { "passed": 11, "total": 11 },
+    "inputAcceptance": { "passed": 29, "total": 29 },
+    "communicationSmoke": { "tables": 1, "attempted": 13, "confirmed": 13, "matchedToOracle": 13, "incorrectClicks": 0, "incorrectWagers": 0 },
+    "regression": { "tests": 897, "passed": 874, "failed": 0, "skipped": 23 },
+    "metadataRecheck": { "tests": 52, "passed": 48, "failed": 1, "skipped": 3, "failed_test": "intermittent strategy-library concurrency test (0.31 defect fixed: worker threads opening a NEW strategy library...)" }
+  },
+  "report": "REPORT-0.36.2-Milestone-1.md",
+  "remaining": [
+    "Target PC 3840x2160 at 150% validation",
+    "Dashboard-driven three-hand gameplay acceptance",
+    "Genuine validated native strict-mode Windows action",
+    "Emergency stop and manual override during real movement",
+    "Multi-table speed/curve matrix and capacity",
+    "Install/uninstall/two-version rollback",
+    "Intermittent strategy-library concurrency test",
+    "Analysis of the 20261121-171504 target-PC results archive (not available)"
+  ]
+}
