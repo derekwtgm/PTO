@@ -104,8 +104,9 @@ test('checkpoint and restart: the table stays paused until fresh readings agree,
 });
 
 test('persistent tournaments track eliminated seats across consecutive hands', () => {
- const t = new EM.Table(1,1001,8,{persistentStacks:true}), e=engine(); let seq=0, eliminated=false;
- for(let h=0;h<8&&!t.tournamentComplete;h++){
+ for (const seed of [1001,1002,1003,1004,1005]) {
+ const t = new EM.Table(1,seed,8,{persistentStacks:true}), e=engine(); let seq=0, eliminated=false;
+ for(let h=0;h<30&&!t.tournamentComplete;h++){
   if(t.startHand()===false)break;
   eliminated ||= t.players.some(p=>p.folded&&p.stack===0);
   for(let repeat=0;repeat<2;repeat++){ const first=e.ingest(screen(t,seq++));assert.ok(first.accepted,JSON.stringify(first.issues)); }
@@ -115,4 +116,5 @@ test('persistent tournaments track eliminated seats across consecutive hands', (
   }
  }
  assert.ok(eliminated); assert.ok(t.hand>=3);
+ }
 });
