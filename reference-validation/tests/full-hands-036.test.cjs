@@ -26,3 +26,10 @@ test('stop while awaiting a decision prevents any input',async()=>{
  t.decide=async s=>{t.stop();return new DecisionSource({mode:'practice'}).decide(s);};
  try{assert.equal((await t.step()).kind,'paused');assert.equal(host.stats.clicks,0);}finally{t.stop();d.closed=true;clearTimeout(d.timer);}
 });
+
+test('recovery waits for consistent frames before requesting or submitting a decision',async()=>{
+ const host=fakeHost(1),b=build(host),t=b.tables[0],d=host.tables.values().next().value.dealer;
+ const look=t.look.bind(t); t.look=async()=>{const r=await look();t.engine.paused=true;t.engine.pauseReason='waiting for second consistent frame';return r;};
+ t.decide=()=>{throw Error('Decision must not run during recovery');};
+ try{const r=await t.step();assert.equal(r.kind,'waiting');assert.match(r.reason,/consistent/);assert.equal(t.m.attempted,0);assert.equal(host.stats.clicks,0);}finally{t.stop();d.closed=true;clearTimeout(d.timer);clearTimeout(d.holdTimer);}
+});
