@@ -1,0 +1,487 @@
+{
+    "format":  "eightmax-milestone1-results",
+    "version":  1,
+    "appVersion":  "0.36.2-dev",
+    "expectedFileVersion":  "0.36.2.0",
+    "engineBuild":  "7d08acc7eb4577ee",
+    "completedAt":  "2026-11-22T23:18:35.3355497Z",
+    "machine":  {
+                    "machine":  "runnervmbpeip",
+                    "os":  "Microsoft Windows Server 2025 Datacenter 10.0.26100 build 26100",
+                    "powershell":  "5.1.26100.33822",
+                    "is64BitProcess":  true,
+                    "ciRun":  "45082455145",
+                    "netFrameworkRelease":  533509,
+                    "virtualScreen":  "1920x1080 at 0,0",
+                    "interactiveDesktop":  true,
+                    "executables":  {
+                                        "desktop/bin/EightMaxWorkbench.exe":  {
+                                                                                  "sha256":  "6337ffcd27867988b9f1dedd48eb8cd44c170cdf67b4205970b95df8a6e72b6b",
+                                                                                  "fileVersion":  "0.36.2.0",
+                                                                                  "productVersion":  "0.36.2-dev",
+                                                                                  "assemblyVersion":  "0.36.2.0",
+                                                                                  "bytes":  161280
+                                                                              },
+                                        "desktop/bin/EightMaxInput.exe":  {
+                                                                              "sha256":  "a4ebe0870459f0300aed22e567598ecce9e1f10ed992ba130ee489a6124936fc",
+                                                                              "fileVersion":  "0.36.2.0",
+                                                                              "productVersion":  "0.36.2-dev",
+                                                                              "assemblyVersion":  "0.36.2.0",
+                                                                              "bytes":  83968
+                                                                          },
+                                        "desktop/bin/EightMaxTestTable.exe":  {
+                                                                                  "sha256":  "c89fc3414c258bec274a5837d375ef7a87c86b4328fae16891122b5918ee2c9c",
+                                                                                  "fileVersion":  "0.36.2.0",
+                                                                                  "productVersion":  "0.36.2-dev",
+                                                                                  "assemblyVersion":  "0.36.2.0",
+                                                                                  "bytes":  18432
+                                                                              },
+                                        "desktop/bin/EightMaxCapture.exe":  {
+                                                                                "sha256":  "5d851a5f23b6af018d1bcd7d7109eda5006e289ea7efebae073174401794b663",
+                                                                                "fileVersion":  "0.35.0.0",
+                                                                                "productVersion":  "0.35.0",
+                                                                                "assemblyVersion":  "0.35.0.0",
+                                                                                "bytes":  41472
+                                                                            }
+                                    },
+                    "nodeSha256":  "247e9693d316da9857e44990e5e11709f596f18112251b8026ec6eed80bdf38a",
+                    "wgcSha256":  "bc001504382306e180af0f76abf0836d561faa07e8c210317df73048e55cafc1"
+                },
+    "processes":  [
+                      {
+                          "role":  "desktop host (headless)",
+                          "name":  "EightMaxWorkbench",
+                          "pid":  6064
+                      },
+                      {
+                          "role":  "input driver (host child)",
+                          "name":  "EightMaxInput",
+                          "pid":  6484
+                      },
+                      {
+                          "role":  "test table",
+                          "name":  "EightMaxTestTable",
+                          "pid":  5480
+                      },
+                      {
+                          "role":  "desktop host (window)",
+                          "name":  "EightMaxWorkbench",
+                          "pid":  4316
+                      },
+                      {
+                          "role":  "input driver (window host child)",
+                          "name":  "EightMaxInput",
+                          "pid":  4308
+                      }
+                  ],
+    "counts":  {
+                   "total":  50,
+                   "passed":  48,
+                   "failed":  2,
+                   "warnings":  0
+               },
+    "milestone1Passed":  false,
+    "checks":  [
+                   {
+                       "group":  "integrity",
+                       "name":  "Release checksum manifest",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "826 files match SHA256SUMS.txt",
+                       "at":  "2026-11-22T23:18:09.2155442Z"
+                   },
+                   {
+                       "group":  "integrity",
+                       "name":  "Build evidence present for this application version",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "built 2026-11-22T23:18:02.2311725Z on Windows: Microsoft Windows Server 2025 Datacenter 10.0.26100 build 26100; CI run 45082455145",
+                       "at":  "2026-11-22T23:18:09.2683706Z"
+                   },
+                   {
+                       "group":  "integrity",
+                       "name":  "EightMaxWorkbench.exe: exists, x64 PE32+ managed",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "AMD64 PE32+ gui .NET assembly, ProcessorArchitecture=Amd64, 161280 bytes",
+                       "at":  "2026-11-22T23:18:09.3522142Z"
+                   },
+                   {
+                       "group":  "version",
+                       "name":  "EightMaxWorkbench.exe: file/assembly version 0.36.2.0",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "FileVersion 0.36.2.0, AssemblyVersion 0.36.2.0, ProductVersion 0.36.2-dev",
+                       "at":  "2026-11-22T23:18:09.3738122Z"
+                   },
+                   {
+                       "group":  "integrity",
+                       "name":  "EightMaxWorkbench.exe: SHA-256 and sources match build evidence",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "sha256 6337ffcd27867988b9f1dedd48eb8cd44c170cdf67b4205970b95df8a6e72b6b; compiled from desktop/DesktopHost.cs, desktop/CaptureService.cs, desktop/InputBroker.cs (hashes match)",
+                       "at":  "2026-11-22T23:18:09.3868042Z"
+                   },
+                   {
+                       "group":  "integrity",
+                       "name":  "EightMaxWorkbench.exe: referenced assemblies resolve",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "all 6 references resolve from the .NET Framework: mscorlib, System.Web.Extensions, System.Core, System, System.Windows.Forms, System.Drawing",
+                       "at":  "2026-11-22T23:18:09.4363177Z"
+                   },
+                   {
+                       "group":  "integrity",
+                       "name":  "EightMaxInput.exe: exists, x64 PE32+ managed",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "AMD64 PE32+ console .NET assembly, ProcessorArchitecture=Amd64, 83968 bytes",
+                       "at":  "2026-11-22T23:18:09.4380836Z"
+                   },
+                   {
+                       "group":  "version",
+                       "name":  "EightMaxInput.exe: file/assembly version 0.36.2.0",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "FileVersion 0.36.2.0, AssemblyVersion 0.36.2.0, ProductVersion 0.36.2-dev",
+                       "at":  "2026-11-22T23:18:09.4421441Z"
+                   },
+                   {
+                       "group":  "integrity",
+                       "name":  "EightMaxInput.exe: SHA-256 and sources match build evidence",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "sha256 a4ebe0870459f0300aed22e567598ecce9e1f10ed992ba130ee489a6124936fc; compiled from desktop/input/Driver.cs, desktop/input/Motion.cs, desktop/input/Platform.cs, desktop/input/Program.cs, desktop/input/Safety.cs, desktop/input/Uia.cs (hashes match)",
+                       "at":  "2026-11-22T23:18:09.4502794Z"
+                   },
+                   {
+                       "group":  "integrity",
+                       "name":  "EightMaxInput.exe: referenced assemblies resolve",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "all 9 references resolve from the .NET Framework: mscorlib, System.Windows.Forms, System.Web.Extensions, System, System.Core, System.Drawing, UIAutomationClient, UIAutomationTypes, WindowsBase",
+                       "at":  "2026-11-22T23:18:09.4661665Z"
+                   },
+                   {
+                       "group":  "integrity",
+                       "name":  "EightMaxTestTable.exe: exists, x64 PE32+ managed",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "AMD64 PE32+ gui .NET assembly, ProcessorArchitecture=Amd64, 18432 bytes",
+                       "at":  "2026-11-22T23:18:09.4699694Z"
+                   },
+                   {
+                       "group":  "version",
+                       "name":  "EightMaxTestTable.exe: file/assembly version 0.36.2.0",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "FileVersion 0.36.2.0, AssemblyVersion 0.36.2.0, ProductVersion 0.36.2-dev",
+                       "at":  "2026-11-22T23:18:09.4740105Z"
+                   },
+                   {
+                       "group":  "integrity",
+                       "name":  "EightMaxTestTable.exe: SHA-256 and sources match build evidence",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "sha256 c89fc3414c258bec274a5837d375ef7a87c86b4328fae16891122b5918ee2c9c; compiled from desktop/testtable/EightMaxTestTable.cs (hashes match)",
+                       "at":  "2026-11-22T23:18:09.4760427Z"
+                   },
+                   {
+                       "group":  "integrity",
+                       "name":  "EightMaxTestTable.exe: referenced assemblies resolve",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "all 5 references resolve from the .NET Framework: System.Windows.Forms, mscorlib, System.Drawing, System.Web.Extensions, System",
+                       "at":  "2026-11-22T23:18:09.4800964Z"
+                   },
+                   {
+                       "group":  "integrity",
+                       "name":  "EightMaxCapture.exe: exists, x64 PE32+ managed",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "AMD64 PE32+ console .NET assembly, ProcessorArchitecture=Amd64, 41472 bytes",
+                       "at":  "2026-11-22T23:18:09.4841476Z"
+                   },
+                   {
+                       "group":  "version",
+                       "name":  "EightMaxCapture.exe: carried source version 0.35.0 (source unchanged)",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "FileVersion 0.35.0.0",
+                       "at":  "2026-11-22T23:18:09.4879392Z"
+                   },
+                   {
+                       "group":  "integrity",
+                       "name":  "EightMaxCapture.exe: SHA-256 and sources match build evidence",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "sha256 5d851a5f23b6af018d1bcd7d7109eda5006e289ea7efebae073174401794b663; compiled from desktop/capture/EightMaxCapture.cs, desktop/CaptureService.cs (hashes match)",
+                       "at":  "2026-11-22T23:18:09.4919727Z"
+                   },
+                   {
+                       "group":  "integrity",
+                       "name":  "EightMaxCapture.exe: referenced assemblies resolve",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "all 5 references resolve from the .NET Framework: mscorlib, System.Drawing, System, System.Web.Extensions, System.Windows.Forms",
+                       "at":  "2026-11-22T23:18:09.4960182Z"
+                   },
+                   {
+                       "group":  "integrity",
+                       "name":  ".NET Framework 4.8+ runtime present",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "NDP v4 Full Release 533509",
+                       "at":  "2026-11-22T23:18:09.5019854Z"
+                   },
+                   {
+                       "group":  "integrity",
+                       "name":  "Bundled Node runtime",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "runtime\\node\\node.exe v22.23.5, sha256 247e9693d316da9857e44990e5e11709f596f18112251b8026ec6eed80bdf38a",
+                       "at":  "2026-11-22T23:18:09.7244213Z"
+                   },
+                   {
+                       "group":  "integrity",
+                       "name":  "Bundled WGC capture helper (carried over)",
+                       "status":  "pass",
+                       "required":  false,
+                       "detail":  "{\"tool\":\"EightMaxWgc\",\"version\":\"0.35.0\",\"backend\":\"windows-graphics-capture\",\"os\":\"Microsoft Windows NT 10.0.26100.0\"} sha256 bc001504382306e180af0f76abf0836d561faa07e8c210317df73048e55cafc1",
+                       "at":  "2026-11-22T23:18:10.0989003Z"
+                   },
+                   {
+                       "group":  "native",
+                       "name":  "EightMax 5.1 binary preserved byte-for-byte",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "native\\mwcli.exe sha256 b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+                       "at":  "2026-11-22T23:18:10.1052565Z"
+                   },
+                   {
+                       "group":  "native",
+                       "name":  "EightMax 5.1 build identity",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "EightMaxBuild=7d08acc7eb4577ee",
+                       "at":  "2026-11-22T23:18:10.1487572Z"
+                   },
+                   {
+                       "group":  "version",
+                       "name":  "EightMaxInput.exe --version",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "EightMaxInput 0.36.2-dev (EightMax Test Workbench input driver; SendInput, x64)",
+                       "at":  "2026-11-22T23:18:10.2359468Z"
+                   },
+                   {
+                       "group":  "version",
+                       "name":  "EightMaxTestTable.exe --version",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "EightMaxTestTable 0.36.2-dev (controlled input-validation fixture)",
+                       "at":  "2026-11-22T23:18:10.2993565Z"
+                   },
+                   {
+                       "group":  "host",
+                       "name":  "Desktop host starts (headless) and writes its private session",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "pid 6064 ready in 176 ms at http://127.0.0.1:48713, appVersion 0.36.2-dev",
+                       "at":  "2026-11-22T23:18:10.4910227Z"
+                   },
+                   {
+                       "group":  "host",
+                       "name":  "Health endpoint reports 0.36.2-dev and EightMax build",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "appVersion 0.36.2-dev, build 7d08acc7eb4577ee, nativeCPU, inputDriver installed, capture methods print-window/screen-copy/windows-graphics-capture",
+                       "at":  "2026-11-22T23:18:10.5702171Z"
+                   },
+                   {
+                       "group":  "host",
+                       "name":  "Session token is enforced",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "request without X-EightMax-Session refused with HTTP 403",
+                       "at":  "2026-11-22T23:18:10.6037289Z"
+                   },
+                   {
+                       "group":  "native",
+                       "name":  "Host verified the EightMax 5.1 binary at startup",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "the host constructor refuses to start unless native\\mwcli.exe has SHA-256 b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72; it started and reports build 7d08acc7eb4577ee",
+                       "at":  "2026-11-22T23:18:10.6057523Z"
+                   },
+                   {
+                       "group":  "input",
+                       "name":  "Input driver starts and accepts the host session",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "EightMaxInput.exe pid 6484 started by the host, hello/token accepted, starts=1",
+                       "at":  "2026-11-22T23:18:10.7435848Z"
+                   },
+                   {
+                       "group":  "input",
+                       "name":  "Driver reports version 0.36.2-dev on win32 SendInput",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "driver 0.36.2-dev, platform win32, estop=, armed=False",
+                       "at":  "2026-11-22T23:18:10.7486086Z"
+                   },
+                   {
+                       "group":  "capabilities",
+                       "name":  "0.36.1 motion capabilities (dashboard gate)",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "signedCurves=true, maxDeviationPx=true (required by src/simulator-controls-ui.js and tools/simulator-benchmark-035.cjs)",
+                       "at":  "2026-11-22T23:18:10.7505920Z"
+                   },
+                   {
+                       "group":  "capabilities",
+                       "name":  "Operation list complete",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "21 operations",
+                       "at":  "2026-11-22T23:18:10.7555992Z"
+                   },
+                   {
+                       "group":  "capabilities",
+                       "name":  "Click guard, DPI awareness, UI Automation",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "singleClickGuardMaxMs 540, dpiAwareness per-monitor-v2, uiAutomation true, maxQueue 8, rawInputOverride True",
+                       "at":  "2026-11-22T23:18:10.7585942Z"
+                   },
+                   {
+                       "group":  "capabilities",
+                       "name":  "Emergency-stop hotkey registered",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "hotkey Ctrl+Alt+F12 registered",
+                       "at":  "2026-11-22T23:18:10.7605898Z"
+                   },
+                   {
+                       "group":  "ipc",
+                       "name":  "Host -\u003e driver queries (cursor, monitors)",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "cursor at 960,540; 1 monitor(s), first {\"x\":0,\"y\":0,\"w\":1920,\"h\":1080} dpiScale 1",
+                       "at":  "2026-11-22T23:18:10.7805847Z"
+                   },
+                   {
+                       "group":  "testtable",
+                       "name":  "Test table opens a window and reports ready",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "pid 5480, hwnd 0x30168, title \"EightMax M1 Test Table 01\"",
+                       "at":  "2026-11-22T23:18:10.9861642Z"
+                   },
+                   {
+                       "group":  "testtable",
+                       "name":  "Test table answers describe over its dealer protocol",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "client {\"x\":68,\"y\":91,\"w\":960,\"h\":600}; controls fold, check, call, raise, allin, wager",
+                       "at":  "2026-11-22T23:18:11.0038607Z"
+                   },
+                   {
+                       "group":  "testtable",
+                       "name":  "Test table renders a frame sent by the dealer protocol",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "frame rev 1 960x600 shown",
+                       "at":  "2026-11-22T23:18:11.1688470Z"
+                   },
+                   {
+                       "group":  "ipc",
+                       "name":  "Host capture lists the test table window",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "found \"EightMax M1 Test Table 01 - M1 frame\" hwnd 0x30168 960x600",
+                       "at":  "2026-11-22T23:18:11.1828374Z"
+                   },
+                   {
+                       "group":  "ipc",
+                       "name":  "Host captures the test table pixels it rendered",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "method print-window, 960x600, 45 sample pixels (clear of controls) within 0/255 of the frame sent to the table",
+                       "at":  "2026-11-22T23:18:11.7824929Z"
+                   },
+                   {
+                       "group":  "ipc",
+                       "name":  "Host -\u003e driver sees the test table window",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "window-info: pid 5480, exe D:\\a\\PTO\\PTO\\work\\EightMax-Test-Workbench\\desktop\\bin\\EightMaxTestTable.exe, visible True, client {\"x\":68,\"y\":91,\"w\":960,\"h\":600}",
+                       "at":  "2026-11-22T23:18:11.7994827Z"
+                   },
+                   {
+                       "group":  "shutdown",
+                       "name":  "Test table closes on the dealer close command",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "exited with code 0",
+                       "at":  "2026-11-22T23:18:11.9701114Z"
+                   },
+                   {
+                       "group":  "shutdown",
+                       "name":  "Headless host: authenticated shutdown stops host and input driver",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "host exited in 91 ms (exit code 0); input driver pid 6484 gone",
+                       "at":  "2026-11-22T23:18:12.0807063Z"
+                   },
+                   {
+                       "group":  "host",
+                       "name":  "Desktop host starts with its window (non-headless)",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "pid 4316 window \"EightMax Workbench desktop host\" ready in 121 ms; health OK; driver pid 4308; screenshot desktop-host-window.png",
+                       "at":  "2026-11-22T23:18:13.1630977Z"
+                   },
+                   {
+                       "group":  "shutdown",
+                       "name":  "Window host: closing the window stops host and input driver",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "host exited with code 0 after the window closed; input driver gone",
+                       "at":  "2026-11-22T23:18:13.2468499Z"
+                   },
+                   {
+                       "group":  "shutdown",
+                       "name":  "Port and single-instance lock released",
+                       "status":  "fail",
+                       "required":  true,
+                       "detail":  "port 48713 still listening after 15000 ms: pid 4316 (process not found) || processes created during this test and still running: chrome.exe pid 5324 parent 4316 started 23:18:12.210 cmd: \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --app=http://127.0.0.1:48713/#desktop-token=75505f35f7eea1fd9b82a153fe91c794de44d5aafc30d95908a82296a687ad94 | chrome.exe pid 7200 parent 5324 started 23:18:12.522 cmd: \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=crashpad-handler \"--user-data-dir=C:\\Users\\runneradmin\\AppData\\Local\\Google\\Chrome\\User Data\" /prefetch:4 --monitor-self-annotation=ptype=crashpad-handler -- | chrome.exe pid 3024 parent 5324 started 23:18:16.333 cmd: \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=gpu-process --gpu-recent-crash-count=0 --no-pre-read-main-dll --gpu-preferences=WAAAAAAAAABgAAACAAAAAAAAAAAAAGAAQAAAAAAAAAADAAAAAAAAADgAAAAAAAAAAAAAAAAAAAABA | chrome.exe pid 4360 parent 5324 started 23:18:16.334 cmd: \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=utility --utility-sub-type=network.mojom.NetworkService --lang=en-US --service-sandbox-type=none --metrics-shmem-handle=2200,i,10159379773155789610,261641689 | chrome.exe pid 4628 parent 5324 started 23:18:16.689 cmd: \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=utility --utility-sub-type=storage.mojom.StorageService --lang=en-US --service-sandbox-type=service --metrics-shmem-handle=2496,i,4667688528113943912,9836559 | chrome.exe pid 4572 parent 5324 started 23:18:17.252 cmd: \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --video-capture-use-gpu-memory-buffer --lang=en-US --device-scale-factor=1 --num-raster-threads=2 --enable-main-frame-before-activation --renderer-c | chrome.exe pid 6004 parent 5324 started 23:18:18.552 cmd: \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --extension-process --video-capture-use-gpu-memory-buffer --lang=en-US --device-scale-factor=1 --num-raster-threads=2 --enable-main-frame-before-act | chrome.exe pid 920 parent 5324 started 23:18:18.824 cmd: \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --extension-process --video-capture-use-gpu-memory-buffer --lang=en-US --device-scale-factor=1 --num-raster-threads=2 --enable-main-frame-before-act | chrome.exe pid 1304 parent 5324 started 23:18:18.827 cmd: \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --extension-process --video-capture-use-gpu-memory-buffer --lang=en-US --device-scale-factor=1 --num-raster-threads=2 --enable-main-frame-before-act | chrome.exe pid 8792 parent 5324 started 23:18:23.682 cmd: \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --disable-gpu-compositing --video-capture-use-gpu-memory-buffer --lang=en-US --device-scale-factor=1 --num-raster-threads=2 --enable-main-frame-befo | chrome.exe pid 9044 parent 5324 started 23:18:23.685 cmd: \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --extension-process --disable-gpu-compositing --video-capture-use-gpu-memory-buffer --lang=en-US --device-scale-factor=1 --num-raster-threads=2 --en | chrome.exe pid 4340 parent 5324 started 23:18:24.205 cmd: \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --extension-process --disable-gpu-compositing --video-capture-use-gpu-memory-buffer --lang=en-US --device-scale-factor=1 --num-raster-threads=2 --en",
+                       "at":  "2026-11-22T23:18:28.8219412Z"
+                   },
+                   {
+                       "group":  "input",
+                       "name":  "Input driver self-test (EightMaxInput.exe --selftest)",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "exit 0; driver 0.36.2-dev, 11/11 checks passed, ok=True, dpi per-monitor-v2",
+                       "at":  "2026-11-22T23:18:35.1311561Z"
+                   },
+                   {
+                       "group":  "shutdown",
+                       "name":  "Loopback port 48713 released at the end",
+                       "status":  "fail",
+                       "required":  true,
+                       "detail":  "still listening: pid 4316 (process not found) || processes created during this test and still running: chrome.exe pid 5324 parent 4316 started 23:18:12.210 cmd: \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --app=http://127.0.0.1:48713/#desktop-token=75505f35f7eea1fd9b82a153fe91c794de44d5aafc30d95908a82296a687ad94 | chrome.exe pid 7200 parent 5324 started 23:18:12.522 cmd: \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=crashpad-handler \"--user-data-dir=C:\\Users\\runneradmin\\AppData\\Local\\Google\\Chrome\\User Data\" /prefetch:4 --monitor-self-annotation=ptype=crashpad-handler -- | chrome.exe pid 3024 parent 5324 started 23:18:16.333 cmd: \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=gpu-process --gpu-recent-crash-count=0 --no-pre-read-main-dll --gpu-preferences=WAAAAAAAAABgAAACAAAAAAAAAAAAAGAAQAAAAAAAAAADAAAAAAAAADgAAAAAAAAAAAAAAAAAAAABA | chrome.exe pid 4360 parent 5324 started 23:18:16.334 cmd: \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=utility --utility-sub-type=network.mojom.NetworkService --lang=en-US --service-sandbox-type=none --metrics-shmem-handle=2200,i,10159379773155789610,261641689 | chrome.exe pid 4628 parent 5324 started 23:18:16.689 cmd: \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=utility --utility-sub-type=storage.mojom.StorageService --lang=en-US --service-sandbox-type=service --metrics-shmem-handle=2496,i,4667688528113943912,9836559 | chrome.exe pid 4572 parent 5324 started 23:18:17.252 cmd: \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --video-capture-use-gpu-memory-buffer --lang=en-US --device-scale-factor=1 --num-raster-threads=2 --enable-main-frame-before-activation --renderer-c | chrome.exe pid 6004 parent 5324 started 23:18:18.552 cmd: \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --extension-process --video-capture-use-gpu-memory-buffer --lang=en-US --device-scale-factor=1 --num-raster-threads=2 --enable-main-frame-before-act | chrome.exe pid 920 parent 5324 started 23:18:18.824 cmd: \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --extension-process --video-capture-use-gpu-memory-buffer --lang=en-US --device-scale-factor=1 --num-raster-threads=2 --enable-main-frame-before-act | chrome.exe pid 1304 parent 5324 started 23:18:18.827 cmd: \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --extension-process --video-capture-use-gpu-memory-buffer --lang=en-US --device-scale-factor=1 --num-raster-threads=2 --enable-main-frame-before-act | chrome.exe pid 8792 parent 5324 started 23:18:23.682 cmd: \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --disable-gpu-compositing --video-capture-use-gpu-memory-buffer --lang=en-US --device-scale-factor=1 --num-raster-threads=2 --enable-main-frame-befo | chrome.exe pid 9044 parent 5324 started 23:18:23.685 cmd: \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --extension-process --disable-gpu-compositing --video-capture-use-gpu-memory-buffer --lang=en-US --device-scale-factor=1 --num-raster-threads=2 --en | chrome.exe pid 4340 parent 5324 started 23:18:24.205 cmd: \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --type=renderer --extension-process --disable-gpu-compositing --video-capture-use-gpu-memory-buffer --lang=en-US --device-scale-factor=1 --num-raster-threads=2 --en",
+                       "at":  "2026-11-22T23:18:35.3191349Z"
+                   },
+                   {
+                       "group":  "shutdown",
+                       "name":  "No leftover processes",
+                       "status":  "pass",
+                       "required":  true,
+                       "detail":  "5 processes started by this test have all exited; no new EightMax/mwcli processes remain",
+                       "at":  "2026-11-22T23:18:35.3305368Z"
+                   }
+               ],
+    "scope":  "Milestone 1 only: build identity, startup, initialisation, existing-interface communication and shutdown. Not a gameplay, strategy, multi-table or target-PC acceptance."
+}
