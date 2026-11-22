@@ -29,7 +29,12 @@ jobs:
           Copy-Item (Get-Command node).Source runtime/node/node.exe -Force
       - name: Compile current Windows sources
         shell: powershell
-        run: ./windows/Build-Executables.ps1
+        run: |
+          $parseErrors = $null
+          $tokens = $null
+          [System.Management.Automation.Language.Parser]::ParseFile((Join-Path $PWD 'windows/Test-0362.ps1'), [ref]$tokens, [ref]$parseErrors) | Out-Null
+          if ($parseErrors.Count) { throw ($parseErrors | Out-String) }
+          ./windows/Build-Executables.ps1
       - name: Install browser test dependencies
         shell: pwsh
         run: |
@@ -62,6 +67,13 @@ jobs:
           & ./desktop/bin/EightMaxInput.exe --selftest --out "$env:RUNNER_TEMP/input-selftest.json"
           node tools/input-acceptance-035.cjs --out "$env:RUNNER_TEMP/input-acceptance.json" --oracle-dir "$env:RUNNER_TEMP/input-oracle"
           if ($LASTEXITCODE -ne 0) { throw 'Input acceptance failed' }
+      - name: Execute extended one-table gameplay
+        if: success() || failure()
+        timeout-minutes: 8
+        shell: pwsh
+        run: |
+          node tools/simulator-benchmark-035.cjs --tables 1 --seconds 300 --width 640 --workloads full-hands:0 --out "$env:RUNNER_TEMP/full-hands.json" --work "$env:RUNNER_TEMP/full-hands-work"
+          if ($LASTEXITCODE -ne 0) { throw 'Gameplay execution failed' }
       - name: Execute real screen and input benchmark
         timeout-minutes: 20
         if: success() || failure()
@@ -74,7 +86,7 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force evidence/0.36.2/windows | Out-Null
-          foreach ($f in 'regression-0362.log','input-selftest.json','input-acceptance.json','benchmark.json') {
+          foreach ($f in 'regression-0362.log','input-selftest.json','input-acceptance.json','benchmark.json','full-hands.json') {
             if (Test-Path "$env:RUNNER_TEMP/$f") { Copy-Item "$env:RUNNER_TEMP/$f" evidence/0.36.2/windows/ }
           }
           Remove-Item -Recurse -Force build-input
@@ -90,5 +102,7 @@ jobs:
             ${{ runner.temp }}/input-selftest.json
             ${{ runner.temp }}/input-acceptance.json
             ${{ runner.temp }}/input-oracle
+            ${{ runner.temp }}/full-hands.json
+            ${{ runner.temp }}/full-hands-work
             ${{ runner.temp }}/benchmark.json
             ${{ runner.temp }}/benchmark-work
