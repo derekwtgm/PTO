@@ -1,0 +1,38 @@
+name: EightMax Windows completion build
+on:
+  push:
+    branches: [development-0362]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Extract verified baseline
+        shell: pwsh
+        run: |
+          $zip = 'EightMax-Test-Workbench-0.36.1-Complete-Simulator.zip'
+          if ((Get-FileHash $zip).Hash.ToLowerInvariant() -ne '2586ebf67103937bd6fadbfc2aa4d32a5787cf02693a8fb215876d4ea038e487') { throw 'Unexpected baseline' }
+          Expand-Archive $zip -DestinationPath work
+          if (Test-Path overlay) { Copy-Item overlay/* work/EightMax-Test-Workbench -Recurse -Force }
+      - name: Compile Windows components
+        shell: powershell
+        working-directory: work/EightMax-Test-Workbench
+        run: ./windows/Build-Executables.ps1 -SkipWgc
+      - name: Upload build evidence and components
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-components
+          path: |
+            work/EightMax-Test-Workbench/desktop/bin
+            work/EightMax-Test-Workbench/evidence/build-evidence.json
