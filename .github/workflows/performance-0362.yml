@@ -1,0 +1,50 @@
+name: Final-binary Windows performance and motion
+on:
+  push:
+    branches: [performance-0362]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  performance:
+    runs-on: windows-latest
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.23.5'
+      - uses: actions/download-artifact@v4
+        with:
+          name: windows-0362-build-and-evidence
+          run-id: 44987268114
+          github-token: ${{ github.token }}
+          path: downloaded
+      - name: Restore the exact final Windows binaries
+        shell: pwsh
+        run: |
+          Expand-Archive downloaded/EightMax-0.36.2-Windows-Candidate.zip app
+          Copy-Item reference-validation/* app/PTO/ -Recurse -Force
+      - name: Benchmark one, two, five, eight and ten tables
+        timeout-minutes: 14
+        shell: pwsh
+        working-directory: app/PTO
+        run: node tools/simulator-benchmark-035.cjs --tables 1,2,5,8,10 --seconds 60 --width 960 --layout stack --require-baseline --out "$env:RUNNER_TEMP/performance/benchmark.json" --work "$env:RUNNER_TEMP/performance/benchmark-work"
+      - name: Exercise slow, fixed left/right and fast randomized motion
+        if: success() || failure()
+        timeout-minutes: 5
+        shell: pwsh
+        working-directory: app/PTO
+        run: |
+          $failed = $false
+          foreach ($case in @(@('straight',600,'left'),@('fixed',1200,'left'),@('fixed',1200,'right'),@('random',2000,'left'))) {
+            $name = $case -join '-'
+            node tools/simulator-benchmark-035.cjs --tables 1 --seconds 30 --width 960 --layout stack --workloads motion:0 --pattern $case[0] --speed $case[1] --direction $case[2] --out "$env:RUNNER_TEMP/performance/$name.json" --work "$env:RUNNER_TEMP/performance/$name"
+            if ($LASTEXITCODE -ne 0) { $failed = $true }
+          }
+          if ($failed) { throw 'At least one motion case failed' }
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: performance-0362-evidence
+          path: ${{ runner.temp }}/performance
