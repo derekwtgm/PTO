@@ -9,7 +9,7 @@ on:
     paths: ['milestone-1/final/**']
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write   # only to publish the final ZIP and its verification to its own m1-final/<run id> branch
   actions: read
 jobs:
   package-and-verify:
@@ -47,6 +47,24 @@ jobs:
           python -I "$W\tools\package-0361.py" "$env:RUNNER_TEMP\final\EightMax-Test-Workbench-0.36.2-Milestone-1.zip" | Tee-Object -Append "$L\package.log"
           $fh = (Get-FileHash "$env:RUNNER_TEMP\final\EightMax-Test-Workbench-0.36.2-Milestone-1.zip").Hash.ToLowerInvariant()
           "$fh  EightMax-Test-Workbench-0.36.2-Milestone-1.zip" | Out-File -Encoding ascii "$env:RUNNER_TEMP\final\EightMax-Test-Workbench-0.36.2-Milestone-1.zip.sha256"
+      - name: Set the runner desktop to 1920x1080 (test environment only; matches the earlier 0.35 Windows CI)
+        shell: powershell
+        run: |
+          Add-Type -TypeDefinition @"
+          using System; using System.Runtime.InteropServices;
+          public static class EmDisplay {
+            [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)] public struct DEVMODE {
+              [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)] public string dmDeviceName; public short dmSpecVersion, dmDriverVersion, dmSize, dmDriverExtra;
+              public int dmFields, dmPositionX, dmPositionY, dmDisplayOrientation, dmDisplayFixedOutput; public short dmColor, dmDuplex, dmYResolution, dmTTOption, dmCollate;
+              [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)] public string dmFormName; public short dmLogPixels;
+              public int dmBitsPerPel, dmPelsWidth, dmPelsHeight, dmDisplayFlags, dmDisplayFrequency, dmICMMethod, dmICMIntent, dmMediaType, dmDitherType, dmReserved1, dmReserved2, dmPanningWidth, dmPanningHeight; }
+            [DllImport("user32.dll")] static extern bool EnumDisplaySettings(string d, int m, ref DEVMODE dm);
+            [DllImport("user32.dll")] static extern int ChangeDisplaySettings(ref DEVMODE dm, int f);
+            public static int Set(int w, int h) { DEVMODE dm = new DEVMODE(); dm.dmSize = (short)Marshal.SizeOf(typeof(DEVMODE)); EnumDisplaySettings(null, -1, ref dm); dm.dmPelsWidth = w; dm.dmPelsHeight = h; dm.dmFields = 0x80000 | 0x100000; return ChangeDisplaySettings(ref dm, 0); }
+          }
+          "@
+          $r = [EmDisplay]::Set(1920, 1080); Start-Sleep -Seconds 2; Add-Type -AssemblyName System.Windows.Forms
+          "ChangeDisplaySettings returned $r; virtual screen now $([System.Windows.Forms.SystemInformation]::VirtualScreen)" | Tee-Object "$env:RUNNER_TEMP\logs\display.log"
       - name: Extract the final ZIP into a fresh folder and rerun the focused checks (no Python/Node on PATH)
         shell: pwsh
         run: |
@@ -57,11 +75,25 @@ jobs:
           $env:NODE_PATH = $null; $env:PYTHONHOME = $null
           $tools = @('python','python3','node','npm','dotnet','csc') | ForEach-Object { $c = Get-Command $_ -ErrorAction SilentlyContinue; "$_ -> $(if ($c) { $c.Source } else { 'not on PATH' })" }
           $tools | Tee-Object "$env:RUNNER_TEMP\logs\final-path.log"
-          & "$env:SystemRoot\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -ExecutionPolicy Bypass -File "$W\windows\Test-Milestone1-0362.ps1" -OutDir "$env:RUNNER_TEMP\final-check" -WithInputSelfTest *> "$env:RUNNER_TEMP\logs\final-milestone1-test.log"
-          $code = $LASTEXITCODE; Get-Content "$env:RUNNER_TEMP\logs\final-milestone1-test.log"
+          & "$env:SystemRoot\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -ExecutionPolicy Bypass -File "$W\windows\Test-Milestone1-0362.ps1" -OutDir "$env:RUNNER_TEMP\final-check" -WithInputSelfTest 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP\logs\final-milestone1-test.log"
+          $code = $LASTEXITCODE
           & "$W\runtime\node\node.exe" "$W\tools\input-acceptance-035.cjs" --out "$env:RUNNER_TEMP\final-check\input-acceptance.json" --oracle-dir "$env:RUNNER_TEMP\final-oracle" *> "$env:RUNNER_TEMP\logs\final-input-acceptance.log"
           $acc = $LASTEXITCODE; Get-Content "$env:RUNNER_TEMP\logs\final-input-acceptance.log" | Select-Object -Last 5
           if ($code -ne 0) { throw "final-ZIP Milestone 1 checks failed (exit $code)" }; if ($acc -ne 0) { throw "final-ZIP input acceptance failed (exit $acc)" }
+      - name: Publish the final ZIP and its verification to the m1-final/<run id> branch
+        if: always()
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $R = "$env:RUNNER_TEMP\publish"; New-Item -ItemType Directory -Force "$R\logs", "$R\final-check" | Out-Null
+          Copy-Item "$env:RUNNER_TEMP\final\*" $R -Force -ErrorAction SilentlyContinue; Copy-Item "$env:RUNNER_TEMP\logs\*" "$R\logs" -Force -ErrorAction SilentlyContinue
+          if (Test-Path "$env:RUNNER_TEMP\final-check") { Get-ChildItem "$env:RUNNER_TEMP\final-check" -File | Where-Object { $_.Name -notlike '*-session.json' } | Copy-Item -Destination "$R\final-check" -Force }
+          Set-Location $R; "* -text" | Out-File -Encoding ascii .gitattributes
+          git init -q; git config user.name "github-actions"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A; git commit -q -m "Milestone 1 final ZIP and re-verification from run $env:GITHUB_RUN_ID"
+          git push -q "https://x-access-token:$env:GH_TOKEN@github.com/$env:GITHUB_REPOSITORY.git" "HEAD:refs/heads/m1-final/$env:GITHUB_RUN_ID"
+          foreach ($x in Get-ChildItem "$R\logs" -File) { "===== $($x.Name)"; Get-Content $x.FullName -Tail 200 }
       - uses: actions/upload-artifact@v4
         if: always()
         with:

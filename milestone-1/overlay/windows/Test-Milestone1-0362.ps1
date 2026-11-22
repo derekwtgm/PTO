@@ -16,11 +16,12 @@ if (-not $OutDir) { $OutDir = Join-Path $env:LOCALAPPDATA ('EightMax-Test-Workbe
 $ExpectedFileVersion = '0.36.2.0'; $ExpectedAppVersion = '0.36.2-dev'; $ExpectedBuild = '7d08acc7eb4577ee'
 $Primary = @('EightMaxWorkbench.exe', 'EightMaxInput.exe', 'EightMaxTestTable.exe')
 $js = New-Object Web.Script.Serialization.JavaScriptSerializer; $js.MaxJsonLength = [int]::MaxValue; $js.RecursionLimit = 200
-$checks = New-Object Collections.Generic.List[object]
-$started = New-Object Collections.Generic.List[object]   # every process this script started (name, pid, role)
+# Plain arrays, not generic lists: Windows PowerShell 5.1 throws 'Argument types do not match' for @() around a generic List.
+$script:checks = @()
+$script:started = @()   # every process this script started (role, name, pid)
 $facts = [ordered]@{}
 function Add-Check([string]$Group, [string]$Name, [bool]$Passed, [string]$Detail, [bool]$Required = $true) {
-    $checks.Add([ordered]@{ group = $Group; name = $Name; status = $(if ($Passed) { 'pass' } elseif ($Required) { 'fail' } else { 'warn' }); required = $Required; detail = $Detail; at = [DateTime]::UtcNow.ToString('o') })
+    $script:checks += [pscustomobject][ordered]@{ group = $Group; name = $Name; status = $(if ($Passed) { 'pass' } elseif ($Required) { 'fail' } else { 'warn' }); required = $Required; detail = $Detail; at = [DateTime]::UtcNow.ToString('o') }
     Write-Host ('[{0}] {1,-4} {2}: {3}' -f $Group, $(if ($Passed) { 'PASS' } elseif ($Required) { 'FAIL' } else { 'WARN' }), $Name, $Detail)
 }
 function Check([string]$Group, [string]$Name, [scriptblock]$Body, [bool]$Required = $true) {
@@ -28,7 +29,11 @@ function Check([string]$Group, [string]$Name, [scriptblock]$Body, [bool]$Require
 }
 function Sha([string]$Path) { (Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant() }
 function Bin([string]$Name) { Join-Path $root ('desktop\bin\' + $Name) }
-function Track($Process, [string]$Role) { $started.Add([ordered]@{ role = $Role; name = $Process.ProcessName; pid = $Process.Id }) }
+function Track($Process, [string]$Role) { Track-Pid ([int]$Process.Id) $Role $Process.ProcessName }
+function Track-Pid([int]$ProcessId, [string]$Role, [string]$Name) { $script:started += [pscustomobject][ordered]@{ role = $Role; name = $Name; pid = $ProcessId } }
+# Who owns the host's fixed loopback port (diagnostics for 'port already in use').
+function Port-Owners([int]$Port = 48713) { @(Get-NetTCPConnection -LocalPort $Port -State Listen -ErrorAction SilentlyContinue | ForEach-Object { $o = $_.OwningProcess; $w = Get-CimInstance Win32_Process -Filter ('ProcessId=' + $o) -ErrorAction SilentlyContinue; 'pid ' + $o + ' ' + $(if ($w) { $w.Name + ' parent ' + $w.ParentProcessId + ' cmd: ' + $w.CommandLine } else { '(process not found)' }) }) }
+function Wait-PortFree([int]$Ms = 15000) { $w = [Diagnostics.Stopwatch]::StartNew(); while ($w.ElapsedMilliseconds -lt $Ms) { if (-not @(Port-Owners).Count) { return $w.ElapsedMilliseconds }; Start-Sleep -Milliseconds 200 }; throw ('port 48713 still listening after ' + $Ms + ' ms: ' + (@(Port-Owners) -join ' | ')) }
 function Wait-Until([scriptblock]$Condition, [int]$Ms, [int]$Step = 100) { $w = [Diagnostics.Stopwatch]::StartNew(); while ($w.ElapsedMilliseconds -lt $Ms) { if (& $Condition) { return $true }; Start-Sleep -Milliseconds $Step }; return [bool](& $Condition) }
 function Alive([int]$ProcessId) { try { $p = [Diagnostics.Process]::GetProcessById($ProcessId); return -not $p.HasExited } catch { return $false } }
 function Screenshot([string]$Name) {
@@ -80,7 +85,7 @@ function Stop-HostByApi($HostProcess) {
     return $w.ElapsedMilliseconds
 }
 function Driver-Pid($StatusJson) { $id = $null; foreach ($e in @($StatusJson['events'])) { if ($e['event'] -eq 'driver-started' -and ([string]$e['detail']) -match 'pid (\d+)') { $id = [int]$Matches[1] } }; return $id }
-function Our-Leftovers { @($started | Where-Object { Alive $_.pid } | ForEach-Object { $_.role + ' pid ' + $_.pid }) }
+function Our-Leftovers { @($script:started | Where-Object { Alive $_.pid } | ForEach-Object { $_.role + ' pid ' + $_.pid }) }
 function Name-Leftovers([string[]]$Names, $Before) { @(Get-Process -Name $Names -ErrorAction SilentlyContinue | Where-Object { $Before -notcontains $_.Id } | ForEach-Object { $_.ProcessName + ' pid ' + $_.Id }) }
 
 $watchedNames = @('EightMaxWorkbench', 'EightMaxInput', 'EightMaxTestTable', 'EightMaxCapture', 'EightMaxWgc', 'mwcli')
@@ -145,7 +150,7 @@ try {
 
         # ===== 2. Input driver startup through the host's input broker; 5. capability reporting; 6. host <-> driver =====
         $status = $null; $driverPid = $null
-        Check 'input' 'Input driver starts and accepts the host session' { $h = Driver 'health'; $r = HostCall 'GET' '/api/input/status'; $script:status = $r.json; if ($r.status -ne 200 -or $r.json['running'] -ne $true -or $r.json['crashed'] -ne $false) { throw $r.raw }; $script:driverPid = Driver-Pid $r.json; if (-not $script:driverPid) { throw 'no driver-started event' }; [IO.File]::WriteAllText((Join-Path $OutDir 'input-status.json'), $r.raw); $started.Add([ordered]@{ role = 'input driver (host child)'; name = 'EightMaxInput'; pid = $script:driverPid }); ('EightMaxInput.exe pid ' + $script:driverPid + ' started by the host, hello/token accepted, starts=' + $r.json['starts']) }
+        Check 'input' 'Input driver starts and accepts the host session' { $h = Driver 'health'; $r = HostCall 'GET' '/api/input/status'; $script:status = $r.json; if ($r.status -ne 200 -or $r.json['running'] -ne $true -or $r.json['crashed'] -ne $false) { throw $r.raw }; $script:driverPid = Driver-Pid $r.json; if (-not $script:driverPid) { throw 'no driver-started event' }; [IO.File]::WriteAllText((Join-Path $OutDir 'input-status.json'), $r.raw); Track-Pid $script:driverPid 'input driver (host child)' 'EightMaxInput'; ('EightMaxInput.exe pid ' + $script:driverPid + ' started by the host, hello/token accepted, starts=' + $r.json['starts']) }
         if ($status) {
             $d = $status['driver']; $caps = $d['capabilities']
             Check 'input' 'Driver reports version 0.36.2-dev on win32 SendInput' { if ($d['driver'] -ne $ExpectedAppVersion -or $d['platform'] -ne 'win32' -or $caps['sendInput'] -ne $true) { throw ('driver ' + $d['driver'] + ', platform ' + $d['platform'] + ', sendInput ' + $caps['sendInput']) }; ('driver ' + $d['driver'] + ', platform ' + $d['platform'] + ', estop=' + $d['estop'] + ', armed=' + $d['armed']) }
@@ -216,7 +221,7 @@ try {
         $script:gui = Start-HostProcess $false (Join-Path $OutDir 'host-window-session.json')
         if (-not (Wait-Until { $script:gui.process.Refresh(); $script:gui.process.MainWindowHandle -ne [IntPtr]::Zero } 15000)) { throw 'no main window within 15 s' }
         $r = HostCall 'GET' '/api/desktop/health'; if ($r.status -ne 200 -or $r.json['appVersion'] -ne $ExpectedAppVersion) { throw ('health HTTP ' + $r.status) }
-        $null = Driver 'status'; $st = (HostCall 'GET' '/api/input/status').json; $script:guiDriver = Driver-Pid $st; if ($script:guiDriver) { $started.Add([ordered]@{ role = 'input driver (window host child)'; name = 'EightMaxInput'; pid = $script:guiDriver }) }
+        $null = Driver 'status'; $st = (HostCall 'GET' '/api/input/status').json; $script:guiDriver = Driver-Pid $st; if ($script:guiDriver) { Track-Pid $script:guiDriver 'input driver (window host child)' 'EightMaxInput' }
         Start-Sleep -Milliseconds 700; $shot = Screenshot 'desktop-host-window.png'
         ('pid ' + $script:gui.process.Id + ' window "' + $script:gui.process.MainWindowTitle + '" ready in ' + $script:gui.ms + ' ms; health OK; driver pid ' + $script:guiDriver + $(if ($shot) { '; screenshot desktop-host-window.png' } else { '' }))
     }
@@ -229,7 +234,7 @@ try {
         }
     }
     # The single-instance mutex and port 48713 were released by both hosts (a host start after both shutdowns proves it).
-    Check 'shutdown' 'Port and single-instance lock released' { $r = Start-HostProcess $true (Join-Path $OutDir 'host-restart-session.json'); $ms = Stop-HostByApi $r.process; ('a fresh host started (ready in ' + $r.ms + ' ms) and stopped again in ' + $ms + ' ms') }
+    Check 'shutdown' 'Port and single-instance lock released' { $free = Wait-PortFree 15000; $r = Start-HostProcess $true (Join-Path $OutDir 'host-restart-session.json'); $ms = Stop-HostByApi $r.process; ('port 48713 free ' + $free + ' ms after the window host exited; a fresh host started (ready in ' + $r.ms + ' ms) and stopped again in ' + $ms + ' ms') }
 
     # ===== optional: driver self-test (real visible input inside the driver's own window) =====
     if ($WithInputSelfTest) {
@@ -239,19 +244,20 @@ try {
     Add-Check 'harness' 'Unexpected harness error' $false ($_.Exception.Message + ' at ' + $_.InvocationInfo.PositionMessage)
 } finally {
     # ===== 8d. no process this script started may survive =====
-    foreach ($s in @($started)) { if (Alive $s.pid) { Start-Sleep -Milliseconds 500 } }
+    foreach ($s in $script:started) { if (Alive $s.pid) { Start-Sleep -Milliseconds 500 } }
+    $owners = @(Port-Owners); if ($owners.Count) { Add-Check 'shutdown' 'Loopback port 48713 released at the end' $false ('still listening: ' + ($owners -join ' | ')) }
     $left = @(Our-Leftovers); $leftNames = @(Name-Leftovers $watchedNames $preexisting)
-    Add-Check 'shutdown' 'No leftover processes' (($left.Count + $leftNames.Count) -eq 0) $(if (($left.Count + $leftNames.Count) -eq 0) { ($started.Count.ToString() + ' processes started by this test have all exited; no new EightMax/mwcli processes remain') } else { 'still running: ' + ((@($left) + @($leftNames) | Select-Object -Unique) -join ', ') })
-    foreach ($s in @($started)) { if (Alive $s.pid) { try { Stop-Process -Id $s.pid -Force } catch {} } }
-    $failedReq = @($checks | Where-Object { $_.status -eq 'fail' }); $passed = @($checks | Where-Object { $_.status -eq 'pass' }); $warn = @($checks | Where-Object { $_.status -eq 'warn' })
+    Add-Check 'shutdown' 'No leftover processes' (($left.Count + $leftNames.Count) -eq 0) $(if (($left.Count + $leftNames.Count) -eq 0) { ($script:started.Count.ToString() + ' processes started by this test have all exited; no new EightMax/mwcli processes remain') } else { 'still running: ' + ((@($left) + @($leftNames) | Select-Object -Unique) -join ', ') })
+    foreach ($s in $script:started) { if (Alive $s.pid) { try { Stop-Process -Id $s.pid -Force } catch {} } }
+    $failedReq = @($script:checks | Where-Object { $_.status -eq 'fail' }); $passed = @($script:checks | Where-Object { $_.status -eq 'pass' }); $warn = @($script:checks | Where-Object { $_.status -eq 'warn' })
     $report = [ordered]@{ format = 'eightmax-milestone1-results'; version = 1; appVersion = $ExpectedAppVersion; expectedFileVersion = $ExpectedFileVersion; engineBuild = $ExpectedBuild
-        completedAt = [DateTime]::UtcNow.ToString('o'); machine = $facts; processes = $started; counts = [ordered]@{ total = $checks.Count; passed = $passed.Count; failed = $failedReq.Count; warnings = $warn.Count }
-        milestone1Passed = ($failedReq.Count -eq 0); checks = $checks
+        completedAt = [DateTime]::UtcNow.ToString('o'); machine = $facts; processes = $script:started; counts = [ordered]@{ total = $script:checks.Count; passed = $passed.Count; failed = $failedReq.Count; warnings = $warn.Count }
+        milestone1Passed = ($failedReq.Count -eq 0); checks = $script:checks
         scope = 'Milestone 1 only: build identity, startup, initialisation, existing-interface communication and shutdown. Not a gameplay, strategy, multi-table or target-PC acceptance.' }
     $json = $report | ConvertTo-Json -Depth 8; [IO.File]::WriteAllText((Join-Path $OutDir 'milestone1-results.json'), $json, (New-Object Text.UTF8Encoding($false)))
-    $lines = @('EightMax 0.36.2-dev Milestone 1 focused Windows checks - ' + $report.completedAt, ('Machine: ' + $facts.os + ', PowerShell ' + $facts.powershell + ', screen ' + $facts.virtualScreen), ('Result: ' + $passed.Count + ' passed, ' + $failedReq.Count + ' failed, ' + $warn.Count + ' warnings of ' + $checks.Count), '')
-    foreach ($c in $checks) { $lines += ('[' + $c.group + '] ' + $c.status.ToUpper() + ' ' + $c.name + ': ' + $c.detail) }
+    $lines = @('EightMax 0.36.2-dev Milestone 1 focused Windows checks - ' + $report.completedAt, ('Machine: ' + $facts.os + ', PowerShell ' + $facts.powershell + ', screen ' + $facts.virtualScreen), ('Result: ' + $passed.Count + ' passed, ' + $failedReq.Count + ' failed, ' + $warn.Count + ' warnings of ' + $script:checks.Count), '')
+    foreach ($c in $script:checks) { $lines += ('[' + $c.group + '] ' + $c.status.ToUpper() + ' ' + $c.name + ': ' + $c.detail) }
     [IO.File]::WriteAllLines((Join-Path $OutDir 'milestone1-results.txt'), [string[]]$lines, (New-Object Text.UTF8Encoding($false)))
     Write-Host ''; Write-Host ('Milestone 1 checks: ' + $passed.Count + ' passed, ' + $failedReq.Count + ' failed, ' + $warn.Count + ' warnings. Report: ' + (Join-Path $OutDir 'milestone1-results.txt'))
 }
-if (@($checks | Where-Object { $_.status -eq 'fail' }).Count) { exit 1 } else { exit 0 }
+if (@($script:checks | Where-Object { $_.status -eq 'fail' }).Count) { exit 1 } else { exit 0 }
