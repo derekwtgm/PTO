@@ -259,7 +259,7 @@
       }
       for (let i = 0; i < this.seats; i++) { const r = obs.seats[i]; if (r.allInMarker !== undefined && r.allInMarker !== (r.stack === 0 && !r.folded)) return bad('contradiction', 'Seat ' + i + ' all-in marker disagrees with its stack'); }
       const out = JSON.parse(JSON.stringify(obs)); out.seats.forEach((r, i) => { r.total = led.p[i].total; delete r.allInMarker; }); out._tb = led.start.reduce((a, b) => a + b, 0);
-      if (newHand) out._openingPot = led.pot;
+      if (led.history.length === 0) out._openingPot = led.pot;
       out.actions = led.history.map((h) => ({ seat: h.seat, type: h.type === 'raise' ? (h.allIn ? 'allin' : (h.street && led.history.filter((x) => x.street === h.street).indexOf(h) >= 0 && this._opening(led, h) ? 'bet' : 'raise')) : h.type, amount: h.to, street: h.street }));
       out.lastRaise = led.raiseSize; out.currentBet = complete ? undefined : led.currentBet; out.canReopen = lg ? lg.reopened : undefined;
       return { obs: out, led, hand: obs.hand, bankroll: led.start.reduce((a, b) => a + b, 0) };

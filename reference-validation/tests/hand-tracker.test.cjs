@@ -108,6 +108,7 @@ test('persistent tournaments track eliminated seats across consecutive hands', (
  for(let h=0;h<8&&!t.tournamentComplete;h++){
   if(t.startHand()===false)break;
   eliminated ||= t.players.some(p=>p.folded&&p.stack===0);
+  for(let repeat=0;repeat<2;repeat++){ const first=e.ingest(screen(t,seq++));assert.ok(first.accepted,JSON.stringify(first.issues)); }
   for(let a=0;a<200;a++){
    const r=e.ingest(screen(t,seq++));assert.ok(r.accepted,JSON.stringify(r.issues));
    if(t.status==='complete')break;act(t);
