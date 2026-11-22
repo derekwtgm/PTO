@@ -1,5 +1,5 @@
-# EightMax Test Workbench
+# EightMax Test Workbench 0.36.2
 
-Windows 0.36.2 integration and release validation in progress. Native engine: EightMax 5.1, build 7d08acc7eb4577ee.
+Integration and Windows validation in progress, not yet a completed release.
 
-This repository is not yet a verified operational release. Build and acceptance evidence will identify supported and unverified features separately.
+The full source and preserved EightMax 5.1 native solver are transferred in base64 ZIP chunks under build-input. Windows CI restores them, compiles the Windows components, and uploads the full application tree with test evidence. The Node runtime and capture helper are built/restored by CI. See the workflow for exact steps.
