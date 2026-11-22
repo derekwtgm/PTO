@@ -1,0 +1,51 @@
+EightMax 0.36.2-dev Milestone 1 focused Windows checks - 2026-11-22T23:02:28.2069661Z Machine: Microsoft Windows Server 2025 Datacenter 10.0.26100 build 26100, PowerShell 5.1.26100.33822, screen 1920x1080 at 0,0 Result: 48 passed, 2 failed, 0 warnings of 50 
+[integrity] PASS Release checksum manifest: 826 files match SHA256SUMS.txt
+[integrity] PASS Build evidence present for this application version: built 2026-11-22T23:01:53.5222699Z on Windows: Microsoft Windows Server 2025 Datacenter 10.0.26100 build 26100; CI run 45080921328
+[integrity] PASS EightMaxWorkbench.exe: exists, x64 PE32+ managed: AMD64 PE32+ gui .NET assembly, ProcessorArchitecture=Amd64, 161280 bytes
+[version] PASS EightMaxWorkbench.exe: file/assembly version 0.36.2.0: FileVersion 0.36.2.0, AssemblyVersion 0.36.2.0, ProductVersion 0.36.2-dev
+[integrity] PASS EightMaxWorkbench.exe: SHA-256 and sources match build evidence: sha256 88bd16fa83aa9c854a17c891489372f57288171987bfcbf3672ff1aca757cbfe; compiled from desktop/DesktopHost.cs, desktop/CaptureService.cs, desktop/InputBroker.cs (hashes match)
+[integrity] PASS EightMaxWorkbench.exe: referenced assemblies resolve: all 6 references resolve from the .NET Framework: mscorlib, System.Web.Extensions, System.Core, System, System.Windows.Forms, System.Drawing
+[integrity] PASS EightMaxInput.exe: exists, x64 PE32+ managed: AMD64 PE32+ console .NET assembly, ProcessorArchitecture=Amd64, 83968 bytes
+[version] PASS EightMaxInput.exe: file/assembly version 0.36.2.0: FileVersion 0.36.2.0, AssemblyVersion 0.36.2.0, ProductVersion 0.36.2-dev
+[integrity] PASS EightMaxInput.exe: SHA-256 and sources match build evidence: sha256 2fe10872b3062ca5f9846cca53c6bc82a1871211c936aea24f4a930803b7d297; compiled from desktop/input/Driver.cs, desktop/input/Motion.cs, desktop/input/Platform.cs, desktop/input/Program.cs, desktop/input/Safety.cs, desktop/input/Uia.cs (hashes match)
+[integrity] PASS EightMaxInput.exe: referenced assemblies resolve: all 9 references resolve from the .NET Framework: mscorlib, System.Windows.Forms, System.Web.Extensions, System, System.Core, System.Drawing, UIAutomationClient, UIAutomationTypes, WindowsBase
+[integrity] PASS EightMaxTestTable.exe: exists, x64 PE32+ managed: AMD64 PE32+ gui .NET assembly, ProcessorArchitecture=Amd64, 18432 bytes
+[version] PASS EightMaxTestTable.exe: file/assembly version 0.36.2.0: FileVersion 0.36.2.0, AssemblyVersion 0.36.2.0, ProductVersion 0.36.2-dev
+[integrity] PASS EightMaxTestTable.exe: SHA-256 and sources match build evidence: sha256 81e6ee9e018fc4103a718b1183dca358a8dc85475425cd65b7eba60b60e5ac50; compiled from desktop/testtable/EightMaxTestTable.cs (hashes match)
+[integrity] PASS EightMaxTestTable.exe: referenced assemblies resolve: all 5 references resolve from the .NET Framework: System.Windows.Forms, mscorlib, System.Drawing, System.Web.Extensions, System
+[integrity] PASS EightMaxCapture.exe: exists, x64 PE32+ managed: AMD64 PE32+ console .NET assembly, ProcessorArchitecture=Amd64, 41472 bytes
+[version] PASS EightMaxCapture.exe: carried source version 0.35.0 (source unchanged): FileVersion 0.35.0.0
+[integrity] PASS EightMaxCapture.exe: SHA-256 and sources match build evidence: sha256 072c429158334ebfaaeaae59df8c3a0226615c73333fbbca75faa00451c91210; compiled from desktop/capture/EightMaxCapture.cs, desktop/CaptureService.cs (hashes match)
+[integrity] PASS EightMaxCapture.exe: referenced assemblies resolve: all 5 references resolve from the .NET Framework: mscorlib, System.Drawing, System, System.Web.Extensions, System.Windows.Forms
+[integrity] PASS .NET Framework 4.8+ runtime present: NDP v4 Full Release 533509
+[integrity] PASS Bundled Node runtime: runtime\node\node.exe v22.23.5, sha256 247e9693d316da9857e44990e5e11709f596f18112251b8026ec6eed80bdf38a
+[integrity] PASS Bundled WGC capture helper (carried over): {"tool":"EightMaxWgc","version":"0.35.0","backend":"windows-graphics-capture","os":"Microsoft Windows NT 10.0.26100.0"} sha256 bc001504382306e180af0f76abf0836d561faa07e8c210317df73048e55cafc1
+[native] PASS EightMax 5.1 binary preserved byte-for-byte: native\mwcli.exe sha256 b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72
+[native] PASS EightMax 5.1 build identity: EightMaxBuild=7d08acc7eb4577ee
+[version] PASS EightMaxInput.exe --version: EightMaxInput 0.36.2-dev (EightMax Test Workbench input driver; SendInput, x64)
+[version] PASS EightMaxTestTable.exe --version: EightMaxTestTable 0.36.2-dev (controlled input-validation fixture)
+[host] PASS Desktop host starts (headless) and writes its private session: pid 1188 ready in 281 ms at http://127.0.0.1:48713, appVersion 0.36.2-dev
+[host] PASS Health endpoint reports 0.36.2-dev and EightMax build: appVersion 0.36.2-dev, build 7d08acc7eb4577ee, nativeCPU, inputDriver installed, capture methods print-window/screen-copy/windows-graphics-capture
+[host] PASS Session token is enforced: request without X-EightMax-Session refused with HTTP 403
+[native] PASS Host verified the EightMax 5.1 binary at startup: the host constructor refuses to start unless native\mwcli.exe has SHA-256 b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72; it started and reports build 7d08acc7eb4577ee
+[input] PASS Input driver starts and accepts the host session: EightMaxInput.exe pid 1704 started by the host, hello/token accepted, starts=1
+[input] PASS Driver reports version 0.36.2-dev on win32 SendInput: driver 0.36.2-dev, platform win32, estop=, armed=False
+[capabilities] PASS 0.36.1 motion capabilities (dashboard gate): signedCurves=true, maxDeviationPx=true (required by src/simulator-controls-ui.js and tools/simulator-benchmark-035.cjs)
+[capabilities] PASS Operation list complete: 21 operations
+[capabilities] PASS Click guard, DPI awareness, UI Automation: singleClickGuardMaxMs 540, dpiAwareness per-monitor-v2, uiAutomation true, maxQueue 8, rawInputOverride True
+[capabilities] PASS Emergency-stop hotkey registered: hotkey Ctrl+Alt+F12 registered
+[ipc] PASS Host -> driver queries (cursor, monitors): cursor at 960,540; 1 monitor(s), first {"x":0,"y":0,"w":1920,"h":1080} dpiScale 1
+[testtable] PASS Test table opens a window and reports ready: pid 944, hwnd 0x701E8, title "EightMax M1 Test Table 01"
+[testtable] PASS Test table answers describe over its dealer protocol: client {"x":68,"y":91,"w":960,"h":600}; controls fold, check, call, raise, allin, wager
+[testtable] PASS Test table renders a frame sent by the dealer protocol: frame rev 1 960x600 shown
+[ipc] PASS Host capture lists the test table window: found "EightMax M1 Test Table 01 - M1 frame" hwnd 0x701e8 960x600
+[ipc] PASS Host captures the test table pixels it rendered: method print-window, 960x600, 45 sample pixels (clear of controls) within 0/255 of the frame sent to the table
+[ipc] PASS Host -> driver sees the test table window: window-info: pid 944, exe D:\a\PTO\PTO\work\EightMax-Test-Workbench\desktop\bin\EightMaxTestTable.exe, visible True, client {"x":68,"y":91,"w":960,"h":600}
+[shutdown] PASS Test table closes on the dealer close command: exited with code 0
+[shutdown] PASS Headless host: authenticated shutdown stops host and input driver: host exited in 96 ms (exit code 0); input driver pid 1704 gone
+[host] PASS Desktop host starts with its window (non-headless): pid 4008 window "EightMax Workbench desktop host" ready in 111 ms; health OK; driver pid 7448; screenshot desktop-host-window.png
+[shutdown] PASS Window host: closing the window stops host and input driver: host exited with code 0 after the window closed; input driver gone
+[shutdown] FAIL Port and single-instance lock released: port 48713 still listening after 15000 ms: pid 4008 (process not found)
+[input] PASS Input driver self-test (EightMaxInput.exe --selftest): exit 0; driver 0.36.2-dev, 11/11 checks passed, ok=True, dpi per-monitor-v2
+[shutdown] FAIL Loopback port 48713 released at the end: still listening: pid 4008 (process not found)
+[shutdown] PASS No leftover processes: 5 processes started by this test have all exited; no new EightMax/mwcli processes remain
