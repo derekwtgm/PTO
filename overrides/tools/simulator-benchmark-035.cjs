@@ -15,7 +15,8 @@ const path = require('path'), fs = require('fs'), cp = require('child_process'),
 const ROOT = path.join(__dirname, '..'), src = (m) => require(path.join(ROOT, 'src', m));
 const DS = src('simulator-decision-source.js'), SC = src('simulator-controls.js'), SP = src('simulator-profiles.js'), SCH = src('input-scheduler.js'), XA = src('execution-adapters.js'), M = src('input-motion.js');
 const arg = (k, d) => { const i = process.argv.indexOf('--' + k); return i > 0 && i + 1 < process.argv.length ? process.argv[i + 1] : d; };
-const COUNTS = arg('tables', '1,2,5,8,10').split(',').map(Number), SECONDS = Number(arg('seconds', '60')), WINDOW = Number(arg('window', '10000')), WIDTH = Number(arg('width', '960'));
+const COUNTS = arg('tables', '1,2,5,8,10').split(',').map(Number), SECONDS = Number(arg('seconds', '60')), WINDOW = Number(arg('window', '10000')), WIDTH = Number(arg('width', '960')), LAYOUT = arg('layout', 'cascade');
+if (WIDTH < 800) throw Error('Screen recognition requires a table width of at least 800 pixels');
 // stress: the operator holds every seat, a decision is due 2.5 s after each action; realistic: ~8 s between the operator's turns.
 const WORKLOADS = arg('workloads', 'stress:2500,realistic:8000').split(',').map((w) => { const [name, ms] = w.split(':'); return { name, turnDelayMs: Number(ms) }; }); let TURN = WORKLOADS[0].turnDelayMs;
 const MOTION=M.profile({maxSpeed:Number(arg('speed','1200')),arc:Number(arg('arc','0.12')),maxDeviationPx:Number(arg('deviation','240'))}),MOVEMENT={pattern:arg('pattern','straight'),seed:Number(arg('motion-seed','1')),direction:arg('direction','left')};
@@ -31,7 +32,7 @@ function startHost() {
 }
 async function waitReady(file, ms = 60000) { const t = Date.now(); while (Date.now() - t < ms) { try { const j = JSON.parse(fs.readFileSync(file, 'utf8')); if (j.token) return j; } catch (e) { /* not yet */ } await sleep(250); } throw new Error('desktop host did not become ready'); }
 function fixture(n, dir) {
-  const child = cp.spawn(process.execPath, [path.join(ROOT, 'tools', 'test-table-035.cjs'), '--tables', String(n), '--width', String(WIDTH), '--layout', 'cascade', '--oracle-dir', dir, '--hand-gap', '1500', '--turn-delay', String(TURN), '--seed', String(n), '--exe', path.join(BIN, 'EightMaxTestTable.exe')], { stdio: ['pipe', 'pipe', 'inherit'] });
+  const child = cp.spawn(process.execPath, [path.join(ROOT, 'tools', 'test-table-035.cjs'), '--tables', String(n), '--width', String(WIDTH), '--layout', LAYOUT, '--oracle-dir', dir, '--hand-gap', '1500', '--turn-delay', String(TURN), '--seed', String(n), '--exe', path.join(BIN, 'EightMaxTestTable.exe')], { stdio: ['pipe', 'pipe', 'inherit'] });
   const msgs = [], waiters = []; let buf = ''; let seq = 0;
   child.stdout.setEncoding('utf8'); child.stdout.on('data', (d) => { buf += d; let k; while ((k = buf.indexOf('\n')) >= 0) { const l = buf.slice(0, k); buf = buf.slice(k + 1); try { const m = JSON.parse(l); const w = waiters.find((x) => x.f(m)); if (w) { waiters.splice(waiters.indexOf(w), 1); w.r(m); } else msgs.push(m); } catch (e) { /* skip */ } } });
   const wait = (f, ms = 40000) => { const hit = msgs.find(f); if (hit) { msgs.splice(msgs.indexOf(hit), 1); return Promise.resolve(hit); } return new Promise((r, j) => { const w = { f, r }; waiters.push(w); setTimeout(() => { if (waiters.includes(w)) { waiters.splice(waiters.indexOf(w), 1); j(new Error('fixture timeout')); } }, ms); }); };
@@ -114,12 +115,20 @@ async function main() {
     const reliableCounts = runs.filter((r) => r.reliable).map((r) => r.tables), sustainable = COUNTS.reduce((a, n) => (COUNTS.slice(0, COUNTS.indexOf(n) + 1).every((m) => reliableCounts.includes(m)) ? n : a), 0);
     workloads.push({ name: w.name, turnDelayMs: w.turnDelayMs, sustainableTables: sustainable, runs });
   }
-  const doc = { format: 'eightmax-simulator-benchmark', version: 2, app: '0.36.2-dev', at: new Date().toISOString(), environment: env, workload: { decisions: 'SCRIPTED test policy (labelled; measures control, not strategy)', decisionWindowMs: WINDOW, secondsPerCount: SECONDS, windowWidth: WIDTH, layout: 'cascade (overlapping windows; the driver brings each to the front before clicking)', capture: 'desktop host PrintWindow', workloads: WORKLOADS },
+  const doc = { format: 'eightmax-simulator-benchmark', version: 2, app: '0.36.2-dev', at: new Date().toISOString(), environment: env, workload: { decisions: 'SCRIPTED test policy (labelled; measures control, not strategy)', decisionWindowMs: WINDOW, secondsPerCount: SECONDS, windowWidth: WIDTH, layout: LAYOUT + ' (the driver brings each to the front before clicking)', capture: 'desktop host PrintWindow', workloads: WORKLOADS },
     sustainableTables: Object.fromEntries(workloads.map((w) => [w.name, w.sustainableTables])), note: 'sustainable = the largest count for which this and every smaller count had zero ambiguous/timed-out actions, zero incorrect clicks or wagers, zero missed deadlines, zero driver/focus errors and no paused table', workloads };
   try { await api.request('/api/input/stop', {}); } catch (e) { /* host may already stop */ }
   try { await fetch('http://127.0.0.1:48713/api/desktop/shutdown', { method: 'POST', headers: { 'X-EightMax-Session': info.token } }); } catch (e) { /* closing */ }
   await sleep(3000); try { host.child.kill(); } catch (e) { /* gone */ }
   fs.mkdirSync(path.dirname(OUT), { recursive: true }); fs.writeFileSync(OUT, JSON.stringify(doc, null, 2)); console.log('sustainable tables: ' + JSON.stringify(doc.sustainableTables) + ' -> ' + OUT);
-  process.exitCode = workloads.every((w) => w.runs.every((r) => !r.error)) ? 0 : 1;
+  const minHands = Number(arg('require-hands', '0'));
+  const baseline = process.argv.includes('--require-baseline');
+  const passed = workloads.every(w => w.runs.every(r => {
+    if (r.error || !r.actions || r.actions.confirmed === 0) return false;
+    if (minHands && (!r.reliable || !r.perTable.every(t => new Set(t.completedHands).size >= minHands && ['preflop','flop','turn','river'].every(st => t.streets.includes(st)) && t.exactWagerActions > 0))) return false;
+    if (baseline && r.tables <= (w.name === 'stress' ? 2 : 5) && !r.reliable) return false;
+    return true;
+  }));
+  process.exitCode = passed ? 0 : 1;
 }
 main().catch((e) => { console.error(e.stack); process.exitCode = 1; });

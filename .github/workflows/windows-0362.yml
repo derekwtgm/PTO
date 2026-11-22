@@ -72,14 +72,23 @@ jobs:
         timeout-minutes: 8
         shell: pwsh
         run: |
-          node tools/simulator-benchmark-035.cjs --tables 1 --seconds 300 --width 640 --workloads full-hands:0 --out "$env:RUNNER_TEMP/full-hands.json" --work "$env:RUNNER_TEMP/full-hands-work"
+          node tools/simulator-benchmark-035.cjs --tables 1 --seconds 300 --width 960 --layout stack --workloads full-hands:0 --require-hands 3 --out "$env:RUNNER_TEMP/full-hands.json" --work "$env:RUNNER_TEMP/full-hands-work"
           if ($LASTEXITCODE -ne 0) { throw 'Gameplay execution failed' }
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gameplay-0362-evidence
+          path: |
+            ${{ runner.temp }}/full-hands.json
+            ${{ runner.temp }}/full-hands-work
+            ${{ runner.temp }}/regression-0362.log
+            ${{ runner.temp }}/input-acceptance.json
       - name: Execute real screen and input benchmark
         timeout-minutes: 20
         if: success() || failure()
         shell: pwsh
         run: |
-          node tools/simulator-benchmark-035.cjs --tables 1,2,5,8,10 --seconds 60 --width 640 --out "$env:RUNNER_TEMP/benchmark.json" --work "$env:RUNNER_TEMP/benchmark-work"
+          node tools/simulator-benchmark-035.cjs --tables 1,2,5,8,10 --seconds 60 --require-baseline --width 960 --layout stack --out "$env:RUNNER_TEMP/benchmark.json" --work "$env:RUNNER_TEMP/benchmark-work"
           if ($LASTEXITCODE -ne 0) { throw 'Benchmark execution failed' }
       - name: Package actual build and evidence
         if: always()

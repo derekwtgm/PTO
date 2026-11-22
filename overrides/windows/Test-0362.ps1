@@ -65,7 +65,7 @@ try {
   $failed=@($checks | Where-Object {$_.status -eq 'failed'}).Count
   $skipped=@($checks | Where-Object {$_.status -eq 'skipped'}).Count
   $accepted=($checks.Count -gt 0 -and $failed -eq 0 -and $skipped -eq 0)
-  $report=[ordered]@{version='0.36.2-dev';startedAt=$started;completedAt=[DateTime]::UtcNow.ToString('o');checks=@($checks.ToArray());passed=$passed;failed=$failed;skipped=$skipped;fullyOperationalAcceptancePassed=$accepted;releaseDecision=$(if($accepted){'accepted'}else{'not-accepted'})}
+  $report=[ordered]@{format='eightmax-0362-acceptance';version='0.36.2-dev';startedAt=$started;completedAt=[DateTime]::UtcNow.ToString('o');checks=@($checks.ToArray());passed=$passed;failed=$failed;skipped=$skipped;fullyOperationalAcceptancePassed=$accepted;releaseDecision=$(if($accepted){'accepted'}else{'not-accepted'})}
   Write-WorkbenchUtf8 (Join-Path $OutDir 'acceptance-0362.json') ($report | ConvertTo-Json -Depth 12)
 }
 Write-Host ('Acceptance: '+$passed+' passed, '+$failed+' failed, '+$skipped+' skipped. '+$report.releaseDecision)
