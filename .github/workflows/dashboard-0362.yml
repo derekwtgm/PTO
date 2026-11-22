@@ -1,0 +1,43 @@
+name: Dashboard to real Windows gameplay
+on:
+  push:
+    branches: [dashboard-0362]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  dashboard:
+    runs-on: windows-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.23.5'
+      - uses: actions/download-artifact@v4
+        with:
+          name: windows-0362-build-and-evidence
+          run-id: 44987268114
+          github-token: ${{ github.token }}
+          path: downloaded
+      - name: Restore compiled application
+        shell: pwsh
+        run: |
+          Expand-Archive downloaded/EightMax-0.36.2-Windows-Candidate.zip app
+          Copy-Item reference-validation/* app/PTO/ -Recurse -Force
+          python app/PTO/tools/build.py
+          New-Item -ItemType Directory -Force "$env:RUNNER_TEMP/gui-browser" | Out-Null
+          Set-Location "$env:RUNNER_TEMP/gui-browser"
+          npm install playwright
+          npx playwright install chromium
+          "NODE_PATH=$env:RUNNER_TEMP/gui-browser/node_modules" >> $env:GITHUB_ENV
+      - name: Launch dashboard, configure simulator and play three hands
+        timeout-minutes: 13
+        shell: pwsh
+        working-directory: app/PTO
+        run: node tools/dashboard-gameplay-0362.cjs --work "$env:RUNNER_TEMP/dashboard-evidence"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dashboard-0362-evidence
+          path: ${{ runner.temp }}/dashboard-evidence
