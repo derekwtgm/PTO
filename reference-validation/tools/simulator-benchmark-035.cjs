@@ -78,7 +78,7 @@ async function runCount(n, api, session, host) {
     unmatchedOracle += Math.max(0, accEv.length - confirmed.length);
     const c = o ? o.counts : {}; incorrectClicks += (c.downOutsideControls || 0) + (c.downOnDisabled || 0) + (c.doubleClicks || 0) + (c.staleClicks || 0) + (c.illegal || 0);
     incorrectWagers += c.wagerRejected || 0;
-    perTable.push({ ...t.report(), oracle: c, oracleAccepted: accEv.length, completedHands:ev.filter(e=>e.kind==='hand-complete').map(e=>e.hand), streets:[...new Set(confirmed.map(e=>e.street))], exactWagerActions:confirmed.filter(e=>e.action.type==='raise').length });
+    perTable.push({ ...t.report(), failedActions:t.log.filter(e=>e.status!=='confirmed'), oracle: c, oracleAccepted: accEv.length, completedHands:ev.filter(e=>e.kind==='hand-complete').map(e=>e.hand), streets:[...new Set(confirmed.map(e=>e.street))], exactWagerActions:confirmed.filter(e=>e.action.type==='raise').length });
   }
   const sum = (k) => perTable.reduce((a, r) => a + (r.counts[k] || 0), 0), all = (k) => perTable.flatMap((r) => r.latencyMs[k] && r.latencyMs[k].n ? [r.latencyMs[k]] : []);
   const mergeStats = (k) => { const xs = tables.flatMap((t) => (k === 'e2e' ? t.m.e2e : k === 'cursor' ? t.m.cursor : k === 'input' ? t.m.input : t.m.confirmMs)); return SCH.stats(xs); };
