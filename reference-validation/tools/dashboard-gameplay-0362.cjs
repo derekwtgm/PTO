@@ -14,7 +14,7 @@ async function main(){
   const result=cp.spawnSync('powershell.exe',['-NoProfile','-ExecutionPolicy','Bypass','-File',setup],{encoding:'utf8',timeout:45000});if(result.status!==0)throw Error('Simulator dialog: '+result.stdout+result.stderr);
   let hwnd;
   for(let i=0;i<30;i++){await page.click('#simc-list');await sleep(500);const opts=await page.locator('#simc-window option').evaluateAll(es=>es.map(e=>({value:e.value,text:e.textContent})));const found=opts.find(o=>o.text.includes('EightMax Test Table 01'));if(found){hwnd=found.value;break;}}
-  if(!hwnd)throw Error('Launched simulator window not listed');await page.selectOption('#simc-window',hwnd);
+  if(!hwnd)throw Error('Launched simulator window not listed: '+await page.locator('#simc-window').innerText());await page.selectOption('#simc-window',hwnd);
   for(const id of ['simc-own','simc-test','simc-nomoney'])await page.check('#'+id);
   await page.click('#simc-register');await page.waitForFunction(()=>document.getElementById('simc-status').textContent.startsWith('Registered'),null,{timeout:15000});
   await page.check('#simc-scripted');await page.selectOption('#simc-set-pattern','straight');await page.fill('#simc-set-maxSpeed','1200');await page.click('#simc-save-settings');await sleep(300);

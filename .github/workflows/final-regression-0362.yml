@@ -1,0 +1,58 @@
+name: Final source and exact-binary regression
+on:
+  push:
+    branches: [release-candidate-0362]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  regression:
+    runs-on: windows-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.23.5'
+      - uses: actions/download-artifact@v4
+        with:
+          name: windows-0362-build-and-evidence
+          run-id: 44987268114
+          github-token: ${{ github.token }}
+          path: downloaded
+      - name: Assemble current source with the tested Windows binaries
+        shell: pwsh
+        run: |
+          Expand-Archive downloaded/EightMax-0.36.2-Windows-Candidate.zip app
+          Copy-Item overrides/* app/PTO/ -Recurse -Force
+          Copy-Item reference-validation/* app/PTO/ -Recurse -Force
+          python app/PTO/tools/build.py
+          python app/PTO/tools/make-components.py
+          python app/PTO/tools/release-manifest-0362.py
+          New-Item -ItemType Directory -Force "$env:RUNNER_TEMP/em-browser" | Out-Null
+          Set-Location "$env:RUNNER_TEMP/em-browser"
+          npm install playwright
+          npx playwright install chromium
+          "NODE_PATH=$env:RUNNER_TEMP/em-browser/node_modules" >> $env:GITHUB_ENV
+          $chrome = node -e "console.log(require('playwright').chromium.executablePath())"
+          "CHROME_PATH=$chrome" >> $env:GITHUB_ENV
+      - name: Run the full Windows regression suite
+        shell: pwsh
+        working-directory: app/PTO
+        run: |
+          $env:EIGHTMAX_TEST_CLI = (Resolve-Path native/mwcli.exe).Path
+          node --test tests/*.test.cjs *> "$env:RUNNER_TEMP/final-regression-0362.log"
+          if ($LASTEXITCODE -ne 0) { throw 'Final regression failed' }
+      - name: Preserve the assembled source and binaries
+        if: always()
+        shell: pwsh
+        working-directory: app/PTO
+        run: |
+          python tools/package-0362.py "$env:RUNNER_TEMP/EightMax-0.36.2-Tested-Candidate.zip"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: final-source-0362
+          path: |
+            ${{ runner.temp }}/EightMax-0.36.2-Tested-Candidate.zip
+            ${{ runner.temp }}/final-regression-0362.log
