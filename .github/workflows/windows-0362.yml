@@ -26,6 +26,8 @@ jobs:
           python -c "import pathlib,base64,zipfile,io; p=pathlib.Path('build-input'); data=base64.b64decode(''.join(f.read_text() for f in sorted(p.glob('*.b64')))); zipfile.ZipFile(io.BytesIO(data)).extractall('.')"
           Copy-Item -Path overrides/* -Destination . -Recurse -Force
           Remove-Item -Recurse -Force overrides
+          Copy-Item -Path reference-validation/* -Destination . -Recurse -Force
+          Remove-Item -Recurse -Force reference-validation
           Copy-Item (Get-Command node).Source runtime/node/node.exe -Force
       - name: Compile current Windows sources
         shell: powershell
