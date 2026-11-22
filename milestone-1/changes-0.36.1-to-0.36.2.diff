@@ -1,0 +1,553 @@
+diff -ruN '--exclude=START.html' base/EightMax-Test-Workbench/READ-ME-FIRST.txt m1/tree/READ-ME-FIRST.txt
+--- base/EightMax-Test-Workbench/READ-ME-FIRST.txt	2026-11-21 12:51:36.000000000 +0000
++++ m1/tree/READ-ME-FIRST.txt	2026-11-22 21:57:27.113081696 +0000
+@@ -1,11 +1,19 @@
+-EIGHTMAX 0.36.1-dev — DEVELOPMENT BUILD, ACCEPTANCE INCOMPLETE
++EIGHTMAX 0.36.2-dev (MILESTONE 1) — DEVELOPMENT BUILD, ACCEPTANCE INCOMPLETE
+ 
+-Read REPORT-0.36.1.md before use. This package is not a fully operational
+-0.36.1 Windows release. Changed host/input/test-table sources need a genuine
+-Windows build and acceptance run. Bundled 0.35 binaries remain unchanged.
+-The dashboard refuses automation with a driver lacking the new capabilities.
++Milestone 1 rebuilds the 0.36.1 host, input-driver and test-table sources
++into new Windows x64 executables (file version 0.36.2.0) and runs focused
++Windows startup, communication and shutdown checks. Read
++REPORT-0.36.2-Milestone-1.md first: it lists exactly what was built, tested
++and what remains unverified. Passing Milestone 1 does NOT make the complete
++application operational. EightMax 5.1 (build 7d08acc7eb4577ee) is unchanged.
++The dashboard refuses automation with a driver lacking required capabilities.
+ Do not try to bypass that check.
+ 
++Focused Milestone 1 checks: RUN-0362-MILESTONE1-TESTS.cmd
++
++Earlier notes (0.36.1-dev): Read REPORT-0.36.1.md for the source changes
++that these executables now contain.
++
+ After a validated Windows rebuild:
+ 1. Extract the complete ZIP into a new folder.
+ 2. Open START-EIGHTMAX.cmd, then START-POKER-SIMULATOR.cmd.
+diff -ruN '--exclude=START.html' base/EightMax-Test-Workbench/RUN-0362-MILESTONE1-TESTS.cmd m1/tree/RUN-0362-MILESTONE1-TESTS.cmd
+--- base/EightMax-Test-Workbench/RUN-0362-MILESTONE1-TESTS.cmd	1970-01-01 00:00:00.000000000 +0000
++++ m1/tree/RUN-0362-MILESTONE1-TESTS.cmd	2026-11-22 22:02:53.560941531 +0000
+@@ -0,0 +1,8 @@
++@echo off
++rem EightMax Test Workbench 0.36.2-dev - Milestone 1 focused Windows checks: build identity, startup, communication, shutdown.
++rem The input self-test moves the visible cursor inside its own small window for about 20 seconds: do not touch the mouse.
++setlocal
++powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0windows\Test-Milestone1-0362.ps1" -WithInputSelfTest %*
++if errorlevel 1 (echo MILESTONE 1 CHECKS FAILED - see the report path printed above) else (echo Milestone 1 checks passed.)
++pause
++endlocal
+diff -ruN '--exclude=START.html' base/EightMax-Test-Workbench/desktop/DesktopHost.cs m1/tree/desktop/DesktopHost.cs
+--- base/EightMax-Test-Workbench/desktop/DesktopHost.cs	2026-11-21 12:53:40.000000000 +0000
++++ m1/tree/desktop/DesktopHost.cs	2026-11-22 21:50:30.992507506 +0000
+@@ -17,12 +17,12 @@
+ 
+ [assembly: System.Reflection.AssemblyTitle("EightMax Workbench desktop host")]
+ [assembly: System.Reflection.AssemblyProduct("EightMax Test Workbench")]
+-[assembly: System.Reflection.AssemblyVersion("0.36.1.0")]
+-[assembly: System.Reflection.AssemblyFileVersion("0.36.1.0")]
+-[assembly: System.Reflection.AssemblyInformationalVersion("0.36.1-dev")]
++[assembly: System.Reflection.AssemblyVersion("0.36.2.0")]
++[assembly: System.Reflection.AssemblyFileVersion("0.36.2.0")]
++[assembly: System.Reflection.AssemblyInformationalVersion("0.36.2-dev")]
+ namespace EightMax.Workbench {
+ public sealed class DesktopHost {
+-    public const string Version="0.36.1-dev", Build="7d08acc7eb4577ee";
++    public const string Version="0.36.2-dev", Build="7d08acc7eb4577ee";
+     // 0.35.0: the host owns the Windows input driver (one cursor owner) - see InputBroker.cs and the /api/input/* routes.
+     readonly InputBroker input;
+     const int Port=48713, MaxJob=1000000, MaxResult=6000000, MaxBindings=256, MaxRevision=256;
+diff -ruN '--exclude=START.html' base/EightMax-Test-Workbench/desktop/input/Driver.cs m1/tree/desktop/input/Driver.cs
+--- base/EightMax-Test-Workbench/desktop/input/Driver.cs	2026-11-21 12:52:32.000000000 +0000
++++ m1/tree/desktop/input/Driver.cs	2026-11-22 21:50:30.994407307 +0000
+@@ -23,9 +23,9 @@
+ 
+ [assembly: System.Reflection.AssemblyTitle("EightMax Workbench input driver")]
+ [assembly: System.Reflection.AssemblyProduct("EightMax Test Workbench")]
+-[assembly: System.Reflection.AssemblyVersion("0.36.1.0")]
+-[assembly: System.Reflection.AssemblyFileVersion("0.36.1.0")]
+-[assembly: System.Reflection.AssemblyInformationalVersion("0.36.1-dev")]
++[assembly: System.Reflection.AssemblyVersion("0.36.2.0")]
++[assembly: System.Reflection.AssemblyFileVersion("0.36.2.0")]
++[assembly: System.Reflection.AssemblyInformationalVersion("0.36.2-dev")]
+ namespace EightMax.Input {
+ public sealed class DriverError : Exception { public readonly string Code; public DriverError(string code, string message) : base(message) { Code = code; } }
+ 
+@@ -59,7 +59,7 @@
+ }
+ 
+ public sealed class Driver {
+-    public const string Version = "0.36.1-dev";
++    public const string Version = "0.36.2-dev";
+     readonly IPlatform os; readonly string token; readonly TextWriter output; readonly object outGate = new object();
+     readonly JavaScriptSerializer js = new JavaScriptSerializer { MaxJsonLength = 8 * 1024 * 1024, RecursionLimit = 32 };
+     readonly Dictionary<long, Target> targets = new Dictionary<long, Target>();
+diff -ruN '--exclude=START.html' base/EightMax-Test-Workbench/desktop/testtable/EightMaxTestTable.cs m1/tree/desktop/testtable/EightMaxTestTable.cs
+--- base/EightMax-Test-Workbench/desktop/testtable/EightMaxTestTable.cs	2026-11-21 12:53:40.000000000 +0000
++++ m1/tree/desktop/testtable/EightMaxTestTable.cs	2026-11-22 21:50:30.996435510 +0000
+@@ -20,9 +20,9 @@
+ 
+ [assembly: System.Reflection.AssemblyTitle("EightMax controlled test table (input validation fixture)")]
+ [assembly: System.Reflection.AssemblyProduct("EightMax Test Workbench")]
+-[assembly: System.Reflection.AssemblyVersion("0.36.1.0")]
+-[assembly: System.Reflection.AssemblyFileVersion("0.36.1.0")]
+-[assembly: System.Reflection.AssemblyInformationalVersion("0.36.1-dev")]
++[assembly: System.Reflection.AssemblyVersion("0.36.2.0")]
++[assembly: System.Reflection.AssemblyFileVersion("0.36.2.0")]
++[assembly: System.Reflection.AssemblyInformationalVersion("0.36.2-dev")]
+ namespace EightMax.TestTable {
+ public sealed class FrameButton : Button {
+     public string Control = ""; public TableForm Owner2; public string Label = "";
+@@ -149,7 +149,7 @@
+     [STAThread] public static int Main(string[] args) {
+         int table = 1, x = 40, y = 40, w = 960; string title = null;
+         for (int i = 0; i < args.Length; i++) {
+-            if (args[i] == "--version") { Console.WriteLine("EightMaxTestTable 0.36.1-dev (controlled input-validation fixture)"); return 0; }
++            if (args[i] == "--version") { Console.WriteLine("EightMaxTestTable 0.36.2-dev (controlled input-validation fixture)"); return 0; }
+             if (i + 1 >= args.Length) { Console.Error.WriteLine("Missing value for " + args[i]); return 2; }
+             string v = args[++i]; switch (args[i - 1]) { case "--table": table = Int32.Parse(v); break; case "--x": x = Int32.Parse(v); break; case "--y": y = Int32.Parse(v); break; case "--width": w = Int32.Parse(v); break; case "--title": title = v; break; default: Console.Error.WriteLine("Unknown argument " + args[i - 1]); return 2; }
+         }
+diff -ruN '--exclude=START.html' base/EightMax-Test-Workbench/docs/CHANGELOG.md m1/tree/docs/CHANGELOG.md
+--- base/EightMax-Test-Workbench/docs/CHANGELOG.md	2026-11-21 12:51:36.000000000 +0000
++++ m1/tree/docs/CHANGELOG.md	2026-11-22 21:57:27.113765196 +0000
+@@ -1,3 +1,7 @@
++# 0.36.2-dev — Milestone 1: Windows compilation and executable verification
++
++Rebuilds EightMaxWorkbench.exe, EightMaxInput.exe and EightMaxTestTable.exe from the unchanged 0.36.1 application sources on Windows (assembly/file version 0.36.2.0, application version 0.36.2-dev). EightMaxCapture.exe is recompiled from its unchanged 0.35.0 source by the same build script; the EightMaxWgc.exe helper, the EightMax 5.1 engine (build 7d08acc7eb4577ee) and the Node runtime are carried over byte-for-byte. No solver, strategy, simulator or mouse-movement changes. Adds a focused Windows verification script (windows/Test-Milestone1-0362.ps1). See REPORT-0.36.2-Milestone-1.md for the exact results.
++
+ # 0.36.1-dev — Integration candidate, acceptance incomplete
+ 
+ Signed and bounded mouse curves, seeded direction and magnitude, input diagnostics and cancellation repairs, strict postflop library routing, persistent tournament stacks, elimination, and a guided dashboard setup flow.
+diff -ruN '--exclude=START.html' base/EightMax-Test-Workbench/src/engine.js m1/tree/src/engine.js
+--- base/EightMax-Test-Workbench/src/engine.js	2026-11-21 12:51:36.000000000 +0000
++++ m1/tree/src/engine.js	2026-11-22 21:50:30.998086864 +0000
+@@ -1,7 +1,7 @@
+ /* EightMax Test Workbench. Dependency-free simulation core, shared by UI and tests. */
+ (function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory();else root.EightMax=factory();})(typeof globalThis!=='undefined'?globalThis:this,function(){
+ 'use strict';
+-const VERSION='0.36.1-dev';
++const VERSION='0.36.2-dev';
+ function requireThat(x,message){if(!x)throw new Error(message);}
+ function chips(x){requireThat(Number.isSafeInteger(x)&&x>=0,'Invalid chip amount');return x;}
+ class RNG {
+diff -ruN '--exclude=START.html' base/EightMax-Test-Workbench/src/simulator-controls-ui.js m1/tree/src/simulator-controls-ui.js
+--- base/EightMax-Test-Workbench/src/simulator-controls-ui.js	2026-11-21 12:55:02.000000000 +0000
++++ m1/tree/src/simulator-controls-ui.js	2026-11-22 21:50:30.999404847 +0000
+@@ -218,7 +218,7 @@
+ async function stopAll(reason) { for (const t of st.tables) t.stop(); if (st.scheduler) st.scheduler.pauseAll(reason); try { await call('disarm'); } catch (e) { /* host gone */ } st.running = false; say('Automation stopped (' + reason + '). Nothing resumes by itself.'); refresh(); }
+ async function estop() { if (!connect()) return; try { await st.api.request('/api/input/estop', {}); } catch (e) { /* still stop locally */ } if (st.scheduler) st.scheduler.emergencyStop('dashboard'); for (const t of st.tables) t.stop(); st.running = false; say('EMERGENCY STOP: movement cancelled, buttons and keys released, all input refused until Reset.', true); refresh(); }
+ async function resetEstop() { try { await call('reset-estop'); if (st.scheduler) st.scheduler.reset(); say('Emergency stop reset. Automation is still OFF; start it again explicitly.'); } catch (e) { say(e.message, true); } refresh(); }
+-function exportDiagnostics() { const doc = { format: 'eightmax-simulator-diagnostics', version: 1, app: '0.36.1-dev', at: new Date().toISOString(), settings: settings(), driver: st.driver && { running: st.driver.running, driver: st.driver.driver && { estop: st.driver.driver.estop, yielded: st.driver.driver.yielded, stats: st.driver.driver.stats, capabilities: st.driver.driver.capabilities }, events: st.driver.events }, scheduler: st.scheduler && st.scheduler.metrics(), tables: st.tables.map((t) => ({ ...t.report(), log: t.log.slice(-500) })), diagnostics: st.recorder.export(), lastError: st.lastError }; download('eightmax-simulator-diagnostics.json', JSON.stringify(doc, null, 2)); }
++function exportDiagnostics() { const doc = { format: 'eightmax-simulator-diagnostics', version: 1, app: '0.36.2-dev', at: new Date().toISOString(), settings: settings(), driver: st.driver && { running: st.driver.running, driver: st.driver.driver && { estop: st.driver.driver.estop, yielded: st.driver.driver.yielded, stats: st.driver.driver.stats, capabilities: st.driver.driver.capabilities }, events: st.driver.events }, scheduler: st.scheduler && st.scheduler.metrics(), tables: st.tables.map((t) => ({ ...t.report(), log: t.log.slice(-500) })), diagnostics: st.recorder.export(), lastError: st.lastError }; download('eightmax-simulator-diagnostics.json', JSON.stringify(doc, null, 2)); }
+ async function launch(tool) { if (!connect()) return; try { const r = await st.api.request('/api/desktop/launch', { tool }); say(r.message); } catch (e) { say(e.message, true); } }
+ 
+ /* ---------- wiring ---------- */
+diff -ruN '--exclude=START.html' base/EightMax-Test-Workbench/tests/release-031.test.cjs m1/tree/tests/release-031.test.cjs
+--- base/EightMax-Test-Workbench/tests/release-031.test.cjs	2026-11-21 12:51:36.000000000 +0000
++++ m1/tree/tests/release-031.test.cjs	2026-11-22 21:51:57.147589783 +0000
+@@ -30,8 +30,8 @@
+ });
+ 
+ test('release metadata: one version everywhere, honest component statuses, new reports and docs present', () => {
+-  const v = require('../src/engine.js').VERSION; assert.equal(v, '0.36.1-dev');
+-  assert.match(read('windows/Common.ps1'), /\$WorkbenchVersion = '0\.36\.1-dev'/); assert.match(read('desktop/DesktopHost.cs'), /Version="0\.36\.1-dev"/); assert.match(read('desktop/wgc/EightMaxWgc.csproj'), /0\.35\.0/);
++  const v = require('../src/engine.js').VERSION; assert.equal(v, '0.36.2-dev');
++  assert.match(read('windows/Common.ps1'), /\$WorkbenchVersion = '0\.36\.2-dev'/); assert.match(read('desktop/DesktopHost.cs'), /Version="0\.36\.2-dev"/); assert.match(read('desktop/wgc/EightMaxWgc.csproj'), /0\.35\.0/);
+   const comp = JSON.parse(read('desktop/COMPONENT-VERSIONS.json')); assert.equal(comp.appVersion, v);
+   for (const [f, c] of Object.entries(comp.components)) if (c.status.builtFromSourceForThisRelease) assert.equal(c.status.executedOnWindows, JSON.parse(read('evidence/windows-ci-runs.json')).runs.some((r) => r.executables[f] === c.sha256), f + ': a rebuilt file claims Windows execution only with matching evidence');
+   for (const f of ['reports/0.31-training-variants.json', 'reports/0.31-abstraction-validation.json', 'reports/0.31-range-support.json']) { const d = JSON.parse(read(f)); assert.ok(d.format && d.generatedAt, f); }
+diff -ruN '--exclude=START.html' base/EightMax-Test-Workbench/tests/release-032.test.cjs m1/tree/tests/release-032.test.cjs
+--- base/EightMax-Test-Workbench/tests/release-032.test.cjs	2026-11-21 12:55:02.000000000 +0000
++++ m1/tree/tests/release-032.test.cjs	2026-11-22 21:50:31.002272920 +0000
+@@ -58,7 +58,7 @@
+ });
+ 
+ test('release metadata (0.32 rules, current release): version everywhere, honest component statuses, 0.32 reports present, solver build unchanged', () => {
+-  const v = require('../src/engine.js').VERSION; assert.equal(v, '0.36.1-dev'); const comp = JSON.parse(read('desktop/COMPONENT-VERSIONS.json')); assert.equal(comp.appVersion, v);
++  const v = require('../src/engine.js').VERSION; assert.equal(v, '0.36.2-dev'); const comp = JSON.parse(read('desktop/COMPONENT-VERSIONS.json')); assert.equal(comp.appVersion, v);
+   const ci = JSON.parse(read('evidence/windows-ci-runs.json'));
+   for (const [f, c] of Object.entries(comp.components)) { assert.equal(c.status.validatedInWindowsCI, ci.runs.some((r) => r.executables[f] === c.sha256), f); assert.equal(c.status.executedOnWindows, ci.runs.some((r) => r.executables[f] === c.sha256) || (ci.targetHardware || []).some((t) => t.executables[f] === c.sha256), f + ': executed on Windows only with evidence for this exact file'); }   // 0.33: rebuilt files can now have Windows CI evidence
+   for (const f of ['reports/0.32-memory-comparison.json', 'reports/0.32-abstraction-validation.json', 'reports/0.32-shared-cache-benchmark-linux.json']) { const d = JSON.parse(read(f)); assert.ok(d.format, f); }
+diff -ruN '--exclude=START.html' base/EightMax-Test-Workbench/tests/release-033.test.cjs m1/tree/tests/release-033.test.cjs
+--- base/EightMax-Test-Workbench/tests/release-033.test.cjs	2026-11-21 12:55:02.000000000 +0000
++++ m1/tree/tests/release-033.test.cjs	2026-11-22 21:50:37.470210881 +0000
+@@ -39,13 +39,13 @@
+ });
+ test('release metadata 0.33: component statuses come from evidence; binary versions distinguish carried-over and rebuilt components; the native engine is unchanged', () => {
+   const comp = JSON.parse(read('desktop/COMPONENT-VERSIONS.json')), ev = JSON.parse(read('evidence/build-evidence.json')), ci = JSON.parse(read('evidence/windows-ci-runs.json'));
+-  assert.strictEqual(comp.appVersion, require('../src/engine.js').VERSION); assert.strictEqual(comp.appVersion, '0.36.1-dev');
++  assert.strictEqual(comp.appVersion, require('../src/engine.js').VERSION); assert.strictEqual(comp.appVersion, '0.36.2-dev');
+   assert.match(ev.buildHost, /^Windows/, 'built on Windows, not cross-compiled');
+   for (const f of ['desktop/bin/EightMaxWorkbench.exe', 'desktop/bin/EightMaxCapture.exe', 'desktop/bin/EightMaxWgc.exe']) {
+     const h = crypto.createHash('sha256').update(fs.readFileSync(path.join(root, f))).digest('hex'), c = comp.components[f];
+     assert.strictEqual(c.sha256, h, f); if(ev.outputs[f])assert.strictEqual(ev.outputs[f].sha256, h, f + ' built in the recorded Windows run'); assert.strictEqual(c.status.crossCompiled, false);
+     assert.strictEqual(c.status.executedOnWindows, ci.runs.some((r) => r.executables[f] === h) || (ci.targetHardware || []).some((t) => t.executables[f] === h), f + ': executed only with evidence');
+-    const b = fs.readFileSync(path.join(root, f)); const expected=c.status.builtFromSourceForThisRelease?'0.36.1':'0.35.0'; assert.ok(b.toString('utf16le').includes(expected), f+' embeds '+expected);
++    const b = fs.readFileSync(path.join(root, f)); const expected=c.status.builtFromSourceForThisRelease&&/EightMax(Workbench|Input|TestTable)\.exe$/.test(f)?'0.36.2':'0.35.0'; assert.ok(b.toString('utf16le').includes(expected), f+' embeds '+expected);
+   }
+   assert.strictEqual(comp.components['native/mwcli.exe'].sha256, 'b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72', 'EightMax 5.1 engine unchanged (compact modes are game definitions)');
+   assert.strictEqual(require('../src/study-adapter.js').ENGINE.build, '7d08acc7eb4577ee');
+diff -ruN '--exclude=START.html' base/EightMax-Test-Workbench/tests/windows-025.test.cjs m1/tree/tests/windows-025.test.cjs
+--- base/EightMax-Test-Workbench/tests/windows-025.test.cjs	2026-11-21 12:51:36.000000000 +0000
++++ m1/tree/tests/windows-025.test.cjs	2026-11-22 21:51:57.147875842 +0000
+@@ -15,9 +15,9 @@
+   assert.ok(!/python|node\.exe|npm /i.test(read('START-DESKTOP.cmd') + read('INSTALL-WINDOWS.cmd')), 'launcher and installer need no Python or Node.js');
+ });
+ test('current host and Windows scripts agree; unchanged capture helper retains its own version', () => {
+-  assert.match(read('windows/Common.ps1'), /\$WorkbenchVersion = '0\.36\.1-dev'/);
++  assert.match(read('windows/Common.ps1'), /\$WorkbenchVersion = '0\.36\.2-dev'/);
+   for (const f of ['windows/Install-Workbench.ps1', 'windows/Start-Workbench.ps1', 'windows/Test-Desktop.ps1', 'windows/Test-Capture.ps1', 'windows/Test-Release.ps1', 'windows/Test-Wgc.ps1', 'windows/Collect-TestResults.ps1']) { const s = read(f); assert.ok(/\$WorkbenchVersion|New-EmReport/.test(s), f + ' takes its version from Common.ps1'); assert.ok(!/appVersion='0\.2[4-7]\.0'/.test(s), f + ' has no stale hard-coded version'); }
+-  assert.match(read('desktop/DesktopHost.cs'), /Version="0\.36\.1-dev"/); assert.match(read('desktop/capture/EightMaxCapture.cs'), /ToolVersion = "0\.35\.0"/);
++  assert.match(read('desktop/DesktopHost.cs'), /Version="0\.36\.2-dev"/); assert.match(read('desktop/capture/EightMaxCapture.cs'), /ToolVersion = "0\.35\.0"/);
+ });
+ test('rebuilt Windows executables carry 0.35.0 and are x64 PE32+; their sources compile with Mono at C# 5 (cross-compilation only: NOT Windows execution)', { skip: hasMcs ? false : 'Mono mcs not installed' }, () => {
+   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'em28-')), A = '/usr/lib/mono/4.8-api', refs = ['-nostdlib', ...['mscorlib', 'System', 'System.Core', 'System.Web.Extensions', 'System.Windows.Forms', 'System.Drawing'].map((n) => '-r:' + A + '/' + n + '.dll')];
+diff -ruN '--exclude=START.html' base/EightMax-Test-Workbench/tools/record-windows-run-0362.py m1/tree/tools/record-windows-run-0362.py
+--- base/EightMax-Test-Workbench/tools/record-windows-run-0362.py	1970-01-01 00:00:00.000000000 +0000
++++ m1/tree/tools/record-windows-run-0362.py	2026-11-22 22:03:17.582651946 +0000
+@@ -0,0 +1,49 @@
++"""0.36.2 Milestone 1: append ONE Windows CI run record to evidence/windows-ci-runs.json from the run's own result files,
++then regenerate desktop/COMPONENT-VERSIONS.json. An executable is listed only if it actually ran in this run and every check
++that exercised it passed, so 'validatedInWindowsCI' stays an evidence-based claim.
++Usage: python tools/record-windows-run-0362.py --m1 milestone1-results.json [--selftest input-selftest.json]
++       [--acceptance input-acceptance.json] [--benchmark benchmark.json] [--regression regression.log] --candidate TEXT"""
++import argparse, hashlib, json, os, re, subprocess, sys
++from datetime import datetime, timezone
++from pathlib import Path
++root = Path(__file__).resolve().parent.parent
++a = argparse.ArgumentParser()
++for k in ('m1', 'selftest', 'acceptance', 'benchmark', 'regression', 'candidate'): a.add_argument('--' + k)
++o = a.parse_args()
++load = lambda p: json.loads(Path(p).read_text(encoding='utf-8-sig')) if p and Path(p).is_file() else None
++sha = lambda p: hashlib.sha256((root / p).read_bytes()).hexdigest()
++m1 = load(o.m1)
++if not m1: sys.exit('milestone-1 results missing; nothing recorded')
++groups = {}
++for c in m1['checks']: groups.setdefault(c['group'], []).append(c)
++ok = lambda *gs: all(c['status'] != 'fail' for g in gs for c in groups.get(g, [])) and all(groups.get(g) for g in gs)
++n = lambda *gs: '%d/%d' % (sum(c['status'] == 'pass' for g in gs for c in groups.get(g, [])), sum(len(groups.get(g, [])) for g in gs))
++st, acc, bench = load(o.selftest), load(o.acceptance), load(o.benchmark)
++reg = None
++if o.regression and Path(o.regression).is_file():
++    t = Path(o.regression).read_text(encoding='utf-8', errors='replace')
++    reg = {k: int(v) for k, v in re.findall(r'^# (tests|pass|fail|cancelled|skipped) (\d+)', t, re.M)}
++executables, observed = {}, {}
++common = ok('integrity', 'version')
++if common and ok('host', 'native', 'shutdown'):
++    executables['desktop/bin/EightMaxWorkbench.exe'] = sha('desktop/bin/EightMaxWorkbench.exe')
++    observed['desktop/bin/EightMaxWorkbench.exe'] = 'Milestone 1: headless and window launch, health/session/native identity, input broker, capture of the controlled table, authenticated and window-close shutdown (%s host/shutdown/native checks)' % n('host', 'shutdown', 'native')
++if common and ok('input', 'capabilities', 'ipc'):
++    executables['desktop/bin/EightMaxInput.exe'] = sha('desktop/bin/EightMaxInput.exe')
++    observed['desktop/bin/EightMaxInput.exe'] = 'Milestone 1: started by the host, hello/token, capabilities and queries (%s input/capability/ipc checks)' % n('input', 'capabilities', 'ipc') + ('; input acceptance %s/%s' % (sum(1 for c in acc.get('checks', []) if c.get('ok')), len(acc.get('checks', []))) if acc else '')
++if common and ok('testtable'):
++    executables['desktop/bin/EightMaxTestTable.exe'] = sha('desktop/bin/EightMaxTestTable.exe')
++    observed['desktop/bin/EightMaxTestTable.exe'] = 'Milestone 1: window opened, dealer protocol describe/frame/close, captured by the host (%s test-table checks)' % n('testtable')
++if ok('native'): executables['native/mwcli.exe'] = sha('native/mwcli.exe'); observed['native/mwcli.exe'] = '--build-id EightMaxBuild=7d08acc7eb4577ee; hash verified by the rebuilt host'
++if reg: executables['runtime/node/node.exe'] = sha('runtime/node/node.exe'); observed['runtime/node/node.exe'] = 'Node regression suite: %(tests)d tests, %(pass)d pass, %(fail)d fail, %(skipped)d skipped' % {**{'tests': 0, 'pass': 0, 'fail': 0, 'skipped': 0}, **reg}
++record = {'release': '0.36.2-dev Milestone 1 build + focused Windows checks', 'runId': int(os.environ.get('GITHUB_RUN_ID') or 0), 'date': datetime.now(timezone.utc).isoformat(),
++          'conclusion': 'milestone-1 checks passed' if m1.get('milestone1Passed') else 'milestone-1 checks FAILED', 'runner': 'GitHub-hosted windows-latest: ' + str(m1['machine'].get('os')) + ', screen ' + str(m1['machine'].get('virtualScreen')),
++          'candidate': o.candidate or '', 'executables': executables, 'observed': observed,
++          'milestone1': m1['counts'], 'inputSelfTest': ({k: st.get(k) for k in ('driver', 'passed', 'total', 'ok', 'dpiAwareness') if k in st} if st else None),
++          'inputAcceptance': ({'checks': len(acc.get('checks', [])), 'passed': sum(1 for c in acc.get('checks', []) if c.get('ok'))} if acc else None),
++          'benchmarkSmoke': ({'app': bench.get('app'), 'sustainableTables': bench.get('sustainableTables'), 'runErrors': [r.get('error') for w in bench.get('workloads', []) for r in w.get('runs', []) if r.get('error')]} if bench else None), 'regression': reg}
++p = root / 'evidence/windows-ci-runs.json'; d = json.loads(p.read_text(encoding='utf-8'))
++d['runs'] = [r for r in d['runs'] if r.get('runId') != record['runId'] or not record['runId']] + [record]
++with open(p, 'w', encoding='utf-8', newline='\n') as f: f.write(json.dumps(d, indent=2) + '\n')
++print('recorded run', record['runId'], 'executables:', ', '.join(executables) or 'none')
++subprocess.check_call([sys.executable, str(root / 'tools/make-components.py')])
+diff -ruN '--exclude=START.html' base/EightMax-Test-Workbench/tools/release-manifest-0362.py m1/tree/tools/release-manifest-0362.py
+--- base/EightMax-Test-Workbench/tools/release-manifest-0362.py	1970-01-01 00:00:00.000000000 +0000
++++ m1/tree/tools/release-manifest-0362.py	2026-11-22 22:02:53.559149825 +0000
+@@ -0,0 +1,8 @@
++"""0.36.2: regenerate SHA256SUMS.txt (LF line endings on every OS); never changes historical test evidence or binary identities."""
++from pathlib import Path
++import hashlib
++root = Path(__file__).resolve().parent.parent
++files = sorted(p for p in root.rglob('*') if p.is_file() and '.git' not in p.relative_to(root).parts and '__pycache__' not in p.relative_to(root).parts and p.name != 'SHA256SUMS.txt')
++with open(root / 'SHA256SUMS.txt', 'w', encoding='utf-8', newline='\n') as out:
++    out.write(''.join(hashlib.sha256(p.read_bytes()).hexdigest() + '  ' + p.relative_to(root).as_posix() + '\n' for p in files))
++print(f'Hashed {len(files)} files')
+diff -ruN '--exclude=START.html' base/EightMax-Test-Workbench/tools/simulator-benchmark-035.cjs m1/tree/tools/simulator-benchmark-035.cjs
+--- base/EightMax-Test-Workbench/tools/simulator-benchmark-035.cjs	2026-11-21 07:51:48.000000000 +0000
++++ m1/tree/tools/simulator-benchmark-035.cjs	2026-11-22 22:03:17.581999481 +0000
+@@ -107,7 +107,7 @@
+     const reliableCounts = runs.filter((r) => r.reliable).map((r) => r.tables), sustainable = COUNTS.reduce((a, n) => (COUNTS.slice(0, COUNTS.indexOf(n) + 1).every((m) => reliableCounts.includes(m)) ? n : a), 0);
+     workloads.push({ name: w.name, turnDelayMs: w.turnDelayMs, sustainableTables: sustainable, runs });
+   }
+-  const doc = { format: 'eightmax-simulator-benchmark', version: 2, app: '0.36.1-dev', at: new Date().toISOString(), environment: env, workload: { decisions: 'SCRIPTED test policy (labelled; measures control, not strategy)', decisionWindowMs: WINDOW, secondsPerCount: SECONDS, windowWidth: WIDTH, layout: 'cascade (overlapping windows; the driver brings each to the front before clicking)', capture: 'desktop host PrintWindow', workloads: WORKLOADS },
++  const doc = { format: 'eightmax-simulator-benchmark', version: 2, app: require(path.join(ROOT, 'src', 'engine.js')).VERSION, at: new Date().toISOString(), environment: env, workload: { decisions: 'SCRIPTED test policy (labelled; measures control, not strategy)', decisionWindowMs: WINDOW, secondsPerCount: SECONDS, windowWidth: WIDTH, layout: 'cascade (overlapping windows; the driver brings each to the front before clicking)', capture: 'desktop host PrintWindow', workloads: WORKLOADS },
+     sustainableTables: Object.fromEntries(workloads.map((w) => [w.name, w.sustainableTables])), note: 'sustainable = the largest count for which this and every smaller count had zero ambiguous/timed-out actions, zero incorrect clicks or wagers, zero missed deadlines, zero driver/focus errors and no paused table', workloads };
+   try { await api.request('/api/input/stop', {}); } catch (e) { /* host may already stop */ }
+   try { await fetch('http://127.0.0.1:48713/api/desktop/shutdown', { method: 'POST', headers: { 'X-EightMax-Session': info.token } }); } catch (e) { /* closing */ }
+diff -ruN '--exclude=START.html' base/EightMax-Test-Workbench/windows/Common.ps1 m1/tree/windows/Common.ps1
+--- base/EightMax-Test-Workbench/windows/Common.ps1	2026-11-21 12:51:36.000000000 +0000
++++ m1/tree/windows/Common.ps1	2026-11-22 21:50:31.000837024 +0000
+@@ -52,7 +52,7 @@
+ # empty), diagnostic files, executable version and application version. Error classes separate an application error
+ # from a harness error, a missing dependency/executable, a timeout, an unsupported environment and a configuration error.
+ # ---------------------------------------------------------------------------------------------------------------------
+-$WorkbenchVersion = '0.36.1-dev'
++$WorkbenchVersion = '0.36.2-dev'
+ $EmErrorClasses = @('application-error','harness-error','missing-dependency','timeout','unsupported-environment','missing-executable','configuration-error')
+ function New-EmReport([string]$Name, [string]$OutDir) {
+     return [pscustomobject]@{ format='eightmax-test-report'; version=2; test=$Name; appVersion=$WorkbenchVersion; outDir=$OutDir
+diff -ruN '--exclude=START.html' base/EightMax-Test-Workbench/windows/Test-Milestone1-0362.ps1 m1/tree/windows/Test-Milestone1-0362.ps1
+--- base/EightMax-Test-Workbench/windows/Test-Milestone1-0362.ps1	1970-01-01 00:00:00.000000000 +0000
++++ m1/tree/windows/Test-Milestone1-0362.ps1	2026-11-22 22:03:17.582409882 +0000
+@@ -0,0 +1,255 @@
++<# EightMax Test Workbench 0.36.2-dev - MILESTONE 1 focused Windows verification.
++   Scope: the rebuilt executables exist, are x64, carry version 0.36.2.0, match the build evidence and their sources,
++   start, initialise, talk to each other through their EXISTING interfaces, and shut down cleanly.
++   It does NOT test poker strategy, tournaments, multi-table capacity or the dashboard gameplay flow.
++   Non-intrusive by default: no clicks or key presses are sent. -WithInputSelfTest additionally runs the driver's own
++   self-test (moves the visible cursor inside its own test window; do not touch the mouse for ~20 s).
++   Usage: powershell -NoProfile -ExecutionPolicy Bypass -File windows\Test-Milestone1-0362.ps1 [-OutDir DIR] [-WithInputSelfTest]
++   Exit code 0 only when every required check passed. Results: <OutDir>\milestone1-results.json and .txt #>
++param([string]$OutDir, [switch]$WithInputSelfTest)
++$ErrorActionPreference = 'Stop'
++. (Join-Path $PSScriptRoot 'Common.ps1')
++Add-Type -AssemblyName System.Web.Extensions, System.Drawing, System.Windows.Forms
++$root = Get-WorkbenchRoot
++if (-not $OutDir) { $OutDir = Join-Path $env:LOCALAPPDATA ('EightMax-Test-Workbench\Milestone1-0.36.2\run-' + [DateTime]::Now.ToString('yyyyMMdd-HHmmss')) }
++[IO.Directory]::CreateDirectory($OutDir) | Out-Null
++$ExpectedFileVersion = '0.36.2.0'; $ExpectedAppVersion = '0.36.2-dev'; $ExpectedBuild = '7d08acc7eb4577ee'
++$Primary = @('EightMaxWorkbench.exe', 'EightMaxInput.exe', 'EightMaxTestTable.exe')
++$js = New-Object Web.Script.Serialization.JavaScriptSerializer; $js.MaxJsonLength = [int]::MaxValue; $js.RecursionLimit = 200
++$checks = New-Object Collections.Generic.List[object]
++$started = New-Object Collections.Generic.List[object]   # every process this script started (name, pid, role)
++$facts = [ordered]@{}
++function Add-Check([string]$Group, [string]$Name, [bool]$Passed, [string]$Detail, [bool]$Required = $true) {
++    $checks.Add([ordered]@{ group = $Group; name = $Name; status = $(if ($Passed) { 'pass' } elseif ($Required) { 'fail' } else { 'warn' }); required = $Required; detail = $Detail; at = [DateTime]::UtcNow.ToString('o') })
++    Write-Host ('[{0}] {1,-4} {2}: {3}' -f $Group, $(if ($Passed) { 'PASS' } elseif ($Required) { 'FAIL' } else { 'WARN' }), $Name, $Detail)
++}
++function Check([string]$Group, [string]$Name, [scriptblock]$Body, [bool]$Required = $true) {
++    try { $d = & $Body; Add-Check $Group $Name $true ([string]$d) $Required } catch { Add-Check $Group $Name $false ($_.Exception.Message) $Required }
++}
++function Sha([string]$Path) { (Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant() }
++function Bin([string]$Name) { Join-Path $root ('desktop\bin\' + $Name) }
++function Track($Process, [string]$Role) { $started.Add([ordered]@{ role = $Role; name = $Process.ProcessName; pid = $Process.Id }) }
++function Wait-Until([scriptblock]$Condition, [int]$Ms, [int]$Step = 100) { $w = [Diagnostics.Stopwatch]::StartNew(); while ($w.ElapsedMilliseconds -lt $Ms) { if (& $Condition) { return $true }; Start-Sleep -Milliseconds $Step }; return [bool](& $Condition) }
++function Alive([int]$ProcessId) { try { $p = [Diagnostics.Process]::GetProcessById($ProcessId); return -not $p.HasExited } catch { return $false } }
++function Screenshot([string]$Name) {
++    try { $b = [Windows.Forms.SystemInformation]::VirtualScreen; $bmp = New-Object Drawing.Bitmap $b.Width, $b.Height; $g = [Drawing.Graphics]::FromImage($bmp); $g.CopyFromScreen($b.X, $b.Y, 0, 0, $bmp.Size); $f = Join-Path $OutDir $Name; $bmp.Save($f, [Drawing.Imaging.ImageFormat]::Png); $g.Dispose(); $bmp.Dispose(); return $f } catch { return $null }
++}
++# Run a console program, capture stdout/stderr, enforce a timeout (works for GUI-subsystem executables too).
++function Run-Exe([string]$Exe, [string]$Arguments, [int]$TimeoutMs = 30000) {
++    $psi = New-Object Diagnostics.ProcessStartInfo($Exe, $Arguments); $psi.UseShellExecute = $false; $psi.RedirectStandardOutput = $true; $psi.RedirectStandardError = $true; $psi.CreateNoWindow = $true
++    $p = [Diagnostics.Process]::Start($psi); $o = $p.StandardOutput.ReadToEndAsync(); $e = $p.StandardError.ReadToEndAsync()
++    if (-not $p.WaitForExit($TimeoutMs)) { try { $p.Kill() } catch {}; throw ('Timed out after ' + $TimeoutMs + ' ms: ' + $Exe + ' ' + $Arguments) }
++    $p.WaitForExit(); return [pscustomobject]@{ code = $p.ExitCode; out = $o.Result.Trim(); err = $e.Result.Trim() }
++}
++# PE header: PE32+ (0x20B) and AMD64 machine (0x8664); CLR header present for managed assemblies.
++function Get-PeInfo([string]$Path) {
++    $b = [IO.File]::ReadAllBytes($Path); if ($b[0] -ne 0x4D -or $b[1] -ne 0x5A) { throw 'not an MZ executable' }
++    $pe = [BitConverter]::ToInt32($b, 0x3C); if ([BitConverter]::ToUInt32($b, $pe) -ne 0x4550) { throw 'PE signature missing' }
++    $machine = [BitConverter]::ToUInt16($b, $pe + 4); $opt = $pe + 24; $magic = [BitConverter]::ToUInt16($b, $opt); $subsystem = [BitConverter]::ToUInt16($b, $opt + 68)
++    $clr = $(if ($magic -eq 0x20B) { [BitConverter]::ToUInt32($b, $opt + 112 + 14 * 8) } else { [BitConverter]::ToUInt32($b, $opt + 96 + 14 * 8) })
++    return [pscustomobject]@{ machine = ('0x{0:X4}' -f $machine); magic = ('0x{0:X3}' -f $magic); subsystem = $(switch ($subsystem) { 2 { 'gui' } 3 { 'console' } default { [string]$subsystem } }); managed = ($clr -ne 0) }
++}
++# ---- desktop host HTTP client (session-token header, no proxy, no Expect: 100-continue) ----
++$script:Origin = $null; $script:Token = $null
++function HostCall([string]$Method, [string]$Path, $Body = $null, [int]$TimeoutSec = 30) {
++    $req = [Net.HttpWebRequest]::Create($script:Origin + $Path); $req.Method = $Method; $req.Proxy = $null; $req.Timeout = $TimeoutSec * 1000; $req.ReadWriteTimeout = $TimeoutSec * 1000; $req.KeepAlive = $false
++    $req.ServicePoint.Expect100Continue = $false; if ($script:Token) { $req.Headers.Add('X-EightMax-Session', $script:Token) }
++    if ($null -ne $Body) { $text = $(if ($Body -is [string]) { $Body } else { $js.Serialize($Body) }); $bytes = [Text.Encoding]::UTF8.GetBytes($text); $req.ContentType = 'application/json'; $req.ContentLength = $bytes.Length; $s = $req.GetRequestStream(); $s.Write($bytes, 0, $bytes.Length); $s.Close() }
++    $resp = $null
++    try { $resp = $req.GetResponse() } catch { $we = $_.Exception; while ($we -and -not ($we -is [Net.WebException])) { $we = $we.InnerException }; if ($we -and $we.Response) { $resp = $we.Response } else { throw } }
++    $sr = New-Object IO.StreamReader($resp.GetResponseStream(), [Text.Encoding]::UTF8); $raw = $sr.ReadToEnd(); $sr.Close(); $status = [int]$resp.StatusCode; $resp.Close()
++    $parsed = $null; try { $parsed = $js.DeserializeObject($raw) } catch {}
++    return [pscustomobject]@{ status = $status; raw = $raw; json = $parsed }
++}
++function Driver([string]$Cmd, $Extra = @{}) { $m = @{ cmd = $Cmd }; foreach ($k in $Extra.Keys) { $m[$k] = $Extra[$k] }; $r = HostCall 'POST' '/api/input/command' $m; if ($r.status -ne 200) { throw ('HTTP ' + $r.status + ' for driver ' + $Cmd + ': ' + $r.raw) }; if (-not $r.json -or $r.json['ok'] -ne $true) { throw ('driver refused ' + $Cmd + ': ' + $r.raw) }; return $r.json }
++function Start-HostProcess([bool]$Headless, [string]$Ready) {
++    if (Test-Path -LiteralPath $Ready) { Remove-Item -LiteralPath $Ready -Force }
++    $a = '--root ' + (Quote-WorkbenchPath $root) + ' --ready ' + (Quote-WorkbenchPath $Ready) + $(if ($Headless) { ' --headless' } else { '' })
++    $psi = New-Object Diagnostics.ProcessStartInfo((Bin 'EightMaxWorkbench.exe'), $a); $psi.UseShellExecute = $false; $psi.WorkingDirectory = $root
++    $watch = [Diagnostics.Stopwatch]::StartNew(); $p = [Diagnostics.Process]::Start($psi); Track $p $(if ($Headless) { 'desktop host (headless)' } else { 'desktop host (window)' })
++    if (-not (Wait-Until { (Test-Path -LiteralPath $Ready) -or $p.HasExited } 30000)) { throw 'host did not write its ready file within 30 s' }
++    if ($p.HasExited) { $log = Join-Path $env:LOCALAPPDATA 'EightMax-Test-Workbench\Logs\desktop-host.log'; $tail = $(if (Test-Path $log) { (Get-Content $log -Tail 3) -join ' | ' } else { 'no host log' }); throw ('host exited during startup with code ' + $p.ExitCode + '; ' + $tail) }
++    $session = $js.DeserializeObject([IO.File]::ReadAllText($Ready)); $script:Origin = [string]$session['origin']; $script:Token = [string]$session['token']
++    return [pscustomobject]@{ process = $p; session = $session; ms = $watch.ElapsedMilliseconds }
++}
++function Stop-HostByApi($HostProcess) {
++    $r = HostCall 'POST' '/api/desktop/shutdown' @{}; if ($r.status -ne 200 -or $r.json['stopping'] -ne $true) { throw ('shutdown refused: HTTP ' + $r.status + ' ' + $r.raw) }
++    $w = [Diagnostics.Stopwatch]::StartNew(); if (-not $HostProcess.WaitForExit(20000)) { throw 'host still running 20 s after authenticated shutdown' }
++    return $w.ElapsedMilliseconds
++}
++function Driver-Pid($StatusJson) { $id = $null; foreach ($e in @($StatusJson['events'])) { if ($e['event'] -eq 'driver-started' -and ([string]$e['detail']) -match 'pid (\d+)') { $id = [int]$Matches[1] } }; return $id }
++function Our-Leftovers { @($started | Where-Object { Alive $_.pid } | ForEach-Object { $_.role + ' pid ' + $_.pid }) }
++function Name-Leftovers([string[]]$Names, $Before) { @(Get-Process -Name $Names -ErrorAction SilentlyContinue | Where-Object { $Before -notcontains $_.Id } | ForEach-Object { $_.ProcessName + ' pid ' + $_.Id }) }
++
++$watchedNames = @('EightMaxWorkbench', 'EightMaxInput', 'EightMaxTestTable', 'EightMaxCapture', 'EightMaxWgc', 'mwcli')
++$preexisting = @(Get-Process -Name $watchedNames -ErrorAction SilentlyContinue | ForEach-Object { $_.Id })
++$facts.machine = $env:COMPUTERNAME; $facts.os = (Get-CimInstance Win32_OperatingSystem | ForEach-Object { $_.Caption + ' ' + $_.Version + ' build ' + $_.BuildNumber })
++$facts.powershell = $PSVersionTable.PSVersion.ToString(); $facts.is64BitProcess = [Environment]::Is64BitProcess; $facts.ciRun = $env:GITHUB_RUN_ID
++try { $facts.netFrameworkRelease = (Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full' -Name Release).Release } catch { $facts.netFrameworkRelease = $null }
++$b = [Windows.Forms.SystemInformation]::VirtualScreen; $facts.virtualScreen = ('{0}x{1} at {2},{3}' -f $b.Width, $b.Height, $b.X, $b.Y); $facts.interactiveDesktop = [Environment]::UserInteractive
++if ($preexisting.Count) { Write-Warning ('EightMax processes were already running before this test: ' + ($preexisting -join ', ')) }
++
++try {
++    # ===== 10. Executable and dependency integrity =====
++    Check 'integrity' 'Release checksum manifest' { $f = @(Get-WorkbenchHashFailures $root); if ($f.Count) { throw (($f | Select-Object -First 5) -join '; ') }; ([IO.File]::ReadAllLines((Join-Path $root 'SHA256SUMS.txt')).Count.ToString() + ' files match SHA256SUMS.txt') }
++    $evidence = $null
++    Check 'integrity' 'Build evidence present for this application version' { $script:evidence = $js.DeserializeObject([IO.File]::ReadAllText((Join-Path $root 'evidence\build-evidence.json'))); if ($script:evidence['appVersion'] -ne $ExpectedAppVersion) { throw ('build-evidence.json is for ' + $script:evidence['appVersion']) }; ('built ' + $script:evidence['builtAt'] + ' on ' + $script:evidence['buildHost'] + '; CI run ' + $script:evidence['ci']['runId']) }
++    $facts.executables = [ordered]@{}
++    foreach ($exe in @($Primary + 'EightMaxCapture.exe')) {
++        $path = Bin $exe; $rel = 'desktop/bin/' + $exe; $isPrimary = $Primary -contains $exe
++        Check 'integrity' ($exe + ': exists, x64 PE32+ managed') { if (-not (Test-Path -LiteralPath $path -PathType Leaf)) { throw 'missing' }; $pe = Get-PeInfo $path; if ($pe.machine -ne '0x8664' -or $pe.magic -ne '0x20B' -or -not $pe.managed) { throw ('machine ' + $pe.machine + ', magic ' + $pe.magic + ', managed ' + $pe.managed) }; $an = [Reflection.AssemblyName]::GetAssemblyName($path); if ([string]$an.ProcessorArchitecture -ne 'Amd64') { throw ('assembly architecture ' + $an.ProcessorArchitecture) }; ('AMD64 PE32+ ' + $pe.subsystem + ' .NET assembly, ProcessorArchitecture=' + $an.ProcessorArchitecture + ', ' + (Get-Item $path).Length + ' bytes') }
++        $vi = (Get-Item -LiteralPath $path).VersionInfo; $h = Sha $path
++        $facts.executables[$rel] = [ordered]@{ sha256 = $h; fileVersion = $vi.FileVersion; productVersion = $vi.ProductVersion; assemblyVersion = ([Reflection.AssemblyName]::GetAssemblyName($path)).Version.ToString(); bytes = (Get-Item $path).Length }
++        if ($isPrimary) {
++            Check 'version' ($exe + ': file/assembly version 0.36.2.0') { $av = ([Reflection.AssemblyName]::GetAssemblyName($path)).Version.ToString(); if ($vi.FileVersion -ne $ExpectedFileVersion -or $av -ne $ExpectedFileVersion -or $vi.ProductVersion -ne $ExpectedAppVersion) { throw ('FileVersion ' + $vi.FileVersion + ', AssemblyVersion ' + $av + ', ProductVersion ' + $vi.ProductVersion) }; ('FileVersion ' + $vi.FileVersion + ', AssemblyVersion ' + $av + ', ProductVersion ' + $vi.ProductVersion) }
++        } else {
++            Check 'version' ($exe + ': carried source version 0.35.0 (source unchanged)') { if ($vi.FileVersion -ne '0.35.0.0') { throw ('FileVersion ' + $vi.FileVersion) }; ('FileVersion ' + $vi.FileVersion) }
++        }
++        Check 'integrity' ($exe + ': SHA-256 and sources match build evidence') {
++            $o = $script:evidence['outputs'][$rel]; if (-not $o) { throw 'no build-evidence entry' }; if ($o['sha256'] -ne $h) { throw ('file ' + $h + ' but evidence ' + $o['sha256']) }
++            $bad = @(); foreach ($k in $o['sourceHashes'].Keys) { if ((Sha (Join-Path $root $k)) -ne $o['sourceHashes'][$k]) { $bad += $k } }; if ($bad.Count) { throw ('source changed since build: ' + ($bad -join ', ')) }
++            ('sha256 ' + $h + '; compiled from ' + (@($o['sourceHashes'].Keys) -join ', ') + ' (hashes match)')
++        }
++        Check 'integrity' ($exe + ': referenced assemblies resolve') {
++            $asm = [Reflection.Assembly]::ReflectionOnlyLoadFrom($path); $refs = @($asm.GetReferencedAssemblies()); $missing = @()
++            foreach ($r in $refs) { try { $null = [Reflection.Assembly]::ReflectionOnlyLoad($r.FullName) } catch { $missing += $r.FullName } }
++            if ($missing.Count) { throw ('unresolved: ' + ($missing -join '; ')) }; ('all ' + $refs.Count + ' references resolve from the .NET Framework: ' + (@($refs | ForEach-Object { $_.Name }) -join ', '))
++        }
++    }
++    Check 'integrity' '.NET Framework 4.8+ runtime present' { if (-not $facts.netFrameworkRelease -or [int]$facts.netFrameworkRelease -lt 528040) { throw ('NDP v4 Release ' + $facts.netFrameworkRelease) }; ('NDP v4 Full Release ' + $facts.netFrameworkRelease) }
++    Check 'integrity' 'Bundled Node runtime' { $r = Run-Exe (Join-Path $root 'runtime\node\node.exe') '--version' 15000; if ($r.code -ne 0 -or $r.out -ne 'v22.23.5') { throw ('exit ' + $r.code + ' ' + $r.out) }; $facts.nodeSha256 = Sha (Join-Path $root 'runtime\node\node.exe'); ('runtime\node\node.exe ' + $r.out + ', sha256 ' + $facts.nodeSha256) }
++    Check 'integrity' 'Bundled WGC capture helper (carried over)' { $p = Bin 'EightMaxWgc.exe'; $r = Run-Exe $p '--version' 30000; if ($r.code -ne 0 -or $r.out -notmatch '"version":"0\.35\.0"') { throw ('exit ' + $r.code + ' ' + $r.out + ' ' + $r.err) }; $facts.wgcSha256 = Sha $p; ($r.out + ' sha256 ' + $facts.wgcSha256) } $false
++
++    # ===== 4. Native EightMax 5.1 detection =====
++    Check 'native' 'EightMax 5.1 binary preserved byte-for-byte' { $h = Sha (Join-Path $root 'native\mwcli.exe'); if ($h -ne $ExpectedEightMaxHash) { throw ('sha256 ' + $h) }; ('native\mwcli.exe sha256 ' + $h) }
++    Check 'native' 'EightMax 5.1 build identity' { $r = Run-Exe (Join-Path $root 'native\mwcli.exe') '--build-id' 30000; if ($r.code -ne 0 -or $r.out -ne ('EightMaxBuild=' + $ExpectedBuild)) { throw ('exit ' + $r.code + ': ' + $r.out + ' ' + $r.err) }; $r.out }
++
++    # ===== 9. Version reporting from the executables themselves =====
++    Check 'version' 'EightMaxInput.exe --version' { $r = Run-Exe (Bin 'EightMaxInput.exe') '--version' 15000; if ($r.code -ne 0 -or $r.out -notmatch ('^EightMaxInput ' + [regex]::Escape($ExpectedAppVersion) + ' ')) { throw ('exit ' + $r.code + ': ' + $r.out) }; $r.out }
++    Check 'version' 'EightMaxTestTable.exe --version' { $r = Run-Exe (Bin 'EightMaxTestTable.exe') '--version' 15000; if ($r.code -ne 0 -or $r.out -notmatch ('^EightMaxTestTable ' + [regex]::Escape($ExpectedAppVersion) + ' ')) { throw ('exit ' + $r.code + ': ' + $r.out) }; $r.out }
++
++    # ===== 1. Desktop host startup (headless) + 4b native detection by the host =====
++    $hostRun = $null
++    Check 'host' 'Desktop host starts (headless) and writes its private session' {
++        $script:hostRun = Start-HostProcess $true (Join-Path $OutDir 'host-headless-session.json')
++        $s = $script:hostRun.session; if ($s['format'] -ne 'eightmax-desktop-session' -or $s['appVersion'] -ne $ExpectedAppVersion -or $s['token'] -notmatch '^[0-9a-f]{64}$') { throw ('unexpected session ' + $js.Serialize(@{ format = $s['format']; appVersion = $s['appVersion'] })) }
++        ('pid ' + $script:hostRun.process.Id + ' ready in ' + $script:hostRun.ms + ' ms at ' + $s['origin'] + ', appVersion ' + $s['appVersion'])
++    }
++    if ($hostRun) {
++        $health = $null
++        Check 'host' 'Health endpoint reports 0.36.2-dev and EightMax build' { $r = HostCall 'GET' '/api/desktop/health'; if ($r.status -ne 200) { throw ('HTTP ' + $r.status + ' ' + $r.raw) }; $script:health = $r.json; if ($r.json['appVersion'] -ne $ExpectedAppVersion -or $r.json['build'] -ne $ExpectedBuild -or $r.json['nativeCPU'] -ne $true -or $r.json['inputDriver'] -ne $true -or $r.json['simulatorControls'] -ne $true) { throw $r.raw.Substring(0, [Math]::Min(600, $r.raw.Length)) }; [IO.File]::WriteAllText((Join-Path $OutDir 'host-health.json'), $r.raw); ('appVersion ' + $r.json['appVersion'] + ', build ' + $r.json['build'] + ', nativeCPU, inputDriver installed, capture methods ' + (@($r.json['captureMethods']) -join '/')) }
++        Check 'host' 'Session token is enforced' { $t = $script:Token; $script:Token = $null; try { $r = HostCall 'GET' '/api/desktop/health' } finally { $script:Token = $t }; if ($r.status -ne 403) { throw ('expected 403 without token, got ' + $r.status) }; 'request without X-EightMax-Session refused with HTTP 403' }
++        Check 'native' 'Host verified the EightMax 5.1 binary at startup' { 'the host constructor refuses to start unless native\mwcli.exe has SHA-256 ' + $ExpectedEightMaxHash + '; it started and reports build ' + $script:health['build'] }
++
++        # ===== 2. Input driver startup through the host's input broker; 5. capability reporting; 6. host <-> driver =====
++        $status = $null; $driverPid = $null
++        Check 'input' 'Input driver starts and accepts the host session' { $h = Driver 'health'; $r = HostCall 'GET' '/api/input/status'; $script:status = $r.json; if ($r.status -ne 200 -or $r.json['running'] -ne $true -or $r.json['crashed'] -ne $false) { throw $r.raw }; $script:driverPid = Driver-Pid $r.json; if (-not $script:driverPid) { throw 'no driver-started event' }; [IO.File]::WriteAllText((Join-Path $OutDir 'input-status.json'), $r.raw); $started.Add([ordered]@{ role = 'input driver (host child)'; name = 'EightMaxInput'; pid = $script:driverPid }); ('EightMaxInput.exe pid ' + $script:driverPid + ' started by the host, hello/token accepted, starts=' + $r.json['starts']) }
++        if ($status) {
++            $d = $status['driver']; $caps = $d['capabilities']
++            Check 'input' 'Driver reports version 0.36.2-dev on win32 SendInput' { if ($d['driver'] -ne $ExpectedAppVersion -or $d['platform'] -ne 'win32' -or $caps['sendInput'] -ne $true) { throw ('driver ' + $d['driver'] + ', platform ' + $d['platform'] + ', sendInput ' + $caps['sendInput']) }; ('driver ' + $d['driver'] + ', platform ' + $d['platform'] + ', estop=' + $d['estop'] + ', armed=' + $d['armed']) }
++            Check 'capabilities' '0.36.1 motion capabilities (dashboard gate)' { if ($caps['signedCurves'] -ne $true -or $caps['maxDeviationPx'] -ne $true) { throw ('signedCurves ' + $caps['signedCurves'] + ', maxDeviationPx ' + $caps['maxDeviationPx']) }; 'signedCurves=true, maxDeviationPx=true (required by src/simulator-controls-ui.js and tools/simulator-benchmark-035.cjs)' }
++            Check 'capabilities' 'Operation list complete' { $need = @('cursor', 'monitors', 'list-windows', 'window-info', 'exe-identity', 'register-target', 'unregister-target', 'focus', 'move', 'move-click', 'click', 'double-click', 'mouse-down', 'mouse-up', 'key', 'type', 'clear-field', 'read-text', 'enter-text', 'uia-controls', 'wait'); $have = @($caps['operations']); $miss = @($need | Where-Object { $have -notcontains $_ }); if ($miss.Count) { throw ('missing ' + ($miss -join ', ')) }; ($have.Count.ToString() + ' operations') }
++            Check 'capabilities' 'Click guard, DPI awareness, UI Automation' { $g = $caps['singleClickGuardMaxMs']; if (-not ($g -is [int] -and $g -gt 0) -or $caps['dpiAwareness'] -ne 'per-monitor-v2' -or $caps['uiAutomation'] -ne $true) { throw ('guard ' + $g + ', dpi ' + $caps['dpiAwareness'] + ', uia ' + $caps['uiAutomation']) }; ('singleClickGuardMaxMs ' + $g + ', dpiAwareness ' + $caps['dpiAwareness'] + ', uiAutomation true, maxQueue ' + $caps['maxQueue'] + ', rawInputOverride ' + $caps['rawInputOverride']) }
++            Check 'capabilities' 'Emergency-stop hotkey registered' { if ($caps['hotkeyRegistered'] -ne $true) { throw ('hotkey ' + $caps['hotkey'] + ' registered=' + $caps['hotkeyRegistered']) }; ('hotkey ' + $caps['hotkey'] + ' registered') }
++            Check 'ipc' 'Host -> driver queries (cursor, monitors)' { $c = Driver 'cursor'; $m = Driver 'monitors'; $mons = @($m['monitors']); if ($mons.Count -lt 1) { throw 'no monitors reported' }; ('cursor at ' + $c['x'] + ',' + $c['y'] + '; ' + $mons.Count + ' monitor(s), first ' + $js.Serialize($mons[0]['bounds']) + ' dpiScale ' + $mons[0]['dpiScale']) }
++        }
++
++        # ===== 3. Test table startup (dealer stdio protocol); 7. desktop host <-> simulator =====
++        $tt = $null; $ready = $null; $describe = $null
++        Check 'testtable' 'Test table opens a window and reports ready' {
++            $psi = New-Object Diagnostics.ProcessStartInfo((Bin 'EightMaxTestTable.exe'), '--table 1 --x 60 --y 60 --width 960 --title "EightMax M1 Test Table 01"'); $psi.UseShellExecute = $false; $psi.RedirectStandardInput = $true; $psi.RedirectStandardOutput = $true; $psi.RedirectStandardError = $true; $psi.CreateNoWindow = $true
++            $script:tt = [Diagnostics.Process]::Start($psi); Track $script:tt 'test table'; $script:ttErr = $script:tt.StandardError.ReadToEndAsync()
++            $line = $script:tt.StandardOutput.ReadLineAsync(); if (-not $line.Wait(20000)) { throw 'no ready event within 20 s' }
++            $script:ready = $js.DeserializeObject($line.Result); if ($script:ready['type'] -ne 'ready') { throw ('first event ' + $line.Result) }
++            if (-not (Wait-Until { $script:tt.Refresh(); $script:tt.MainWindowHandle -ne [IntPtr]::Zero } 10000)) { throw 'no main window handle' }
++            ('pid ' + $script:tt.Id + ', hwnd ' + $script:ready['hwnd'] + ', title "' + $script:tt.MainWindowTitle + '"')
++        }
++        function TT-Send($Obj) { $script:tt.StandardInput.WriteLine($js.Serialize($Obj)); $script:tt.StandardInput.Flush() }
++        function TT-Read([string]$Type, [int]$Ms = 10000) { $w = [Diagnostics.Stopwatch]::StartNew(); while ($w.ElapsedMilliseconds -lt $Ms) { $t = $script:tt.StandardOutput.ReadLineAsync(); if (-not $t.Wait([Math]::Max(1, $Ms - [int]$w.ElapsedMilliseconds))) { break }; if ($null -eq $t.Result) { throw 'test table closed its output' }; $m = $js.DeserializeObject($t.Result); if ($m['type'] -eq $Type) { return $m } }; throw ('no ' + $Type + ' event within ' + $Ms + ' ms') }
++        if ($ready) {
++            Check 'testtable' 'Test table answers describe over its dealer protocol' { TT-Send @{ type = 'describe' }; $script:describe = TT-Read 'describe'; $c = $script:describe['client']; $names = @($script:describe['controls'].Keys); if ($names.Count -lt 2) { throw ('controls: ' + $js.Serialize($script:describe['controls'])) }; ('client ' + $js.Serialize($c) + '; controls ' + ($names -join ', ')) }
++            $frameSent = $null
++            Check 'testtable' 'Test table renders a frame sent by the dealer protocol' {
++                $c = $script:describe['client']; $w = [int]$c['w']; $h = [int]$c['h']
++                $bmp = New-Object Drawing.Bitmap $w, $h; $g = [Drawing.Graphics]::FromImage($bmp)
++                $g.FillRectangle((New-Object Drawing.Drawing2D.LinearGradientBrush((New-Object Drawing.Rectangle 0, 0, $w, $h), [Drawing.Color]::FromArgb(10, 90, 40), [Drawing.Color]::FromArgb(30, 160, 80), 45.0)), 0, 0, $w, $h)
++                $g.FillEllipse((New-Object Drawing.SolidBrush ([Drawing.Color]::FromArgb(200, 40, 40))), [int]($w * 0.40), [int]($h * 0.10), [int]($w * 0.20), [int]($h * 0.20))
++                $g.DrawString('EightMax 0.36.2 Milestone 1 frame', (New-Object Drawing.Font 'Segoe UI', 18), [Drawing.Brushes]::White, 20, 20); $g.Dispose()
++                $ms = New-Object IO.MemoryStream; $bmp.Save($ms, [Drawing.Imaging.ImageFormat]::Png); $script:frameSent = $bmp
++                TT-Send @{ type = 'frame'; rev = 1; png = [Convert]::ToBase64String($ms.ToArray()); legal = @{ fold = $true; call = $true }; title = ' - M1 frame' }
++                $shown = TT-Read 'shown'; if ([int]$shown['rev'] -ne 1) { throw ('shown rev ' + $shown['rev']) }; ('frame rev 1 ' + $w + 'x' + $h + ' shown')
++            }
++            $hwnd = [string]$ready['hwnd']
++            Check 'ipc' 'Host capture lists the test table window' { $r = HostCall 'GET' '/api/capture/windows'; if ($r.status -ne 200) { throw ('HTTP ' + $r.status) }; $rows = @($r.json['windows']); if (-not $rows.Count) { $rows = @($r.json) }; $hit = @($rows | Where-Object { $_['pid'] -eq $script:tt.Id }); if (-not $hit.Count) { throw ('test table pid ' + $script:tt.Id + ' not among ' + $rows.Count + ' windows') }; ('found "' + $hit[0]['title'] + '" hwnd ' + $hit[0]['hwnd'] + ' ' + $hit[0]['clientWidth'] + 'x' + $hit[0]['clientHeight']) }
++            Check 'ipc' 'Host captures the test table pixels it rendered' {
++                Start-Sleep -Milliseconds 500
++                $o = HostCall 'POST' '/api/capture/open' @{ consent = $true; target = @{ kind = 'window'; hwnd = $hwnd; pid = $script:tt.Id } }; if ($o.status -ne 200 -or $o.json['ok'] -eq $false) { throw ('capture open: HTTP ' + $o.status + ' ' + $o.raw) }
++                $r = HostCall 'POST' '/api/capture/frame' @{ target = @{ kind = 'window'; hwnd = $hwnd; pid = $script:tt.Id } } 30
++                if ($r.status -ne 200 -or $r.json['ok'] -ne $true) { throw ('capture: HTTP ' + $r.status + ' ' + $r.raw.Substring(0, [Math]::Min(500, $r.raw.Length))) }
++                $png = [Convert]::FromBase64String([string]$r.json['png']); [IO.File]::WriteAllBytes((Join-Path $OutDir 'host-capture-testtable.png'), $png)
++                $got = New-Object Drawing.Bitmap (New-Object IO.MemoryStream (, $png)); $sent = $script:frameSent
++                if ($got.Width -ne $sent.Width -or $got.Height -ne $sent.Height) { throw ('captured ' + $got.Width + 'x' + $got.Height + ' but frame ' + $sent.Width + 'x' + $sent.Height) }
++                $cl = $script:describe['client']; $boxes = @($script:describe['controls'].Values | ForEach-Object { New-Object Drawing.Rectangle ([int]$_['x'] - [int]$cl['x'] - 4), ([int]$_['y'] - [int]$cl['y'] - 4), ([int]$_['w'] + 8), ([int]$_['h'] + 8) })
++                $pts = @(); foreach ($fx in 0.04, 0.2, 0.35, 0.5, 0.65, 0.8, 0.96) { foreach ($fy in 0.06, 0.2, 0.35, 0.5, 0.65, 0.8, 0.94) { $pt = New-Object Drawing.Point ([int]($sent.Width * $fx)), ([int]($sent.Height * $fy)); if (-not @($boxes | Where-Object { $_.Contains($pt) }).Count) { $pts += $pt } } }
++                if ($pts.Count -lt 10) { throw ('only ' + $pts.Count + ' sample points clear of controls') }; $worst = 0
++                foreach ($pt in $pts) { $x = $pt.X; $y = $pt.Y; $a = $sent.GetPixel($x, $y); $c = $got.GetPixel($x, $y); $d = [Math]::Max([Math]::Abs($a.R - $c.R), [Math]::Max([Math]::Abs($a.G - $c.G), [Math]::Abs($a.B - $c.B))); if ($d -gt $worst) { $worst = $d } }
++                if ($worst -gt 24) { throw ('captured pixels differ from the rendered frame by up to ' + $worst + '/255') }
++                ('method ' + $r.json['method'] + ', ' + $got.Width + 'x' + $got.Height + ', ' + $pts.Count + ' sample pixels (clear of controls) within ' + $worst + '/255 of the frame sent to the table')
++            }
++            Check 'ipc' 'Host -> driver sees the test table window' { $wi = Driver 'window-info' @{ hwnd = $hwnd }; $w = $wi['window']; if (-not ([string]$w['exe']).EndsWith('EightMaxTestTable.exe', [StringComparison]::OrdinalIgnoreCase) -or $w['pid'] -ne $script:tt.Id) { throw $js.Serialize($w) }; ('window-info: pid ' + $w['pid'] + ', exe ' + $w['exe'] + ', visible ' + $w['visible'] + ', client ' + $js.Serialize($w['client'])) }
++            $shot = Screenshot 'desktop-headless-host-and-testtable.png'; if ($shot) { Write-Host ('screenshot ' + $shot) }
++            # ===== 8a. test table shutdown through its protocol =====
++            Check 'shutdown' 'Test table closes on the dealer close command' { TT-Send @{ type = 'close' }; if (-not $script:tt.WaitForExit(10000)) { throw 'still running 10 s after close' }; ('exited with code ' + $script:tt.ExitCode + $(if ($script:ttErr.IsCompleted -and $script:ttErr.Result) { '; stderr: ' + $script:ttErr.Result } else { '' })) }
++        }
++        # ===== 8b. host + driver shutdown through the authenticated API =====
++        Check 'shutdown' 'Headless host: authenticated shutdown stops host and input driver' {
++            $ms = Stop-HostByApi $script:hostRun.process; $code = $script:hostRun.process.ExitCode
++            $driverGone = Wait-Until { -not (Alive $script:driverPid) } 5000; if (-not $driverGone) { throw ('host exited in ' + $ms + ' ms but input driver pid ' + $script:driverPid + ' is still running') }
++            ('host exited in ' + $ms + ' ms (exit code ' + $code + '); input driver pid ' + $script:driverPid + ' gone')
++        }
++    }
++
++    # ===== 1b. Desktop host with its window (normal operator launch); 8c. closing the window =====
++    Check 'host' 'Desktop host starts with its window (non-headless)' {
++        $script:gui = Start-HostProcess $false (Join-Path $OutDir 'host-window-session.json')
++        if (-not (Wait-Until { $script:gui.process.Refresh(); $script:gui.process.MainWindowHandle -ne [IntPtr]::Zero } 15000)) { throw 'no main window within 15 s' }
++        $r = HostCall 'GET' '/api/desktop/health'; if ($r.status -ne 200 -or $r.json['appVersion'] -ne $ExpectedAppVersion) { throw ('health HTTP ' + $r.status) }
++        $null = Driver 'status'; $st = (HostCall 'GET' '/api/input/status').json; $script:guiDriver = Driver-Pid $st; if ($script:guiDriver) { $started.Add([ordered]@{ role = 'input driver (window host child)'; name = 'EightMaxInput'; pid = $script:guiDriver }) }
++        Start-Sleep -Milliseconds 700; $shot = Screenshot 'desktop-host-window.png'
++        ('pid ' + $script:gui.process.Id + ' window "' + $script:gui.process.MainWindowTitle + '" ready in ' + $script:gui.ms + ' ms; health OK; driver pid ' + $script:guiDriver + $(if ($shot) { '; screenshot desktop-host-window.png' } else { '' }))
++    }
++    if ($gui) {
++        Check 'shutdown' 'Window host: closing the window stops host and input driver' {
++            if (-not $script:gui.process.CloseMainWindow()) { throw 'WM_CLOSE could not be posted' }
++            if (-not $script:gui.process.WaitForExit(20000)) { throw 'still running 20 s after the window was closed' }
++            $driverGone = (-not $script:guiDriver) -or (Wait-Until { -not (Alive $script:guiDriver) } 5000); if (-not $driverGone) { throw ('input driver pid ' + $script:guiDriver + ' still running') }
++            ('host exited with code ' + $script:gui.process.ExitCode + ' after the window closed; input driver gone')
++        }
++    }
++    # The single-instance mutex and port 48713 were released by both hosts (a host start after both shutdowns proves it).
++    Check 'shutdown' 'Port and single-instance lock released' { $r = Start-HostProcess $true (Join-Path $OutDir 'host-restart-session.json'); $ms = Stop-HostByApi $r.process; ('a fresh host started (ready in ' + $r.ms + ' ms) and stopped again in ' + $ms + ' ms') }
++
++    # ===== optional: driver self-test (real visible input inside the driver's own window) =====
++    if ($WithInputSelfTest) {
++        Check 'input' 'Input driver self-test (EightMaxInput.exe --selftest)' { $out = Join-Path $OutDir 'input-selftest.json'; $r = Run-Exe (Bin 'EightMaxInput.exe') ('--selftest --out ' + (Quote-WorkbenchPath $out)) 120000; $j = $null; try { $j = $js.DeserializeObject([IO.File]::ReadAllText($out)) } catch {}; $sum = $(if ($j) { 'driver ' + $j['driver'] + ', ' + $j['passed'] + '/' + $j['total'] + ' checks passed, ok=' + $j['ok'] + ', dpi ' + $j['dpiAwareness'] } else { 'no report' }); if ($j -and $j['ok'] -ne $true) { throw ('self-test not ok: ' + $sum) }; if ($r.code -ne 0) { throw ('exit ' + $r.code + '; ' + $sum + '; ' + $r.err) }; ('exit 0; ' + $sum) }
++    }
++} catch {
++    Add-Check 'harness' 'Unexpected harness error' $false ($_.Exception.Message + ' at ' + $_.InvocationInfo.PositionMessage)
++} finally {
++    # ===== 8d. no process this script started may survive =====
++    foreach ($s in @($started)) { if (Alive $s.pid) { Start-Sleep -Milliseconds 500 } }
++    $left = @(Our-Leftovers); $leftNames = @(Name-Leftovers $watchedNames $preexisting)
++    Add-Check 'shutdown' 'No leftover processes' (($left.Count + $leftNames.Count) -eq 0) $(if (($left.Count + $leftNames.Count) -eq 0) { ($started.Count.ToString() + ' processes started by this test have all exited; no new EightMax/mwcli processes remain') } else { 'still running: ' + ((@($left) + @($leftNames) | Select-Object -Unique) -join ', ') })
++    foreach ($s in @($started)) { if (Alive $s.pid) { try { Stop-Process -Id $s.pid -Force } catch {} } }
++    $failedReq = @($checks | Where-Object { $_.status -eq 'fail' }); $passed = @($checks | Where-Object { $_.status -eq 'pass' }); $warn = @($checks | Where-Object { $_.status -eq 'warn' })
++    $report = [ordered]@{ format = 'eightmax-milestone1-results'; version = 1; appVersion = $ExpectedAppVersion; expectedFileVersion = $ExpectedFileVersion; engineBuild = $ExpectedBuild
++        completedAt = [DateTime]::UtcNow.ToString('o'); machine = $facts; processes = $started; counts = [ordered]@{ total = $checks.Count; passed = $passed.Count; failed = $failedReq.Count; warnings = $warn.Count }
++        milestone1Passed = ($failedReq.Count -eq 0); checks = $checks
++        scope = 'Milestone 1 only: build identity, startup, initialisation, existing-interface communication and shutdown. Not a gameplay, strategy, multi-table or target-PC acceptance.' }
++    $json = $report | ConvertTo-Json -Depth 8; [IO.File]::WriteAllText((Join-Path $OutDir 'milestone1-results.json'), $json, (New-Object Text.UTF8Encoding($false)))
++    $lines = @('EightMax 0.36.2-dev Milestone 1 focused Windows checks - ' + $report.completedAt, ('Machine: ' + $facts.os + ', PowerShell ' + $facts.powershell + ', screen ' + $facts.virtualScreen), ('Result: ' + $passed.Count + ' passed, ' + $failedReq.Count + ' failed, ' + $warn.Count + ' warnings of ' + $checks.Count), '')
++    foreach ($c in $checks) { $lines += ('[' + $c.group + '] ' + $c.status.ToUpper() + ' ' + $c.name + ': ' + $c.detail) }
++    [IO.File]::WriteAllLines((Join-Path $OutDir 'milestone1-results.txt'), [string[]]$lines, (New-Object Text.UTF8Encoding($false)))
++    Write-Host ''; Write-Host ('Milestone 1 checks: ' + $passed.Count + ' passed, ' + $failedReq.Count + ' failed, ' + $warn.Count + ' warnings. Report: ' + (Join-Path $OutDir 'milestone1-results.txt'))
++}
++if (@($checks | Where-Object { $_.status -eq 'fail' }).Count) { exit 1 } else { exit 0 }

@@ -1,0 +1,24 @@
+EIGHTMAX 0.36.1-dev — DEVELOPMENT BUILD, ACCEPTANCE INCOMPLETE
+
+Read REPORT-0.36.1.md before use. This package is not a fully operational
+0.36.1 Windows release. Changed host/input/test-table sources need a genuine
+Windows build and acceptance run. Bundled 0.35 binaries remain unchanged.
+The dashboard refuses automation with a driver lacking the new capabilities.
+Do not try to bypass that check.
+
+After a validated Windows rebuild:
+1. Extract the complete ZIP into a new folder.
+2. Open START-EIGHTMAX.cmd, then START-POKER-SIMULATOR.cmd.
+3. Open Simulator controls and follow the guided setup checklist.
+4. Register only your bundled controlled table, verify capture/calibration,
+   choose mouse settings, and Save settings.
+5. Select SCRIPTED SIMULATOR PRACTICE — NON-GTO for practice; Strict EightMax
+   requires an exact compatible quality-validated strategy and otherwise pauses.
+6. Preview movement without clicks, then explicitly start automation.
+7. Pause/stop in the dashboard; Ctrl+Alt+F12 is emergency stop.
+   Resuming requires explicit operator action.
+
+The dealer now preserves chip stacks and eliminates zero-stack players across
+hands. Windows execution and the full tournament UI are not yet verified.
+Normal operation uses the included runtime; source rebuilding is developer work.
+RUN-0361-ACCEPTANCE.cmd records missing checks as unverified, never PASS.

@@ -1,0 +1,138 @@
+name: EightMax 0.36.2 Milestone 1 - Windows build and focused verification
+# Builds the Windows executables from the verified 0.36.1 source ZIP plus the small milestone-1 overlay (version 0.36.2.0),
+# then runs the focused Milestone 1 checks on a real Windows desktop. Interactive gameplay, strategy and multi-table capacity
+# are out of scope. Bundled runtimes (runtime\node\node.exe) run every Node step; Python and npm are developer build tools only.
+on:
+  push:
+    branches: [milestone-1-0362]
+    paths: ['milestone-1/overlay/**', '.github/workflows/windows-0362-m1.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build-and-verify:
+    runs-on: windows-latest
+    timeout-minutes: 80
+    env:
+      BASE_ZIP: EightMax-Test-Workbench-0.36.1-Complete-Simulator.zip
+      BASE_SHA256: 2586ebf67103937bd6fadbfc2aa4d32a5787cf02693a8fb215876d4ea038e487
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.23.5'
+      - name: Verify and extract the 0.36.1 baseline
+        shell: pwsh
+        run: |
+          $L = "$env:RUNNER_TEMP\logs"; New-Item -ItemType Directory -Force $L | Out-Null
+          $h = (Get-FileHash $env:BASE_ZIP -Algorithm SHA256).Hash.ToLowerInvariant()
+          "baseline ZIP $env:BASE_ZIP sha256 $h (expected $env:BASE_SHA256)" | Tee-Object "$L\baseline.log"
+          if ($h -ne $env:BASE_SHA256) { throw 'Baseline ZIP checksum mismatch' }
+          python -I -c "import zipfile,sys; z=zipfile.ZipFile(sys.argv[1]); bad=z.testzip(); print('zip entries', len(z.namelist()), 'crc', 'ok' if bad is None else bad); sys.exit(bad is not None); " $env:BASE_ZIP | Tee-Object -Append "$L\baseline.log"
+          if ($LASTEXITCODE) { throw 'Baseline ZIP CRC failed' }
+          python -I -c "import zipfile,sys; zipfile.ZipFile(sys.argv[1]).extractall(sys.argv[2])" $env:BASE_ZIP work
+          $W = (Resolve-Path work\EightMax-Test-Workbench).Path; "W=$W" >> $env:GITHUB_ENV
+          . "$W\windows\Common.ps1"; $f = @(Get-WorkbenchHashFailures $W)
+          "baseline manifest: $((Get-Content "$W\SHA256SUMS.txt").Count) entries, $($f.Count) failures $($f -join '; ')" | Tee-Object -Append "$L\baseline.log"
+          if ($f.Count) { throw 'Baseline manifest failed' }
+          foreach ($e in 'EightMaxWorkbench.exe','EightMaxInput.exe','EightMaxTestTable.exe','EightMaxCapture.exe','EightMaxWgc.exe') { $p = "$W\desktop\bin\$e"; $v = (Get-Item $p).VersionInfo; "baseline $e FileVersion=$($v.FileVersion) ProductVersion=$($v.ProductVersion) sha256=$((Get-FileHash $p).Hash.ToLowerInvariant())" | Tee-Object -Append "$L\baseline.log" }
+          "baseline native\mwcli.exe sha256=$((Get-FileHash "$W\native\mwcli.exe").Hash.ToLowerInvariant()) $(& "$W\native\mwcli.exe" --build-id)" | Tee-Object -Append "$L\baseline.log"
+      - name: Apply the Milestone 1 overlay
+        shell: pwsh
+        run: |
+          python -I -c "import shutil,sys; shutil.copytree(sys.argv[1], sys.argv[2], dirs_exist_ok=True)" milestone-1/overlay $env:W
+          $bad = @(); Get-ChildItem -Recurse -File -Force milestone-1/overlay | ForEach-Object { $rel = $_.FullName.Substring((Resolve-Path milestone-1/overlay).Path.Length + 1); $a = (Get-FileHash $_.FullName).Hash; $b = (Get-FileHash (Join-Path $env:W $rel)).Hash; "$a  $rel" | Tee-Object -Append "$env:RUNNER_TEMP\logs\overlay.log"; if ($a -ne $b) { $bad += $rel } }
+          if ($bad.Count) { throw ('Overlay copy mismatch: ' + ($bad -join ', ')) }
+      - name: Parse every Windows PowerShell script
+        shell: powershell
+        run: |
+          $errs = @(); foreach ($f in Get-ChildItem "$env:W\windows","$env:W\native" -Filter *.ps1) { $t = $null; $e = $null; [void][System.Management.Automation.Language.Parser]::ParseFile($f.FullName, [ref]$t, [ref]$e); foreach ($x in $e) { $errs += ($f.Name + ':' + $x.Extent.StartLineNumber + ': ' + $x.Message) } }
+          $errs | Out-File "$env:RUNNER_TEMP\logs\powershell-parse.log"; "parsed; $($errs.Count) errors"
+          if ($errs.Count) { $errs; throw 'PowerShell parse errors' }
+      - name: Compile Windows executables (.NET Framework csc, x64)
+        shell: powershell
+        run: |
+          Set-Location $env:W
+          powershell -NoProfile -ExecutionPolicy Bypass -File windows\Build-Executables.ps1 -SkipWgc *> "$env:RUNNER_TEMP\logs\build-executables.log"
+          $code = $LASTEXITCODE; Get-Content "$env:RUNNER_TEMP\logs\build-executables.log"
+          if ($code -ne 0) { throw "Build-Executables.ps1 failed with exit code $code" }
+      - name: Generate dashboard, component status and manifest
+        shell: pwsh
+        run: |
+          Set-Location $env:W
+          & { python -I tools/build.py; python -I tools/make-components.py; python -I tools/release-manifest-0362.py } *>&1 | Tee-Object "$env:RUNNER_TEMP\logs\generate.log"
+          if ($LASTEXITCODE) { throw 'generation failed' }
+      - name: Milestone 1 focused Windows checks
+        id: m1
+        shell: pwsh
+        run: |
+          Set-Location $env:W
+          powershell -NoProfile -ExecutionPolicy Bypass -File windows\Test-Milestone1-0362.ps1 -OutDir "$env:RUNNER_TEMP\m1" -WithInputSelfTest *> "$env:RUNNER_TEMP\logs\milestone1-test.log"
+          $code = $LASTEXITCODE; Get-Content "$env:RUNNER_TEMP\logs\milestone1-test.log"; "exit=$code" | Out-File "$env:RUNNER_TEMP\m1\exit-code.txt"
+          if ($code -ne 0) { throw "Milestone 1 checks failed (exit $code)" }
+      - name: Compatibility smoke - input acceptance on the controlled test tables
+        if: success() || failure()
+        timeout-minutes: 8
+        shell: pwsh
+        run: |
+          Set-Location $env:W
+          & .\runtime\node\node.exe tools\input-acceptance-035.cjs --out "$env:RUNNER_TEMP\m1\input-acceptance.json" --oracle-dir "$env:RUNNER_TEMP\input-oracle" *> "$env:RUNNER_TEMP\logs\input-acceptance.log"
+          $code = $LASTEXITCODE; Get-Content "$env:RUNNER_TEMP\logs\input-acceptance.log"; if ($code -ne 0) { throw "input acceptance exit $code" }
+      - name: Communication smoke - host capture and input broker against one test table
+        if: success() || failure()
+        timeout-minutes: 6
+        shell: pwsh
+        run: |
+          Set-Location $env:W
+          & .\runtime\node\node.exe tools\simulator-benchmark-035.cjs --tables 1 --seconds 45 --workloads stress:2500 --width 960 --out "$env:RUNNER_TEMP\m1\benchmark-smoke.json" --work "$env:RUNNER_TEMP\benchmark-work" *> "$env:RUNNER_TEMP\logs\benchmark-smoke.log"
+          $code = $LASTEXITCODE; Get-Content "$env:RUNNER_TEMP\logs\benchmark-smoke.log"; if ($code -ne 0) { throw "benchmark smoke exit $code" }
+      - name: Existing regression suite with the bundled Node runtime
+        if: success() || failure()
+        timeout-minutes: 25
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force "$env:RUNNER_TEMP\em-browser" | Out-Null; Push-Location "$env:RUNNER_TEMP\em-browser"
+          npm install --no-audit --no-fund playwright *> "$env:RUNNER_TEMP\logs\playwright-install.log"; npx playwright install chromium *>> "$env:RUNNER_TEMP\logs\playwright-install.log"
+          $env:NODE_PATH = "$env:RUNNER_TEMP\em-browser\node_modules"; $env:CHROME_PATH = (node -e "console.log(require('playwright').chromium.executablePath())"); Pop-Location
+          Set-Location $env:W; $env:EIGHTMAX_TEST_CLI = (Resolve-Path native\mwcli.exe).Path
+          & .\runtime\node\node.exe --test tests/*.test.cjs *> "$env:RUNNER_TEMP\logs\regression.log"
+          $code = $LASTEXITCODE; Get-Content "$env:RUNNER_TEMP\logs\regression.log" | Select-String -Pattern '^# (tests|pass|fail|cancelled|skipped|duration)|^not ok' ; if ($code -ne 0) { throw "regression exit $code" }
+      - name: Record this run, regenerate component status, recheck release metadata
+        if: always()
+        shell: pwsh
+        run: |
+          Set-Location $env:W
+          if (-not (Test-Path "$env:RUNNER_TEMP\m1\milestone1-results.json")) { 'no milestone-1 results; nothing recorded'; exit 0 }
+          python -I tools/record-windows-run-0362.py --m1 "$env:RUNNER_TEMP\m1\milestone1-results.json" --selftest "$env:RUNNER_TEMP\m1\input-selftest.json" --acceptance "$env:RUNNER_TEMP\m1\input-acceptance.json" --benchmark "$env:RUNNER_TEMP\m1\benchmark-smoke.json" --regression "$env:RUNNER_TEMP\logs\regression.log" --candidate "0.36.1 ZIP $env:BASE_SHA256 + milestone-1 overlay at $env:GITHUB_SHA" *>&1 | Tee-Object "$env:RUNNER_TEMP\logs\record-run.log"
+          python -I tools/release-manifest-0362.py
+          & .\runtime\node\node.exe --test tests/release-031.test.cjs tests/release-032.test.cjs tests/release-033.test.cjs tests/release-035.test.cjs tests/release-consistency.test.cjs tests/wgc-027.test.cjs tests/wgc-028.test.cjs tests/windows-025.test.cjs *> "$env:RUNNER_TEMP\logs\metadata-recheck.log"
+          Get-Content "$env:RUNNER_TEMP\logs\metadata-recheck.log" | Select-String -Pattern '^# (tests|pass|fail)|^not ok'
+      - name: Package the candidate tree with its evidence
+        if: always()
+        shell: pwsh
+        run: |
+          Set-Location $env:W
+          $E = "$env:W\evidence\0.36.2\windows"; New-Item -ItemType Directory -Force $E | Out-Null
+          Copy-Item "$env:RUNNER_TEMP\logs\*" $E -Force
+          if (Test-Path "$env:RUNNER_TEMP\m1") { Copy-Item "$env:RUNNER_TEMP\m1\*" $E -Force -Exclude '*-session.json' }
+          Get-ChildItem $E | Format-Table Name, Length -AutoSize | Out-String | Write-Host
+          python -I tools/release-manifest-0362.py
+          . .\windows\Common.ps1; $f = @(Get-WorkbenchHashFailures $env:W); "final manifest failures: $($f.Count)"; if ($f.Count) { throw ($f -join '; ') }
+          python -I tools/package-0361.py "$env:RUNNER_TEMP\EightMax-0.36.2-M1-candidate.zip"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eightmax-0362-m1-candidate
+          path: ${{ runner.temp }}/EightMax-0.36.2-M1-candidate.zip
+          compression-level: 0
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eightmax-0362-m1-logs
+          path: |
+            ${{ runner.temp }}/logs
+            ${{ runner.temp }}/m1
+            !${{ runner.temp }}/m1/*-session.json

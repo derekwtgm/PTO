@@ -1,0 +1,32 @@
+EIGHTMAX 0.36.2-dev (MILESTONE 1) — DEVELOPMENT BUILD, ACCEPTANCE INCOMPLETE
+
+Milestone 1 rebuilds the 0.36.1 host, input-driver and test-table sources
+into new Windows x64 executables (file version 0.36.2.0) and runs focused
+Windows startup, communication and shutdown checks. Read
+REPORT-0.36.2-Milestone-1.md first: it lists exactly what was built, tested
+and what remains unverified. Passing Milestone 1 does NOT make the complete
+application operational. EightMax 5.1 (build 7d08acc7eb4577ee) is unchanged.
+The dashboard refuses automation with a driver lacking required capabilities.
+Do not try to bypass that check.
+
+Focused Milestone 1 checks: RUN-0362-MILESTONE1-TESTS.cmd
+
+Earlier notes (0.36.1-dev): Read REPORT-0.36.1.md for the source changes
+that these executables now contain.
+
+After a validated Windows rebuild:
+1. Extract the complete ZIP into a new folder.
+2. Open START-EIGHTMAX.cmd, then START-POKER-SIMULATOR.cmd.
+3. Open Simulator controls and follow the guided setup checklist.
+4. Register only your bundled controlled table, verify capture/calibration,
+   choose mouse settings, and Save settings.
+5. Select SCRIPTED SIMULATOR PRACTICE — NON-GTO for practice; Strict EightMax
+   requires an exact compatible quality-validated strategy and otherwise pauses.
+6. Preview movement without clicks, then explicitly start automation.
+7. Pause/stop in the dashboard; Ctrl+Alt+F12 is emergency stop.
+   Resuming requires explicit operator action.
+
+The dealer now preserves chip stacks and eliminates zero-stack players across
+hands. Windows execution and the full tournament UI are not yet verified.
+Normal operation uses the included runtime; source rebuilding is developer work.
+RUN-0361-ACCEPTANCE.cmd records missing checks as unverified, never PASS.
