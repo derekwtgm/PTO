@@ -1,7 +1,7 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),{fakeHost,build,runUntil}=require('./simulator-host-fixture.cjs'),{DecisionSource}=require('../src/simulator-decision-source.js');
 test('practice router completes successive hands through rendered pixels and confirmed input adapter', {timeout:120000},async()=>{
- const host=fakeHost(1,{seed:1000}),b=build(host),t=b.tables[0],dealer=host.tables.values().next().value.dealer;
+ const host=fakeHost(1,{seed:1000}),b=build(host,{title:'EightMax Test Table 01 · hand 1'}),t=b.tables[0],dealer=host.tables.values().next().value.dealer;
  const source=new DecisionSource({mode:'practice',seed:3});t.decide=s=>source.decide(s);
  try{
  await runUntil([t],()=>dealer.t.completed>=3,110000);

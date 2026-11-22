@@ -73,8 +73,9 @@
    */
   class SimulatorTable {
     constructor(o) {
-      this.id = o.id; this.win = o.window; this.profile = o.profile; this.api = o.api; this.s = o.session; this.sched = o.scheduler; this.rec = o.recorder || null; this.opt = { ...DEFAULTS, ...(o.options || {}) };
-      this.capture = new HostWindowCapture(o.api, o.window, { method: o.captureMethod, decode: o.decode });
+      this.id = o.id; this.win = {...o.window};
+      if(o.profile.execution && o.profile.execution.controlledFixture === true) this.win.title = (this.win.title || '').replace(/ · hand \d+$/, ''); this.profile = o.profile; this.api = o.api; this.s = o.session; this.sched = o.scheduler; this.rec = o.recorder || null; this.opt = { ...DEFAULTS, ...(o.options || {}) };
+      this.capture = new HostWindowCapture(o.api, this.win, { method: o.captureMethod, decode: o.decode });
       this.reader = tableReader(o.id, 8); this.engine = new HS.HandStateEngine(o.id, { track: true, seats: 8, expectedLayout: 'eightmax-8max-v2' });
       this.strip = !!(o.profile.layout && o.profile.layout.statusStrip);
       this.lastFrame = null; this.state = null; this.paused = null; this.stopped = false; this.rng = new EM.RNG((o.seed || 1) * 7 + o.id);

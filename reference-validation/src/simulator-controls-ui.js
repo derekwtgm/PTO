@@ -127,7 +127,9 @@ async function registerWindow() {
     const hours = Math.min(8, Math.max(0.25, Number($('simc-hours').value) || 2)), auth = SC.authorizations({ environment: 'operator-simulator', approvedBy: ($('simc-approver').value || 'operator').slice(0, 60), exeFileName: exeName, exeSha256: id.exeSha256, hours });
     await call('register-target', { hwnd, authorization: auth.simulator, label: w.title });
     const cap = await st.api.request('/api/capture/open', { target: { kind: 'window', hwnd, pid: w.pid, title: w.title, method: $('simc-capture').value }, consent: true }); if (!cap.ok) throw new Error(cap.reason || 'capture refused');
-    const n = st.registered.size + 1; st.registered.set(hwnd, { table: Math.min(10, n), title: w.title, pid: w.pid, client: w.client, dpiScale: w.dpiScale, auth, profile: prof, exeSha256: id.exeSha256 });
+    const fixtureNumber = prof.execution.controlledFixture && /^EightMax Test Table (\d{2})(?: · hand \d+)?$/.exec(w.title);
+    const n = fixtureNumber ? Number(fixtureNumber[1]) : st.registered.size + 1;
+    if(n < 1 || n > 10 || [...st.registered].some(([key,value])=>key!==hwnd && value.table===n)) throw Error('Table number is invalid or already registered'); st.registered.set(hwnd, { table: Math.min(10, n), title: w.title, pid: w.pid, client: w.client, dpiScale: w.dpiScale, auth, profile: prof, exeSha256: id.exeSha256 });
     if (!st.profile) st.profile = prof; say('Registered ' + w.title + ' (' + exeName + ', SHA-256 ' + id.exeSha256.slice(0, 16) + '…) for ' + hours + ' h. Input goes ONLY to this window.'); renderTables();
   } catch (e) { say('Registration refused: ' + e.message, true); }
 }
