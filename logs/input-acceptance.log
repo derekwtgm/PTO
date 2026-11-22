@@ -1,0 +1,20 @@
+PASS driver starts, authenticates and reports SendInput + DPI awareness - {"dpi":"per-monitor-v2","uia":true,"hotkey":"Ctrl+Alt+F12","hotkeyRegistered":true,"rawInput":true,"note":""}
+PASS input to an unregistered window is refused - target-not-registered
+PASS registration refused for a different executable hash - The program's SHA-256 (8338697a2c44f8d5ead54213ac390bfc086ff6f0b0e58b6e0a422ce4957caddd) differs from the authorised executable.
+PASS driver hashes the target executable exactly like the file on disk - 8338697a2c44f8d5ead54213ac390bfc086ff6f0b0e58b6e0a422ce4957caddd
+PASS UI Automation lists the table buttons and the wager field - Fold:Button, Check:Button, Call:Button, Raise:Button, All-in:Button, Wager amount:Edit, Minimize:Button, Maximize:Button, Close:Button
+PASS movement is continuous (independent 1 ms sampler: no step larger than max speed x update interval, no button down) and ends exactly on target - {"problems":[],"rawSamples":653,"positions":71,"travel":1010.66,"maxStepPx":25.55,"stepLimitPx":34,"targetError":0,"buttonDownSamples":0,"measuredPeakSpeed":1597.1}
+PASS commanded path follows the minimum-jerk plan and respects the speed and acceleration limits - {"matchesPlan":true,"peakSpeed":1600.1,"peakAccel":6199.4,"limits":{"maxSpeed":1600,"maxAccel":9000},"allowance":{"speed":1790.6,"accel":19091.7,"note":"limit x1.08 (+1 px per interval) for speed and x1.25 (+2 px per interval^2) for acceleration: integer-pixel quantisation and timer jitter"},"problems":[]}
+PASS movement takes its planned time (not faster) at ~60 updates per second - {"plannedMs":1181.79,"actualMs":1202.53,"medianIntervalMs":16.2,"maxIntervalMs":16.51,"maxTimingErrorMs":18.65}
+PASS Call: exactly one press, on the Call button, inside the validated region - {"downs":["call@840,573"],"region":{"x":847,"y":605,"w":42,"h":18},"clickedAt":{"x":868,"y":614}}
+PASS Call: the table accepted exactly one call - ["call:accepted"]
+PASS the button was down only for the click itself (no press while moving) - 25 samples (2 ms) with the button down
+PASS wager typed key by key and read back exactly before submitting - {"read":"450","field":"0x10270"}
+PASS Raise: the table applied a raise to exactly the typed amount - {"result":"accepted","applied":{"hand":1,"seat":4,"control":"raise","type":"raise","amount":450,"rev":3},"wager":"450","before":1}
+PASS an invalid wager (below the minimum) is refused by the table and the state does not change - {"result":"wager-rejected","reason":"outside 800..2490"}
+PASS after the window moved and was resized, the old coordinates are refused (layout-changed) - layout-changed
+FAIL acceptance run completed - Error: Curve leaves the virtual desktop; reduce curvature or deviation.
+    at DriverSession.call (D:\a\PTO\PTO\work\EightMax-Test-Workbench\src\windows-input-driver.js:62:128)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async main (D:\a\PTO\PTO\work\EightMax-Test-Workbench\tools\input-acceptance-035.cjs:98:5)
+input acceptance: 15/16 passed -> D:\a\_temp\m1\input-acceptance.json
