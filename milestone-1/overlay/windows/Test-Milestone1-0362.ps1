@@ -33,7 +33,10 @@ function Track($Process, [string]$Role) { Track-Pid ([int]$Process.Id) $Role $Pr
 function Track-Pid([int]$ProcessId, [string]$Role, [string]$Name) { $script:started += [pscustomobject][ordered]@{ role = $Role; name = $Name; pid = $ProcessId } }
 # Who owns the host's fixed loopback port (diagnostics for 'port already in use').
 function Port-Owners([int]$Port = 48713) { @(Get-NetTCPConnection -LocalPort $Port -State Listen -ErrorAction SilentlyContinue | ForEach-Object { $o = $_.OwningProcess; $w = Get-CimInstance Win32_Process -Filter ('ProcessId=' + $o) -ErrorAction SilentlyContinue; 'pid ' + $o + ' ' + $(if ($w) { $w.Name + ' parent ' + $w.ParentProcessId + ' cmd: ' + $w.CommandLine } else { '(process not found)' }) }) }
-function Wait-PortFree([int]$Ms = 15000) { $w = [Diagnostics.Stopwatch]::StartNew(); while ($w.ElapsedMilliseconds -lt $Ms) { if (-not @(Port-Owners).Count) { return $w.ElapsedMilliseconds }; Start-Sleep -Milliseconds 200 }; throw ('port 48713 still listening after ' + $Ms + ' ms: ' + (@(Port-Owners) -join ' | ')) }
+$script:TestStart = [DateTime]::Now
+# Every process created since this test started (a still-listening socket whose owner has exited is held by an inheriting process).
+function New-Processes { @(Get-CimInstance Win32_Process -ErrorAction SilentlyContinue | Where-Object { $_.CreationDate -and $_.CreationDate -gt $script:TestStart } | ForEach-Object { $_.Name + ' pid ' + $_.ProcessId + ' parent ' + $_.ParentProcessId + ' started ' + $_.CreationDate.ToString('HH:mm:ss.fff') + ' cmd: ' + $(if ($_.CommandLine) { $_.CommandLine.Substring(0, [Math]::Min(220, $_.CommandLine.Length)) } else { '' }) }) }
+function Wait-PortFree([int]$Ms = 15000) { $w = [Diagnostics.Stopwatch]::StartNew(); while ($w.ElapsedMilliseconds -lt $Ms) { if (-not @(Port-Owners).Count) { return $w.ElapsedMilliseconds }; Start-Sleep -Milliseconds 200 }; throw ('port 48713 still listening after ' + $Ms + ' ms: ' + (@(Port-Owners) -join ' | ') + ' || processes created during this test and still running: ' + (@(New-Processes) -join ' | ')) }
 function Wait-Until([scriptblock]$Condition, [int]$Ms, [int]$Step = 100) { $w = [Diagnostics.Stopwatch]::StartNew(); while ($w.ElapsedMilliseconds -lt $Ms) { if (& $Condition) { return $true }; Start-Sleep -Milliseconds $Step }; return [bool](& $Condition) }
 function Alive([int]$ProcessId) { try { $p = [Diagnostics.Process]::GetProcessById($ProcessId); return -not $p.HasExited } catch { return $false } }
 function Screenshot([string]$Name) {
@@ -245,7 +248,7 @@ try {
 } finally {
     # ===== 8d. no process this script started may survive =====
     foreach ($s in $script:started) { if (Alive $s.pid) { Start-Sleep -Milliseconds 500 } }
-    $owners = @(Port-Owners); if ($owners.Count) { Add-Check 'shutdown' 'Loopback port 48713 released at the end' $false ('still listening: ' + ($owners -join ' | ')) }
+    $owners = @(Port-Owners); if ($owners.Count) { Add-Check 'shutdown' 'Loopback port 48713 released at the end' $false ('still listening: ' + ($owners -join ' | ') + ' || processes created during this test and still running: ' + (@(New-Processes) -join ' | ')) }
     $left = @(Our-Leftovers); $leftNames = @(Name-Leftovers $watchedNames $preexisting)
     Add-Check 'shutdown' 'No leftover processes' (($left.Count + $leftNames.Count) -eq 0) $(if (($left.Count + $leftNames.Count) -eq 0) { ($script:started.Count.ToString() + ' processes started by this test have all exited; no new EightMax/mwcli processes remain') } else { 'still running: ' + ((@($left) + @($leftNames) | Select-Object -Unique) -join ', ') })
     foreach ($s in $script:started) { if (Alive $s.pid) { try { Stop-Process -Id $s.pid -Force } catch {} } }
