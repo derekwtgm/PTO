@@ -1,0 +1,80 @@
+2026-11-23 22:12:38.172  EightMax Test Workbench 0.36.2 - Milestone 3.1 tests, mode A - Quick verification
+2026-11-23 22:12:38.174  Results folder: D:\a\_temp\m31-scenarios\runs\S01\Milestone3.1-20261123-221237-quick
+2026-11-23 22:12:38.176  Application:    D:\a\_temp\EightMax CI (scenarios) ü\EightMax-Test-Workbench
+2026-11-23 22:12:38.178  This mode does not move the mouse. Progress is shown below; every step has a time limit.
+2026-11-23 22:12:38.290  Session job active: every process this run starts ends with the run, however it ends.
+2026-11-23 22:12:38.804  
+2026-11-23 22:12:38.809  ==== Computer and environment [environment] (1 of 5)
+2026-11-23 22:12:42.694    [environment] PASS machine details collected: Microsoft Windows Server 2025 Datacenter build 26100; AMD EPYC 7763 64-Core Processor (2 cores, 4 threads); 16 GiB; display scaling 100%; PowerShell 5.1.26100.33822 Desktop
+2026-11-23 22:12:42.815    [environment] PASS application folder path: application folder D:\a\_temp\EightMax CI (scenarios) ü\EightMax-Test-Workbench (60 characters, spaces, non-ASCII characters, parentheses)
+2026-11-23 22:12:42.919    [environment] PASS results folder: D:\a\_temp\m31-scenarios\runs\S01\Milestone3.1-20261123-221237-quick (requested)
+2026-11-23 22:12:43.022    [environment] PASS session process control: job object: every process of this run ends with the run
+2026-11-23 22:12:43.123    [environment] PASS files marked as downloaded from the internet (Mark of the Web): none of 408 program files is marked
+2026-11-23 22:12:43.236    [environment] PASS Windows security settings: SmartScreen ; Smart App Control unknown; antivirus ; Defender real-time protection False, controlled folder access 0
+2026-11-23 22:12:43.339    [environment] PASS PowerShell execution policy: MachinePolicy=Undefined, UserPolicy=Undefined, Process=Bypass, CurrentUser=Undefined, LocalMachine=Unrestricted
+2026-11-23 22:12:43.454    [environment] PASS no EightMax desktop host already running: none
+2026-11-23 22:12:43.770    [environment] PASS port 48713 free: free
+2026-11-23 22:12:44.321  ---- environment: PASS (5.3 s)
+2026-11-23 22:12:44.323  
+2026-11-23 22:12:44.325  ==== Release integrity and executable identities [integrity] (2 of 5)
+2026-11-23 22:12:47.281    [integrity] PASS release files match SHA256SUMS.txt (runtime output excluded by release-integrity-policy.json): PASS: 1436 of 1436 listed files verified; missing 0, modified 0, unexpected executables 0, other unlisted files 0; runtime output ignored: 0 file(s) in 0 folder(s); warnings 0 (2.8 s)
+2026-11-23 22:12:47.526    [identity] PASS desktop\bin\EightMaxWorkbench.exe: sha256 845578b9a6596009... version 0.36.2.0 / 0.36.2-dev
+2026-11-23 22:12:47.650    [identity] PASS desktop\bin\EightMaxInput.exe: sha256 2c4d7b739ceb6179... version 0.36.2.0 / 0.36.2-dev
+2026-11-23 22:12:47.767    [identity] PASS desktop\bin\EightMaxTestTable.exe: sha256 3e5a76995a24d169... version 0.36.2.0 / 0.36.2-dev
+2026-11-23 22:12:47.893    [identity] PASS desktop\bin\EightMaxCapture.exe: sha256 8180c32910bfd1d5... version 0.35.0.0 / 0.35.0
+2026-11-23 22:12:48.061    [identity] PASS desktop\bin\EightMaxWgc.exe: sha256 bc001504382306e1... version 0.35.0.0 / 0.35.0
+2026-11-23 22:12:48.182    [identity] PASS native\mwcli.exe: sha256 b3e675bfe2ae231e... version  / 
+2026-11-23 22:12:48.412    [identity] PASS runtime\node\node.exe: sha256 247e9693d316da98... version 22.23.5 / 22.23.5
+2026-11-23 22:12:48.646    [identity] PASS EightMax 5.1 binary unchanged: b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72
+2026-11-23 22:12:49.070    [identity] PASS EightMax 5.1 build id: EightMaxBuild=7d08acc7eb4577ee
+2026-11-23 22:12:49.383  ---- integrity: PASS (4.9 s)
+2026-11-23 22:12:49.385  
+2026-11-23 22:12:49.387  ==== Required components [dependencies] (3 of 5)
+2026-11-23 22:12:49.527    [dependencies] PASS 64-bit Windows and 64-bit PowerShell: yes
+2026-11-23 22:12:49.779    [dependencies] PASS .NET Framework 4.x: release 533509 (4.8 or later)
+2026-11-23 22:12:49.907    [dependencies] PASS csc.exe compiler of .NET Framework (used only by the fallback start): C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe
+2026-11-23 22:12:50.037    [dependencies] PASS required release files present: 7 files present
+2026-11-23 22:12:50.423    [dependencies] PASS bundled Node.js (runtime\node\node.exe) runs: v22.23.5
+2026-11-23 22:12:50.670    [dependencies] PASS Windows helper for diagnostics (process tree, port owner, prompt windows): compiled
+2026-11-23 22:12:50.970  ---- dependencies: PASS (1.4 s)
+2026-11-23 22:12:50.972  
+2026-11-23 22:12:50.974  ==== Desktop host start (prebuilt host, input driver, shutdown) [host-start] (4 of 5)
+2026-11-23 22:12:51.115  
+2026-11-23 22:12:51.118    -- start case 1: prebuilt host launch
+2026-11-23 22:12:51.299    [1/12] Check for EightMax programs that are already running ...
+2026-11-23 22:12:51.406    [host-start] PASS prebuilt host launch - 1/12 Check for EightMax programs that are already running: no EightMax program is running [0.1 s]
+2026-11-23 22:12:51.671    [2/12] Check that port 48713 is free ...
+2026-11-23 22:12:51.696    [host-start] PASS prebuilt host launch - 2/12 Check that port 48713 is free: free [0 s]
+2026-11-23 22:12:51.958    [3/12] Prepare the start-up folders ...
+2026-11-23 22:12:51.995    [host-start] PASS prebuilt host launch - 3/12 Prepare the start-up folders: case folder ready: D:\a\_temp\m31-scenarios\runs\S01\Milestone3.1-20261123-221237-quick\host-start\01-prebuilt [0 s]
+2026-11-23 22:12:52.264    [4/12] Start the start-up script (Start-Desktop.ps1) ...
+2026-11-23 22:12:52.474    [host-start] PASS prebuilt host launch - 4/12 Start the start-up script (Start-Desktop.ps1): started powershell.exe pid 10228 [0.2 s]
+2026-11-23 22:12:52.785    [5/12] Wait for the start-up script to launch the desktop host ...
+2026-11-23 22:12:55.892    [host-start] PASS prebuilt host launch - 5/12 Wait for the start-up script to launch the desktop host: host pid 3396 launched (CreateProcess, path prebuilt); start-up script finished in 3 s [3 s]
+2026-11-23 22:12:56.163    [6/12] Wait for the host to report ready (session file) ...
+2026-11-23 22:12:56.189    [host-start] PASS prebuilt host launch - 6/12 Wait for the host to report ready (session file): ready after 0 s [0 s]
+2026-11-23 22:12:56.494    [7/12] Read and validate the session file ...
+2026-11-23 22:12:56.542    [host-start] PASS prebuilt host launch - 7/12 Read and validate the session file: session of host pid 3396, app 0.36.2-dev [0 s]
+2026-11-23 22:12:56.808    [8/12] Check the health endpoint ...
+2026-11-23 22:12:56.923    [host-start] PASS prebuilt host launch - 8/12 Check the health endpoint: HTTP 200, app 0.36.2-dev, input driver installed True [0.1 s]
+2026-11-23 22:12:57.193    [9/12] Check that the input driver starts (authenticated hello, no mouse movement) ...
+2026-11-23 22:12:57.379    [host-start] PASS prebuilt host launch - 9/12 Check that the input driver starts (authenticated hello, no mouse movement): EightMaxInput.exe started and accepted the session (running, not crashed, emergency-stop hotkey Ctrl+Alt+F12) [0.2 s]
+2026-11-23 22:12:57.645    [10/12] Shut the host down (authenticated request) ...
+2026-11-23 22:12:57.669    [host-start] PASS prebuilt host launch - 10/12 Shut the host down (authenticated request): HTTP 200 (shutdown accepted) [0 s]
+2026-11-23 22:12:57.955    [11/12] Check that the host, the input driver and the start-up script have exited ...
+2026-11-23 22:12:58.010    [host-start] PASS prebuilt host launch - 11/12 Check that the host, the input driver and the start-up script have exited: host exited (exit code 0) after 0 s; no input driver left [0 s]
+2026-11-23 22:12:58.274    [12/12] Check that port 48713 is released ...
+2026-11-23 22:12:58.306    [host-start] PASS prebuilt host launch - 12/12 Check that port 48713 is released: free after 9 ms [0 s]
+2026-11-23 22:12:58.445    [host-start] PASS prebuilt host launch - expected result: path prebuilt
+2026-11-23 22:12:59.289  ---- host-start: PASS (8 s)
+2026-11-23 22:12:59.292  
+2026-11-23 22:12:59.294  ==== Cleanup: nothing left running, port released [cleanup] (5 of 5)
+2026-11-23 22:13:01.444    [cleanup] PASS no leftover EightMax processes started by these tests: none
+2026-11-23 22:13:01.595    [cleanup] PASS no other process of this test session left: none
+2026-11-23 22:13:01.733    [cleanup] PASS port 48713 released: free
+2026-11-23 22:13:02.012  ---- cleanup: PASS (2.6 s)
+2026-11-23 22:13:03.010  
+2026-11-23 22:13:03.012  Checks: 41 passed, 0 failed, 0 warnings, 0 skipped
+2026-11-23 22:13:03.019  OVERALL: PASS  (exit code 0: PASS: every required check passed (warnings, if any, are listed))
+2026-11-23 22:13:03.021  Results folder: D:\a\_temp\m31-scenarios\runs\S01\Milestone3.1-20261123-221237-quick
+2026-11-23 22:13:03.025  Results ZIP to send back: D:\a\_temp\m31-scenarios\runs\S01\Milestone3.1-20261123-221237-quick\milestone3-results.zip
