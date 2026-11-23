@@ -1,0 +1,56 @@
+TAP version 13
+# Subtest: M3 release: EightMax 5.1 is byte-identical (build 7d08acc7eb4577ee); strict mode keeps refusing without a compatible study
+ok 1 - M3 release: EightMax 5.1 is byte-identical (build 7d08acc7eb4577ee); strict mode keeps refusing without a compatible study
+  ---
+  duration_ms: 19.9805
+  type: 'test'
+  ...
+# Subtest: M3 release: every Windows executable is a Windows build of the shipped C\# sources; only the input driver was rebuilt (Driver.cs changed)
+ok 2 - M3 release: every Windows executable is a Windows build of the shipped C\# sources; only the input driver was rebuilt (Driver.cs changed)
+  ---
+  duration_ms: 75.084
+  type: 'test'
+  ...
+# Subtest: M3 release: START.html embeds the current tracker, ledger, controls and dashboard sources
+ok 3 - M3 release: START.html embeds the current tracker, ledger, controls and dashboard sources
+  ---
+  duration_ms: 8.1929
+  type: 'test'
+  ...
+# Subtest: M3 release: the Windows runner, its instructions, the acceptance tools and the CI workflow are shipped and wired together
+ok 4 - M3 release: the Windows runner, its instructions, the acceptance tools and the CI workflow are shipped and wired together
+  ---
+  duration_ms: 1.2264
+  type: 'test'
+  ...
+# Subtest: M3 release: SHA256SUMS.txt lists every shipped file except itself
+not ok 5 - M3 release: SHA256SUMS.txt lists every shipped file except itself
+  ---
+  duration_ms: 16.0357
+  type: 'test'
+  location: 'D:\\a\\_temp\\m31-work\\m3 original (spaces)\\EightMax-Test-Workbench\\tests\\release-0362m3.test.cjs:46:1'
+  failureType: 'testCodeFailure'
+  error: 'listed in SHA256SUMS.txt: test-results/Milestone3-20261123-122544/host-prebuilt host launch.err.txt'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (D:\a\_temp\m31-work\m3 original (spaces)\EightMax-Test-Workbench\tests\release-0362m3.test.cjs:50:33)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 4
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 192.9231

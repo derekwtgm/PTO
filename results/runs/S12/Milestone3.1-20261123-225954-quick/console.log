@@ -1,0 +1,51 @@
+2026-11-23 22:59:55.024  EightMax Test Workbench 0.36.2 - Milestone 3.1 tests, mode A - Quick verification
+2026-11-23 22:59:55.026  Results folder: D:\a\_temp\m31-scenarios\runs\S12\Milestone3.1-20261123-225954-quick
+2026-11-23 22:59:55.026  Application:    D:\a\_temp\EightMax CI (scenarios) ü\EightMax-Test-Workbench
+2026-11-23 22:59:55.028  This mode does not move the mouse. Progress is shown below; every step has a time limit.
+2026-11-23 22:59:55.109  Session job active: every process this run starts ends with the run, however it ends.
+2026-11-23 22:59:55.206  
+2026-11-23 22:59:55.211  ==== Computer and environment [environment] (1 of 5)
+2026-11-23 22:59:57.672    [environment] PASS machine details collected: Microsoft Windows Server 2025 Datacenter build 26100; AMD EPYC 9V74 80-Core Processor (2 cores, 4 threads); 16 GiB; display scaling 100%; PowerShell 5.1.26100.33822 Desktop
+2026-11-23 22:59:57.795    [environment] PASS application folder path: application folder D:\a\_temp\EightMax CI (scenarios) ü\EightMax-Test-Workbench (60 characters, spaces, non-ASCII characters, parentheses)
+2026-11-23 22:59:57.864    [environment] PASS results folder: D:\a\_temp\m31-scenarios\runs\S12\Milestone3.1-20261123-225954-quick (requested)
+2026-11-23 22:59:57.933    [environment] PASS session process control: job object: every process of this run ends with the run
+2026-11-23 22:59:58.000    [environment] PASS files marked as downloaded from the internet (Mark of the Web): none of 408 program files is marked
+2026-11-23 22:59:58.081    [environment] PASS Windows security settings: SmartScreen not set (Windows default); Smart App Control unknown; antivirus none reported by Windows Security Center; Defender real-time protection False, controlled folder access 0
+2026-11-23 22:59:58.156    [environment] PASS PowerShell execution policy: MachinePolicy=Undefined, UserPolicy=Undefined, Process=Bypass, CurrentUser=Undefined, LocalMachine=Unrestricted
+2026-11-23 22:59:58.234    [environment] PASS no EightMax desktop host already running: none
+2026-11-23 22:59:58.471    [environment] FAIL (environment) port 48713 free: Port 48713 is already occupied by powershell (pid 7252, LISTEN). The desktop host needs this port; the program was left running. Close it or restart Windows, then run the test again.
+2026-11-23 22:59:58.853  ---- environment: FAIL (3.5 s)
+2026-11-23 22:59:58.855  
+2026-11-23 22:59:58.857  ==== Release integrity and executable identities [integrity] (2 of 5)
+2026-11-23 23:00:00.737    [integrity] PASS release files match SHA256SUMS.txt (runtime output excluded by release-integrity-policy.json): PASS: 1443 of 1443 listed files verified; missing 0, modified 0, unexpected executables 0, other unlisted files 0; runtime output ignored: 12 file(s) in 2 folder(s); warnings 0 (1.8 s)
+2026-11-23 23:00:00.913    [identity] PASS desktop\bin\EightMaxWorkbench.exe: sha256 845578b9a6596009... version 0.36.2.0 / 0.36.2-dev
+2026-11-23 23:00:01.001    [identity] PASS desktop\bin\EightMaxInput.exe: sha256 2c4d7b739ceb6179... version 0.36.2.0 / 0.36.2-dev
+2026-11-23 23:00:01.083    [identity] PASS desktop\bin\EightMaxTestTable.exe: sha256 3e5a76995a24d169... version 0.36.2.0 / 0.36.2-dev
+2026-11-23 23:00:01.165    [identity] PASS desktop\bin\EightMaxCapture.exe: sha256 8180c32910bfd1d5... version 0.35.0.0 / 0.35.0
+2026-11-23 23:00:01.289    [identity] PASS desktop\bin\EightMaxWgc.exe: sha256 bc001504382306e1... version 0.35.0.0 / 0.35.0
+2026-11-23 23:00:01.373    [identity] PASS native\mwcli.exe: sha256 b3e675bfe2ae231e... version  / 
+2026-11-23 23:00:01.551    [identity] PASS runtime\node\node.exe: sha256 247e9693d316da98... version 22.23.5 / 22.23.5
+2026-11-23 23:00:01.706    [identity] PASS EightMax 5.1 binary unchanged: b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72
+2026-11-23 23:00:02.007    [identity] PASS EightMax 5.1 build id: EightMaxBuild=7d08acc7eb4577ee
+2026-11-23 23:00:02.229  ---- integrity: PASS (3.2 s)
+2026-11-23 23:00:02.229  
+2026-11-23 23:00:02.231  ==== Required components [dependencies] (3 of 5)
+2026-11-23 23:00:02.335    [dependencies] PASS 64-bit Windows and 64-bit PowerShell: yes
+2026-11-23 23:00:02.508    [dependencies] PASS .NET Framework 4.x: release 533509 (4.8 or later)
+2026-11-23 23:00:02.597    [dependencies] PASS csc.exe compiler of .NET Framework (used only by the fallback start): C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe
+2026-11-23 23:00:02.686    [dependencies] PASS required release files present: 7 files present
+2026-11-23 23:00:02.941    [dependencies] PASS bundled Node.js (runtime\node\node.exe) runs: v22.23.5
+2026-11-23 23:00:03.110    [dependencies] PASS Windows helper for diagnostics (process tree, port owner, prompt windows): compiled
+2026-11-23 23:00:03.310  ---- dependencies: PASS (1 s)
+2026-11-23 23:00:03.404  ---- host-start: SKIPPED - not run because requirement "port-free" failed: port 48713 occupied by powershell (pid 7252, LISTEN)
+2026-11-23 23:00:03.406  
+2026-11-23 23:00:03.408  ==== Cleanup: nothing left running, port released [cleanup] (5 of 5)
+2026-11-23 23:00:05.519    [cleanup] PASS no leftover EightMax processes started by these tests: none
+2026-11-23 23:00:05.620    [cleanup] PASS no other process of this test session left: none
+2026-11-23 23:00:05.713    [cleanup] WARNING port 48713 released: in use by powershell (pid 7252, LISTEN)
+2026-11-23 23:00:05.905  ---- cleanup: WARNING (2.4 s)
+2026-11-23 23:00:06.503  
+2026-11-23 23:00:06.510  Checks: 26 passed, 1 failed, 1 warnings, 0 skipped
+2026-11-23 23:00:06.512  OVERALL: FAIL  (exit code 3: ENVIRONMENT PROBLEM: this computer prevented a valid test (see the failures))
+2026-11-23 23:00:06.514  Results folder: D:\a\_temp\m31-scenarios\runs\S12\Milestone3.1-20261123-225954-quick
+2026-11-23 23:00:06.516  Results ZIP to send back: D:\a\_temp\m31-scenarios\runs\S12\Milestone3.1-20261123-225954-quick\milestone3-results.zip
