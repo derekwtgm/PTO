@@ -1,0 +1,1062 @@
+{
+  "format": "eightmax-m3-gameplay-acceptance",
+  "version": 1,
+  "suite": "acceptance",
+  "app": "0.36.2-dev",
+  "milestone": "0.36.2-milestone-3",
+  "environment": "windows",
+  "at": "2026-11-23T21:56:38.624Z",
+  "machine": {
+    "platform": "win32",
+    "release": "10.0.26100",
+    "node": "v22.23.5",
+    "cpus": 4,
+    "cpu": "AMD EPYC 7763 64-Core Processor                ",
+    "ramGiB": 16
+  },
+  "host": {
+    "appVersion": "0.36.2-dev",
+    "build": "7d08acc7eb4577ee",
+    "driver": {
+      "dpiAwareness": "per-monitor-v2",
+      "hotkeyRegistered": true,
+      "signedCurves": true
+    },
+    "monitors": [
+      {
+        "id": 0,
+        "name": "\\\\.\\DISPLAY1",
+        "bounds": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1080
+        },
+        "work": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1032
+        },
+        "dpiScale": 1,
+        "primary": true
+      }
+    ]
+  },
+  "scenarios": [
+    {
+      "id": "T1",
+      "name": "Hands that start with eliminated players are tracked (the Milestone 2 stall)",
+      "status": "pass",
+      "durationMs": 44448,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "play continued over 4+ hands (Milestone 2 stopped at the first hand after an elimination)",
+          "pass": true,
+          "detail": 4
+        },
+        {
+          "name": "no hand refused as missed or untracked",
+          "pass": true,
+          "detail": {}
+        },
+        {
+          "name": "the eliminated seats 2 and 6 were recognised (not treated as folds)",
+          "pass": true,
+          "detail": [
+            {
+              "seat": 0,
+              "afterHand": 1
+            },
+            {
+              "seat": 2,
+              "afterHand": null
+            },
+            {
+              "seat": 3,
+              "afterHand": 1
+            },
+            {
+              "seat": 6,
+              "afterHand": null
+            }
+          ]
+        },
+        {
+          "name": "every confirmed action matches the dealer, in order",
+          "pass": true,
+          "detail": {
+            "confirmed": 36,
+            "dealerAccepted": 36,
+            "matchedInOrder": 36,
+            "wrongActions": 0,
+            "wrong": [],
+            "confirmedNotApplied": 0,
+            "appliedNotConfirmed": 0,
+            "uncertainOrUnconfirmed": 0,
+            "incorrectClicks": 0,
+            "invalidWagers": 0,
+            "timeoutActions": 0
+          }
+        },
+        {
+          "name": "no incorrect click, no invalid wager",
+          "pass": true,
+          "detail": {
+            "confirmed": 36,
+            "dealerAccepted": 36,
+            "matchedInOrder": 36,
+            "wrongActions": 0,
+            "wrong": [],
+            "confirmedNotApplied": 0,
+            "appliedNotConfirmed": 0,
+            "uncertainOrUnconfirmed": 0,
+            "incorrectClicks": 0,
+            "invalidWagers": 0,
+            "timeoutActions": 0
+          }
+        },
+        {
+          "name": "no uncertain / ambiguous / timed-out action",
+          "pass": true,
+          "detail": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "metrics": {
+        "hands": 4,
+        "crossCheck": {
+          "confirmed": 36,
+          "dealerAccepted": 36,
+          "matchedInOrder": 36,
+          "wrongActions": 0,
+          "wrong": [],
+          "confirmedNotApplied": 0,
+          "appliedNotConfirmed": 0,
+          "uncertainOrUnconfirmed": 0,
+          "incorrectClicks": 0,
+          "invalidWagers": 0,
+          "timeoutActions": 0
+        },
+        "table": {
+          "attempted": 36,
+          "confirmed": 36,
+          "rejected": 0,
+          "ambiguous": 0,
+          "timedOut": 0,
+          "uncertain": 0,
+          "cancelled": 0,
+          "deadlineMisses": 0,
+          "frames": 51,
+          "refusedReadings": 0,
+          "refusalCodes": {},
+          "reconstructionFailures": 0,
+          "untrackedHands": 0,
+          "untrackedHandsWithoutDecision": 0,
+          "untrackedHandsNeedingInput": 0,
+          "recoveries": 0,
+          "eliminationsSeen": 4,
+          "verifyingSteps": 0,
+          "gameplay": "playing",
+          "gameplayEpisodes": {
+            "starting": 1,
+            "elimination": 2,
+            "playing": 4,
+            "between-hands": 2
+          },
+          "lifecycle": "ACTIVE",
+          "completed": null,
+          "tournamentRemaining": 4,
+          "latencyMs": {
+            "endToEnd": {
+              "n": 36,
+              "mean": 1021.39,
+              "p50": 769.9,
+              "p95": 2138.05,
+              "p99": 2239.72,
+              "max": 2239.72
+            },
+            "cursorTravel": {
+              "n": 36,
+              "mean": 284.8,
+              "p50": 254.48,
+              "p95": 587.51,
+              "p99": 587.62,
+              "max": 587.62
+            },
+            "inputOperation": {
+              "n": 36,
+              "mean": 1002.45,
+              "p50": 753.19,
+              "p95": 2118.55,
+              "p99": 2218.98,
+              "max": 2218.98
+            },
+            "confirmation": {
+              "n": 36,
+              "mean": 136.71,
+              "p50": 138.8,
+              "p95": 152.87,
+              "p99": 155.8,
+              "max": 155.8
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "T2",
+      "name": "A tournament is played to its end; the end is a normal stop",
+      "status": "pass",
+      "durationMs": 39550,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "the table recognised the end of the tournament",
+          "pass": true,
+          "detail": {
+            "kind": "tournament-complete",
+            "hand": 9,
+            "winner": 4,
+            "source": "verified settlement",
+            "at": "2026-11-23T21:58:00.568Z"
+          }
+        },
+        {
+          "name": "the winner is the dealer's winner",
+          "pass": true,
+          "detail": [
+            4,
+            4
+          ]
+        },
+        {
+          "name": "one player holds every chip (final player count 1)",
+          "pass": true,
+          "detail": [
+            0,
+            0,
+            0,
+            0,
+            750,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "lifecycle STOPPED with cause tournament-complete; run() ended",
+          "pass": true,
+          "detail": "STOPPED / tournament-complete"
+        },
+        {
+          "name": "dashboard message: \"Tournament finished. Automated gameplay has stopped normally.\"",
+          "pass": true,
+          "detail": null
+        },
+        {
+          "name": "eliminations during play were recognised",
+          "pass": true,
+          "detail": 7
+        },
+        {
+          "name": "the tracker refused no reading (except the unseen opening of a hand that needed no decision)",
+          "pass": true,
+          "detail": {
+            "refusalCodes": {
+              "missed-hand-start": 1,
+              "untracked-hand": 5
+            },
+            "handsWithoutDecisions": [
+              8
+            ],
+            "other": []
+          }
+        },
+        {
+          "name": "frames the reader could not read are rare (at most 5 % of readings; each refused, never guessed)",
+          "pass": true,
+          "detail": {
+            "unreadableFrames": 2,
+            "readings": 73
+          }
+        },
+        {
+          "name": "every confirmed action matches the dealer, in order; nothing applied unconfirmed",
+          "pass": true,
+          "detail": {
+            "confirmed": 28,
+            "dealerAccepted": 28,
+            "matchedInOrder": 28,
+            "wrongActions": 0,
+            "wrong": [],
+            "confirmedNotApplied": 0,
+            "appliedNotConfirmed": 0,
+            "uncertainOrUnconfirmed": 0,
+            "incorrectClicks": 0,
+            "invalidWagers": 0,
+            "timeoutActions": 0
+          }
+        },
+        {
+          "name": "no incorrect click, no invalid wager",
+          "pass": true,
+          "detail": {
+            "confirmed": 28,
+            "dealerAccepted": 28,
+            "matchedInOrder": 28,
+            "wrongActions": 0,
+            "wrong": [],
+            "confirmedNotApplied": 0,
+            "appliedNotConfirmed": 0,
+            "uncertainOrUnconfirmed": 0,
+            "incorrectClicks": 0,
+            "invalidWagers": 0,
+            "timeoutActions": 0
+          }
+        },
+        {
+          "name": "no capture and no input after the end",
+          "pass": true,
+          "detail": [
+            0,
+            0
+          ]
+        },
+        {
+          "name": "Resume does not restart a finished tournament",
+          "pass": true,
+          "detail": null
+        }
+      ],
+      "metrics": {
+        "hands": 9,
+        "crossCheck": {
+          "confirmed": 28,
+          "dealerAccepted": 28,
+          "matchedInOrder": 28,
+          "wrongActions": 0,
+          "wrong": [],
+          "confirmedNotApplied": 0,
+          "appliedNotConfirmed": 0,
+          "uncertainOrUnconfirmed": 0,
+          "incorrectClicks": 0,
+          "invalidWagers": 0,
+          "timeoutActions": 0
+        },
+        "table": {
+          "attempted": 28,
+          "confirmed": 28,
+          "rejected": 0,
+          "ambiguous": 0,
+          "timedOut": 0,
+          "uncertain": 0,
+          "cancelled": 0,
+          "deadlineMisses": 0,
+          "frames": 73,
+          "refusedReadings": 8,
+          "refusalCodes": {
+            "missed-hand-start": 1,
+            "untracked-hand": 5
+          },
+          "reconstructionFailures": 0,
+          "untrackedHands": 1,
+          "untrackedHandsWithoutDecision": 1,
+          "untrackedHandsNeedingInput": 0,
+          "recoveries": 1,
+          "eliminationsSeen": 7,
+          "verifyingSteps": 1,
+          "gameplay": "tournament-complete",
+          "gameplayEpisodes": {
+            "starting": 1,
+            "recognition-failure": 2,
+            "elimination": 2,
+            "playing": 8,
+            "between-hands": 6,
+            "waiting-next-hand": 1,
+            "verifying": 1,
+            "tournament-complete": 1
+          },
+          "lifecycle": "STOPPED",
+          "completed": {
+            "kind": "tournament-complete",
+            "hand": 9,
+            "winner": 4,
+            "source": "verified settlement",
+            "at": "2026-11-23T21:58:00.568Z"
+          },
+          "tournamentRemaining": 1,
+          "latencyMs": {
+            "endToEnd": {
+              "n": 28,
+              "mean": 963.78,
+              "p50": 734.94,
+              "p95": 2012.41,
+              "p99": 2177.77,
+              "max": 2177.77
+            },
+            "cursorTravel": {
+              "n": 28,
+              "mean": 251.5,
+              "p50": 209.23,
+              "p95": 586.56,
+              "p99": 586.6,
+              "max": 586.6
+            },
+            "inputOperation": {
+              "n": 28,
+              "mean": 950.07,
+              "p50": 723.41,
+              "p95": 1999.71,
+              "p99": 2159.56,
+              "max": 2159.56
+            },
+            "confirmation": {
+              "n": 28,
+              "mean": 134.77,
+              "p50": 134.81,
+              "p95": 151.04,
+              "p99": 151.3,
+              "max": 151.3
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "T3",
+      "name": "A hand first seen after its opening: untracked, no input; recovery at the next verified hand",
+      "status": "pass",
+      "durationMs": 19971,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "an action happened before automation started (call by the player to act)",
+          "pass": true,
+          "detail": {
+            "type": "done",
+            "id": 1,
+            "cmd": "act",
+            "table": 1,
+            "accepted": true,
+            "hand": 1
+          }
+        },
+        {
+          "name": "hand 1 was untracked (missed-hand-start), with its reason shown",
+          "pass": true,
+          "detail": {
+            "lastValidHand": 2,
+            "recoveries": 1,
+            "untrackedHands": 1,
+            "lastRecovery": {
+              "fromHand": 1,
+              "toHand": 2,
+              "cause": "missed-hand-start",
+              "at": 64
+            },
+            "accepted": 9,
+            "rejected": 64,
+            "paused": false,
+            "status": "tracking",
+            "reasonCode": null,
+            "reason": null,
+            "observedHand": 2,
+            "expectedRecovery": null
+          }
+        },
+        {
+          "name": "no input while the hand was untracked",
+          "pass": true,
+          "detail": null
+        },
+        {
+          "name": "the table's own clock (not the Workbench) finished hand 1",
+          "pass": true,
+          "detail": 13
+        },
+        {
+          "name": "recovered automatically at hand 2 (counted)",
+          "pass": true,
+          "detail": {
+            "fromHand": 1,
+            "toHand": 2,
+            "cause": "missed-hand-start",
+            "at": 64
+          }
+        },
+        {
+          "name": "conditions: waiting for a valid hand > verifying > playing",
+          "pass": true,
+          "detail": "starting > waiting-next-hand > verifying > playing"
+        },
+        {
+          "name": "play continues after the recovery (4+ confirmed actions)",
+          "pass": true,
+          "detail": 4
+        },
+        {
+          "name": "every confirmed action matches the dealer; no incorrect click",
+          "pass": true,
+          "detail": {
+            "confirmed": 4,
+            "dealerAccepted": 5,
+            "matchedInOrder": 4,
+            "wrongActions": 0,
+            "wrong": [],
+            "confirmedNotApplied": 0,
+            "appliedNotConfirmed": 1,
+            "uncertainOrUnconfirmed": 0,
+            "incorrectClicks": 0,
+            "invalidWagers": 0,
+            "timeoutActions": 13
+          }
+        }
+      ],
+      "metrics": {
+        "conditions": [
+          "starting",
+          "waiting-next-hand",
+          "verifying",
+          "playing"
+        ],
+        "tracking": {
+          "lastValidHand": 2,
+          "recoveries": 1,
+          "untrackedHands": 1,
+          "lastRecovery": {
+            "fromHand": 1,
+            "toHand": 2,
+            "cause": "missed-hand-start",
+            "at": 64
+          },
+          "accepted": 9,
+          "rejected": 64,
+          "paused": false,
+          "status": "tracking",
+          "reasonCode": null,
+          "reason": null,
+          "observedHand": 2,
+          "expectedRecovery": null
+        },
+        "crossCheck": {
+          "confirmed": 4,
+          "dealerAccepted": 5,
+          "matchedInOrder": 4,
+          "wrongActions": 0,
+          "wrong": [],
+          "confirmedNotApplied": 0,
+          "appliedNotConfirmed": 1,
+          "uncertainOrUnconfirmed": 0,
+          "incorrectClicks": 0,
+          "invalidWagers": 0,
+          "timeoutActions": 13
+        }
+      }
+    },
+    {
+      "id": "T4",
+      "name": "Think-time holds: one seat acting on consecutive streets with every control hidden (pre-existing defect fixed in M3)",
+      "status": "pass",
+      "durationMs": 37066,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "15 actions confirmed through the holds",
+          "pass": true,
+          "detail": 15
+        },
+        {
+          "name": "never safety-paused by an unconfirmable action",
+          "pass": true,
+          "detail": "REGISTERED > ACTIVE"
+        },
+        {
+          "name": "no controls-disagree refusal",
+          "pass": true,
+          "detail": {}
+        },
+        {
+          "name": "every confirmed action matches the dealer; no incorrect click",
+          "pass": true,
+          "detail": {
+            "confirmed": 15,
+            "dealerAccepted": 15,
+            "matchedInOrder": 15,
+            "wrongActions": 0,
+            "wrong": [],
+            "confirmedNotApplied": 0,
+            "appliedNotConfirmed": 0,
+            "uncertainOrUnconfirmed": 0,
+            "incorrectClicks": 0,
+            "invalidWagers": 0,
+            "timeoutActions": 0
+          }
+        }
+      ],
+      "metrics": {
+        "crossCheck": {
+          "confirmed": 15,
+          "dealerAccepted": 15,
+          "matchedInOrder": 15,
+          "wrongActions": 0,
+          "wrong": [],
+          "confirmedNotApplied": 0,
+          "appliedNotConfirmed": 0,
+          "uncertainOrUnconfirmed": 0,
+          "incorrectClicks": 0,
+          "invalidWagers": 0,
+          "timeoutActions": 0
+        },
+        "table": {
+          "attempted": 15,
+          "confirmed": 15,
+          "rejected": 0,
+          "ambiguous": 0,
+          "timedOut": 0,
+          "uncertain": 0,
+          "cancelled": 0,
+          "deadlineMisses": 0,
+          "frames": 101,
+          "refusedReadings": 0,
+          "refusalCodes": {},
+          "reconstructionFailures": 0,
+          "untrackedHands": 0,
+          "untrackedHandsWithoutDecision": 0,
+          "untrackedHandsNeedingInput": 0,
+          "recoveries": 0,
+          "eliminationsSeen": 0,
+          "verifyingSteps": 0,
+          "gameplay": "playing",
+          "gameplayEpisodes": {
+            "starting": 1,
+            "playing": 15,
+            "waiting-turn": 14
+          },
+          "lifecycle": "ACTIVE",
+          "completed": null,
+          "tournamentRemaining": 8,
+          "latencyMs": {
+            "endToEnd": {
+              "n": 15,
+              "mean": 1195.08,
+              "p50": 890.39,
+              "p95": 2243.76,
+              "p99": 2243.76,
+              "max": 2243.76
+            },
+            "cursorTravel": {
+              "n": 15,
+              "mean": 326.69,
+              "p50": 349.04,
+              "p95": 587.9,
+              "p99": 587.9,
+              "max": 587.9
+            },
+            "inputOperation": {
+              "n": 15,
+              "mean": 1168.79,
+              "p50": 864.45,
+              "p95": 2216.06,
+              "p99": 2216.06,
+              "max": 2216.06
+            },
+            "confirmation": {
+              "n": 15,
+              "mean": 143.93,
+              "p50": 144.65,
+              "p95": 159.57,
+              "p99": 159.57,
+              "max": 159.57
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "T5",
+      "name": "Two tables: eliminations on both, one window closes; no input crosses tables",
+      "status": "pass",
+      "durationMs": 55010,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "eliminations recognised on table 1",
+          "pass": true,
+          "detail": 6
+        },
+        {
+          "name": "table 2 TARGET_LOST after its window closed",
+          "pass": true,
+          "detail": "TARGET_LOST"
+        },
+        {
+          "name": "no input to the closed window",
+          "pass": true,
+          "detail": null
+        },
+        {
+          "name": "table 1 keeps playing (or finished its tournament)",
+          "pass": true,
+          "detail": [
+            3,
+            true
+          ]
+        },
+        {
+          "name": "table 1: every confirmed action matches its own dealer; no incorrect click",
+          "pass": true,
+          "detail": {
+            "confirmed": 17,
+            "dealerAccepted": 17,
+            "matchedInOrder": 17,
+            "wrongActions": 0,
+            "wrong": [],
+            "confirmedNotApplied": 0,
+            "appliedNotConfirmed": 0,
+            "uncertainOrUnconfirmed": 0,
+            "incorrectClicks": 0,
+            "invalidWagers": 0,
+            "timeoutActions": 0
+          }
+        },
+        {
+          "name": "the scheduler blocks only table 2",
+          "pass": true,
+          "detail": [
+            2
+          ]
+        }
+      ],
+      "metrics": {
+        "table1": {
+          "attempted": 17,
+          "confirmed": 17,
+          "rejected": 0,
+          "ambiguous": 0,
+          "timedOut": 0,
+          "uncertain": 0,
+          "cancelled": 0,
+          "deadlineMisses": 0,
+          "frames": 24,
+          "refusedReadings": 2,
+          "refusalCodes": {
+            "missed-hand-start": 1,
+            "untracked-hand": 1
+          },
+          "reconstructionFailures": 1,
+          "untrackedHands": 1,
+          "untrackedHandsWithoutDecision": 0,
+          "untrackedHandsNeedingInput": 1,
+          "recoveries": 0,
+          "eliminationsSeen": 6,
+          "verifyingSteps": 0,
+          "gameplay": "tournament-complete",
+          "gameplayEpisodes": {
+            "starting": 1,
+            "playing": 2,
+            "elimination": 2,
+            "waiting-next-hand": 1,
+            "tournament-complete": 1
+          },
+          "lifecycle": "STOPPED",
+          "completed": {
+            "kind": "tournament-complete",
+            "hand": 3,
+            "winner": 2,
+            "source": "final screen of an untracked hand (settlement not verified)",
+            "at": "2026-11-23T21:59:54.621Z"
+          },
+          "tournamentRemaining": 2,
+          "latencyMs": {
+            "endToEnd": {
+              "n": 17,
+              "mean": 2549.08,
+              "p50": 2732.63,
+              "p95": 4754.18,
+              "p99": 4754.18,
+              "max": 4754.18
+            },
+            "cursorTravel": {
+              "n": 17,
+              "mean": 968.13,
+              "p50": 1144.34,
+              "p95": 1584.38,
+              "p99": 1584.38,
+              "max": 1584.38
+            },
+            "inputOperation": {
+              "n": 17,
+              "mean": 2530.46,
+              "p50": 2715.82,
+              "p95": 4732.72,
+              "p99": 4732.72,
+              "max": 4732.72
+            },
+            "confirmation": {
+              "n": 17,
+              "mean": 135.1,
+              "p50": 134.03,
+              "p95": 170.37,
+              "p99": 170.37,
+              "max": 170.37
+            }
+          }
+        },
+        "table2": {
+          "attempted": 14,
+          "confirmed": 13,
+          "rejected": 0,
+          "ambiguous": 0,
+          "timedOut": 0,
+          "uncertain": 1,
+          "cancelled": 1,
+          "deadlineMisses": 0,
+          "frames": 14,
+          "refusedReadings": 0,
+          "refusalCodes": {},
+          "reconstructionFailures": 0,
+          "untrackedHands": 0,
+          "untrackedHandsWithoutDecision": 0,
+          "untrackedHandsNeedingInput": 0,
+          "recoveries": 0,
+          "eliminationsSeen": 0,
+          "verifyingSteps": 0,
+          "gameplay": "target-lost",
+          "gameplayEpisodes": {
+            "starting": 1,
+            "playing": 1,
+            "target-lost": 1
+          },
+          "lifecycle": "TARGET_LOST",
+          "completed": null,
+          "tournamentRemaining": null,
+          "latencyMs": {
+            "endToEnd": {
+              "n": 13,
+              "mean": 2853.67,
+              "p50": 2993.38,
+              "p95": 4861.4,
+              "p99": 4861.4,
+              "max": 4861.4
+            },
+            "cursorTravel": {
+              "n": 13,
+              "mean": 1170.35,
+              "p50": 1297.45,
+              "p95": 1587.2,
+              "p99": 1587.2,
+              "max": 1587.2
+            },
+            "inputOperation": {
+              "n": 13,
+              "mean": 2834.56,
+              "p50": 2974.6,
+              "p95": 4846.74,
+              "p99": 4846.74,
+              "max": 4846.74
+            },
+            "confirmation": {
+              "n": 13,
+              "mean": 138.18,
+              "p50": 138.11,
+              "p95": 156.67,
+              "p99": 156.67,
+              "max": 156.67
+            }
+          }
+        },
+        "crossCheck1": {
+          "confirmed": 17,
+          "dealerAccepted": 17,
+          "matchedInOrder": 17,
+          "wrongActions": 0,
+          "wrong": [],
+          "confirmedNotApplied": 0,
+          "appliedNotConfirmed": 0,
+          "uncertainOrUnconfirmed": 0,
+          "incorrectClicks": 0,
+          "invalidWagers": 0,
+          "timeoutActions": 0
+        }
+      }
+    },
+    {
+      "id": "T6",
+      "name": "Emergency stop right after an elimination: stop wins, no input, no automatic recovery",
+      "status": "pass",
+      "durationMs": 21241,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "an elimination was recognised",
+          "pass": true,
+          "detail": 2
+        },
+        {
+          "name": "SAFETY_PAUSED by the emergency stop",
+          "pass": true,
+          "detail": "SAFETY_PAUSED"
+        },
+        {
+          "name": "gameplay condition: emergency stop",
+          "pass": true,
+          "detail": "emergency-stop"
+        },
+        {
+          "name": "no input while the stop is latched",
+          "pass": true,
+          "detail": null
+        },
+        {
+          "name": "no automatic recovery",
+          "pass": true,
+          "detail": null
+        },
+        {
+          "name": "the driver refuses to arm while the stop is latched",
+          "pass": true,
+          "detail": "emergency-stop"
+        }
+      ],
+      "metrics": {
+        "table": {
+          "attempted": 14,
+          "confirmed": 14,
+          "rejected": 0,
+          "ambiguous": 0,
+          "timedOut": 0,
+          "uncertain": 0,
+          "cancelled": 0,
+          "deadlineMisses": 0,
+          "frames": 15,
+          "refusedReadings": 0,
+          "refusalCodes": {},
+          "reconstructionFailures": 0,
+          "untrackedHands": 0,
+          "untrackedHandsWithoutDecision": 0,
+          "untrackedHandsNeedingInput": 0,
+          "recoveries": 0,
+          "eliminationsSeen": 2,
+          "verifyingSteps": 0,
+          "gameplay": "emergency-stop",
+          "gameplayEpisodes": {
+            "starting": 1,
+            "playing": 1,
+            "elimination": 1,
+            "emergency-stop": 1
+          },
+          "lifecycle": "SAFETY_PAUSED",
+          "completed": null,
+          "tournamentRemaining": 6,
+          "latencyMs": {
+            "endToEnd": {
+              "n": 14,
+              "mean": 991.86,
+              "p50": 766.57,
+              "p95": 2154.38,
+              "p99": 2154.38,
+              "max": 2154.38
+            },
+            "cursorTravel": {
+              "n": 14,
+              "mean": 274.4,
+              "p50": 255.2,
+              "p95": 589.09,
+              "p99": 589.09,
+              "max": 589.09
+            },
+            "inputOperation": {
+              "n": 14,
+              "mean": 974.64,
+              "p50": 753.54,
+              "p95": 2135.15,
+              "p99": 2135.15,
+              "max": 2135.15
+            },
+            "confirmation": {
+              "n": 14,
+              "mean": 136.1,
+              "p50": 136.17,
+              "p95": 148.73,
+              "p99": 148.73,
+              "max": 148.73
+            }
+          }
+        }
+      }
+    }
+  ],
+  "cleanup": {
+    "childProcesses": [
+      {
+        "name": "desktop host",
+        "pid": 9544,
+        "exited": true,
+        "code": 0,
+        "signal": null
+      },
+      {
+        "name": "test-table fixture 1",
+        "pid": 5168,
+        "exited": true,
+        "code": 0,
+        "signal": null
+      },
+      {
+        "name": "test-table fixture 2",
+        "pid": 4404,
+        "exited": true,
+        "code": 0,
+        "signal": null
+      },
+      {
+        "name": "test-table fixture 3",
+        "pid": 8536,
+        "exited": true,
+        "code": 0,
+        "signal": null
+      },
+      {
+        "name": "test-table fixture 4",
+        "pid": 7908,
+        "exited": true,
+        "code": 0,
+        "signal": null
+      },
+      {
+        "name": "test-table fixture 5",
+        "pid": 9836,
+        "exited": true,
+        "code": 0,
+        "signal": null
+      },
+      {
+        "name": "test-table fixture 6",
+        "pid": 9536,
+        "exited": true,
+        "code": 0,
+        "signal": null
+      }
+    ],
+    "allChildrenExited": true,
+    "activeResources": {},
+    "unexpected": [],
+    "ok": true
+  },
+  "summary": {
+    "scenarios": 6,
+    "passed": 6,
+    "failed": 0,
+    "checks": 42,
+    "failedChecks": 0,
+    "cleanupOk": true
+  },
+  "overall": "PASS",
+  "durationMs": 217393,
+  "exitCode": 0
+}
