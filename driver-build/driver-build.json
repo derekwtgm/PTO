@@ -1,0 +1,35 @@
+{
+    "format":  "eightmax-m3-driver-build",
+    "version":  1,
+    "output":  "desktop/bin/EightMaxInput.exe",
+    "sha256":  "2c4d7b739ceb617925600c663848d51d21570d5fe566e10fa15713d6d390c91c",
+    "bytes":  83968,
+    "versionOutput":  "EightMaxInput 0.36.2-dev (EightMax Test Workbench input driver; SendInput, x64)",
+    "fileVersion":  "0.36.2.0",
+    "productVersion":  "0.36.2-dev",
+    "builtAt":  "2026-11-23T16:28:33.1267585Z",
+    "buildHost":  "Windows: Microsoft Windows Server 2025 Datacenter 10.0.26100 build 26100",
+    "script":  "windows\\Build-Executables.ps1 -SkipWgc",
+    "ci":  {
+               "runId":  "45216843075",
+               "runner":  "GitHub Actions 1000000182",
+               "repository":  "derekwtgm/PTO",
+               "sha":  "74378647fa128d70e939569ea4d338d166fdcfa8"
+           },
+    "sourceHashes":  {
+                         "desktop/input/Driver.cs":  "503f153914543c5c84ae1737342ea257bce5a9bf772586723b5a9dcf9193d107",
+                         "desktop/input/Motion.cs":  "0eea332e21ac2b5ea8713427f17a56c6299aa42f2afce5fea2e699bab8fd2848",
+                         "desktop/input/Platform.cs":  "2211a2b38785e5238735fd41c79a0046cdb528788ae3afb1dcfbacb4b7a43605",
+                         "desktop/input/Program.cs":  "4cad506cb945d74cf3c67f78fc5a2df42484c8d1d99144a4b40c66bd23fd3669",
+                         "desktop/input/Safety.cs":  "678223148e17a04ca9e8abaf0c187997214a2f0113c8b11582e99abc21b476bd",
+                         "desktop/input/Uia.cs":  "63adbb47cdadf5e1cf0957bc170e7495a217243f3b54541c06c2984def7ad7ce"
+                     },
+    "shippedFromThisBuild":  [
+                                 "desktop/bin/EightMaxInput.exe"
+                             ],
+    "discarded":  [
+                      "EightMaxWorkbench.exe",
+                      "EightMaxCapture.exe",
+                      "EightMaxTestTable.exe"
+                  ]
+}
