@@ -16285,7 +16285,7 @@ const close=$('r33-close');if(close)close.addEventListener('click',()=>{$('r33-p
       const client = { x: g.bounds.x, y: g.bounds.y, w: g.bounds.width, h: g.bounds.height }, frame = { client, at: g.at, frameId: g.frameId, title: g.title };
       if (this.win.title && !(g.title || '').startsWith(this.win.title)) return { reject: 'wrong window: the title no longer starts with ' + JSON.stringify(this.win.title) };
       let view = this.profile.layout.heroSeat || 0, rev;
-      if (this.strip) { const st = STRIP.read(g.image); if (!st.ok) { this.m.rejectedFrames++; return { reject: 'status strip: ' + st.reason }; } if (st.table !== this.id) return { reject: 'wrong table: the window shows table ' + st.table }; view = st.viewSeat; rev = st.revision; frame.strip = st; }
+      if (this.strip) { const st = STRIP.read(g.image); if (!st.ok) { this.m.rejectedFrames++; this._diag('recognition', { ok: false, reasons: ['status strip: ' + st.reason] }); return { reject: 'status strip: ' + st.reason }; } if (st.table !== this.id) return { reject: 'wrong table: the window shows table ' + st.table }; view = st.viewSeat; rev = st.revision; frame.strip = st; }
       const r = this.reader.observe(g.image, { heroSeat: view, capturedAt: Date.now() });
       if (!r.ok) { this.m.rejectedFrames++; this._diag('recognition', { ok: false, reasons: r.reasons.slice(0, 3) }); return { reject: 'recognition: ' + r.reasons.slice(0, 2).join('; ') }; }
       if (this.rec && this.rec.success) this.rec.success(this.id, 'recognition');

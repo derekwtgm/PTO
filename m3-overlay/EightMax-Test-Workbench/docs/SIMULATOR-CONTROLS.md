@@ -107,8 +107,13 @@ against the previous hand's settled stacks. The table row shows each condition o
 | Waiting for a valid hand | "The current hand could not be reconstructed. Automated input is paused until the next verified hand." The hand-tracking line names the reason and the hand number that will be used next |
 | Verifying fresh readings | after a recovery: no decision until consecutive fresh readings agree |
 | Hand reconstruction failure / Invalid chip accounting | a reading contradicts the hand; nothing is sent; 25 contradicting readings in a row make the hand untracked |
+| Recognition failure | the screen could not be read reliably (low confidence, a field missing); nothing is sent, the hand stays tracked and play continues as soon as the screen reads again |
 | Strategy unavailable | strict EightMax mode without a compatible study; nothing scripted is substituted |
 | Simulator completed | "Tournament finished. Automated gameplay has stopped normally." (lifecycle STOPPED; Resume does not restart it) |
+
+An unreadable frame is not a contradiction: since the Milestone 3 Windows run it never ends the tracking of a hand by itself.
+Card recognition is calibrated from every board and hero card position at 800, 960, 1280, 1440 and 1920 pixels; other window
+widths read slightly less surely (at 1024 px a few cards stay under the 0.9 threshold and those frames are refused, never guessed).
 
 A hand that was already under way when automation started is never guessed at: it stays untracked (no input) and play resumes
 automatically at the next hand whose opening is verified. On the bundled tables, which only move when the player to act acts, finish
@@ -133,6 +138,8 @@ capture (desktop host: PrintWindow or Windows Graphics Capture)
   under the cursor must be the target before pressing, `RegisterHotKey` for the emergency stop, Raw Input to notice a person's
   mouse/keyboard (no hooks), UI Automation read-only (control list, field value), WM_GETTEXT read-back of the wager field.
   Two single clicks on one spot are spaced beyond the Windows double-click time (a defect found by the Windows acceptance).
+  After an operation of its own that stopped part-way (window closed or moved, cancelled), the driver's remembered cursor position
+  follows its own last point, so the next operation is not mistaken for a person's movement (0.36.2 Milestone 3, rebuilt on Windows).
 * **Desktop host** owns the one driver process (job object: it dies with the host), forwards whitelisted commands from
   authenticated requests (`/api/input/*`), and does not restart a crashed driver silently.
 * **Duplicate protection**: the executor binds each action to (table, hand, state revision); the UI adapter records the

@@ -1,0 +1,10 @@
+--- C: Long campaign: tournaments played to the end one after another until 120 hands are completed
+  [PASS] at least 120 hands completed - 135
+  [PASS] tournaments were played to the end (winner = dealer winner) - [9,true]
+  [PASS] no incorrect action, no invalid wager (oracle) - [0,0]
+  [PASS] no missed state transition (every action the table applied was confirmed or flagged) - [0,0]
+  [PASS] no hand-reconstruction failure; no untracked hand that needed a decision (a hand nobody acted in may be first seen finished) - {"reconstructionFailures":0,"untrackedHands":0,"withoutDecision":0,"needingInput":0}
+  [PASS] no stall or unexpected pause - []
+  [PASS] eliminations recognised - 63
+  => PASS (130 s)
+Gameplay acceptance campaign (fake): PASS - 1/1 scenarios -> /home/user/work/evidence-m3/final/campaign-fake-5p400.json

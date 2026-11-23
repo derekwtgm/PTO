@@ -51,7 +51,9 @@ function spawnTable(i, generation, onReady) {
   // 0.36.2 M3: a window that has already exited makes a later write to its stdin fail ASYNCHRONOUSLY (EPIPE); without a listener that
   // error crashed this fixture with exit code 1 at the end of the Windows CI run (run 45203097931). The window is gone either way.
   child.stdin.on('error', () => { /* window gone */ });
-  rec.dealer = new FD.TableDealer({ table: id, seed: seed * 1000 + id, stacks:seatStacks ? seatStacks.slice() : Array(8).fill(stackChips),blinds, convention, handGapMs: gap, turnDelayMs: turnDelay, actionTimeoutMs: actionTimeout, actionTimeoutUntilHand: clockUntilHand, send: (m) => { try { child.stdin.write(JSON.stringify(m) + '\n'); } catch (e) { /* window gone */ } },
+  // 0.36.2 M3: a reopened table (a new tournament in the campaign and stability runs) gets its own deal: seed + generation * 100003
+  // (with one seed for every generation each replacement tournament replayed the first one hand for hand)
+  rec.dealer = new FD.TableDealer({ table: id, seed: seed * 1000 + id + (generation || 0) * 100003, stacks:seatStacks ? seatStacks.slice() : Array(8).fill(stackChips),blinds, convention, handGapMs: gap, turnDelayMs: turnDelay, actionTimeoutMs: actionTimeout, actionTimeoutUntilHand: clockUntilHand, send: (m) => { try { child.stdin.write(JSON.stringify(m) + '\n'); } catch (e) { /* window gone */ } },
     record: (e) => { if (oracle !== null) fs.writeSync(oracle, JSON.stringify({ t: Date.now(), table: id, ...e }) + '\n'); } });
   child.stdout.setEncoding('utf8');
   child.stdout.on('data', (d) => { rec.buf += d; let k; while ((k = rec.buf.indexOf('\n')) >= 0) { const line = rec.buf.slice(0, k); rec.buf = rec.buf.slice(k + 1); let m; try { m = JSON.parse(line); } catch (e) { continue; }

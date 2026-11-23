@@ -1,0 +1,741 @@
+{
+  "format": "eightmax-m2-lifecycle-acceptance",
+  "version": 1,
+  "app": "0.36.2-dev",
+  "milestone": "0.36.2-milestone-2",
+  "environment": "fake",
+  "at": "2026-11-23T16:50:07.964Z",
+  "machine": {
+    "platform": "linux",
+    "release": "6.18.44-fc-v726",
+    "node": "v22.23.5",
+    "cpus": 4,
+    "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "ramGiB": 15.7
+  },
+  "host": {
+    "note": "fake host: scenario-logic self-check, NOT Windows evidence"
+  },
+  "motion": {
+    "maxSpeed": 1200
+  },
+  "scenarios": [
+    {
+      "id": "J",
+      "name": "Scripted practice plays hand after hand (no regression)",
+      "status": "pass",
+      "durationMs": 5764,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "at least 12 confirmed actions",
+          "pass": true,
+          "detail": 22
+        },
+        {
+          "name": "continued hand-to-hand play (2+ hands with confirmed actions)",
+          "pass": true,
+          "detail": 2
+        },
+        {
+          "name": "no ambiguous / timed-out / uncertain action",
+          "pass": true,
+          "detail": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "no incorrect click or wager (oracle)",
+          "pass": true,
+          "detail": {
+            "incorrect": 0,
+            "wagerRejected": 0,
+            "accepted": 22
+          }
+        },
+        {
+          "name": "every confirmed action reached the table",
+          "pass": true,
+          "detail": "22 accepted / 22 confirmed"
+        },
+        {
+          "name": "lifecycle ACTIVE, one transition (REGISTERED -> ACTIVE)",
+          "pass": true,
+          "detail": "REGISTERED > ACTIVE"
+        }
+      ],
+      "metrics": {
+        "endToEnd": {
+          "n": 22,
+          "mean": 131.67,
+          "p50": 124.84,
+          "p95": 177.48,
+          "p99": 181.4,
+          "max": 181.4
+        },
+        "cursorTravel": {
+          "n": 22,
+          "mean": 6,
+          "p50": 6,
+          "p95": 6,
+          "p99": 6,
+          "max": 6
+        },
+        "inputOperation": {
+          "n": 22,
+          "mean": 98.68,
+          "p50": 91.31,
+          "p95": 136.24,
+          "p99": 136.99,
+          "max": 136.99
+        },
+        "confirmation": {
+          "n": 22,
+          "mean": 50.85,
+          "p50": 45.13,
+          "p95": 70.76,
+          "p99": 78.36,
+          "max": 78.36
+        }
+      }
+    },
+    {
+      "id": "A",
+      "name": "Window closes during capture",
+      "status": "pass",
+      "durationMs": 670,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "TARGET_LOST detected",
+          "pass": true,
+          "detail": "TARGET_LOST"
+        },
+        {
+          "name": "detected within 10 s of the close",
+          "pass": true,
+          "detail": "25 ms"
+        },
+        {
+          "name": "automation loop ended (no infinite retries)",
+          "pass": true,
+          "detail": null
+        },
+        {
+          "name": "no capture request after the loss",
+          "pass": true,
+          "detail": 0
+        },
+        {
+          "name": "no input after the loss",
+          "pass": true,
+          "detail": 0
+        },
+        {
+          "name": "capture requests between close and loss are bounded",
+          "pass": true,
+          "detail": 0
+        },
+        {
+          "name": "driver authorisation revoked",
+          "pass": true,
+          "detail": null
+        },
+        {
+          "name": "reason recorded",
+          "pass": true,
+          "detail": "The window no longer exists (capture: target-lost; driver: window-gone)."
+        }
+      ],
+      "metrics": {
+        "detectMs": 25,
+        "lifecycle": {
+          "registrationId": "reg-mwti4n71-2",
+          "table": 1,
+          "replaces": null,
+          "state": "TARGET_LOST",
+          "generation": 3,
+          "sinceMs": 425,
+          "cause": {
+            "kind": "window-closed",
+            "code": "target-lost",
+            "reason": "The window no longer exists (capture: target-lost; driver: window-gone).",
+            "source": "capture"
+          },
+          "title": "Simulator window closed",
+          "message": "The registered simulator is no longer available. Automation for this table has stopped. Reopen the simulator and register its window again.",
+          "automationEligible": false,
+          "reRegistrationRequired": true,
+          "operatorActionRequired": true,
+          "lastSuccessfulCapture": "2026-11-23T16:50:13.870Z",
+          "msSinceLastSuccessfulCapture": 531,
+          "lastFailure": {
+            "code": "target-lost",
+            "reason": "The window no longer exists.",
+            "at": 1795452613975
+          },
+          "lossSignals": 1,
+          "lostAt": "2026-11-23T16:50:13.976Z",
+          "identity": {
+            "hwnd": "0x2000",
+            "pid": 4001,
+            "processStart": "5001",
+            "className": "WindowsForms10.Window.8.app.0.EightMaxTestTable",
+            "exe": "C:\\EightMax\\desktop\\bin\\EightMaxTestTable.exe",
+            "exeSha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "client": {
+              "x": 70,
+              "y": 50,
+              "w": 800,
+              "h": 500
+            },
+            "dpiScale": 1
+          },
+          "counts": {
+            "transitions": 2,
+            "refused": 0,
+            "staleIgnored": 0,
+            "repeats": 0,
+            "byState": {
+              "ACTIVE": 1,
+              "TARGET_LOST": 1
+            }
+          },
+          "history": [
+            {
+              "at": 1795452613741,
+              "from": null,
+              "to": "REGISTERED",
+              "generation": 1,
+              "kind": "registered",
+              "code": null,
+              "reason": "registered by the operator",
+              "operator": false,
+              "source": null
+            },
+            {
+              "at": 1795452613778,
+              "from": "REGISTERED",
+              "to": "ACTIVE",
+              "generation": 2,
+              "kind": "first-reading",
+              "code": null,
+              "reason": "identity verified and first reading accepted",
+              "operator": false,
+              "source": null
+            },
+            {
+              "at": 1795452613976,
+              "from": "ACTIVE",
+              "to": "TARGET_LOST",
+              "generation": 3,
+              "kind": "window-closed",
+              "code": "target-lost",
+              "reason": "The window no longer exists (capture: target-lost; driver: window-gone).",
+              "operator": false,
+              "source": "capture"
+            }
+          ],
+          "historyDropped": 0
+        }
+      }
+    },
+    {
+      "id": "B",
+      "name": "Window closes during mouse movement",
+      "status": "pass",
+      "durationMs": 1012,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "TARGET_LOST after a close during movement",
+          "pass": true,
+          "detail": "TARGET_LOST"
+        },
+        {
+          "name": "the close happened while the click was moving",
+          "pass": true,
+          "detail": null
+        },
+        {
+          "name": "final action status recorded (refused before the click, or uncertain for review)",
+          "pass": true,
+          "detail": "rejected: Click failed: window-gone: The simulator window was closed."
+        },
+        {
+          "name": "no input to the lost window afterwards",
+          "pass": true,
+          "detail": null
+        },
+        {
+          "name": "the other table keeps playing",
+          "pass": true,
+          "detail": 3
+        },
+        {
+          "name": "no input redirected to the other table (its oracle is clean)",
+          "pass": true,
+          "detail": {
+            "incorrect": 0,
+            "wagerRejected": 0,
+            "accepted": 6
+          }
+        },
+        {
+          "name": "table 2 still ACTIVE",
+          "pass": true,
+          "detail": "ACTIVE"
+        }
+      ],
+      "metrics": {
+        "t1": {
+          "recoveries": 0,
+          "backoffWaits": 0,
+          "identityProbes": 2,
+          "staleStatesDiscarded": 1,
+          "cancelledByLoss": 0,
+          "uncertainActions": 0
+        },
+        "cancellation": {
+          "table": 1,
+          "registrationId": "reg-mwti4nq1-3",
+          "reason": "The window was closed while an action was prepared.",
+          "dropped": 0,
+          "cancelledRunning": false,
+          "at": 7010.854264
+        }
+      }
+    },
+    {
+      "id": "C",
+      "name": "Simulator restarts with a different handle",
+      "status": "pass",
+      "durationMs": 1075,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "old registration TARGET_LOST",
+          "pass": true,
+          "detail": "TARGET_LOST"
+        },
+        {
+          "name": "the reopened window has a different handle",
+          "pass": true,
+          "detail": "0x3000 vs 0x2000"
+        },
+        {
+          "name": "replacement detected as a candidate",
+          "pass": true,
+          "detail": [
+            "0x3000"
+          ]
+        },
+        {
+          "name": "candidate is the same program (SHA-256)",
+          "pass": true,
+          "detail": null
+        },
+        {
+          "name": "no capture of the candidate before confirmation",
+          "pass": true,
+          "detail": null
+        },
+        {
+          "name": "no automatic input to the candidate",
+          "pass": true,
+          "detail": null
+        },
+        {
+          "name": "the lost lifecycle cannot be reused for the new window",
+          "pass": true,
+          "detail": null
+        },
+        {
+          "name": "explicit re-registration starts REGISTERED",
+          "pass": true,
+          "detail": null
+        },
+        {
+          "name": "after explicit confirmation the replacement plays",
+          "pass": true,
+          "detail": 3
+        },
+        {
+          "name": "replacement ACTIVE",
+          "pass": true,
+          "detail": "ACTIVE"
+        }
+      ],
+      "metrics": {
+        "candidate": {
+          "hwnd": "0x3000",
+          "pid": 4002,
+          "processStart": "5002",
+          "title": "EightMax Test Table 01",
+          "exe": "C:\\EightMax\\desktop\\bin\\EightMaxTestTable.exe",
+          "className": "WindowsForms10.Window.8.app.0.EightMaxTestTable",
+          "client": {
+            "x": 70,
+            "y": 50,
+            "w": 800,
+            "h": 500
+          },
+          "dpiScale": 1,
+          "score": 3,
+          "geometryChanged": false,
+          "scalingChanged": false,
+          "calibrationRecheckRequired": false,
+          "sameHandleReused": false,
+          "replaces": "reg-mwti4ohq-5"
+        }
+      }
+    },
+    {
+      "id": "D",
+      "name": "Temporary capture failures (injected while the window stays open)",
+      "status": "pass",
+      "durationMs": 1363,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "TEMPORARILY_UNAVAILABLE",
+          "pass": true,
+          "detail": null
+        },
+        {
+          "name": "bounded backoff between retries",
+          "pass": true,
+          "detail": [
+            43,
+            90,
+            171
+          ]
+        },
+        {
+          "name": "recovered via RECOVERY_PENDING to ACTIVE",
+          "pass": true,
+          "detail": "REGISTERED > ACTIVE > TEMPORARILY_UNAVAILABLE > RECOVERY_PENDING > ACTIVE"
+        },
+        {
+          "name": "no stale action: the next action was decided after recovery",
+          "pass": true,
+          "detail": "5 vs 2"
+        },
+        {
+          "name": "play continues",
+          "pass": true,
+          "detail": 2
+        },
+        {
+          "name": "classification recorded",
+          "pass": true,
+          "detail": {
+            "no-frame": 4
+          }
+        }
+      ],
+      "metrics": {
+        "gaps": [
+          43,
+          90,
+          171
+        ],
+        "recovery": {
+          "recoveries": 1,
+          "backoffWaits": 4,
+          "identityProbes": 6,
+          "staleStatesDiscarded": 1,
+          "cancelledByLoss": 0,
+          "uncertainActions": 0
+        }
+      }
+    },
+    {
+      "id": "E",
+      "name": "Minimised window",
+      "status": "pass",
+      "durationMs": 1210,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "TEMPORARILY_UNAVAILABLE (minimised)",
+          "pass": true,
+          "detail": "TEMPORARILY_UNAVAILABLE / minimized"
+        },
+        {
+          "name": "no input while minimised",
+          "pass": true,
+          "detail": 0
+        },
+        {
+          "name": "captures back off while minimised",
+          "pass": true,
+          "detail": 3
+        },
+        {
+          "name": "restored, verified again and playing",
+          "pass": true,
+          "detail": 2
+        },
+        {
+          "name": "never lost",
+          "pass": true,
+          "detail": null
+        }
+      ],
+      "metrics": {
+        "minimizedForMs": 929
+      }
+    },
+    {
+      "id": "F",
+      "name": "Several tables, one closes",
+      "status": "pass",
+      "durationMs": 1722,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "only the closed table is lost",
+          "pass": true,
+          "detail": [
+            "ACTIVE",
+            "TARGET_LOST",
+            "ACTIVE"
+          ]
+        },
+        {
+          "name": "the other tables keep playing",
+          "pass": true,
+          "detail": [
+            3,
+            3
+          ]
+        },
+        {
+          "name": "no input to the lost window",
+          "pass": true,
+          "detail": null
+        },
+        {
+          "name": "the scheduler blocks only table 2",
+          "pass": true,
+          "detail": [
+            2
+          ]
+        },
+        {
+          "name": "table 1 oracle clean (no redirected input)",
+          "pass": true,
+          "detail": {
+            "incorrect": 0,
+            "wagerRejected": 0,
+            "accepted": 5
+          }
+        },
+        {
+          "name": "table 3 oracle clean (no redirected input)",
+          "pass": true,
+          "detail": {
+            "incorrect": 0,
+            "wagerRejected": 0,
+            "accepted": 5
+          }
+        }
+      ],
+      "metrics": {
+        "states": [
+          "ACTIVE",
+          "TARGET_LOST",
+          "ACTIVE"
+        ]
+      }
+    },
+    {
+      "id": "G",
+      "name": "Emergency stop during recovery",
+      "status": "pass",
+      "durationMs": 691,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "lifecycle SAFETY_PAUSED (emergency stop wins)",
+          "pass": true,
+          "detail": "SAFETY_PAUSED"
+        },
+        {
+          "name": "no input after the stop, even after the window came back",
+          "pass": true,
+          "detail": null
+        },
+        {
+          "name": "automatic recovery is refused without the operator",
+          "pass": true,
+          "detail": null
+        },
+        {
+          "name": "the driver refuses to arm while the stop is latched",
+          "pass": true,
+          "detail": "emergency-stop"
+        },
+        {
+          "name": "the scheduler refuses input until reset",
+          "pass": true,
+          "detail": "emergency-stop"
+        }
+      ],
+      "metrics": {
+        "lifecycle": [
+          "REGISTERED",
+          "ACTIVE",
+          "TEMPORARILY_UNAVAILABLE",
+          "SAFETY_PAUSED"
+        ]
+      }
+    },
+    {
+      "id": "H",
+      "name": "Repeated target-loss signals",
+      "status": "pass",
+      "durationMs": 144,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "exactly one TARGET_LOST transition",
+          "pass": true,
+          "detail": null
+        },
+        {
+          "name": "every signal counted",
+          "pass": true,
+          "detail": 51
+        },
+        {
+          "name": "no host capture caused by the repeated signals",
+          "pass": true,
+          "detail": 0
+        },
+        {
+          "name": "diagnostics bounded (coalesced)",
+          "pass": true,
+          "detail": 13
+        },
+        {
+          "name": "one cleanup only",
+          "pass": true,
+          "detail": null
+        },
+        {
+          "name": "all refusals local",
+          "pass": true,
+          "detail": null
+        }
+      ],
+      "metrics": {
+        "lossSignals": 51,
+        "suppressed": 0
+      }
+    },
+    {
+      "id": "I",
+      "name": "Identity mismatch / handle reuse: no inherited permission",
+      "status": "pass",
+      "durationMs": 53,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "identity mismatch -> TARGET_LOST (identity-changed)",
+          "pass": true,
+          "detail": "TARGET_LOST / identity-changed"
+        },
+        {
+          "name": "no input was sent",
+          "pass": true,
+          "detail": null
+        },
+        {
+          "name": "message explains the mismatch",
+          "pass": true,
+          "detail": null
+        },
+        {
+          "name": "registration with a different program identity is rejected by the driver",
+          "pass": true,
+          "detail": "authorization-refused"
+        },
+        {
+          "name": "input to an unregistered handle is refused by the driver",
+          "pass": true,
+          "detail": "target-not-registered"
+        }
+      ],
+      "metrics": {
+        "lost": {
+          "kind": "identity-changed",
+          "code": "identity-changed",
+          "reason": "The window no longer matches the registered simulator: process start time differs (handle or process id reused)",
+          "at": "2026-11-23T16:50:21.667Z",
+          "source": "verification"
+        }
+      }
+    },
+    {
+      "id": "K",
+      "name": "Window resized while playing (geometry / display-scaling re-check)",
+      "status": "pass",
+      "durationMs": 810,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "play continues after the resize",
+          "pass": true,
+          "detail": 3
+        },
+        {
+          "name": "no incorrect click after the resize (oracle)",
+          "pass": true,
+          "detail": {
+            "incorrect": 0,
+            "wagerRejected": 0,
+            "accepted": 5
+          }
+        },
+        {
+          "name": "table not lost by a resize",
+          "pass": true,
+          "detail": "ACTIVE"
+        }
+      ],
+      "metrics": {
+        "dpiScale": 1,
+        "lastClient": {
+          "x": 40,
+          "y": 40,
+          "w": 800,
+          "h": 500
+        },
+        "refusals": 0
+      }
+    }
+  ],
+  "cleanup": {
+    "childProcesses": [],
+    "allChildrenExited": true,
+    "activeResources": {},
+    "unexpected": [],
+    "ok": true
+  },
+  "summary": {
+    "scenarios": 11,
+    "passed": 11,
+    "failed": 0,
+    "checks": 67,
+    "failedChecks": 0,
+    "skipped": 0,
+    "cleanupOk": true
+  },
+  "overall": "PASS",
+  "durationMs": 14522,
+  "exitCode": 0
+}

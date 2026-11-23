@@ -1,0 +1,429 @@
+{
+  "format": "eightmax-m3-gameplay-acceptance",
+  "version": 1,
+  "suite": "stability",
+  "app": "0.36.2-dev",
+  "milestone": "0.36.2-milestone-3",
+  "environment": "fake",
+  "at": "2026-11-23T16:50:57.438Z",
+  "machine": {
+    "platform": "linux",
+    "release": "6.18.44-fc-v726",
+    "node": "v22.23.5",
+    "cpus": 4,
+    "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "ramGiB": 15.7
+  },
+  "host": {
+    "note": "fake host: scenario-logic self-check, NOT Windows evidence"
+  },
+  "scenarios": [
+    {
+      "id": "M1",
+      "name": "1 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+      "status": "pass",
+      "durationMs": 62607,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "every table played (confirmed actions on every table)",
+          "pass": true,
+          "detail": [
+            334
+          ]
+        },
+        {
+          "name": "no incorrect action, no invalid wager (oracle)",
+          "pass": true,
+          "detail": [
+            0,
+            0
+          ]
+        },
+        {
+          "name": "no confirmed action the table did not apply",
+          "pass": true,
+          "detail": 0
+        },
+        {
+          "name": "no stall, no unexpected pause, no violation",
+          "pass": true,
+          "detail": []
+        },
+        {
+          "name": "faults exercised (closure + reopen n/a, emergency stop)",
+          "pass": true,
+          "detail": {
+            "closeReopen": 0,
+            "estop": 3
+          }
+        }
+      ],
+      "metrics": {
+        "tables": 1,
+        "seconds": 60,
+        "completedHands": 57,
+        "tournamentsStarted": 6,
+        "tournamentsCompleted": 5,
+        "winnersMatchDealer": true,
+        "actionsAttempted": 335,
+        "actionsConfirmed": 334,
+        "incorrectActions": 0,
+        "invalidWagers": 0,
+        "missedStateTransitions": 0,
+        "confirmedButNotApplied": 0,
+        "refusedReadings": 26,
+        "reconstructionFailures": 3,
+        "untrackedHands": 3,
+        "recoveryEvents": 2,
+        "lifecycleRecoveries": 5,
+        "eliminationsSeen": 40,
+        "uncertainOrUnconfirmed": 0,
+        "deadlineMisses": 0,
+        "cleanRefusals": 1,
+        "unexpectedPauses": 0,
+        "finalPlayerCounts": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "hands": {
+          "handsObserved": 54,
+          "allEightDealtIn": 6,
+          "withEliminatedSeats": 48,
+          "headsUp": 27,
+          "allIn": 28,
+          "sidePots": 19,
+          "endingWithElimination": 20,
+          "endingWithTwoOrMoreEliminations": 12,
+          "dealtInHistogram": {
+            "2": 27,
+            "3": 14,
+            "4": 1,
+            "5": 2,
+            "6": 3,
+            "7": 1,
+            "8": 6
+          }
+        },
+        "faults": {
+          "closeReopen": 0,
+          "estop": 3
+        },
+        "violations": []
+      }
+    },
+    {
+      "id": "M2",
+      "name": "2 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+      "status": "pass",
+      "durationMs": 60163,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "every table played (confirmed actions on every table)",
+          "pass": true,
+          "detail": [
+            265,
+            258
+          ]
+        },
+        {
+          "name": "no incorrect action, no invalid wager (oracle)",
+          "pass": true,
+          "detail": [
+            0,
+            0
+          ]
+        },
+        {
+          "name": "no confirmed action the table did not apply",
+          "pass": true,
+          "detail": 0
+        },
+        {
+          "name": "no stall, no unexpected pause, no violation",
+          "pass": true,
+          "detail": []
+        },
+        {
+          "name": "faults exercised (closure + reopen, emergency stop)",
+          "pass": true,
+          "detail": {
+            "closeReopen": 2,
+            "estop": 1
+          }
+        }
+      ],
+      "metrics": {
+        "tables": 2,
+        "seconds": 60,
+        "completedHands": 67,
+        "tournamentsStarted": 6,
+        "tournamentsCompleted": 2,
+        "winnersMatchDealer": true,
+        "actionsAttempted": 526,
+        "actionsConfirmed": 523,
+        "incorrectActions": 0,
+        "invalidWagers": 0,
+        "missedStateTransitions": 0,
+        "confirmedButNotApplied": 0,
+        "refusedReadings": 0,
+        "reconstructionFailures": 0,
+        "untrackedHands": 0,
+        "recoveryEvents": 0,
+        "lifecycleRecoveries": 2,
+        "eliminationsSeen": 33,
+        "uncertainOrUnconfirmed": 1,
+        "deadlineMisses": 0,
+        "cleanRefusals": 2,
+        "unexpectedPauses": 0,
+        "finalPlayerCounts": [
+          1,
+          1
+        ],
+        "hands": {
+          "handsObserved": 70,
+          "allEightDealtIn": 6,
+          "withEliminatedSeats": 64,
+          "headsUp": 55,
+          "allIn": 17,
+          "sidePots": 10,
+          "endingWithElimination": 16,
+          "endingWithTwoOrMoreEliminations": 9,
+          "dealtInHistogram": {
+            "2": 55,
+            "3": 3,
+            "4": 1,
+            "6": 3,
+            "7": 2,
+            "8": 6
+          }
+        },
+        "faults": {
+          "closeReopen": 2,
+          "estop": 1
+        },
+        "violations": []
+      }
+    },
+    {
+      "id": "M5",
+      "name": "5 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+      "status": "pass",
+      "durationMs": 60498,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "every table played (confirmed actions on every table)",
+          "pass": true,
+          "detail": [
+            125,
+            124,
+            118,
+            126,
+            126
+          ]
+        },
+        {
+          "name": "no incorrect action, no invalid wager (oracle)",
+          "pass": true,
+          "detail": [
+            0,
+            0
+          ]
+        },
+        {
+          "name": "no confirmed action the table did not apply",
+          "pass": true,
+          "detail": 0
+        },
+        {
+          "name": "no stall, no unexpected pause, no violation",
+          "pass": true,
+          "detail": []
+        },
+        {
+          "name": "faults exercised (closure + reopen, emergency stop)",
+          "pass": true,
+          "detail": {
+            "closeReopen": 2,
+            "estop": 1
+          }
+        }
+      ],
+      "metrics": {
+        "tables": 5,
+        "seconds": 60,
+        "completedHands": 66,
+        "tournamentsStarted": 9,
+        "tournamentsCompleted": 2,
+        "winnersMatchDealer": true,
+        "actionsAttempted": 626,
+        "actionsConfirmed": 619,
+        "incorrectActions": 0,
+        "invalidWagers": 0,
+        "missedStateTransitions": 0,
+        "confirmedButNotApplied": 0,
+        "refusedReadings": 2,
+        "reconstructionFailures": 1,
+        "untrackedHands": 1,
+        "recoveryEvents": 0,
+        "lifecycleRecoveries": 5,
+        "eliminationsSeen": 37,
+        "uncertainOrUnconfirmed": 0,
+        "deadlineMisses": 0,
+        "cleanRefusals": 7,
+        "unexpectedPauses": 0,
+        "finalPlayerCounts": [
+          1,
+          1
+        ],
+        "hands": {
+          "handsObserved": 71,
+          "allEightDealtIn": 10,
+          "withEliminatedSeats": 61,
+          "headsUp": 26,
+          "allIn": 26,
+          "sidePots": 20,
+          "endingWithElimination": 18,
+          "endingWithTwoOrMoreEliminations": 13,
+          "dealtInHistogram": {
+            "2": 26,
+            "3": 24,
+            "4": 3,
+            "5": 1,
+            "6": 5,
+            "7": 2,
+            "8": 10
+          }
+        },
+        "faults": {
+          "closeReopen": 2,
+          "estop": 1
+        },
+        "violations": []
+      }
+    },
+    {
+      "id": "M8",
+      "name": "8 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+      "status": "pass",
+      "durationMs": 60358,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "every table played (confirmed actions on every table)",
+          "pass": true,
+          "detail": [
+            78,
+            80,
+            79,
+            80,
+            80,
+            80,
+            77,
+            79
+          ]
+        },
+        {
+          "name": "no incorrect action, no invalid wager (oracle)",
+          "pass": true,
+          "detail": [
+            0,
+            0
+          ]
+        },
+        {
+          "name": "no confirmed action the table did not apply",
+          "pass": true,
+          "detail": 0
+        },
+        {
+          "name": "no stall, no unexpected pause, no violation",
+          "pass": true,
+          "detail": []
+        },
+        {
+          "name": "faults exercised (closure + reopen, emergency stop)",
+          "pass": true,
+          "detail": {
+            "closeReopen": 2,
+            "estop": 1
+          }
+        }
+      ],
+      "metrics": {
+        "tables": 8,
+        "seconds": 60,
+        "completedHands": 58,
+        "tournamentsStarted": 11,
+        "tournamentsCompleted": 1,
+        "winnersMatchDealer": true,
+        "actionsAttempted": 645,
+        "actionsConfirmed": 633,
+        "incorrectActions": 0,
+        "invalidWagers": 0,
+        "missedStateTransitions": 0,
+        "confirmedButNotApplied": 0,
+        "refusedReadings": 8,
+        "reconstructionFailures": 2,
+        "untrackedHands": 2,
+        "recoveryEvents": 1,
+        "lifecycleRecoveries": 11,
+        "eliminationsSeen": 46,
+        "uncertainOrUnconfirmed": 1,
+        "deadlineMisses": 0,
+        "cleanRefusals": 11,
+        "unexpectedPauses": 0,
+        "finalPlayerCounts": [
+          1
+        ],
+        "hands": {
+          "handsObserved": 64,
+          "allEightDealtIn": 12,
+          "withEliminatedSeats": 52,
+          "headsUp": 11,
+          "allIn": 38,
+          "sidePots": 31,
+          "endingWithElimination": 28,
+          "endingWithTwoOrMoreEliminations": 13,
+          "dealtInHistogram": {
+            "2": 11,
+            "3": 16,
+            "4": 9,
+            "5": 9,
+            "6": 4,
+            "7": 3,
+            "8": 12
+          }
+        },
+        "faults": {
+          "closeReopen": 2,
+          "estop": 1
+        },
+        "violations": []
+      }
+    }
+  ],
+  "cleanup": {
+    "childProcesses": [],
+    "allChildrenExited": true,
+    "activeResources": {},
+    "unexpected": [],
+    "ok": true
+  },
+  "summary": {
+    "scenarios": 4,
+    "passed": 4,
+    "failed": 0,
+    "checks": 20,
+    "failedChecks": 0,
+    "cleanupOk": true
+  },
+  "overall": "PASS",
+  "durationMs": 243632,
+  "exitCode": 0
+}

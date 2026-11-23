@@ -1,0 +1,90 @@
+--- J: Scripted practice plays hand after hand (no regression)
+  [PASS] at least 12 confirmed actions — 22
+  [PASS] continued hand-to-hand play (2+ hands with confirmed actions) — 2
+  [PASS] no ambiguous / timed-out / uncertain action — [0,0,0]
+  [PASS] no incorrect click or wager (oracle) — {"incorrect":0,"wagerRejected":0,"accepted":22}
+  [PASS] every confirmed action reached the table — 22 accepted / 22 confirmed
+  [PASS] lifecycle ACTIVE, one transition (REGISTERED -> ACTIVE) — REGISTERED > ACTIVE
+  => PASS (6 s)
+--- A: Window closes during capture
+  [PASS] TARGET_LOST detected — TARGET_LOST
+  [PASS] detected within 10 s of the close — 25 ms
+  [PASS] automation loop ended (no infinite retries)
+  [PASS] no capture request after the loss — 0
+  [PASS] no input after the loss — 0
+  [PASS] capture requests between close and loss are bounded — 0
+  [PASS] driver authorisation revoked
+  [PASS] reason recorded — The window no longer exists (capture: target-lost; driver: window-gone).
+  => PASS (1 s)
+--- B: Window closes during mouse movement
+  [PASS] TARGET_LOST after a close during movement — TARGET_LOST
+  [PASS] the close happened while the click was moving
+  [PASS] final action status recorded (refused before the click, or uncertain for review) — rejected: Click failed: window-gone: The simulator window was closed.
+  [PASS] no input to the lost window afterwards
+  [PASS] the other table keeps playing — 3
+  [PASS] no input redirected to the other table (its oracle is clean) — {"incorrect":0,"wagerRejected":0,"accepted":6}
+  [PASS] table 2 still ACTIVE — ACTIVE
+  => PASS (1 s)
+--- C: Simulator restarts with a different handle
+  [PASS] old registration TARGET_LOST — TARGET_LOST
+  [PASS] the reopened window has a different handle — 0x3000 vs 0x2000
+  [PASS] replacement detected as a candidate — ["0x3000"]
+  [PASS] candidate is the same program (SHA-256)
+  [PASS] no capture of the candidate before confirmation
+  [PASS] no automatic input to the candidate
+  [PASS] the lost lifecycle cannot be reused for the new window
+  [PASS] explicit re-registration starts REGISTERED
+  [PASS] after explicit confirmation the replacement plays — 3
+  [PASS] replacement ACTIVE — ACTIVE
+  => PASS (1 s)
+--- D: Temporary capture failures (injected while the window stays open)
+  [PASS] TEMPORARILY_UNAVAILABLE
+  [PASS] bounded backoff between retries — [43,90,171]
+  [PASS] recovered via RECOVERY_PENDING to ACTIVE — REGISTERED > ACTIVE > TEMPORARILY_UNAVAILABLE > RECOVERY_PENDING > ACTIVE
+  [PASS] no stale action: the next action was decided after recovery — 5 vs 2
+  [PASS] play continues — 2
+  [PASS] classification recorded — {"no-frame":4}
+  => PASS (1 s)
+--- E: Minimised window
+  [PASS] TEMPORARILY_UNAVAILABLE (minimised) — TEMPORARILY_UNAVAILABLE / minimized
+  [PASS] no input while minimised — 0
+  [PASS] captures back off while minimised — 3
+  [PASS] restored, verified again and playing — 2
+  [PASS] never lost
+  => PASS (1 s)
+--- F: Several tables, one closes
+  [PASS] only the closed table is lost — ["ACTIVE","TARGET_LOST","ACTIVE"]
+  [PASS] the other tables keep playing — [3,3]
+  [PASS] no input to the lost window
+  [PASS] the scheduler blocks only table 2 — [2]
+  [PASS] table 1 oracle clean (no redirected input) — {"incorrect":0,"wagerRejected":0,"accepted":5}
+  [PASS] table 3 oracle clean (no redirected input) — {"incorrect":0,"wagerRejected":0,"accepted":5}
+  => PASS (2 s)
+--- G: Emergency stop during recovery
+  [PASS] lifecycle SAFETY_PAUSED (emergency stop wins) — SAFETY_PAUSED
+  [PASS] no input after the stop, even after the window came back
+  [PASS] automatic recovery is refused without the operator
+  [PASS] the driver refuses to arm while the stop is latched — emergency-stop
+  [PASS] the scheduler refuses input until reset — emergency-stop
+  => PASS (1 s)
+--- H: Repeated target-loss signals
+  [PASS] exactly one TARGET_LOST transition
+  [PASS] every signal counted — 51
+  [PASS] no host capture caused by the repeated signals — 0
+  [PASS] diagnostics bounded (coalesced) — 13
+  [PASS] one cleanup only
+  [PASS] all refusals local
+  => PASS (0 s)
+--- I: Identity mismatch / handle reuse: no inherited permission
+  [PASS] identity mismatch -> TARGET_LOST (identity-changed) — TARGET_LOST / identity-changed
+  [PASS] no input was sent
+  [PASS] message explains the mismatch
+  [PASS] registration with a different program identity is rejected by the driver — authorization-refused
+  [PASS] input to an unregistered handle is refused by the driver — target-not-registered
+  => PASS (0 s)
+--- K: Window resized while playing (geometry / display-scaling re-check)
+  [PASS] play continues after the resize — 3
+  [PASS] no incorrect click after the resize (oracle) — {"incorrect":0,"wagerRejected":0,"accepted":5}
+  [PASS] table not lost by a resize — ACTIVE
+  => PASS (1 s)
+Lifecycle acceptance (fake): PASS - 11/11 scenarios -> /home/user/work/evidence-m3/final/lifecycle-acceptance-fake.json

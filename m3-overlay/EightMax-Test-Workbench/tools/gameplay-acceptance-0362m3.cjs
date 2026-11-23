@@ -73,11 +73,17 @@ function handSummary(all) {
     allIn: hs.filter((f) => f.allIn).length, sidePots: hs.filter((f) => f.sidePots > 1).length, endingWithElimination: hs.filter((f) => f.eliminatedAtSettlement > 0).length, endingWithTwoOrMoreEliminations: hs.filter((f) => f.eliminatedAtSettlement > 1).length,
     dealtInHistogram: hs.reduce((a, f) => { a[f.dealtIn] = (a[f.dealtIn] || 0) + 1; return a; }, {}) };
 }
-function tableStats(t) {
-  const r = t.report(), gs = t.gameplayStatus(), rej = {}; for (const x of t.engine.rejections) { const k = x.issues[0].code; rej[k] = (rej[k] || 0) + 1; }
+// A hand in which NOBODY had to act (every remaining player all-in from the antes and blinds) is dealt, run out and settled at once, so
+// its opening may never be on screen: the tracker refuses it as missed / untracked - correctly, it needed no input. With the dealer's
+// oracle such refusals are told apart from a missed hand that DID need decisions (only those count as reconstruction failures).
+function tableStats(t, orc) {
+  const r = t.report(), gs = t.gameplayStatus(), rej = {}, acted = orc ? new Set((orc.accepted || []).map((a) => a.hand)) : null, noDecision = new Set();
+  const handOf = (d) => { const m = /hand (\d+)/i.exec(d || ''); return m ? Number(m[1]) : null; };
+  for (const x of t.engine.rejections) { const i = x.issues[0], k = i.code, h = handOf(i.detail); rej[k] = (rej[k] || 0) + 1; if (acted && ['missed-hand-start', 'untracked-hand'].includes(k) && h !== null && !acted.has(h)) noDecision.add(h); }
+  const noDecisionRefusals = acted ? t.engine.rejections.filter((x) => { const i = x.issues[0], h = handOf(i.detail); return i.code === 'missed-hand-start' && h !== null && noDecision.has(h); }).length : 0;
   return { attempted: t.m.attempted, confirmed: t.m.confirmed, rejected: t.m.rejected, ambiguous: t.m.ambiguous, timedOut: t.m.timedOut, uncertain: t.m.uncertain, cancelled: t.m.cancelled, deadlineMisses: t.m.deadline,
-    frames: t.m.frames, refusedReadings: t.m.rejectedFrames, refusalCodes: rej, reconstructionFailures: Object.entries(rej).filter(([k]) => !['untracked-hand', 'stale-observation'].includes(k)).reduce((a, [, v]) => a + v, 0),
-    untrackedHands: gs.tracking.untrackedHands, recoveries: gs.tracking.recoveries, eliminationsSeen: t.m.eliminationsSeen, verifyingSteps: t.m.verifyingSteps, gameplay: gs.code, gameplayEpisodes: gs.episodes,
+    frames: t.m.frames, refusedReadings: t.m.rejectedFrames, refusalCodes: rej, reconstructionFailures: Object.entries(rej).filter(([k]) => !['untracked-hand', 'stale-observation'].includes(k)).reduce((a, [, v]) => a + v, 0) - noDecisionRefusals,
+    untrackedHands: gs.tracking.untrackedHands, untrackedHandsWithoutDecision: noDecision.size, untrackedHandsNeedingInput: Math.max(0, gs.tracking.untrackedHands - noDecision.size), recoveries: gs.tracking.recoveries, eliminationsSeen: t.m.eliminationsSeen, verifyingSteps: t.m.verifyingSteps, gameplay: gs.code, gameplayEpisodes: gs.episodes,
     lifecycle: t.lc.state, completed: t.completed, tournamentRemaining: gs.tournament.remaining, latencyMs: r.latencyMs };
 }
 
@@ -88,7 +94,7 @@ const ACCEPTANCE = {
     try {
       const hands = () => new Set(t.log.filter((e) => e.status === 'confirmed').map((e) => e.hand)).size;
       await until(() => hands() >= 4 || t.completed, FAKE ? 120000 : 300000);
-      const o = oracleFor(await s.fx.oracle(true), s.ws[0]), x = crossCheck(t, o), st = tableStats(t);
+      const o = oracleFor(await s.fx.oracle(true), s.ws[0]), x = crossCheck(t, o), st = tableStats(t, o);
       ck('play continued over 4+ hands (Milestone 2 stopped at the first hand after an elimination)', hands() >= 4 || !!t.completed, hands());
       ck('no hand refused as missed or untracked', st.untrackedHands === 0 && !st.refusalCodes['missed-hand-start'] && !st.refusalCodes['untracked-hand'], st.refusalCodes);
       ck('the eliminated seats 2 and 6 were recognised (not treated as folds)', t.engine.tournamentStatus().eliminated.map((e) => e.seat).filter((q) => q === 2 || q === 6).length === 2, t.engine.tournamentStatus().eliminated);
@@ -102,7 +108,7 @@ const ACCEPTANCE = {
     const { checks, ck } = M2.checker(), s = await M2.setup(env, 1, { stacks: SHORT3, ...GAP, options: tableOpts }), [t] = s.tables;
     try {
       await settleWithin(s.runs[0], FAKE ? 240000 : 600000); const tEnd = mono();
-      const o = oracleFor(await s.fx.oracle(true), s.ws[0]), x = crossCheck(t, o), st = tableStats(t), winner = o ? o.state.stacks.findIndex((v) => v > 0) : -1, funded = o ? o.state.stacks.filter((v) => v > 0).length : null;
+      const o = oracleFor(await s.fx.oracle(true), s.ws[0]), x = crossCheck(t, o), st = tableStats(t, o), winner = o ? o.state.stacks.findIndex((v) => v > 0) : -1, funded = o ? o.state.stacks.filter((v) => v > 0).length : null;
       ck('the table recognised the end of the tournament', !!t.completed, t.completed); ck('the winner is the dealer\'s winner', !!t.completed && t.completed.winner === winner, [t.completed && t.completed.winner, winner]);
       ck('one player holds every chip (final player count 1)', funded === 1, o && o.state.stacks);
       ck('lifecycle STOPPED with cause tournament-complete; run() ended', t.lc.state === LS.STOPPED && t.lc.cause.kind === 'tournament-complete', t.lc.state + ' / ' + (t.lc.cause && t.lc.cause.kind));
@@ -112,7 +118,11 @@ const ACCEPTANCE = {
       // so its opening may never be on screen: such a hand is refused as missed / untracked - it needed no input - and nothing else may be.
       const acted = new Set(((o && o.accepted) || []).map((a) => a.hand)), handOf = (d) => { const m = /hand (\d+)/i.exec(d || ''); return m ? Number(m[1]) : null; }, noInput = new Set();
       const other = t.engine.rejections.filter((r) => { const i = r.issues[0], h = handOf(i.detail); if (['missed-hand-start', 'untracked-hand'].includes(i.code) && h !== null && !acted.has(h)) { noInput.add(h); return false; } return true; });
-      ck('no reading refused (except the unseen opening of a hand that needed no decision)', other.length === 0 && st.refusedReadings <= t.engine.rejections.length - other.length, { refusalCodes: st.refusalCodes, refusedFrames: st.refusedReadings, handsWithoutDecisions: [...noInput], other: other.slice(0, 3).map((r) => r.issues[0].code + ': ' + r.issues[0].detail) });
+      // the TRACKER may refuse nothing else; a frame the reader could not read at all (on a real desktop: a capture taken while the window
+      // repaints) is refused safely and only reported - unless such frames are not rare (more than 5 % of all readings)
+      const unreadable = Math.max(0, st.refusedReadings - t.engine.rejections.length);
+      ck('the tracker refused no reading (except the unseen opening of a hand that needed no decision)', other.length === 0, { refusalCodes: st.refusalCodes, handsWithoutDecisions: [...noInput], other: other.slice(0, 3).map((r) => r.issues[0].code + ': ' + r.issues[0].detail) });
+      ck('frames the reader could not read are rare (at most 5 % of readings; each refused, never guessed)', unreadable <= Math.max(1, Math.floor(0.05 * st.frames)), { unreadableFrames: unreadable, readings: st.frames });
       ck('every confirmed action matches the dealer, in order; nothing applied unconfirmed', x.wrongActions === 0 && x.confirmedNotApplied === 0 && x.appliedNotConfirmed === 0, x);
       ck('no incorrect click, no invalid wager', x.incorrectClicks === 0 && x.invalidWagers === 0, x);
       await sleep(FAKE ? 300 : 2000); ck('no capture and no input after the end', since(env.log, 'input', s.ws[0].hwnd, tEnd) === 0 && since(env.log, 'capture', s.ws[0].hwnd, tEnd) === 0, [since(env.log, 'input', s.ws[0].hwnd, tEnd), since(env.log, 'capture', s.ws[0].hwnd, tEnd)]);
@@ -142,7 +152,7 @@ const ACCEPTANCE = {
     const { checks, ck } = M2.checker(), s = await M2.setup(env, 1, { ...GAP, turnDelay: 1500, turnDelayFake: 500, options: tableOpts }), [t] = s.tables;
     try {
       await until(() => t.m.confirmed >= 15 || t.lc.is(LS.SAFETY_PAUSED), FAKE ? 120000 : 300000);
-      const o = oracleFor(await s.fx.oracle(true), s.ws[0]), x = crossCheck(t, o), st = tableStats(t);
+      const o = oracleFor(await s.fx.oracle(true), s.ws[0]), x = crossCheck(t, o), st = tableStats(t, o);
       ck('15 actions confirmed through the holds', t.m.confirmed >= 15, t.m.confirmed); ck('never safety-paused by an unconfirmable action', !t.lc.history.some((h) => h.to === LS.SAFETY_PAUSED), t.lc.history.map((h) => h.to).join(' > '));
       ck('no controls-disagree refusal', !st.refusalCodes['controls-disagree'], st.refusalCodes); ck('every confirmed action matches the dealer; no incorrect click', x.wrongActions === 0 && x.confirmedNotApplied === 0 && x.incorrectClicks === 0, x);
       return { checks, metrics: { crossCheck: x, table: st } };
@@ -188,7 +198,7 @@ async function playSlots(env, n, o) {
   const finish = async (sl, why) => {   // record the tournament, retire the table window, open a fresh one (new tournament, new registration)
     const t = sl.t; t.stop(why); await settleWithin(sl.run, 15000); t.dispose(); const list = await fx.oracle(true), orc = oracleFor(list, sl.w), x = crossCheck(t, orc);
     const hands = orc ? orc.hands - (orc.state.status === 'playing' ? 1 : 0) : 0; completedHands += Math.max(0, hands);
-    sl.tournaments.push({ table: sl.w.table, generation: sl.generation, why, hands, completed: !!t.completed, winnerOk: t.completed ? orc && orc.state.stacks.findIndex((v) => v > 0) === t.completed.winner : null, finalPlayers: orc ? orc.state.stacks.filter((v) => v > 0).length : null, eliminations: orc ? orc.state.stacks.filter((v) => v === 0).length : null, crossCheck: x, stats: tableStats(t), seconds: Math.round((mono() - sl.startedAt) / 1000) });
+    sl.tournaments.push({ table: sl.w.table, generation: sl.generation, why, hands, completed: !!t.completed, winnerOk: t.completed ? orc && orc.state.stacks.findIndex((v) => v > 0) === t.completed.winner : null, finalPlayers: orc ? orc.state.stacks.filter((v) => v > 0).length : null, eliminations: orc ? orc.state.stacks.filter((v) => v === 0).length : null, crossCheck: x, stats: tableStats(t, orc), seconds: Math.round((mono() - sl.startedAt) / 1000) });
     if (x.wrongActions || x.confirmedNotApplied || x.incorrectClicks || x.invalidWagers) violations.push('table ' + sl.w.table + ' generation ' + sl.generation + ': ' + JSON.stringify(x).slice(0, 300));
     try { await env.session.request('unregister-target', { hwnd: sl.w.hwnd }); } catch (e) { /* gone */ }
     if (stopAll) return;
@@ -213,7 +223,7 @@ async function playSlots(env, n, o) {
           const sl = slots[faultNo % slots.length]; sl.closing = true; faults.closeReopen++; const tc = mono();
           await fx.close(sl.w.table); await until(() => sl.t.lc.terminal, 15000); const tl = mono(); if (!sl.t.lc.terminal) violations.push('table ' + sl.w.table + ': close not detected'); await sleep(FAKE ? 200 : 1500);
           if (since(env.log, 'input', sl.w.hwnd, tl) > 0) violations.push('table ' + sl.w.table + ': input after its window closed');
-          sl.t.stop('closed'); await settleWithin(sl.run, 15000); const orc = oracleFor(await fx.oracle(true), sl.w), x = crossCheck(sl.t, orc); sl.tournaments.push({ table: sl.w.table, generation: sl.generation, why: 'window closed (fault)', hands: orc ? orc.hands - 1 : 0, completed: false, crossCheck: x, stats: tableStats(sl.t), closeDetectMs: Math.round(tl - tc) }); completedHands += Math.max(0, orc ? orc.hands - 1 : 0); sl.t.dispose();
+          sl.t.stop('closed'); await settleWithin(sl.run, 15000); const orc = oracleFor(await fx.oracle(true), sl.w), x = crossCheck(sl.t, orc); sl.tournaments.push({ table: sl.w.table, generation: sl.generation, why: 'window closed (fault)', hands: orc ? orc.hands - 1 : 0, completed: false, crossCheck: x, stats: tableStats(sl.t, orc), closeDetectMs: Math.round(tl - tc) }); completedHands += Math.max(0, orc ? orc.hands - 1 : 0); sl.t.dispose();
           sl.w = await fx.reopen(sl.w.table); sl.generation++; sl.closing = false; await start(sl);
         } else {                                       // emergency stop on every table, then an explicit operator reset and resume
           faults.estop++; await env.estop(); sched.emergencyStop('stability test'); for (const sl of slots) sl.t.safetyPause('emergency-stop', 'emergency stop (stability test)'); const te = mono();
@@ -224,7 +234,7 @@ async function playSlots(env, n, o) {
       }
     }
     stopAll = true;
-    for (const sl of slots) if (sl.t && !sl.t.lc.terminal) { const orc = oracleFor(await fx.oracle(true), sl.w); sl.t.stop('end of run'); await settleWithin(sl.run, 15000); const x = crossCheck(sl.t, orc); sl.tournaments.push({ table: sl.w.table, generation: sl.generation, why: sl.t.completed ? 'tournament complete' : 'end of run', hands: orc ? orc.hands - (orc.state.status === 'playing' ? 1 : 0) : 0, completed: !!sl.t.completed, crossCheck: x, stats: tableStats(sl.t) }); completedHands += Math.max(0, orc ? orc.hands - (orc.state.status === 'playing' ? 1 : 0) : 0); if (x.wrongActions || x.confirmedNotApplied || x.incorrectClicks || x.invalidWagers) violations.push('table ' + sl.w.table + ': ' + JSON.stringify(x).slice(0, 300)); }
+    for (const sl of slots) if (sl.t && !sl.t.lc.terminal) { const orc = oracleFor(await fx.oracle(true), sl.w); sl.t.stop('end of run'); await settleWithin(sl.run, 15000); const x = crossCheck(sl.t, orc); sl.tournaments.push({ table: sl.w.table, generation: sl.generation, why: sl.t.completed ? 'tournament complete' : 'end of run', hands: orc ? orc.hands - (orc.state.status === 'playing' ? 1 : 0) : 0, completed: !!sl.t.completed, crossCheck: x, stats: tableStats(sl.t, orc) }); completedHands += Math.max(0, orc ? orc.hands - (orc.state.status === 'playing' ? 1 : 0) : 0); if (x.wrongActions || x.confirmedNotApplied || x.incorrectClicks || x.invalidWagers) violations.push('table ' + sl.w.table + ': ' + JSON.stringify(x).slice(0, 300)); }
     await env.session.request('disarm');
     return { slots, faults, violations, completedHands, seconds: Math.round((mono() - t0) / 1000) };
   } finally { stopAll = true; await sc.cleanup('end of run'); }
@@ -234,7 +244,7 @@ function summarise(res) {
   return { tables: res.slots.length, seconds: res.seconds, completedHands: res.completedHands, tournamentsStarted: tours.length, tournamentsCompleted: tours.filter((x) => x.completed).length, winnersMatchDealer: tours.filter((x) => x.completed).every((x) => x.winnerOk),
     actionsAttempted: sum((x) => x.stats.attempted), actionsConfirmed: sum((x) => x.stats.confirmed), incorrectActions: sum((x) => x.crossCheck.wrongActions + x.crossCheck.incorrectClicks), invalidWagers: sum((x) => x.crossCheck.invalidWagers),
     missedStateTransitions: sum((x) => x.crossCheck.appliedNotConfirmed), confirmedButNotApplied: sum((x) => x.crossCheck.confirmedNotApplied), refusedReadings: sum((x) => x.stats.refusedReadings), reconstructionFailures: sum((x) => x.stats.reconstructionFailures),
-    untrackedHands: sum((x) => x.stats.untrackedHands), recoveryEvents: sum((x) => x.stats.recoveries), lifecycleRecoveries: tours.reduce((a, x) => a + ((x.stats.gameplayEpisodes || {}).verifying || 0), 0), eliminationsSeen: sum((x) => x.stats.eliminationsSeen),
+    untrackedHands: sum((x) => x.stats.untrackedHands), untrackedHandsWithoutDecision: sum((x) => x.stats.untrackedHandsWithoutDecision), untrackedHandsNeedingInput: sum((x) => x.stats.untrackedHandsNeedingInput), recoveryEvents: sum((x) => x.stats.recoveries), lifecycleRecoveries: tours.reduce((a, x) => a + ((x.stats.gameplayEpisodes || {}).verifying || 0), 0), eliminationsSeen: sum((x) => x.stats.eliminationsSeen),
     uncertainOrUnconfirmed: sum((x) => x.crossCheck.uncertainOrUnconfirmed), deadlineMisses: sum((x) => x.stats.deadlineMisses), cleanRefusals: sum((x) => x.stats.rejected), unexpectedPauses: res.violations.filter((v) => /stalled|safety-paused|no confirmed action/.test(v)).length,
     finalPlayerCounts: tours.filter((x) => x.completed).map((x) => x.finalPlayers), hands: handSummary(res.slots.flatMap((s) => s.facts.flatMap((m) => [...m.values()]))), faults: res.faults, violations: res.violations };
 }
@@ -255,7 +265,7 @@ const CAMPAIGN = { C: ['Long campaign: tournaments played to the end one after a
   ck('at least ' + target + ' hands completed', s.completedHands >= target, s.completedHands); ck('tournaments were played to the end (winner = dealer winner)', s.tournamentsCompleted >= 1 && s.winnersMatchDealer, [s.tournamentsCompleted, s.winnersMatchDealer]);
   ck('no incorrect action, no invalid wager (oracle)', s.incorrectActions === 0 && s.invalidWagers === 0, [s.incorrectActions, s.invalidWagers]);
   ck('no missed state transition (every action the table applied was confirmed or flagged)', s.missedStateTransitions === 0 && s.confirmedButNotApplied === 0, [s.missedStateTransitions, s.confirmedButNotApplied]);
-  ck('no hand-reconstruction failure, no untracked hand', s.reconstructionFailures === 0 && s.untrackedHands === 0, [s.reconstructionFailures, s.untrackedHands]);
+  ck('no hand-reconstruction failure; no untracked hand that needed a decision (a hand nobody acted in may be first seen finished)', s.reconstructionFailures === 0 && s.untrackedHandsNeedingInput === 0, { reconstructionFailures: s.reconstructionFailures, untrackedHands: s.untrackedHands, withoutDecision: s.untrackedHandsWithoutDecision, needingInput: s.untrackedHandsNeedingInput });
   ck('no stall or unexpected pause', res.violations.length === 0, res.violations.slice(0, 5)); ck('eliminations recognised', s.eliminationsSeen > 0, s.eliminationsSeen);
   return { checks, metrics: s };
 }] };

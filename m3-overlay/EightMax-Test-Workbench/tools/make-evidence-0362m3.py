@@ -66,21 +66,48 @@ gs = {'format': 'eightmax-gameplay-stress', 'version': 1, **common,
                     'totals': {'completedHands': tot('completedHands'), 'tournamentsStarted': tot('tournamentsStarted'), 'tournamentsCompleted': tot('tournamentsCompleted'), 'actionsAttempted': tot('actionsAttempted'), 'actionsConfirmed': tot('actionsConfirmed'), 'incorrectActions': tot('incorrectActions'), 'invalidWagers': tot('invalidWagers'), 'missedStateTransitions': tot('missedStateTransitions'), 'reconstructionFailures': tot('reconstructionFailures'), 'unexpectedPauses': tot('unexpectedPauses'), 'recoveryEvents': tot('recoveryEvents'), 'eliminationsSeen': tot('eliminationsSeen')}},
   'multiTableStability': scen(stab) and {'file': 'evidence/0.36.2-m3/gameplay-stability-fake.json', **scen(stab), 'note': 'ten-table capacity is NOT claimed (out of scope for Milestone 3)'},
   'lifecycleStress': stress and {'file': 'evidence/0.36.2-m3/lifecycle-stress-M3-120s.json', 'pass': stress.get('pass'), 'violations': stress.get('violations'), 'registrations': stress.get('registrations'), 'confirmedActions': stress.get('confirmedActions'), 'uncertainActions': stress.get('uncertainActions'), 'faults': stress.get('faults')},
+  'windowsCampaign': 'see WINDOWS-VALIDATION-0362M3.json (criterion long-campaign) and the windows-ci-* folders: Windows results are kept separate from these Linux / fake-host results',
   'negativeTests': {'file': 'tests/negative-0362m3.test.cjs, tests/tournament-0362m3.test.cjs', 'results': [t for t in ((neg or {}).get('failedTests') or []) if 'negative' in t] or 'all passed in the full suite run'}}
 
 # ---------------- Windows ----------------
-win_runs = sorted(ev.glob('windows-ci-*/milestone3-results.json'))
+win_runs = sorted(set(ev.glob('windows-ci-*/milestone3-results.json')) | set(ev.glob('windows-ci-*/results/milestone3-results.json')), key=lambda p: int(re.sub(r'\D', '', p.relative_to(ev).parts[0]) or 0))
 wv = {'format': 'eightmax-windows-validation', 'version': 1, **common, 'runs': []}
 for p in win_runs:
-    d = json.loads(p.read_text(encoding='utf-8-sig')); runid = p.parent.name.replace('windows-ci-', '')
+    d = json.loads(p.read_text(encoding='utf-8-sig')); runid = p.relative_to(ev).parts[0].replace('windows-ci-', '')
     checks = d.get('checks', []); groups = d.get('groups', {})
-    wv['runs'].append({'run': runid, 'url': 'https://github.com/derekwtgm/PTO/actions/runs/' + runid, 'folder': 'evidence/0.36.2-m3/' + p.parent.name, 'environment': d.get('environment'), 'machine': d.get('machine'), 'overall': d.get('overall'), 'counts': d.get('counts'), 'groups': groups,
+    wv['runs'].append({'run': runid, 'url': 'https://github.com/derekwtgm/PTO/actions/runs/' + runid, 'folder': 'evidence/0.36.2-m3/' + p.relative_to(ev).parts[0], 'checks': d.get('checks', []), 'environment': d.get('environment'), 'machine': d.get('machine'), 'overall': d.get('overall'), 'counts': d.get('counts'), 'groups': groups,
                        'failed': [{'group': c['group'], 'name': c['name'], 'detail': c['detail']} for c in checks if c.get('status') == 'fail'], 'warnings': [{'group': c['group'], 'name': c['name'], 'detail': c['detail']} for c in checks if c.get('status') == 'warn'],
                        'unitTests': d.get('unitTests'), 'hostStart': [{k: h.get(k) for k in ('case', 'error', 'launcherSeconds', 'healthStatus', 'appVersion', 'shutdown')} | {'path': (h.get('status') or {}).get('path'), 'invalidCache': (h.get('status') or {}).get('invalidCache')} for h in d.get('hostStart', [])], 'tools': d.get('tools'), 'executables': d.get('executables')})
 wv['executed'] = bool(wv['runs']); final = wv['runs'][-1] if wv['runs'] else None
 wv['status'] = 'executed on GitHub-hosted Windows (real Windows desktop, real windows and input); NOT the target PC' if final else 'PENDING: no Windows run recorded'
 wv['targetHardware'] = {'status': 'PENDING', 'note': 'Windows 11 Home, i7-13700F, RTX 4060 Ti, 3840x2160 at 125 %: run RUN-0362-MILESTONE3-TESTS.cmd and send the results ZIP'}
+# Windows-specific acceptance criteria, each judged ONLY from the checks of the latest Windows run (never from Linux or fake-host runs)
 wv['criteria'] = {}
+CRITERIA = [
+  ('elimination-hand-tracking', 'Hands that start with eliminated players are tracked on real windows (the Milestone 2 stall)', lambda c: c['group'] == 'gameplay' and c['name'].startswith('T1:')),
+  ('tournament-completion', 'A tournament is played to its end; the end is a normal stop', lambda c: c['group'] == 'gameplay' and c['name'].startswith('T2:')),
+  ('untracked-hand-recovery', 'A hand first seen after its opening stays untracked (no input) and play recovers at the next verified hand', lambda c: c['group'] == 'gameplay' and c['name'].startswith('T3:')),
+  ('think-time-holds', 'Think-time holds with every control hidden (pre-existing defect fixed)', lambda c: c['group'] == 'gameplay' and c['name'].startswith('T4:')),
+  ('multi-table-elimination-closure', 'Two tables with eliminations; one window closes; no input crosses tables', lambda c: c['group'] == 'gameplay' and c['name'].startswith('T5:')),
+  ('estop-after-elimination', 'Emergency stop right after an elimination: stop wins, no input, no automatic recovery', lambda c: c['group'] == 'gameplay' and c['name'].startswith('T6:')),
+  ('gameplay-tool-cleanup', 'Gameplay tools leave no process or handle behind and exit with the code of their verdict', lambda c: c['group'] in ('gameplay', 'multi-table', 'campaign') and c['name'].split(': ')[-1] in ('process cleanup', 'exit code matches the result')),
+  ('lifecycle-regression', 'Milestone 2 lifecycle scenarios A-K still pass (scripted play, capture lifecycle, input cancellation, safety)', lambda c: c['group'].startswith('lifecycle:')),
+  ('runner-exits-after-report', 'The lifecycle runner exits by itself right after its report, with the exit code of its verdict (timer-leak repair)', lambda c: c['group'] == 'runner cleanup'),
+  ('desktop-host-start', 'Desktop host: prebuilt start, forced fallback compile including InputBroker.cs, fresh cache, cache reuse, invalid-cache rebuild, old cache key never reused, build-only; shutdown, port 48713 released, input driver gone', lambda c: c['group'] == 'host-start'),
+  ('multi-table-stability', 'Multi-table stability with 1, 2, 5 and 8 tables (eliminations, a window closed and reopened, emergency stops, finished tournaments replaced)', lambda c: c['group'] == 'multi-table' and c['name'][:3] in ('M1:', 'M2:', 'M5:', 'M8:')),
+  ('long-campaign', 'Long campaign: at least 100 completed hands with eliminations and finished tournaments', lambda c: c['group'] == 'campaign'),
+  ('executable-identity', 'Executable identities and release checksums; EightMax 5.1 unchanged (binary and build id)', lambda c: c['group'] == 'identity'),
+  ('regression-suite', 'Complete regression suite with the bundled Node.js on Windows', lambda c: c['group'] == 'unit'),
+  ('no-leftovers', 'No process left behind and port 48713 released after all phases', lambda c: c['group'] == 'cleanup'),
+]
+for key, text, sel in CRITERIA:
+    if not final: wv['criteria'][key] = {'criterion': text, 'status': 'PENDING', 'evidence': 'no Windows run recorded'}; continue
+    cs = [c for c in final['checks'] if sel(c)]
+    st = 'not run' if not cs else 'failed' if any(c['status'] == 'fail' for c in cs) else 'passed'
+    wv['criteria'][key] = {'criterion': text, 'status': st + (' on Windows CI run ' + final['run'] if cs else ' in the latest Windows run'), 'checks': [{'name': c['name'], 'status': c['status'], 'detail': str(c['detail'])[:300]} for c in cs]}
+wv['criteria']['target-hardware'] = {'criterion': "The operator's PC (Windows 11 Home, i7-13700F, RTX 4060 Ti, 3840x2160 at 125 % scaling)", 'status': 'PENDING', 'evidence': 'not available to this milestone; run RUN-0362-MILESTONE3-TESTS.cmd'}
+wv['allCiCriteriaPassed'] = bool(final) and all(v['status'].startswith('passed') for k, v in wv['criteria'].items() if k != 'target-hardware')
+for r in wv['runs']: r.pop('checks', None)
 
 # ---------------- regression ----------------
 base = tap('baseline-M2-linux-node-tests.tap')

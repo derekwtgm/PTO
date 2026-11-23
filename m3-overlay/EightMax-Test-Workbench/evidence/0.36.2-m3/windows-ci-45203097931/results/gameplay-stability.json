@@ -1,0 +1,526 @@
+{
+  "format": "eightmax-m3-gameplay-acceptance",
+  "version": 1,
+  "suite": "stability",
+  "app": "0.36.2-dev",
+  "milestone": "0.36.2-milestone-3",
+  "environment": "windows",
+  "at": "2026-11-23T15:41:35.044Z",
+  "machine": {
+    "platform": "win32",
+    "release": "10.0.26100",
+    "node": "v22.23.5",
+    "cpus": 4,
+    "cpu": "Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz",
+    "ramGiB": 16
+  },
+  "host": {
+    "appVersion": "0.36.2-dev",
+    "build": "7d08acc7eb4577ee",
+    "driver": {
+      "dpiAwareness": "per-monitor-v2",
+      "hotkeyRegistered": true,
+      "signedCurves": true
+    },
+    "monitors": [
+      {
+        "id": 0,
+        "name": "\\\\.\\DISPLAY1",
+        "bounds": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1080
+        },
+        "work": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1032
+        },
+        "dpiScale": 1,
+        "primary": true
+      }
+    ]
+  },
+  "scenarios": [
+    {
+      "id": "M1",
+      "name": "1 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+      "status": "fail",
+      "durationMs": 62590,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "every table played (confirmed actions on every table)",
+          "pass": true,
+          "detail": [
+            41
+          ]
+        },
+        {
+          "name": "no incorrect action, no invalid wager (oracle)",
+          "pass": true,
+          "detail": [
+            0,
+            0
+          ]
+        },
+        {
+          "name": "no confirmed action the table did not apply",
+          "pass": true,
+          "detail": 0
+        },
+        {
+          "name": "no stall, no unexpected pause, no violation",
+          "pass": false,
+          "detail": [
+            "table 1 safety-paused: unconfirmed-input action not confirmed: hand changed (1 -> 2) with no record of the action; manual review required",
+            "table 1 safety-paused: unconfirmed-input action not confirmed: hand changed (1 -> 2) with no record of the action; manual review required",
+            "table 1 safety-paused: unconfirmed-input action not confirmed: hand changed (1 -> 2) with no record of the action; manual review required"
+          ]
+        },
+        {
+          "name": "faults exercised (closure + reopen n/a, emergency stop)",
+          "pass": true,
+          "detail": {
+            "closeReopen": 0,
+            "estop": 3
+          }
+        }
+      ],
+      "metrics": {
+        "tables": 1,
+        "seconds": 60,
+        "completedHands": 3,
+        "tournamentsStarted": 4,
+        "tournamentsCompleted": 0,
+        "winnersMatchDealer": true,
+        "actionsAttempted": 48,
+        "actionsConfirmed": 41,
+        "incorrectActions": 0,
+        "invalidWagers": 0,
+        "missedStateTransitions": 0,
+        "confirmedButNotApplied": 0,
+        "refusedReadings": 0,
+        "reconstructionFailures": 18,
+        "untrackedHands": 0,
+        "recoveryEvents": 0,
+        "lifecycleRecoveries": 3,
+        "eliminationsSeen": 0,
+        "uncertainOrUnconfirmed": 6,
+        "deadlineMisses": 0,
+        "cleanRefusals": 3,
+        "unexpectedPauses": 3,
+        "finalPlayerCounts": [],
+        "hands": {
+          "handsObserved": 7,
+          "allEightDealtIn": 4,
+          "withEliminatedSeats": 3,
+          "headsUp": 0,
+          "allIn": 6,
+          "sidePots": 6,
+          "endingWithElimination": 0,
+          "endingWithTwoOrMoreEliminations": 0,
+          "dealtInHistogram": {
+            "6": 3,
+            "8": 4
+          }
+        },
+        "faults": {
+          "closeReopen": 0,
+          "estop": 3
+        },
+        "violations": [
+          "table 1 safety-paused: unconfirmed-input action not confirmed: hand changed (1 -> 2) with no record of the action; manual review required",
+          "table 1 safety-paused: unconfirmed-input action not confirmed: hand changed (1 -> 2) with no record of the action; manual review required",
+          "table 1 safety-paused: unconfirmed-input action not confirmed: hand changed (1 -> 2) with no record of the action; manual review required"
+        ]
+      }
+    },
+    {
+      "id": "M2",
+      "name": "2 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+      "status": "fail",
+      "durationMs": 60712,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "every table played (confirmed actions on every table)",
+          "pass": true,
+          "detail": [
+            11,
+            9
+          ]
+        },
+        {
+          "name": "no incorrect action, no invalid wager (oracle)",
+          "pass": true,
+          "detail": [
+            0,
+            0
+          ]
+        },
+        {
+          "name": "no confirmed action the table did not apply",
+          "pass": true,
+          "detail": 0
+        },
+        {
+          "name": "no stall, no unexpected pause, no violation",
+          "pass": false,
+          "detail": [
+            "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+            "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+            "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+            "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+            "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded."
+          ]
+        },
+        {
+          "name": "faults exercised (closure + reopen, emergency stop)",
+          "pass": true,
+          "detail": {
+            "closeReopen": 2,
+            "estop": 1
+          }
+        }
+      ],
+      "metrics": {
+        "tables": 2,
+        "seconds": 60,
+        "completedHands": 0,
+        "tournamentsStarted": 50,
+        "tournamentsCompleted": 0,
+        "winnersMatchDealer": true,
+        "actionsAttempted": 70,
+        "actionsConfirmed": 20,
+        "incorrectActions": 0,
+        "invalidWagers": 0,
+        "missedStateTransitions": 0,
+        "confirmedButNotApplied": 0,
+        "refusedReadings": 0,
+        "reconstructionFailures": 0,
+        "untrackedHands": 0,
+        "recoveryEvents": 0,
+        "lifecycleRecoveries": 3,
+        "eliminationsSeen": 0,
+        "uncertainOrUnconfirmed": 23,
+        "deadlineMisses": 0,
+        "cleanRefusals": 50,
+        "unexpectedPauses": 46,
+        "finalPlayerCounts": [],
+        "hands": {
+          "handsObserved": 49,
+          "allEightDealtIn": 49,
+          "withEliminatedSeats": 0,
+          "headsUp": 0,
+          "allIn": 0,
+          "sidePots": 0,
+          "endingWithElimination": 0,
+          "endingWithTwoOrMoreEliminations": 0,
+          "dealtInHistogram": {
+            "8": 49
+          }
+        },
+        "faults": {
+          "closeReopen": 2,
+          "estop": 1
+        },
+        "violations": [
+          "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+          "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+          "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+          "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+          "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+          "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+          "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+          "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+          "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+          "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+          "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+          "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+          "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+          "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+          "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+          "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+          "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+          "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+          "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+          "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+          "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+          "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+          "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+          "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+          "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+          "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+          "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+          "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+          "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+          "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+          "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+          "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+          "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+          "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+          "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+          "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+          "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+          "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+          "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+          "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+          "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+          "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+          "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+          "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1505,516 between operations); resume explicitly.",
+          "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+          "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1505,516 between operations); resume explicitly."
+        ]
+      }
+    },
+    {
+      "id": "M5",
+      "name": "5 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+      "status": "fail",
+      "durationMs": 64684,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "every table played (confirmed actions on every table)",
+          "pass": true,
+          "detail": [
+            12,
+            12,
+            14,
+            13,
+            14
+          ]
+        },
+        {
+          "name": "no incorrect action, no invalid wager (oracle)",
+          "pass": true,
+          "detail": [
+            0,
+            0
+          ]
+        },
+        {
+          "name": "no confirmed action the table did not apply",
+          "pass": true,
+          "detail": 0
+        },
+        {
+          "name": "no stall, no unexpected pause, no violation",
+          "pass": false,
+          "detail": [
+            "table 1 safety-paused: unconfirmed-input action not confirmed: hand changed (1 -> 2) with no record of the action; manual review required"
+          ]
+        },
+        {
+          "name": "faults exercised (closure + reopen, emergency stop)",
+          "pass": true,
+          "detail": {
+            "closeReopen": 2,
+            "estop": 1
+          }
+        }
+      ],
+      "metrics": {
+        "tables": 5,
+        "seconds": 64,
+        "completedHands": 2,
+        "tournamentsStarted": 8,
+        "tournamentsCompleted": 0,
+        "winnersMatchDealer": true,
+        "actionsAttempted": 76,
+        "actionsConfirmed": 65,
+        "incorrectActions": 0,
+        "invalidWagers": 0,
+        "missedStateTransitions": 0,
+        "confirmedButNotApplied": 0,
+        "refusedReadings": 0,
+        "reconstructionFailures": 6,
+        "untrackedHands": 0,
+        "recoveryEvents": 0,
+        "lifecycleRecoveries": 5,
+        "eliminationsSeen": 1,
+        "uncertainOrUnconfirmed": 2,
+        "deadlineMisses": 0,
+        "cleanRefusals": 10,
+        "unexpectedPauses": 1,
+        "finalPlayerCounts": [],
+        "hands": {
+          "handsObserved": 10,
+          "allEightDealtIn": 8,
+          "withEliminatedSeats": 2,
+          "headsUp": 0,
+          "allIn": 4,
+          "sidePots": 4,
+          "endingWithElimination": 1,
+          "endingWithTwoOrMoreEliminations": 0,
+          "dealtInHistogram": {
+            "6": 1,
+            "7": 1,
+            "8": 8
+          }
+        },
+        "faults": {
+          "closeReopen": 2,
+          "estop": 1
+        },
+        "violations": [
+          "table 1 safety-paused: unconfirmed-input action not confirmed: hand changed (1 -> 2) with no record of the action; manual review required"
+        ]
+      }
+    },
+    {
+      "id": "M8",
+      "name": "8 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+      "status": "pass",
+      "durationMs": 76519,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "every table played (confirmed actions on every table)",
+          "pass": true,
+          "detail": [
+            9,
+            8,
+            9,
+            9,
+            10,
+            11,
+            11,
+            12
+          ]
+        },
+        {
+          "name": "no incorrect action, no invalid wager (oracle)",
+          "pass": true,
+          "detail": [
+            0,
+            0
+          ]
+        },
+        {
+          "name": "no confirmed action the table did not apply",
+          "pass": true,
+          "detail": 0
+        },
+        {
+          "name": "no stall, no unexpected pause, no violation",
+          "pass": true,
+          "detail": []
+        },
+        {
+          "name": "faults exercised (closure + reopen, emergency stop)",
+          "pass": true,
+          "detail": {
+            "closeReopen": 2,
+            "estop": 1
+          }
+        }
+      ],
+      "metrics": {
+        "tables": 8,
+        "seconds": 75,
+        "completedHands": 0,
+        "tournamentsStarted": 10,
+        "tournamentsCompleted": 0,
+        "winnersMatchDealer": true,
+        "actionsAttempted": 97,
+        "actionsConfirmed": 79,
+        "incorrectActions": 0,
+        "invalidWagers": 0,
+        "missedStateTransitions": 0,
+        "confirmedButNotApplied": 0,
+        "refusedReadings": 0,
+        "reconstructionFailures": 0,
+        "untrackedHands": 0,
+        "recoveryEvents": 0,
+        "lifecycleRecoveries": 9,
+        "eliminationsSeen": 0,
+        "uncertainOrUnconfirmed": 1,
+        "deadlineMisses": 2,
+        "cleanRefusals": 18,
+        "unexpectedPauses": 0,
+        "finalPlayerCounts": [],
+        "hands": {
+          "handsObserved": 10,
+          "allEightDealtIn": 10,
+          "withEliminatedSeats": 0,
+          "headsUp": 0,
+          "allIn": 3,
+          "sidePots": 3,
+          "endingWithElimination": 0,
+          "endingWithTwoOrMoreEliminations": 0,
+          "dealtInHistogram": {
+            "8": 10
+          }
+        },
+        "faults": {
+          "closeReopen": 2,
+          "estop": 1
+        },
+        "violations": []
+      }
+    }
+  ],
+  "cleanup": {
+    "childProcesses": [
+      {
+        "name": "desktop host",
+        "pid": 6196,
+        "exited": true,
+        "code": 0,
+        "signal": null
+      },
+      {
+        "name": "test-table fixture 1",
+        "pid": 5752,
+        "exited": true,
+        "code": 0,
+        "signal": null
+      },
+      {
+        "name": "test-table fixture 2",
+        "pid": 3612,
+        "exited": true,
+        "code": 1,
+        "signal": null
+      },
+      {
+        "name": "test-table fixture 3",
+        "pid": 1344,
+        "exited": true,
+        "code": 1,
+        "signal": null
+      },
+      {
+        "name": "test-table fixture 4",
+        "pid": 9204,
+        "exited": true,
+        "code": 1,
+        "signal": null
+      }
+    ],
+    "allChildrenExited": true,
+    "activeResources": {
+      "ProcessWrap": 1
+    },
+    "unexpected": [
+      "ProcessWrap x1"
+    ],
+    "ok": false
+  },
+  "summary": {
+    "scenarios": 4,
+    "passed": 1,
+    "failed": 3,
+    "checks": 20,
+    "failedChecks": 3,
+    "cleanupOk": false
+  },
+  "overall": "FAIL",
+  "durationMs": 264602,
+  "exitCode": 1
+}
