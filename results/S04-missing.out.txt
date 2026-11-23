@@ -1,0 +1,51 @@
+22:57:29  EightMax Test Workbench 0.36.2 - Milestone 3.1 tests, mode A - Quick verification
+22:57:29  Results folder: D:\a\_temp\m31-scenarios\runs\S04\Milestone3.1-20261123-225729-quick
+22:57:29  Application:    D:\a\_temp\m31-work\S04 corrupted copy ‚
+22:57:29  This mode does not move the mouse. Progress is shown below; every step has a time limit.
+22:57:29  Session job active: every process this run starts ends with the run, however it ends.
+22:57:29  
+22:57:29  ==== Computer and environment [environment] (1 of 5)
+22:57:32    [environment] PASS machine details collected: Microsoft Windows Server 2025 Datacenter build 26100; AMD EPYC 7763 64-Core Processor (2 cores, 4 threads); 16 GiB; display scaling 100%; PowerShell 5.1.26100.33822 Desktop
+22:57:33    [environment] PASS application folder path: application folder D:\a\_temp\m31-work\S04 corrupted copy ‚ (40 characters, spaces, non-ASCII characters)
+22:57:33    [environment] PASS results folder: D:\a\_temp\m31-scenarios\runs\S04\Milestone3.1-20261123-225729-quick (requested)
+22:57:33    [environment] PASS session process control: job object: every process of this run ends with the run
+22:57:33    [environment] PASS files marked as downloaded from the internet (Mark of the Web): none of 407 program files is marked
+22:57:33    [environment] PASS Windows security settings: SmartScreen not set (Windows default); Smart App Control unknown; antivirus none reported by Windows Security Center; Defender real-time protection False, controlled folder access 0
+22:57:33    [environment] PASS PowerShell execution policy: MachinePolicy=Undefined, UserPolicy=Undefined, Process=Bypass, CurrentUser=Undefined, LocalMachine=Unrestricted
+22:57:33    [environment] PASS no EightMax desktop host already running: none
+22:57:34    [environment] PASS port 48713 free: free
+22:57:34  ---- environment: PASS (4.3 s)
+22:57:34  
+22:57:34  ==== Release integrity and executable identities [integrity] (2 of 5)
+22:57:37    [integrity] FAIL (environment) release files match SHA256SUMS.txt (runtime output excluded by release-integrity-policy.json): FAIL: 1442 of 1443 listed files verified; missing 1, modified 0, unexpected executables 0, other unlisted files 0; runtime output ignored: 0 file(s) in 0 folder(s); warnings 0: runtime/node/node.exe is listed in SHA256SUMS.txt but missing. Extract the complete ZIP again into a new, empty folder.
+22:57:37    [identity] PASS desktop\bin\EightMaxWorkbench.exe: sha256 845578b9a6596009... version 0.36.2.0 / 0.36.2-dev
+22:57:37    [identity] PASS desktop\bin\EightMaxInput.exe: sha256 2c4d7b739ceb6179... version 0.36.2.0 / 0.36.2-dev
+22:57:37    [identity] PASS desktop\bin\EightMaxTestTable.exe: sha256 3e5a76995a24d169... version 0.36.2.0 / 0.36.2-dev
+22:57:37    [identity] PASS desktop\bin\EightMaxCapture.exe: sha256 8180c32910bfd1d5... version 0.35.0.0 / 0.35.0
+22:57:38    [identity] PASS desktop\bin\EightMaxWgc.exe: sha256 bc001504382306e1... version 0.35.0.0 / 0.35.0
+22:57:38    [identity] PASS native\mwcli.exe: sha256 b3e675bfe2ae231e... version  / 
+22:57:38    [identity] FAIL (environment) runtime\node\node.exe: missing: extract the complete ZIP again
+22:57:38    [identity] PASS EightMax 5.1 binary unchanged: b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72
+22:57:38    [identity] PASS EightMax 5.1 build id: EightMaxBuild=7d08acc7eb4577ee
+22:57:39  ---- integrity: FAIL (4.5 s)
+22:57:39  
+22:57:39  ==== Required components [dependencies] (3 of 5)
+22:57:39    [dependencies] PASS 64-bit Windows and 64-bit PowerShell: yes
+22:57:39    [dependencies] PASS .NET Framework 4.x: release 533509 (4.8 or later)
+22:57:39    [dependencies] PASS csc.exe compiler of .NET Framework (used only by the fallback start): C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe
+22:57:39    [dependencies] PASS required release files present: 7 files present
+22:57:40    [dependencies] FAIL (environment) bundled Node.js (runtime\node\node.exe) runs: missing dependency: D:\a\_temp\m31-work\S04 corrupted copy ‚\runtime\node\node.exe does not exist. The regression and real-window tests need it. Extract the complete ZIP again.
+22:57:40    [dependencies] PASS Windows helper for diagnostics (process tree, port owner, prompt windows): compiled
+22:57:40  ---- dependencies: FAIL (1.1 s)
+22:57:40  ---- host-start: SKIPPED - not run because requirement "release-integrity" failed: the release files failed verification
+22:57:40  
+22:57:40  ==== Cleanup: nothing left running, port released [cleanup] (5 of 5)
+22:57:42    [cleanup] PASS no leftover EightMax processes started by these tests: none
+22:57:43    [cleanup] PASS no other process of this test session left: none
+22:57:43    [cleanup] PASS port 48713 released: free
+22:57:43  ---- cleanup: PASS (2.6 s)
+22:57:44  
+22:57:44  Checks: 25 passed, 3 failed, 0 warnings, 0 skipped
+22:57:44  OVERALL: FAIL  (exit code 3: ENVIRONMENT PROBLEM: this computer prevented a valid test (see the failures))
+22:57:44  Results folder: D:\a\_temp\m31-scenarios\runs\S04\Milestone3.1-20261123-225729-quick
+22:57:44  Results ZIP to send back: D:\a\_temp\m31-scenarios\runs\S04\Milestone3.1-20261123-225729-quick\milestone3-results.zip

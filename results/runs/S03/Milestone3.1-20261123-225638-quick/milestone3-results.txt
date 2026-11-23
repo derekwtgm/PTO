@@ -1,0 +1,48 @@
+EightMax Test Workbench 0.36.2 - Milestone 3.1 Windows test results
+=====================================================================
+RESULT:   PASS   (exit code 0: PASS: every required check passed (warnings, if any, are listed))
+Mode:     A - Quick verification
+Started:  2026-11-23 22:56:38   Ended: 2026-11-23 22:56:53   (15.1 s)
+Machine:  Microsoft Windows Server 2025 Datacenter build 26100 | AMD EPYC 7763 64-Core Processor (2 cores, 4 threads) | 16 GiB | display scaling 100% | PowerShell 5.1.26100.33822 Desktop
+Folder:   D:\a\_temp\m31-scenarios\runs\S03\Milestone3.1-20261123-225638-quick
+Checks:   28 passed, 0 failed, 0 warnings, 0 skipped
+
+PHASES
+  environment    PASS         pass 9, fail 0, warn 0, skip 0         4.7 s
+  integrity      PASS         pass 10, fail 0, warn 0, skip 0        4.8 s
+  dependencies   PASS         pass 6, fail 0, warn 0, skip 0         1.3 s
+  host-start     NOT RUN      pass 0, fail 0, warn 0, skip 0         not selected (-Phases)
+  cleanup        PASS         pass 3, fail 0, warn 0, skip 0         2.5 s
+
+ALL CHECKS (in the order they completed)
+     1 [environment] PASS    machine details collected: Microsoft Windows Server 2025 Datacenter build 26100; AMD EPYC 7763 64-Core Processor (2 cores, 4 threads); 16 GiB; display scaling 100%; PowerShell 5.1.26100.33822 Desktop
+     2 [environment] PASS    application folder path: application folder D:\a\_temp\EightMax CI (scenarios) ü\EightMax-Test-Workbench (60 characters, spaces, non-ASCII characters, parentheses)
+     3 [environment] PASS    results folder: D:\a\_temp\m31-scenarios\runs\S03\Milestone3.1-20261123-225638-quick (requested)
+     4 [environment] PASS    session process control: job object: every process of this run ends with the run
+     5 [environment] PASS    files marked as downloaded from the internet (Mark of the Web): none of 408 program files is marked
+     6 [environment] PASS    Windows security settings: SmartScreen not set (Windows default); Smart App Control unknown; antivirus none reported by Windows Security Center; Defender real-time protection False, controlled folder access 0
+     7 [environment] PASS    PowerShell execution policy: MachinePolicy=Undefined, UserPolicy=Undefined, Process=Bypass, CurrentUser=Undefined, LocalMachine=Unrestricted
+     8 [environment] PASS    no EightMax desktop host already running: none
+     9 [environment] PASS    port 48713 free: free
+    10 [integrity] PASS    release files match SHA256SUMS.txt (runtime output excluded by release-integrity-policy.json): PASS: 1443 of 1443 listed files verified; missing 0, modified 0, unexpected executables 0, other unlisted files 0; runtime output ignored: 12 file(s) in 2 folder(s); warnings 0 (2.8 s)
+    11 [identity] PASS    desktop\bin\EightMaxWorkbench.exe: sha256 845578b9a6596009... version 0.36.2.0 / 0.36.2-dev
+    12 [identity] PASS    desktop\bin\EightMaxInput.exe: sha256 2c4d7b739ceb6179... version 0.36.2.0 / 0.36.2-dev
+    13 [identity] PASS    desktop\bin\EightMaxTestTable.exe: sha256 3e5a76995a24d169... version 0.36.2.0 / 0.36.2-dev
+    14 [identity] PASS    desktop\bin\EightMaxCapture.exe: sha256 8180c32910bfd1d5... version 0.35.0.0 / 0.35.0
+    15 [identity] PASS    desktop\bin\EightMaxWgc.exe: sha256 bc001504382306e1... version 0.35.0.0 / 0.35.0
+    16 [identity] PASS    native\mwcli.exe: sha256 b3e675bfe2ae231e... version  / 
+    17 [identity] PASS    runtime\node\node.exe: sha256 247e9693d316da98... version 22.23.5 / 22.23.5
+    18 [identity] PASS    EightMax 5.1 binary unchanged: b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72
+    19 [identity] PASS    EightMax 5.1 build id: EightMaxBuild=7d08acc7eb4577ee
+    20 [dependencies] PASS    64-bit Windows and 64-bit PowerShell: yes
+    21 [dependencies] PASS    .NET Framework 4.x: release 533509 (4.8 or later)
+    22 [dependencies] PASS    csc.exe compiler of .NET Framework (used only by the fallback start): C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe
+    23 [dependencies] PASS    required release files present: 7 files present
+    24 [dependencies] PASS    bundled Node.js (runtime\node\node.exe) runs: v22.23.5
+    25 [dependencies] PASS    Windows helper for diagnostics (process tree, port owner, prompt windows): compiled
+    26 [cleanup] PASS    no leftover EightMax processes started by these tests: none
+    27 [cleanup] PASS    no other process of this test session left: none
+    28 [cleanup] PASS    port 48713 released: free
+
+FILES IN THIS FOLDER: 17 (run-status.json, console.log, errors.log, checks.jsonl, operations.jsonl, phases\, and the logs of every step)
+Send this file back: D:\a\_temp\m31-scenarios\runs\S03\Milestone3.1-20261123-225638-quick\milestone3-results.zip
