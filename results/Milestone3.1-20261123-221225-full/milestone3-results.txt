@@ -1,0 +1,175 @@
+EightMax Test Workbench 0.36.2 - Milestone 3.1 Windows test results
+=====================================================================
+RESULT:   FAIL   (exit code 1: FAIL: one or more tests failed)
+Mode:     C - Full acceptance
+Started:  2026-11-23 22:12:25   Ended: 2026-11-23 22:39:48   (27 min 23 s)
+Machine:  Microsoft Windows Server 2025 Datacenter build 26100 | AMD EPYC 9V74 80-Core Processor (2 cores, 4 threads) | 16 GiB | display scaling 100% | PowerShell 5.1.26100.33822 Desktop
+Folder:   D:\a\_temp\m31-full\Milestone3.1-20261123-221225-full
+Checks:   141 passed, 1 failed, 0 warnings, 5 skipped
+
+PHASES
+  environment    PASS         pass 9, fail 0, warn 0, skip 0         5 s
+  integrity      PASS         pass 10, fail 0, warn 0, skip 0        3.8 s
+  dependencies   PASS         pass 6, fail 0, warn 0, skip 0         1.3 s
+  unit           FAIL         pass 0, fail 1, warn 0, skip 0         8 min 25 s
+  host-start     PASS         pass 86, fail 0, warn 0, skip 5        42.6 s
+  lifecycle      PASS         pass 13, fail 0, warn 0, skip 0        2 min 4 s
+  gameplay       PASS         pass 8, fail 0, warn 0, skip 0         3 min 37 s
+  multi-table    PASS         pass 6, fail 0, warn 0, skip 0         12 min 18 s
+  cleanup        PASS         pass 3, fail 0, warn 0, skip 0         2.6 s
+
+WHAT FAILED
+  [unit] FAIL (application) regression tests (complete suite)
+      948 passed, 1 failed (exit 1): tests\\release-consistency.test.cjs
+
+ALL CHECKS (in the order they completed)
+     1 [environment] PASS    machine details collected: Microsoft Windows Server 2025 Datacenter build 26100; AMD EPYC 9V74 80-Core Processor (2 cores, 4 threads); 16 GiB; display scaling 100%; PowerShell 5.1.26100.33822 Desktop
+     2 [environment] PASS    application folder path: application folder D:\a\_temp\EightMax CI (full) é\EightMax-Test-Workbench (55 characters, spaces, non-ASCII characters, parentheses)
+     3 [environment] PASS    results folder: D:\a\_temp\m31-full\Milestone3.1-20261123-221225-full (requested)
+     4 [environment] PASS    session process control: job object: every process of this run ends with the run
+     5 [environment] PASS    files marked as downloaded from the internet (Mark of the Web): none of 408 program files is marked
+     6 [environment] PASS    Windows security settings: SmartScreen ; Smart App Control unknown; antivirus ; Defender real-time protection False, controlled folder access 0
+     7 [environment] PASS    PowerShell execution policy: MachinePolicy=Undefined, UserPolicy=Undefined, Process=Bypass, CurrentUser=Undefined, LocalMachine=Unrestricted
+     8 [environment] PASS    no EightMax desktop host already running: none
+     9 [environment] PASS    port 48713 free: free
+    10 [integrity] PASS    release files match SHA256SUMS.txt (runtime output excluded by release-integrity-policy.json): PASS: 1436 of 1436 listed files verified; missing 0, modified 0, unexpected executables 0, other unlisted files 0; runtime output ignored: 0 file(s) in 0 folder(s); warnings 0 (1.8 s)
+    11 [identity] PASS    desktop\bin\EightMaxWorkbench.exe: sha256 845578b9a6596009... version 0.36.2.0 / 0.36.2-dev
+    12 [identity] PASS    desktop\bin\EightMaxInput.exe: sha256 2c4d7b739ceb6179... version 0.36.2.0 / 0.36.2-dev
+    13 [identity] PASS    desktop\bin\EightMaxTestTable.exe: sha256 3e5a76995a24d169... version 0.36.2.0 / 0.36.2-dev
+    14 [identity] PASS    desktop\bin\EightMaxCapture.exe: sha256 8180c32910bfd1d5... version 0.35.0.0 / 0.35.0
+    15 [identity] PASS    desktop\bin\EightMaxWgc.exe: sha256 bc001504382306e1... version 0.35.0.0 / 0.35.0
+    16 [identity] PASS    native\mwcli.exe: sha256 b3e675bfe2ae231e... version  / 
+    17 [identity] PASS    runtime\node\node.exe: sha256 247e9693d316da98... version 22.23.5 / 22.23.5
+    18 [identity] PASS    EightMax 5.1 binary unchanged: b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72
+    19 [identity] PASS    EightMax 5.1 build id: EightMaxBuild=7d08acc7eb4577ee
+    20 [dependencies] PASS    64-bit Windows and 64-bit PowerShell: yes
+    21 [dependencies] PASS    .NET Framework 4.x: release 533509 (4.8 or later)
+    22 [dependencies] PASS    csc.exe compiler of .NET Framework (used only by the fallback start): C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe
+    23 [dependencies] PASS    required release files present: 12 files present
+    24 [dependencies] PASS    bundled Node.js (runtime\node\node.exe) runs: v22.23.5
+    25 [dependencies] PASS    Windows helper for diagnostics (process tree, port owner, prompt windows): compiled
+    26 [unit] FAIL/application regression tests (complete suite): 948 passed, 1 failed (exit 1): tests\\release-consistency.test.cjs
+    27 [host-start] PASS    prebuilt host launch - 1/12 Check for EightMax programs that are already running: no EightMax program is running [0.1 s]
+    28 [host-start] PASS    prebuilt host launch - 2/12 Check that port 48713 is free: free [0 s]
+    29 [host-start] PASS    prebuilt host launch - 3/12 Prepare the start-up folders: case folder ready: D:\a\_temp\m31-full\Milestone3.1-20261123-221225-full\host-start\01-prebuilt [0 s]
+    30 [host-start] PASS    prebuilt host launch - 4/12 Start the start-up script (Start-Desktop.ps1): started powershell.exe pid 1224 [0.2 s]
+    31 [host-start] PASS    prebuilt host launch - 5/12 Wait for the start-up script to launch the desktop host: host pid 5444 launched (CreateProcess, path prebuilt); start-up script finished in 2.2 s [2.2 s]
+    32 [host-start] PASS    prebuilt host launch - 6/12 Wait for the host to report ready (session file): ready after 0 s [0 s]
+    33 [host-start] PASS    prebuilt host launch - 7/12 Read and validate the session file: session of host pid 5444, app 0.36.2-dev [0 s]
+    34 [host-start] PASS    prebuilt host launch - 8/12 Check the health endpoint: HTTP 200, app 0.36.2-dev, input driver installed True [0.1 s]
+    35 [host-start] PASS    prebuilt host launch - 9/12 Check that the input driver starts (authenticated hello, no mouse movement): EightMaxInput.exe started and accepted the session (running, not crashed, emergency-stop hotkey Ctrl+Alt+F12) [0.1 s]
+    36 [host-start] PASS    prebuilt host launch - 10/12 Shut the host down (authenticated request): HTTP 200 (shutdown accepted) [0 s]
+    37 [host-start] PASS    prebuilt host launch - 11/12 Check that the host, the input driver and the start-up script have exited: host exited (exit code 0) after 0 s; no input driver left [0 s]
+    38 [host-start] PASS    prebuilt host launch - 12/12 Check that port 48713 is released: free after 7 ms [0 s]
+    39 [host-start] PASS    prebuilt host launch - expected result: path prebuilt
+    40 [host-start] PASS    forced fallback compile with a fresh cache - 1/12 Check for EightMax programs that are already running: no EightMax program is running [0.2 s]
+    41 [host-start] PASS    forced fallback compile with a fresh cache - 2/12 Check that port 48713 is free: free [0 s]
+    42 [host-start] PASS    forced fallback compile with a fresh cache - 3/12 Prepare the start-up folders: case folder ready: D:\a\_temp\m31-full\Milestone3.1-20261123-221225-full\host-start\02-fallback-fresh [0 s]
+    43 [host-start] PASS    forced fallback compile with a fresh cache - 4/12 Start the start-up script (Start-Desktop.ps1): started powershell.exe pid 7808 [0.2 s]
+    44 [host-start] PASS    forced fallback compile with a fresh cache - 5/12 Wait for the start-up script to launch the desktop host: host pid 5004 launched (CreateProcess, path compiled); start-up script finished in 2.4 s [2.4 s]
+    45 [host-start] PASS    forced fallback compile with a fresh cache - 6/12 Wait for the host to report ready (session file): ready after 0 s [0 s]
+    46 [host-start] PASS    forced fallback compile with a fresh cache - 7/12 Read and validate the session file: session of host pid 5004, app 0.36.2-dev [0 s]
+    47 [host-start] PASS    forced fallback compile with a fresh cache - 8/12 Check the health endpoint: HTTP 200, app 0.36.2-dev, input driver installed True [0 s]
+    48 [host-start] PASS    forced fallback compile with a fresh cache - 9/12 Check that the input driver starts (authenticated hello, no mouse movement): EightMaxInput.exe started and accepted the session (running, not crashed, emergency-stop hotkey Ctrl+Alt+F12) [0.1 s]
+    49 [host-start] PASS    forced fallback compile with a fresh cache - 10/12 Shut the host down (authenticated request): HTTP 200 (shutdown accepted) [0 s]
+    50 [host-start] PASS    forced fallback compile with a fresh cache - 11/12 Check that the host, the input driver and the start-up script have exited: host exited (exit code 0) after 0 s; no input driver left [0 s]
+    51 [host-start] PASS    forced fallback compile with a fresh cache - 12/12 Check that port 48713 is released: free after 2 ms [0 s]
+    52 [host-start] PASS    forced fallback compile with a fresh cache - expected result: path compiled
+    53 [host-start] PASS    repeated start reuses the valid cache - 1/12 Check for EightMax programs that are already running: no EightMax program is running [0 s]
+    54 [host-start] PASS    repeated start reuses the valid cache - 2/12 Check that port 48713 is free: free [0 s]
+    55 [host-start] PASS    repeated start reuses the valid cache - 3/12 Prepare the start-up folders: case folder ready: D:\a\_temp\m31-full\Milestone3.1-20261123-221225-full\host-start\03-cache-reuse [0 s]
+    56 [host-start] PASS    repeated start reuses the valid cache - 4/12 Start the start-up script (Start-Desktop.ps1): started powershell.exe pid 6208 [0.2 s]
+    57 [host-start] PASS    repeated start reuses the valid cache - 5/12 Wait for the start-up script to launch the desktop host: host pid 6964 launched (CreateProcess, path cache); start-up script finished in 2.1 s [2.1 s]
+    58 [host-start] PASS    repeated start reuses the valid cache - 6/12 Wait for the host to report ready (session file): ready after 0 s [0 s]
+    59 [host-start] PASS    repeated start reuses the valid cache - 7/12 Read and validate the session file: session of host pid 6964, app 0.36.2-dev [0 s]
+    60 [host-start] PASS    repeated start reuses the valid cache - 8/12 Check the health endpoint: HTTP 200, app 0.36.2-dev, input driver installed True [0 s]
+    61 [host-start] PASS    repeated start reuses the valid cache - 9/12 Check that the input driver starts (authenticated hello, no mouse movement): EightMaxInput.exe started and accepted the session (running, not crashed, emergency-stop hotkey Ctrl+Alt+F12) [0.1 s]
+    62 [host-start] PASS    repeated start reuses the valid cache - 10/12 Shut the host down (authenticated request): HTTP 200 (shutdown accepted) [0 s]
+    63 [host-start] PASS    repeated start reuses the valid cache - 11/12 Check that the host, the input driver and the start-up script have exited: host exited (exit code 0) after 0 s; no input driver left [0 s]
+    64 [host-start] PASS    repeated start reuses the valid cache - 12/12 Check that port 48713 is released: free after 2 ms [0 s]
+    65 [host-start] PASS    repeated start reuses the valid cache - expected result: path cache
+    66 [host-start] PASS    invalid cache: corrupted executable is rebuilt - 1/12 Check for EightMax programs that are already running: no EightMax program is running [0 s]
+    67 [host-start] PASS    invalid cache: corrupted executable is rebuilt - 2/12 Check that port 48713 is free: free [0 s]
+    68 [host-start] PASS    invalid cache: corrupted executable is rebuilt - 3/12 Prepare the start-up folders: case folder ready: D:\a\_temp\m31-full\Milestone3.1-20261123-221225-full\host-start\04-invalid-exe [0 s]
+    69 [host-start] PASS    invalid cache: corrupted executable is rebuilt - 4/12 Start the start-up script (Start-Desktop.ps1): started powershell.exe pid 1980 [0.2 s]
+    70 [host-start] PASS    invalid cache: corrupted executable is rebuilt - 5/12 Wait for the start-up script to launch the desktop host: host pid 1000 launched (CreateProcess, path compiled); start-up script finished in 2.2 s [2.3 s]
+    71 [host-start] PASS    invalid cache: corrupted executable is rebuilt - 6/12 Wait for the host to report ready (session file): ready after 0 s [0 s]
+    72 [host-start] PASS    invalid cache: corrupted executable is rebuilt - 7/12 Read and validate the session file: session of host pid 1000, app 0.36.2-dev [0 s]
+    73 [host-start] PASS    invalid cache: corrupted executable is rebuilt - 8/12 Check the health endpoint: HTTP 200, app 0.36.2-dev, input driver installed True [0 s]
+    74 [host-start] PASS    invalid cache: corrupted executable is rebuilt - 9/12 Check that the input driver starts (authenticated hello, no mouse movement): EightMaxInput.exe started and accepted the session (running, not crashed, emergency-stop hotkey Ctrl+Alt+F12) [0.1 s]
+    75 [host-start] PASS    invalid cache: corrupted executable is rebuilt - 10/12 Shut the host down (authenticated request): HTTP 200 (shutdown accepted) [0 s]
+    76 [host-start] PASS    invalid cache: corrupted executable is rebuilt - 11/12 Check that the host, the input driver and the start-up script have exited: host exited (exit code 0) after 0 s; no input driver left [0 s]
+    77 [host-start] PASS    invalid cache: corrupted executable is rebuilt - 12/12 Check that port 48713 is released: free after 3 ms [0 s]
+    78 [host-start] PASS    invalid cache: corrupted executable is rebuilt - expected result: path compiled, invalid cache: cached executable does not match its recorded hash
+    79 [host-start] PASS    invalid cache: manifest of other sources is rebuilt - 1/12 Check for EightMax programs that are already running: no EightMax program is running [0 s]
+    80 [host-start] PASS    invalid cache: manifest of other sources is rebuilt - 2/12 Check that port 48713 is free: free [0 s]
+    81 [host-start] PASS    invalid cache: manifest of other sources is rebuilt - 3/12 Prepare the start-up folders: case folder ready: D:\a\_temp\m31-full\Milestone3.1-20261123-221225-full\host-start\05-invalid-manifest [0 s]
+    82 [host-start] PASS    invalid cache: manifest of other sources is rebuilt - 4/12 Start the start-up script (Start-Desktop.ps1): started powershell.exe pid 1368 [0.2 s]
+    83 [host-start] PASS    invalid cache: manifest of other sources is rebuilt - 5/12 Wait for the start-up script to launch the desktop host: host pid 1408 launched (CreateProcess, path compiled); start-up script finished in 2.2 s [2.2 s]
+    84 [host-start] PASS    invalid cache: manifest of other sources is rebuilt - 6/12 Wait for the host to report ready (session file): ready after 0 s [0 s]
+    85 [host-start] PASS    invalid cache: manifest of other sources is rebuilt - 7/12 Read and validate the session file: session of host pid 1408, app 0.36.2-dev [0 s]
+    86 [host-start] PASS    invalid cache: manifest of other sources is rebuilt - 8/12 Check the health endpoint: HTTP 200, app 0.36.2-dev, input driver installed True [0 s]
+    87 [host-start] PASS    invalid cache: manifest of other sources is rebuilt - 9/12 Check that the input driver starts (authenticated hello, no mouse movement): EightMaxInput.exe started and accepted the session (running, not crashed, emergency-stop hotkey Ctrl+Alt+F12) [0.1 s]
+    88 [host-start] PASS    invalid cache: manifest of other sources is rebuilt - 10/12 Shut the host down (authenticated request): HTTP 200 (shutdown accepted) [0 s]
+    89 [host-start] PASS    invalid cache: manifest of other sources is rebuilt - 11/12 Check that the host, the input driver and the start-up script have exited: host exited (exit code 0) after 0 s; no input driver left [0 s]
+    90 [host-start] PASS    invalid cache: manifest of other sources is rebuilt - 12/12 Check that port 48713 is released: free after 3 ms [0 s]
+    91 [host-start] PASS    invalid cache: manifest of other sources is rebuilt - expected result: path compiled, invalid cache: cache manifest sources differ
+    92 [host-start] PASS    an old (Milestone 2) cache key is never reused - 1/12 Check for EightMax programs that are already running: no EightMax program is running [0 s]
+    93 [host-start] PASS    an old (Milestone 2) cache key is never reused - 2/12 Check that port 48713 is free: free [0 s]
+    94 [host-start] PASS    an old (Milestone 2) cache key is never reused - 3/12 Prepare the start-up folders: case folder ready: D:\a\_temp\m31-full\Milestone3.1-20261123-221225-full\host-start\06-old-key [0 s]
+    95 [host-start] PASS    an old (Milestone 2) cache key is never reused - 4/12 Start the start-up script (Start-Desktop.ps1): started powershell.exe pid 2908 [0.2 s]
+    96 [host-start] PASS    an old (Milestone 2) cache key is never reused - 5/12 Wait for the start-up script to launch the desktop host: host pid 7940 launched (CreateProcess, path cache); start-up script finished in 2.1 s [2.1 s]
+    97 [host-start] PASS    an old (Milestone 2) cache key is never reused - 6/12 Wait for the host to report ready (session file): ready after 0 s [0 s]
+    98 [host-start] PASS    an old (Milestone 2) cache key is never reused - 7/12 Read and validate the session file: session of host pid 7940, app 0.36.2-dev [0 s]
+    99 [host-start] PASS    an old (Milestone 2) cache key is never reused - 8/12 Check the health endpoint: HTTP 200, app 0.36.2-dev, input driver installed True [0 s]
+   100 [host-start] PASS    an old (Milestone 2) cache key is never reused - 9/12 Check that the input driver starts (authenticated hello, no mouse movement): EightMaxInput.exe started and accepted the session (running, not crashed, emergency-stop hotkey Ctrl+Alt+F12) [0.1 s]
+   101 [host-start] PASS    an old (Milestone 2) cache key is never reused - 10/12 Shut the host down (authenticated request): HTTP 200 (shutdown accepted) [0 s]
+   102 [host-start] PASS    an old (Milestone 2) cache key is never reused - 11/12 Check that the host, the input driver and the start-up script have exited: host exited (exit code 0) after 0 s; no input driver left [0 s]
+   103 [host-start] PASS    an old (Milestone 2) cache key is never reused - 12/12 Check that port 48713 is released: free after 4 ms [0 s]
+   104 [host-start] PASS    an old (Milestone 2) cache key is never reused - expected result: path cache
+   105 [host-start] PASS    build-only compiles or reuses without launching - 1/12 Check for EightMax programs that are already running: no EightMax program is running [0 s]
+   106 [host-start] PASS    build-only compiles or reuses without launching - 2/12 Check that port 48713 is free: free [0 s]
+   107 [host-start] PASS    build-only compiles or reuses without launching - 3/12 Prepare the start-up folders: case folder ready: D:\a\_temp\m31-full\Milestone3.1-20261123-221225-full\host-start\07-build-only [0 s]
+   108 [host-start] PASS    build-only compiles or reuses without launching - 4/12 Start the start-up script (Start-Desktop.ps1): started powershell.exe pid 4092 [0.2 s]
+   109 [host-start] PASS    build-only compiles or reuses without launching - 5/12 Wait for the start-up script to build the desktop host (no launch): built without launching: path cache, launched False [2.1 s]
+   110 [host-start] PASS    build-only compiles or reuses without launching - expected result: path cache, nothing launched
+   111 [host-start] SKIPPED build-only compiles or reuses without launching - 6/12 Wait for the host to report ready: not run: a build-only case starts no host [0 s]
+   112 [host-start] SKIPPED build-only compiles or reuses without launching - 7/12 Read the session file: not run: a build-only case starts no host [0 s]
+   113 [host-start] SKIPPED build-only compiles or reuses without launching - 8/12 Check the health endpoint: not run: a build-only case starts no host [0 s]
+   114 [host-start] SKIPPED build-only compiles or reuses without launching - 9/12 Check that the input driver starts: not run: a build-only case starts no host [0 s]
+   115 [host-start] SKIPPED build-only compiles or reuses without launching - 10/12 Shut the host down (authenticated request): not run: a build-only case starts no host [0 s]
+   116 [host-start] PASS    build-only compiles or reuses without launching - 11/12 Check that the host, the input driver and the start-up script have exited: no input driver left [0 s]
+   117 [host-start] PASS    build-only compiles or reuses without launching - 12/12 Check that port 48713 is released: free after 3 ms [0 s]
+   118 [lifecycle: scripted gameplay] PASS    J: Scripted practice plays hand after hand (no regression): 6 checks passed in 30 s
+   119 [lifecycle: capture lifecycle] PASS    A: Window closes during capture: 8 checks passed in 7 s
+   120 [lifecycle: input cancellation] PASS    B: Window closes during mouse movement: 7 checks passed in 12 s
+   121 [lifecycle: capture lifecycle] PASS    C: Simulator restarts with a different handle: 10 checks passed in 11 s
+   122 [lifecycle: capture lifecycle] PASS    D: Temporary capture failures (injected while the window stays open): 6 checks passed in 11 s
+   123 [lifecycle: capture lifecycle] PASS    E: Minimised window: 5 checks passed in 10 s
+   124 [lifecycle: input cancellation] PASS    F: Several tables, one closes: 6 checks passed in 16 s
+   125 [lifecycle: safety] PASS    G: Emergency stop during recovery: 5 checks passed in 8 s
+   126 [lifecycle: capture lifecycle] PASS    H: Repeated target-loss signals: 6 checks passed in 4 s
+   127 [lifecycle: input cancellation] PASS    I: Identity mismatch / handle reuse: no inherited permission: 5 checks passed in 4 s
+   128 [lifecycle: capture lifecycle] PASS    K: Window resized while playing (geometry / display-scaling re-check): 3 checks passed in 8 s
+   129 [runner cleanup] PASS    lifecycle-acceptance: process cleanup (children exited, no live timers): ok
+   130 [runner cleanup] PASS    lifecycle runner exits by itself after its report; exit code matches: report -> exit 14 ms, exit 0
+   131 [gameplay] PASS    T1: Hands that start with eliminated players are tracked (the Milestone 2 stall): 6 checks passed in 43 s
+   132 [gameplay] PASS    T2: A tournament is played to its end; the end is a normal stop: 12 checks passed in 39 s
+   133 [gameplay] PASS    T3: A hand first seen after its opening: untracked, no input; recovery at the next verified hand: 8 checks passed in 20 s
+   134 [gameplay] PASS    T4: Think-time holds: one seat acting on consecutive streets with every control hidden (pre-existing defect fixed in M3): 4 checks passed in 38 s
+   135 [gameplay] PASS    T5: Two tables: eliminations on both, one window closes; no input crosses tables: 6 checks passed in 55 s
+   136 [gameplay] PASS    T6: Emergency stop right after an elimination: stop wins, no input, no automatic recovery: 6 checks passed in 21 s
+   137 [gameplay] PASS    gameplay-acceptance: process cleanup (children exited, no live timers): ok
+   138 [gameplay] PASS    gameplay-acceptance: exit code matches the result: overall PASS, exit 0
+   139 [multi-table] PASS    M1: 1 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced: 5 checks passed in 183 s
+   140 [multi-table] PASS    M2: 2 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced: 5 checks passed in 181 s
+   141 [multi-table] PASS    M5: 5 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced: 5 checks passed in 184 s
+   142 [multi-table] PASS    M8: 8 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced: 5 checks passed in 189 s
+   143 [multi-table] PASS    gameplay-stability: process cleanup (children exited, no live timers): ok
+   144 [multi-table] PASS    gameplay-stability: exit code matches the result: overall PASS, exit 0
+   145 [cleanup] PASS    no leftover EightMax processes started by these tests: none
+   146 [cleanup] PASS    no other process of this test session left: none
+   147 [cleanup] PASS    port 48713 released: free
+
+FILES IN THIS FOLDER: 142 (run-status.json, console.log, errors.log, checks.jsonl, operations.jsonl, phases\, and the logs of every step)
+Send this file back: D:\a\_temp\m31-full\Milestone3.1-20261123-221225-full\milestone3-results.zip
