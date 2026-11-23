@@ -17,7 +17,9 @@ $HostSources=@('desktop\DesktopHost.cs','desktop\CaptureService.cs','desktop\Inp
 $HostMain='EightMax.Workbench.DesktopHost'
 $CompilerOptions='/target:winexe /platform:x64 /optimize+ /langversion:5 /main:'+$HostMain
 $status=[ordered]@{ format='eightmax-desktop-start'; version=1; at=[DateTime]::UtcNow.ToString('o'); path=$null; cacheFolder=$null; fingerprint=$null; sources=@(); compiled=$false; reusedCache=$false; invalidCache=$null; exe=$null; exeSha256=$null; launched=$false; pid=$null; error=$null }
-function Write-StartStatus { if($StatusFile){ try{ $j=New-Object Web.Script.Serialization.JavaScriptSerializer; Write-WorkbenchUtf8 $StatusFile ($j.Serialize($status)) }catch{} } }
+# The status record is written with ConvertTo-Json (PowerShell-native: values created by PowerShell serialise reliably; JavaScriptSerializer
+# failed on this record on Windows PowerShell 5.1 in CI run 45181140222). If even that fails, a minimal record is written - never nothing.
+function Write-StartStatus { if($StatusFile){ try{ Write-WorkbenchUtf8 $StatusFile (ConvertTo-Json -InputObject $status -Depth 6 -Compress) }catch{ Write-Warning ('Start-Desktop status record: '+$_.Exception.Message); try{ $e=([string]$status.error) -replace '[\\"]',' '; Write-WorkbenchUtf8 $StatusFile ('{"format":"eightmax-desktop-start","version":1,"path":"'+[string]$status.path+'","launched":'+$(if($status.launched){'true'}else{'false'})+',"pid":'+$(if($status.pid){[string]$status.pid}else{'null'})+',"error":"'+$e+'","statusError":"record could not be serialised"}') }catch{} } } }
 function Get-Sha([string]$Path){ return (Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant() }
 function Get-TextSha([string]$Text){ $h=[Security.Cryptography.SHA256]::Create(); try{ return ([BitConverter]::ToString($h.ComputeHash([Text.Encoding]::UTF8.GetBytes($Text))) -replace '-','').ToLowerInvariant() } finally { $h.Dispose() } }
 try {

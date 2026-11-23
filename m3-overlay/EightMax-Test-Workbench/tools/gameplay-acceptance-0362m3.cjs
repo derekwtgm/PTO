@@ -52,6 +52,27 @@ function crossCheck(t, o) {
     confirmedNotApplied: missing.filter((m) => !m.dealerOnly).length, appliedNotConfirmed: missing.filter((m) => m.dealerOnly).length + unexplained, uncertainOrUnconfirmed: uncertain,
     incorrectClicks: (c.downOutsideControls || 0) + (c.downOnDisabled || 0) + (c.doubleClicks || 0) + (c.staleClicks || 0) + (c.illegal || 0), invalidWagers: c.wagerRejected || 0, timeoutActions: c.timeoutActions || 0 };
 }
+/** Per-hand facts from the tracker's ACCEPTED states (who was dealt in, heads-up, all-ins, side pots, eliminations at settlement). */
+function observeHands(t, facts) {
+  const e = t.engine, orig = e.ingest.bind(e);
+  e.ingest = (obs) => {
+    const r = orig(obs);
+    if (r.accepted && r.state && r.state.hand !== null) {
+      const s = r.state, f = facts.get(s.hand) || { hand: s.hand, dealtIn: null, headsUp: false, allIn: false, sidePots: 0, eliminatedAtSettlement: 0, settled: false };
+      if (s.handStart && f.dealtIn === null) { f.dealtIn = s.participants; f.headsUp = !!s.headsUp; }
+      if (s.seats.some((q) => q.status === 'all-in')) f.allIn = true; if (s.sidePots && s.sidePots.length > f.sidePots) f.sidePots = s.sidePots.length;
+      if (s.status === 'complete' && s.settlement && s.settlement.ok && !f.settled) { f.settled = true; f.eliminatedAtSettlement = (s.settlement.eliminated || []).length; }
+      facts.set(s.hand, f); if (facts.size > 5000) facts.delete(facts.keys().next().value);
+    }
+    return r;
+  };
+}
+function handSummary(all) {
+  const hs = all.filter((f) => f.dealtIn !== null);
+  return { handsObserved: hs.length, allEightDealtIn: hs.filter((f) => f.dealtIn === 8).length, withEliminatedSeats: hs.filter((f) => f.dealtIn < 8).length, headsUp: hs.filter((f) => f.headsUp).length,
+    allIn: hs.filter((f) => f.allIn).length, sidePots: hs.filter((f) => f.sidePots > 1).length, endingWithElimination: hs.filter((f) => f.eliminatedAtSettlement > 0).length, endingWithTwoOrMoreEliminations: hs.filter((f) => f.eliminatedAtSettlement > 1).length,
+    dealtInHistogram: hs.reduce((a, f) => { a[f.dealtIn] = (a[f.dealtIn] || 0) + 1; return a; }, {}) };
+}
 function tableStats(t) {
   const r = t.report(), gs = t.gameplayStatus(), rej = {}; for (const x of t.engine.rejections) { const k = x.issues[0].code; rej[k] = (rej[k] || 0) + 1; }
   return { attempted: t.m.attempted, confirmed: t.m.confirmed, rejected: t.m.rejected, ambiguous: t.m.ambiguous, timedOut: t.m.timedOut, uncertain: t.m.uncertain, cancelled: t.m.cancelled, deadlineMisses: t.m.deadline,
@@ -157,9 +178,9 @@ async function playSlots(env, n, o) {
   const fx = env.fixture(n, { stacks: o.stacks, ...GAP, width: 800, layout: n > 4 ? 'cascade' : 'grid' });
   const sc = new Scope('slots'); sc.onCleanup(() => fx.stop()); const ws = await fx.ready(), rec = new XA.DiagnosticsRecorder({ max: 50000 }), sched = new SCH.InputScheduler({ maxQueue: 32, onCancel: () => env.session.request('cancel-all') });
   const arm = await env.session.request('arm'); if (!arm.ok) throw new Error('arm refused: ' + arm.error);
-  const slots = ws.map((w) => ({ w, t: null, run: null, generation: 0, tournaments: [], estopInputs: 0 })), faults = { closeReopen: 0, estop: 0 }, violations = [];
+  const slots = ws.map((w) => ({ w, t: null, run: null, generation: 0, tournaments: [], estopInputs: 0, facts: [] })), faults = { closeReopen: 0, estop: 0 }, violations = [];
   let stopAll = false, completedHands = 0;
-  const start = async (sl) => { const r = await M2.register(env, sl.w); const t = M2.table(env, sl.w, r, sched, rec, { options: tableOpts }); const op = await t.capture.open(); if (!op || op.ok !== true) throw new Error('capture refused'); sl.t = sc.table(t); sl.run = sc.run(t.run(Infinity)); sl.startedAt = mono(); sl.lastConfirmed = 0; sl.lastProgress = mono(); };
+  const start = async (sl) => { const r = await M2.register(env, sl.w); const t = M2.table(env, sl.w, r, sched, rec, { options: tableOpts }); const op = await t.capture.open(); if (!op || op.ok !== true) throw new Error('capture refused'); const facts = new Map(); sl.facts.push(facts); observeHands(t, facts); sl.t = sc.table(t); sl.run = sc.run(t.run(Infinity)); sl.startedAt = mono(); sl.lastConfirmed = 0; sl.lastProgress = mono(); };
   const finish = async (sl, why) => {   // record the tournament, retire the table window, open a fresh one (new tournament, new registration)
     const t = sl.t; t.stop(why); await settleWithin(sl.run, 15000); t.dispose(); const list = await fx.oracle(true), orc = oracleFor(list, sl.w), x = crossCheck(t, orc);
     const hands = orc ? orc.hands - (orc.state.status === 'playing' ? 1 : 0) : 0; completedHands += Math.max(0, hands);
@@ -211,7 +232,7 @@ function summarise(res) {
     missedStateTransitions: sum((x) => x.crossCheck.appliedNotConfirmed), confirmedButNotApplied: sum((x) => x.crossCheck.confirmedNotApplied), refusedReadings: sum((x) => x.stats.refusedReadings), reconstructionFailures: sum((x) => x.stats.reconstructionFailures),
     untrackedHands: sum((x) => x.stats.untrackedHands), recoveryEvents: sum((x) => x.stats.recoveries), lifecycleRecoveries: tours.reduce((a, x) => a + ((x.stats.gameplayEpisodes || {}).verifying || 0), 0), eliminationsSeen: sum((x) => x.stats.eliminationsSeen),
     uncertainOrUnconfirmed: sum((x) => x.crossCheck.uncertainOrUnconfirmed), deadlineMisses: sum((x) => x.stats.deadlineMisses), cleanRefusals: sum((x) => x.stats.rejected), unexpectedPauses: res.violations.filter((v) => /stalled|safety-paused|no confirmed action/.test(v)).length,
-    finalPlayerCounts: tours.filter((x) => x.completed).map((x) => x.finalPlayers), faults: res.faults, violations: res.violations };
+    finalPlayerCounts: tours.filter((x) => x.completed).map((x) => x.finalPlayers), hands: handSummary(res.slots.flatMap((s) => s.facts.flatMap((m) => [...m.values()]))), faults: res.faults, violations: res.violations };
 }
 const STABILITY = {};
 for (const n of (arg('tables', SUITE === 'campaign' ? '1' : '1,2,5,8')).split(',').map(Number)) STABILITY['M' + n] = [n + ' table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced', async (env) => {

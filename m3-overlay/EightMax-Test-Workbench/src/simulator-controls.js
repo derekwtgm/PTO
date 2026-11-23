@@ -210,6 +210,8 @@
           if (CHIP_CODES.has(code)) return this._condition('chip-accounting', code + ': ' + v.issues[0].detail);
           return this._condition('reconstruction-failure', code + ': ' + v.issues[0].detail);
         }
+        // a frame discarded because the lifecycle moved on while it was captured (stop, loss, recovery) is not a recognition problem
+        if (r.code === 'stale-frame') return this._condition(this.stopped ? 'stopped' : 'verifying', r.reason || null);
         return this._condition('recognition-failure', r.reason || null);
       }
       if (k === 'verifying') return this._condition('verifying', r.reason || null);
@@ -424,7 +426,7 @@
         const l = v.lifecycle; if (l) return { kind: l.kind === 'lost' ? 'lost' : l.kind === 'paused' ? 'paused' : 'unavailable', reason: l.reason || v.reject, waitMs: l.waitMs };
         // 0.36.2 M3: an untracked hand whose final screen shows one player holding every chip is the end of the tournament
         const ts = v.issues ? this.engine.trackingStatus() : null; if (ts && ts.status === 'tournament-complete') return this._finishTournament(this.engine.tournamentStatus().complete);
-        return { kind: 'no-reading', reason: v.reject, issues: v.issues };
+        return { kind: 'no-reading', reason: v.reject, issues: v.issues, code: v.code };
       }
       const elim = this._noteTracker();
       if (!this.lc.eligible) return { kind: 'recovering', reason: 'verifying the window before input (' + this.lc.state + ')' };

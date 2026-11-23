@@ -54,7 +54,9 @@ test('M3 dashboard: a hand that starts with eliminated players is tracked; stric
     for (const id of ['#simc-own', '#simc-test', '#simc-nomoney']) await page.check(id);
     await page.click('#simc-register'); await page.waitForTimeout(400); assert.match(await page.textContent('#simc-status'), /Registered EightMax Test Table 01/);
     assert.equal(await page.isChecked('#simc-scripted'), false, 'strict EightMax mode: practice is not selected');
-    await page.click('#simc-start'); await page.waitForTimeout(3500);
+    await page.click('#simc-start');
+    // wait for the outcome itself (a fixed pause was too short under full-suite load), at most 60 s
+    await page.waitForFunction(() => /Gameplay: Strategy unavailable/.test(document.querySelector('#simc-tables').textContent), null, { timeout: 60000 });
     const row = await page.textContent('#simc-tables');
     assert.ok(frames.length > 0, 'the table was captured');
     assert.match(row, /hand 1 · preflop · actor \d · pot 210 · 6 dealt in/, 'the opening with two eliminated seats was reconstructed: ' + row.slice(0, 600));

@@ -79,18 +79,93 @@ jobs:
           "@
           $r = [EmDisplay]::Set(1920, 1080); Start-Sleep -Seconds 2; Add-Type -AssemblyName System.Windows.Forms
           "ChangeDisplaySettings returned $r; virtual screen now $([System.Windows.Forms.SystemInformation]::VirtualScreen)" | Tee-Object "$env:RUNNER_TEMP\logs\display.log"
-      - name: Milestone 3 Windows tests (same script as RUN-0362-MILESTONE3-TESTS.cmd, with the complete regression suite)
+      - name: "Milestone 3 phase: machine, executable identities, complete regression suite (bundled Node)"
+        id: machine
+        timeout-minutes: 60
+        continue-on-error: true
         shell: powershell
         run: |
-          Set-Location $env:W
-          $secs = '${{ github.event.inputs.stability_seconds }}'; if (-not $secs) { $secs = '60' }; $hands = '${{ github.event.inputs.campaign_hands }}'; if (-not $hands) { $hands = '0' }
+          Set-Location $env:W; $secs = '${{ github.event.inputs.stability_seconds }}'; if (-not $secs) { $secs = '60' }; $hands = '${{ github.event.inputs.campaign_hands }}'; if (-not $hands) { $hands = '0' }
           if (Test-Path "$env:GITHUB_WORKSPACE\ci-request.json") { $req = Get-Content "$env:GITHUB_WORKSPACE\ci-request.json" -Raw | ConvertFrom-Json; if ($req.stabilitySeconds) { $secs = [string]$req.stabilitySeconds }; if ($null -ne $req.campaignHands) { $hands = [string]$req.campaignHands } }
-          $out = "$env:RUNNER_TEMP\m3-results"; $log = "$env:RUNNER_TEMP\logs\milestone3.log"; $err = "$env:RUNNER_TEMP\logs\milestone3.err.log"
-          # stdout / stderr go to files (a native stderr line must never abort this step before the results are shown)
-          $p = Start-Process -FilePath powershell.exe -ArgumentList ('-NoProfile -ExecutionPolicy Bypass -File windows\Test-Milestone3-0362.ps1 -OutDir "' + $out + '" -FullSuite -StabilitySeconds ' + $secs + ' -CampaignHands ' + $hands) -WorkingDirectory $env:W -RedirectStandardOutput $log -RedirectStandardError $err -NoNewWindow -PassThru -Wait
+          $out = "$env:RUNNER_TEMP\m3-results"; $log = "$env:RUNNER_TEMP\logs\phase-machine-identity-unit.log"; $err = "$env:RUNNER_TEMP\logs\phase-machine-identity-unit.err.log"
+          # stdout / stderr go to files (a native stderr line must never abort this step before its output is shown)
+          $p = Start-Process -FilePath powershell.exe -ArgumentList ('-NoProfile -ExecutionPolicy Bypass -File windows\Test-Milestone3-0362.ps1 -OutDir "' + $out + '" -Phases machine,identity,unit -FullSuite -StabilitySeconds ' + $secs + ' -CampaignHands ' + $hands) -WorkingDirectory $env:W -RedirectStandardOutput $log -RedirectStandardError $err -NoNewWindow -PassThru; $null = $p.Handle; $p.WaitForExit()   # the runner process only (-Wait would also wait for any process it left behind)
           $code = $p.ExitCode; Get-Content $log; if ((Get-Item $err).Length -gt 0) { '--- stderr ---'; Get-Content $err }
-          "exit $code" | Tee-Object -Append $log
-          exit $code
+          "exit $code"; exit $code
+      - name: "Milestone 3 phase: desktop host start - prebuilt, forced fallback compile, cache, invalid cache, shutdown"
+        id: host_start
+        timeout-minutes: 25
+        continue-on-error: true
+        shell: powershell
+        run: |
+          Set-Location $env:W; $secs = '${{ github.event.inputs.stability_seconds }}'; if (-not $secs) { $secs = '60' }; $hands = '${{ github.event.inputs.campaign_hands }}'; if (-not $hands) { $hands = '0' }
+          if (Test-Path "$env:GITHUB_WORKSPACE\ci-request.json") { $req = Get-Content "$env:GITHUB_WORKSPACE\ci-request.json" -Raw | ConvertFrom-Json; if ($req.stabilitySeconds) { $secs = [string]$req.stabilitySeconds }; if ($null -ne $req.campaignHands) { $hands = [string]$req.campaignHands } }
+          $out = "$env:RUNNER_TEMP\m3-results"; $log = "$env:RUNNER_TEMP\logs\phase-host-start.log"; $err = "$env:RUNNER_TEMP\logs\phase-host-start.err.log"
+          # stdout / stderr go to files (a native stderr line must never abort this step before its output is shown)
+          $p = Start-Process -FilePath powershell.exe -ArgumentList ('-NoProfile -ExecutionPolicy Bypass -File windows\Test-Milestone3-0362.ps1 -OutDir "' + $out + '" -Phases host-start -FullSuite -StabilitySeconds ' + $secs + ' -CampaignHands ' + $hands) -WorkingDirectory $env:W -RedirectStandardOutput $log -RedirectStandardError $err -NoNewWindow -PassThru; $null = $p.Handle; $p.WaitForExit()   # the runner process only (-Wait would also wait for any process it left behind)
+          $code = $p.ExitCode; Get-Content $log; if ((Get-Item $err).Length -gt 0) { '--- stderr ---'; Get-Content $err }
+          "exit $code"; exit $code
+      - name: "Milestone 3 phase: Milestone 2 lifecycle acceptance A-K with real windows, under the process-exit audit"
+        id: lifecycle
+        timeout-minutes: 45
+        continue-on-error: true
+        shell: powershell
+        run: |
+          Set-Location $env:W; $secs = '${{ github.event.inputs.stability_seconds }}'; if (-not $secs) { $secs = '60' }; $hands = '${{ github.event.inputs.campaign_hands }}'; if (-not $hands) { $hands = '0' }
+          if (Test-Path "$env:GITHUB_WORKSPACE\ci-request.json") { $req = Get-Content "$env:GITHUB_WORKSPACE\ci-request.json" -Raw | ConvertFrom-Json; if ($req.stabilitySeconds) { $secs = [string]$req.stabilitySeconds }; if ($null -ne $req.campaignHands) { $hands = [string]$req.campaignHands } }
+          $out = "$env:RUNNER_TEMP\m3-results"; $log = "$env:RUNNER_TEMP\logs\phase-lifecycle.log"; $err = "$env:RUNNER_TEMP\logs\phase-lifecycle.err.log"
+          # stdout / stderr go to files (a native stderr line must never abort this step before its output is shown)
+          $p = Start-Process -FilePath powershell.exe -ArgumentList ('-NoProfile -ExecutionPolicy Bypass -File windows\Test-Milestone3-0362.ps1 -OutDir "' + $out + '" -Phases lifecycle -FullSuite -StabilitySeconds ' + $secs + ' -CampaignHands ' + $hands) -WorkingDirectory $env:W -RedirectStandardOutput $log -RedirectStandardError $err -NoNewWindow -PassThru; $null = $p.Handle; $p.WaitForExit()   # the runner process only (-Wait would also wait for any process it left behind)
+          $code = $p.ExitCode; Get-Content $log; if ((Get-Item $err).Length -gt 0) { '--- stderr ---'; Get-Content $err }
+          "exit $code"; exit $code
+      - name: "Milestone 3 phase: Milestone 3 gameplay acceptance T1-T6 with real windows"
+        id: gameplay
+        timeout-minutes: 45
+        continue-on-error: true
+        shell: powershell
+        run: |
+          Set-Location $env:W; $secs = '${{ github.event.inputs.stability_seconds }}'; if (-not $secs) { $secs = '60' }; $hands = '${{ github.event.inputs.campaign_hands }}'; if (-not $hands) { $hands = '0' }
+          if (Test-Path "$env:GITHUB_WORKSPACE\ci-request.json") { $req = Get-Content "$env:GITHUB_WORKSPACE\ci-request.json" -Raw | ConvertFrom-Json; if ($req.stabilitySeconds) { $secs = [string]$req.stabilitySeconds }; if ($null -ne $req.campaignHands) { $hands = [string]$req.campaignHands } }
+          $out = "$env:RUNNER_TEMP\m3-results"; $log = "$env:RUNNER_TEMP\logs\phase-gameplay.log"; $err = "$env:RUNNER_TEMP\logs\phase-gameplay.err.log"
+          # stdout / stderr go to files (a native stderr line must never abort this step before its output is shown)
+          $p = Start-Process -FilePath powershell.exe -ArgumentList ('-NoProfile -ExecutionPolicy Bypass -File windows\Test-Milestone3-0362.ps1 -OutDir "' + $out + '" -Phases gameplay -FullSuite -StabilitySeconds ' + $secs + ' -CampaignHands ' + $hands) -WorkingDirectory $env:W -RedirectStandardOutput $log -RedirectStandardError $err -NoNewWindow -PassThru; $null = $p.Handle; $p.WaitForExit()   # the runner process only (-Wait would also wait for any process it left behind)
+          $code = $p.ExitCode; Get-Content $log; if ((Get-Item $err).Length -gt 0) { '--- stderr ---'; Get-Content $err }
+          "exit $code"; exit $code
+      - name: "Milestone 3 phase: multi-table stability 1, 2, 5 and 8 tables with real windows"
+        id: multi_table
+        timeout-minutes: 50
+        continue-on-error: true
+        shell: powershell
+        run: |
+          Set-Location $env:W; $secs = '${{ github.event.inputs.stability_seconds }}'; if (-not $secs) { $secs = '60' }; $hands = '${{ github.event.inputs.campaign_hands }}'; if (-not $hands) { $hands = '0' }
+          if (Test-Path "$env:GITHUB_WORKSPACE\ci-request.json") { $req = Get-Content "$env:GITHUB_WORKSPACE\ci-request.json" -Raw | ConvertFrom-Json; if ($req.stabilitySeconds) { $secs = [string]$req.stabilitySeconds }; if ($null -ne $req.campaignHands) { $hands = [string]$req.campaignHands } }
+          $out = "$env:RUNNER_TEMP\m3-results"; $log = "$env:RUNNER_TEMP\logs\phase-multi-table.log"; $err = "$env:RUNNER_TEMP\logs\phase-multi-table.err.log"
+          # stdout / stderr go to files (a native stderr line must never abort this step before its output is shown)
+          $p = Start-Process -FilePath powershell.exe -ArgumentList ('-NoProfile -ExecutionPolicy Bypass -File windows\Test-Milestone3-0362.ps1 -OutDir "' + $out + '" -Phases multi-table -FullSuite -StabilitySeconds ' + $secs + ' -CampaignHands ' + $hands) -WorkingDirectory $env:W -RedirectStandardOutput $log -RedirectStandardError $err -NoNewWindow -PassThru; $null = $p.Handle; $p.WaitForExit()   # the runner process only (-Wait would also wait for any process it left behind)
+          $code = $p.ExitCode; Get-Content $log; if ((Get-Item $err).Length -gt 0) { '--- stderr ---'; Get-Content $err }
+          "exit $code"; exit $code
+      - name: "Milestone 3 phase: long campaign (only when campaign_hands > 0)"
+        id: campaign
+        timeout-minutes: 60
+        continue-on-error: true
+        shell: powershell
+        run: |
+          Set-Location $env:W; $secs = '${{ github.event.inputs.stability_seconds }}'; if (-not $secs) { $secs = '60' }; $hands = '${{ github.event.inputs.campaign_hands }}'; if (-not $hands) { $hands = '0' }
+          if (Test-Path "$env:GITHUB_WORKSPACE\ci-request.json") { $req = Get-Content "$env:GITHUB_WORKSPACE\ci-request.json" -Raw | ConvertFrom-Json; if ($req.stabilitySeconds) { $secs = [string]$req.stabilitySeconds }; if ($null -ne $req.campaignHands) { $hands = [string]$req.campaignHands } }
+          $out = "$env:RUNNER_TEMP\m3-results"; $log = "$env:RUNNER_TEMP\logs\phase-campaign.log"; $err = "$env:RUNNER_TEMP\logs\phase-campaign.err.log"
+          # stdout / stderr go to files (a native stderr line must never abort this step before its output is shown)
+          $p = Start-Process -FilePath powershell.exe -ArgumentList ('-NoProfile -ExecutionPolicy Bypass -File windows\Test-Milestone3-0362.ps1 -OutDir "' + $out + '" -Phases campaign -FullSuite -StabilitySeconds ' + $secs + ' -CampaignHands ' + $hands) -WorkingDirectory $env:W -RedirectStandardOutput $log -RedirectStandardError $err -NoNewWindow -PassThru; $null = $p.Handle; $p.WaitForExit()   # the runner process only (-Wait would also wait for any process it left behind)
+          $code = $p.ExitCode; Get-Content $log; if ((Get-Item $err).Length -gt 0) { '--- stderr ---'; Get-Content $err }
+          "exit $code"; exit $code
+      - name: "Milestone 3 results: cleanup check, merged results (JSON, TXT, ZIP) - decides the outcome"
+        if: always()
+        timeout-minutes: 10
+        shell: powershell
+        run: |
+          Set-Location $env:W; $out = "$env:RUNNER_TEMP\m3-results"; $log = "$env:RUNNER_TEMP\logs\phase-results.log"; $err = "$env:RUNNER_TEMP\logs\phase-results.err.log"
+          $p = Start-Process -FilePath powershell.exe -ArgumentList ('-NoProfile -ExecutionPolicy Bypass -File windows\Test-Milestone3-0362.ps1 -OutDir "' + $out + '" -Phases cleanup,results') -WorkingDirectory $env:W -RedirectStandardOutput $log -RedirectStandardError $err -NoNewWindow -PassThru; $null = $p.Handle; $p.WaitForExit()   # the runner process only (-Wait would also wait for any process it left behind)
+          $code = $p.ExitCode; Get-Content $log; if ((Get-Item $err).Length -gt 0) { '--- stderr ---'; Get-Content $err }
+          "exit $code"; exit $code
       - name: Publish the results into the job log
         if: always()
         shell: powershell

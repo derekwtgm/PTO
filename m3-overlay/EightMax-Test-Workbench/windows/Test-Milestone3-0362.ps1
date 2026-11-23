@@ -14,10 +14,12 @@
      8. optional long campaign (-CampaignHands N): tournaments played to the end until N hands are completed
      9. cleanup check (no leftover EightMax processes, port 48713 free)
    Usage: powershell -NoProfile -ExecutionPolicy Bypass -File windows\Test-Milestone3-0362.ps1 [-OutDir DIR] [-FullSuite] [-SkipAcceptance]
-          [-SkipStability] [-StabilitySeconds 60] [-StabilityTables 1,2,5,8] [-CampaignHands 0] [-CampaignMinutes 30]
+          [-SkipStability] [-StabilitySeconds 60] [-StabilityTables 1,2,5,8] [-CampaignHands 0] [-CampaignMinutes 30] [-Phases all]
+   -Phases (CI): a comma list of machine, identity, unit, host-start, lifecycle, gameplay, multi-table, campaign, cleanup, results.
+   Every invocation stores its checks in <OutDir>\state\; the 'results' phase merges all of them into one report (default: all phases).
    Results: <OutDir>\milestone3-results.json, milestone3-results.txt, every raw log, and <OutDir>.zip to send back.
    Exit code 0 only when every required check passed. #>
-param([string]$OutDir, [switch]$FullSuite, [switch]$SkipAcceptance, [switch]$SkipStability, [int]$StabilitySeconds = 60, [string]$StabilityTables = '1,2,5,8', [int]$CampaignHands = 0, [int]$CampaignMinutes = 30)
+param([string]$OutDir, [switch]$FullSuite, [switch]$SkipAcceptance, [switch]$SkipStability, [int]$StabilitySeconds = 60, [string]$StabilityTables = '1,2,5,8', [int]$CampaignHands = 0, [int]$CampaignMinutes = 30, [string]$Phases = 'all')
 $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'Common.ps1')
 Add-Type -AssemblyName System.Web.Extensions, System.Windows.Forms
@@ -34,6 +36,11 @@ $node = Join-Path $root 'runtime\node\node.exe'
 $ExpectedBuild = '7d08acc7eb4577ee'; $ExpectedMwcliSha = 'b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72'
 $script:checks = New-Object Collections.ArrayList
 $script:phases = [ordered]@{}
+$PhaseOrder = @('machine', 'identity', 'unit', 'host-start', 'lifecycle', 'gameplay', 'multi-table', 'campaign', 'cleanup', 'results')
+$Selected = $(if ($Phases -eq 'all') { $PhaseOrder } else { @($Phases -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ }) })
+foreach ($x in $Selected) { if ($PhaseOrder -notcontains $x) { throw ('Unknown phase ' + $x + ' (phases: ' + ($PhaseOrder -join ', ') + ')') } }
+$stateDir = Join-Path $OutDir 'state'; [IO.Directory]::CreateDirectory($stateDir) | Out-Null
+$script:phaseChecks = [ordered]@{}
 # Every record is an ordered dictionary: JavaScriptSerializer cannot serialise PSCustomObject on Windows PowerShell 5.1 (a circular
 # reference through PSObject.Members) - the defect that made the Milestone 2 runner crash after its tests in CI run 45163715758.
 function Add-Check([string]$Group, [string]$Name, [string]$Status, [string]$Detail) {
@@ -77,9 +84,10 @@ function HostCall([string]$Method, [string]$Path, $Body = $null, [int]$TimeoutSe
     return [ordered]@{ status = $status; raw = $raw; json = $parsed }
 }
 function Phase([string]$Name, [scriptblock]$Body) {
-    $w = [Diagnostics.Stopwatch]::StartNew(); Write-Host ''; Write-Host ('==== ' + $Name)
+    if ($Selected -notcontains $Name) { return }
+    $w = [Diagnostics.Stopwatch]::StartNew(); Write-Host ''; Write-Host ('==== ' + $Name + ' (' + [DateTime]::Now.ToString('HH:mm:ss') + ')'); $first = $script:checks.Count
     try { & $Body } catch { Add-Check 'harness' ($Name + ' ran to completion') 'fail' $_.Exception.Message }
-    $script:phases[$Name] = [math]::Round($w.Elapsed.TotalSeconds)
+    $script:phases[$Name] = [math]::Round($w.Elapsed.TotalSeconds); $script:phaseChecks[$Name] = @($script:checks | Select-Object -Skip $first)
 }
 
 Write-Host ('EightMax 0.36.2 Milestone 3 tests. Results folder: ' + $OutDir)
@@ -125,9 +133,11 @@ Phase 'unit' {
     if ($FullSuite) { $files = @(Get-ChildItem (Join-Path $root 'tests') -Filter '*.test.cjs' | Sort-Object Name | ForEach-Object { 'tests\' + $_.Name }) } else { $files = $focused }
     $unit.mode = $(if ($FullSuite) { 'complete suite' } else { 'Milestone 3 focused set' }); $unit.files = $files.Count
     if (-not (Test-Path -LiteralPath $node -PathType Leaf)) { Add-Check 'unit' 'bundled Node.js present' 'fail' 'runtime\node\node.exe missing'; return }
-    $r = Run-Logged $node ('--test --test-reporter=tap --test-concurrency=2 ' + (($files | ForEach-Object { '"' + $_ + '"' }) -join ' ')) 'unit-tests' 3600
+    # --test-timeout: a single test that never finishes is reported as failed after 10 minutes instead of blocking the run
+    $r = Run-Logged $node ('--test --test-reporter=tap --test-concurrency=2 --test-timeout=600000 ' + (($files | ForEach-Object { '"' + $_ + '"' }) -join ' ')) 'unit-tests' 3600
     $tap = Read-Text $r['out']; Copy-Item -LiteralPath $r['out'] -Destination (Join-Path $OutDir 'unit-tests.tap') -Force
-    $n = { param($k) if ($tap -match ('(?m)^# ' + $k + ' (\d+)')) { [int]$Matches[1] } else { 0 } }
+    # the LAST summary line, case-sensitive and whole-line: test diagnostics such as a capitalised PASS line must not match (CI run 45181140222)
+    $n = { param($k) $ms = [regex]::Matches($tap, '(?m)^' + [char]35 + ' ' + $k + ' (\d+)\r?$'); if ($ms.Count) { [int]$ms[$ms.Count - 1].Groups[1].Value } else { 0 } }   # [char]35: the TAP comment sign (kept out of string literals for the repository's structural lint)
     $unit.tests = & $n 'tests'; $unit.passed = & $n 'pass'; $unit.failed = & $n 'fail'; $unit.skipped = & $n 'skipped'; $unit.exitCode = $r['code']; $unit.seconds = $r['seconds']
     $unit.failedNames = @([regex]::Matches($tap, '(?m)^not ok \d+ - (.+)$') | ForEach-Object { $_.Groups[1].Value })
     if ($r['timedOut']) { Add-Check 'unit' 'regression tests' 'fail' 'timed out' }
@@ -160,15 +170,27 @@ function Stop-ViaApi($Info) {
     $driverGone = Wait-Until { @(Get-Process -Name EightMaxInput -ErrorAction SilentlyContinue | Where-Object { try { $_.StartTime -gt $TestStart } catch { $false } }).Count -eq 0 } 10000 200
     return [ordered]@{ hostExited = [bool]$exited; portFreeMs = $free; inputDriverGone = [bool]$driverGone; inputDriversSeen = $driver.Count }
 }
+function Stop-Leftovers([string]$Why) {
+    # any host / input driver started by these tests and still running is terminated (and reported): nothing may outlive a check
+    $left = @(Get-Process -Name EightMaxWorkbench, EightMaxInput -ErrorAction SilentlyContinue | Where-Object { try { $_.StartTime -gt $TestStart } catch { $false } })
+    foreach ($p in $left) { try { $p.Kill(); $null = $p.WaitForExit(10000) } catch {} }
+    if ($left.Count) { $null = Wait-PortFree 15000; return ($Why + ': terminated ' + (@($left | ForEach-Object { $_.ProcessName + ' pid ' + $_.Id }) -join ', ')) }
+    return ''
+}
 function Host-Case([string]$Name, [string]$Extra, [scriptblock]$Expect) {
-    $rec = [ordered]@{ case = $Name; args = $Extra }
+    $rec = [ordered]@{ case = $Name; args = $Extra }; $why = ''; $i = $null
     try {
         $i = Start-ViaLauncher $Name $Extra; $rec.status = $i['status']; $rec.launcherSeconds = $i['launcherSeconds']
         if ($i['health']) { $rec.healthStatus = $i['health']['status']; $rec.appVersion = $(if ($i['health']['json']) { [string]$i['health']['json']['appVersion'] } else { $null }) }
-        $why = & $Expect $i
-        if ($i['session']) { $s = Stop-ViaApi $i; $rec.shutdown = $s; if (-not $s['hostExited']) { $why += ' host still running after shutdown;' }; if ($s['portFreeMs'] -lt 0) { $why += ' port 48713 not released;' }; if (-not $s['inputDriverGone']) { $why += ' input driver still running;' } }
-        if ($why) { Add-Check 'host-start' $Name 'fail' $why } else { Add-Check 'host-start' $Name 'pass' ('path ' + [string]$i['status']['path'] + $(if ($i['status']['invalidCache']) { ', invalid cache: ' + [string]$i['status']['invalidCache'] } else { '' }) + $(if ($rec.shutdown) { '; shutdown ok, port free after ' + [string]$rec.shutdown['portFreeMs'] + ' ms, input driver gone' } else { '' })) }
-    } catch { $rec.error = $_.Exception.Message; Add-Check 'host-start' $Name 'fail' $_.Exception.Message }
+        if (-not $i['status']) { $why += ' the launcher wrote no status record;' }
+        else { try { $why += [string](& $Expect $i) } catch { $why += ' expectation could not be evaluated: ' + $_.Exception.Message + ';' } }
+    } catch { $rec.error = $_.Exception.Message; $why += ' ' + $_.Exception.Message + ';' }
+    finally {
+        # always shut down a host this case started, whatever happened above (a leftover host blocked every later phase in CI run 45181140222)
+        if ($i -and $i['session']) { try { $s = Stop-ViaApi $i; $rec.shutdown = $s; if (-not $s['hostExited']) { $why += ' host still running after shutdown;' }; if ($s['portFreeMs'] -lt 0) { $why += ' port 48713 not released;' }; if (-not $s['inputDriverGone']) { $why += ' input driver still running;' } } catch { $why += ' shutdown failed: ' + $_.Exception.Message + ';' } }
+        $k = Stop-Leftovers 'leftover after this case'; if ($k) { $why += ' ' + $k + ';' }
+    }
+    if ($why.Trim()) { Add-Check 'host-start' $Name 'fail' $why.Trim() } else { Add-Check 'host-start' $Name 'pass' ('path ' + [string]$i['status']['path'] + $(if ($i['status']['invalidCache']) { ', invalid cache: ' + [string]$i['status']['invalidCache'] } else { '' }) + $(if ($rec.shutdown) { '; shutdown ok, port free after ' + [string]$rec.shutdown['portFreeMs'] + ' ms, input driver gone' } else { '' })) }
     [void]$hostStart.Add($rec)
 }
 Phase 'host-start' {
@@ -176,12 +198,15 @@ Phase 'host-start' {
     $okHealth = { param($i) if ($i['health']['status'] -ne 200) { return ' health HTTP ' + $i['health']['status'] + ';' } elseif ([string]$i['health']['json']['appVersion'] -ne $WorkbenchVersion) { return ' appVersion ' + [string]$i['health']['json']['appVersion'] + ';' } else { return '' } }
     Host-Case 'prebuilt host launch' '' { param($i) $w = & $okHealth $i; if ($i['status']['path'] -ne 'prebuilt') { $w += ' path ' + $i['status']['path'] + ' (expected prebuilt);' }; return $w }
     Host-Case 'forced fallback compile with a fresh cache' ('-ForceCompile -CacheRoot "' + $cacheRoot + '"') { param($i) $w = & $okHealth $i; $s = $i['status']; if ($s['path'] -ne 'compiled' -or -not $s['compiled']) { $w += ' path ' + $s['path'] + ' (expected compiled);' }; $src = @($s['sources'] | ForEach-Object { $_['path'] }); if (($src -join ',') -ne 'desktop/DesktopHost.cs,desktop/CaptureService.cs,desktop/InputBroker.cs') { $w += ' sources ' + ($src -join ',') + ';' }; return $w }
-    $first = $hostStart[$hostStart.Count - 1]; $cacheDir = $(if ($first['status']) { [string]$first['status']['cacheFolder'] } else { '' }); $cachedExe = Join-Path $cacheDir 'EightMaxWorkbench.exe'; $exeHash1 = $(if (Test-Path -LiteralPath $cachedExe) { Sha $cachedExe } else { '' })
+    $first = $hostStart[$hostStart.Count - 1]; $cacheDir = $(if ($first['status'] -and $first['status']['cacheFolder']) { [string]$first['status']['cacheFolder'] } else { '' })
+    if (-not $cacheDir) { Add-Check 'host-start' 'cache folder reported by the launcher' 'fail' 'the forced compile produced no status record; the cache reuse / invalid-cache cases are skipped' } else {
+    $cachedExe = Join-Path $cacheDir 'EightMaxWorkbench.exe'; $exeHash1 = $(if (Test-Path -LiteralPath $cachedExe) { Sha $cachedExe } else { '' })
     Host-Case 'repeated start reuses the valid cache' ('-ForceCompile -CacheRoot "' + $cacheRoot + '"') { param($i) $w = & $okHealth $i; $s = $i['status']; if ($s['path'] -ne 'cache' -or -not $s['reusedCache'] -or $s['compiled']) { $w += ' path ' + $s['path'] + ' (expected cache, not compiled);' }; if ([string]$s['exeSha256'] -ne $exeHash1) { $w += ' cached executable changed;' }; return $w }
     if (Test-Path -LiteralPath $cachedExe) { [IO.File]::AppendAllText($cachedExe, 'corrupted by the Milestone 3 test') }
     Host-Case 'invalid cache: corrupted executable is rebuilt' ('-ForceCompile -CacheRoot "' + $cacheRoot + '"') { param($i) $w = & $okHealth $i; $s = $i['status']; if (-not $s['compiled'] -or [string]$s['invalidCache'] -ne 'cached executable does not match its recorded hash') { $w += ' expected recompile after corruption, got path ' + $s['path'] + ' / ' + [string]$s['invalidCache'] + ';' }; return $w }
     $man = Join-Path $cacheDir 'cache-manifest.json'; if (Test-Path -LiteralPath $man) { $m = Read-Text $man; $m2 = $m -replace '"path":"desktop/InputBroker.cs","sha256":"[0-9a-f]{64}"', ('"path":"desktop/InputBroker.cs","sha256":"' + ('0' * 64) + '"'); Write-WorkbenchUtf8 $man $m2 }
     Host-Case 'invalid cache: manifest of other sources is rebuilt' ('-ForceCompile -CacheRoot "' + $cacheRoot + '"') { param($i) $w = & $okHealth $i; $s = $i['status']; if (-not $s['compiled'] -or [string]$s['invalidCache'] -notmatch 'cache manifest') { $w += ' expected recompile after a foreign manifest, got path ' + $s['path'] + ' / ' + [string]$s['invalidCache'] + ';' }; return $w }
+    }
     # an executable cached under the Milestone 2 key (two sources only) must never be used
     $m2key = Sha-String ((Get-FileHash -LiteralPath (Join-Path $root 'desktop\DesktopHost.cs') -Algorithm SHA256).Hash + (Get-FileHash -LiteralPath (Join-Path $root 'desktop\CaptureService.cs') -Algorithm SHA256).Hash)
     $oldDir = Join-Path $cacheRoot $m2key; [IO.Directory]::CreateDirectory($oldDir) | Out-Null; $planted = Join-Path $oldDir 'EightMaxWorkbench.exe'; [IO.File]::WriteAllText($planted, 'not an executable: planted under the Milestone 2 cache key'); $plantedHash = Sha $planted
@@ -210,7 +235,7 @@ function Run-NodeTool([string]$Key, [string]$Group, [string]$Arguments, [string]
     else { Add-Check $Group ($Key + ': exit code matches the result') 'pass' ('overall ' + $doc['overall'] + ', exit ' + $r['code']) }
     return $doc
 }
-if ($SkipAcceptance) { Add-Check 'acceptance' 'real-window acceptance' 'warn' 'skipped (-SkipAcceptance)' } else {
+if ($SkipAcceptance) { if ($Selected -contains 'lifecycle') { Add-Check 'acceptance' 'real-window acceptance' 'warn' 'skipped (-SkipAcceptance)' } } else {
     Phase 'lifecycle' {
         # Milestone 2 scenarios A-K with real windows, under the process-exit audit (the Milestone 2 runner stayed alive for minutes)
         $audit = Join-Path $OutDir 'lifecycle-exit-audit.json'; $work = Join-Path $OutDir 'work-lifecycle'
@@ -226,7 +251,7 @@ if ($SkipAcceptance) { Add-Check 'acceptance' 'real-window acceptance' 'warn' 's
         else { Add-Check 'runner cleanup' 'exit audit produced a result' 'fail' 'no exit-audit file' }
     }
     Phase 'gameplay' { $f = Join-Path $OutDir 'gameplay-acceptance.json'; $null = Run-NodeTool 'gameplay-acceptance' 'gameplay' ('"tools\gameplay-acceptance-0362m3.cjs" --suite acceptance --out "' + $f + '" --work "' + (Join-Path $OutDir 'work-gameplay') + '"') $f 3600 }
-    if ($SkipStability) { Add-Check 'multi-table' 'multi-table stability' 'warn' 'skipped (-SkipStability)' } else {
+    if ($SkipStability) { if ($Selected -contains 'multi-table') { Add-Check 'multi-table' 'multi-table stability' 'warn' 'skipped (-SkipStability)' } } else {
         Phase 'multi-table' { $f = Join-Path $OutDir 'gameplay-stability.json'; $null = Run-NodeTool 'gameplay-stability' 'multi-table' ('"tools\gameplay-acceptance-0362m3.cjs" --suite stability --tables ' + $StabilityTables + ' --seconds ' + $StabilitySeconds + ' --out "' + $f + '" --work "' + (Join-Path $OutDir 'work-stability') + '"') $f 7200 }
     }
     if ($CampaignHands -gt 0) { Phase 'campaign' { $f = Join-Path $OutDir 'gameplay-campaign.json'; $null = Run-NodeTool 'gameplay-campaign' 'campaign' ('"tools\gameplay-acceptance-0362m3.cjs" --suite campaign --tables 1 --hands ' + $CampaignHands + ' --max-minutes ' + $CampaignMinutes + ' --out "' + $f + '" --work "' + (Join-Path $OutDir 'work-campaign') + '"') $f (($CampaignMinutes + 15) * 60) } }
@@ -236,11 +261,33 @@ if ($SkipAcceptance) { Add-Check 'acceptance' 'real-window acceptance' 'warn' 's
 Phase 'cleanup' {
     Start-Sleep -Seconds 3
     $left = @(New-Leftovers @('EightMaxWorkbench', 'EightMaxInput', 'EightMaxTestTable', 'mwcli'))
-    if ($left.Count) { Add-Check 'cleanup' 'no leftover processes started by these tests' 'fail' ($left -join ', ') } else { Add-Check 'cleanup' 'no leftover processes started by these tests' 'pass' 'none' }
+    if ($left.Count) {
+        Add-Check 'cleanup' 'no leftover processes started by these tests' 'fail' ($left -join ', ')
+        # reported above, then terminated: the tests never leave EightMax processes running on this computer
+        foreach ($p in @(Get-Process -Name EightMaxWorkbench, EightMaxInput, EightMaxTestTable, mwcli -ErrorAction SilentlyContinue | Where-Object { try { $_.StartTime -gt $TestStart } catch { $false } })) { try { $p.Kill(); $null = $p.WaitForExit(10000) } catch {} }
+    } else { Add-Check 'cleanup' 'no leftover processes started by these tests' 'pass' 'none' }
     if (@(Port-Owners).Count) { Add-Check 'cleanup' 'port 48713 released' 'fail' (@(Port-Owners) -join ', ') } else { Add-Check 'cleanup' 'port 48713 released' 'pass' 'free' }
 }
 
-# ---------------- results (never lost: a failure while writing falls back to a minimal record) ----------------
+# ---------------- phase state: what this invocation found, kept for the 'results' phase ----------------
+$phaseData = [ordered]@{ 'machine' = $machine; 'identity' = $identities; 'unit' = $unit; 'host-start' = $hostStart; 'lifecycle' = $runs['lifecycle']; 'gameplay' = $runs['gameplay-acceptance']; 'multi-table' = $runs['gameplay-stability']; 'campaign' = $runs['gameplay-campaign']; 'cleanup' = $null }
+foreach ($n in @($script:phaseChecks.Keys)) {
+    try { Write-WorkbenchUtf8 (Join-Path $stateDir ($n + '.json')) ($js.Serialize((ConvertTo-Plain ([ordered]@{ phase = $n; seconds = $script:phases[$n]; at = [DateTime]::UtcNow.ToString('o'); checks = $script:phaseChecks[$n]; data = $phaseData[$n] })))) } catch { Write-Host ('phase state for ' + $n + ' not written: ' + $_.Exception.Message) }
+}
+if ($Selected -notcontains 'results') {
+    $mine = @($script:checks | Where-Object { $_['status'] -eq 'fail' }).Count; Write-Host ''; Write-Host ('Phases ' + ($Selected -join ', ') + ': ' + [string]$script:checks.Count + ' checks, ' + [string]$mine + ' failed')
+    if ($mine -eq 0) { exit 0 } else { exit 1 }
+}
+# ---------------- results: every phase's state merged (never lost: a failure while writing falls back to a minimal record) ----------------
+$script:checks = New-Object Collections.ArrayList; $script:phases = [ordered]@{}
+foreach ($n in $PhaseOrder) {
+    $f = Join-Path $stateDir ($n + '.json'); if (-not (Test-Path -LiteralPath $f)) { continue }
+    $st = $js.DeserializeObject((Read-Text $f)); $script:phases[$n] = $st['seconds']; foreach ($c in @($st['checks'])) { if ($c) { [void]$script:checks.Add($c) } }
+    switch ($n) { 'machine' { $machine = $st['data'] } 'identity' { $identities = $st['data'] } 'unit' { $unit = $st['data'] } 'host-start' { $hostStart = $st['data'] } 'lifecycle' { $runs['lifecycle'] = $st['data'] } 'gameplay' { $runs['gameplay-acceptance'] = $st['data'] } 'multi-table' { $runs['gameplay-stability'] = $st['data'] } 'campaign' { $runs['gameplay-campaign'] = $st['data'] } }
+}
+if (-not $machine) { $machine = [ordered]@{} }
+$missingPhases = @($PhaseOrder | Where-Object { $_ -ne 'results' -and $_ -ne 'campaign' -and -not (Test-Path -LiteralPath (Join-Path $stateDir ($_ + '.json'))) })
+if ($missingPhases.Count -and -not $SkipAcceptance) { [void]$script:checks.Add([ordered]@{ group = 'harness'; name = 'every phase produced a result'; status = 'fail'; detail = 'missing: ' + ($missingPhases -join ', ') + ' (a phase that did not finish, e.g. its CI step timed out)'; at = [DateTime]::UtcNow.ToString('o') }) }
 $errorsN = @($script:checks | Where-Object { $_['status'] -eq 'fail' }).Count; $warnN = @($script:checks | Where-Object { $_['status'] -eq 'warn' }).Count; $passN = @($script:checks | Where-Object { $_['status'] -eq 'pass' }).Count
 $overall = $(if ($errorsN -eq 0 -and -not $SkipAcceptance) { 'PASS' } elseif ($errorsN -eq 0) { 'PASS (acceptance skipped)' } else { 'FAIL' })
 $byGroup = [ordered]@{}; foreach ($c in $script:checks) { if (-not $byGroup.Contains($c['group'])) { $byGroup[$c['group']] = [ordered]@{ pass = 0; fail = 0; warn = 0 } }; $byGroup[$c['group']][$c['status']]++ }
