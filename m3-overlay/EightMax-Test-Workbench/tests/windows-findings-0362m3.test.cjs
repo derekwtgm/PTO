@@ -93,5 +93,6 @@ test('Windows runner and fixtures: check names become safe file names; a window 
   assert.match(ps, /\$file = Safe-Name \$Name; \$ready = Join-Path \$hostWork \(\$file \+ '-session\.json'\); \$st = Join-Path \$hostWork \(\$file \+ '-status\.json'\)/);
   assert.match(ps, /Run-Logged 'powershell\.exe' \$a \('host-' \+ \$file\) 900/);
   assert.match(read('tools/test-table-035.cjs'), /child\.stdin\.on\('error', \(\) => \{ \/\* window gone \*\/ \}\);/);
-  const g = read('tools/gameplay-acceptance-0362m3.cjs'); assert.match(g, /for \(let i = 0; i < 20; i\+\+\) \{\n    await new Promise\(\(r\) => setTimeout\(r, i \? 50 : 0\)\);/, 'the cleanup audit re-samples before calling a closing handle a leak');
+  for (const f of ['tools/gameplay-acceptance-0362m3.cjs', 'tools/lifecycle-acceptance-0362m2.cjs']) assert.match(read(f), /for \(let i = 0; i < 20; i\+\+\) \{\n    await new Promise\(\(r\) => setTimeout\(r, i \? 50 : 0\)\);/, f + ': the cleanup audit re-samples before calling a closing handle a leak');
+  assert.match(ps, /Add-Check 'runner cleanup' 'lifecycle-acceptance: process cleanup \(children exited, no live timers\)'/, 'the lifecycle tool\'s own cleanup verdict is a check of the Windows runner');
 });

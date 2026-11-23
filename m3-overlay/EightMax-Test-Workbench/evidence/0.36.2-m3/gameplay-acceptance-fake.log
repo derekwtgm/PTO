@@ -7,13 +7,14 @@
   [PASS] no uncertain / ambiguous / timed-out action - [0,0,0]
   => PASS (8 s)
 --- T2: A tournament is played to its end; the end is a normal stop
-  [PASS] the table recognised the end of the tournament - {"kind":"tournament-complete","hand":9,"winner":4,"source":"verified settlement","at":"2026-11-23T16:50:36.775Z"}
+  [PASS] the table recognised the end of the tournament - {"kind":"tournament-complete","hand":9,"winner":4,"source":"verified settlement","at":"2026-11-23T17:12:07.730Z"}
   [PASS] the winner is the dealer's winner - [4,4]
   [PASS] one player holds every chip (final player count 1) - [0,0,0,0,750,0,0,0]
   [PASS] lifecycle STOPPED with cause tournament-complete; run() ended - STOPPED / tournament-complete
   [PASS] dashboard message: "Tournament finished. Automated gameplay has stopped normally."
   [PASS] eliminations during play were recognised - 7
-  [PASS] no reading refused (except the unseen opening of a hand that needed no decision) - {"refusalCodes":{"missed-hand-start":1,"untracked-hand":9},"refusedFrames":10,"handsWithoutDecisions":[8],"other":[]}
+  [PASS] the tracker refused no reading (except the unseen opening of a hand that needed no decision) - {"refusalCodes":{"missed-hand-start":1,"untracked-hand":11},"handsWithoutDecisions":[8],"other":[]}
+  [PASS] frames the reader could not read are rare (at most 5 % of readings; each refused, never guessed) - {"unreadableFrames":0,"readings":122}
   [PASS] every confirmed action matches the dealer, in order; nothing applied unconfirmed - {"confirmed":28,"dealerAccepted":28,"matchedInOrder":28,"wrongActions":0,"wrong":[],"confirmedNotApplied":0,"appliedNotConfirmed":0,"uncertainOrUnconfirmed":0,"incorrectClicks":0,"invalidWagers":0,"ti
   [PASS] no incorrect click, no invalid wager - {"confirmed":28,"dealerAccepted":28,"matchedInOrder":28,"wrongActions":0,"wrong":[],"confirmedNotApplied":0,"appliedNotConfirmed":0,"uncertainOrUnconfirmed":0,"incorrectClicks":0,"invalidWagers":0,"ti
   [PASS] no capture and no input after the end - [0,0]
@@ -21,10 +22,10 @@
   => PASS (6 s)
 --- T3: A hand first seen after its opening: untracked, no input; recovery at the next verified hand
   [PASS] an action happened before automation started (call by the player to act) - {"accepted":true,"hand":1}
-  [PASS] hand 1 was untracked (missed-hand-start), with its reason shown - {"lastValidHand":2,"recoveries":1,"untrackedHands":1,"lastRecovery":{"fromHand":1,"toHand":2,"cause":"missed-hand-start","at":100},"accepted":9,"rejected":100,"paused":false,"status":"tracking","reaso
+  [PASS] hand 1 was untracked (missed-hand-start), with its reason shown - {"lastValidHand":2,"recoveries":1,"untrackedHands":1,"lastRecovery":{"fromHand":1,"toHand":2,"cause":"missed-hand-start","at":98},"accepted":9,"rejected":98,"paused":false,"status":"tracking","reasonC
   [PASS] no input while the hand was untracked
   [PASS] the table's own clock (not the Workbench) finished hand 1 - 13
-  [PASS] recovered automatically at hand 2 (counted) - {"fromHand":1,"toHand":2,"cause":"missed-hand-start","at":100}
+  [PASS] recovered automatically at hand 2 (counted) - {"fromHand":1,"toHand":2,"cause":"missed-hand-start","at":98}
   [PASS] conditions: waiting for a valid hand > verifying > playing - starting > waiting-next-hand > verifying > playing
   [PASS] play continues after the recovery (4+ confirmed actions) - 4
   [PASS] every confirmed action matches the dealer; no incorrect click - {"confirmed":4,"dealerAccepted":5,"matchedInOrder":4,"wrongActions":0,"wrong":[],"confirmedNotApplied":0,"appliedNotConfirmed":1,"uncertainOrUnconfirmed":0,"incorrectClicks":0,"invalidWagers":0,"timeo
@@ -42,7 +43,7 @@
   [PASS] table 1 keeps playing (or finished its tournament) - [3,true]
   [PASS] table 1: every confirmed action matches its own dealer; no incorrect click - {"confirmed":17,"dealerAccepted":17,"matchedInOrder":17,"wrongActions":0,"wrong":[],"confirmedNotApplied":0,"appliedNotConfirmed":0,"uncertainOrUnconfirmed":0,"incorrectClicks":0,"invalidWagers":0,"ti
   [PASS] the scheduler blocks only table 2 - [2]
-  => PASS (4 s)
+  => PASS (3 s)
 --- T6: Emergency stop right after an elimination: stop wins, no input, no automatic recovery
   [PASS] an elimination was recognised - 2
   [PASS] SAFETY_PAUSED by the emergency stop - SAFETY_PAUSED

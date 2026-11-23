@@ -347,9 +347,13 @@ async function main() {
   } finally { await env.stop(); }
   // 0.36.2 M3: cleanup audit - child processes exited, no timer or socket of this run still alive (stdio pipes are expected)
   for (const c of CHILDREN) if (!c.done) await settleWithin(c.promise, 5000);
-  await new Promise((r) => setImmediate(r));
-  const live = typeof process.getActiveResourcesInfo === 'function' ? process.getActiveResourcesInfo() : [], counts = {}; for (const k of live) counts[k] = (counts[k] || 0) + 1;
-  const unexpected = Object.entries(counts).filter(([k]) => !['PipeWrap', 'TTYWrap', 'FSReqCallback', 'FileHandle', 'Immediate'].includes(k)).map(([k, v]) => k + ' x' + v);
+  // the handle of a child that has just exited is closed in a later phase of the event loop: sample again (bounded, 1 s) before
+  // calling anything a leak (Windows CI run 45217637720 reported the desktop host's handle, sampled one loop turn after its exit)
+  const ALLOWED = ['PipeWrap', 'TTYWrap', 'FSReqCallback', 'FileHandle', 'Immediate']; let counts = {}, unexpected = [];
+  for (let i = 0; i < 20; i++) {
+    await new Promise((r) => setTimeout(r, i ? 50 : 0)); counts = {}; for (const k of (typeof process.getActiveResourcesInfo === 'function' ? process.getActiveResourcesInfo() : [])) counts[k] = (counts[k] || 0) + 1;
+    unexpected = Object.entries(counts).filter(([k]) => !ALLOWED.includes(k)).map(([k, v]) => k + ' x' + v); if (!unexpected.length) break;
+  }
   out.cleanup = { childProcesses: CHILDREN.map((c) => ({ ...c.info })), allChildrenExited: CHILDREN.every((c) => c.done), activeResources: counts, unexpected, ok: CHILDREN.every((c) => c.done) && unexpected.length === 0 };
   const failed = out.scenarios.filter((s) => s.status !== 'pass');
   out.summary = { scenarios: out.scenarios.length, passed: out.scenarios.length - failed.length, failed: failed.length, checks: out.scenarios.reduce((a, s) => a + s.checks.length, 0), failedChecks: out.scenarios.reduce((a, s) => a + s.checks.filter((c) => !c.pass).length, 0), skipped: Object.keys(SCENARIOS).length - out.scenarios.length, cleanupOk: out.cleanup.ok };
