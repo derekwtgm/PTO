@@ -180,24 +180,30 @@ function Format-M31Duration([double]$Seconds) {
     $m = [math]::Floor($Seconds / 60); return ([string]$m + ' min ' + [string][math]::Round($Seconds - 60 * $m) + ' s')
 }
 function Get-M31Now { return [DateTime]::UtcNow.ToString('o') }
+function ConvertTo-M31Date($Value) {
+    # a DateTime (PowerShell 7 ConvertFrom-Json) or an ISO 8601 string (Windows PowerShell 5.1), independent of the regional settings
+    if ($null -eq $Value -or [string]$Value -eq '') { return $null }
+    if ($Value -is [DateTime]) { return $Value }
+    try { return [DateTime]::Parse([string]$Value, [Globalization.CultureInfo]::InvariantCulture, [Globalization.DateTimeStyles]::RoundtripKind) } catch { return $null }
+}
 function Format-M31Time($Value) {
     # local 'yyyy-MM-dd HH:mm:ss' from an ISO string (Windows PowerShell 5.1) or a DateTime (PowerShell 7 ConvertFrom-Json converts dates)
     if ($null -eq $Value -or [string]$Value -eq '') { return '' }
-    try { if ($Value -is [DateTime]) { $d = $Value } else { $d = [DateTime]::Parse([string]$Value, [Globalization.CultureInfo]::InvariantCulture, [Globalization.DateTimeStyles]::RoundtripKind) }; return $d.ToLocalTime().ToString('yyyy-MM-dd HH:mm:ss') } catch { return [string]$Value }
+    try { if ($Value -is [DateTime]) { $d = $Value } else { $d = [DateTime]::Parse([string]$Value, [Globalization.CultureInfo]::InvariantCulture, [Globalization.DateTimeStyles]::RoundtripKind) }; return $d.ToLocalTime().ToString('yyyy-MM-dd HH:mm:ss', [Globalization.CultureInfo]::InvariantCulture) } catch { return [string]$Value }
 }
 
 # ------------------------------------------------------------------------------------------------------------------------------------------
 # Console + logs
 # ------------------------------------------------------------------------------------------------------------------------------------------
 function Write-M31Log([string]$Text, [string]$Color = '', [switch]$NoConsole) {
-    $stamp = [DateTime]::Now.ToString('HH:mm:ss')
+    $stamp = [DateTime]::Now.ToString('HH:mm:ss', [Globalization.CultureInfo]::InvariantCulture)
     if (-not $NoConsole) {
         try { if ($Color) { Write-Host ($stamp + '  ' + $Text) -ForegroundColor $Color } else { Write-Host ($stamp + '  ' + $Text) } } catch { try { [Console]::WriteLine($stamp + '  ' + $Text) } catch {} }
     }
-    if ($script:M31 -and $script:M31.Files) { Add-M31Line $script:M31.Files.Console ([DateTime]::Now.ToString('yyyy-MM-dd HH:mm:ss.fff') + '  ' + $Text) }
+    if ($script:M31 -and $script:M31.Files) { Add-M31Line $script:M31.Files.Console ([DateTime]::Now.ToString('yyyy-MM-dd HH:mm:ss.fff', [Globalization.CultureInfo]::InvariantCulture) + '  ' + $Text) }
 }
 function Write-M31ErrorLog([string]$Text) {
-    if ($script:M31 -and $script:M31.Files) { Add-M31Line $script:M31.Files.Errors ([DateTime]::Now.ToString('yyyy-MM-dd HH:mm:ss.fff') + '  ' + $Text) }
+    if ($script:M31 -and $script:M31.Files) { Add-M31Line $script:M31.Files.Errors ([DateTime]::Now.ToString('yyyy-MM-dd HH:mm:ss.fff', [Globalization.CultureInfo]::InvariantCulture) + '  ' + $Text) }
 }
 function Set-M31Title([string]$Text) { try { $Host.UI.RawUI.WindowTitle = 'EightMax M3.1 tests - ' + $Text } catch {} }
 
@@ -500,7 +506,9 @@ function Get-M31Windows([int[]]$Pids) {
     foreach ($w in [EightMaxM31.Win]::Windows()) {
         $wpid = [int]$w[1]
         if (-not ($Pids -contains $wpid) -and -not $prompt.ContainsKey($wpid)) { continue }
-        if ($w[2] -ne '1' -and -not $prompt.ContainsKey($wpid)) { continue }
+        # invisible windows of the tree are kept: a process started hidden shows its FIRST window with SW_HIDE, so a security prompt
+        # raised by a hidden start-up script is itself invisible (only windows with a title or a dialog class are listed)
+        if ($w[2] -ne '1' -and -not $prompt.ContainsKey($wpid) -and -not $w[4] -and $w[3] -ne ([string][char]35 + '32770')) { continue }
         $pn = $null; try { $pp = [Diagnostics.Process]::GetProcessById($wpid); $pn = $pp.ProcessName; $pp.Dispose() } catch {}
         [void]$out.Add([ordered]@{ hwnd = $w[0]; pid = $wpid; process = $pn; visible = ($w[2] -eq '1'); class = $w[3]; title = $w[4] })
     }
@@ -510,7 +518,7 @@ function Get-M31SecurityPromptFinding($Windows) {
     foreach ($w in @($Windows)) {
         $t = [string]$w.title; $c = [string]$w.class; $pn = [string]$w.process
         if ($pn -eq 'smartscreen' -and $w.visible) { return ('a Windows SmartScreen window is open (' + $t + '): Windows is asking whether the downloaded program may run') }
-        if ($c -eq ([string][char]35 + '32770') -and $t -match 'Security Warning|SmartScreen|protected your PC|Open File') { return ('a Windows security dialog is waiting for an answer: ' + $t + ' (' + $pn + ' pid ' + $w.pid + ')') }
+        if ($c -eq ([string][char]35 + '32770') -and $t -match 'Security Warning|SmartScreen|protected your PC|Open File') { return ('a Windows security dialog is waiting for an answer: ' + $t + ' (' + $pn + ' pid ' + $w.pid + $(if (-not $w.visible) { '; the dialog is INVISIBLE because its process was started hidden, so nobody can answer it' } else { '' }) + ')') }
         if ($pn -eq 'consent' -and $w.visible) { return 'a User Account Control prompt is open' }
     }
     return $null
@@ -608,7 +616,7 @@ function New-M31Run([string]$Mode, [string]$Label, [string]$AppRoot, [string]$Ou
         [void][IO.Directory]::CreateDirectory($OutDir); $dir = $OutDir; $outRootUsed = [IO.Path]::GetDirectoryName($OutDir)
     } else {
         $r = Resolve-M31OutputRoot $OutRoot $AppRoot; $outRootUsed = $r.path; $rootNotes = @($r.notes); $why = $r.why
-        $base = 'Milestone3.1-' + $started.ToString('yyyyMMdd-HHmmss') + '-' + $Label
+        $base = 'Milestone3.1-' + $started.ToString('yyyyMMdd-HHmmss', [Globalization.CultureInfo]::InvariantCulture) + '-' + $Label
         $dir = Join-Path $outRootUsed $base; $n = 2
         while (Test-Path -LiteralPath $dir) { $dir = Join-Path $outRootUsed ($base + '-' + $n); $n++ }
         [void][IO.Directory]::CreateDirectory($dir)
@@ -627,7 +635,7 @@ function New-M31Run([string]$Mode, [string]$Label, [string]$AppRoot, [string]$Ou
     foreach ($p in $PlannedPhases) { $script:M31.Phases[$p] = [ordered]@{ name = $p; title = $p; status = 'NOT RUN'; startedAt = $null; endedAt = $null; seconds = $null; reason = $null; counts = [ordered]@{ PASS = 0; FAIL = 0; WARNING = 0; SKIPPED = 0 }; categories = @(); file = $null } }
     # the four continuous files exist from the first second of the run
     foreach ($f in @($script:M31.Files.Console, $script:M31.Files.Errors, $script:M31.Files.Checks, $script:M31.Files.Operations)) { if (-not (Test-Path -LiteralPath $f)) { [IO.File]::WriteAllText($f, '') } }
-    Add-M31Line $script:M31.Files.Errors ('EightMax 0.36.2 Milestone 3.1 - errors of run ' + $script:M31.RunId + ' (' + $Mode + '), started ' + $started.ToString('yyyy-MM-dd HH:mm:ss') + '. Empty below this line means: no error.')
+    Add-M31Line $script:M31.Files.Errors ('EightMax 0.36.2 Milestone 3.1 - errors of run ' + $script:M31.RunId + ' (' + $Mode + '), started ' + $started.ToString('yyyy-MM-dd HH:mm:ss', [Globalization.CultureInfo]::InvariantCulture) + '. Empty below this line means: no error.')
     Save-M31Status -Force
     if ($RunPathFile) { try { [IO.File]::WriteAllText($RunPathFile, $dir, $script:M31Utf8) } catch {} }
     return $script:M31
@@ -770,6 +778,7 @@ function Invoke-M31Phase([string]$Name, [string]$Title, [string[]]$Needs, [scrip
         if ($m.FaultInjected -eq ('check-fail:' + $Name)) { [void](Add-M31Check $Name 'injected failing check (fault injection, -InjectFault)' 'FAIL' 'a test failure injected to verify that completed checks stay saved and the failed check is identified' 'application') }
         $done = $true
     } catch {
+        if ($_.Exception -is [Management.Automation.PipelineStoppedException]) { throw }   # Ctrl+C: the phase is INTERRUPTED, not failed
         [void](Add-M31Exception $_ 'harness' ($Name + ' phase ran to completion'))
         $done = $true
     } finally {
@@ -793,7 +802,7 @@ function Invoke-M31Operation([string]$Group, [string]$Case, [string]$Op, [string
     Write-M31Log ('  [' + $Index + '/' + $Total + '] ' + $Title + ' ...') 'Gray'
     Set-M31Title ($Group + ': ' + $Case + ' ' + $Index + '/' + $Total)
     $sw = [Diagnostics.Stopwatch]::StartNew(); $res = $null
-    try { $res = & $Body } catch { $d = Get-M31ErrorDetail $_; $res = [ordered]@{ status = 'FAIL'; category = 'harness'; detail = ('the test runner failed in this operation: ' + $d.type + ': ' + $d.message + ' (line ' + [string]$d.line + ')'); data = $d } }
+    try { $res = & $Body } catch { if ($_.Exception -is [Management.Automation.PipelineStoppedException]) { throw }; $d = Get-M31ErrorDetail $_; $res = [ordered]@{ status = 'FAIL'; category = 'harness'; detail = ('the test runner failed in this operation: ' + $d.type + ': ' + $d.message + ' (line ' + [string]$d.line + ')'); data = $d } }
     if ($res -is [array]) { $res = $res[$res.Count - 1] }
     if (-not $res) { $res = [ordered]@{ status = 'FAIL'; category = 'harness'; detail = 'the operation returned no result' } }
     $ms = [int]$sw.Elapsed.TotalMilliseconds
@@ -990,7 +999,7 @@ function Test-M31RunnerAlive($Status) {
     try {
         $p = [Diagnostics.Process]::GetProcessById([int]$Status.runner.pid)
         $same = $true
-        if ($Status.runner.processStartTime) { try { $same = [math]::Abs(($p.StartTime.ToUniversalTime() - [DateTime]::Parse([string]$Status.runner.processStartTime).ToUniversalTime()).TotalSeconds) -lt 3 } catch { $same = $true } }
+        if ($Status.runner.processStartTime) { try { $same = [math]::Abs(($p.StartTime.ToUniversalTime() - (ConvertTo-M31Date $Status.runner.processStartTime).ToUniversalTime()).TotalSeconds) -lt 3 } catch { $same = $true } }
         $alive = -not $p.HasExited -and $same -and ($p.ProcessName -match '^(powershell|pwsh)$')
         $p.Dispose(); return $alive
     } catch { return $false }
@@ -1035,7 +1044,7 @@ function Complete-M31RecoveredRun([string]$Dir, [string]$Why) {
     $note = $Why
     if ($st) {
         if (Test-M31RunnerAlive $st) {
-            $snap = Join-Path $Dir ('milestone3-snapshot-' + [DateTime]::Now.ToString('yyyyMMdd-HHmmss') + '.zip')
+            $snap = Join-Path $Dir ('milestone3-snapshot-' + [DateTime]::Now.ToString('yyyyMMdd-HHmmss', [Globalization.CultureInfo]::InvariantCulture) + '.zip')
             $z = New-M31Zip $Dir $snap
             return [ordered]@{ path = $Dir; zip = $snap; zipOk = $z.ok; overall = 'RUNNING'; note = 'the run is still in progress; a snapshot was packaged and the run was not changed' }
         }
@@ -1044,7 +1053,7 @@ function Complete-M31RecoveredRun([string]$Dir, [string]$Why) {
             $doc = $raw | ConvertFrom-Json
             $doc.state = 'interrupted'; $doc.result = 'INTERRUPTED'; $doc.exitCode = 4
             foreach ($p in @($doc.phases)) {
-                if ([string]$p.status -eq 'RUNNING') { $p.status = 'INTERRUPTED'; $p.reason = 'the runner stopped while this phase was running (process ended, window closed, shutdown or power loss); detected ' + [DateTime]::Now.ToString('yyyy-MM-dd HH:mm:ss') }
+                if ([string]$p.status -eq 'RUNNING') { $p.status = 'INTERRUPTED'; $p.reason = 'the runner stopped while this phase was running (process ended, window closed, shutdown or power loss); detected ' + [DateTime]::Now.ToString('yyyy-MM-dd HH:mm:ss', [Globalization.CultureInfo]::InvariantCulture) }
                 elseif ([string]$p.status -eq 'NOT RUN' -and -not $p.reason) { $p.reason = 'never started: the run ended earlier' }
             }
             $doc | Add-Member -NotePropertyName interruptedDetectedAt -NotePropertyValue (Get-M31Now) -Force
@@ -1076,7 +1085,7 @@ function Complete-M31RecoveredRun([string]$Dir, [string]$Why) {
         Write-M31AtomicText (Join-Path $Dir 'milestone3-recovery.txt') (($txt -join "`r`n") + "`r`n")
     }
     $zipPath = Join-Path $Dir 'milestone3-results.zip'
-    if (-not $st -and (Test-Path -LiteralPath $zipPath)) { $zipPath = Join-Path $Dir ('milestone3-results-repackaged-' + [DateTime]::Now.ToString('yyyyMMdd-HHmmss') + '.zip') }
+    if (-not $st -and (Test-Path -LiteralPath $zipPath)) { $zipPath = Join-Path $Dir ('milestone3-results-repackaged-' + [DateTime]::Now.ToString('yyyyMMdd-HHmmss', [Globalization.CultureInfo]::InvariantCulture) + '.zip') }
     $z = New-M31Zip $Dir $zipPath
     return [ordered]@{ path = $Dir; zip = $zipPath; zipOk = $z.ok; zipError = $z.error; skipped = $z.skipped; overall = $res.overall; note = $note }
 }

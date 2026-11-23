@@ -25,7 +25,7 @@ function Get-M31EightMaxProcesses([string]$AppRoot) {
     }
     return $out.ToArray()
 }
-function Format-M31Proc($P) { return ([string]$P.name + ' pid ' + [string]$P.pid + $(if ($P.startedAt) { ' (started ' + ([DateTime]::Parse([string]$P.startedAt).ToLocalTime().ToString('HH:mm:ss')) + ')' } else { '' }) + $(if ($P.path) { ' ' + [string]$P.path } else { '' })) }
+function Format-M31Proc($P) { return ([string]$P.name + ' pid ' + [string]$P.pid + $(if ($P.startedAt) { ' (started ' + (ConvertTo-M31Date $P.startedAt).ToLocalTime().ToString('HH:mm:ss', [Globalization.CultureInfo]::InvariantCulture) + ')' } else { '' }) + $(if ($P.path) { ' ' + [string]$P.path } else { '' })) }
 function Invoke-M31HostHttp([string]$Method, [string]$Origin, [string]$Path, [string]$Token, [string]$Body, [int]$TimeoutSec = 15) {
     $req = [Net.HttpWebRequest]::Create($Origin + $Path); $req.Method = $Method; $req.Proxy = $null; $req.Timeout = $TimeoutSec * 1000; $req.ReadWriteTimeout = $TimeoutSec * 1000; $req.KeepAlive = $false
     try { $req.ServicePoint.Expect100Continue = $false } catch {}

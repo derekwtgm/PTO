@@ -1,0 +1,108 @@
+TAP version 13
+# Subtest: dashboard Solver research panel, host allow-list, launchers (CRLF, existing tools) and preserved user controls agree
+ok 1 - dashboard Solver research panel, host allow-list, launchers (CRLF, existing tools) and preserved user controls agree
+  ---
+  duration_ms: 9.992614
+  type: 'test'
+  ...
+# Subtest: Solver research views keep classifications: approximate modes explained, unresolved gains not called profitable, unavailable never 0
+ok 2 - Solver research views keep classifications: approximate modes explained, unresolved gains not called profitable, unavailable never 0
+  ---
+  duration_ms: 23.62711
+  type: 'test'
+  ...
+# Subtest: research summary 0.33 keeps the 0.32 keys and adds the v033 block from release reports without training anything
+ok 3 - research summary 0.33 keeps the 0.32 keys and adds the v033 block from release reports without training anything
+  ---
+  duration_ms: 75.582172
+  type: 'test'
+  ...
+# Subtest: release metadata 0.33: component statuses come from evidence; binary versions distinguish carried-over and rebuilt components; the native engine is unchanged
+ok 4 - release metadata 0.33: component statuses come from evidence; binary versions distinguish carried-over and rebuilt components; the native engine is unchanged
+  ---
+  duration_ms: 106.84104
+  type: 'test'
+  ...
+# Subtest: checksum manifest covers every shipped file and verifies
+not ok 5 - checksum manifest covers every shipped file and verifies
+  ---
+  duration_ms: 9.339544
+  type: 'test'
+  location: '/home/user/work/repro-m3/EightMax-Test-Workbench/tests/release-033.test.cjs:54:1'
+  failureType: 'testCodeFailure'
+  error: 'listed: test-results/Milestone3-20261123-122544/host-prebuilt host launch.err.txt'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (/home/user/work/repro-m3/EightMax-Test-Workbench/tests/release-033.test.cjs:58:33)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: strategy-library ranges command runs end to end and writes ranges-latest.json beside the library (0.33 Windows CI regression)
+ok 6 - strategy-library ranges command runs end to end and writes ranges-latest.json beside the library (0.33 Windows CI regression) # SKIP native EightMax CLI not available (set EIGHTMAX_TEST_CLI)
+  ---
+  duration_ms: 0.116688
+  type: 'test'
+  ...
+# Subtest: M3 release: EightMax 5.1 is byte-identical (build 7d08acc7eb4577ee); strict mode keeps refusing without a compatible study
+ok 7 - M3 release: EightMax 5.1 is byte-identical (build 7d08acc7eb4577ee); strict mode keeps refusing without a compatible study
+  ---
+  duration_ms: 17.10132
+  type: 'test'
+  ...
+# Subtest: M3 release: every Windows executable is a Windows build of the shipped C\# sources; only the input driver was rebuilt (Driver.cs changed)
+ok 8 - M3 release: every Windows executable is a Windows build of the shipped C\# sources; only the input driver was rebuilt (Driver.cs changed)
+  ---
+  duration_ms: 119.482479
+  type: 'test'
+  ...
+# Subtest: M3 release: START.html embeds the current tracker, ledger, controls and dashboard sources
+ok 9 - M3 release: START.html embeds the current tracker, ledger, controls and dashboard sources
+  ---
+  duration_ms: 8.907028
+  type: 'test'
+  ...
+# Subtest: M3 release: the Windows runner, its instructions, the acceptance tools and the CI workflow are shipped and wired together
+ok 10 - M3 release: the Windows runner, its instructions, the acceptance tools and the CI workflow are shipped and wired together
+  ---
+  duration_ms: 0.576747
+  type: 'test'
+  ...
+# Subtest: M3 release: SHA256SUMS.txt lists every shipped file except itself
+not ok 11 - M3 release: SHA256SUMS.txt lists every shipped file except itself
+  ---
+  duration_ms: 7.843587
+  type: 'test'
+  location: '/home/user/work/repro-m3/EightMax-Test-Workbench/tests/release-0362m3.test.cjs:46:1'
+  failureType: 'testCodeFailure'
+  error: 'listed in SHA256SUMS.txt: test-results/Milestone3-20261123-122544/host-prebuilt host launch.err.txt'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (/home/user/work/repro-m3/EightMax-Test-Workbench/tests/release-0362m3.test.cjs:50:33)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..11
+# tests 11
+# suites 0
+# pass 8
+# fail 2
+# cancelled 0
+# skipped 1
+# todo 0
+# duration_ms 290.297014

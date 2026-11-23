@@ -70,7 +70,7 @@ if ($Mode -eq 'Package') {
     }
     Write-Plain ('Packaging ' + $pick.path + ' ...')
     $res = Complete-M31RecoveredRun $pick.path 'Packaged on request (mode D); no test was run.'
-    if ($LauncherToken) { try { [IO.File]::WriteAllText((Join-Path $pick.path 'launcher-token.txt'), $LauncherToken) } catch {} }
+    if ($LauncherToken) { try { [IO.File]::WriteAllText((Join-Path $pick.path 'launcher-token.txt'), $LauncherToken + "`r`n") } catch {} }
     if ($res.zipOk) { Write-Plain ('Run status: ' + [string]$res.overall) ; Write-Plain ('Results ZIP: ' + $res.zip) 'Green'; if (@($res.skipped).Count) { Write-Plain ('  (' + @($res.skipped).Count + ' file(s) could not be read; listed in zip-skipped-files.txt)') 'Yellow' }; exit 0 }
     Write-Plain ('The ZIP could not be created: ' + [string]$res.zipError) 'Red'; exit 2
 }
@@ -91,7 +91,7 @@ try { $null = New-M31Run $Mode $labelUsed $root $OutRoot $OutDir $plan $RunPathF
 catch { [Console]::Error.WriteLine('EightMax M3.1 tests: the results folder could not be created: ' + $_.Exception.Message); exit 2 }
 $M = $script:M31
 # the launcher finds its run folder by this token (a folder path with non-ASCII characters cannot be passed back through a file to CMD)
-if ($LauncherToken) { try { [IO.File]::WriteAllText((Join-Path $M.Dir 'launcher-token.txt'), $LauncherToken) } catch {} }
+if ($LauncherToken) { try { [IO.File]::WriteAllText((Join-Path $M.Dir 'launcher-token.txt'), $LauncherToken + "`r`n") } catch {} }   # CRLF: findstr does not match an unterminated last line
 # complete console transcript (everything shown in the window, including output that does not pass through the run log)
 $transcript = $false; try { $null = Start-Transcript -LiteralPath (Join-Path $M.Dir 'transcript.txt') -Force -ErrorAction Stop; $transcript = $true } catch {}
 $completed = $false; $final = $null
@@ -336,6 +336,7 @@ try {
     }
     $completed = $true
 } catch {
+    if ($_.Exception -is [Management.Automation.PipelineStoppedException]) { throw }   # Ctrl+C: finalised as INTERRUPTED below
     try { [void](Add-M31Exception $_ 'harness' 'test runner main sequence') } catch { [Console]::Error.WriteLine('EightMax M3.1 runner error: ' + $_.Exception.Message) }
     $completed = $true
 } finally {

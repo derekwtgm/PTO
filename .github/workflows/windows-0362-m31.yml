@@ -20,9 +20,6 @@ on:
     paths: ['ci-request-m31.json', 'EightMax-Test-Workbench-0.36.2-Milestone-3.1.zip', 'EightMax-Test-Workbench-0.36.2-Milestone-3.1.zip.sha256']
 permissions:
   contents: write
-concurrency:
-  group: eightmax-m31-windows
-  cancel-in-progress: true
 env:
   M31_ZIP: EightMax-Test-Workbench-0.36.2-Milestone-3.1.zip
   M3_ZIP: EightMax-Test-Workbench-0.36.2-Milestone-3.zip
@@ -152,7 +149,7 @@ jobs:
           if [ -d "$res" ]; then (cd "$res" && find . -type f -size -6M ! -name '*.zip' -print0 | xargs -0 -I{} cp --parents {} "$dest/results/"; find . -type f -name 'milestone3-results.zip' -size -2M -print0 | xargs -0 -I{} cp --parents {} "$dest/results/") ; fi
           cp "$RUNNER_TEMP/m31-scenarios.log" "$RUNNER_TEMP/m31-scenarios.err.log" "$dest/" 2>/dev/null || true
           printf '{"run":"%s","sha":"%s","zipSha256":"%s","mode":"%s","job":"scenarios","outcome":"%s"}\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" "${{ needs.package.outputs.zip_sha256 }}" "${{ needs.package.outputs.mode }}" "${{ steps.scen.outcome }}" > "$dest/run.json"
-          cd "$dest" && git init -q && git checkout -q -b "m31-results/$GITHUB_RUN_ID-scenarios" && git add -A && git -c user.name="eightmax-ci" -c user.email="eightmax-ci@users.noreply.github.com" commit -q -m "Milestone 3.1 Windows scenarios, run $GITHUB_RUN_ID ($GITHUB_SHA)"
+          cd "$dest" && git init -q && git config core.longpaths true && git checkout -q -b "m31-results/$GITHUB_RUN_ID-scenarios" && git add -A && git -c user.name="eightmax-ci" -c user.email="eightmax-ci@users.noreply.github.com" commit -q -m "Milestone 3.1 Windows scenarios, run $GITHUB_RUN_ID ($GITHUB_SHA)"
           git push -q "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" "HEAD:refs/heads/m31-results/$GITHUB_RUN_ID-scenarios" && echo "results pushed to m31-results/$GITHUB_RUN_ID-scenarios"
       - name: Outcome
         if: always()
@@ -225,7 +222,7 @@ jobs:
           if [ -d "$res" ]; then (cd "$res" && find . -type f -size -8M ! -name '*.zip' -print0 | xargs -0 -I{} cp --parents {} "$dest/results/") ; fi
           cp "$RUNNER_TEMP/m31-full.log" "$RUNNER_TEMP/m31-full.err.log" "$dest/" 2>/dev/null || true
           printf '{"run":"%s","sha":"%s","zipSha256":"%s","mode":"%s","job":"full","outcome":"%s"}\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" "${{ needs.package.outputs.zip_sha256 }}" "${{ needs.package.outputs.mode }}" "${{ steps.full.outcome }}" > "$dest/run.json"
-          cd "$dest" && git init -q && git checkout -q -b "m31-results/$GITHUB_RUN_ID-full" && git add -A && git -c user.name="eightmax-ci" -c user.email="eightmax-ci@users.noreply.github.com" commit -q -m "Milestone 3.1 Windows full acceptance, run $GITHUB_RUN_ID ($GITHUB_SHA)"
+          cd "$dest" && git init -q && git config core.longpaths true && git checkout -q -b "m31-results/$GITHUB_RUN_ID-full" && git add -A && git -c user.name="eightmax-ci" -c user.email="eightmax-ci@users.noreply.github.com" commit -q -m "Milestone 3.1 Windows full acceptance, run $GITHUB_RUN_ID ($GITHUB_SHA)"
           git push -q "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" "HEAD:refs/heads/m31-results/$GITHUB_RUN_ID-full" && echo "results pushed to m31-results/$GITHUB_RUN_ID-full"
       - name: Outcome
         if: always()

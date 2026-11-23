@@ -18,13 +18,26 @@ $env:EIGHTMAX_NONINTERACTIVE = '1'
 Add-Type -AssemblyName System.IO.Compression, System.IO.Compression.FileSystem, System.Web.Extensions
 $js = New-Object Web.Script.Serialization.JavaScriptSerializer; $js.MaxJsonLength = [int]::MaxValue; $js.RecursionLimit = 100
 
+function ConvertTo-PlainValue($v, [int]$depth = 0) {
+    if ($null -eq $v) { return $null }
+    if ($depth -gt 12) { return [string]$v }
+    if ($v -is [string] -or $v -is [bool] -or $v -is [int] -or $v -is [long] -or $v -is [double] -or $v -is [decimal]) { return $v }
+    if ($v -is [Collections.IDictionary]) { $o = [ordered]@{}; foreach ($k in @($v.Keys)) { $o[[string]$k] = ConvertTo-PlainValue $v[$k] ($depth + 1) }; return $o }
+    if ($v -is [Collections.IEnumerable]) { $a = New-Object Collections.ArrayList; foreach ($x in $v) { [void]$a.Add((ConvertTo-PlainValue $x ($depth + 1))) }; return ,($a.ToArray()) }
+    return [string]$v
+}
 function Save-Results {
+    try { Save-ResultsCore } catch {
+        try { foreach ($r in $results) { $r.facts = [string]$r.facts }; Save-ResultsCore } catch { Write-Host ('scenarios.json could not be written: ' + $_.Exception.Message) -ForegroundColor Red }
+    }
+}
+function Save-ResultsCore {
     $doc = [ordered]@{ format = 'eightmax-m31-windows-scenarios'; version = 1; startedAt = $suiteStart.ToString('o'); updatedAt = [DateTime]::UtcNow.ToString('o'); app = $App; powershell = $PSVersionTable.PSVersion.ToString(); os = [Environment]::OSVersion.VersionString
         counts = [ordered]@{ passed = @($results | Where-Object { $_.ok }).Count; failed = @($results | Where-Object { -not $_.ok }).Count; total = $results.Count }; scenarios = $results.ToArray() }
     [IO.File]::WriteAllText((Join-Path $Out 'scenarios.json'), $js.Serialize($doc), $utf8)
 }
 function Add-Result([string]$Id, [string]$Spec, [string]$Title, [bool]$Ok, [string]$Observed, [string]$Expected, $Facts) {
-    [void]$results.Add([ordered]@{ id = $Id; spec = $Spec; title = $Title; ok = $Ok; expected = $Expected; observed = $Observed; facts = $Facts; at = [DateTime]::UtcNow.ToString('o') })
+    [void]$results.Add([ordered]@{ id = $Id; spec = $Spec; title = $Title; ok = $Ok; expected = $Expected; observed = $Observed; facts = (ConvertTo-PlainValue $Facts); at = [DateTime]::UtcNow.ToString('o') })
     Write-Host (('[{0}] {1} {2} - {3}' -f $Id, $(if ($Ok) { 'PASS' } else { 'FAIL' }), $Title, $Observed)) -ForegroundColor $(if ($Ok) { 'Green' } else { 'Red' })
     Save-Results
 }
@@ -46,6 +59,7 @@ function Invoke-Launcher([string]$AppDir, [string]$Cmd, [string]$Arguments, [str
 function Invoke-Runner([string]$AppDir, [string]$Arguments, [string]$Name, [int]$TimeoutSec = 900) {
     return (Invoke-Logged $ps ('-NoLogo -NoProfile -ExecutionPolicy Bypass -File "' + (Join-Path $AppDir 'windows\Test-Milestone31.ps1') + '" -NonInteractive ' + $Arguments) $Name $TimeoutSec $AppDir)
 }
+function Get-OutTail($R, [int]$Lines = 12) { $t = (([string]$R.out) + ([string]$R.err)) -split "`r?`n" | Where-Object { $_.Trim() }; return ((@($t) | Select-Object -Last $Lines) -join ' / ') }
 function Get-RunDirs([string]$Root) { if (-not (Test-Path -LiteralPath $Root)) { return @() }; return @(Get-ChildItem -LiteralPath $Root -Directory | Where-Object { $_.Name -like 'Milestone3.1-*' } | Sort-Object LastWriteTime -Descending | ForEach-Object { $_.FullName }) }
 function Read-Json([string]$Path) { if (-not (Test-Path -LiteralPath $Path)) { return $null }; return $js.DeserializeObject([IO.File]::ReadAllText($Path)) }
 function Get-ZipNames([string]$Zip) { if (-not (Test-Path -LiteralPath $Zip)) { return @() }; $z = [IO.Compression.ZipFile]::OpenRead($Zip); try { return @($z.Entries | ForEach-Object { $_.FullName }) } finally { $z.Dispose() } }
@@ -83,7 +97,7 @@ Test-Scenario 'S01' 'A' 'clean installation: RUN-0362-MILESTONE3.1-TESTS.cmd A (
     $d = @(Get-RunDirs $root)[0]; $doc = $(if ($d) { Read-Json (Join-Path $d 'milestone3-results.json') } else { $null }); $rep = $(if ($d) { Test-Report $d } else { $null })
     $hs = $(if ($doc) { @($doc['phases'] | Where-Object { $_['name'] -eq 'host-start' })[0] } else { $null })
     $ok = ($r.code -eq 0) -and $doc -and @('PASS', 'WARNING') -contains [string]$doc['overall'] -and $rep.ok -and $hs -and $hs['status'] -eq 'PASS' -and $doc['gates']['input-driver']['ok'] -and ($r.out -match 'ZIP to send back:')
-    Add-Result 'S01' 'A' 'clean installation: quick verification through the main launcher' $ok ('exit ' + [string]$r.code + ', overall ' + [string]$doc['overall'] + ', host-start ' + [string]$hs['status'] + ', input driver ' + [string]$doc['gates']['input-driver']['ok'] + ', report ' + [string]$rep.ok + ', ' + [string]$r.seconds + ' s') 'exit 0, PASS/WARNING, host-start PASS, input driver initialised, complete report and ZIP' ([ordered]@{ dir = $d; counts = $doc['counts']; warnings = @($doc['checks'] | Where-Object { $_['status'] -eq 'WARNING' } | ForEach-Object { [string]$_['name'] + ': ' + [string]$_['detail'] }) })
+    Add-Result 'S01' 'A' 'clean installation: quick verification through the main launcher' $ok ('exit ' + [string]$r.code + ', overall ' + [string]$doc['overall'] + ', host-start ' + [string]$hs['status'] + ', input driver ' + [string]$doc['gates']['input-driver']['ok'] + ', report ' + [string]$rep.ok + ', ' + [string]$r.seconds + ' s' + $(if ($r.code -ne 0) { '; launcher output: ' + (Get-OutTail $r) } else { '' })) 'exit 0, PASS/WARNING, host-start PASS, input driver initialised, complete report and ZIP' ([ordered]@{ dir = $d; counts = $doc['counts']; warnings = @($doc['checks'] | Where-Object { $_['status'] -eq 'WARNING' } | ForEach-Object { [string]$_['name'] + ': ' + [string]$_['detail'] }) })
 }
 Test-Scenario 'S02' 'D,N' 'standalone diagnostic: RUN-M3-HOST-DIAGNOSTIC-3.1.cmd on its own (every start case, real host)' {
     $root = Join-Path $res 'S02 diag (spaces)'
@@ -92,7 +106,7 @@ Test-Scenario 'S02' 'D,N' 'standalone diagnostic: RUN-M3-HOST-DIAGNOSTIC-3.1.cmd
     $sum = $(if ($d) { Read-Json (Join-Path $d 'host-start\host-start-summary.json') } else { $null })
     $cases = @($(if ($sum) { $sum['cases'] } else { @() }) | ForEach-Object { [string]$_['id'] + '=' + [string]$_['result'] })
     $ok = ($r.code -eq 0) -and $doc -and $rep.ok -and ($d -match '-host-diagnostic$') -and $cases.Count -eq 7 -and -not @($cases | Where-Object { $_ -notmatch '=PASS$' }).Count
-    Add-Result 'S02' 'D,N' 'standalone start-up diagnostic: complete report for every case without the main suite' $ok ('exit ' + [string]$r.code + ', overall ' + [string]$doc['overall'] + ', cases ' + ($cases -join ' ') + ', report ' + [string]$rep.ok + ', ' + [string]$r.seconds + ' s') 'exit 0; 7 start cases PASS; own complete report and ZIP; folder ...-host-diagnostic' ([ordered]@{ dir = $d; counts = $doc['counts'] })
+    Add-Result 'S02' 'D,N' 'standalone start-up diagnostic: complete report for every case without the main suite' $ok ('exit ' + [string]$r.code + ', overall ' + [string]$doc['overall'] + ', cases ' + ($cases -join ' ') + ', report ' + [string]$rep.ok + ', ' + [string]$r.seconds + ' s' + $(if ($r.code -ne 0) { '; launcher output: ' + (Get-OutTail $r) } else { '' })) 'exit 0; 7 start cases PASS; own complete report and ZIP; folder ...-host-diagnostic' ([ordered]@{ dir = $d; counts = $doc['counts'] })
 }
 Test-Scenario 'S03' 'B' 'previous test results inside the application folder: release checks and the M3 release tests still pass' {
     $tr = Join-Path $App 'test-results'
@@ -197,7 +211,7 @@ Test-Scenario 'S10' 'I' 'the runner is killed while a start-up step hangs (the o
     $k = Invoke-Launcher $App 'RUN-0362-MILESTONE3.1-TESTS.cmd' ('D "' + $root + '"') 'S10-package' 300
     $doc = Read-Json (Join-Path $d 'milestone3-results.json'); $hs = $(if ($doc) { @($doc['phases'] | Where-Object { $_['name'] -eq 'host-start' })[0] } else { $null })
     $ok = $before -ge 1 -and $after -eq 0 -and [string]$st['state'] -eq 'running' -and [string]$st['currentPhase'] -eq 'host-start' -and $k.code -eq 0 -and $doc -and [string]$doc['overall'] -eq 'INTERRUPTED' -and $hs['status'] -eq 'INTERRUPTED' -and (Test-Path -LiteralPath (Join-Path $d 'milestone3-results.zip'))
-    Add-Result 'S10' 'I' 'killed runner: its hung child processes end with it (job object); checkpoint packaged INTERRUPTED by option D' $ok ('hung processes alive before kill ' + $before + ', after ' + $after + '; checkpoint state ' + [string]$st['state'] + '/' + [string]$st['currentPhase'] + '; package exit ' + [string]$k.code + ', overall ' + [string]$doc['overall'] + ', host-start ' + [string]$hs['status']) 'no orphaned process; checkpoint state running/host-start; D packages it as INTERRUPTED' $null
+    Add-Result 'S10' 'I' 'killed runner: its hung child processes end with it (job object); checkpoint packaged INTERRUPTED by option D' $ok ('hung processes alive before kill ' + $before + ', after ' + $after + '; checkpoint state ' + [string]$st['state'] + '/' + [string]$st['currentPhase'] + '; package exit ' + [string]$k.code + ', overall ' + [string]$doc['overall'] + ', host-start ' + [string]$hs['status'] + $(if ($k.code -ne 0) { '; launcher output: ' + (Get-OutTail $k) } else { '' })) 'no orphaned process; checkpoint state running/host-start; D packages it as INTERRUPTED' $null
 }
 Test-Scenario 'S11' 'J' 'missing dependency reported by the runner itself (fault injection on an intact release)' {
     $root = Join-Path $res 'S11'
@@ -219,7 +233,7 @@ Test-Scenario 'S13' 'L' 'repeated runs do not interfere' {
     $root = Join-Path $res 'S13'; $codes = @()
     for ($i = 1; $i -le 3; $i++) { $r = Invoke-Launcher $App 'RUN-0362-MILESTONE3.1-TESTS.cmd' ('A "' + $root + '"') ('S13-run' + $i) 900; $codes += $r.code }
     $dirs = @(Get-RunDirs $root); $zips = @($dirs | Where-Object { Test-Path -LiteralPath (Join-Path $_ 'milestone3-results.zip') })
-    Add-Result 'S13' 'L' 'three sequential quick runs: three folders, three reports, all exit 0' ((@($codes | Where-Object { $_ -ne 0 }).Count -eq 0) -and $dirs.Count -eq 3 -and $zips.Count -eq 3) ('exit codes ' + ($codes -join ',') + '; folders ' + $dirs.Count + '; ZIPs ' + $zips.Count) '0,0,0; 3 folders; 3 ZIPs' $null
+    Add-Result 'S13' 'L' 'three sequential quick runs: three folders, three reports, all exit 0' ((@($codes | Where-Object { $_ -ne 0 }).Count -eq 0) -and $dirs.Count -eq 3 -and $zips.Count -eq 3) ('exit codes ' + ($codes -join ',') + '; folders ' + $dirs.Count + '; ZIPs ' + $zips.Count + $(if (@($codes | Where-Object { $_ -ne 0 }).Count) { '; last launcher output: ' + (Get-OutTail $r) } else { '' })) '0,0,0; 3 folders; 3 ZIPs' $null
 }
 Test-Scenario 'S14' 'M' 'long paths and names with spaces in a results folder are packaged' {
     $root = Join-Path $res 'S14'; [void][IO.Directory]::CreateDirectory($root)
@@ -233,7 +247,8 @@ Test-Scenario 'S14' 'M' 'long paths and names with spaces in a results folder ar
     $names = Get-ZipNames (Join-Path $run 'milestone3-results.zip')
     $inZip = @($names | Where-Object { $_ -like '*a file name with spaces*' }).Count -eq 1
     $listed = ($names -contains 'zip-skipped-files.txt')
-    Add-Result 'S14' 'M' 'long path (' + $long.Length + ' characters) and spaces: the ZIP is created; the file is included or listed as skipped' (($k.code -eq 0) -and ($inZip -or $listed -or -not $created)) ('package exit ' + [string]$k.code + '; long file created ' + $created + ' (' + $long.Length + ' chars); in ZIP ' + $inZip + '; skipped list ' + $listed + '; entries ' + $names.Count) 'exit 0; ZIP exists; the long-path file is in it or named in zip-skipped-files.txt' $null
+    try { & cmd.exe /d /c ('rd /s /q "\\?\' + (Join-Path $run 'a folder with spaces') + '"') 2>&1 | Out-Null } catch {}
+    Add-Result 'S14' 'M' ('long path (' + $long.Length + ' characters) and spaces: the ZIP is created; the file is included or listed as skipped') (($k.code -eq 0) -and ($inZip -or $listed -or -not $created)) ('package exit ' + [string]$k.code + '; long file created ' + $created + ' (' + $long.Length + ' chars); in ZIP ' + $inZip + '; skipped list ' + $listed + '; entries ' + $names.Count) 'exit 0; ZIP exists; the long-path file is in it or named in zip-skipped-files.txt' $null
 }
 Test-Scenario 'S15' 'O' 'an incomplete Milestone 3 run (operator layout) with a log still open in another process is packaged without running tests' {
     $tr = Join-Path $App 'test-results'; $legacy = New-LegacyM3Folder $tr ('Milestone3-' + [DateTime]::Now.ToString('yyyyMMdd-HHmmss'))
@@ -246,7 +261,7 @@ Test-Scenario 'S15' 'O' 'an incomplete Milestone 3 run (operator layout) with a 
     $zip = @(Get-ChildItem -LiteralPath $legacy -Filter 'milestone3-results*.zip' | Sort-Object LastWriteTime -Descending)[0]
     $names = $(if ($zip) { Get-ZipNames $zip.FullName } else { @() })
     $ok = ($k.code -eq 0) -and ($names -contains 'host-prebuilt host launch.out.txt') -and ($names -contains 'milestone3-recovery.txt') -and ($names -contains 'unit-tests.tap')
-    Add-Result 'S15' 'O' 'existing incomplete run packaged (D): the log another process holds open is included' $ok ('package exit ' + [string]$k.code + '; ZIP ' + $(if ($zip) { $zip.Name } else { 'none' }) + ' with ' + $names.Count + ' entries; locked log included ' + ($names -contains 'host-prebuilt host launch.out.txt')) 'exit 0; ZIP includes the open log and the recovery summary' $null
+    Add-Result 'S15' 'O' 'existing incomplete run packaged (D): the log another process holds open is included' $ok ('package exit ' + [string]$k.code + '; ZIP ' + $(if ($zip) { $zip.Name } else { 'none' }) + ' with ' + $names.Count + ' entries; locked log included ' + ($names -contains 'host-prebuilt host launch.out.txt') + $(if ($k.code -ne 0) { '; launcher output: ' + (Get-OutTail $k) } else { '' })) 'exit 0; ZIP includes the open log and the recovery summary' $null
 }
 Test-Scenario 'S16' 'launcher' 'launcher failures always leave a diagnostic file and a ZIP' {
     $lone = Join-Path $Work 'S16 lone launcher'; [void][IO.Directory]::CreateDirectory($lone); Copy-Item -LiteralPath (Join-Path $App 'RUN-M3-HOST-DIAGNOSTIC-3.1.cmd') -Destination $lone
@@ -266,24 +281,40 @@ Test-Scenario 'S16' 'launcher' 'launcher failures always leave a diagnostic file
 }
 Test-Scenario 'S17' 'host-start root cause' 'downloaded files (Mark of the Web): the Milestone 3 start path versus Milestone 3.1' {
     $zone = "[ZoneTransfer]`r`nZoneId=3`r`nHostUrl=https://github.com/`r`n"
-    $facts = [ordered]@{}
+    . (Join-Path $App 'windows\M31-Lib.ps1'); $null = Initialize-M31Helper
+    function Save-Screen([string]$Png) { try { Add-Type -AssemblyName System.Windows.Forms, System.Drawing; $b = [Windows.Forms.SystemInformation]::VirtualScreen; $bmp = New-Object Drawing.Bitmap($b.Width, $b.Height); $g = [Drawing.Graphics]::FromImage($bmp); $g.CopyFromScreen($b.Left, $b.Top, 0, 0, $bmp.Size); $g.Dispose(); $bmp.Save($Png, [Drawing.Imaging.ImageFormat]::Png); $bmp.Dispose(); return $true } catch { return $false } }
+    function Invoke-M3Start([string]$M3App, [string]$Case, [int]$Seconds) {
+        # exactly the Milestone 3 runner's call (Run-Logged: hidden PowerShell, output to files), bounded here
+        [void][IO.Directory]::CreateDirectory($Case)
+        $ready = Join-Path $Case 'prebuilt host launch-session.json'; $st = Join-Path $Case 'prebuilt host launch-status.json'
+        $o = Join-Path $Case 'host-prebuilt host launch.out.txt'; $e = Join-Path $Case 'host-prebuilt host launch.err.txt'
+        $before = @(Get-Process | ForEach-Object { $_.Id })
+        $p = Start-Process -FilePath 'powershell.exe' -ArgumentList ('-NoProfile -ExecutionPolicy Bypass -File "' + (Join-Path $M3App 'windows\Start-Desktop.ps1') + '" -Headless -ReadyFile "' + $ready + '" -StatusFile "' + $st + '" ') -WorkingDirectory $M3App -RedirectStandardOutput $o -RedirectStandardError $e -WindowStyle Hidden -PassThru; $null = $p.Handle
+        $sw = [Diagnostics.Stopwatch]::StartNew(); $exited = $p.WaitForExit($Seconds * 1000); $secs = [math]::Round($sw.Elapsed.TotalSeconds, 1)
+        $f = [ordered]@{ startDesktopExited = $exited; seconds = $secs; exitCode = $(if ($exited) { $p.ExitCode } else { $null }); readyWritten = (Test-Path -LiteralPath $ready); status = $(if (Test-Path -LiteralPath $st) { [IO.File]::ReadAllText($st) } else { $null }); stderr = [string](Get-Content -LiteralPath $e -Raw -ErrorAction SilentlyContinue) }
+        if (-not $exited) {
+            $tree = @($p.Id) + @(Get-M31Descendants @($p.Id))
+            $wins = New-Object Collections.ArrayList
+            foreach ($w in [EightMaxM31.Win]::Windows()) { if ($tree -contains [int]$w[1] -and ($w[4] -or $w[3] -eq ([string][char]35 + '32770'))) { [void]$wins.Add(([string]$w[3] + ' | ' + [string]$w[4] + ' | visible ' + [string]$w[2] + ' | pid ' + [string]$w[1])) } }
+            $f.windowsOfTheHungScript = $wins.ToArray()
+            $f.newProcesses = @(Get-Process | Where-Object { $before -notcontains $_.Id } | ForEach-Object { $_.ProcessName + ' ' + $_.Id })
+            $f.finding = Get-M31SecurityPromptFinding @(Get-M31Windows ([int[]]$tree))
+            $f.screenshot = $(if (Save-Screen (Join-Path $Out 'S17-desktop-during-the-stop.png')) { 'S17-desktop-during-the-stop.png' } else { $null })
+            & taskkill.exe /T /F /PID $p.Id 2>&1 | Out-Null
+        }
+        Stop-EightMaxLeftovers
+        return $f
+    }
     if ($M3Zip -and (Test-Path -LiteralPath $M3Zip)) {
+        $m3c = Join-Path $Work 'm3 control (spaces)'; if (Test-Path -LiteralPath $m3c) { Remove-Item -LiteralPath $m3c -Recurse -Force }
+        [IO.Compression.ZipFile]::ExtractToDirectory($M3Zip, $m3c)
+        $c = Invoke-M3Start (Join-Path $m3c 'EightMax-Test-Workbench') (Join-Path $Work 'S17-m3-control') 60
+        Add-Result 'S17c' 'host-start root cause' 'control: the Milestone 3 start-up script on the SAME files WITHOUT the download mark' ([bool]$c.startDesktopExited -and [bool]$c.readyWritten) ('Start-Desktop.ps1 finished: ' + [string]$c.startDesktopExited + ' after ' + [string]$c.seconds + ' s, exit ' + [string]$c.exitCode + ', host ready ' + [string]$c.readyWritten) 'finishes in seconds and the host becomes ready' $c
         $m3 = Join-Path $Work 'm3 motw (spaces)'; if (Test-Path -LiteralPath $m3) { Remove-Item -LiteralPath $m3 -Recurse -Force }
         [IO.Compression.ZipFile]::ExtractToDirectory($M3Zip, $m3); $m3app = Join-Path $m3 'EightMax-Test-Workbench'
         foreach ($f in @(Get-ChildItem -LiteralPath $m3app -Recurse -File)) { Set-Content -LiteralPath $f.FullName -Stream Zone.Identifier -Value $zone }
-        $case = Join-Path $Out 'S17-m3-case'; [void][IO.Directory]::CreateDirectory($case)
-        $ready = Join-Path $case 'prebuilt host launch-session.json'; $st = Join-Path $case 'prebuilt host launch-status.json'
-        # exactly the Milestone 3 runner's call (Run-Logged: hidden PowerShell, output to files), bounded here at 120 s
-        $o = Join-Path $case 'host-prebuilt host launch.out.txt'; $e = Join-Path $case 'host-prebuilt host launch.err.txt'
-        $p = Start-Process -FilePath 'powershell.exe' -ArgumentList ('-NoProfile -ExecutionPolicy Bypass -File "' + (Join-Path $m3app 'windows\Start-Desktop.ps1') + '" -Headless -ReadyFile "' + $ready + '" -StatusFile "' + $st + '" ') -WorkingDirectory $m3app -RedirectStandardOutput $o -RedirectStandardError $e -WindowStyle Hidden -PassThru; $null = $p.Handle
-        $exited = $p.WaitForExit(120000)
-        . (Join-Path $App 'windows\M31-Lib.ps1'); $null = Initialize-M31Helper
-        $wins = @(); try { $tree = @($p.Id) + @(Get-M31Descendants @($p.Id)); $wins = @(Get-M31Windows ([int[]]$tree) | ForEach-Object { [string]$_.process + ' [' + [string]$_.class + '] ' + [string]$_.title + $(if ($_.visible) { ' (visible)' } else { '' }) }) } catch {}
-        $allPrompt = @(); try { foreach ($w in [EightMaxM31.Win]::Windows()) { $pn = ''; try { $pn = (Get-Process -Id ([int]$w[1])).ProcessName } catch {}; if ($w[2] -eq '1' -and ($pn -match 'smartscreen|consent' -or $w[4] -match 'Security Warning|SmartScreen|protected your PC|Open File')) { $allPrompt += ($pn + ' [' + $w[3] + '] ' + $w[4]) } } } catch {}
-        $facts.m3 = [ordered]@{ startDesktopExited = $exited; exitCode = $(if ($exited) { $p.ExitCode } else { $null }); readyWritten = (Test-Path -LiteralPath $ready); status = $(if (Test-Path -LiteralPath $st) { [IO.File]::ReadAllText($st) } else { $null }); windowsOfTheTree = $wins; securityPromptWindows = $allPrompt; stderr = [string](Get-Content -LiteralPath $e -Raw -ErrorAction SilentlyContinue) }
-        if (-not $exited) { & taskkill.exe /T /F /PID $p.Id 2>&1 | Out-Null }
-        Stop-EightMaxLeftovers
-        Add-Result 'S17a' 'host-start root cause' 'Milestone 3 start-up script on files marked as downloaded (the operator PC condition): observed behaviour' $true ($(if ($exited) { 'Start-Desktop.ps1 finished (exit ' + [string]$p.ExitCode + '), ready file ' + (Test-Path -LiteralPath $ready) } else { 'Start-Desktop.ps1 did NOT finish within 120 s (the operator symptom); windows: ' + ($wins -join '; ') + '; prompts: ' + ($allPrompt -join '; ') })) 'record what happens (this row documents the reproduction attempt; it passes either way)' $facts.m3
+        $m = Invoke-M3Start $m3app (Join-Path $Work 'S17-m3-motw') 120
+        Add-Result 'S17a' 'host-start root cause' 'reproduction: the Milestone 3 start-up script on files marked as downloaded (the operator condition)' (-not $m.startDesktopExited) ($(if ($m.startDesktopExited) { 'Start-Desktop.ps1 finished after ' + [string]$m.seconds + ' s (no reproduction)' } else { 'Start-Desktop.ps1 did NOT finish within 120 s - the operator symptom; windows of the stopped script: ' + (@($m.windowsOfTheHungScript) -join ' ; ') + '; finding: ' + [string]$m.finding + '; new processes: ' + (@($m.newProcesses) -join ', ') })) 'does not finish (the operator symptom), while the unmarked control does' $m
     }
     $copy = Join-Path $Work ('S17 m31 motw ' + [char]0x00fc); Copy-App $copy
     foreach ($f in @(Get-ChildItem -LiteralPath $copy -Recurse -File)) { Set-Content -LiteralPath $f.FullName -Stream Zone.Identifier -Value $zone }
@@ -292,8 +323,30 @@ Test-Scenario 'S17' 'host-start root cause' 'downloaded files (Mark of the Web):
     $d = @(Get-RunDirs $root)[0]; $doc = Read-Json (Join-Path $d 'milestone3-results.json')
     $motw = @($doc['checks'] | Where-Object { [string]$_['name'] -like 'files marked as downloaded*' })[0]
     $hs = @($doc['phases'] | Where-Object { $_['name'] -eq 'host-start' })[0]
-    Add-Result 'S17b' 'host-start root cause' 'Milestone 3.1 on files marked as downloaded: the host starts (CreateProcess), the mark is reported' (($r.code -eq 0) -and $hs['status'] -eq 'PASS' -and [string]$motw['status'] -eq 'WARNING') ('exit ' + [string]$r.code + '; host-start ' + [string]$hs['status'] + '; ' + [string]$motw['status'] + ' ' + [string]$motw['detail']) 'exit 0; host-start PASS; Mark of the Web WARNING' $null
+    Add-Result 'S17b' 'host-start root cause' 'Milestone 3.1 on the same marked files: the host starts (CreateProcess) and the mark is reported' (($r.code -eq 0) -and $hs['status'] -eq 'PASS' -and [string]$motw['status'] -eq 'WARNING') ('exit ' + [string]$r.code + '; host-start ' + [string]$hs['status'] + '; ' + [string]$motw['status'] + ' ' + [string]$motw['detail']) 'exit 0; host-start PASS; Mark of the Web WARNING' $null
     Remove-Item -LiteralPath $copy -Recurse -Force -ErrorAction SilentlyContinue
+}
+Test-Scenario 'S18' 'cancel' 'the run is cancelled with Ctrl+C while a start-up step is running' {
+    $root = Join-Path $res 'S18'; [void][IO.Directory]::CreateDirectory($root); $env:EIGHTMAX_FAKE_HOST_MODE = 'script-hang'
+    $o = Join-Path $Out 'S18.out.txt'; $e = Join-Path $Out 'S18.err.txt'
+    try { $p = Start-Process -FilePath $ps -ArgumentList ('-NoLogo -NoProfile -ExecutionPolicy Bypass -File "' + (Join-Path $App 'windows\Test-Milestone31.ps1') + '" -NonInteractive -Mode Quick -OutRoot "' + $root + '" -StartScript "' + $fixture + '" -HostLaunchTimeoutSec 600') -WorkingDirectory $App -RedirectStandardOutput $o -RedirectStandardError $e -WindowStyle Hidden -PassThru; $null = $p.Handle } finally { Remove-Item Env:EIGHTMAX_FAKE_HOST_MODE }
+    $sw = [Diagnostics.Stopwatch]::StartNew(); $d = $null; $trace = $null
+    while ($sw.Elapsed.TotalSeconds -lt 240) { $d = @(Get-RunDirs $root)[0]; if ($d) { $trace = Join-Path $d 'host-start\01-prebuilt\start-trace.jsonl'; if ((Test-Path -LiteralPath $trace) -and ([IO.File]::ReadAllText($trace) -match 'launch-host')) { break } }; Start-Sleep -Milliseconds 500 }
+    Start-Sleep -Seconds 2
+    $hung = @([IO.File]::ReadAllLines($trace) | ForEach-Object { [int]$js.DeserializeObject($_)['pid'] } | Select-Object -Unique)
+    # a real console Ctrl+C: a helper attaches to the runner's (hidden) console and raises CTRL_C_EVENT there
+    $helper = 'Add-Type -TypeDefinition ''using System; using System.Runtime.InteropServices; public static class EmCtrlC { [DllImport("kernel32.dll")] static extern bool FreeConsole(); [DllImport("kernel32.dll", SetLastError=true)] static extern bool AttachConsole(uint p); [DllImport("kernel32.dll")] static extern bool SetConsoleCtrlHandler(IntPtr h, bool a); [DllImport("kernel32.dll", SetLastError=true)] static extern bool GenerateConsoleCtrlEvent(uint e, uint g); public static string Send(uint p) { FreeConsole(); if (!AttachConsole(p)) return "attach failed " + Marshal.GetLastWin32Error(); SetConsoleCtrlHandler(IntPtr.Zero, true); bool ok = GenerateConsoleCtrlEvent(0, 0); System.Threading.Thread.Sleep(1000); FreeConsole(); return ok ? "sent" : "generate failed " + Marshal.GetLastWin32Error(); } }''; [IO.File]::WriteAllText($env:EM_CTRLC_OUT, [EmCtrlC]::Send([uint32]$env:EM_CTRLC_PID))'
+    $env:EM_CTRLC_PID = [string]$p.Id; $env:EM_CTRLC_OUT = Join-Path $Out 'S18-ctrlc.txt'
+    try { $h = Start-Process -FilePath $ps -ArgumentList ('-NoProfile -ExecutionPolicy Bypass -EncodedCommand ' + [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($helper))) -WindowStyle Hidden -PassThru; $null = $h.WaitForExit(60000) } finally { Remove-Item Env:EM_CTRLC_PID, Env:EM_CTRLC_OUT }
+    $sent = [string](Get-Content -LiteralPath (Join-Path $Out 'S18-ctrlc.txt') -Raw -ErrorAction SilentlyContinue)
+    $exited = $p.WaitForExit(120000)
+    if (-not $exited) { & taskkill.exe /T /F /PID $p.Id 2>&1 | Out-Null }
+    Start-Sleep -Seconds 2
+    $left = @(Get-Alive $hung).Count
+    $st = Read-Json (Join-Path $d 'run-status.json'); $doc = Read-Json (Join-Path $d 'milestone3-results.json')
+    $hs = $(if ($doc) { @($doc['phases'] | Where-Object { $_['name'] -eq 'host-start' })[0] } else { $null }); $cl = $(if ($doc) { @($doc['phases'] | Where-Object { $_['name'] -eq 'cleanup' })[0] } else { $null })
+    $ok = ($sent.Trim() -eq 'sent') -and $exited -and [string]$st['state'] -eq 'interrupted' -and $doc -and [string]$doc['overall'] -eq 'INTERRUPTED' -and $hs['status'] -eq 'INTERRUPTED' -and $cl['status'] -eq 'NOT RUN' -and (Test-Path -LiteralPath (Join-Path $d 'milestone3-results.zip')) -and $left -eq 0
+    Add-Result 'S18' 'cancel' 'Ctrl+C: the run ends by itself with an INTERRUPTED report and ZIP; its child processes are stopped' $ok ('Ctrl+C ' + $sent.Trim() + '; runner exited ' + $exited + ' (code ' + $(if ($exited) { [string]$p.ExitCode } else { '-' }) + '); state ' + [string]$st['state'] + '; overall ' + [string]$doc['overall'] + '; host-start ' + [string]$hs['status'] + ', cleanup ' + [string]$cl['status'] + '; hung processes left ' + $left) 'state interrupted, overall INTERRUPTED, report + ZIP, nothing left running' $null
 }
 Stop-EightMaxLeftovers
 Save-Results

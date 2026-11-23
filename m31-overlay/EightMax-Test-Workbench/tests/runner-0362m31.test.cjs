@@ -84,7 +84,7 @@ test('M3.1 results location: outside the application folder by default; inside i
   const lib = read('windows/M31-Lib.ps1');
   assert.match(lib, /Join-Path \$local 'EightMax-Test-Workbench\\TestResults'/);
   assert.match(lib, /refused ' \+ \$p \+ ': inside the application folder/);
-  assert.match(lib, /'Milestone3\.1-' \+ \$started\.ToString\('yyyyMMdd-HHmmss'\)/);
+  assert.match(lib, /'Milestone3\.1-' \+ \$started\.ToString\('yyyyMMdd-HHmmss', \[Globalization\.CultureInfo\]::InvariantCulture\)/, 'Gregorian date whatever the regional settings');
   assert.match(lib, /while \(Test-Path -LiteralPath \$dir\) \{ \$dir = Join-Path \$outRootUsed \(\$base \+ '-' \+ \$n\); \$n\+\+ \}/, 'never overwrites an earlier run');
 });
 
