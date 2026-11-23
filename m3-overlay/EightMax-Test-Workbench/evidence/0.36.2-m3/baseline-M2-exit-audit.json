@@ -1,0 +1,76 @@
+{
+  "format": "eightmax-exit-audit",
+  "version": 1,
+  "tool": "tools/exit-audit-0362m3.cjs",
+  "runner": "tools/lifecycle-acceptance-0362m2.cjs --fake",
+  "at": "2026-11-23T12:48:52.833Z",
+  "platform": "linux 6.18.44-fc-v726",
+  "node": "v22.23.5",
+  "maxExitMs": 5000,
+  "runs": [
+    {
+      "run": 1,
+      "exitCode": 0,
+      "signal": null,
+      "hardKilled": false,
+      "wallMs": 134537,
+      "reportWritten": true,
+      "reportToExitMs": 119271,
+      "verdict": "PASS",
+      "scenarios": 11,
+      "everyScenarioFinal": true,
+      "exitCodeMatchesVerdict": true,
+      "activeAtReport": {
+        "counts": {
+          "PipeWrap": 1,
+          "Timeout": 23
+        },
+        "list": [
+          "PipeWrap",
+          "Timeout",
+          "Timeout",
+          "Timeout",
+          "Timeout",
+          "Timeout",
+          "Timeout",
+          "Timeout",
+          "Timeout",
+          "Timeout",
+          "Timeout",
+          "Timeout",
+          "Timeout",
+          "Timeout",
+          "Timeout",
+          "Timeout",
+          "Timeout",
+          "Timeout",
+          "Timeout",
+          "Timeout",
+          "Timeout",
+          "Timeout",
+          "Timeout",
+          "Timeout"
+        ]
+      },
+      "activeAtExit": {
+        "counts": {
+          "PipeWrap": 1
+        },
+        "list": [
+          "PipeWrap"
+        ]
+      },
+      "survivingChildProcesses": [],
+      "stderrTail": "",
+      "clean": false
+    }
+  ],
+  "summary": {
+    "runs": 1,
+    "clean": 0,
+    "maxReportToExitMs": 119271,
+    "allExitCodesMatch": true,
+    "hardKilled": 0
+  },
+  "overall": "FAIL"
+}

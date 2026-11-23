@@ -1,0 +1,2121 @@
+{
+  "format": "eightmax-hand-tracking-validation",
+  "version": 1,
+  "app": "0.36.2-dev",
+  "milestone": "0.36.2 Milestone 3",
+  "generatedAt": "2026-11-23T18:02:56.611276+00:00",
+  "generatedBy": "tools/make-evidence-0362m3.py",
+  "nativeEngine": {
+    "version": "5.1",
+    "build": "7d08acc7eb4577ee",
+    "sha256": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+    "changed": false
+  },
+  "defect": {
+    "summary": "Eliminated (zero-chip) tournament players are shown folded from the first frame of every later hand; HandStateEngine._track() treated any folded seat in a first frame as a missed hand start (missed-hand-start, then untracked-hand), the ledger charged every seat an ante and placed the blinds at fixed offsets, and _build() expected the eight-handed opening pot; every hand after the first elimination was refused and the controlled table waited forever.",
+    "files": [
+      "src/hand-state.js (HandStateEngine._track, _build)",
+      "src/hand-ledger.js (HandLedger constructor: antes, blind seats, stacks > 0)"
+    ]
+  },
+  "reproductionBeforeFix": {
+    "tree": "unmodified Milestone 2",
+    "tool": "tools/repro-elimination-stall-0362m3.cjs",
+    "file": "evidence/0.36.2-m3/repro-elimination-M2-before.json",
+    "result": {
+      "verdict": "STALL: active players remain, the dealer waits for seat 5, the tracker refuses every frame",
+      "ended": "no confirmed action for 8000 ms",
+      "stalled": true,
+      "startingStacks": [
+        2500,
+        2500,
+        2500,
+        2500,
+        2500,
+        2500,
+        2500,
+        2500
+      ],
+      "handsStarted": 2,
+      "confirmedActions": 16,
+      "eliminations": [
+        {
+          "seat": 2,
+          "eliminatedInHand": 1,
+          "remainingFunded": 6
+        },
+        {
+          "seat": 6,
+          "eliminatedInHand": 1,
+          "remainingFunded": 6
+        }
+      ],
+      "lastConfirmedAction": {
+        "hand": 1,
+        "street": "flop",
+        "seat": 2,
+        "action": {
+          "type": "call",
+          "amount": 365
+        }
+      },
+      "firstRefusal": {
+        "seq": 39,
+        "observedHand": 2,
+        "street": "preflop",
+        "codes": [
+          "missed-hand-start"
+        ],
+        "detail": "First frame of hand 2 is not its opening position; the hand cannot be reconstructed",
+        "seats": [
+          {
+            "seat": 0,
+            "stack": 2380,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "seat": 1,
+            "stack": 2130,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "seat": 2,
+            "stack": 0,
+            "bet": 0,
+            "folded": true
+          },
+          {
+            "seat": 3,
+            "stack": 2430,
+            "bet": 50,
+            "folded": false
+          },
+          {
+            "seat": 4,
+            "stack": 2380,
+            "bet": 100,
+            "folded": false
+          },
+          {
+            "seat": 5,
+            "stack": 7990,
+            "bet": 0,
+            "folded": false
+          },
+          {
+            "seat": 6,
+            "stack": 0,
+            "bet": 0,
+            "folded": true
+          },
+          {
+            "seat": 7,
+            "stack": 2480,
+            "bet": 0,
+            "folded": false
+          }
+        ],
+        "button": 1,
+        "actor": 5,
+        "pot": 210
+      },
+      "refusalMessages": [
+        {
+          "message": "untracked-hand: Hand 2 began before observation started; waiting for the next hand to see its blinds",
+          "count": 156
+        },
+        {
+          "message": "missed-hand-start: First frame of hand 2 is not its opening position; the hand cannot be reconstructed",
+          "count": 1
+        }
+      ],
+      "dealerFinal": {
+        "hand": 2,
+        "status": "playing",
+        "street": "preflop",
+        "actor": 5,
+        "stacks": [
+          2380,
+          2130,
+          0,
+          2430,
+          2380,
+          7990,
+          0,
+          2480
+        ],
+        "folded": [
+          false,
+          false,
+          true,
+          false,
+          false,
+          false,
+          true,
+          false
+        ],
+        "fundedPlayers": 6,
+        "tournamentComplete": false,
+        "waitingForSeat": 5
+      },
+      "tracker": {
+        "paused": true,
+        "pauseReason": "untracked-hand: Hand 2 began before observation started; waiting for the next hand to see its blinds"
+      },
+      "gameplay": null,
+      "hands": [
+        {
+          "hand": 1,
+          "started": true,
+          "preStacks": [
+            2500,
+            2500,
+            2500,
+            2500,
+            2500,
+            2500,
+            2500,
+            2500
+          ],
+          "fundedSeats": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "zeroStackSeats": [],
+          "button": 0,
+          "sb": 1,
+          "bb": 2,
+          "openingPot": 230,
+          "firstActor": 3,
+          "displayedFolded": [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ]
+        },
+        {
+          "hand": 2,
+          "started": true,
+          "preStacks": [
+            2390,
+            2140,
+            0,
+            2490,
+            2490,
+            8000,
+            0,
+            2490
+          ],
+          "fundedSeats": [
+            0,
+            1,
+            3,
+            4,
+            5,
+            7
+          ],
+          "zeroStackSeats": [
+            2,
+            6
+          ],
+          "button": 1,
+          "sb": 3,
+          "bb": 4,
+          "openingPot": 210,
+          "firstActor": 5,
+          "displayedFolded": [
+            false,
+            false,
+            true,
+            false,
+            false,
+            false,
+            true,
+            false
+          ]
+        }
+      ]
+    }
+  },
+  "afterFix": {
+    "deepStacks2500": {
+      "file": "evidence/0.36.2-m3/repro-elimination-M3-after-2500.json",
+      "result": {
+        "verdict": "no stall within the time budget",
+        "ended": "time budget",
+        "stalled": false,
+        "startingStacks": [
+          2500,
+          2500,
+          2500,
+          2500,
+          2500,
+          2500,
+          2500,
+          2500
+        ],
+        "handsStarted": 41,
+        "confirmedActions": 306,
+        "eliminations": [
+          {
+            "seat": 2,
+            "eliminatedInHand": 1,
+            "remainingFunded": 6
+          },
+          {
+            "seat": 6,
+            "eliminatedInHand": 1,
+            "remainingFunded": 6
+          },
+          {
+            "seat": 0,
+            "eliminatedInHand": 2,
+            "remainingFunded": 5
+          },
+          {
+            "seat": 4,
+            "eliminatedInHand": 8,
+            "remainingFunded": 4
+          },
+          {
+            "seat": 1,
+            "eliminatedInHand": 9,
+            "remainingFunded": 2
+          },
+          {
+            "seat": 3,
+            "eliminatedInHand": 9,
+            "remainingFunded": 2
+          }
+        ],
+        "lastConfirmedAction": {
+          "hand": 40,
+          "street": "river",
+          "seat": 7,
+          "action": {
+            "type": "check",
+            "amount": 0
+          }
+        },
+        "firstRefusal": null,
+        "refusalMessages": [],
+        "dealerFinal": {
+          "hand": 41,
+          "status": "playing",
+          "street": "preflop",
+          "actor": 5,
+          "stacks": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            11533,
+            0,
+            8297
+          ],
+          "folded": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            true,
+            false
+          ],
+          "fundedPlayers": 2,
+          "tournamentComplete": false,
+          "waitingForSeat": 5
+        },
+        "tracker": {
+          "paused": false,
+          "pauseReason": null,
+          "status": "tracking",
+          "recoveries": 0,
+          "untrackedHands": 0
+        },
+        "gameplay": {
+          "code": "playing",
+          "title": "Playing",
+          "message": "Automated gameplay is running: every reading is verified and every action confirmed.",
+          "detail": "Input scheduler: Revalidation failed: target is STOPPED",
+          "sinceMs": 2,
+          "counts": {
+            "playing": 307,
+            "elimination": 36,
+            "between-hands": 329
+          },
+          "episodes": {
+            "starting": 1,
+            "playing": 41,
+            "elimination": 4,
+            "between-hands": 36
+          },
+          "lastEvent": {
+            "kind": "heads-up",
+            "hand": 10,
+            "seat": null,
+            "detail": "two players remain: the button (seat 7) posts the small blind",
+            "at": 1795451972774
+          },
+          "completed": null
+        },
+        "hands": [
+          {
+            "hand": 1,
+            "started": true,
+            "preStacks": [
+              2500,
+              2500,
+              2500,
+              2500,
+              2500,
+              2500,
+              2500,
+              2500
+            ],
+            "fundedSeats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "zeroStackSeats": [],
+            "button": 0,
+            "sb": 1,
+            "bb": 2,
+            "openingPot": 230,
+            "firstActor": 3,
+            "displayedFolded": [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "hand": 2,
+            "started": true,
+            "preStacks": [
+              2390,
+              2140,
+              0,
+              2490,
+              2490,
+              8000,
+              0,
+              2490
+            ],
+            "fundedSeats": [
+              0,
+              1,
+              3,
+              4,
+              5,
+              7
+            ],
+            "zeroStackSeats": [
+              2,
+              6
+            ],
+            "button": 1,
+            "sb": 3,
+            "bb": 4,
+            "openingPot": 210,
+            "firstActor": 5,
+            "displayedFolded": [
+              false,
+              false,
+              true,
+              false,
+              false,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "hand": 3,
+            "started": true,
+            "preStacks": [
+              0,
+              1255,
+              0,
+              1605,
+              2380,
+              7990,
+              0,
+              6770
+            ],
+            "fundedSeats": [
+              1,
+              3,
+              4,
+              5,
+              7
+            ],
+            "zeroStackSeats": [
+              0,
+              2,
+              6
+            ],
+            "button": 3,
+            "sb": 4,
+            "bb": 5,
+            "openingPot": 200,
+            "firstActor": 7,
+            "displayedFolded": [
+              true,
+              false,
+              true,
+              false,
+              false,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "hand": 4,
+            "started": true,
+            "preStacks": [
+              0,
+              1245,
+              0,
+              2320,
+              1795,
+              7880,
+              0,
+              6760
+            ],
+            "fundedSeats": [
+              1,
+              3,
+              4,
+              5,
+              7
+            ],
+            "zeroStackSeats": [
+              0,
+              2,
+              6
+            ],
+            "button": 4,
+            "sb": 5,
+            "bb": 7,
+            "openingPot": 200,
+            "firstActor": 1,
+            "displayedFolded": [
+              true,
+              false,
+              true,
+              false,
+              false,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "hand": 5,
+            "started": true,
+            "preStacks": [
+              0,
+              1135,
+              0,
+              1110,
+              1410,
+              7495,
+              0,
+              8850
+            ],
+            "fundedSeats": [
+              1,
+              3,
+              4,
+              5,
+              7
+            ],
+            "zeroStackSeats": [
+              0,
+              2,
+              6
+            ],
+            "button": 5,
+            "sb": 7,
+            "bb": 1,
+            "openingPot": 200,
+            "firstActor": 3,
+            "displayedFolded": [
+              true,
+              false,
+              true,
+              false,
+              false,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "hand": 6,
+            "started": true,
+            "preStacks": [
+              0,
+              1025,
+              0,
+              1000,
+              1850,
+              7385,
+              0,
+              8740
+            ],
+            "fundedSeats": [
+              1,
+              3,
+              4,
+              5,
+              7
+            ],
+            "zeroStackSeats": [
+              0,
+              2,
+              6
+            ],
+            "button": 7,
+            "sb": 1,
+            "bb": 3,
+            "openingPot": 200,
+            "firstActor": 4,
+            "displayedFolded": [
+              true,
+              false,
+              true,
+              false,
+              false,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "hand": 7,
+            "started": true,
+            "preStacks": [
+              0,
+              2580,
+              0,
+              490,
+              825,
+              7375,
+              0,
+              8730
+            ],
+            "fundedSeats": [
+              1,
+              3,
+              4,
+              5,
+              7
+            ],
+            "zeroStackSeats": [
+              0,
+              2,
+              6
+            ],
+            "button": 1,
+            "sb": 3,
+            "bb": 4,
+            "openingPot": 200,
+            "firstActor": 5,
+            "displayedFolded": [
+              true,
+              false,
+              true,
+              false,
+              false,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "hand": 8,
+            "started": true,
+            "preStacks": [
+              0,
+              2045,
+              0,
+              430,
+              715,
+              7728,
+              0,
+              9082
+            ],
+            "fundedSeats": [
+              1,
+              3,
+              4,
+              5,
+              7
+            ],
+            "zeroStackSeats": [
+              0,
+              2,
+              6
+            ],
+            "button": 3,
+            "sb": 4,
+            "bb": 5,
+            "openingPot": 200,
+            "firstActor": 7,
+            "displayedFolded": [
+              true,
+              false,
+              true,
+              false,
+              false,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "hand": 9,
+            "started": true,
+            "preStacks": [
+              0,
+              1835,
+              0,
+              1610,
+              0,
+              7618,
+              0,
+              8937
+            ],
+            "fundedSeats": [
+              1,
+              3,
+              5,
+              7
+            ],
+            "zeroStackSeats": [
+              0,
+              2,
+              4,
+              6
+            ],
+            "button": 5,
+            "sb": 7,
+            "bb": 1,
+            "openingPot": 190,
+            "firstActor": 3,
+            "displayedFolded": [
+              true,
+              false,
+              true,
+              false,
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "hand": 10,
+            "started": true,
+            "preStacks": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              11123,
+              0,
+              8877
+            ],
+            "fundedSeats": [
+              5,
+              7
+            ],
+            "zeroStackSeats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              6
+            ],
+            "button": 7,
+            "sb": 7,
+            "bb": 5,
+            "openingPot": 170,
+            "firstActor": 7,
+            "displayedFolded": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "hand": 11,
+            "started": true,
+            "preStacks": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              10913,
+              0,
+              9087
+            ],
+            "fundedSeats": [
+              5,
+              7
+            ],
+            "zeroStackSeats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              6
+            ],
+            "button": 5,
+            "sb": 5,
+            "bb": 7,
+            "openingPot": 170,
+            "firstActor": 5,
+            "displayedFolded": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "hand": 12,
+            "started": true,
+            "preStacks": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              10853,
+              0,
+              9147
+            ],
+            "fundedSeats": [
+              5,
+              7
+            ],
+            "zeroStackSeats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              6
+            ],
+            "button": 7,
+            "sb": 7,
+            "bb": 5,
+            "openingPot": 170,
+            "firstActor": 7,
+            "displayedFolded": [
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              true,
+              false
+            ]
+          }
+        ]
+      }
+    },
+    "stacks1000ToCompletion": {
+      "file": "evidence/0.36.2-m3/repro-elimination-M3-after-1000.json",
+      "result": {
+        "verdict": "tournament completed",
+        "ended": "tournament complete",
+        "stalled": false,
+        "startingStacks": [
+          2500,
+          2500,
+          2500,
+          2500,
+          2500,
+          2500,
+          2500,
+          2500
+        ],
+        "handsStarted": 89,
+        "confirmedActions": 562,
+        "eliminations": [
+          {
+            "seat": 2,
+            "eliminatedInHand": 1,
+            "remainingFunded": 6
+          },
+          {
+            "seat": 6,
+            "eliminatedInHand": 1,
+            "remainingFunded": 6
+          },
+          {
+            "seat": 0,
+            "eliminatedInHand": 2,
+            "remainingFunded": 4
+          },
+          {
+            "seat": 1,
+            "eliminatedInHand": 2,
+            "remainingFunded": 4
+          },
+          {
+            "seat": 4,
+            "eliminatedInHand": 4,
+            "remainingFunded": 3
+          },
+          {
+            "seat": 7,
+            "eliminatedInHand": 15,
+            "remainingFunded": 2
+          },
+          {
+            "seat": 3,
+            "eliminatedInHand": 89,
+            "remainingFunded": 1
+          }
+        ],
+        "lastConfirmedAction": {
+          "hand": 89,
+          "street": "river",
+          "seat": 5,
+          "action": {
+            "type": "call",
+            "amount": 130
+          }
+        },
+        "firstRefusal": null,
+        "refusalMessages": [],
+        "dealerFinal": {
+          "hand": 89,
+          "status": "complete",
+          "street": "river",
+          "actor": -1,
+          "stacks": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            8000,
+            0,
+            0
+          ],
+          "folded": [
+            true,
+            true,
+            true,
+            false,
+            true,
+            false,
+            true,
+            true
+          ],
+          "fundedPlayers": 1,
+          "tournamentComplete": true,
+          "waitingForSeat": null
+        },
+        "tracker": {
+          "paused": false,
+          "pauseReason": null,
+          "status": "tournament-complete",
+          "recoveries": 0,
+          "untrackedHands": 0
+        },
+        "gameplay": {
+          "code": "tournament-complete",
+          "title": "Simulator completed",
+          "message": "Tournament finished. Automated gameplay has stopped normally.",
+          "detail": "seat 5 holds every chip after hand 89",
+          "sinceMs": 508,
+          "counts": {
+            "playing": 562,
+            "elimination": 37,
+            "between-hands": 749,
+            "tournament-complete": 1
+          },
+          "episodes": {
+            "starting": 1,
+            "playing": 89,
+            "elimination": 4,
+            "between-hands": 84,
+            "tournament-complete": 1
+          },
+          "lastEvent": {
+            "kind": "tournament-complete",
+            "hand": 89,
+            "seat": 5,
+            "detail": "seat 5 holds every chip after hand 89",
+            "at": 1795452125195
+          },
+          "completed": {
+            "kind": "tournament-complete",
+            "hand": 89,
+            "winner": 5,
+            "source": "verified settlement",
+            "at": "2026-11-23T16:42:05.195Z"
+          }
+        },
+        "hands": [
+          {
+            "hand": 1,
+            "started": true,
+            "preStacks": [
+              2500,
+              2500,
+              2500,
+              2500,
+              2500,
+              2500,
+              2500,
+              2500
+            ],
+            "fundedSeats": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "zeroStackSeats": [],
+            "button": 0,
+            "sb": 1,
+            "bb": 2,
+            "openingPot": 230,
+            "firstActor": 3,
+            "displayedFolded": [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          },
+          {
+            "hand": 2,
+            "started": true,
+            "preStacks": [
+              890,
+              640,
+              0,
+              990,
+              990,
+              3500,
+              0,
+              990
+            ],
+            "fundedSeats": [
+              0,
+              1,
+              3,
+              4,
+              5,
+              7
+            ],
+            "zeroStackSeats": [
+              2,
+              6
+            ],
+            "button": 1,
+            "sb": 3,
+            "bb": 4,
+            "openingPot": 210,
+            "firstActor": 5,
+            "displayedFolded": [
+              false,
+              false,
+              true,
+              false,
+              false,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "hand": 3,
+            "started": true,
+            "preStacks": [
+              0,
+              0,
+              0,
+              3280,
+              350,
+              3390,
+              0,
+              980
+            ],
+            "fundedSeats": [
+              3,
+              4,
+              5,
+              7
+            ],
+            "zeroStackSeats": [
+              0,
+              1,
+              2,
+              6
+            ],
+            "button": 3,
+            "sb": 4,
+            "bb": 5,
+            "openingPot": 190,
+            "firstActor": 7,
+            "displayedFolded": [
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "hand": 4,
+            "started": true,
+            "preStacks": [
+              0,
+              0,
+              0,
+              3270,
+              290,
+              3470,
+              0,
+              970
+            ],
+            "fundedSeats": [
+              3,
+              4,
+              5,
+              7
+            ],
+            "zeroStackSeats": [
+              0,
+              1,
+              2,
+              6
+            ],
+            "button": 4,
+            "sb": 5,
+            "bb": 7,
+            "openingPot": 190,
+            "firstActor": 3,
+            "displayedFolded": [
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "hand": 5,
+            "started": true,
+            "preStacks": [
+              0,
+              0,
+              0,
+              2980,
+              0,
+              3410,
+              0,
+              1610
+            ],
+            "fundedSeats": [
+              3,
+              5,
+              7
+            ],
+            "zeroStackSeats": [
+              0,
+              1,
+              2,
+              4,
+              6
+            ],
+            "button": 5,
+            "sb": 7,
+            "bb": 3,
+            "openingPot": 180,
+            "firstActor": 5,
+            "displayedFolded": [
+              true,
+              true,
+              true,
+              false,
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "hand": 6,
+            "started": true,
+            "preStacks": [
+              0,
+              0,
+              0,
+              2870,
+              0,
+              3175,
+              0,
+              1955
+            ],
+            "fundedSeats": [
+              3,
+              5,
+              7
+            ],
+            "zeroStackSeats": [
+              0,
+              1,
+              2,
+              4,
+              6
+            ],
+            "button": 7,
+            "sb": 3,
+            "bb": 5,
+            "openingPot": 180,
+            "firstActor": 7,
+            "displayedFolded": [
+              true,
+              true,
+              true,
+              false,
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "hand": 7,
+            "started": true,
+            "preStacks": [
+              0,
+              0,
+              0,
+              2760,
+              0,
+              3295,
+              0,
+              1945
+            ],
+            "fundedSeats": [
+              3,
+              5,
+              7
+            ],
+            "zeroStackSeats": [
+              0,
+              1,
+              2,
+              4,
+              6
+            ],
+            "button": 3,
+            "sb": 5,
+            "bb": 7,
+            "openingPot": 180,
+            "firstActor": 3,
+            "displayedFolded": [
+              true,
+              true,
+              true,
+              false,
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "hand": 8,
+            "started": true,
+            "preStacks": [
+              0,
+              0,
+              0,
+              2930,
+              0,
+              3235,
+              0,
+              1835
+            ],
+            "fundedSeats": [
+              3,
+              5,
+              7
+            ],
+            "zeroStackSeats": [
+              0,
+              1,
+              2,
+              4,
+              6
+            ],
+            "button": 5,
+            "sb": 7,
+            "bb": 3,
+            "openingPot": 180,
+            "firstActor": 5,
+            "displayedFolded": [
+              true,
+              true,
+              true,
+              false,
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "hand": 9,
+            "started": true,
+            "preStacks": [
+              0,
+              0,
+              0,
+              4500,
+              0,
+              2150,
+              0,
+              1350
+            ],
+            "fundedSeats": [
+              3,
+              5,
+              7
+            ],
+            "zeroStackSeats": [
+              0,
+              1,
+              2,
+              4,
+              6
+            ],
+            "button": 7,
+            "sb": 3,
+            "bb": 5,
+            "openingPot": 180,
+            "firstActor": 7,
+            "displayedFolded": [
+              true,
+              true,
+              true,
+              false,
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "hand": 10,
+            "started": true,
+            "preStacks": [
+              0,
+              0,
+              0,
+              4265,
+              0,
+              2495,
+              0,
+              1240
+            ],
+            "fundedSeats": [
+              3,
+              5,
+              7
+            ],
+            "zeroStackSeats": [
+              0,
+              1,
+              2,
+              4,
+              6
+            ],
+            "button": 3,
+            "sb": 5,
+            "bb": 7,
+            "openingPot": 180,
+            "firstActor": 3,
+            "displayedFolded": [
+              true,
+              true,
+              true,
+              false,
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "hand": 11,
+            "started": true,
+            "preStacks": [
+              0,
+              0,
+              0,
+              2805,
+              0,
+              4065,
+              0,
+              1130
+            ],
+            "fundedSeats": [
+              3,
+              5,
+              7
+            ],
+            "zeroStackSeats": [
+              0,
+              1,
+              2,
+              4,
+              6
+            ],
+            "button": 5,
+            "sb": 7,
+            "bb": 3,
+            "openingPot": 180,
+            "firstActor": 5,
+            "displayedFolded": [
+              true,
+              true,
+              true,
+              false,
+              true,
+              false,
+              true,
+              false
+            ]
+          },
+          {
+            "hand": 12,
+            "started": true,
+            "preStacks": [
+              0,
+              0,
+              0,
+              3475,
+              0,
+              3605,
+              0,
+              920
+            ],
+            "fundedSeats": [
+              3,
+              5,
+              7
+            ],
+            "zeroStackSeats": [
+              0,
+              1,
+              2,
+              4,
+              6
+            ],
+            "button": 7,
+            "sb": 3,
+            "bb": 5,
+            "openingPot": 180,
+            "firstActor": 7,
+            "displayedFolded": [
+              true,
+              true,
+              true,
+              false,
+              true,
+              false,
+              true,
+              false
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "unitAndDifferential": {
+    "file": "tests/tournament-0362m3.test.cjs (results in evidence/0.36.2-m3/m3-linux-full-suite.tap)",
+    "ledgerVsSimulator": {
+      "tournaments": 40,
+      "hands": 657,
+      "handsWithEliminated": 602,
+      "headsUp": 342,
+      "shortAnte": 6,
+      "shortBlind": 29,
+      "forcedRunout": 2,
+      "sidePots": 128,
+      "eliminations": 280,
+      "actions": 5152
+    },
+    "trackerVsSimulator": {
+      "tournaments": 20,
+      "hands": 1436,
+      "frames": 10253,
+      "refused": 1,
+      "forcedRunoutHands": 1,
+      "refusedThenContinued": 0,
+      "recoveries": 0,
+      "eliminations": 139,
+      "headsUpHands": 1312,
+      "sidePotFrames": 316
+    },
+    "cases": [
+      "M2 defect regression (hand after two eliminations)",
+      "real missed fold still refused",
+      "element-by-element opening checks with reasons",
+      "short ante / short small blind / short big blind",
+      "tournament continuity strict vs auto",
+      "eliminated player dealt in again",
+      "heads-up transition",
+      "untracked-hand recovery status and counters",
+      "persistent contradiction -> untracked",
+      "tournament completion",
+      "ledger serialization v1/v2",
+      "checkpoint v1/v2",
+      "negative readings",
+      "hidden controls during think-time (pre-existing defect)"
+    ]
+  },
+  "endToEndFake": {
+    "file": "evidence/0.36.2-m3/gameplay-acceptance-fake.json",
+    "overall": "PASS",
+    "environment": "fake",
+    "summary": {
+      "scenarios": 6,
+      "passed": 6,
+      "failed": 0,
+      "checks": 42,
+      "failedChecks": 0,
+      "cleanupOk": true
+    },
+    "cleanup": true,
+    "scenarios": [
+      {
+        "id": "T1",
+        "name": "Hands that start with eliminated players are tracked (the Milestone 2 stall)",
+        "status": "pass",
+        "checks": 6,
+        "failedChecks": [],
+        "durationMs": 7895,
+        "metrics": {
+          "hands": 4,
+          "crossCheck": {
+            "confirmed": 36,
+            "dealerAccepted": 36,
+            "matchedInOrder": 36,
+            "wrongActions": 0,
+            "wrong": [],
+            "confirmedNotApplied": 0,
+            "appliedNotConfirmed": 0,
+            "uncertainOrUnconfirmed": 0,
+            "incorrectClicks": 0,
+            "invalidWagers": 0,
+            "timeoutActions": 0
+          },
+          "table": {
+            "attempted": 36,
+            "confirmed": 36,
+            "rejected": 0,
+            "ambiguous": 0,
+            "timedOut": 0,
+            "uncertain": 0,
+            "cancelled": 0,
+            "deadlineMisses": 0,
+            "frames": 69,
+            "refusedReadings": 0,
+            "refusalCodes": {},
+            "reconstructionFailures": 0,
+            "untrackedHands": 0,
+            "untrackedHandsWithoutDecision": 0,
+            "untrackedHandsNeedingInput": 0,
+            "recoveries": 0,
+            "eliminationsSeen": 4,
+            "verifyingSteps": 0,
+            "gameplay": "playing",
+            "gameplayEpisodes": {
+              "starting": 1,
+              "elimination": 2,
+              "playing": 4,
+              "between-hands": 2
+            },
+            "lifecycle": "ACTIVE",
+            "completed": null,
+            "tournamentRemaining": 4,
+            "latencyMs": {
+              "endToEnd": {
+                "n": 36,
+                "mean": 109.47,
+                "p50": 105.94,
+                "p95": 142.25,
+                "p99": 167.41,
+                "max": 167.41
+              },
+              "cursorTravel": {
+                "n": 36,
+                "mean": 6,
+                "p50": 6,
+                "p95": 6,
+                "p99": 6,
+                "max": 6
+              },
+              "inputOperation": {
+                "n": 36,
+                "mean": 86.34,
+                "p50": 87.47,
+                "p95": 114.69,
+                "p99": 135.75,
+                "max": 135.75
+              },
+              "confirmation": {
+                "n": 36,
+                "mean": 41.8,
+                "p50": 37.92,
+                "p95": 62.38,
+                "p99": 63.6,
+                "max": 63.6
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "T2",
+        "name": "A tournament is played to its end; the end is a normal stop",
+        "status": "pass",
+        "checks": 12,
+        "failedChecks": [],
+        "durationMs": 6463,
+        "metrics": {
+          "hands": 9,
+          "crossCheck": {
+            "confirmed": 28,
+            "dealerAccepted": 28,
+            "matchedInOrder": 28,
+            "wrongActions": 0,
+            "wrong": [],
+            "confirmedNotApplied": 0,
+            "appliedNotConfirmed": 0,
+            "uncertainOrUnconfirmed": 0,
+            "incorrectClicks": 0,
+            "invalidWagers": 0,
+            "timeoutActions": 0
+          },
+          "table": {
+            "attempted": 28,
+            "confirmed": 28,
+            "rejected": 0,
+            "ambiguous": 0,
+            "timedOut": 0,
+            "uncertain": 0,
+            "cancelled": 0,
+            "deadlineMisses": 0,
+            "frames": 122,
+            "refusedReadings": 12,
+            "refusalCodes": {
+              "missed-hand-start": 1,
+              "untracked-hand": 11
+            },
+            "reconstructionFailures": 0,
+            "untrackedHands": 1,
+            "untrackedHandsWithoutDecision": 1,
+            "untrackedHandsNeedingInput": 0,
+            "recoveries": 1,
+            "eliminationsSeen": 7,
+            "verifyingSteps": 1,
+            "gameplay": "tournament-complete",
+            "gameplayEpisodes": {
+              "starting": 1,
+              "elimination": 2,
+              "playing": 8,
+              "between-hands": 6,
+              "waiting-next-hand": 1,
+              "verifying": 1,
+              "tournament-complete": 1
+            },
+            "lifecycle": "STOPPED",
+            "completed": {
+              "kind": "tournament-complete",
+              "hand": 9,
+              "winner": 4,
+              "source": "verified settlement",
+              "at": "2026-11-23T17:12:07.730Z"
+            },
+            "tournamentRemaining": 1,
+            "latencyMs": {
+              "endToEnd": {
+                "n": 28,
+                "mean": 91.81,
+                "p50": 86.36,
+                "p95": 116.14,
+                "p99": 129.26,
+                "max": 129.26
+              },
+              "cursorTravel": {
+                "n": 28,
+                "mean": 6,
+                "p50": 6,
+                "p95": 6,
+                "p99": 6,
+                "max": 6
+              },
+              "inputOperation": {
+                "n": 28,
+                "mean": 76.22,
+                "p50": 70.42,
+                "p95": 97.57,
+                "p99": 107.02,
+                "max": 107.02
+              },
+              "confirmation": {
+                "n": 28,
+                "mean": 34.67,
+                "p50": 32.05,
+                "p95": 43.48,
+                "p99": 44.35,
+                "max": 44.35
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "T3",
+        "name": "A hand first seen after its opening: untracked, no input; recovery at the next verified hand",
+        "status": "pass",
+        "checks": 8,
+        "failedChecks": [],
+        "durationMs": 5283,
+        "metrics": {
+          "conditions": [
+            "starting",
+            "waiting-next-hand",
+            "verifying",
+            "playing"
+          ],
+          "tracking": {
+            "lastValidHand": 2,
+            "recoveries": 1,
+            "untrackedHands": 1,
+            "lastRecovery": {
+              "fromHand": 1,
+              "toHand": 2,
+              "cause": "missed-hand-start",
+              "at": 98
+            },
+            "accepted": 9,
+            "rejected": 98,
+            "paused": false,
+            "status": "tracking",
+            "reasonCode": null,
+            "reason": null,
+            "observedHand": 2,
+            "expectedRecovery": null
+          },
+          "crossCheck": {
+            "confirmed": 4,
+            "dealerAccepted": 5,
+            "matchedInOrder": 4,
+            "wrongActions": 0,
+            "wrong": [],
+            "confirmedNotApplied": 0,
+            "appliedNotConfirmed": 1,
+            "uncertainOrUnconfirmed": 0,
+            "incorrectClicks": 0,
+            "invalidWagers": 0,
+            "timeoutActions": 13
+          }
+        }
+      },
+      {
+        "id": "T4",
+        "name": "Think-time holds: one seat acting on consecutive streets with every control hidden (pre-existing defect fixed in M3)",
+        "status": "pass",
+        "checks": 4,
+        "failedChecks": [],
+        "durationMs": 8677,
+        "metrics": {
+          "crossCheck": {
+            "confirmed": 15,
+            "dealerAccepted": 15,
+            "matchedInOrder": 15,
+            "wrongActions": 0,
+            "wrong": [],
+            "confirmedNotApplied": 0,
+            "appliedNotConfirmed": 0,
+            "uncertainOrUnconfirmed": 0,
+            "incorrectClicks": 0,
+            "invalidWagers": 0,
+            "timeoutActions": 0
+          },
+          "table": {
+            "attempted": 15,
+            "confirmed": 15,
+            "rejected": 0,
+            "ambiguous": 0,
+            "timedOut": 0,
+            "uncertain": 0,
+            "cancelled": 0,
+            "deadlineMisses": 0,
+            "frames": 169,
+            "refusedReadings": 0,
+            "refusalCodes": {},
+            "reconstructionFailures": 0,
+            "untrackedHands": 0,
+            "untrackedHandsWithoutDecision": 0,
+            "untrackedHandsNeedingInput": 0,
+            "recoveries": 0,
+            "eliminationsSeen": 0,
+            "verifyingSteps": 0,
+            "gameplay": "playing",
+            "gameplayEpisodes": {
+              "starting": 1,
+              "playing": 15,
+              "waiting-turn": 14
+            },
+            "lifecycle": "ACTIVE",
+            "completed": null,
+            "tournamentRemaining": 8,
+            "latencyMs": {
+              "endToEnd": {
+                "n": 15,
+                "mean": 112.62,
+                "p50": 107.73,
+                "p95": 153.68,
+                "p99": 153.68,
+                "max": 153.68
+              },
+              "cursorTravel": {
+                "n": 15,
+                "mean": 6,
+                "p50": 6,
+                "p95": 6,
+                "p99": 6,
+                "max": 6
+              },
+              "inputOperation": {
+                "n": 15,
+                "mean": 82.43,
+                "p50": 77.41,
+                "p95": 92.55,
+                "p99": 92.55,
+                "max": 92.55
+              },
+              "confirmation": {
+                "n": 15,
+                "mean": 41.21,
+                "p50": 40.4,
+                "p95": 49.42,
+                "p99": 49.42,
+                "max": 49.42
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "T5",
+        "name": "Two tables: eliminations on both, one window closes; no input crosses tables",
+        "status": "pass",
+        "checks": 6,
+        "failedChecks": [],
+        "durationMs": 3467,
+        "metrics": {
+          "table1": {
+            "attempted": 17,
+            "confirmed": 17,
+            "rejected": 0,
+            "ambiguous": 0,
+            "timedOut": 0,
+            "uncertain": 0,
+            "cancelled": 0,
+            "deadlineMisses": 0,
+            "frames": 43,
+            "refusedReadings": 2,
+            "refusalCodes": {
+              "missed-hand-start": 1,
+              "untracked-hand": 1
+            },
+            "reconstructionFailures": 1,
+            "untrackedHands": 1,
+            "untrackedHandsWithoutDecision": 0,
+            "untrackedHandsNeedingInput": 1,
+            "recoveries": 0,
+            "eliminationsSeen": 6,
+            "verifyingSteps": 0,
+            "gameplay": "tournament-complete",
+            "gameplayEpisodes": {
+              "starting": 1,
+              "playing": 2,
+              "elimination": 2,
+              "waiting-next-hand": 1,
+              "tournament-complete": 1
+            },
+            "lifecycle": "STOPPED",
+            "completed": {
+              "kind": "tournament-complete",
+              "hand": 3,
+              "winner": 2,
+              "source": "final screen of an untracked hand (settlement not verified)",
+              "at": "2026-11-23T17:12:25.460Z"
+            },
+            "tournamentRemaining": 2,
+            "latencyMs": {
+              "endToEnd": {
+                "n": 17,
+                "mean": 139.22,
+                "p50": 151.94,
+                "p95": 184.19,
+                "p99": 184.19,
+                "max": 184.19
+              },
+              "cursorTravel": {
+                "n": 17,
+                "mean": 6,
+                "p50": 6,
+                "p95": 6,
+                "p99": 6,
+                "max": 6
+              },
+              "inputOperation": {
+                "n": 17,
+                "mean": 120.28,
+                "p50": 131.38,
+                "p95": 161.68,
+                "p99": 161.68,
+                "max": 161.68
+              },
+              "confirmation": {
+                "n": 17,
+                "mean": 63.64,
+                "p50": 65.9,
+                "p95": 113.54,
+                "p99": 113.54,
+                "max": 113.54
+              }
+            }
+          },
+          "table2": {
+            "attempted": 14,
+            "confirmed": 13,
+            "rejected": 0,
+            "ambiguous": 0,
+            "timedOut": 0,
+            "uncertain": 1,
+            "cancelled": 1,
+            "deadlineMisses": 0,
+            "frames": 14,
+            "refusedReadings": 0,
+            "refusalCodes": {},
+            "reconstructionFailures": 0,
+            "untrackedHands": 0,
+            "untrackedHandsWithoutDecision": 0,
+            "untrackedHandsNeedingInput": 0,
+            "recoveries": 0,
+            "eliminationsSeen": 0,
+            "verifyingSteps": 0,
+            "gameplay": "target-lost",
+            "gameplayEpisodes": {
+              "starting": 1,
+              "playing": 1,
+              "target-lost": 1
+            },
+            "lifecycle": "TARGET_LOST",
+            "completed": null,
+            "tournamentRemaining": null,
+            "latencyMs": {
+              "endToEnd": {
+                "n": 13,
+                "mean": 158.37,
+                "p50": 162.01,
+                "p95": 190.64,
+                "p99": 190.64,
+                "max": 190.64
+              },
+              "cursorTravel": {
+                "n": 13,
+                "mean": 6,
+                "p50": 6,
+                "p95": 6,
+                "p99": 6,
+                "max": 6
+              },
+              "inputOperation": {
+                "n": 13,
+                "mean": 137.38,
+                "p50": 144.46,
+                "p95": 169.99,
+                "p99": 169.99,
+                "max": 169.99
+              },
+              "confirmation": {
+                "n": 13,
+                "mean": 72.16,
+                "p50": 73.26,
+                "p95": 105.53,
+                "p99": 105.53,
+                "max": 105.53
+              }
+            }
+          },
+          "crossCheck1": {
+            "confirmed": 17,
+            "dealerAccepted": 17,
+            "matchedInOrder": 17,
+            "wrongActions": 0,
+            "wrong": [],
+            "confirmedNotApplied": 0,
+            "appliedNotConfirmed": 0,
+            "uncertainOrUnconfirmed": 0,
+            "incorrectClicks": 0,
+            "invalidWagers": 0,
+            "timeoutActions": 0
+          }
+        }
+      },
+      {
+        "id": "T6",
+        "name": "Emergency stop right after an elimination: stop wins, no input, no automatic recovery",
+        "status": "pass",
+        "checks": 6,
+        "failedChecks": [],
+        "durationMs": 2313,
+        "metrics": {
+          "table": {
+            "attempted": 14,
+            "confirmed": 14,
+            "rejected": 0,
+            "ambiguous": 0,
+            "timedOut": 0,
+            "uncertain": 0,
+            "cancelled": 0,
+            "deadlineMisses": 0,
+            "frames": 15,
+            "refusedReadings": 0,
+            "refusalCodes": {},
+            "reconstructionFailures": 0,
+            "untrackedHands": 0,
+            "untrackedHandsWithoutDecision": 0,
+            "untrackedHandsNeedingInput": 0,
+            "recoveries": 0,
+            "eliminationsSeen": 2,
+            "verifyingSteps": 0,
+            "gameplay": "emergency-stop",
+            "gameplayEpisodes": {
+              "starting": 1,
+              "playing": 1,
+              "elimination": 1,
+              "emergency-stop": 1
+            },
+            "lifecycle": "SAFETY_PAUSED",
+            "completed": null,
+            "tournamentRemaining": 6,
+            "latencyMs": {
+              "endToEnd": {
+                "n": 14,
+                "mean": 95.71,
+                "p50": 92,
+                "p95": 115.3,
+                "p99": 115.3,
+                "max": 115.3
+              },
+              "cursorTravel": {
+                "n": 14,
+                "mean": 6,
+                "p50": 6,
+                "p95": 6,
+                "p99": 6,
+                "max": 6
+              },
+              "inputOperation": {
+                "n": 14,
+                "mean": 77.45,
+                "p50": 71.7,
+                "p95": 92.99,
+                "p99": 92.99,
+                "max": 92.99
+              },
+              "confirmation": {
+                "n": 14,
+                "mean": 36.87,
+                "p50": 35.33,
+                "p95": 52.48,
+                "p99": 52.48,
+                "max": 52.48
+              }
+            }
+          }
+        }
+      }
+    ],
+    "note": "fake desktop host + real fixture dealer + real recognition / tracker / scheduler / adapter; NOT Windows evidence"
+  },
+  "windows": "see WINDOWS-VALIDATION-0362M3.json"
+}

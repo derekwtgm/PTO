@@ -1,0 +1,29 @@
+--- M1: 1 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced
+  [PASS] every table played (confirmed actions on every table) - [351]
+  [PASS] no incorrect action, no invalid wager (oracle) - [0,0]
+  [PASS] no confirmed action the table did not apply - 0
+  [PASS] no stall, no unexpected pause, no violation - []
+  [PASS] faults exercised (closure + reopen n/a, emergency stop) - {"closeReopen":0,"estop":3}
+  => PASS (63 s)
+--- M2: 2 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced
+  [PASS] every table played (confirmed actions on every table) - [295,277]
+  [PASS] no incorrect action, no invalid wager (oracle) - [0,0]
+  [PASS] no confirmed action the table did not apply - 0
+  [PASS] no stall, no unexpected pause, no violation - []
+  [PASS] faults exercised (closure + reopen, emergency stop) - {"closeReopen":2,"estop":1}
+  => PASS (60 s)
+--- M5: 5 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced
+  [PASS] every table played (confirmed actions on every table) - [126,130,122,126,128]
+  [PASS] no incorrect action, no invalid wager (oracle) - [0,0]
+  [PASS] no confirmed action the table did not apply - 0
+  [PASS] no stall, no unexpected pause, no violation - []
+  [PASS] faults exercised (closure + reopen, emergency stop) - {"closeReopen":2,"estop":1}
+  => PASS (61 s)
+--- M8: 8 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced
+  [PASS] every table played (confirmed actions on every table) - [82,82,81,84,83,84,81,81]
+  [PASS] no incorrect action, no invalid wager (oracle) - [0,0]
+  [PASS] no confirmed action the table did not apply - 0
+  [PASS] no stall, no unexpected pause, no violation - []
+  [PASS] faults exercised (closure + reopen, emergency stop) - {"closeReopen":2,"estop":1}
+  => PASS (61 s)
+Gameplay acceptance stability (fake): PASS - 4/4 scenarios -> /home/user/work/evidence-m3/final/gameplay-stability-fake.json

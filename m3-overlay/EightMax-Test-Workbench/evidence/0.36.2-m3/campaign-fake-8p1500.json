@@ -1,0 +1,150 @@
+{
+  "format": "eightmax-m3-gameplay-acceptance",
+  "version": 1,
+  "suite": "campaign",
+  "app": "0.36.2-dev",
+  "milestone": "0.36.2-milestone-3",
+  "environment": "fake",
+  "at": "2026-11-23T17:04:53.161Z",
+  "machine": {
+    "platform": "linux",
+    "release": "6.18.44-fc-v726",
+    "node": "v22.23.5",
+    "cpus": 4,
+    "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "ramGiB": 15.7
+  },
+  "host": {
+    "note": "fake host: scenario-logic self-check, NOT Windows evidence"
+  },
+  "scenarios": [
+    {
+      "id": "C",
+      "name": "Long campaign: tournaments played to the end one after another until 120 hands are completed",
+      "status": "pass",
+      "durationMs": 218063,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "at least 120 hands completed",
+          "pass": true,
+          "detail": 200
+        },
+        {
+          "name": "tournaments were played to the end (winner = dealer winner)",
+          "pass": true,
+          "detail": [
+            1,
+            true
+          ]
+        },
+        {
+          "name": "no incorrect action, no invalid wager (oracle)",
+          "pass": true,
+          "detail": [
+            0,
+            0
+          ]
+        },
+        {
+          "name": "no missed state transition (every action the table applied was confirmed or flagged)",
+          "pass": true,
+          "detail": [
+            0,
+            0
+          ]
+        },
+        {
+          "name": "no hand-reconstruction failure; no untracked hand that needed a decision (a hand nobody acted in may be first seen finished)",
+          "pass": true,
+          "detail": {
+            "reconstructionFailures": 0,
+            "untrackedHands": 0,
+            "withoutDecision": 0,
+            "needingInput": 0
+          }
+        },
+        {
+          "name": "no stall or unexpected pause",
+          "pass": true,
+          "detail": []
+        },
+        {
+          "name": "eliminations recognised",
+          "pass": true,
+          "detail": 7
+        }
+      ],
+      "metrics": {
+        "tables": 1,
+        "seconds": 216,
+        "completedHands": 200,
+        "tournamentsStarted": 2,
+        "tournamentsCompleted": 1,
+        "winnersMatchDealer": true,
+        "actionsAttempted": 1270,
+        "actionsConfirmed": 1270,
+        "incorrectActions": 0,
+        "invalidWagers": 0,
+        "missedStateTransitions": 0,
+        "confirmedButNotApplied": 0,
+        "refusedReadings": 0,
+        "reconstructionFailures": 0,
+        "untrackedHands": 0,
+        "untrackedHandsWithoutDecision": 0,
+        "untrackedHandsNeedingInput": 0,
+        "recoveryEvents": 0,
+        "lifecycleRecoveries": 0,
+        "eliminationsSeen": 7,
+        "uncertainOrUnconfirmed": 0,
+        "deadlineMisses": 0,
+        "cleanRefusals": 0,
+        "unexpectedPauses": 0,
+        "finalPlayerCounts": [
+          1
+        ],
+        "hands": {
+          "handsObserved": 200,
+          "allEightDealtIn": 1,
+          "withEliminatedSeats": 199,
+          "headsUp": 186,
+          "allIn": 9,
+          "sidePots": 5,
+          "endingWithElimination": 6,
+          "endingWithTwoOrMoreEliminations": 1,
+          "dealtInHistogram": {
+            "2": 186,
+            "3": 3,
+            "4": 8,
+            "5": 1,
+            "6": 1,
+            "8": 1
+          }
+        },
+        "faults": {
+          "closeReopen": 0,
+          "estop": 0
+        },
+        "violations": []
+      }
+    }
+  ],
+  "cleanup": {
+    "childProcesses": [],
+    "allChildrenExited": true,
+    "activeResources": {},
+    "unexpected": [],
+    "ok": true
+  },
+  "summary": {
+    "scenarios": 1,
+    "passed": 1,
+    "failed": 0,
+    "checks": 7,
+    "failedChecks": 0,
+    "cleanupOk": true
+  },
+  "overall": "PASS",
+  "durationMs": 218066,
+  "exitCode": 0
+}

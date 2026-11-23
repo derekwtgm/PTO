@@ -1,0 +1,63 @@
+EIGHTMAX TEST WORKBENCH 0.36.2 - MILESTONE 3 WINDOWS TESTS (tournament play and reliability)
+==========================================================================================
+
+What this tests on YOUR computer, with real windows:
+  - play continues after players are eliminated from a tournament (Milestone 2 stopped
+    playing at the first hand after an elimination)
+  - a tournament is played to its end and then stops normally ("Tournament finished")
+  - a hand that was already under way when automation started is skipped safely (no
+    clicks), and play resumes by itself at the next hand
+  - one player acting on two streets in a row, while the table "thinks", is handled
+  - several tables: eliminations, a closed table, emergency stops
+  - 1, 2, 5 and 8 tables at once (stability)
+  - the desktop program starts normally, and its backup "build from source" route works,
+    including its cache
+  - the test programs themselves finish and exit cleanly
+Nothing needs to be installed: the bundled Node.js and the bundled programs are used.
+The EightMax 5.1 engine is only identified (SHA-256 and build id); it is not changed.
+These tests use the bundled EightMax test tables only, never another program.
+
+BEFORE YOU START
+  1. Extract the complete ZIP into a NEW folder (do not copy over an older version).
+  2. Close the EightMax Workbench and its dashboard (the tests need port 48713).
+  3. Close or minimise other full-screen programs. Keep the computer awake and plugged in
+     (the tests take about 40-60 minutes).
+
+HOW TO RUN
+  Double-click   RUN-0362-MILESTONE3-TESTS.cmd
+  Press a key when asked. The test then runs by itself.
+  Small "EightMax Test Table" windows open, play, close, reopen and stop by themselves, and
+  the mouse moves inside them. Do NOT touch the mouse or keyboard until the window says
+  "MILESTONE 3 TESTS PASSED" or "FAILED" (touching the mouse makes the input driver stop,
+  which is reported as a failure). Ctrl+Alt+F12 still stops all input if you need it.
+  A short "build from source" step may show a PowerShell window briefly: that is expected.
+
+WHERE THE RESULTS ARE SAVED
+  A results folder next to RUN-0362-MILESTONE3-TESTS.cmd:
+      test-results\Milestone3-YYYYMMDD-HHMMSS\
+  and a ZIP of it:
+      test-results\Milestone3-YYYYMMDD-HHMMSS.zip      <- send this file back
+  (If the package folder is not writable, the folder is created under
+   %LOCALAPPDATA%\EightMax-Test-Workbench\Milestone3-0.36.2\ instead; the window shows the path.)
+  The folder opens in Explorer when the run ends.
+
+  Inside the folder:
+    milestone3-results.txt       plain summary: machine, every check, error / warning counts, OVERALL
+    milestone3-results.json      the same, machine-readable
+    gameplay-acceptance.json     tournament / elimination / recovery tests with real windows
+    gameplay-stability.json      1, 2, 5 and 8 tables
+    lifecycle-acceptance.json    the Milestone 2 window tests (closing, minimising, reopening ...)
+    lifecycle-exit-audit.json    how quickly the test program exited after writing its report
+    host-start\                  desktop program start / build-from-source checks
+    unit-tests.tap               automatic tests without windows
+    *.out.txt / *.err.txt        raw logs of every step
+
+OPTIONS (advanced, add after the .cmd name in a Command Prompt)
+  -FullSuite            run every automatic test (longer)
+  -SkipStability        skip the 1/2/5/8-table stability part
+  -StabilitySeconds 60  length of each stability part
+  -CampaignHands 120    also play whole tournaments until 120 hands are completed (adds time)
+
+WHAT "PASSED" MEANS
+  Every required check passed on this computer with real windows. A FAILED result is still
+  useful: send the ZIP; every failed check names what went wrong.

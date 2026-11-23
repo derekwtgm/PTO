@@ -1,0 +1,19 @@
+EightMax 0.36.2 Milestone 3 tests. Results folder: D:\a\_temp\m3-results
+The mouse will move by itself inside the EightMax test tables. Do not touch the mouse or keyboard until this finishes.
+
+==== lifecycle (17:23:44)
+[lifecycle: scripted gameplay] PASS J: Scripted practice plays hand after hand (no regression): 6 checks passed in 31 s
+[lifecycle: capture lifecycle] PASS A: Window closes during capture: 8 checks passed in 8 s
+[lifecycle: input cancellation] PASS B: Window closes during mouse movement: 7 checks passed in 12 s
+[lifecycle: capture lifecycle] PASS C: Simulator restarts with a different handle: 10 checks passed in 12 s
+[lifecycle: capture lifecycle] PASS D: Temporary capture failures (injected while the window stays open): 6 checks passed in 12 s
+[lifecycle: capture lifecycle] PASS E: Minimised window: 5 checks passed in 10 s
+[lifecycle: input cancellation] PASS F: Several tables, one closes: 6 checks passed in 17 s
+[lifecycle: safety] PASS G: Emergency stop during recovery: 5 checks passed in 8 s
+[lifecycle: capture lifecycle] PASS H: Repeated target-loss signals: 6 checks passed in 4 s
+[lifecycle: input cancellation] PASS I: Identity mismatch / handle reuse: no inherited permission: 5 checks passed in 3 s
+[lifecycle: capture lifecycle] PASS K: Window resized while playing (geometry / display-scaling re-check): 3 checks passed in 8 s
+[runner cleanup] PASS lifecycle-acceptance: process cleanup (children exited, no live timers): {"PipeWrap":2}
+[runner cleanup] PASS lifecycle runner exits by itself after its report; exit code matches: report -> exit 15 ms, exit 0, live at report: {"PipeWrap":2}
+
+Phases lifecycle: 13 checks, 0 failed

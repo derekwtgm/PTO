@@ -1,0 +1,41 @@
+GitHub Actions run 45163715758 (https://github.com/derekwtgm/PTO/actions/runs/45163715758) - workflow .github/workflows/windows-0362-m2.yml on branch milestone-2-0362
+First Windows execution of the Milestone 2 runner (windows/Test-Milestone2-0362.ps1). Result: FAILURE.
+The results artifact could not be downloaded from this development session (artifact storage host not allowed by its network policy).
+Step summary:
+  Set up job: success (2026-11-23T11:16:44Z - 2026-11-23T11:16:44Z)
+  Run actions/checkout@v4: success (2026-11-23T11:16:44Z - 2026-11-23T11:16:51Z)
+  Run actions/setup-python@v5: success (2026-11-23T11:16:51Z - 2026-11-23T11:16:52Z)
+  Verify and extract the Milestone 2 package: success (2026-11-23T11:16:52Z - 2026-11-23T11:16:54Z)
+  Parse every Windows PowerShell script (Windows PowerShell 5.1 parser): success (2026-11-23T11:16:54Z - 2026-11-23T11:16:57Z)
+  Set the runner desktop to 1920x1080 (test environment only; matches the earlier 0.35 Windows CI): success (2026-11-23T11:16:57Z - 2026-11-23T11:17:00Z)
+  Milestone 2 Windows tests (same script as RUN-0362-MILESTONE2-TESTS.cmd): failure (2026-11-23T11:17:00Z - 2026-11-23T11:29:18Z)
+  Upload results: success (2026-11-23T11:29:18Z - 2026-11-23T11:29:19Z)
+  Post Run actions/setup-python@v5: skipped (2026-11-23T11:29:19Z - 2026-11-23T11:29:19Z)
+  Post Run actions/checkout@v4: success (2026-11-23T11:29:19Z - 2026-11-23T11:29:21Z)
+  Complete job: success (2026-11-23T11:29:21Z - 2026-11-23T11:29:21Z)
+
+Test step log (verbatim):
+﻿2026-11-23T11:17:00.5583721Z ##[group]Run Set-Location $env:W
+2026-11-23T11:17:00.5583975Z [36;1mSet-Location $env:W[0m
+2026-11-23T11:17:00.5584358Z [36;1mpowershell -NoProfile -ExecutionPolicy Bypass -File windows\Test-Milestone2-0362.ps1 -OutDir "$env:RUNNER_TEMP\m2-results" *> "$env:RUNNER_TEMP\logs\milestone2.log"[0m
+2026-11-23T11:17:00.5584931Z [36;1m$code = $LASTEXITCODE; Get-Content "$env:RUNNER_TEMP\logs\milestone2.log"; "exit $code" | Tee-Object -Append "$env:RUNNER_TEMP\logs\milestone2.log"[0m
+2026-11-23T11:17:00.5585259Z [36;1mexit $code[0m
+2026-11-23T11:17:00.5630412Z shell: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.EXE -command ". '{0}'"
+2026-11-23T11:17:00.5630802Z env:
+2026-11-23T11:17:00.5630954Z   M2_ZIP: EightMax-Test-Workbench-0.36.2-Milestone-2.zip
+2026-11-23T11:17:00.5631176Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-23T11:17:00.5631421Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-11-23T11:17:00.5631665Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-23T11:17:00.5631914Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-23T11:17:00.5632127Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-23T11:17:00.5632320Z   W: D:\a\PTO\PTO\work\EightMax-Test-Workbench
+2026-11-23T11:17:00.5632473Z ##[endgroup]
+2026-11-23T11:29:18.7942892Z powershell : Exception calling "Serialize" with "1" argument(s): "A circular reference was detected while serializing 
+2026-11-23T11:29:18.7944348Z an object of 
+2026-11-23T11:29:18.7944762Z At D:\a\_temp\b68bd13f-7b18-4bfe-bbe3-30bd407c4eb4.ps1:3 char:1
+2026-11-23T11:29:18.7945379Z + powershell -NoProfile -ExecutionPolicy Bypass -File windows\Test-Mile ...
+2026-11-23T11:29:18.7945810Z + ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2026-11-23T11:29:18.7946658Z     + CategoryInfo          : NotSpecified: (Exception calli...g an object of :String) [], RemoteException
+2026-11-23T11:29:18.7947255Z     + FullyQualifiedErrorId : NativeCommandError
+2026-11-23T11:29:18.7947637Z  
+2026-11-23T11:29:18.8126094Z ##[error]Process completed with exit code 1.

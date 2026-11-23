@@ -1,0 +1,528 @@
+{
+  "format": "eightmax-windows-ci-evidence",
+  "version": 1,
+  "note": "Facts read from GitHub Actions job logs (repository derekwtgm/pie). Executables are identified by SHA-256 computed from the exact candidate ZIP the run tested; the CI script exits with code 2 when the candidate's checksum does not match, and the job concluded 'success'. 0.35: records \"0.35.0 ...\" come from workbench-ci035 runs (ci-results/0.35/ on the development branch).",
+  "runs": [
+    {
+      "release": "0.29.0 candidate ci9",
+      "runId": 44374396745,
+      "jobId": 135049518078,
+      "date": "2026-11-18",
+      "conclusion": "success",
+      "runner": "GitHub-hosted windows-latest: Microsoft Windows Server 2025 Datacenter, no GPU, virtual display",
+      "candidate": "candidate/EightMax-Test-Workbench-0.29.0-ci9.zip (branch claude/workbench-0.29-windows-ci, commit 650019d9)",
+      "candidateSha256": "9ebaad67a275a994e63017bddcffd928f84f3076225ffa618c255e4f4f282940",
+      "executables": {
+        "desktop/bin/EightMaxWorkbench.exe": "2a874b54a888b846ac2104c75a37432fc1408e201c20394eca82183b3d841afd",
+        "desktop/bin/EightMaxCapture.exe": "7079843d772b9c7d3d361a434a97bd36cbb8a5af82f5ffa0c8dc30c0a25f4f81",
+        "desktop/bin/EightMaxWgc.exe": "960ed704a4559d4626aed270e2e9f1f4d3196b43ca4d5d0550fc36acb4e87995",
+        "native/mwcli.exe": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+        "runtime/node/node.exe": "247e9693d316da9857e44990e5e11709f596f18112251b8026ec6eed80bdf38a"
+      },
+      "observed": {
+        "desktop/bin/EightMaxWorkbench.exe": "desktop host health, consent, native jobs (cancel/resume/history/batches), graceful shutdown (release acceptance)",
+        "desktop/bin/EightMaxCapture.exe": "capture self-test PASS: 8 stages, 0 failed",
+        "desktop/bin/EightMaxWgc.exe": "WGC self-test PASS: 13 stages, 0 failed; invalid handle and bad arguments refused",
+        "native/mwcli.exe": "EightMaxBuild=7d08acc7eb4577ee printed; 2000-update CPU run exit 0",
+        "runtime/node/node.exe": "Node regression suite: 704 tests, 679 pass, 0 fail, 25 skipped"
+      },
+      "releaseAcceptance": "81 of 81 checks (from the 0.29 release report; the fetched log tail shows the results collector: 5 reports, 153 checks passed, 0 failed)"
+    },
+    {
+      "release": "0.30.0 release ZIP (pre-metadata update)",
+      "runId": 44417377797,
+      "jobId": 135201096707,
+      "date": "2026-11-18",
+      "conclusion": "success",
+      "runner": "GitHub-hosted windows-latest: Windows Server 2025, no GPU, virtual display 1024x768",
+      "candidate": "releases/EightMax-Test-Workbench-0.30.0.zip (branch ccr-1fc8ac0b-2e4u9o, commit 81b6dabd)",
+      "candidateSha256": "7ee968937eaa6766dc696d810c43ea3d2e98740df604a754599351b277df243c",
+      "executables": {
+        "desktop/bin/EightMaxWorkbench.exe": "0b615a616c0aee10e0bc583c42df8664e042165a8e930d870599b23d82826432",
+        "desktop/bin/EightMaxCapture.exe": "5f4daad24c3fbdc787f58dd4189771d15f01ec43954757fa95374953f751a59f",
+        "desktop/bin/EightMaxWgc.exe": "29006452aed51a51584c2cc0dc879e9ebeb8f24c4b736df5dbac2944bd109aed",
+        "native/mwcli.exe": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+        "runtime/node/node.exe": "247e9693d316da9857e44990e5e11709f596f18112251b8026ec6eed80bdf38a"
+      },
+      "observed": {
+        "desktop/bin/EightMaxWorkbench.exe": "desktop acceptance PASS (release acceptance), graceful shutdown, native jobs",
+        "desktop/bin/EightMaxCapture.exe": "capture acceptance 14/14 checks, self-test 8 stages 0 failed",
+        "desktop/bin/EightMaxWgc.exe": "WGC acceptance PASS: self-test 13 stages 0 failed; bad arguments refused",
+        "native/mwcli.exe": "EightMaxBuild=7d08acc7eb4577ee; strategy-library precompute of 8 flop studies, library benchmark D/B/A/C at 1-2 tables",
+        "runtime/node/node.exe": "Node suite 734 tests, 709 pass, 0 fail, 25 skipped; strategy-library catalog/precompute/verify (8 of 8 ok)/export"
+      },
+      "releaseAcceptance": "RUN-RELEASE-ACCEPTANCE (Test-Release.ps1 -IncludeInstall): PASS; results collector: 5 reports passed, 153 checks passed, 0 failed (the job-log tail fetched did not include the per-check total)"
+    },
+    {
+      "release": "0.33.0 build stage",
+      "runId": 44531610774,
+      "date": "2026-11-19",
+      "conclusion": "success",
+      "stage": "build (workflow 'EightMax Test Workbench 0.33 - Windows build stage', branch claude/workbench-0.33.0-release, commit 8bb5c163)",
+      "runner": "GitHub-hosted windows-latest: Microsoft Windows Server 2025 Datacenter 10.0.26100, AMD EPYC 9V74, 16 GiB, no GPU (Microsoft Hyper-V Video), virtual display 1024x768 at 100 %",
+      "candidate": "executables compiled in this run from workbench-src (identical to desktop/ sources of the release)",
+      "resultsBranch": "claude/workbench-0.33.0-ci-results: runs/build-44531610774-1 (build-log.txt, build-smoke.json, wgc-selftest/)",
+      "executables": {
+        "desktop/bin/EightMaxCapture.exe": "101a3aae95e4d7274e86a8857d7a79bbef940a64ff2ea585de47e2eabc40f978",
+        "desktop/bin/EightMaxWgc.exe": "99b8ba4876d1b71f5bbe0cd50ae6914228d02977a91ba07e101b9bb65f9448bb"
+      },
+      "observed": {
+        "desktop/bin/EightMaxCapture.exe": "version 0.33.0; list-monitors (1024x768, dpiScale 1); selftest: 8 checks PASS (window capture, resize, minimized/closed detection)",
+        "desktop/bin/EightMaxWgc.exe": "--version 0.33.0; --probe supported=true; --selftest: 13 checks PASS (hardware device session, frames, resize, wrong-process refusal, minimized, restore, 5 repeated sessions with 0 MiB growth, closed handle)"
+      },
+      "notExecutedInThisRun": {
+        "desktop/bin/EightMaxWorkbench.exe": "compiled only (sha256 6efb0208...); the host is executed by the validation stage"
+      }
+    },
+    {
+      "release": "0.33.0 candidate",
+      "runId": 44575197928,
+      "date": "2026-11-19",
+      "conclusion": "success",
+      "stage": "validation (workflow 'EightMax Test Workbench 0.33 - Windows validation', branch claude/workbench-0.33.0-release, commit b0fc08d)",
+      "runner": "GitHub-hosted windows-latest: Microsoft Windows Server 2025 Datacenter 10.0.26100, AMD EPYC 7763 (4 logical), 16 GiB, no GPU, virtual display",
+      "candidate": "releases/EightMax-Test-Workbench-0.33.0.zip (candidate)",
+      "candidateSha256": "ecfd20e49d2b585dcb1afbb37769c2d325a3411d041b7370541fab9c49b95596",
+      "resultsBranch": "claude/workbench-0.33.0-ci-results: runs/validate-44575197928-1",
+      "executables": {
+        "desktop/bin/EightMaxWorkbench.exe": "6efb020891f1468c71d3313a2589763d820bdcfcbf8c15cf4eff81937b0e2634",
+        "desktop/bin/EightMaxCapture.exe": "101a3aae95e4d7274e86a8857d7a79bbef940a64ff2ea585de47e2eabc40f978",
+        "desktop/bin/EightMaxWgc.exe": "99b8ba4876d1b71f5bbe0cd50ae6914228d02977a91ba07e101b9bb65f9448bb",
+        "native/mwcli.exe": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+        "runtime/node/node.exe": "247e9693d316da9857e44990e5e11709f596f18112251b8026ec6eed80bdf38a"
+      },
+      "observed": {
+        "desktop/bin/EightMaxWorkbench.exe": "release acceptance 81/81 checks PASS incl. desktop host health, consent, authentication and origin refusal, host capture (PrintWindow and WGC session), native jobs, cancellation/resume, history, graceful shutdown; install, uninstall, rollback",
+        "desktop/bin/EightMaxCapture.exe": "release acceptance capture checks PASS (self-test 8 stages)",
+        "desktop/bin/EightMaxWgc.exe": "release acceptance WGC checks PASS (13 stages, invalid handle and bad arguments refused, process cleanup)",
+        "native/mwcli.exe": "preflop modes A/B/B169 at 200,000 updates (state sizes identical to the Linux build), state anatomy, 0.32 research tools, multiway cross-check 60.750 %",
+        "runtime/node/node.exe": "Node suite 848 tests: 822 pass, 0 fail, 26 skipped (Mono 13, FFmpeg 6, Playwright 4, Linux shell stubs 3); flop solver 3 boards to 0.28-0.38 % of the pot"
+      },
+      "notPassed": {
+        "tools/strategy-library.cjs ranges": "exit 1: EPERM mkdir 'C:\\\\' (library at a drive root) - fixed in the final release, not re-run on this candidate",
+        "windows/Test-LongDuration.ps1 -Quick": "exit 1: the run stopped in stage 6 (ten-table simulation) and the report still said passed (pre-existing reporting defect) - reporting fixed in the final release; the stage-6 error itself was not visible in the log"
+      }
+    },
+    {
+      "release": "0.33.0 pre-final ZIP",
+      "runId": 44581998216,
+      "date": "2026-11-19",
+      "conclusion": "success",
+      "stage": "validation (commit 8d52d98)",
+      "runner": "GitHub-hosted windows-latest: Microsoft Windows Server 2025 Datacenter 10.0.26100, AMD EPYC 7763 (4 logical), 16 GiB, no GPU, virtual display",
+      "candidate": "releases/EightMax-Test-Workbench-0.33.0.zip (pre-final)",
+      "candidateSha256": "c8a6f312802095e94635e59f53d976b2a8d18d1fe2d40a76c303e38e19a68a42",
+      "resultsBranch": "claude/workbench-0.33.0-ci-results: runs/validate-44581998216-1",
+      "executables": {
+        "desktop/bin/EightMaxWorkbench.exe": "6efb020891f1468c71d3313a2589763d820bdcfcbf8c15cf4eff81937b0e2634",
+        "desktop/bin/EightMaxCapture.exe": "101a3aae95e4d7274e86a8857d7a79bbef940a64ff2ea585de47e2eabc40f978",
+        "desktop/bin/EightMaxWgc.exe": "99b8ba4876d1b71f5bbe0cd50ae6914228d02977a91ba07e101b9bb65f9448bb",
+        "native/mwcli.exe": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+        "runtime/node/node.exe": "247e9693d316da9857e44990e5e11709f596f18112251b8026ec6eed80bdf38a"
+      },
+      "observed": {
+        "desktop/bin/EightMaxWorkbench.exe": "release acceptance 81/81 checks PASS incl. desktop host health, consent, authentication and origin refusal, host capture (PrintWindow and WGC session), native jobs, cancellation/resume, history, graceful shutdown; install, uninstall, rollback",
+        "desktop/bin/EightMaxCapture.exe": "release acceptance capture checks PASS (self-test 8 stages)",
+        "desktop/bin/EightMaxWgc.exe": "release acceptance WGC checks PASS (13 stages, invalid handle and bad arguments refused, process cleanup)",
+        "native/mwcli.exe": "preflop modes A/B/B169 at 200,000 updates (state sizes identical to the Linux build), state anatomy, 0.32 research tools, multiway cross-check 60.750 %",
+        "runtime/node/node.exe": "Node suite 848 tests: 822 pass, 0 fail, 26 skipped; preflop modes, flop solver, multiway validation exit 0"
+      },
+      "notPassed": {
+        "tools/strategy-library.cjs ranges": "exit 1: 'Unknown command ranges' - a regression introduced by the first 0.33 fix (a // comment cut the handler); fixed and covered by a new test in the final release",
+        "windows/Test-LongDuration.ps1 -Quick": "report now FAILS correctly with the cause: Substring called with the untrimmed output length in the stage-5 quality check (pre-existing); fixed in the final release"
+      }
+    },
+    {
+      "release": "0.35.0 build + test run",
+      "runId": 44761098673,
+      "date": null,
+      "conclusion": "see stages",
+      "runner": "GitHub-hosted windows-latest: Microsoft Windows Server 2025 Datacenter, no GPU, Hyper-V virtual display set to 1920x1080 at 100 %",
+      "candidate": "assembled from the 0.33.0 ZIP + workbench-src (commit 5bf42da46ec4)",
+      "executables": {
+        "desktop/bin/EightMaxCapture.exe": "5801422c4f6f57ba7dd3ec0dd2853d990e7671fd4e2a72693fbf9cfdcbc00729",
+        "desktop/bin/EightMaxInput.exe": "e9a285e9d9a108ae545375d66fa66253d58f73ac974c9f4db5e39e77bb827cc4",
+        "desktop/bin/EightMaxTestTable.exe": "efbb1faef451e4fb3312998805d4c1e40fd7f3561cc419713a4add1a193861d0",
+        "desktop/bin/EightMaxWorkbench.exe": "180c0ba968939af6d300f333e6e0cd9e7d3e36de7b1cb019aeac2476641a4561"
+      },
+      "observed": {
+        "desktop/bin/EightMaxInput.exe": "input self-test 4/4 (system); input acceptance 26/29 checks on the controlled test tables",
+        "desktop/bin/EightMaxTestTable.exe": "controlled test table in the input acceptance (26/29)",
+        "runtime/node/node.exe": "Node node-tests-035.txt: 9 tests, 8 pass, 1 fail, 0 skipped"
+      },
+      "stages": {
+        "base": {
+          "exit": 0,
+          "detail": "024614aa4506633b824576fc515c0b39cfd6d3bfcebb9eb483e5d170fdf2bd78"
+        },
+        "build": {
+          "exit": 0,
+          "detail": null
+        },
+        "input-selftest": {
+          "exit": 1,
+          "detail": null
+        },
+        "node-tests-035": {
+          "exit": 1,
+          "detail": null
+        },
+        "input-acceptance": {
+          "exit": 1,
+          "detail": null
+        }
+      },
+      "tests": {
+        "file": "node-tests-035.txt",
+        "tests": 9,
+        "pass": 8,
+        "fail": 1,
+        "cancelled": 0,
+        "skipped": 0,
+        "failed": [
+          "driver: smooth movement follows the minimum-jerk plan, respects limits and ends exactly on target\r"
+        ]
+      }
+    },
+    {
+      "release": "0.35.0 build + test run",
+      "runId": 44763757926,
+      "date": null,
+      "conclusion": "see stages",
+      "runner": "GitHub-hosted windows-latest: Microsoft Windows Server 2025 Datacenter, no GPU, Hyper-V virtual display set to 1920x1080 at 100 %",
+      "candidate": "assembled from the 0.33.0 ZIP + workbench-src (commit 42a71e4fc97e)",
+      "executables": {
+        "desktop/bin/EightMaxCapture.exe": "a67e83b95c4cf2ed4caf455622462f57cacfb98c53311060331f324d75695797",
+        "desktop/bin/EightMaxInput.exe": "7c410e25d0e0e6518f47f01e44d7e5ae802edc3a696d6137c702785af439f94f",
+        "desktop/bin/EightMaxTestTable.exe": "e095578e99f4e9ea4c11893365727acaea5bfb11222ba2738d6dd96c6ed0a190",
+        "desktop/bin/EightMaxWorkbench.exe": "8bc76b562e8832c43b1f02e5c34b9c12d606af889b715cb3a4ab1b92380cc133"
+      },
+      "observed": {
+        "desktop/bin/EightMaxInput.exe": "input self-test 9/11 (per-monitor-v2); input acceptance 29/29 checks on the controlled test tables",
+        "desktop/bin/EightMaxTestTable.exe": "controlled test table in the input acceptance (29/29)",
+        "desktop/bin/EightMaxWorkbench.exe": "end-to-end benchmark through the host (capture + input broker): stress: sustainable 0 tables, 305 confirmed, 0 incorrect clicks, 0 incorrect wagers",
+        "runtime/node/node.exe": "Node node-tests-035.txt: 19 tests, 19 pass, 0 fail, 0 skipped"
+      },
+      "stages": {
+        "base": {
+          "exit": 0,
+          "detail": "024614aa4506633b824576fc515c0b39cfd6d3bfcebb9eb483e5d170fdf2bd78"
+        },
+        "build": {
+          "exit": 0,
+          "detail": null
+        },
+        "input-selftest": {
+          "exit": 1,
+          "detail": null
+        },
+        "node-tests-035": {
+          "exit": 0,
+          "detail": null
+        },
+        "input-acceptance": {
+          "exit": 0,
+          "detail": null
+        },
+        "simulator-benchmark": {
+          "exit": 0,
+          "detail": null
+        }
+      },
+      "tests": {
+        "file": "node-tests-035.txt",
+        "tests": 19,
+        "pass": 19,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "failed": []
+      }
+    },
+    {
+      "release": "0.35.0 build + test run",
+      "runId": 44766260365,
+      "date": null,
+      "conclusion": "see stages",
+      "runner": "GitHub-hosted windows-latest: Microsoft Windows Server 2025 Datacenter, no GPU, Hyper-V virtual display set to 1920x1080 at 100 %",
+      "candidate": "assembled from the 0.33.0 ZIP + workbench-src (commit 224235e979c8)",
+      "executables": {
+        "desktop/bin/EightMaxCapture.exe": "1a65182a907d45d4c7822dc249f25f5d88e44d7b08040e1516604526a41d2741",
+        "desktop/bin/EightMaxInput.exe": "fa2f389e951b92f5115e5aeb0d3221454f2d97377a685c34fe09295e40949682",
+        "desktop/bin/EightMaxTestTable.exe": "3bb2ef7e1bc336890861bdf6a48ef3a36b3116dc095f010434ffdf3d345184a9",
+        "desktop/bin/EightMaxWorkbench.exe": "659c23cb792b4630475f0b384d21c14f312c11e19adc023bdf6d289d40044fa7"
+      },
+      "observed": {
+        "desktop/bin/EightMaxInput.exe": "input self-test 11/11 (per-monitor-v2); input acceptance 29/29 checks on the controlled test tables",
+        "desktop/bin/EightMaxTestTable.exe": "controlled test table in the input acceptance (29/29)",
+        "desktop/bin/EightMaxWorkbench.exe": "end-to-end benchmark through the host (capture + input broker): stress: sustainable 5 tables, 276 confirmed, 0 incorrect clicks, 0 incorrect wagers; realistic: sustainable 5 tables, 165 confirmed, 0 incorrect clicks, 0 incorrect wagers",
+        "runtime/node/node.exe": "Node node-tests-035.txt: 21 tests, 20 pass, 0 fail, 1 skipped"
+      },
+      "stages": {
+        "base": {
+          "exit": 0,
+          "detail": "024614aa4506633b824576fc515c0b39cfd6d3bfcebb9eb483e5d170fdf2bd78"
+        },
+        "build": {
+          "exit": 0,
+          "detail": null
+        },
+        "input-selftest": {
+          "exit": 0,
+          "detail": null
+        },
+        "node-tests-035": {
+          "exit": 0,
+          "detail": null
+        },
+        "input-acceptance": {
+          "exit": 0,
+          "detail": null
+        },
+        "simulator-benchmark": {
+          "exit": 0,
+          "detail": null
+        }
+      },
+      "tests": {
+        "file": "node-tests-035.txt",
+        "tests": 21,
+        "pass": 20,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 1,
+        "failed": []
+      }
+    },
+    {
+      "release": "0.35.0 build + test run",
+      "runId": 44768740044,
+      "date": null,
+      "conclusion": "see stages",
+      "runner": "GitHub-hosted windows-latest: Microsoft Windows Server 2025 Datacenter, no GPU, Hyper-V virtual display set to 1920x1080 at 100 %",
+      "candidate": "assembled from the 0.33.0 ZIP + workbench-src (commit 67255105fc82)",
+      "executables": {
+        "desktop/bin/EightMaxCapture.exe": "a9f4fdae21482a81802444b1a023db6d3b312c6af98788f7a0d60c9e3cf68cc5",
+        "desktop/bin/EightMaxInput.exe": "6a408862db96dac557ddf675521c735626208404b123c15c8546093f6b3ba233",
+        "desktop/bin/EightMaxTestTable.exe": "45d09141d848dd93073de7943bad0bdc8f22c694e9f934997732d5759bd9edbe",
+        "desktop/bin/EightMaxWgc.exe": "bc001504382306e180af0f76abf0836d561faa07e8c210317df73048e55cafc1",
+        "desktop/bin/EightMaxWorkbench.exe": "2c2b6e5c70200137f2f42b557329ed130adb553c3bf4392d7ea0e74e7b1a46cb"
+      },
+      "observed": {
+        "desktop/bin/EightMaxInput.exe": "input self-test 10/11 (per-monitor-v2); input acceptance 29/29 checks on the controlled test tables",
+        "desktop/bin/EightMaxTestTable.exe": "controlled test table in the input acceptance (29/29)",
+        "desktop/bin/EightMaxWorkbench.exe": "end-to-end benchmark through the host (capture + input broker): stress: sustainable 5 tables, 247 confirmed, 0 incorrect clicks, 0 incorrect wagers; realistic: sustainable 5 tables, 151 confirmed, 0 incorrect clicks, 0 incorrect wagers",
+        "runtime/node/node.exe": "Node node-tests-all.txt: 876 tests, 840 pass, 9 fail, 27 skipped"
+      },
+      "stages": {
+        "base": {
+          "exit": 0,
+          "detail": "024614aa4506633b824576fc515c0b39cfd6d3bfcebb9eb483e5d170fdf2bd78"
+        },
+        "build": {
+          "exit": 0,
+          "detail": null
+        },
+        "input-selftest": {
+          "exit": 1,
+          "detail": null
+        },
+        "node-tests-035": {
+          "exit": 0,
+          "detail": null
+        },
+        "input-acceptance": {
+          "exit": 0,
+          "detail": null
+        },
+        "simulator-benchmark": {
+          "exit": 0,
+          "detail": null
+        },
+        "node-tests-all": {
+          "exit": 1,
+          "detail": null
+        }
+      },
+      "tests": {
+        "file": "node-tests-all.txt",
+        "tests": 876,
+        "pass": 840,
+        "fail": 9,
+        "cancelled": 0,
+        "skipped": 27,
+        "failed": [
+          "component metadata is generated from evidence and never claims Windows execution without a matching hash",
+          "release metadata: one version everywhere, honest component statuses, new reports and docs present",
+          "release metadata (0.32 rules, current release): version everywhere, honest component statuses, 0.32 reports present, solver build unchanged",
+          "release metadata 0.33: component statuses come from evidence; the Windows-built executables carry the current version (0.35.0); the native engine is unchanged",
+          "checksum manifest covers every shipped file and verifies",
+          "one application version everywhere",
+          "standalone START.html is exactly what tools/build.py produces from the sources",
+          "the shipped helper is a win-x64 PE32+ executable and the host and capture tool were rebuilt from the shipped sources",
+          "the shipped helper is a Windows x64 PE that identifies itself as 0.35.0 and matches its recorded hash"
+        ]
+      }
+    },
+    {
+      "release": "0.35.0 build + test run",
+      "runId": 44773047062,
+      "date": null,
+      "conclusion": "see stages",
+      "runner": "GitHub-hosted windows-latest: Microsoft Windows Server 2025 Datacenter, no GPU, Hyper-V virtual display set to 1920x1080 at 100 %",
+      "candidate": "assembled from the 0.33.0 ZIP + workbench-src (commit 83e9fc7e61de)",
+      "executables": {
+        "desktop/bin/EightMaxCapture.exe": "8782f0a80dcf48a3505e58bdd4098595989843b8823fb78ec8846fb452e8c437",
+        "desktop/bin/EightMaxInput.exe": "fb39c91a2238de5e8c4ef95a99c0078d3b3e99d3258c61196d25e60f448afb5e",
+        "desktop/bin/EightMaxTestTable.exe": "b5eacb98064fe1e969a0d8cbdafbe4a77bf9c6424459123d67da8465b4c3dc85",
+        "desktop/bin/EightMaxWorkbench.exe": "6fbf0d80a69ea5c61badede0db40b3906de0fd0172b4b4e49c223e072306fd66"
+      },
+      "observed": {
+        "desktop/bin/EightMaxInput.exe": "input self-test 11/11 (per-monitor-v2); input acceptance 29/29 checks on the controlled test tables",
+        "desktop/bin/EightMaxTestTable.exe": "controlled test table in the input acceptance (29/29)",
+        "desktop/bin/EightMaxWorkbench.exe": "end-to-end benchmark through the host (capture + input broker): stress: sustainable 5 tables, 258 confirmed, 0 incorrect clicks, 0 incorrect wagers; realistic: sustainable 5 tables, 156 confirmed, 0 incorrect clicks, 0 incorrect wagers",
+        "runtime/node/node.exe": "Node node-tests-035.txt: 27 tests, 26 pass, 0 fail, 1 skipped"
+      },
+      "stages": {
+        "base": {
+          "exit": 0,
+          "detail": "024614aa4506633b824576fc515c0b39cfd6d3bfcebb9eb483e5d170fdf2bd78"
+        },
+        "build": {
+          "exit": 0,
+          "detail": null
+        },
+        "input-selftest": {
+          "exit": 0,
+          "detail": null
+        },
+        "node-tests-035": {
+          "exit": 0,
+          "detail": null
+        },
+        "input-acceptance": {
+          "exit": 0,
+          "detail": null
+        },
+        "simulator-benchmark": {
+          "exit": 0,
+          "detail": null
+        }
+      },
+      "tests": {
+        "file": "node-tests-035.txt",
+        "tests": 27,
+        "pass": 26,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 1,
+        "failed": []
+      }
+    },
+    {
+      "release": "0.36.2-dev Milestone 1 build + focused Windows checks",
+      "runId": 45083913369,
+      "date": "2026-11-22T23:44:19.975679+00:00",
+      "conclusion": "milestone-1 checks passed",
+      "runner": "GitHub-hosted windows-latest: Microsoft Windows Server 2025 Datacenter 10.0.26100 build 26100, screen 1920x1080 at 0,0",
+      "candidate": "0.36.1 ZIP 2586ebf67103937bd6fadbfc2aa4d32a5787cf02693a8fb215876d4ea038e487 + milestone-1 overlay at 5063e9616d08820a35a0d17505d064489a643c54",
+      "executables": {
+        "desktop/bin/EightMaxWorkbench.exe": "845578b9a6596009e68ce6f182d47ae20ddd511f58b9c37a3d4b12e1c7f32290",
+        "desktop/bin/EightMaxInput.exe": "93867a03f43534d65d41853901b706bb892456894cb118f89b5d4a80bce71da1",
+        "desktop/bin/EightMaxTestTable.exe": "3e5a76995a24d169336179e7e3805ddeb57271d951029226b43653c217464348",
+        "native/mwcli.exe": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+        "runtime/node/node.exe": "247e9693d316da9857e44990e5e11709f596f18112251b8026ec6eed80bdf38a"
+      },
+      "observed": {
+        "desktop/bin/EightMaxWorkbench.exe": "Milestone 1: headless and window launch, health/session/native identity, input broker, capture of the controlled table, authenticated and window-close shutdown (13/13 host/shutdown/native checks)",
+        "desktop/bin/EightMaxInput.exe": "Milestone 1: started by the host, hello/token, capabilities and queries (11/11 input/capability/ipc checks); input acceptance 29/29",
+        "desktop/bin/EightMaxTestTable.exe": "Milestone 1: window opened, dealer protocol describe/frame/close, captured by the host (3/3 test-table checks)",
+        "native/mwcli.exe": "--build-id EightMaxBuild=7d08acc7eb4577ee; hash verified by the rebuilt host",
+        "runtime/node/node.exe": "Node regression suite: 897 tests, 874 pass, 0 fail, 23 skipped"
+      },
+      "milestone1": {
+        "total": 50,
+        "passed": 50,
+        "failed": 0,
+        "warnings": 0
+      },
+      "inputSelfTest": {
+        "driver": "0.36.2-dev",
+        "passed": 11,
+        "total": 11,
+        "ok": true,
+        "dpiAwareness": "per-monitor-v2"
+      },
+      "inputAcceptance": {
+        "checks": 29,
+        "passed": 29
+      },
+      "benchmarkSmoke": {
+        "app": "0.36.2-dev",
+        "sustainableTables": {
+          "stress": 1
+        },
+        "runErrors": []
+      },
+      "regression": {
+        "tests": 897,
+        "pass": 874,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 23
+      }
+    },
+    {
+      "release": "0.36.2-dev Milestone 3 validation",
+      "runId": 45225443410,
+      "date": "2026-11-23T17:55:56.4854606Z",
+      "conclusion": "milestone-3 checks passed (51/51)",
+      "runner": "GitHub-hosted windows-latest: Microsoft Windows Server 2025 Datacenter 10.0.26100 build 26100, screen 1920x1080 at 100 %",
+      "candidate": "0.36.2 Milestone 2 ZIP 4518a133090be292d3e6d190e6259173d25807323e2156d95f10fcc523febc32 + Milestone 3 overlay at 6a98dc4c4ab1f4d20470887f0ba62f360320753a (branch milestone-3-0362): the final Milestone 3 development tree",
+      "executables": {
+        "desktop/bin/EightMaxWorkbench.exe": "845578b9a6596009e68ce6f182d47ae20ddd511f58b9c37a3d4b12e1c7f32290",
+        "desktop/bin/EightMaxInput.exe": "2c4d7b739ceb617925600c663848d51d21570d5fe566e10fa15713d6d390c91c",
+        "desktop/bin/EightMaxTestTable.exe": "3e5a76995a24d169336179e7e3805ddeb57271d951029226b43653c217464348",
+        "native/mwcli.exe": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+        "runtime/node/node.exe": "247e9693d316da9857e44990e5e11709f596f18112251b8026ec6eed80bdf38a"
+      },
+      "observed": {
+        "desktop/bin/EightMaxWorkbench.exe": "Milestone 3: prebuilt start, forced fallback compile, cache reuse, invalid-cache rebuild, shutdown and port release; desktop host of every phase; Milestone 3 (all 51 checks passed): machine 1/1, identity 10/10, unit 1/1, host-start 7/7, lifecycle: scripted gameplay 1/1, lifecycle: capture lifecycle 6/6, lifecycle: input cancellation 3/3, lifecycle: safety 1/1, runner cleanup 2/2, gameplay 8/8, multi-table 6/6, campaign 3/3, cleanup 2/2",
+        "desktop/bin/EightMaxInput.exe": "Milestone 3: every input of the lifecycle (A-K), gameplay (T1-T6), multi-table (1/2/5/8 tables) and campaign phases on real windows; Milestone 3 (all 51 checks passed): machine 1/1, identity 10/10, unit 1/1, host-start 7/7, lifecycle: scripted gameplay 1/1, lifecycle: capture lifecycle 6/6, lifecycle: input cancellation 3/3, lifecycle: safety 1/1, runner cleanup 2/2, gameplay 8/8, multi-table 6/6, campaign 3/3, cleanup 2/2",
+        "desktop/bin/EightMaxTestTable.exe": "Milestone 3: the controlled test-table windows of every lifecycle, gameplay, multi-table and campaign scenario; Milestone 3 (all 51 checks passed): machine 1/1, identity 10/10, unit 1/1, host-start 7/7, lifecycle: scripted gameplay 1/1, lifecycle: capture lifecycle 6/6, lifecycle: input cancellation 3/3, lifecycle: safety 1/1, runner cleanup 2/2, gameplay 8/8, multi-table 6/6, campaign 3/3, cleanup 2/2",
+        "native/mwcli.exe": "Milestone 3: identity and --build-id (EightMaxBuild=7d08acc7eb4577ee); the engine itself is not exercised by the Milestone 3 tests; Milestone 3 (all 51 checks passed): machine 1/1, identity 10/10, unit 1/1, host-start 7/7, lifecycle: scripted gameplay 1/1, lifecycle: capture lifecycle 6/6, lifecycle: input cancellation 3/3, lifecycle: safety 1/1, runner cleanup 2/2, gameplay 8/8, multi-table 6/6, campaign 3/3, cleanup 2/2",
+        "runtime/node/node.exe": "Milestone 3: ran the complete test suite and every acceptance tool; Milestone 3 (all 51 checks passed): machine 1/1, identity 10/10, unit 1/1, host-start 7/7, lifecycle: scripted gameplay 1/1, lifecycle: capture lifecycle 6/6, lifecycle: input cancellation 3/3, lifecycle: safety 1/1, runner cleanup 2/2, gameplay 8/8, multi-table 6/6, campaign 3/3, cleanup 2/2"
+      },
+      "identifiedOnly": {
+        "desktop/bin/EightMaxCapture.exe": "8180c32910bfd1d5053c42f8c9ccf484bb6146022dc1284e45dbbde622124da0",
+        "desktop/bin/EightMaxWgc.exe": "bc001504382306e180af0f76abf0836d561faa07e8c210317df73048e55cafc1"
+      }
+    }
+  ],
+  "targetHardware": [
+    {
+      "date": "2026-11-18",
+      "machine": "user's PC (Windows 11, i7-13700F, RTX 4060 Ti)",
+      "release": "0.26.0",
+      "executables": {
+        "native/mwcli.exe": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72"
+      },
+      "observed": {
+        "native/mwcli.exe": "2000-update CPU self-test passed (hardware-facts.json)"
+      }
+    }
+  ],
+  "userReported": [
+    {
+      "release": "0.30.0",
+      "machine": "user target PC (Windows 11 Home, i7-13700F, 16 GB, RTX 4060 Ti, 3840x2160 @ 150 %) as described by the user",
+      "source": "user summary of \"test results.zip\" in the 0.31 request; the archive itself was NOT received in the 0.31 build session",
+      "reported": "77 critical release checks passed, 0 critical failures, installation/rollback category skipped; screen capture, Windows Graphics Capture, native solver start-up, desktop communication, graceful shutdown and native process cleanup passed",
+      "usedForStatusFlags": false,
+      "why": "No per-file SHA-256 was available; status flags require the exact hash of each tested file. The 0.31 host, capture tool and WGC helper are rebuilt and are not covered by this report."
+    }
+  ],
+  "notes": [
+    "0.32.0 validation run 44521517069 (2026-11-19) concluded 'success' when the 0.32 branch was pushed, but its log and artifact need an authenticated token this session does not have; it is NOT used as evidence for any file (the CI script exits 0 even when individual checks fail)."
+  ]
+}

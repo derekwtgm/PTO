@@ -1,0 +1,72 @@
+EightMax Test Workbench 0.36.2 - Milestone 3 Windows results
+Date: 2026-11-23 17:08:00
+Machine: Microsoft Windows Server 2025 Datacenter build 26100 | AMD EPYC 7763 64-Core Processor (2 cores, 4 threads) | 16 GiB | scaling 100%
+Results folder: D:\a\_temp\m3-results
+
+machine                      pass   1  fail   0  warn   0
+identity                     pass  10  fail   0  warn   0
+unit                         pass   1  fail   0  warn   0
+host-start                   pass   7  fail   0  warn   0
+lifecycle: scripted gameplay pass   1  fail   0  warn   0
+lifecycle: capture lifecycle pass   6  fail   0  warn   0
+lifecycle: input cancellation pass   3  fail   0  warn   0
+lifecycle: safety            pass   1  fail   0  warn   0
+runner cleanup               pass   1  fail   0  warn   0
+gameplay                     pass   7  fail   1  warn   0
+multi-table                  pass   6  fail   0  warn   0
+campaign                     pass   3  fail   0  warn   0
+cleanup                      pass   2  fail   0  warn   0
+
+[machine] PASS machine details collected: Microsoft Windows Server 2025 Datacenter build 26100; AMD EPYC 7763 64-Core Processor (2 cores, 4 threads); 16 GiB; scaling 100%
+[identity] PASS desktop\bin\EightMaxWorkbench.exe: sha256 845578b9a6596009... version 0.36.2.0 / 0.36.2-dev
+[identity] PASS desktop\bin\EightMaxInput.exe: sha256 2c4d7b739ceb6179... version 0.36.2.0 / 0.36.2-dev
+[identity] PASS desktop\bin\EightMaxTestTable.exe: sha256 3e5a76995a24d169... version 0.36.2.0 / 0.36.2-dev
+[identity] PASS desktop\bin\EightMaxCapture.exe: sha256 8180c32910bfd1d5... version 0.35.0.0 / 0.35.0
+[identity] PASS desktop\bin\EightMaxWgc.exe: sha256 bc001504382306e1... version 0.35.0.0 / 0.35.0
+[identity] PASS native\mwcli.exe: sha256 b3e675bfe2ae231e... version  / 
+[identity] PASS runtime\node\node.exe: sha256 247e9693d316da98... version 22.23.5 / 22.23.5
+[identity] PASS release checksums (SHA256SUMS.txt): every shipped file matches
+[identity] PASS EightMax 5.1 binary unchanged: b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72
+[identity] PASS EightMax 5.1 build id: EightMaxBuild=7d08acc7eb4577ee
+[unit] PASS regression tests (complete suite): 900 passed, 0 failed, 65 skipped
+[host-start] PASS prebuilt host launch: path prebuilt; shutdown ok, port free after 101 ms, input driver gone
+[host-start] PASS forced fallback compile with a fresh cache: path compiled; shutdown ok, port free after 89 ms, input driver gone
+[host-start] PASS repeated start reuses the valid cache: path cache; shutdown ok, port free after 115 ms, input driver gone
+[host-start] PASS invalid cache: corrupted executable is rebuilt: path compiled, invalid cache: cached executable does not match its recorded hash; shutdown ok, port free after 108 ms, input driver gone
+[host-start] PASS invalid cache: manifest of other sources is rebuilt: path compiled, invalid cache: cache manifest sources differ; shutdown ok, port free after 100 ms, input driver gone
+[host-start] PASS an old (Milestone 2) cache key is never reused: path cache; shutdown ok, port free after 117 ms, input driver gone
+[host-start] PASS build-only compiles or reuses without launching: path cache
+[lifecycle: scripted gameplay] PASS J: Scripted practice plays hand after hand (no regression): 6 checks passed in 34 s
+[lifecycle: capture lifecycle] PASS A: Window closes during capture: 8 checks passed in 8 s
+[lifecycle: input cancellation] PASS B: Window closes during mouse movement: 7 checks passed in 12 s
+[lifecycle: capture lifecycle] PASS C: Simulator restarts with a different handle: 10 checks passed in 12 s
+[lifecycle: capture lifecycle] PASS D: Temporary capture failures (injected while the window stays open): 6 checks passed in 12 s
+[lifecycle: capture lifecycle] PASS E: Minimised window: 5 checks passed in 10 s
+[lifecycle: input cancellation] PASS F: Several tables, one closes: 6 checks passed in 16 s
+[lifecycle: safety] PASS G: Emergency stop during recovery: 5 checks passed in 8 s
+[lifecycle: capture lifecycle] PASS H: Repeated target-loss signals: 6 checks passed in 4 s
+[lifecycle: input cancellation] PASS I: Identity mismatch / handle reuse: no inherited permission: 5 checks passed in 4 s
+[lifecycle: capture lifecycle] PASS K: Window resized while playing (geometry / display-scaling re-check): 3 checks passed in 8 s
+[runner cleanup] PASS lifecycle runner exits by itself after its report; exit code matches: report -> exit 21 ms, exit 1, live at report: {"PipeWrap":2}
+[gameplay] PASS T1: Hands that start with eliminated players are tracked (the Milestone 2 stall): 6 checks passed in 45 s
+[gameplay] FAIL T2: A tournament is played to its end; the end is a normal stop: failed: no reading refused (except the unseen opening of a hand that needed no decision) ({"refusalCodes":{"missed-hand-start":1,"untracked-hand":6},"refusedFrames":8,"handsWithoutDecisions":[8],"other":[]})
+[gameplay] PASS T3: A hand first seen after its opening: untracked, no input; recovery at the next verified hand: 8 checks passed in 20 s
+[gameplay] PASS T4: Think-time holds: one seat acting on consecutive streets with every control hidden (pre-existing defect fixed in M3): 4 checks passed in 37 s
+[gameplay] PASS T5: Two tables: eliminations on both, one window closes; no input crosses tables: 6 checks passed in 55 s
+[gameplay] PASS T6: Emergency stop right after an elimination: stop wins, no input, no automatic recovery: 6 checks passed in 21 s
+[gameplay] PASS gameplay-acceptance: process cleanup (children exited, no live timers): {}
+[gameplay] PASS gameplay-acceptance: exit code matches the result: overall FAIL, exit 1
+[multi-table] PASS M1: 1 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced: 5 checks passed in 63 s
+[multi-table] PASS M2: 2 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced: 5 checks passed in 61 s
+[multi-table] PASS M5: 5 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced: 5 checks passed in 63 s
+[multi-table] PASS M8: 8 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced: 5 checks passed in 77 s
+[multi-table] PASS gameplay-stability: process cleanup (children exited, no live timers): {}
+[multi-table] PASS gameplay-stability: exit code matches the result: overall PASS, exit 0
+[campaign] PASS C: Long campaign: tournaments played to the end one after another until 120 hands are completed: 7 checks passed in 991 s
+[campaign] PASS gameplay-campaign: process cleanup (children exited, no live timers): {}
+[campaign] PASS gameplay-campaign: exit code matches the result: overall PASS, exit 0
+[cleanup] PASS no leftover processes started by these tests: none
+[cleanup] PASS port 48713 released: free
+
+Errors: 1   Warnings: 0   Passed: 49
+OVERALL: FAIL

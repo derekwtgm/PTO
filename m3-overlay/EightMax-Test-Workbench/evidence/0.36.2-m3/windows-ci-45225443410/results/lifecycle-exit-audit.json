@@ -1,0 +1,60 @@
+{
+  "format": "eightmax-exit-audit",
+  "version": 1,
+  "tool": "tools/exit-audit-0362m3.cjs",
+  "runner": "tools\\lifecycle-acceptance-0362m2.cjs --work D:\\a\\_temp\\m3-results\\work-m2",
+  "at": "2026-11-23T17:25:49.084Z",
+  "platform": "win32 10.0.26100",
+  "node": "v22.23.5",
+  "maxExitMs": 15000,
+  "runs": [
+    {
+      "run": 1,
+      "exitCode": 0,
+      "signal": null,
+      "hardKilled": false,
+      "wallMs": 124738,
+      "reportWritten": true,
+      "reportToExitMs": 15,
+      "verdict": "PASS",
+      "scenarios": 11,
+      "everyScenarioFinal": true,
+      "runnerCleanup": {
+        "ok": true,
+        "unexpected": [],
+        "childProcessesNotExited": 0
+      },
+      "childSampling": "not sampled on Windows (see runnerCleanup and the Windows leftover-process check)",
+      "exitCodeMatchesVerdict": true,
+      "activeAtReport": {
+        "counts": {
+          "PipeWrap": 2
+        },
+        "list": [
+          "PipeWrap",
+          "PipeWrap"
+        ]
+      },
+      "activeAtExit": {
+        "counts": {
+          "PipeWrap": 2
+        },
+        "list": [
+          "PipeWrap",
+          "PipeWrap"
+        ]
+      },
+      "survivingChildProcesses": [],
+      "stderrTail": "",
+      "clean": true
+    }
+  ],
+  "summary": {
+    "runs": 1,
+    "clean": 1,
+    "maxReportToExitMs": 15,
+    "allExitCodesMatch": true,
+    "hardKilled": 0
+  },
+  "overall": "PASS"
+}

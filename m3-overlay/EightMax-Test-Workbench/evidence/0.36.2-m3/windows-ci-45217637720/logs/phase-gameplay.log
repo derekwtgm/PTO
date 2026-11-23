@@ -1,0 +1,14 @@
+EightMax 0.36.2 Milestone 3 tests. Results folder: D:\a\_temp\m3-results
+The mouse will move by itself inside the EightMax test tables. Do not touch the mouse or keyboard until this finishes.
+
+==== gameplay (16:43:16)
+[gameplay] PASS T1: Hands that start with eliminated players are tracked (the Milestone 2 stall): 6 checks passed in 45 s
+[gameplay] FAIL T2: A tournament is played to its end; the end is a normal stop: failed: no reading refused (except the unseen opening of a hand that needed no decision) ({"refusalCodes":{"missed-hand-start":1,"untracked-hand":6},"refusedFrames":8,"handsWithoutDecisions":[8],"other":[]})
+[gameplay] PASS T3: A hand first seen after its opening: untracked, no input; recovery at the next verified hand: 8 checks passed in 20 s
+[gameplay] PASS T4: Think-time holds: one seat acting on consecutive streets with every control hidden (pre-existing defect fixed in M3): 4 checks passed in 37 s
+[gameplay] PASS T5: Two tables: eliminations on both, one window closes; no input crosses tables: 6 checks passed in 55 s
+[gameplay] PASS T6: Emergency stop right after an elimination: stop wins, no input, no automatic recovery: 6 checks passed in 21 s
+[gameplay] PASS gameplay-acceptance: process cleanup (children exited, no live timers): {}
+[gameplay] PASS gameplay-acceptance: exit code matches the result: overall FAIL, exit 1
+
+Phases gameplay: 8 checks, 1 failed

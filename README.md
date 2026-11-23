@@ -7,6 +7,7 @@
 | `REPORT-0.36.2-Milestone-3.md` | the development report (also inside the ZIP) |
 | `HAND-TRACKING-VALIDATION-0362M3.json`, `GAMEPLAY-STRESS-0362M3.json`, `WINDOWS-VALIDATION-0362M3.json`, `REGRESSION-0362M3.json` | the validation records (also inside the ZIP) |
 | `READ-ME-MILESTONE3-TESTS.txt` | how to run the Milestone 3 tests on your own Windows PC |
+| `m3-overlay/EightMax-Test-Workbench/` | the Milestone 3 source changes, browsable: every file Milestone 3 adds or changes relative to `EightMax-Test-Workbench-0.36.2-Milestone-2.zip` (branch `milestone-2-0362`), byte-identical to the same files in the ZIP; `m3-overlay/DELETED.txt` lists removed files (none) |
 | `.github/workflows/windows-0362-m3.yml` | Windows CI of the committed ZIP (real windows on `windows-latest`); results on branch `m3-results/<run id>` |
 | `.github/workflows/windows-0362-m3-driver-build.yml` | the Windows build of `EightMaxInput.exe` used in this release (run 45216843075) |
 

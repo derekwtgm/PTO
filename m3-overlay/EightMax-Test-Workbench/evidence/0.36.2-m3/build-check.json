@@ -1,0 +1,180 @@
+{
+ "format": "eightmax-build-check",
+ "version": 2,
+ "milestone": "0.36.2-milestone-3",
+ "at": "2026-11-23T16:29:51.472797+00:00",
+ "buildHost": "Linux (Mono cross-compilation check; outputs discarded) - NOT a Windows build",
+ "compiler": "Mono C# compiler version 6.8.0.105",
+ "referenceAssemblies": "/usr/lib/mono/4.8-api (.NET Framework 4.8 API)",
+ "shippedBinariesRebuilt": [
+  "desktop/bin/EightMaxInput.exe"
+ ],
+ "reason": "Milestone 3 changes one C# source (desktop/input/Driver.cs): EightMaxInput.exe was rebuilt on Windows by the CI build job (record: evidence/build-evidence.json, evidence/0.36.2-m3/driver-build/); every other executable is the unchanged Windows-built Milestone 1 binary (GitHub Actions run 45083913369). The fallback-compile repair is in windows/Start-Desktop.ps1 (PowerShell).",
+ "components": {
+  "desktop/bin/EightMaxWorkbench.exe": {
+   "shippedSha256": "845578b9a6596009e68ce6f182d47ae20ddd511f58b9c37a3d4b12e1c7f32290",
+   "windowsBuildSha256": "845578b9a6596009e68ce6f182d47ae20ddd511f58b9c37a3d4b12e1c7f32290",
+   "binaryIdenticalToWindowsBuild": true,
+   "sources": {
+    "desktop/DesktopHost.cs": {
+     "sha256": "9ddd7c5098078574127dc199230e60a3596af2249dc51dba6ad064526a00e57a",
+     "matchesWindowsBuildEvidence": true
+    },
+    "desktop/CaptureService.cs": {
+     "sha256": "a1b018b05ea44c8abc4f3f2affad369ee5c376a4766afd3d2cf15c83e63faa2c",
+     "matchesWindowsBuildEvidence": true
+    },
+    "desktop/InputBroker.cs": {
+     "sha256": "97f1e7227c60f3a5fbbcf41b985ff3648f0aeff3b529b59e9c71e9b5709ba017",
+     "matchesWindowsBuildEvidence": true
+    }
+   },
+   "monoCompile": {
+    "exitCode": 0,
+    "compiled": true,
+    "warnings": 0,
+    "errors": []
+   },
+   "ok": true
+  },
+  "desktop/bin/EightMaxCapture.exe": {
+   "shippedSha256": "8180c32910bfd1d5053c42f8c9ccf484bb6146022dc1284e45dbbde622124da0",
+   "windowsBuildSha256": "8180c32910bfd1d5053c42f8c9ccf484bb6146022dc1284e45dbbde622124da0",
+   "binaryIdenticalToWindowsBuild": true,
+   "sources": {
+    "desktop/capture/EightMaxCapture.cs": {
+     "sha256": "f939c2dbcb721d0f2eb5456b9566d778ff9e06cf913af61e09a93a928cea52a6",
+     "matchesWindowsBuildEvidence": true
+    },
+    "desktop/CaptureService.cs": {
+     "sha256": "a1b018b05ea44c8abc4f3f2affad369ee5c376a4766afd3d2cf15c83e63faa2c",
+     "matchesWindowsBuildEvidence": true
+    }
+   },
+   "monoCompile": {
+    "exitCode": 0,
+    "compiled": true,
+    "warnings": 0,
+    "errors": []
+   },
+   "ok": true
+  },
+  "desktop/bin/EightMaxInput.exe": {
+   "shippedSha256": "2c4d7b739ceb617925600c663848d51d21570d5fe566e10fa15713d6d390c91c",
+   "windowsBuildSha256": "2c4d7b739ceb617925600c663848d51d21570d5fe566e10fa15713d6d390c91c",
+   "binaryIdenticalToWindowsBuild": true,
+   "sources": {
+    "desktop/input/Driver.cs": {
+     "sha256": "503f153914543c5c84ae1737342ea257bce5a9bf772586723b5a9dcf9193d107",
+     "matchesWindowsBuildEvidence": true
+    },
+    "desktop/input/Motion.cs": {
+     "sha256": "0eea332e21ac2b5ea8713427f17a56c6299aa42f2afce5fea2e699bab8fd2848",
+     "matchesWindowsBuildEvidence": true
+    },
+    "desktop/input/Platform.cs": {
+     "sha256": "2211a2b38785e5238735fd41c79a0046cdb528788ae3afb1dcfbacb4b7a43605",
+     "matchesWindowsBuildEvidence": true
+    },
+    "desktop/input/Program.cs": {
+     "sha256": "4cad506cb945d74cf3c67f78fc5a2df42484c8d1d99144a4b40c66bd23fd3669",
+     "matchesWindowsBuildEvidence": true
+    },
+    "desktop/input/Safety.cs": {
+     "sha256": "678223148e17a04ca9e8abaf0c187997214a2f0113c8b11582e99abc21b476bd",
+     "matchesWindowsBuildEvidence": true
+    },
+    "desktop/input/Uia.cs": {
+     "sha256": "63adbb47cdadf5e1cf0957bc170e7495a217243f3b54541c06c2984def7ad7ce",
+     "matchesWindowsBuildEvidence": true
+    }
+   },
+   "monoCompile": {
+    "exitCode": 0,
+    "compiled": true,
+    "warnings": 3,
+    "errors": [],
+    "note": "without /define:UIA (UI Automation reference assemblies are Windows-only)"
+   },
+   "ok": true
+  },
+  "desktop/bin/EightMaxTestTable.exe": {
+   "shippedSha256": "3e5a76995a24d169336179e7e3805ddeb57271d951029226b43653c217464348",
+   "windowsBuildSha256": "3e5a76995a24d169336179e7e3805ddeb57271d951029226b43653c217464348",
+   "binaryIdenticalToWindowsBuild": true,
+   "sources": {
+    "desktop/testtable/EightMaxTestTable.cs": {
+     "sha256": "4610f42b2b634ab085859ffe1da13093fec9e04648dc1b0e9d6ed42978455ab1",
+     "matchesWindowsBuildEvidence": true
+    }
+   },
+   "monoCompile": {
+    "exitCode": 0,
+    "compiled": true,
+    "warnings": 3,
+    "errors": []
+   },
+   "ok": true
+  }
+ },
+ "fallbackCompile": {
+  "startDesktopSources": [
+   "desktop/DesktopHost.cs",
+   "desktop/CaptureService.cs",
+   "desktop/InputBroker.cs"
+  ],
+  "compilerOptions": "/target:winexe /platform:x64 /optimize+ /langversion:5 /main:EightMax.Workbench.DesktopHost",
+  "buildExecutablesHostSources": [
+   "desktop/DesktopHost.cs",
+   "desktop/CaptureService.cs",
+   "desktop/InputBroker.cs"
+  ],
+  "componentVersionsSources": [
+   "desktop/DesktopHost.cs",
+   "desktop/CaptureService.cs",
+   "desktop/InputBroker.cs"
+  ],
+  "topLevelDesktopSources": [
+   "desktop/CaptureService.cs",
+   "desktop/DesktopHost.cs",
+   "desktop/InputBroker.cs"
+  ],
+  "sameAsBuildExecutables": true,
+  "sameAsComponentVersions": true,
+  "includesEveryTopLevelDesktopSource": true,
+  "milestone3Set": {
+   "exitCode": 0,
+   "compiled": true,
+   "warnings": 0,
+   "errors": []
+  },
+  "milestone2Set": {
+   "sources": [
+    "desktop/DesktopHost.cs",
+    "desktop/CaptureService.cs"
+   ],
+   "exitCode": 1,
+   "compiled": false,
+   "warnings": 1,
+   "errors": [
+    "Compilation failed: 1 error(s), 0 warnings",
+    "desktop/DesktopHost.cs(27,14): error CS0246: The type or namespace name `InputBroker' could not be found. Are you missing an assembly reference?"
+   ],
+   "expected": "fails: DesktopHost.cs uses InputBroker, which only desktop/InputBroker.cs defines"
+  },
+  "ok": true
+ },
+ "unchangedBinaries": {
+  "desktop/bin/EightMaxWgc.exe": "bc001504382306e180af0f76abf0836d561faa07e8c210317df73048e55cafc1",
+  "native/mwcli.exe": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+  "runtime/node/node.exe": "247e9693d316da9857e44990e5e11709f596f18112251b8026ec6eed80bdf38a"
+ },
+ "nativeEngine": {
+  "file": "native/mwcli.exe",
+  "sha256": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+  "expected": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+  "build": "7d08acc7eb4577ee",
+  "unchanged": true
+ },
+ "ok": true
+}
