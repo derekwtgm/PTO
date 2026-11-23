@@ -1051,10 +1051,13 @@ function Complete-M31RecoveredRun([string]$Dir, [string]$Why) {
         if ([string]$st.state -eq 'running') {
             $raw = Read-M31Text (Join-Path $Dir 'run-status.json')
             $doc = $raw | ConvertFrom-Json
-            $doc.state = 'interrupted'; $doc.result = 'INTERRUPTED'; $doc.exitCode = 4
+            # Add-Member -Force: a status file of an older or partial runner may lack a property (setting it directly would throw)
+            $set = { param($o, [string]$n, $v) $o | Add-Member -NotePropertyName $n -NotePropertyValue $v -Force }
+            & $set $doc 'state' 'interrupted'; & $set $doc 'result' 'INTERRUPTED'; & $set $doc 'exitCode' 4
             foreach ($p in @($doc.phases)) {
-                if ([string]$p.status -eq 'RUNNING') { $p.status = 'INTERRUPTED'; $p.reason = 'the runner stopped while this phase was running (process ended, window closed, shutdown or power loss); detected ' + [DateTime]::Now.ToString('yyyy-MM-dd HH:mm:ss', [Globalization.CultureInfo]::InvariantCulture) }
-                elseif ([string]$p.status -eq 'NOT RUN' -and -not $p.reason) { $p.reason = 'never started: the run ended earlier' }
+                if (-not $p) { continue }
+                if ([string]$p.status -eq 'RUNNING') { & $set $p 'status' 'INTERRUPTED'; & $set $p 'reason' ('the runner stopped while this phase was running (process ended, window closed, shutdown or power loss); detected ' + [DateTime]::Now.ToString('yyyy-MM-dd HH:mm:ss', [Globalization.CultureInfo]::InvariantCulture)) }
+                elseif ([string]$p.status -eq 'NOT RUN' -and -not $p.reason) { & $set $p 'reason' 'never started: the run ended earlier' }
             }
             $doc | Add-Member -NotePropertyName interruptedDetectedAt -NotePropertyValue (Get-M31Now) -Force
             Write-M31AtomicText (Join-Path $Dir 'run-status.json') (ConvertTo-M31Json $doc)

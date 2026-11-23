@@ -291,6 +291,7 @@ Test-Scenario 'S17' 'host-start root cause' 'downloaded files (Mark of the Web):
         $before = @(Get-Process | ForEach-Object { $_.Id })
         $p = Start-Process -FilePath 'powershell.exe' -ArgumentList ('-NoProfile -ExecutionPolicy Bypass -File "' + (Join-Path $M3App 'windows\Start-Desktop.ps1') + '" -Headless -ReadyFile "' + $ready + '" -StatusFile "' + $st + '" ') -WorkingDirectory $M3App -RedirectStandardOutput $o -RedirectStandardError $e -WindowStyle Hidden -PassThru; $null = $p.Handle
         $sw = [Diagnostics.Stopwatch]::StartNew(); $exited = $p.WaitForExit($Seconds * 1000); $secs = [math]::Round($sw.Elapsed.TotalSeconds, 1)
+        if ($exited) { $w2 = [Diagnostics.Stopwatch]::StartNew(); while (-not (Test-Path -LiteralPath $ready) -and $w2.Elapsed.TotalSeconds -lt 30) { Start-Sleep -Milliseconds 250 } }   # the M3 runner also waited 30 s for the host's ready file
         $f = [ordered]@{ startDesktopExited = $exited; seconds = $secs; exitCode = $(if ($exited) { $p.ExitCode } else { $null }); readyWritten = (Test-Path -LiteralPath $ready); status = $(if (Test-Path -LiteralPath $st) { [IO.File]::ReadAllText($st) } else { $null }); stderr = [string](Get-Content -LiteralPath $e -Raw -ErrorAction SilentlyContinue) }
         if (-not $exited) {
             $tree = @($p.Id) + @(Get-M31Descendants @($p.Id))
@@ -345,8 +346,8 @@ Test-Scenario 'S18' 'cancel' 'the run is cancelled with Ctrl+C while a start-up 
     $left = @(Get-Alive $hung).Count
     $st = Read-Json (Join-Path $d 'run-status.json'); $doc = Read-Json (Join-Path $d 'milestone3-results.json')
     $hs = $(if ($doc) { @($doc['phases'] | Where-Object { $_['name'] -eq 'host-start' })[0] } else { $null }); $cl = $(if ($doc) { @($doc['phases'] | Where-Object { $_['name'] -eq 'cleanup' })[0] } else { $null })
-    $ok = ($sent.Trim() -eq 'sent') -and $exited -and [string]$st['state'] -eq 'interrupted' -and $doc -and [string]$doc['overall'] -eq 'INTERRUPTED' -and $hs['status'] -eq 'INTERRUPTED' -and $cl['status'] -eq 'NOT RUN' -and (Test-Path -LiteralPath (Join-Path $d 'milestone3-results.zip')) -and $left -eq 0
-    Add-Result 'S18' 'cancel' 'Ctrl+C: the run ends by itself with an INTERRUPTED report and ZIP; its child processes are stopped' $ok ('Ctrl+C ' + $sent.Trim() + '; runner exited ' + $exited + ' (code ' + $(if ($exited) { [string]$p.ExitCode } else { '-' }) + '); state ' + [string]$st['state'] + '; overall ' + [string]$doc['overall'] + '; host-start ' + [string]$hs['status'] + ', cleanup ' + [string]$cl['status'] + '; hung processes left ' + $left) 'state interrupted, overall INTERRUPTED, report + ZIP, nothing left running' $null
+    $ok = ($sent.Trim() -eq 'sent') -and $exited -and $p.ExitCode -eq 4 -and [string]$st['state'] -eq 'interrupted' -and $doc -and [string]$doc['overall'] -eq 'INTERRUPTED' -and $hs['status'] -eq 'INTERRUPTED' -and $cl['status'] -eq 'NOT RUN' -and (Test-Path -LiteralPath (Join-Path $d 'milestone3-results.zip')) -and $left -eq 0
+    Add-Result 'S18' 'cancel' 'Ctrl+C: the run ends by itself with an INTERRUPTED report and ZIP; its child processes are stopped' $ok ('Ctrl+C ' + $sent.Trim() + '; runner exited ' + $exited + ' (code ' + $(if ($exited) { [string]$p.ExitCode } else { '-' }) + '); state ' + [string]$st['state'] + '; overall ' + [string]$doc['overall'] + '; host-start ' + [string]$hs['status'] + ', cleanup ' + [string]$cl['status'] + '; hung processes left ' + $left) 'exit 4; state interrupted, overall INTERRUPTED, report + ZIP, nothing left running' $null
 }
 Stop-EightMaxLeftovers
 Save-Results

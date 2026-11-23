@@ -352,11 +352,14 @@ try {
     if ($LauncherStderr -and (Test-Path -LiteralPath $LauncherStderr)) { try { $t = Read-M31Text $LauncherStderr; if ($t.Trim()) { [IO.File]::WriteAllText((Join-Path $M.Dir 'powershell-stderr.txt'), $t, $script:M31Utf8) } } catch {} }
     if ($final) {
         $color = switch ($final.overall) { 'PASS' { 'Green' } 'WARNING' { 'Yellow' } default { 'Red' } }
+        $interruptedRun = -not $completed
         Write-M31Log ''
         if ($final.document) { $d = $final.document; Write-M31Log ('Checks: ' + [string]$d.counts.PASS + ' passed, ' + [string]$d.counts.FAIL + ' failed, ' + [string]$d.counts.WARNING + ' warnings, ' + [string]$d.counts.SKIPPED + ' skipped') }
         Write-M31Log ('OVERALL: ' + $final.overall + '  (exit code ' + $final.exitCode + ': ' + (Get-M31ExitMeaning $final.exitCode) + ')') $color
         Write-M31Log ('Results folder: ' + $M.Dir)
         if ($final.zip.ok) { Write-M31Log ('Results ZIP to send back: ' + $final.zip.path) 'Green' } else { Write-M31Log ('The results ZIP could not be created (' + [string]$final.zip.error + '); send the results folder instead.') 'Red' }
+        # after Ctrl+C the script cannot reach its own exit statement: end with 4 (INTERRUPTED) now that the report and ZIP are written
+        if ($interruptedRun) { [Environment]::Exit(4) }
     }
 }
 if ($final) { exit $final.exitCode } else { exit 2 }

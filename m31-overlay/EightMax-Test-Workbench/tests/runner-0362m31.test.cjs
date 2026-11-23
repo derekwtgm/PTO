@@ -277,3 +277,18 @@ test('M3.1: a results folder inside the application folder is refused (except te
     assert.ok(res.checks.some((c) => c.name === 'results folder' && c.status === 'WARNING' && /refused/.test(c.detail)));
   } finally { fs.rmSync(out, { recursive: true, force: true }); }
 });
+
+test('M3.1: option D also packages a run whose status file is partial or from an older runner (missing fields are added, nothing invented)', { skip: LIVE }, () => {
+  const out = tmpRoot();
+  try {
+    const run = path.join(out, 'Milestone3.1-20261124-010101-quick'); fs.mkdirSync(run, { recursive: true });
+    fs.writeFileSync(path.join(run, 'run-status.json'), JSON.stringify({ format: 'eightmax-m31-run-status', version: 1, runId: 'partial', mode: 'Quick', state: 'running', runner: { pid: 999999, processStartTime: '2000-01-01T00:00:00Z' }, phases: [{ name: 'environment', status: 'RUNNING', startedAt: '2026-11-24T01:01:01Z' }, { name: 'cleanup', status: 'NOT RUN' }] }));
+    fs.writeFileSync(path.join(run, 'checks.jsonl'), '{"seq":1,"phase":"environment","group":"environment","name":"x","status":"PASS"}\n{"seq":2,"pha');
+    const p = cp.spawnSync('pwsh', ['-NoProfile', '-File', path.join(ROOT, 'windows', 'Test-Milestone31.ps1'), '-Mode', 'Package', '-OutRoot', out, '-NonInteractive', '-PackageRun', run], { encoding: 'utf8' });
+    assert.equal(p.status, 0, p.stdout + p.stderr);
+    const res = JSON.parse(fs.readFileSync(path.join(run, 'milestone3-results.json'), 'utf8'));
+    assert.equal(res.overall, 'INTERRUPTED'); assert.equal(phase(res, 'environment').status, 'INTERRUPTED'); assert.equal(phase(res, 'cleanup').status, 'NOT RUN');
+    assert.equal(res.counts.total, 1, 'the cut-off last line of checks.jsonl is skipped, not invented'); assert.equal(res.unreadableCheckLines, 1);
+    assert.ok(fs.existsSync(path.join(run, 'milestone3-results.zip')));
+  } finally { fs.rmSync(out, { recursive: true, force: true }); }
+});

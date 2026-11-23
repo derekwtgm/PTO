@@ -211,7 +211,7 @@ call :find_rundir_in "%EM_APP%\test-results"
 goto :eof
 :find_rundir_in
 if not exist "%~1" goto :eof
-for /f "delims=" %%D in ('dir /b /ad /o-d "%~1\Milestone3.1-*" 2^>nul') do (
+for /f "delims=" %%D in ('dir /b /ad /o-d "%~1" 2^>nul') do (
   if exist "%~1\%%D\launcher-token.txt" findstr /b /c:"%EM_TOKEN%" "%~1\%%D\launcher-token.txt" >nul 2>&1 && set "EM_RUNDIR=%~1\%%D" && goto :eof
 )
 goto :eof
