@@ -1,0 +1,40 @@
+{
+  "format": "eightmax-exit-audit",
+  "version": 1,
+  "tool": "tools/exit-audit-0362m3.cjs",
+  "runner": "tools\\lifecycle-acceptance-0362m2.cjs --work D:\\a\\_temp\\m3-results\\work-m2",
+  "at": "2026-11-23T13:18:07.932Z",
+  "platform": "win32 10.0.26100",
+  "node": "v22.23.5",
+  "maxExitMs": 15000,
+  "runs": [
+    {
+      "run": 1,
+      "exitCode": 1,
+      "signal": null,
+      "hardKilled": false,
+      "wallMs": 60265,
+      "reportWritten": false,
+      "reportToExitMs": null,
+      "verdict": null,
+      "scenarios": 0,
+      "everyScenarioFinal": false,
+      "runnerCleanup": null,
+      "childSampling": "not sampled on Windows (see runnerCleanup and the Windows leftover-process check)",
+      "exitCodeMatchesVerdict": false,
+      "activeAtReport": null,
+      "activeAtExit": null,
+      "survivingChildProcesses": [],
+      "stderrTail": "Error: desktop host did not become ready |     at windowsEnv (D:\\a\\PTO\\PTO\\work\\EightMax-Test-Workbench\\tools\\lifecycle-acceptance-0362m2.cjs:88:35) |     at async main (D:\\a\\PTO\\PTO\\work\\EightMax-Test-Workbench\\tools\\lifecycle-acceptance-0362m2.cjs:314:40) | ",
+      "clean": false
+    }
+  ],
+  "summary": {
+    "runs": 1,
+    "clean": 0,
+    "maxReportToExitMs": null,
+    "allExitCodesMatch": false,
+    "hardKilled": 0
+  },
+  "overall": "FAIL"
+}
