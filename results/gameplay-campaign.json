@@ -1,0 +1,196 @@
+{
+  "format": "eightmax-m3-gameplay-acceptance",
+  "version": 1,
+  "suite": "campaign",
+  "app": "0.36.2-dev",
+  "milestone": "0.36.2-milestone-3",
+  "environment": "windows",
+  "at": "2026-11-23T18:40:51.657Z",
+  "machine": {
+    "platform": "win32",
+    "release": "10.0.26100",
+    "node": "v22.23.5",
+    "cpus": 4,
+    "cpu": "AMD EPYC 9V74 80-Core Processor                ",
+    "ramGiB": 16
+  },
+  "host": {
+    "appVersion": "0.36.2-dev",
+    "build": "7d08acc7eb4577ee",
+    "driver": {
+      "dpiAwareness": "per-monitor-v2",
+      "hotkeyRegistered": true,
+      "signedCurves": true
+    },
+    "monitors": [
+      {
+        "id": 0,
+        "name": "\\\\.\\DISPLAY1",
+        "bounds": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1080
+        },
+        "work": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1032
+        },
+        "dpiScale": 1,
+        "primary": true
+      }
+    ]
+  },
+  "scenarios": [
+    {
+      "id": "C",
+      "name": "Long campaign: tournaments played to the end one after another until 120 hands are completed",
+      "status": "pass",
+      "durationMs": 827923,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "at least 120 hands completed",
+          "pass": true,
+          "detail": 135
+        },
+        {
+          "name": "tournaments were played to the end (winner = dealer winner)",
+          "pass": true,
+          "detail": [
+            9,
+            true
+          ]
+        },
+        {
+          "name": "no incorrect action, no invalid wager (oracle)",
+          "pass": true,
+          "detail": [
+            0,
+            0
+          ]
+        },
+        {
+          "name": "no missed state transition (every action the table applied was confirmed or flagged)",
+          "pass": true,
+          "detail": [
+            0,
+            0
+          ]
+        },
+        {
+          "name": "no hand-reconstruction failure; no untracked hand that needed a decision (a hand nobody acted in may be first seen finished)",
+          "pass": true,
+          "detail": {
+            "reconstructionFailures": 0,
+            "untrackedHands": 0,
+            "withoutDecision": 0,
+            "needingInput": 0
+          }
+        },
+        {
+          "name": "no stall or unexpected pause",
+          "pass": true,
+          "detail": []
+        },
+        {
+          "name": "eliminations recognised",
+          "pass": true,
+          "detail": 63
+        }
+      ],
+      "metrics": {
+        "tables": 1,
+        "seconds": 826,
+        "completedHands": 135,
+        "tournamentsStarted": 10,
+        "tournamentsCompleted": 9,
+        "winnersMatchDealer": true,
+        "actionsAttempted": 685,
+        "actionsConfirmed": 685,
+        "incorrectActions": 0,
+        "invalidWagers": 0,
+        "missedStateTransitions": 0,
+        "confirmedButNotApplied": 0,
+        "refusedReadings": 0,
+        "reconstructionFailures": 0,
+        "untrackedHands": 0,
+        "untrackedHandsWithoutDecision": 0,
+        "untrackedHandsNeedingInput": 0,
+        "recoveryEvents": 0,
+        "lifecycleRecoveries": 0,
+        "eliminationsSeen": 63,
+        "uncertainOrUnconfirmed": 0,
+        "deadlineMisses": 0,
+        "cleanRefusals": 0,
+        "unexpectedPauses": 0,
+        "finalPlayerCounts": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "hands": {
+          "handsObserved": 135,
+          "allEightDealtIn": 0,
+          "withEliminatedSeats": 135,
+          "headsUp": 87,
+          "allIn": 51,
+          "sidePots": 31,
+          "endingWithElimination": 26,
+          "endingWithTwoOrMoreEliminations": 10,
+          "dealtInHistogram": {
+            "2": 87,
+            "3": 39,
+            "5": 9
+          }
+        },
+        "faults": {
+          "closeReopen": 0,
+          "estop": 0
+        },
+        "violations": []
+      }
+    }
+  ],
+  "cleanup": {
+    "childProcesses": [
+      {
+        "name": "desktop host",
+        "pid": 2668,
+        "exited": true,
+        "code": 0,
+        "signal": null
+      },
+      {
+        "name": "test-table fixture 1",
+        "pid": 596,
+        "exited": true,
+        "code": 0,
+        "signal": null
+      }
+    ],
+    "allChildrenExited": true,
+    "activeResources": {},
+    "unexpected": [],
+    "ok": true
+  },
+  "summary": {
+    "scenarios": 1,
+    "passed": 1,
+    "failed": 0,
+    "checks": 7,
+    "failedChecks": 0,
+    "cleanupOk": true
+  },
+  "overall": "PASS",
+  "durationMs": 828031,
+  "exitCode": 0
+}
