@@ -35,7 +35,7 @@ $js = New-Object Web.Script.Serialization.JavaScriptSerializer; $js.MaxJsonLengt
 $node = Join-Path $root 'runtime\node\node.exe'
 $ExpectedBuild = '7d08acc7eb4577ee'; $ExpectedMwcliSha = 'b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72'
 $script:checks = New-Object Collections.ArrayList
-$script:phases = [ordered]@{}
+$script:phaseSeconds = [ordered]@{}
 $PhaseOrder = @('machine', 'identity', 'unit', 'host-start', 'lifecycle', 'gameplay', 'multi-table', 'campaign', 'cleanup', 'results')
 $Selected = $(if ($Phases -eq 'all') { $PhaseOrder } else { @($Phases -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ }) })
 foreach ($x in $Selected) { if ($PhaseOrder -notcontains $x) { throw ('Unknown phase ' + $x + ' (phases: ' + ($PhaseOrder -join ', ') + ')') } }
@@ -87,7 +87,7 @@ function Phase([string]$Name, [scriptblock]$Body) {
     if ($Selected -notcontains $Name) { return }
     $w = [Diagnostics.Stopwatch]::StartNew(); Write-Host ''; Write-Host ('==== ' + $Name + ' (' + [DateTime]::Now.ToString('HH:mm:ss') + ')'); $first = $script:checks.Count
     try { & $Body } catch { Add-Check 'harness' ($Name + ' ran to completion') 'fail' $_.Exception.Message }
-    $script:phases[$Name] = [math]::Round($w.Elapsed.TotalSeconds); $script:phaseChecks[$Name] = @($script:checks | Select-Object -Skip $first)
+    $script:phaseSeconds[$Name] = [math]::Round($w.Elapsed.TotalSeconds); $script:phaseChecks[$Name] = @($script:checks | Select-Object -Skip $first)
 }
 
 Write-Host ('EightMax 0.36.2 Milestone 3 tests. Results folder: ' + $OutDir)
@@ -272,17 +272,17 @@ Phase 'cleanup' {
 # ---------------- phase state: what this invocation found, kept for the 'results' phase ----------------
 $phaseData = [ordered]@{ 'machine' = $machine; 'identity' = $identities; 'unit' = $unit; 'host-start' = $hostStart; 'lifecycle' = $runs['lifecycle']; 'gameplay' = $runs['gameplay-acceptance']; 'multi-table' = $runs['gameplay-stability']; 'campaign' = $runs['gameplay-campaign']; 'cleanup' = $null }
 foreach ($n in @($script:phaseChecks.Keys)) {
-    try { Write-WorkbenchUtf8 (Join-Path $stateDir ($n + '.json')) ($js.Serialize((ConvertTo-Plain ([ordered]@{ phase = $n; seconds = $script:phases[$n]; at = [DateTime]::UtcNow.ToString('o'); checks = $script:phaseChecks[$n]; data = $phaseData[$n] })))) } catch { Write-Host ('phase state for ' + $n + ' not written: ' + $_.Exception.Message) }
+    try { Write-WorkbenchUtf8 (Join-Path $stateDir ($n + '.json')) ($js.Serialize((ConvertTo-Plain ([ordered]@{ phase = $n; seconds = $script:phaseSeconds[$n]; at = [DateTime]::UtcNow.ToString('o'); checks = $script:phaseChecks[$n]; data = $phaseData[$n] })))) } catch { Write-Host ('phase state for ' + $n + ' not written: ' + $_.Exception.Message) }
 }
 if ($Selected -notcontains 'results') {
     $mine = @($script:checks | Where-Object { $_['status'] -eq 'fail' }).Count; Write-Host ''; Write-Host ('Phases ' + ($Selected -join ', ') + ': ' + [string]$script:checks.Count + ' checks, ' + [string]$mine + ' failed')
     if ($mine -eq 0) { exit 0 } else { exit 1 }
 }
 # ---------------- results: every phase's state merged (never lost: a failure while writing falls back to a minimal record) ----------------
-$script:checks = New-Object Collections.ArrayList; $script:phases = [ordered]@{}
+$script:checks = New-Object Collections.ArrayList; $script:phaseSeconds = [ordered]@{}
 foreach ($n in $PhaseOrder) {
     $f = Join-Path $stateDir ($n + '.json'); if (-not (Test-Path -LiteralPath $f)) { continue }
-    $st = $js.DeserializeObject((Read-Text $f)); $script:phases[$n] = $st['seconds']; foreach ($c in @($st['checks'])) { if ($c) { [void]$script:checks.Add($c) } }
+    $st = $js.DeserializeObject((Read-Text $f)); $script:phaseSeconds[$n] = $st['seconds']; foreach ($c in @($st['checks'])) { if ($c) { [void]$script:checks.Add($c) } }
     switch ($n) { 'machine' { $machine = $st['data'] } 'identity' { $identities = $st['data'] } 'unit' { $unit = $st['data'] } 'host-start' { $hostStart = $st['data'] } 'lifecycle' { $runs['lifecycle'] = $st['data'] } 'gameplay' { $runs['gameplay-acceptance'] = $st['data'] } 'multi-table' { $runs['gameplay-stability'] = $st['data'] } 'campaign' { $runs['gameplay-campaign'] = $st['data'] } }
 }
 if (-not $machine) { $machine = [ordered]@{} }
@@ -293,7 +293,7 @@ $overall = $(if ($errorsN -eq 0 -and -not $SkipAcceptance) { 'PASS' } elseif ($e
 $byGroup = [ordered]@{}; foreach ($c in $script:checks) { if (-not $byGroup.Contains($c['group'])) { $byGroup[$c['group']] = [ordered]@{ pass = 0; fail = 0; warn = 0 } }; $byGroup[$c['group']][$c['status']]++ }
 $doc = [ordered]@{ format = 'eightmax-m3-windows-results'; version = 1; app = $WorkbenchVersion; milestone = '0.36.2-milestone-3'; at = [DateTime]::UtcNow.ToString('o'); startedAt = $TestStart.ToUniversalTime().ToString('o'); durationSeconds = [math]::Round(([DateTime]::Now - $TestStart).TotalSeconds); resultsFolder = $OutDir
     environment = $(if ($env:GITHUB_ACTIONS) { 'GitHub Actions Windows runner (real Windows, real windows and input)' } else { 'Windows PC (real windows and input)' })
-    machine = $machine; executables = $identities; unitTests = $unit; hostStart = $hostStart; tools = $runs; phasesSeconds = $script:phases
+    machine = $machine; executables = $identities; unitTests = $unit; hostStart = $hostStart; tools = $runs; phasesSeconds = $script:phaseSeconds
     groups = $byGroup; counts = [ordered]@{ passed = $passN; failed = $errorsN; warnings = $warnN; checks = $script:checks.Count }; overall = $overall; exitCode = $(if ($errorsN -eq 0) { 0 } else { 1 }); checks = $script:checks }
 try { Write-WorkbenchUtf8 (Join-Path $OutDir 'milestone3-results.json') ($js.Serialize((ConvertTo-Plain $doc))) }
 catch { Write-Host ('Full result record could not be written (' + $_.Exception.Message + '); writing the check list only.'); try { Write-WorkbenchUtf8 (Join-Path $OutDir 'milestone3-results.json') ($js.Serialize((ConvertTo-Plain ([ordered]@{ format = 'eightmax-m3-windows-results'; version = 1; overall = $overall; counts = $doc.counts; checks = $script:checks; writeError = $_.Exception.Message })))) } catch { Write-Host ('Check list could not be written either: ' + $_.Exception.Message) } }
