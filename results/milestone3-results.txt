@@ -1,0 +1,14 @@
+EightMax Test Workbench 0.36.2 - Milestone 3 Windows results
+Date: 2026-11-23 17:13:45
+Machine:  build  |  |  GiB | scaling %
+Results folder: D:\a\_temp\m3-results
+
+cleanup                      pass   2  fail   0  warn   0
+harness                      pass   0  fail   1  warn   0
+
+[cleanup] PASS no leftover processes started by these tests: none
+[cleanup] PASS port 48713 released: free
+[harness] FAIL every phase produced a result: missing: machine, identity, unit, host-start, lifecycle, gameplay, multi-table (a phase that did not finish, e.g. its CI step timed out)
+
+Errors: 1   Warnings: 0   Passed: 2
+OVERALL: FAIL

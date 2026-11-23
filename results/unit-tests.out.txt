@@ -1,0 +1,1013 @@
+TAP version 13
+# Subtest: every mapping is defined with what it preserves and loses; none is enabled for decisions by default
+ok 1 - every mapping is defined with what it preserves and loses; none is enabled for decisions by default
+  ---
+  duration_ms: 1.6733
+  type: 'test'
+  ...
+# Subtest: suit isomorphism is exact: the relabelled strategy has the source solution's (tiny) exploitability in the target
+ok 2 - suit isomorphism is exact: the relabelled strategy has the source solution's (tiny) exploitability in the target
+  ---
+  duration_ms: 1197.1442
+  type: 'test'
+  ...
+# Subtest: an approximate mapping is measured, not assumed: a 5 bb stack shift shows a positive EV loss
+ok 3 - an approximate mapping is measured, not assumed: a 5 bb stack shift shows a positive EV loss
+  ---
+  duration_ms: 568.0213
+  type: 'test'
+  ...
+# Subtest: incompatible trees are refused (different menu shape), never silently translated
+ok 4 - incompatible trees are refused (different menu shape), never silently translated
+  ---
+  duration_ms: 29.3931
+  type: 'test'
+  ...
+# Subtest: river-blank substitution only produces boards with the same structure, or refuses
+ok 5 - river-blank substitution only produces boards with the same structure, or refuses
+  ---
+  duration_ms: 0.6199
+  type: 'test'
+  ...
+# Subtest: coverage accounting keeps exact, abstracted, solved-on-demand and unavailable apart (previously unseen hands)
+ok 6 - coverage accounting keeps exact, abstracted, solved-on-demand and unavailable apart (previously unseen hands)
+  ---
+  duration_ms: 0.3473
+  type: 'test'
+  ...
+# Subtest: scale key: identities differing only by a common chip factor share a scale class; others do not
+ok 7 - scale key: identities differing only by a common chip factor share a scale class; others do not
+  ---
+  duration_ms: 12.8594
+  type: 'test'
+  ...
+# Subtest: chip-scale is OFF by default; when enabled it answers a scaled situation, labelled approximate, with the source strategy and table-legal sizes
+ok 8 - chip-scale is OFF by default; when enabled it answers a scaled situation, labelled approximate, with the source strategy and table-legal sizes
+  ---
+  duration_ms: 459.1114
+  type: 'test'
+  ...
+# Subtest: chip-scale refuses non-proportional stacks; quality gate still applies to the source strategy
+ok 9 - chip-scale refuses non-proportional stacks; quality gate still applies to the source strategy
+  ---
+  duration_ms: 394.2607
+  type: 'test'
+  ...
+# Subtest: pot-bucket-10pct: used only before any wager on a heads-up river and labelled; a wager on the street refuses it
+ok 10 - pot-bucket-10pct: used only before any wager on a heads-up river and labelled; a wager on the street refuses it
+  ---
+  duration_ms: 171.0101
+  type: 'test'
+  ...
+# Subtest: only validated mappings can be enabled; unvalidated ones (e.g. stack buckets, river blank substitution) are refused
+ok 11 - only validated mappings can be enabled; unvalidated ones (e.g. stack buckets, river blank substitution) are refused
+  ---
+  duration_ms: 77.0991
+  type: 'test'
+  ...
+# Subtest: benchmark reports all burst counts without establishing live capacity
+ok 12 - benchmark reports all burst counts without establishing live capacity
+  ---
+  duration_ms: 75.9916
+  type: 'test'
+  ...
+# Subtest: statistics show deadline misses and partial-update solves separately
+ok 13 - statistics show deadline misses and partial-update solves separately
+  ---
+  duration_ms: 0.2662
+  type: 'test'
+  ...
+# Subtest: cancellation refuses a completed report and invalid settings are rejected
+ok 14 - cancellation refuses a completed report and invalid settings are rejected
+  ---
+  duration_ms: 1.1332
+  type: 'test'
+  ...
+# Subtest: exact-settings cache returns copies and accounts for every material input
+ok 15 - exact-settings cache returns copies and accounts for every material input
+  ---
+  duration_ms: 25.0431
+  type: 'test'
+  ...
+# Subtest: partial, native, mismatched and practice results are not cached
+ok 16 - partial, native, mismatched and practice results are not cached
+  ---
+  duration_ms: 11.2056
+  type: 'test'
+  ...
+# Subtest: LRU eviction and byte limits remain bounded
+ok 17 - LRU eviction and byte limits remain bounded
+  ---
+  duration_ms: 11.8214
+  type: 'test'
+  ...
+# Subtest: contradictory imported policies and invalid study metadata are rejected
+ok 18 - contradictory imported policies and invalid study metadata are rejected
+  ---
+  duration_ms: 3.32
+  type: 'test'
+  ...
+# Subtest: auto-detection is advisory: finds a table inside margins and card-like rectangles, and says when it is unsure
+ok 19 - auto-detection is advisory: finds a table inside margins and card-like rectangles, and says when it is unsure
+  ---
+  duration_ms: 83.3911
+  type: 'test'
+  ...
+# Subtest: learn on labelled frames, evaluate on held-out frames of the same layout: no false acceptance
+ok 20 - learn on labelled frames, evaluate on held-out frames of the same layout: no false acceptance
+  ---
+  duration_ms: 10359.4097
+  type: 'test'
+  ...
+# Subtest: an UNSEEN layout is read after editing regions + learning; the old profile rejects it rather than guessing
+ok 21 - an UNSEEN layout is read after editing regions + learning; the old profile rejects it rather than guessing
+  ---
+  duration_ms: 9245.1926
+  type: 'test'
+  ...
+# Subtest: different resolutions need their own templates: unseen scale is rejected, calibrated scale is read
+ok 22 - different resolutions need their own templates: unseen scale is rejected, calibrated scale is read
+  ---
+  duration_ms: 8317.7384
+  type: 'test'
+  ...
+# Subtest: exported bundle (profile + templates) reloads and reads the same frames identically; tampering is refused
+ok 23 - exported bundle (profile + templates) reloads and reads the same frames identically; tampering is refused
+  ---
+  duration_ms: 7608.8503
+  type: 'test'
+  ...
+# Subtest: preview returns overlay regions and rejection reasons for an unreadable frame
+ok 24 - preview returns overlay regions and rejection reasons for an unreadable frame
+  ---
+  duration_ms: 323.2945
+  type: 'test'
+  ...
+# Subtest: host keeps ONE helper session per window: newest frame served, unchanged content marked not fresh, sessions end and leave no process
+ok 25 - host keeps ONE helper session per window: newest frame served, unchanged content marked not fresh, sessions end and leave no process # SKIP Mono not installed
+  ---
+  duration_ms: 0.8147
+  type: 'test'
+  ...
+# Subtest: host wiring: capture close and host shutdown end persistent sessions; health reports them
+ok 26 - host wiring: capture close and host shutdown end persistent sessions; health reports them
+  ---
+  duration_ms: 1.0295
+  type: 'test'
+  ...
+# Subtest: a window move is recorded without invalidating content; a DPI change restarts settling like a resize
+ok 27 - a window move is recorded without invalidating content; a DPI change restarts settling like a resize
+  ---
+  duration_ms: 32.9216
+  type: 'test'
+  ...
+# Subtest: invalid frames never reach action execution: the observation gate refuses them
+ok 28 - invalid frames never reach action execution: the observation gate refuses them
+  ---
+  duration_ms: 4.6656
+  type: 'test'
+  ...
+# Subtest: catalogue is honest: Windows Graphics Capture is compiled but never run on Windows and manual-only, Win32 methods are unrun on Windows, structured feed is non-optical
+ok 29 - catalogue is honest: Windows Graphics Capture is compiled but never run on Windows and manual-only, Win32 methods are unrun on Windows, structured feed is non-optical
+  ---
+  duration_ms: 0.9204
+  type: 'test'
+  ...
+# Subtest: backend selection follows the profile, skips unimplemented/unavailable backends and says why
+ok 30 - backend selection follows the profile, skips unimplemented/unavailable backends and says why
+  ---
+  duration_ms: 0.4554
+  type: 'test'
+  ...
+# Subtest: window identity validation names every change
+ok 31 - window identity validation names every change
+  ---
+  duration_ms: 0.2752
+  type: 'test'
+  ...
+# Subtest: manager starts, queues only valid new frames, bounds the queue and reports health
+ok 32 - manager starts, queues only valid new frames, bounds the queue and reports health
+  ---
+  duration_ms: 37.0927
+  type: 'test'
+  ...
+# Subtest: first available preferred backend is used; structured-feed (no pixels) falls through to the next
+ok 33 - first available preferred backend is used; structured-feed (no pixels) falls through to the next
+  ---
+  duration_ms: 0.7337
+  type: 'test'
+  ...
+# Subtest: health turns unhealthy on a blank/stale/interrupted capture and recovers
+ok 34 - health turns unhealthy on a blank/stale/interrupted capture and recovers
+  ---
+  duration_ms: 34.6041
+  type: 'test'
+  ...
+# Subtest: switching backend flushes the queue and records the switch; unavailable targets are refused
+ok 35 - switching backend flushes the queue and records the switch; unavailable targets are refused
+  ---
+  duration_ms: 10.7513
+  type: 'test'
+  ...
+# Subtest: screen-copy backend rejects an occluded window, PrintWindow-style backend tolerates less than half
+ok 36 - screen-copy backend rejects an occluded window, PrintWindow-style backend tolerates less than half
+  ---
+  duration_ms: 3.2469
+  type: 'test'
+  ...
+# Subtest: ObservationGate admits a good image observation and rejects every unreliable one
+ok 37 - ObservationGate admits a good image observation and rejects every unreliable one
+  ---
+  duration_ms: 250.1828
+  type: 'test'
+  ...
+# Subtest: structured feed observations are validated and labelled non-optical
+ok 38 - structured feed observations are validated and labelled non-optical
+  ---
+  duration_ms: 1.0138
+  type: 'test'
+  ...
+# Subtest: FrameQueue is bounded and refuses invalid frames
+ok 39 - FrameQueue is bounded and refuses invalid frames
+  ---
+  duration_ms: 0.5941
+  type: 'test'
+  ...
+# Subtest: every file added by 0.27.0 or 0.28.0 is present, or listed as replaced with a reason and its replacement exists
+ok 40 - every file added by 0.27.0 or 0.28.0 is present, or listed as replaced with a reason and its replacement exists
+  ---
+  duration_ms: 5.2272
+  type: 'test'
+  ...
+# Subtest: 0.27 capabilities kept: 2-8 seat layouts and pipeline, seat-count strategy refusal, solver-in-the-loop benchmark, PNG writer, runtime docs
+ok 41 - 0.27 capabilities kept: 2-8 seat layouts and pipeline, seat-count strategy refusal, solver-in-the-loop benchmark, PNG writer, runtime docs
+  ---
+  duration_ms: 9.1794
+  type: 'test'
+  ...
+# Subtest: 0.28 repairs kept: closed-handle-safe self-test, Expect 100-continue, structured errors, shutdown, collector, results panel, memory awareness
+ok 42 - 0.28 repairs kept: closed-handle-safe self-test, Expect 100-continue, structured errors, shutdown, collector, results panel, memory awareness
+  ---
+  duration_ms: 2.099
+  type: 'test'
+  ...
+# Subtest: the consolidated choices are the documented ones: 0.27 WGC route and manual-only rule, 0.28 helper, Node v22.23.5
+ok 43 - the consolidated choices are the documented ones: 0.27 WGC route and manual-only rule, 0.28 helper, Node v22.23.5
+  ---
+  duration_ms: 7.7816
+  type: 'test'
+  ...
+# Subtest: convergence settings default for older jobs and reject unknown or out-of-range values
+ok 44 - convergence settings default for older jobs and reject unknown or out-of-range values
+  ---
+  duration_ms: 2.0499
+  type: 'test'
+  ...
+# Subtest: raised limits: 10M native updates, 16 GiB, 7-day time limit, 1M checkpoint interval; browser 10-minute budget
+ok 45 - raised limits: 10M native updates, 16 GiB, 7-day time limit, 1M checkpoint interval; browser 10-minute budget
+  ---
+  duration_ms: 19.7654
+  type: 'test'
+  ...
+# Subtest: runner, host and browser validators agree on the new bounds
+ok 46 - runner, host and browser validators agree on the new bounds
+  ---
+  duration_ms: 1.7495
+  type: 'test'
+  ...
+# Subtest: heads-up exact convergence falls with training and reports exploitability
+ok 47 - heads-up exact convergence falls with training and reports exploitability # SKIP
+  ---
+  duration_ms: 0.1303
+  type: 'test'
+  ...
+# Subtest: three-seat exact check reports per-seat gains and keeps training below an unmet target
+ok 48 - three-seat exact check reports per-seat gains and keeps training below an unmet target # SKIP
+  ---
+  duration_ms: 0.1124
+  type: 'test'
+  ...
+# Subtest: auto falls back to a lower bound on trees too large for exact and never claims convergence
+ok 49 - auto falls back to a lower bound on trees too large for exact and never claims convergence # SKIP
+  ---
+  duration_ms: 0.0929
+  type: 'test'
+  ...
+# Subtest: a check that cannot run is reported as unavailable without failing the study
+ok 50 - a check that cannot run is reported as unavailable without failing the study # SKIP
+  ---
+  duration_ms: 0.0805
+  type: 'test'
+  ...
+# Subtest: training continues past the former 50,000-update cap through chunked checkpoints
+ok 51 - training continues past the former 50,000-update cap through chunked checkpoints # SKIP
+  ---
+  duration_ms: 0.0758
+  type: 'test'
+  ...
+# Subtest: tampered or inconsistent convergence blocks are refused
+ok 52 - tampered or inconsistent convergence blocks are refused # SKIP
+  ---
+  duration_ms: 0.3661
+  type: 'test'
+  ...
+# Subtest: dashboard exports convergence controls, shows the verdict on import and keeps it in workspace backups
+ok 53 - dashboard exports convergence controls, shows the verdict on import and keeps it in workspace backups # SKIP
+  ---
+  duration_ms: 0.4748
+  type: 'test'
+  ...
+# Subtest: browser results and pre-0.18 native results say they were not convergence-checked
+ok 54 - browser results and pre-0.18 native results say they were not convergence-checked
+  ---
+  duration_ms: 49.7707
+  type: 'test'
+  ...
+# PASS Eight-handed defaults: 2.3 BB pot and independent 0.1 BB antes
+# PASS Heads-up: dealer posts SB and acts first preflop
+# PASS Checks through river settle chips and finish
+# PASS Folded field awards pot without river
+# PASS Duplicate and stale requests are rejected before mutation
+# PASS Wrong table, expired decision, illegal check and invalid amount
+# PASS Pause/resume invalidates previously issued decision
+# PASS Short all-in raise does not reopen a previous caller
+# PASS Full raise reopens action
+# PASS Heads-up all-in runout leaves no pending decision
+# PASS Hand evaluator: straight flush > quads > full house; wheel works
+# PASS Three side pots and unmatched excess return exactly
+# PASS Odd chip goes clockwise from button among tied winners
+# PASS Coordinator selects earliest deadline
+# PASS One table fault is isolated
+# PASS Emergency stop blocks all work until a new coordinator is made
+# PASS Deterministic continuation and independent table RNG streams
+#   Completed hands: 9884
+# PASS 10-table sustained run: 200,000 scheduler ticks, no table faults
+# PASS Replay roundtrip; corrupted data and duplicate cards rejected
+# PASS External solver is explicitly unavailable
+# 20 tests passed. Platform: win32 x64.
+# Subtest: tests\\core.test.cjs
+ok 10 - tests\\core.test.cjs
+  ---
+  duration_ms: 7398.2855
+  type: 'test'
+  ...
+# Subtest: binary CPU container round trips metadata and state with standard CRC32
+ok 56 - binary CPU container round trips metadata and state with standard CRC32
+  ---
+  duration_ms: 41.1797
+  type: 'test'
+  ...
+# Subtest: checkpoints reject bad engine, incompatible settings, counters and malformed containers
+ok 57 - checkpoints reject bad engine, incompatible settings, counters and malformed containers
+  ---
+  duration_ms: 7.0419
+  type: 'test'
+  ...
+# Subtest: metadata and row-count allocation bounds are checked before native parsing
+ok 58 - metadata and row-count allocation bounds are checked before native parsing
+  ---
+  duration_ms: 5.1754
+  type: 'test'
+  ...
+# Subtest: correct container CRC does not bypass the original engine row checksum
+ok 59 - correct container CRC does not bypass the original engine row checksum
+  ---
+  duration_ms: 6.7908
+  type: 'test'
+  ...
+# Subtest: different root, seed or captured history cannot resume a checkpoint
+ok 60 - different root, seed or captured history cannot resume a checkpoint
+  ---
+  duration_ms: 19.3556
+  type: 'test'
+  ...
+# Subtest: a changed but valid saved configuration is refused by the native study identity
+ok 61 - a changed but valid saved configuration is refused by the native study identity
+  ---
+  duration_ms: 2.9871
+  type: 'test'
+  ...
+# Subtest: resume target cannot precede committed updates and restore requires a fresh game
+ok 62 - resume target cannot precede committed updates and restore requires a fresh game
+  ---
+  duration_ms: 3.6585
+  type: 'test'
+  ...
+# Subtest: interrupted root studies resume byte-for-byte on two-, three-, six- and eight-player profiles
+ok 63 - interrupted root studies resume byte-for-byte on two-, three-, six- and eight-player profiles
+  ---
+  duration_ms: 651.5317
+  type: 'test'
+  ...
+# Subtest: reviewed checkpoint continuation retains the same path and acting-seat policies
+ok 64 - reviewed checkpoint continuation retains the same path and acting-seat policies
+  ---
+  duration_ms: 20.1206
+  type: 'test'
+  ...
+# Subtest: bounded retained-state store evicts the oldest slot and owns its bytes
+ok 65 - bounded retained-state store evicts the oldest slot and owns its bytes
+  ---
+  duration_ms: 2.7769
+  type: 'test'
+  ...
+# Subtest: runtime checkpoint data never becomes an ordinary strategy report or cached continuation
+ok 66 - runtime checkpoint data never becomes an ordinary strategy report or cached continuation
+  ---
+  duration_ms: 3.7174
+  type: 'test'
+  ...
+# Subtest: fresh UI study retains a state, exports a separate file and keeps report/workspace JSON byte-free
+ok 67 - fresh UI study retains a state, exports a separate file and keeps report/workspace JSON byte-free
+  ---
+  duration_ms: 45.7238
+  type: 'test'
+  ...
+# Subtest: changing only target/time retains the CPU state and Continue adds only the missing updates
+ok 68 - changing only target/time retains the CPU state and Continue adds only the missing updates
+  ---
+  duration_ms: 28.5966
+  type: 'test'
+  ...
+# Subtest: cancelling continuation retains the previous checkpoint and ignores its late result
+ok 69 - cancelling continuation retains the previous checkpoint and ignores its late result
+  ---
+  duration_ms: 27.9186
+  type: 'test'
+  ...
+# Subtest: physical draft edits discard the retained CPU state while study slots stay independent
+ok 70 - physical draft edits discard the retained CPU state while study slots stay independent
+  ---
+  duration_ms: 18.2984
+  type: 'test'
+  ...
+# Subtest: opening a CPU checkpoint validates in a worker and does not train automatically
+ok 71 - opening a CPU checkpoint validates in a worker and does not train automatically
+  ---
+  duration_ms: 29.4858
+  type: 'test'
+  ...
+# Subtest: a reviewed file opens with its captured proof and can continue the same non-root position
+ok 72 - a reviewed file opens with its captured proof and can continue the same non-root position
+  ---
+  duration_ms: 43.5083
+  type: 'test'
+  ...
+# Subtest: bad containers, oversized files and failed engine validation preserve the prior study/state
+ok 73 - bad containers, oversized files and failed engine validation preserve the prior study/state
+  ---
+  duration_ms: 24.6487
+  type: 'test'
+  ...
+# Subtest: stale asynchronous checkpoint reads and worker replies cannot replace later user edits
+ok 74 - stale asynchronous checkpoint reads and worker replies cannot replace later user edits
+  ---
+  duration_ms: 16.8834
+  type: 'test'
+  ...
+# Subtest: workspace restore drops in-memory CPU states and cached reports cannot recreate them
+ok 75 - workspace restore drops in-memory CPU states and cached reports cannot recreate them
+  ---
+  duration_ms: 22.791
+  type: 'test'
+  ...
+# Subtest: checkpoint controls exist in generated page and retained state is optional for fresh studies
+ok 76 - checkpoint controls exist in generated page and retained state is optional for fresh studies
+  ---
+  duration_ms: 22.6819
+  type: 'test'
+  ...
+# Subtest: exported CPU state also resumes through the independent native engine at the same policy
+ok 77 - exported CPU state also resumes through the independent native engine at the same policy # SKIP
+  ---
+  duration_ms: 0.1166
+  type: 'test'
+  ...
+# Subtest: desktop page context requires exact loopback origin and a private session token
+ok 78 - desktop page context requires exact loopback origin and a private session token
+  ---
+  duration_ms: 2.0983
+  type: 'test'
+  ...
+# Subtest: health checks do not start jobs and send session credentials only in same-origin headers
+ok 79 - health checks do not start jobs and send session credentials only in same-origin headers
+  ---
+  duration_ms: 1.0477
+  type: 'test'
+  ...
+# Subtest: wrong engine, live capability and malformed health replies are refused
+ok 80 - wrong engine, live capability and malformed health replies are refused
+  ---
+  duration_ms: 1.139
+  type: 'test'
+  ...
+# Subtest: native desktop status is bound to the request and rejects contradictory stages
+ok 81 - native desktop status is bound to the request and rejects contradictory stages
+  ---
+  duration_ms: 0.8465
+  type: 'test'
+  ...
+# Subtest: client progresses a mocked native job and validates the complete bound result
+ok 82 - client progresses a mocked native job and validates the complete bound result
+  ---
+  duration_ms: 13.626
+  type: 'test'
+  ...
+# Subtest: wrong-result bindings are refused and cancellation is attempted
+ok 83 - wrong-result bindings are refused and cancellation is attempted
+  ---
+  duration_ms: 3.9843
+  type: 'test'
+  ...
+# Subtest: simultaneous submissions cannot pass through the connection gap
+ok 84 - simultaneous submissions cannot pass through the connection gap
+  ---
+  duration_ms: 3.5987
+  type: 'test'
+  ...
+# Subtest: cancellation while submission is in flight cancels the newly acknowledged native job
+ok 85 - cancellation while submission is in flight cancels the newly acknowledged native job
+  ---
+  duration_ms: 7.5246
+  type: 'test'
+  ...
+# Subtest: cancellation before connection completes never submits native work
+ok 86 - cancellation before connection completes never submits native work
+  ---
+  duration_ms: 1.6387
+  type: 'test'
+  ...
+# Subtest: cancelling one study slot does not cancel another slot and resume keeps the binding
+ok 87 - cancelling one study slot does not cancel another slot and resume keeps the binding
+  ---
+  duration_ms: 6.0609
+  type: 'test'
+  ...
+# Subtest: connection failures report when native cancellation cannot be confirmed
+ok 88 - connection failures report when native cancellation cannot be confirmed
+  ---
+  duration_ms: 1.6801
+  type: 'test'
+  ...
+# Subtest: deadline expiry requests cancellation and preserves the last managed checkpoint status
+ok 89 - deadline expiry requests cancellation and preserves the last managed checkpoint status
+  ---
+  duration_ms: 1.2456
+  type: 'test'
+  ...
+# Subtest: desktop request and response file limits and route allow-list are enforced
+ok 90 - desktop request and response file limits and route allow-list are enforced
+  ---
+  duration_ms: 3.8971
+  type: 'test'
+  ...
+# Subtest: portable page explains the desktop launcher and does not probe localhost
+ok 91 - portable page explains the desktop launcher and does not probe localhost
+  ---
+  duration_ms: 43.7668
+  type: 'test'
+  ...
+# Subtest: dashboard submits reviewed native work and receives its validated result without file exchange
+ok 92 - dashboard submits reviewed native work and receives its validated result without file exchange
+  ---
+  duration_ms: 64.3355
+  type: 'test'
+  ...
+# Subtest: input changes cancel in-flight managed work and block late policy commits
+ok 93 - input changes cancel in-flight managed work and block late policy commits
+  ---
+  duration_ms: 29.0828
+  type: 'test'
+  ...
+# Subtest: browser emergency stop cancels managed native work and rejects its late result
+ok 94 - browser emergency stop cancels managed native work and rejects its late result
+  ---
+  duration_ms: 24.9172
+  type: 'test'
+  ...
+# Subtest: integrated native root jobs preserve the version-1 result route
+ok 95 - integrated native root jobs preserve the version-1 result route
+  ---
+  duration_ms: 23.3214
+  type: 'test'
+  ...
+# Subtest: new desktop controls exist in generated markup and portable exports still work
+ok 96 - new desktop controls exist in generated markup and portable exports still work
+  ---
+  duration_ms: 18.0698
+  type: 'test'
+  ...
+# Subtest: Windows desktop package supplies first-run compilation, install/uninstall and real acceptance paths
+ok 97 - Windows desktop package supplies first-run compilation, install/uninstall and real acceptance paths
+  ---
+  duration_ms: 2.1157
+  type: 'test'
+  ...
+# Subtest: recovery discovery is read only, handles an empty host and validates both record halves
+ok 98 - recovery discovery is read only, handles an empty host and validates both record halves
+  ---
+  duration_ms: 11.8054
+  type: 'test'
+  ...
+# Subtest: reloading a client recovers a completed reviewed result without submitting or resuming
+ok 99 - reloading a client recovers a completed reviewed result without submitting or resuming
+  ---
+  duration_ms: 12.9194
+  type: 'test'
+  ...
+# Subtest: recovering a running job polls to completion and does not restart training
+ok 100 - recovering a running job polls to completion and does not restart training
+  ---
+  duration_ms: 4.9004
+  type: 'test'
+  ...
+# Subtest: interrupted and failed studies are adopted without training; continuation remains explicit
+ok 101 - interrupted and failed studies are adopted without training; continuation remains explicit
+  ---
+  duration_ms: 11.016
+  type: 'test'
+  ...
+# Subtest: idempotent submissions accept reordered fields and refuse changes under the same binding
+ok 102 - idempotent submissions accept reordered fields and refuse changes under the same binding
+  ---
+  duration_ms: 3.4134
+  type: 'test'
+  ...
+# Subtest: a lost submission reply fences and cancels work without retrying the training request
+ok 103 - a lost submission reply fences and cancels work without retrying the training request
+  ---
+  duration_ms: 3.1283
+  type: 'test'
+  ...
+# Subtest: cancelling before submission arrives fences the delayed request before any training starts
+ok 104 - cancelling before submission arrives fences the delayed request before any training starts
+  ---
+  duration_ms: 10.4882
+  type: 'test'
+  ...
+# Subtest: unconfirmed work blocks new submissions until cancellation is confirmed
+ok 105 - unconfirmed work blocks new submissions until cancellation is confirmed
+  ---
+  duration_ms: 3.3781
+  type: 'test'
+  ...
+# Subtest: finding an empty host does not erase an unconfirmed pending submission
+ok 106 - finding an empty host does not erase an unconfirmed pending submission
+  ---
+  duration_ms: 1.4767
+  type: 'test'
+  ...
+# Subtest: a stale cancel and its fallback fence cannot stop a newer resumed attempt
+ok 107 - a stale cancel and its fallback fence cannot stop a newer resumed attempt
+  ---
+  duration_ms: 2.5634
+  type: 'test'
+  ...
+# Subtest: duplicate compare-and-swap resumes launch only one additional attempt
+ok 108 - duplicate compare-and-swap resumes launch only one additional attempt
+  ---
+  duration_ms: 0.8643
+  type: 'test'
+  ...
+# Subtest: cancelling an unacknowledged resume skips its attempt and keeps the next resume possible
+ok 109 - cancelling an unacknowledged resume skips its attempt and keeps the next resume possible
+  ---
+  duration_ms: 10.1626
+  type: 'test'
+  ...
+# Subtest: recovering uncertain work fences its pending attempt before accepting a current record
+ok 110 - recovering uncertain work fences its pending attempt before accepting a current record
+  ---
+  duration_ms: 7.6066
+  type: 'test'
+  ...
+# Subtest: recovery refuses a replaced job and never stops its newer running replacement
+ok 111 - recovery refuses a replaced job and never stops its newer running replacement
+  ---
+  duration_ms: 3.884
+  type: 'test'
+  ...
+# Subtest: cancellation during recovery preflight cancels the owned existing attempt
+ok 112 - cancellation during recovery preflight cancels the owned existing attempt
+  ---
+  duration_ms: 3.4337
+  type: 'test'
+  ...
+# Subtest: attempt limits and contradictory status revisions are rejected
+ok 113 - attempt limits and contradictory status revisions are rejected
+  ---
+  duration_ms: 2.585
+  type: 'test'
+  ...
+# Subtest: an observed running study blocks another submission until it is stopped or recovered
+ok 114 - an observed running study blocks another submission until it is stopped or recovered
+  ---
+  duration_ms: 1.3683
+  type: 'test'
+  ...
+# Subtest: discovery reconciles stale running state when the host already completed
+ok 115 - discovery reconciles stale running state when the host already completed
+  ---
+  duration_ms: 1.4387
+  type: 'test'
+  ...
+# Subtest: a full host ledger refuses new work without forgetting earlier cancellation fences
+ok 116 - a full host ledger refuses new work without forgetting earlier cancellation fences
+  ---
+  duration_ms: 133.6912
+  type: 'test'
+  ...
+# Subtest: a valid fragment session still connects when session storage is blocked
+ok 117 - a valid fragment session still connects when session storage is blocked
+  ---
+  duration_ms: 0.4773
+  type: 'test'
+  ...
+# Subtest: dashboard discovery is read only and recovery restores the original slot, proof and result
+ok 118 - dashboard discovery is read only and recovery restores the original slot, proof and result
+  ---
+  duration_ms: 60.4259
+  type: 'test'
+  ...
+# Subtest: interrupted dashboard recovery prepares explicit Resume without starting training
+ok 119 - interrupted dashboard recovery prepares explicit Resume without starting training
+  ---
+  duration_ms: 33.6162
+  type: 'test'
+  ...
+# Subtest: malformed discovery is atomic and does not overwrite the current draft
+ok 120 - malformed discovery is atomic and does not overwrite the current draft
+  ---
+  duration_ms: 14.2182
+  type: 'test'
+  ...
+# Subtest: editing a draft invalidates a recovery preview and late discovery is ignored
+ok 121 - editing a draft invalidates a recovery preview and late discovery is ignored
+  ---
+  duration_ms: 36.647
+  type: 'test'
+  ...
+# Subtest: observed work blocks dashboard capacity tests and emergency Stop cancels it
+ok 122 - observed work blocks dashboard capacity tests and emergency Stop cancels it
+  ---
+  duration_ms: 15.9591
+  type: 'test'
+  ...
+# Subtest: portable recovery controls explain the launcher without probing the local host
+ok 123 - portable recovery controls explain the launcher without probing the local host
+  ---
+  duration_ms: 20.9723
+  type: 'test'
+  ...
+# Subtest: dashboard retains an unconfirmed submission, blocks another run and lets emergency Stop resolve it
+ok 124 - dashboard retains an unconfirmed submission, blocks another run and lets emergency Stop resolve it
+  ---
+  duration_ms: 35.7827
+  type: 'test'
+  ...
+# Subtest: a draft edit during recovery preflight cannot be overwritten by the late attachment
+ok 125 - a draft edit during recovery preflight cannot be overwritten by the late attachment
+  ---
+  duration_ms: 17.2067
+  type: 'test'
+  ...
+# Subtest: recovery of a legacy root job keeps root results and removes a prior reviewed link
+ok 126 - recovery of a legacy root job keeps root results and removes a prior reviewed link
+  ---
+  duration_ms: 24.3111
+  type: 'test'
+  ...
+# Subtest: adapter contract rejects unknown kinds and missing methods
+ok 127 - adapter contract rejects unknown kinds and missing methods
+  ---
+  duration_ms: 0.9568
+  type: 'test'
+  ...
+# Subtest: profile interface selects the adapter; "none" means no execution; missing authorisation refuses instead of downgrading
+ok 128 - profile interface selects the adapter; "none" means no execution; missing authorisation refuses instead of downgrading
+  ---
+  duration_ms: 1.7857
+  type: 'test'
+  ...
+# Subtest: UI-automation adapter needs authorisation, a driver and profile regions; it clicks only profile regions
+ok 129 - UI-automation adapter needs authorisation, a driver and profile regions; it clicks only profile regions
+  ---
+  duration_ms: 3.354
+  type: 'test'
+  ...
+# Subtest: UI-automation adapter attaches in QA mode, never in simulation or study
+ok 130 - UI-automation adapter attaches in QA mode, never in simulation or study
+  ---
+  duration_ms: 1.1957
+  type: 'test'
+  ...
+# Subtest: acknowledgment: confirmed, rejected (ignored) and ambiguous outcomes
+ok 131 - acknowledgment: confirmed, rejected (ignored) and ambiguous outcomes
+  ---
+  duration_ms: 0.492
+  type: 'test'
+  ...
+# Subtest: diagnostics recorder is bounded, ordered, per-table and exportable
+ok 132 - diagnostics recorder is bounded, ordered, per-table and exportable
+  ---
+  duration_ms: 0.7079
+  type: 'test'
+  ...
+# Subtest: bet versus raise: an opening postflop wager is a bet, a wager facing one is a raise; tree labels cannot be misused
+ok 133 - bet versus raise: an opening postflop wager is a bet, a wager facing one is a raise; tree labels cannot be misused
+  ---
+  duration_ms: 10.0055
+  type: 'test'
+  ...
+# Subtest: every pre-execution check blocks: table, hand, actor, revision, legality, size, freshness, mode, pause, authorization
+ok 134 - every pre-execution check blocks: table, hand, actor, revision, legality, size, freshness, mode, pause, authorization
+  ---
+  duration_ms: 2.5641
+  type: 'test'
+  ...
+# Subtest: duplicate submissions are blocked, including concurrent ones; the table sees exactly one action
+ok 135 - duplicate submissions are blocked, including concurrent ones; the table sees exactly one action
+  ---
+  duration_ms: 1.0141
+  type: 'test'
+  ...
+# Subtest: scripted fallback decisions: simulation only, explicitly allowed, labelled, counted apart; never in QA mode
+ok 136 - scripted fallback decisions: simulation only, explicitly allowed, labelled, counted apart; never in QA mode
+  ---
+  duration_ms: 0.9546
+  type: 'test'
+  ...
+# Subtest: acknowledgement: an action the next state does not confirm leaves the table paused and unconfirmed
+ok 137 - acknowledgement: an action the next state does not confirm leaves the table paused and unconfirmed
+  ---
+  duration_ms: 1.8749
+  type: 'test'
+  ...
+# Subtest: adapter failures: refusal is recorded, timeout retries then pauses the table as unconfirmed, latency is recorded
+ok 138 - adapter failures: refusal is recorded, timeout retries then pauses the table as unconfirmed, latency is recorded
+  ---
+  duration_ms: 66.9395
+  type: 'test'
+  ...
+# Subtest: emergency stop aborts an in-flight submission and latches until reset
+ok 139 - emergency stop aborts an in-flight submission and latches until reset
+  ---
+  duration_ms: 32.3113
+  type: 'test'
+  ...
+# Subtest: QA authorization: needed, time-limited, loopback unless individually allow-listed, every attestation required
+ok 140 - QA authorization: needed, time-limited, loopback unless individually allow-listed, every attestation required
+  ---
+  duration_ms: 0.7631
+  type: 'test'
+  ...
+# Subtest: Study Mode is the default and never acts
+ok 141 - Study Mode is the default and never acts
+  ---
+  duration_ms: 15078.3171
+  type: 'test'
+  ...
+# Subtest: Simulation Mode executes a validated solver decision through the simulator and logs it
+ok 142 - Simulation Mode executes a validated solver decision through the simulator and logs it
+  ---
+  duration_ms: 1.6965
+  type: 'test'
+  ...
+# Subtest: stale decisions are rejected: any change to the table after the decision invalidates it
+ok 143 - stale decisions are rejected: any change to the table after the decision invalidates it
+  ---
+  duration_ms: 0.7672
+  type: 'test'
+  ...
+# Subtest: decisions older than the maximum action age are rejected
+ok 144 - decisions older than the maximum action age are rejected
+  ---
+  duration_ms: 0.517
+  type: 'test'
+  ...
+# Subtest: duplicate actions for the same state are refused even if the first call is still in flight
+ok 145 - duplicate actions for the same state are refused even if the first call is still in flight
+  ---
+  duration_ms: 0.7752
+  type: 'test'
+  ...
+# Subtest: only EightMax study decisions execute; scripted fallback output and unavailable results never do
+ok 146 - only EightMax study decisions execute; scripted fallback output and unavailable results never do
+  ---
+  duration_ms: 0.5206
+  type: 'test'
+  ...
+# Subtest: illegal concrete actions are refused from reconstructed legal actions only
+ok 147 - illegal concrete actions are refused from reconstructed legal actions only
+  ---
+  duration_ms: 1.0119
+  type: 'test'
+  ...
+# Subtest: a paused table or ambiguous state blocks execution; unknown tables are unrecognised
+ok 148 - a paused table or ambiguous state blocks execution; unknown tables are unrecognised
+  ---
+  duration_ms: 0.7938
+  type: 'test'
+  ...
+# Subtest: unconfirmed actions retry with the same idempotency key, then pause the table with no further automation
+ok 149 - unconfirmed actions retry with the same idempotency key, then pause the table with no further automation
+  ---
+  duration_ms: 140.0628
+  type: 'test'
+  ...
+# Subtest: a retry that succeeds on the second try is confirmed once
+ok 150 - a retry that succeeds on the second try is confirmed once
+  ---
+  duration_ms: 43.5721
+  type: 'test'
+  ...
+# Subtest: emergency stop blocks everything, aborts in-flight work, and needs an explicit reset
+ok 151 - emergency stop blocks everything, aborts in-flight work, and needs an explicit reset
+  ---
+  duration_ms: 51.527
+  type: 'test'
+  ...
+# Subtest: Authorized QA Mode refuses to start without a complete, current, loopback-scoped authorization
+ok 152 - Authorized QA Mode refuses to start without a complete, current, loopback-scoped authorization
+  ---
+  duration_ms: 1.2857
+  type: 'test'
+  ...
+# Subtest: QA mode drives an approved loopback test client over real HTTP with idempotency keys
+ok 153 - QA mode drives an approved loopback test client over real HTTP with idempotency keys
+  ---
+  duration_ms: 21.3481
+  type: 'test'
+  ...
+# Subtest: the exported log replays on a fresh simulator to the identical table state
+ok 154 - the exported log replays on a fresh simulator to the identical table state
+  ---
+  duration_ms: 88.1638
+  type: 'test'
+  ...
+# Subtest: new UI starts a real adapter request and renders frequencies without implicit table execution
+ok 155 - new UI starts a real adapter request and renders frequencies without implicit table execution
+  ---
+  duration_ms: 82.9825
+  type: 'test'
+  ...
+# Subtest: study slot drafts are independent and changed input cancels outstanding work
+ok 156 - study slot drafts are independent and changed input cancels outstanding work
+  ---
+  duration_ms: 20.3173
+  type: 'test'
+  ...
+# Subtest: late result handlers cannot overwrite a newer study status
+ok 157 - late result handlers cannot overwrite a newer study status
+  ---
+  duration_ms: 40.8159
+  type: 'test'
+  ...
+# Subtest: emergency stop cancels analysis and requires reset before new analysis
+ok 158 - emergency stop cancels analysis and requires reset before new analysis
+  ---
+  duration_ms: 24.0185
+  type: 'test'
+  ...
+# Subtest: automatic recovery stores table state and reopens paused
+ok 159 - automatic recovery stores table state and reopens paused
+  ---
+  duration_ms: 25.2768
+  type: 'test'
+  ...
+# Subtest: imported display labels are escaped and corrupt session files leave state alone
+ok 160 - imported display labels are escaped and corrupt session files leave state alone
+  ---
+  duration_ms: 20.295
+  type: 'test'
+  ...
+# Subtest: guided fields apply without JSON edits and survive switching study slots
+ok 161 - guided fields apply without JSON edits and survive switching study slots
+  ---
+  duration_ms: 15.5341
+  type: 'test'
+  ...
+# Subtest: controlled hand UI displays actual trace frames and cancels on input change
+ok 162 - controlled hand UI displays actual trace frames and cancels on input change
+  ---
+  duration_ms: 34.3161
+  type: 'test'
+  ...
+# Subtest: completed studies can reuse exact settings while changed settings create a worker
+ok 163 - completed studies can reuse exact settings while changed settings create a worker
+  ---
+  duration_ms: 37.0867
+  type: 'test'
+  ...
+# Subtest: capacity UI runs all bursts and exports a report without a live-capacity claim
+ok 164 - capacity UI runs all bursts and exports a report without a live-capacity claim
+  ---
+  duration_ms: 53.4357
+  type: 'test'
+  ...
+# Subtest: emergency stop terminates capacity workers and does not publish a partial report
+ok 165 - emergency stop terminates capacity workers and does not publish a partial report
+  ---
+  duration_ms: 13.8481
+  type: 'test'
+  ...
