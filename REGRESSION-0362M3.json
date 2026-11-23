@@ -1,0 +1,296 @@
+{
+  "format": "eightmax-regression",
+  "version": 1,
+  "app": "0.36.2-dev",
+  "milestone": "0.36.2 Milestone 3",
+  "generatedAt": "2026-11-23T18:02:56.611276+00:00",
+  "generatedBy": "tools/make-evidence-0362m3.py",
+  "nativeEngine": {
+    "version": "5.1",
+    "build": "7d08acc7eb4577ee",
+    "sha256": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+    "changed": false
+  },
+  "baselineMilestone2Linux": {
+    "file": "evidence/0.36.2-m3/baseline-M2-linux-node-tests.tap",
+    "tests": 920,
+    "passed": 848,
+    "failed": 0,
+    "skipped": 72,
+    "durationMs": 296038.369591,
+    "environment": "Linux, Node 22.23.5, Chromium, no Mono"
+  },
+  "milestone3Linux": {
+    "file": "evidence/0.36.2-m3/m3-linux-full-suite.tap",
+    "tests": 965,
+    "passed": 913,
+    "failed": 0,
+    "skipped": 52,
+    "cancelled": 0,
+    "durationMs": 267518.770651,
+    "failedTests": [],
+    "skippedTests": [
+      {
+        "test": "NashConv correctness: independent evaluator == native engine exact best response on a trained 3-player river study",
+        "reason": "native EightMax CLI not available (set EIGHTMAX_TEST_CLI)"
+      },
+      {
+        "test": "persistent queue: a job interrupted mid-training resumes from its checkpoint after a restart (native engine)",
+        "reason": "native engine (EIGHTMAX_TEST_CLI) required for checkpointed training"
+      },
+      {
+        "test": "native training is deterministic for a given identity (repeated-seed reproducibility)",
+        "reason": "native engine required"
+      },
+      {
+        "test": "simulator: a Study Mode pass fills the library; the Decision Mode replay of the same seeded hands trains nothing and is answered entirely from the library",
+        "reason": "native engine required (linked preflop study)"
+      },
+      {
+        "test": "shared preflop snapshot answers every stored preflop row bit-for-bit like the lazy native reader",
+        "reason": "native engine (EIGHTMAX_TEST_CLI) required"
+      },
+      {
+        "test": "native checkpoint determinism: continuing 10k -> 20k equals a straight 20k run (Continue Training resumes, never restarts)",
+        "reason": "native engine (EIGHTMAX_TEST_CLI) required"
+      },
+      {
+        "test": "multiple seeds give different reproducible studies of the same game; each has its own fingerprint",
+        "reason": "native engine (EIGHTMAX_TEST_CLI) required"
+      },
+      {
+        "test": "information-set coverage: exact counts agree with the state, per-position figures, missing branches listed by reach, incomplete flagged",
+        "reason": "native engine (EIGHTMAX_TEST_CLI) required"
+      },
+      {
+        "test": "shared memory: worker threads read ONE SharedArrayBuffer (no copy) and answer identically; a crashed worker is replaced with the same snapshot",
+        "reason": "native engine (EIGHTMAX_TEST_CLI) required"
+      },
+      {
+        "test": "snapshot corruption and identity: a flipped byte is refused on load; a different study is refused by fingerprint",
+        "reason": "native engine (EIGHTMAX_TEST_CLI) required"
+      },
+      {
+        "test": "first-in nodes of all eight positions, and a sampled one-decision deviation gain with a 95% interval (lower-bound estimate)",
+        "reason": "native engine (EIGHTMAX_TEST_CLI) required"
+      },
+      {
+        "test": "state anatomy and compact reader: Mode A has postflop rows in single-row contexts, Mode B none; class keys read back as 169 classes",
+        "reason": "native EightMax CLI not available (set EIGHTMAX_TEST_CLI)"
+      },
+      {
+        "test": "checkpoint continuation of a compact (class-keyed) study is bit-identical to an uninterrupted run; keyed states pass CRC verification and corruption is detected",
+        "reason": "native EightMax CLI not available (set EIGHTMAX_TEST_CLI)"
+      },
+      {
+        "test": "memory budget enforcement: a compact study is refused or stopped at its native budget, never silently reported complete",
+        "reason": "native EightMax CLI not available (set EIGHTMAX_TEST_CLI)"
+      },
+      {
+        "test": "class-keyed shared preflop snapshot (format 2): answers every combination with its class row, verifies its checksum, is labelled approximate in decisions",
+        "reason": "native EightMax CLI not available (set EIGHTMAX_TEST_CLI)"
+      },
+      {
+        "test": "precompute queue: quality-targeted jobs store quality; Continue Training refines from the stored identity",
+        "reason": "native engine (EIGHTMAX_TEST_CLI) required"
+      },
+      {
+        "test": "native checkpoint continuation: adaptive training resumes from a kept checkpoint instead of starting again",
+        "reason": "native engine (EIGHTMAX_TEST_CLI) required"
+      },
+      {
+        "test": "strategy-library ranges command runs end to end and writes ranges-latest.json beside the library (0.33 Windows CI regression)",
+        "reason": "native EightMax CLI not available (set EIGHTMAX_TEST_CLI)"
+      },
+      {
+        "test": "native EightMax CLI trains an on-demand postflop study off-thread and the JS reader returns the same kind of answer",
+        "reason": "native CLI (EIGHTMAX_TEST_CLI) not available: native postflop training not verified in this run"
+      },
+      {
+        "test": "lazy store matches a full JavaScript import exactly, stays inside its cache bound and evicts",
+        "reason": "native EightMax engine not available (set EIGHTMAX_TEST_CLI)"
+      },
+      {
+        "test": "corrupt, truncated, trailing-data, wrong-magic and header-damaged states are refused with a code",
+        "reason": "native EightMax engine not available (set EIGHTMAX_TEST_CLI)"
+      },
+      {
+        "test": "memory exhaustion: a tiny budget stops as memory-limited (not complete); resuming at a larger budget reproduces the uninterrupted study byte for byte",
+        "reason": "native EightMax engine not available (set EIGHTMAX_TEST_CLI)"
+      },
+      {
+        "test": "ensureStudy: escalates a memory-limited study to the next permitted budget, reuses the cached result, refuses an unsafe budget",
+        "reason": "native EightMax engine not available (set EIGHTMAX_TEST_CLI)"
+      },
+      {
+        "test": "interrupted training leaves the previous state intact and no temporary files; a failed final write is reported and cleaned up",
+        "reason": "native EightMax engine not available (set EIGHTMAX_TEST_CLI)"
+      },
+      {
+        "test": "native training is deterministic: two runs of the same study have identical bytes",
+        "reason": "native EightMax engine not available (set EIGHTMAX_TEST_CLI)"
+      },
+      {
+        "test": "0.25 synchronous trainer now refuses a truncated study instead of using it as if complete",
+        "reason": "native EightMax engine not available (set EIGHTMAX_TEST_CLI)"
+      },
+      {
+        "test": "the helper source compiles for win-x64 (cross-compiled; needs the .NET 8 SDK)",
+        "reason": ".NET SDK not installed: WGC compilation NOT verified in this run"
+      },
+      {
+        "test": "the PNG writer used by the helper is bit-exact (CRC-32 and every pixel verified here)",
+        "reason": ".NET SDK not installed"
+      },
+      {
+        "test": "all shipped PowerShell scripts parse (PowerShell 7 parser; Windows PowerShell 5.1 parse is re-checked by RUN-RELEASE-ACCEPTANCE)",
+        "reason": "pwsh not installed"
+      },
+      {
+        "test": "Common.ps1 reporting helpers: exact counts, never-empty messages, stderr captured not thrown, timeouts classified",
+        "reason": "pwsh not installed"
+      },
+      {
+        "test": "Test-Capture.ps1 replaying the 0.26 crash reports the exact failing stage with the crash text (not an empty detail)",
+        "reason": "pwsh not installed"
+      },
+      {
+        "test": "Test-Capture.ps1 with a passing 0.28 tool reports every self-test stage",
+        "reason": "pwsh not installed"
+      },
+      {
+        "test": "Test-Wgc.ps1 reports every WGC self-test stage plus refusals (stub tool; the real helper has not run on Windows)",
+        "reason": "pwsh not installed"
+      },
+      {
+        "test": "results collector: reads the real 0.26 reports, never modifies originals, excludes session files, redacts tokens/names, writes portable ZIP paths",
+        "reason": "pwsh not installed"
+      }
+    ],
+    "environment": "Linux, Node 22.23.5, Chromium (Playwright), Mono 6.8, openbox - NOT Windows"
+  },
+  "reruns": [],
+  "windows": [
+    {
+      "run": "45181140222",
+      "unitTests": {
+        "mode": "complete suite",
+        "files": 106,
+        "tests": 951,
+        "passed": 10,
+        "failed": 1,
+        "skipped": 65,
+        "exitCode": 1,
+        "seconds": 400,
+        "failedNames": [
+          "PowerShell scripts: structural lint only (balanced delimiters, strict error handling). This is NOT a PowerShell parse; PowerShell was unavailable here"
+        ]
+      },
+      "overall": "FAIL",
+      "counts": {
+        "passed": 11,
+        "failed": 10,
+        "warnings": 0,
+        "checks": 21
+      }
+    },
+    {
+      "run": "45203097931",
+      "unitTests": {
+        "mode": "complete suite",
+        "files": 107,
+        "tests": 958,
+        "passed": 892,
+        "failed": 1,
+        "skipped": 65,
+        "exitCode": 1,
+        "seconds": 527,
+        "failedNames": [
+          "0.31 defect fixed: worker threads opening a NEW strategy library at the same time never fail (marker written under the lock)"
+        ]
+      },
+      "overall": "FAIL",
+      "counts": {
+        "passed": 37,
+        "failed": 10,
+        "warnings": 0,
+        "checks": 47
+      }
+    },
+    {
+      "run": "45217637720",
+      "unitTests": {
+        "mode": "complete suite",
+        "files": 108,
+        "tests": 965,
+        "passed": 900,
+        "failed": 0,
+        "skipped": 65,
+        "exitCode": 0,
+        "seconds": 462,
+        "failedNames": []
+      },
+      "overall": "FAIL",
+      "counts": {
+        "passed": 49,
+        "failed": 1,
+        "warnings": 0,
+        "checks": 50
+      }
+    },
+    {
+      "run": "45225443410",
+      "unitTests": {
+        "mode": "complete suite",
+        "files": 108,
+        "tests": 965,
+        "passed": 900,
+        "failed": 0,
+        "skipped": 65,
+        "exitCode": 0,
+        "seconds": 494,
+        "failedNames": []
+      },
+      "overall": "PASS",
+      "counts": {
+        "passed": 51,
+        "failed": 0,
+        "warnings": 0,
+        "checks": 51
+      }
+    }
+  ],
+  "exitAudit": {
+    "before": {
+      "runs": 1,
+      "clean": 0,
+      "maxReportToExitMs": 119271,
+      "allExitCodesMatch": true,
+      "hardKilled": 0
+    },
+    "after10Runs": {
+      "runs": 10,
+      "clean": 10,
+      "maxReportToExitMs": 30,
+      "allExitCodesMatch": true,
+      "hardKilled": 0
+    },
+    "genuineTimeout": {
+      "runs": 2,
+      "clean": 2,
+      "maxReportToExitMs": 15,
+      "allExitCodesMatch": true,
+      "hardKilled": 0
+    }
+  },
+  "buildCheck": {
+    "ok": true,
+    "fallbackCompile": {
+      "sameAsBuildExecutables": true,
+      "sameAsComponentVersions": true,
+      "includesEveryTopLevelDesktopSource": true,
+      "ok": true
+    },
+    "nativeUnchanged": true
+  }
+}

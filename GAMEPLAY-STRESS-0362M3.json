@@ -1,0 +1,1347 @@
+{
+  "format": "eightmax-gameplay-stress",
+  "version": 1,
+  "app": "0.36.2-dev",
+  "milestone": "0.36.2 Milestone 3",
+  "generatedAt": "2026-11-23T18:02:56.611276+00:00",
+  "generatedBy": "tools/make-evidence-0362m3.py",
+  "nativeEngine": {
+    "version": "5.1",
+    "build": "7d08acc7eb4577ee",
+    "sha256": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+    "changed": false
+  },
+  "environment": "Linux x64, Node v22.23.5 - in-process fake desktop host + REAL fixture dealer (the dealer of EightMaxTestTable.exe) + real recognition, tracker, scheduler, adapter and driver wrapper. NOT Windows evidence (see WINDOWS-VALIDATION-0362M3.json).",
+  "longCampaigns": {
+    "files": [
+      "evidence/0.36.2-m3/campaign-fake-5p400.json",
+      "evidence/0.36.2-m3/campaign-fake-8p300.json",
+      "evidence/0.36.2-m3/campaign-fake-8p1500.json"
+    ],
+    "byCampaign": {
+      "campaign-fake-5p400.json": {
+        "overall": "PASS",
+        "environment": "fake",
+        "seconds": 127,
+        "completedHands": 135,
+        "tournamentsStarted": 10,
+        "tournamentsCompleted": 9,
+        "winnersMatchDealer": true,
+        "actionsAttempted": 685,
+        "actionsConfirmed": 685,
+        "incorrectActions": 0,
+        "invalidWagers": 0,
+        "missedStateTransitions": 0,
+        "confirmedButNotApplied": 0,
+        "refusedReadings": 0,
+        "reconstructionFailures": 0,
+        "untrackedHands": 0,
+        "untrackedHandsWithoutDecision": 0,
+        "untrackedHandsNeedingInput": 0,
+        "recoveryEvents": 0,
+        "unexpectedPauses": 0,
+        "uncertainOrUnconfirmed": 0,
+        "eliminationsSeen": 63,
+        "finalPlayerCounts": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "hands": {
+          "handsObserved": 135,
+          "allEightDealtIn": 0,
+          "withEliminatedSeats": 135,
+          "headsUp": 87,
+          "allIn": 51,
+          "sidePots": 31,
+          "endingWithElimination": 26,
+          "endingWithTwoOrMoreEliminations": 10,
+          "dealtInHistogram": {
+            "2": 87,
+            "3": 39,
+            "5": 9
+          }
+        },
+        "violations": []
+      },
+      "campaign-fake-8p300.json": {
+        "overall": "PASS",
+        "environment": "fake",
+        "seconds": 175,
+        "completedHands": 163,
+        "tournamentsStarted": 10,
+        "tournamentsCompleted": 9,
+        "winnersMatchDealer": true,
+        "actionsAttempted": 1064,
+        "actionsConfirmed": 1064,
+        "incorrectActions": 0,
+        "invalidWagers": 0,
+        "missedStateTransitions": 0,
+        "confirmedButNotApplied": 0,
+        "refusedReadings": 4,
+        "reconstructionFailures": 0,
+        "untrackedHands": 2,
+        "untrackedHandsWithoutDecision": 2,
+        "untrackedHandsNeedingInput": 0,
+        "recoveryEvents": 0,
+        "unexpectedPauses": 0,
+        "uncertainOrUnconfirmed": 0,
+        "eliminationsSeen": 61,
+        "finalPlayerCounts": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "hands": {
+          "handsObserved": 161,
+          "allEightDealtIn": 9,
+          "withEliminatedSeats": 152,
+          "headsUp": 114,
+          "allIn": 46,
+          "sidePots": 26,
+          "endingWithElimination": 33,
+          "endingWithTwoOrMoreEliminations": 17,
+          "dealtInHistogram": {
+            "2": 114,
+            "3": 24,
+            "4": 5,
+            "5": 8,
+            "6": 1,
+            "8": 9
+          }
+        },
+        "violations": []
+      },
+      "campaign-fake-8p1500.json": {
+        "overall": "PASS",
+        "environment": "fake",
+        "seconds": 216,
+        "completedHands": 200,
+        "tournamentsStarted": 2,
+        "tournamentsCompleted": 1,
+        "winnersMatchDealer": true,
+        "actionsAttempted": 1270,
+        "actionsConfirmed": 1270,
+        "incorrectActions": 0,
+        "invalidWagers": 0,
+        "missedStateTransitions": 0,
+        "confirmedButNotApplied": 0,
+        "refusedReadings": 0,
+        "reconstructionFailures": 0,
+        "untrackedHands": 0,
+        "untrackedHandsWithoutDecision": 0,
+        "untrackedHandsNeedingInput": 0,
+        "recoveryEvents": 0,
+        "unexpectedPauses": 0,
+        "uncertainOrUnconfirmed": 0,
+        "eliminationsSeen": 7,
+        "finalPlayerCounts": [
+          1
+        ],
+        "hands": {
+          "handsObserved": 200,
+          "allEightDealtIn": 1,
+          "withEliminatedSeats": 199,
+          "headsUp": 186,
+          "allIn": 9,
+          "sidePots": 5,
+          "endingWithElimination": 6,
+          "endingWithTwoOrMoreEliminations": 1,
+          "dealtInHistogram": {
+            "2": 186,
+            "3": 3,
+            "4": 8,
+            "5": 1,
+            "6": 1,
+            "8": 1
+          }
+        },
+        "violations": []
+      }
+    },
+    "totals": {
+      "completedHands": 498,
+      "tournamentsStarted": 22,
+      "tournamentsCompleted": 19,
+      "actionsAttempted": 3019,
+      "actionsConfirmed": 3019,
+      "incorrectActions": 0,
+      "invalidWagers": 0,
+      "missedStateTransitions": 0,
+      "reconstructionFailures": 0,
+      "unexpectedPauses": 0,
+      "recoveryEvents": 0,
+      "eliminationsSeen": 131
+    }
+  },
+  "multiTableStability": {
+    "file": "evidence/0.36.2-m3/gameplay-stability-fake.json",
+    "overall": "PASS",
+    "environment": "fake",
+    "summary": {
+      "scenarios": 4,
+      "passed": 4,
+      "failed": 0,
+      "checks": 20,
+      "failedChecks": 0,
+      "cleanupOk": true
+    },
+    "cleanup": true,
+    "scenarios": [
+      {
+        "id": "M1",
+        "name": "1 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+        "status": "pass",
+        "checks": 5,
+        "failedChecks": [],
+        "durationMs": 62541,
+        "metrics": {
+          "tables": 1,
+          "seconds": 60,
+          "completedHands": 56,
+          "tournamentsStarted": 5,
+          "tournamentsCompleted": 4,
+          "winnersMatchDealer": true,
+          "actionsAttempted": 353,
+          "actionsConfirmed": 351,
+          "incorrectActions": 0,
+          "invalidWagers": 0,
+          "missedStateTransitions": 0,
+          "confirmedButNotApplied": 0,
+          "refusedReadings": 14,
+          "reconstructionFailures": 0,
+          "untrackedHands": 2,
+          "untrackedHandsWithoutDecision": 2,
+          "untrackedHandsNeedingInput": 0,
+          "recoveryEvents": 1,
+          "lifecycleRecoveries": 5,
+          "eliminationsSeen": 33,
+          "uncertainOrUnconfirmed": 0,
+          "deadlineMisses": 0,
+          "cleanRefusals": 2,
+          "unexpectedPauses": 0,
+          "finalPlayerCounts": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "hands": {
+            "handsObserved": 54,
+            "allEightDealtIn": 5,
+            "withEliminatedSeats": 49,
+            "headsUp": 37,
+            "allIn": 23,
+            "sidePots": 14,
+            "endingWithElimination": 17,
+            "endingWithTwoOrMoreEliminations": 9,
+            "dealtInHistogram": {
+              "2": 37,
+              "3": 6,
+              "4": 1,
+              "5": 1,
+              "6": 3,
+              "7": 1,
+              "8": 5
+            }
+          },
+          "faults": {
+            "closeReopen": 0,
+            "estop": 3
+          },
+          "violations": []
+        }
+      },
+      {
+        "id": "M2",
+        "name": "2 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+        "status": "pass",
+        "checks": 5,
+        "failedChecks": [],
+        "durationMs": 60212,
+        "metrics": {
+          "tables": 2,
+          "seconds": 60,
+          "completedHands": 74,
+          "tournamentsStarted": 6,
+          "tournamentsCompleted": 2,
+          "winnersMatchDealer": true,
+          "actionsAttempted": 575,
+          "actionsConfirmed": 572,
+          "incorrectActions": 0,
+          "invalidWagers": 0,
+          "missedStateTransitions": 0,
+          "confirmedButNotApplied": 0,
+          "refusedReadings": 0,
+          "reconstructionFailures": 0,
+          "untrackedHands": 0,
+          "untrackedHandsWithoutDecision": 0,
+          "untrackedHandsNeedingInput": 0,
+          "recoveryEvents": 0,
+          "lifecycleRecoveries": 3,
+          "eliminationsSeen": 33,
+          "uncertainOrUnconfirmed": 2,
+          "deadlineMisses": 0,
+          "cleanRefusals": 1,
+          "unexpectedPauses": 0,
+          "finalPlayerCounts": [
+            1,
+            1
+          ],
+          "hands": {
+            "handsObserved": 78,
+            "allEightDealtIn": 6,
+            "withEliminatedSeats": 72,
+            "headsUp": 62,
+            "allIn": 17,
+            "sidePots": 10,
+            "endingWithElimination": 16,
+            "endingWithTwoOrMoreEliminations": 9,
+            "dealtInHistogram": {
+              "2": 62,
+              "3": 3,
+              "4": 1,
+              "6": 3,
+              "7": 3,
+              "8": 6
+            }
+          },
+          "faults": {
+            "closeReopen": 2,
+            "estop": 1
+          },
+          "violations": []
+        }
+      },
+      {
+        "id": "M5",
+        "name": "5 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+        "status": "pass",
+        "checks": 5,
+        "failedChecks": [],
+        "durationMs": 60523,
+        "metrics": {
+          "tables": 5,
+          "seconds": 60,
+          "completedHands": 67,
+          "tournamentsStarted": 8,
+          "tournamentsCompleted": 1,
+          "winnersMatchDealer": true,
+          "actionsAttempted": 640,
+          "actionsConfirmed": 632,
+          "incorrectActions": 0,
+          "invalidWagers": 0,
+          "missedStateTransitions": 0,
+          "confirmedButNotApplied": 0,
+          "refusedReadings": 2,
+          "reconstructionFailures": 0,
+          "untrackedHands": 1,
+          "untrackedHandsWithoutDecision": 1,
+          "untrackedHandsNeedingInput": 0,
+          "recoveryEvents": 0,
+          "lifecycleRecoveries": 6,
+          "eliminationsSeen": 33,
+          "uncertainOrUnconfirmed": 2,
+          "deadlineMisses": 0,
+          "cleanRefusals": 6,
+          "unexpectedPauses": 0,
+          "finalPlayerCounts": [
+            1
+          ],
+          "hands": {
+            "handsObserved": 73,
+            "allEightDealtIn": 9,
+            "withEliminatedSeats": 64,
+            "headsUp": 23,
+            "allIn": 25,
+            "sidePots": 20,
+            "endingWithElimination": 17,
+            "endingWithTwoOrMoreEliminations": 10,
+            "dealtInHistogram": {
+              "2": 23,
+              "3": 31,
+              "4": 3,
+              "5": 1,
+              "6": 4,
+              "7": 2,
+              "8": 9
+            }
+          },
+          "faults": {
+            "closeReopen": 2,
+            "estop": 1
+          },
+          "violations": []
+        }
+      },
+      {
+        "id": "M8",
+        "name": "8 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+        "status": "pass",
+        "checks": 5,
+        "failedChecks": [],
+        "durationMs": 60694,
+        "metrics": {
+          "tables": 8,
+          "seconds": 61,
+          "completedHands": 60,
+          "tournamentsStarted": 11,
+          "tournamentsCompleted": 1,
+          "winnersMatchDealer": true,
+          "actionsAttempted": 672,
+          "actionsConfirmed": 658,
+          "incorrectActions": 0,
+          "invalidWagers": 0,
+          "missedStateTransitions": 0,
+          "confirmedButNotApplied": 0,
+          "refusedReadings": 8,
+          "reconstructionFailures": 0,
+          "untrackedHands": 2,
+          "untrackedHandsWithoutDecision": 2,
+          "untrackedHandsNeedingInput": 0,
+          "recoveryEvents": 1,
+          "lifecycleRecoveries": 10,
+          "eliminationsSeen": 48,
+          "uncertainOrUnconfirmed": 1,
+          "deadlineMisses": 0,
+          "cleanRefusals": 13,
+          "unexpectedPauses": 0,
+          "finalPlayerCounts": [
+            1
+          ],
+          "hands": {
+            "handsObserved": 68,
+            "allEightDealtIn": 12,
+            "withEliminatedSeats": 56,
+            "headsUp": 13,
+            "allIn": 39,
+            "sidePots": 32,
+            "endingWithElimination": 29,
+            "endingWithTwoOrMoreEliminations": 13,
+            "dealtInHistogram": {
+              "2": 13,
+              "3": 18,
+              "4": 9,
+              "5": 9,
+              "6": 4,
+              "7": 3,
+              "8": 12
+            }
+          },
+          "faults": {
+            "closeReopen": 2,
+            "estop": 1
+          },
+          "violations": []
+        }
+      }
+    ],
+    "note": "ten-table capacity is NOT claimed (out of scope for Milestone 3)"
+  },
+  "lifecycleStress": {
+    "file": "evidence/0.36.2-m3/lifecycle-stress-M3-120s.json",
+    "pass": true,
+    "violations": [],
+    "registrations": 25,
+    "confirmedActions": 768,
+    "uncertainActions": 4,
+    "faults": {
+      "close": 17,
+      "reopen": 17,
+      "minimize": 9,
+      "transient": 21,
+      "reuse": 7,
+      "estop": 8
+    }
+  },
+  "windows": {
+    "note": "REAL Windows (GitHub-hosted windows-latest runner: real windows, capture and input; not the target PC) - kept apart from the Linux / fake-host results above",
+    "runs": [
+      {
+        "run": "45203097931",
+        "campaign": null,
+        "multiTableStability": {
+          "overall": "FAIL",
+          "environment": "windows",
+          "summary": {
+            "scenarios": 4,
+            "passed": 1,
+            "failed": 3,
+            "checks": 20,
+            "failedChecks": 3,
+            "cleanupOk": false
+          },
+          "cleanup": false,
+          "scenarios": [
+            {
+              "id": "M1",
+              "name": "1 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+              "status": "fail",
+              "checks": 5,
+              "failedChecks": [
+                "no stall, no unexpected pause, no violation"
+              ],
+              "durationMs": 62590,
+              "metrics": {
+                "tables": 1,
+                "seconds": 60,
+                "completedHands": 3,
+                "tournamentsStarted": 4,
+                "tournamentsCompleted": 0,
+                "winnersMatchDealer": true,
+                "actionsAttempted": 48,
+                "actionsConfirmed": 41,
+                "incorrectActions": 0,
+                "invalidWagers": 0,
+                "missedStateTransitions": 0,
+                "confirmedButNotApplied": 0,
+                "refusedReadings": 0,
+                "reconstructionFailures": 18,
+                "untrackedHands": 0,
+                "recoveryEvents": 0,
+                "lifecycleRecoveries": 3,
+                "eliminationsSeen": 0,
+                "uncertainOrUnconfirmed": 6,
+                "deadlineMisses": 0,
+                "cleanRefusals": 3,
+                "unexpectedPauses": 3,
+                "finalPlayerCounts": [],
+                "hands": {
+                  "handsObserved": 7,
+                  "allEightDealtIn": 4,
+                  "withEliminatedSeats": 3,
+                  "headsUp": 0,
+                  "allIn": 6,
+                  "sidePots": 6,
+                  "endingWithElimination": 0,
+                  "endingWithTwoOrMoreEliminations": 0,
+                  "dealtInHistogram": {
+                    "6": 3,
+                    "8": 4
+                  }
+                },
+                "faults": {
+                  "closeReopen": 0,
+                  "estop": 3
+                },
+                "violations": [
+                  "table 1 safety-paused: unconfirmed-input action not confirmed: hand changed (1 -> 2) with no record of the action; manual review required",
+                  "table 1 safety-paused: unconfirmed-input action not confirmed: hand changed (1 -> 2) with no record of the action; manual review required",
+                  "table 1 safety-paused: unconfirmed-input action not confirmed: hand changed (1 -> 2) with no record of the action; manual review required"
+                ]
+              }
+            },
+            {
+              "id": "M2",
+              "name": "2 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+              "status": "fail",
+              "checks": 5,
+              "failedChecks": [
+                "no stall, no unexpected pause, no violation"
+              ],
+              "durationMs": 60712,
+              "metrics": {
+                "tables": 2,
+                "seconds": 60,
+                "completedHands": 0,
+                "tournamentsStarted": 50,
+                "tournamentsCompleted": 0,
+                "winnersMatchDealer": true,
+                "actionsAttempted": 70,
+                "actionsConfirmed": 20,
+                "incorrectActions": 0,
+                "invalidWagers": 0,
+                "missedStateTransitions": 0,
+                "confirmedButNotApplied": 0,
+                "refusedReadings": 0,
+                "reconstructionFailures": 0,
+                "untrackedHands": 0,
+                "recoveryEvents": 0,
+                "lifecycleRecoveries": 3,
+                "eliminationsSeen": 0,
+                "uncertainOrUnconfirmed": 23,
+                "deadlineMisses": 0,
+                "cleanRefusals": 50,
+                "unexpectedPauses": 46,
+                "finalPlayerCounts": [],
+                "hands": {
+                  "handsObserved": 49,
+                  "allEightDealtIn": 49,
+                  "withEliminatedSeats": 0,
+                  "headsUp": 0,
+                  "allIn": 0,
+                  "sidePots": 0,
+                  "endingWithElimination": 0,
+                  "endingWithTwoOrMoreEliminations": 0,
+                  "dealtInHistogram": {
+                    "8": 49
+                  }
+                },
+                "faults": {
+                  "closeReopen": 2,
+                  "estop": 1
+                },
+                "violations": [
+                  "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+                  "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+                  "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+                  "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+                  "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+                  "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+                  "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+                  "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+                  "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+                  "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+                  "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+                  "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+                  "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+                  "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+                  "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+                  "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+                  "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+                  "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+                  "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+                  "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+                  "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+                  "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+                  "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+                  "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+                  "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+                  "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+                  "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+                  "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+                  "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+                  "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+                  "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+                  "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+                  "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+                  "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+                  "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+                  "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+                  "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+                  "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+                  "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+                  "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+                  "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+                  "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1436,516 between operations); resume explicitly.",
+                  "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+                  "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1505,516 between operations); resume explicitly.",
+                  "table 1 safety-paused: manual-override manual mouse/keyboard input took over: Input scheduler: Table paused: manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else; automation yielded.",
+                  "table 2 safety-paused: manual-override manual mouse/keyboard input took over: Click failed: manual-override: Automation yielded to manual input (cursor moved from 716,516 to 1505,516 between operations); resume explicitly."
+                ]
+              }
+            },
+            {
+              "id": "M5",
+              "name": "5 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+              "status": "fail",
+              "checks": 5,
+              "failedChecks": [
+                "no stall, no unexpected pause, no violation"
+              ],
+              "durationMs": 64684,
+              "metrics": {
+                "tables": 5,
+                "seconds": 64,
+                "completedHands": 2,
+                "tournamentsStarted": 8,
+                "tournamentsCompleted": 0,
+                "winnersMatchDealer": true,
+                "actionsAttempted": 76,
+                "actionsConfirmed": 65,
+                "incorrectActions": 0,
+                "invalidWagers": 0,
+                "missedStateTransitions": 0,
+                "confirmedButNotApplied": 0,
+                "refusedReadings": 0,
+                "reconstructionFailures": 6,
+                "untrackedHands": 0,
+                "recoveryEvents": 0,
+                "lifecycleRecoveries": 5,
+                "eliminationsSeen": 1,
+                "uncertainOrUnconfirmed": 2,
+                "deadlineMisses": 0,
+                "cleanRefusals": 10,
+                "unexpectedPauses": 1,
+                "finalPlayerCounts": [],
+                "hands": {
+                  "handsObserved": 10,
+                  "allEightDealtIn": 8,
+                  "withEliminatedSeats": 2,
+                  "headsUp": 0,
+                  "allIn": 4,
+                  "sidePots": 4,
+                  "endingWithElimination": 1,
+                  "endingWithTwoOrMoreEliminations": 0,
+                  "dealtInHistogram": {
+                    "6": 1,
+                    "7": 1,
+                    "8": 8
+                  }
+                },
+                "faults": {
+                  "closeReopen": 2,
+                  "estop": 1
+                },
+                "violations": [
+                  "table 1 safety-paused: unconfirmed-input action not confirmed: hand changed (1 -> 2) with no record of the action; manual review required"
+                ]
+              }
+            },
+            {
+              "id": "M8",
+              "name": "8 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+              "status": "pass",
+              "checks": 5,
+              "failedChecks": [],
+              "durationMs": 76519,
+              "metrics": {
+                "tables": 8,
+                "seconds": 75,
+                "completedHands": 0,
+                "tournamentsStarted": 10,
+                "tournamentsCompleted": 0,
+                "winnersMatchDealer": true,
+                "actionsAttempted": 97,
+                "actionsConfirmed": 79,
+                "incorrectActions": 0,
+                "invalidWagers": 0,
+                "missedStateTransitions": 0,
+                "confirmedButNotApplied": 0,
+                "refusedReadings": 0,
+                "reconstructionFailures": 0,
+                "untrackedHands": 0,
+                "recoveryEvents": 0,
+                "lifecycleRecoveries": 9,
+                "eliminationsSeen": 0,
+                "uncertainOrUnconfirmed": 1,
+                "deadlineMisses": 2,
+                "cleanRefusals": 18,
+                "unexpectedPauses": 0,
+                "finalPlayerCounts": [],
+                "hands": {
+                  "handsObserved": 10,
+                  "allEightDealtIn": 10,
+                  "withEliminatedSeats": 0,
+                  "headsUp": 0,
+                  "allIn": 3,
+                  "sidePots": 3,
+                  "endingWithElimination": 0,
+                  "endingWithTwoOrMoreEliminations": 0,
+                  "dealtInHistogram": {
+                    "8": 10
+                  }
+                },
+                "faults": {
+                  "closeReopen": 2,
+                  "estop": 1
+                },
+                "violations": []
+              }
+            }
+          ]
+        }
+      },
+      {
+        "run": "45217637720",
+        "campaign": {
+          "overall": "PASS",
+          "environment": "windows",
+          "seconds": 988,
+          "completedHands": 136,
+          "tournamentsStarted": 9,
+          "tournamentsCompleted": 8,
+          "winnersMatchDealer": true,
+          "actionsAttempted": 872,
+          "actionsConfirmed": 872,
+          "incorrectActions": 0,
+          "invalidWagers": 0,
+          "missedStateTransitions": 0,
+          "confirmedButNotApplied": 0,
+          "refusedReadings": 1,
+          "reconstructionFailures": 0,
+          "untrackedHands": 0,
+          "untrackedHandsWithoutDecision": null,
+          "untrackedHandsNeedingInput": null,
+          "recoveryEvents": 0,
+          "unexpectedPauses": 0,
+          "uncertainOrUnconfirmed": 0,
+          "eliminationsSeen": 56,
+          "finalPlayerCounts": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "hands": {
+            "handsObserved": 136,
+            "allEightDealtIn": 0,
+            "withEliminatedSeats": 136,
+            "headsUp": 40,
+            "allIn": 48,
+            "sidePots": 40,
+            "endingWithElimination": 24,
+            "endingWithTwoOrMoreEliminations": 8,
+            "dealtInHistogram": {
+              "2": 40,
+              "3": 88,
+              "5": 8
+            }
+          },
+          "violations": []
+        },
+        "multiTableStability": {
+          "overall": "PASS",
+          "environment": "windows",
+          "summary": {
+            "scenarios": 4,
+            "passed": 4,
+            "failed": 0,
+            "checks": 20,
+            "failedChecks": 0,
+            "cleanupOk": true
+          },
+          "cleanup": true,
+          "scenarios": [
+            {
+              "id": "M1",
+              "name": "1 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+              "status": "pass",
+              "checks": 5,
+              "failedChecks": [],
+              "durationMs": 62790,
+              "metrics": {
+                "tables": 1,
+                "seconds": 60,
+                "completedHands": 6,
+                "tournamentsStarted": 1,
+                "tournamentsCompleted": 0,
+                "winnersMatchDealer": true,
+                "actionsAttempted": 47,
+                "actionsConfirmed": 46,
+                "incorrectActions": 0,
+                "invalidWagers": 0,
+                "missedStateTransitions": 0,
+                "confirmedButNotApplied": 0,
+                "refusedReadings": 0,
+                "reconstructionFailures": 0,
+                "untrackedHands": 0,
+                "recoveryEvents": 0,
+                "lifecycleRecoveries": 4,
+                "eliminationsSeen": 5,
+                "uncertainOrUnconfirmed": 0,
+                "deadlineMisses": 0,
+                "cleanRefusals": 1,
+                "unexpectedPauses": 0,
+                "finalPlayerCounts": [],
+                "hands": {
+                  "handsObserved": 7,
+                  "allEightDealtIn": 1,
+                  "withEliminatedSeats": 6,
+                  "headsUp": 0,
+                  "allIn": 5,
+                  "sidePots": 4,
+                  "endingWithElimination": 3,
+                  "endingWithTwoOrMoreEliminations": 2,
+                  "dealtInHistogram": {
+                    "3": 4,
+                    "4": 1,
+                    "6": 1,
+                    "8": 1
+                  }
+                },
+                "faults": {
+                  "closeReopen": 0,
+                  "estop": 3
+                },
+                "violations": []
+              }
+            },
+            {
+              "id": "M2",
+              "name": "2 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+              "status": "pass",
+              "checks": 5,
+              "failedChecks": [],
+              "durationMs": 61119,
+              "metrics": {
+                "tables": 2,
+                "seconds": 61,
+                "completedHands": 1,
+                "tournamentsStarted": 4,
+                "tournamentsCompleted": 0,
+                "winnersMatchDealer": true,
+                "actionsAttempted": 35,
+                "actionsConfirmed": 31,
+                "incorrectActions": 0,
+                "invalidWagers": 0,
+                "missedStateTransitions": 0,
+                "confirmedButNotApplied": 0,
+                "refusedReadings": 0,
+                "reconstructionFailures": 0,
+                "untrackedHands": 0,
+                "recoveryEvents": 0,
+                "lifecycleRecoveries": 2,
+                "eliminationsSeen": 3,
+                "uncertainOrUnconfirmed": 0,
+                "deadlineMisses": 0,
+                "cleanRefusals": 4,
+                "unexpectedPauses": 0,
+                "finalPlayerCounts": [],
+                "hands": {
+                  "handsObserved": 5,
+                  "allEightDealtIn": 4,
+                  "withEliminatedSeats": 1,
+                  "headsUp": 0,
+                  "allIn": 1,
+                  "sidePots": 1,
+                  "endingWithElimination": 1,
+                  "endingWithTwoOrMoreEliminations": 1,
+                  "dealtInHistogram": {
+                    "5": 1,
+                    "8": 4
+                  }
+                },
+                "faults": {
+                  "closeReopen": 2,
+                  "estop": 1
+                },
+                "violations": []
+              }
+            },
+            {
+              "id": "M5",
+              "name": "5 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+              "status": "pass",
+              "checks": 5,
+              "failedChecks": [],
+              "durationMs": 63011,
+              "metrics": {
+                "tables": 5,
+                "seconds": 62,
+                "completedHands": 3,
+                "tournamentsStarted": 7,
+                "tournamentsCompleted": 0,
+                "winnersMatchDealer": true,
+                "actionsAttempted": 74,
+                "actionsConfirmed": 66,
+                "incorrectActions": 0,
+                "invalidWagers": 0,
+                "missedStateTransitions": 0,
+                "confirmedButNotApplied": 0,
+                "refusedReadings": 0,
+                "reconstructionFailures": 0,
+                "untrackedHands": 0,
+                "recoveryEvents": 0,
+                "lifecycleRecoveries": 5,
+                "eliminationsSeen": 5,
+                "uncertainOrUnconfirmed": 0,
+                "deadlineMisses": 0,
+                "cleanRefusals": 8,
+                "unexpectedPauses": 0,
+                "finalPlayerCounts": [],
+                "hands": {
+                  "handsObserved": 9,
+                  "allEightDealtIn": 7,
+                  "withEliminatedSeats": 2,
+                  "headsUp": 0,
+                  "allIn": 4,
+                  "sidePots": 4,
+                  "endingWithElimination": 3,
+                  "endingWithTwoOrMoreEliminations": 2,
+                  "dealtInHistogram": {
+                    "6": 1,
+                    "7": 1,
+                    "8": 7
+                  }
+                },
+                "faults": {
+                  "closeReopen": 2,
+                  "estop": 1
+                },
+                "violations": []
+              }
+            },
+            {
+              "id": "M8",
+              "name": "8 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+              "status": "pass",
+              "checks": 5,
+              "failedChecks": [],
+              "durationMs": 76871,
+              "metrics": {
+                "tables": 8,
+                "seconds": 76,
+                "completedHands": 0,
+                "tournamentsStarted": 10,
+                "tournamentsCompleted": 0,
+                "winnersMatchDealer": true,
+                "actionsAttempted": 97,
+                "actionsConfirmed": 79,
+                "incorrectActions": 0,
+                "invalidWagers": 0,
+                "missedStateTransitions": 0,
+                "confirmedButNotApplied": 0,
+                "refusedReadings": 0,
+                "reconstructionFailures": 0,
+                "untrackedHands": 0,
+                "recoveryEvents": 0,
+                "lifecycleRecoveries": 8,
+                "eliminationsSeen": 0,
+                "uncertainOrUnconfirmed": 1,
+                "deadlineMisses": 3,
+                "cleanRefusals": 18,
+                "unexpectedPauses": 0,
+                "finalPlayerCounts": [],
+                "hands": {
+                  "handsObserved": 10,
+                  "allEightDealtIn": 10,
+                  "withEliminatedSeats": 0,
+                  "headsUp": 0,
+                  "allIn": 4,
+                  "sidePots": 4,
+                  "endingWithElimination": 0,
+                  "endingWithTwoOrMoreEliminations": 0,
+                  "dealtInHistogram": {
+                    "8": 10
+                  }
+                },
+                "faults": {
+                  "closeReopen": 2,
+                  "estop": 1
+                },
+                "violations": []
+              }
+            }
+          ]
+        }
+      },
+      {
+        "run": "45225443410",
+        "campaign": {
+          "overall": "PASS",
+          "environment": "windows",
+          "seconds": 838,
+          "completedHands": 135,
+          "tournamentsStarted": 10,
+          "tournamentsCompleted": 9,
+          "winnersMatchDealer": true,
+          "actionsAttempted": 685,
+          "actionsConfirmed": 685,
+          "incorrectActions": 0,
+          "invalidWagers": 0,
+          "missedStateTransitions": 0,
+          "confirmedButNotApplied": 0,
+          "refusedReadings": 0,
+          "reconstructionFailures": 0,
+          "untrackedHands": 0,
+          "untrackedHandsWithoutDecision": 0,
+          "untrackedHandsNeedingInput": 0,
+          "recoveryEvents": 0,
+          "unexpectedPauses": 0,
+          "uncertainOrUnconfirmed": 0,
+          "eliminationsSeen": 63,
+          "finalPlayerCounts": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "hands": {
+            "handsObserved": 135,
+            "allEightDealtIn": 0,
+            "withEliminatedSeats": 135,
+            "headsUp": 87,
+            "allIn": 51,
+            "sidePots": 31,
+            "endingWithElimination": 26,
+            "endingWithTwoOrMoreEliminations": 10,
+            "dealtInHistogram": {
+              "2": 87,
+              "3": 39,
+              "5": 9
+            }
+          },
+          "violations": []
+        },
+        "multiTableStability": {
+          "overall": "PASS",
+          "environment": "windows",
+          "summary": {
+            "scenarios": 4,
+            "passed": 4,
+            "failed": 0,
+            "checks": 20,
+            "failedChecks": 0,
+            "cleanupOk": true
+          },
+          "cleanup": true,
+          "scenarios": [
+            {
+              "id": "M1",
+              "name": "1 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+              "status": "pass",
+              "checks": 5,
+              "failedChecks": [],
+              "durationMs": 183053,
+              "metrics": {
+                "tables": 1,
+                "seconds": 180,
+                "completedHands": 27,
+                "tournamentsStarted": 4,
+                "tournamentsCompleted": 3,
+                "winnersMatchDealer": true,
+                "actionsAttempted": 151,
+                "actionsConfirmed": 150,
+                "incorrectActions": 0,
+                "invalidWagers": 0,
+                "missedStateTransitions": 1,
+                "confirmedButNotApplied": 0,
+                "refusedReadings": 14,
+                "reconstructionFailures": 0,
+                "untrackedHands": 3,
+                "untrackedHandsWithoutDecision": 3,
+                "untrackedHandsNeedingInput": 0,
+                "recoveryEvents": 2,
+                "lifecycleRecoveries": 6,
+                "eliminationsSeen": 20,
+                "uncertainOrUnconfirmed": 1,
+                "deadlineMisses": 0,
+                "cleanRefusals": 1,
+                "unexpectedPauses": 0,
+                "finalPlayerCounts": [
+                  1,
+                  1,
+                  1
+                ],
+                "hands": {
+                  "handsObserved": 25,
+                  "allEightDealtIn": 4,
+                  "withEliminatedSeats": 21,
+                  "headsUp": 12,
+                  "allIn": 16,
+                  "sidePots": 9,
+                  "endingWithElimination": 11,
+                  "endingWithTwoOrMoreEliminations": 5,
+                  "dealtInHistogram": {
+                    "2": 12,
+                    "3": 5,
+                    "4": 1,
+                    "5": 1,
+                    "6": 1,
+                    "7": 1,
+                    "8": 4
+                  }
+                },
+                "faults": {
+                  "closeReopen": 0,
+                  "estop": 3
+                },
+                "violations": []
+              }
+            },
+            {
+              "id": "M2",
+              "name": "2 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+              "status": "pass",
+              "checks": 5,
+              "failedChecks": [],
+              "durationMs": 181980,
+              "metrics": {
+                "tables": 2,
+                "seconds": 182,
+                "completedHands": 8,
+                "tournamentsStarted": 5,
+                "tournamentsCompleted": 1,
+                "winnersMatchDealer": true,
+                "actionsAttempted": 100,
+                "actionsConfirmed": 96,
+                "incorrectActions": 0,
+                "invalidWagers": 0,
+                "missedStateTransitions": 0,
+                "confirmedButNotApplied": 0,
+                "refusedReadings": 0,
+                "reconstructionFailures": 0,
+                "untrackedHands": 0,
+                "untrackedHandsWithoutDecision": 0,
+                "untrackedHandsNeedingInput": 0,
+                "recoveryEvents": 0,
+                "lifecycleRecoveries": 2,
+                "eliminationsSeen": 9,
+                "uncertainOrUnconfirmed": 2,
+                "deadlineMisses": 0,
+                "cleanRefusals": 3,
+                "unexpectedPauses": 0,
+                "finalPlayerCounts": [
+                  1
+                ],
+                "hands": {
+                  "handsObserved": 11,
+                  "allEightDealtIn": 4,
+                  "withEliminatedSeats": 7,
+                  "headsUp": 5,
+                  "allIn": 6,
+                  "sidePots": 3,
+                  "endingWithElimination": 5,
+                  "endingWithTwoOrMoreEliminations": 2,
+                  "dealtInHistogram": {
+                    "2": 5,
+                    "6": 1,
+                    "7": 1,
+                    "8": 4
+                  }
+                },
+                "faults": {
+                  "closeReopen": 2,
+                  "estop": 1
+                },
+                "violations": []
+              }
+            },
+            {
+              "id": "M5",
+              "name": "5 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+              "status": "pass",
+              "checks": 5,
+              "failedChecks": [],
+              "durationMs": 182115,
+              "metrics": {
+                "tables": 5,
+                "seconds": 181,
+                "completedHands": 13,
+                "tournamentsStarted": 7,
+                "tournamentsCompleted": 0,
+                "winnersMatchDealer": true,
+                "actionsAttempted": 206,
+                "actionsConfirmed": 196,
+                "incorrectActions": 0,
+                "invalidWagers": 0,
+                "missedStateTransitions": 0,
+                "confirmedButNotApplied": 0,
+                "refusedReadings": 0,
+                "reconstructionFailures": 0,
+                "untrackedHands": 0,
+                "untrackedHandsWithoutDecision": 0,
+                "untrackedHandsNeedingInput": 0,
+                "recoveryEvents": 0,
+                "lifecycleRecoveries": 5,
+                "eliminationsSeen": 17,
+                "uncertainOrUnconfirmed": 2,
+                "deadlineMisses": 0,
+                "cleanRefusals": 9,
+                "unexpectedPauses": 0,
+                "finalPlayerCounts": [],
+                "hands": {
+                  "handsObserved": 20,
+                  "allEightDealtIn": 9,
+                  "withEliminatedSeats": 11,
+                  "headsUp": 3,
+                  "allIn": 10,
+                  "sidePots": 9,
+                  "endingWithElimination": 8,
+                  "endingWithTwoOrMoreEliminations": 7,
+                  "dealtInHistogram": {
+                    "2": 3,
+                    "3": 1,
+                    "4": 2,
+                    "5": 1,
+                    "6": 4,
+                    "8": 9
+                  }
+                },
+                "faults": {
+                  "closeReopen": 2,
+                  "estop": 1
+                },
+                "violations": []
+              }
+            },
+            {
+              "id": "M8",
+              "name": "8 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+              "status": "pass",
+              "checks": 5,
+              "failedChecks": [],
+              "durationMs": 187429,
+              "metrics": {
+                "tables": 8,
+                "seconds": 186,
+                "completedHands": 10,
+                "tournamentsStarted": 10,
+                "tournamentsCompleted": 0,
+                "winnersMatchDealer": true,
+                "actionsAttempted": 221,
+                "actionsConfirmed": 201,
+                "incorrectActions": 0,
+                "invalidWagers": 0,
+                "missedStateTransitions": 0,
+                "confirmedButNotApplied": 0,
+                "refusedReadings": 0,
+                "reconstructionFailures": 0,
+                "untrackedHands": 0,
+                "untrackedHandsWithoutDecision": 0,
+                "untrackedHandsNeedingInput": 0,
+                "recoveryEvents": 0,
+                "lifecycleRecoveries": 9,
+                "eliminationsSeen": 19,
+                "uncertainOrUnconfirmed": 2,
+                "deadlineMisses": 5,
+                "cleanRefusals": 18,
+                "unexpectedPauses": 0,
+                "finalPlayerCounts": [],
+                "hands": {
+                  "handsObserved": 20,
+                  "allEightDealtIn": 10,
+                  "withEliminatedSeats": 10,
+                  "headsUp": 0,
+                  "allIn": 12,
+                  "sidePots": 11,
+                  "endingWithElimination": 9,
+                  "endingWithTwoOrMoreEliminations": 7,
+                  "dealtInHistogram": {
+                    "3": 1,
+                    "4": 1,
+                    "5": 3,
+                    "6": 3,
+                    "7": 2,
+                    "8": 10
+                  }
+                },
+                "faults": {
+                  "closeReopen": 2,
+                  "estop": 1
+                },
+                "violations": []
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "negativeTests": {
+    "file": "tests/negative-0362m3.test.cjs, tests/tournament-0362m3.test.cjs",
+    "results": "all passed in the full suite run"
+  }
+}

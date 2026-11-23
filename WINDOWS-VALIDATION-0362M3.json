@@ -1,0 +1,1591 @@
+{
+  "format": "eightmax-windows-validation",
+  "version": 1,
+  "app": "0.36.2-dev",
+  "milestone": "0.36.2 Milestone 3",
+  "generatedAt": "2026-11-23T18:02:56.611276+00:00",
+  "generatedBy": "tools/make-evidence-0362m3.py",
+  "nativeEngine": {
+    "version": "5.1",
+    "build": "7d08acc7eb4577ee",
+    "sha256": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+    "changed": false
+  },
+  "runs": [
+    {
+      "run": "45181140222",
+      "url": "https://github.com/derekwtgm/PTO/actions/runs/45181140222",
+      "folder": "evidence/0.36.2-m3/windows-ci-45181140222",
+      "environment": "GitHub Actions Windows runner (real Windows, real windows and input)",
+      "machine": {
+        "windows": {
+          "caption": "Microsoft Windows Server 2025 Datacenter",
+          "version": "10.0.26100",
+          "build": "26100",
+          "architecture": "64-bit"
+        },
+        "cpu": [
+          "AMD EPYC 9V74 80-Core Processor (2 cores, 4 threads)"
+        ],
+        "ramGiB": 16,
+        "gpu": [
+          {
+            "name": "Microsoft Hyper-V Video",
+            "driver": "10.0.26100.1150",
+            "resolution": "1920x1080"
+          }
+        ],
+        "screens": [
+          {
+            "device": "\\\\.\\DISPLAY1",
+            "primary": true,
+            "bounds": "1920x1080"
+          }
+        ],
+        "appliedDpi": 96,
+        "displayScalingPercent": 100,
+        "dotNetFrameworkRelease": 533509,
+        "powershell": "5.1.26100.33822",
+        "computerNameHash": "0e284c565e99",
+        "ci": {
+          "githubActions": true,
+          "runId": "45181140222",
+          "runner": "GitHub Actions 1000000179",
+          "repository": "derekwtgm/PTO",
+          "sha": "e54271a268d9f9dc10ec8b4a3755c4e8b372a28a"
+        }
+      },
+      "overall": "FAIL",
+      "counts": {
+        "passed": 11,
+        "failed": 10,
+        "warnings": 0,
+        "checks": 21
+      },
+      "groups": {
+        "machine": {
+          "pass": 1,
+          "fail": 0,
+          "warn": 0
+        },
+        "identity": {
+          "pass": 10,
+          "fail": 0,
+          "warn": 0
+        },
+        "unit": {
+          "pass": 0,
+          "fail": 1,
+          "warn": 0
+        },
+        "host-start": {
+          "pass": 0,
+          "fail": 2,
+          "warn": 0
+        },
+        "harness": {
+          "pass": 0,
+          "fail": 1,
+          "warn": 0
+        },
+        "lifecycle": {
+          "pass": 0,
+          "fail": 1,
+          "warn": 0
+        },
+        "runner cleanup": {
+          "pass": 0,
+          "fail": 1,
+          "warn": 0
+        },
+        "gameplay": {
+          "pass": 0,
+          "fail": 1,
+          "warn": 0
+        },
+        "multi-table": {
+          "pass": 0,
+          "fail": 1,
+          "warn": 0
+        },
+        "cleanup": {
+          "pass": 0,
+          "fail": 2,
+          "warn": 0
+        }
+      },
+      "failed": [
+        {
+          "group": "unit",
+          "name": "regression tests (complete suite)",
+          "detail": "10 passed, 1 failed (exit 1): PowerShell scripts: structural lint only (balanced delimiters, strict error handling). This is NOT a PowerShell parse; PowerShell was unavailable here"
+        },
+        {
+          "group": "host-start",
+          "name": "prebuilt host launch",
+          "detail": "Cannot index into a null array."
+        },
+        {
+          "group": "host-start",
+          "name": "forced fallback compile with a fresh cache",
+          "detail": "port 48713 is still in use before forced fallback compile with a fresh cache: pid 5192"
+        },
+        {
+          "group": "harness",
+          "name": "host-start ran to completion",
+          "detail": "Cannot bind argument to parameter 'Path' because it is an empty string."
+        },
+        {
+          "group": "lifecycle",
+          "name": "Milestone 2 lifecycle acceptance produced a result",
+          "detail": "no result; exit 1; "
+        },
+        {
+          "group": "runner cleanup",
+          "name": "lifecycle runner exits by itself after its report; exit code matches",
+          "detail": "{\"run\":1,\"exitCode\":1,\"signal\":null,\"hardKilled\":false,\"wallMs\":60265,\"reportWritten\":false,\"reportToExitMs\":null,\"verdict\":null,\"scenarios\":0,\"everyScenarioFin..."
+        },
+        {
+          "group": "gameplay",
+          "name": "gameplay-acceptance could start",
+          "detail": "port 48713 is in use: pid 5192"
+        },
+        {
+          "group": "multi-table",
+          "name": "gameplay-stability could start",
+          "detail": "port 48713 is in use: pid 5192"
+        },
+        {
+          "group": "cleanup",
+          "name": "no leftover processes started by these tests",
+          "detail": "EightMaxWorkbench pid 5192"
+        },
+        {
+          "group": "cleanup",
+          "name": "port 48713 released",
+          "detail": "pid 5192"
+        }
+      ],
+      "warnings": [],
+      "unitTests": {
+        "mode": "complete suite",
+        "files": 106,
+        "tests": 951,
+        "passed": 10,
+        "failed": 1,
+        "skipped": 65,
+        "exitCode": 1,
+        "seconds": 400,
+        "failedNames": [
+          "PowerShell scripts: structural lint only (balanced delimiters, strict error handling). This is NOT a PowerShell parse; PowerShell was unavailable here"
+        ]
+      },
+      "hostStart": [
+        {
+          "case": "prebuilt host launch",
+          "error": "Cannot index into a null array.",
+          "launcherSeconds": 2,
+          "healthStatus": 200,
+          "appVersion": "0.36.2-dev",
+          "shutdown": null,
+          "path": null,
+          "invalidCache": null
+        },
+        {
+          "case": "forced fallback compile with a fresh cache",
+          "error": "port 48713 is still in use before forced fallback compile with a fresh cache: pid 5192",
+          "launcherSeconds": null,
+          "healthStatus": null,
+          "appVersion": null,
+          "shutdown": null,
+          "path": null,
+          "invalidCache": null
+        }
+      ],
+      "tools": {
+        "lifecycle": {
+          "overall": null,
+          "reportToExitMs": null,
+          "exitCode": 1,
+          "exitCodeMatchesVerdict": false
+        }
+      },
+      "executables": [
+        {
+          "file": "desktop\\bin\\EightMaxWorkbench.exe",
+          "sha256": "845578b9a6596009e68ce6f182d47ae20ddd511f58b9c37a3d4b12e1c7f32290",
+          "bytes": 161792,
+          "fileVersion": "0.36.2.0",
+          "productVersion": "0.36.2-dev"
+        },
+        {
+          "file": "desktop\\bin\\EightMaxInput.exe",
+          "sha256": "93867a03f43534d65d41853901b706bb892456894cb118f89b5d4a80bce71da1",
+          "bytes": 83968,
+          "fileVersion": "0.36.2.0",
+          "productVersion": "0.36.2-dev"
+        },
+        {
+          "file": "desktop\\bin\\EightMaxTestTable.exe",
+          "sha256": "3e5a76995a24d169336179e7e3805ddeb57271d951029226b43653c217464348",
+          "bytes": 18432,
+          "fileVersion": "0.36.2.0",
+          "productVersion": "0.36.2-dev"
+        },
+        {
+          "file": "desktop\\bin\\EightMaxCapture.exe",
+          "sha256": "8180c32910bfd1d5053c42f8c9ccf484bb6146022dc1284e45dbbde622124da0",
+          "bytes": 41472,
+          "fileVersion": "0.35.0.0",
+          "productVersion": "0.35.0"
+        },
+        {
+          "file": "desktop\\bin\\EightMaxWgc.exe",
+          "sha256": "bc001504382306e180af0f76abf0836d561faa07e8c210317df73048e55cafc1",
+          "bytes": 41653047,
+          "fileVersion": "0.35.0.0",
+          "productVersion": "0.35.0"
+        },
+        {
+          "file": "native\\mwcli.exe",
+          "sha256": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+          "bytes": 2553344,
+          "fileVersion": "",
+          "productVersion": ""
+        },
+        {
+          "file": "runtime\\node\\node.exe",
+          "sha256": "247e9693d316da9857e44990e5e11709f596f18112251b8026ec6eed80bdf38a",
+          "bytes": 87077704,
+          "fileVersion": "22.23.5",
+          "productVersion": "22.23.5"
+        }
+      ]
+    },
+    {
+      "run": "45203097931",
+      "url": "https://github.com/derekwtgm/PTO/actions/runs/45203097931",
+      "folder": "evidence/0.36.2-m3/windows-ci-45203097931",
+      "environment": "GitHub Actions Windows runner (real Windows, real windows and input)",
+      "machine": {
+        "windows": {
+          "caption": "Microsoft Windows Server 2025 Datacenter",
+          "version": "10.0.26100",
+          "build": "26100",
+          "architecture": "64-bit"
+        },
+        "cpu": [
+          "Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz (2 cores, 4 threads)"
+        ],
+        "ramGiB": 16,
+        "gpu": [
+          {
+            "name": "Microsoft Hyper-V Video",
+            "driver": "10.0.26100.1150",
+            "resolution": "1920x1080"
+          }
+        ],
+        "screens": [
+          {
+            "device": "\\\\.\\DISPLAY1",
+            "primary": true,
+            "bounds": "1920x1080"
+          }
+        ],
+        "appliedDpi": 96,
+        "displayScalingPercent": 100,
+        "dotNetFrameworkRelease": 533509,
+        "powershell": "5.1.26100.33822",
+        "computerNameHash": "0e284c565e99",
+        "ci": {
+          "githubActions": true,
+          "runId": "45203097931",
+          "runner": "GitHub Actions 1000000181",
+          "repository": "derekwtgm/PTO",
+          "sha": "be4fd7047b8c21bca5402c44e3b76b937df929b4"
+        }
+      },
+      "overall": "FAIL",
+      "counts": {
+        "passed": 37,
+        "failed": 10,
+        "warnings": 0,
+        "checks": 47
+      },
+      "groups": {
+        "machine": {
+          "pass": 1,
+          "fail": 0,
+          "warn": 0
+        },
+        "identity": {
+          "pass": 10,
+          "fail": 0,
+          "warn": 0
+        },
+        "unit": {
+          "pass": 0,
+          "fail": 1,
+          "warn": 0
+        },
+        "host-start": {
+          "pass": 5,
+          "fail": 2,
+          "warn": 0
+        },
+        "lifecycle: scripted gameplay": {
+          "pass": 0,
+          "fail": 1,
+          "warn": 0
+        },
+        "lifecycle: capture lifecycle": {
+          "pass": 6,
+          "fail": 0,
+          "warn": 0
+        },
+        "lifecycle: input cancellation": {
+          "pass": 3,
+          "fail": 0,
+          "warn": 0
+        },
+        "lifecycle: safety": {
+          "pass": 1,
+          "fail": 0,
+          "warn": 0
+        },
+        "runner cleanup": {
+          "pass": 1,
+          "fail": 0,
+          "warn": 0
+        },
+        "gameplay": {
+          "pass": 6,
+          "fail": 2,
+          "warn": 0
+        },
+        "multi-table": {
+          "pass": 2,
+          "fail": 4,
+          "warn": 0
+        },
+        "cleanup": {
+          "pass": 2,
+          "fail": 0,
+          "warn": 0
+        }
+      },
+      "failed": [
+        {
+          "group": "unit",
+          "name": "regression tests (complete suite)",
+          "detail": "892 passed, 1 failed (exit 1): 0.31 defect fixed: worker threads opening a NEW strategy library at the same time never fail (marker written under the lock)"
+        },
+        {
+          "group": "host-start",
+          "name": "invalid cache: corrupted executable is rebuilt",
+          "detail": "Start-Desktop.ps1 exit 1: ;"
+        },
+        {
+          "group": "host-start",
+          "name": "invalid cache: manifest of other sources is rebuilt",
+          "detail": "Start-Desktop.ps1 exit 1: ;"
+        },
+        {
+          "group": "lifecycle: scripted gameplay",
+          "name": "J: Scripted practice plays hand after hand (no regression)",
+          "detail": "failed: continued hand-to-hand play (2+ hands with confirmed actions) (1); no ambiguous / timed-out / uncertain action ([0,1,0]); lifecycle ACTIVE, one transition (REGISTERED -> ACTIVE) (REGISTERED > ACTIVE > SAFETY_PAUSED)"
+        },
+        {
+          "group": "gameplay",
+          "name": "T2: A tournament is played to its end; the end is a normal stop",
+          "detail": "failed: the table recognised the end of the tournament (); the winner is the dealer's winner ([null,4]); one player holds every chip (final player count 1) ([0,0,0,0,570,0,0,10]); lifecycle STOPPED with cause tournament-complete; run() ended (SAFETY_PAUSED / unconfirmed-input); dashboard message: \"Tournament finished. Automated gameplay has stopped normally.\" (); Resume does not restart a finished tournament ()"
+        },
+        {
+          "group": "gameplay",
+          "name": "gameplay-acceptance: process cleanup",
+          "detail": "{\"childProcesses\":[{\"name\":\"desktop host\",\"pid\":5468,\"exited\":true,\"code\":0,\"signal\":null},{\"name\":\"test-table fixture 1\",\"pid\":7332,\"exited\":true,\"code\":1,\"sig..."
+        },
+        {
+          "group": "multi-table",
+          "name": "M1: 1 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+          "detail": "failed: no stall, no unexpected pause, no violation ([\"table 1 safety-paused: unconfirmed-input action not confirmed: hand changed (1 -\\u003e 2) with no record of the action; manual review required\",\"table 1 safet...)"
+        },
+        {
+          "group": "multi-table",
+          "name": "M2: 2 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+          "detail": "failed: no stall, no unexpected pause, no violation ([\"table 1 safety-paused: manual-override manual mouse/keyboard input took over: Could not enter the wager: manual-override: The cursor was moved by someone else...)"
+        },
+        {
+          "group": "multi-table",
+          "name": "M5: 5 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+          "detail": "failed: no stall, no unexpected pause, no violation ([\"table 1 safety-paused: unconfirmed-input action not confirmed: hand changed (1 -\\u003e 2) with no record of the action; manual review required\"])"
+        },
+        {
+          "group": "multi-table",
+          "name": "gameplay-stability: process cleanup",
+          "detail": "{\"childProcesses\":[{\"name\":\"desktop host\",\"pid\":6196,\"exited\":true,\"code\":0,\"signal\":null},{\"name\":\"test-table fixture 1\",\"pid\":5752,\"exited\":true,\"code\":0,\"sig..."
+        }
+      ],
+      "warnings": [],
+      "unitTests": {
+        "mode": "complete suite",
+        "files": 107,
+        "tests": 958,
+        "passed": 892,
+        "failed": 1,
+        "skipped": 65,
+        "exitCode": 1,
+        "seconds": 527,
+        "failedNames": [
+          "0.31 defect fixed: worker threads opening a NEW strategy library at the same time never fail (marker written under the lock)"
+        ]
+      },
+      "hostStart": [
+        {
+          "case": "prebuilt host launch",
+          "error": null,
+          "launcherSeconds": 2,
+          "healthStatus": 200,
+          "appVersion": "0.36.2-dev",
+          "shutdown": {
+            "hostExited": true,
+            "portFreeMs": 79,
+            "inputDriverGone": true,
+            "inputDriversSeen": 0
+          },
+          "path": "prebuilt",
+          "invalidCache": null
+        },
+        {
+          "case": "forced fallback compile with a fresh cache",
+          "error": null,
+          "launcherSeconds": 3,
+          "healthStatus": 200,
+          "appVersion": "0.36.2-dev",
+          "shutdown": {
+            "hostExited": true,
+            "portFreeMs": 76,
+            "inputDriverGone": true,
+            "inputDriversSeen": 0
+          },
+          "path": "compiled",
+          "invalidCache": null
+        },
+        {
+          "case": "repeated start reuses the valid cache",
+          "error": null,
+          "launcherSeconds": 2,
+          "healthStatus": 200,
+          "appVersion": "0.36.2-dev",
+          "shutdown": {
+            "hostExited": true,
+            "portFreeMs": 76,
+            "inputDriverGone": true,
+            "inputDriversSeen": 0
+          },
+          "path": "cache",
+          "invalidCache": null
+        },
+        {
+          "case": "invalid cache: corrupted executable is rebuilt",
+          "error": "Start-Desktop.ps1 exit 1: ",
+          "launcherSeconds": null,
+          "healthStatus": null,
+          "appVersion": null,
+          "shutdown": null,
+          "path": null,
+          "invalidCache": null
+        },
+        {
+          "case": "invalid cache: manifest of other sources is rebuilt",
+          "error": "Start-Desktop.ps1 exit 1: ",
+          "launcherSeconds": null,
+          "healthStatus": null,
+          "appVersion": null,
+          "shutdown": null,
+          "path": null,
+          "invalidCache": null
+        },
+        {
+          "case": "an old (Milestone 2) cache key is never reused",
+          "error": null,
+          "launcherSeconds": 2,
+          "healthStatus": 200,
+          "appVersion": "0.36.2-dev",
+          "shutdown": {
+            "hostExited": true,
+            "portFreeMs": 76,
+            "inputDriverGone": true,
+            "inputDriversSeen": 0
+          },
+          "path": "cache",
+          "invalidCache": null
+        },
+        {
+          "case": "build-only compiles or reuses without launching",
+          "error": null,
+          "launcherSeconds": 2,
+          "healthStatus": null,
+          "appVersion": null,
+          "shutdown": null,
+          "path": "cache",
+          "invalidCache": null
+        }
+      ],
+      "tools": {
+        "lifecycle": {
+          "overall": "FAIL",
+          "reportToExitMs": 15,
+          "exitCode": 1,
+          "exitCodeMatchesVerdict": true
+        },
+        "gameplay-acceptance": {
+          "exitCode": 1,
+          "timedOut": false,
+          "seconds": 778,
+          "report": "gameplay-acceptance.json",
+          "overall": "FAIL"
+        },
+        "gameplay-stability": {
+          "exitCode": 1,
+          "timedOut": false,
+          "seconds": 265,
+          "report": "gameplay-stability.json",
+          "overall": "FAIL"
+        }
+      },
+      "executables": [
+        {
+          "file": "desktop\\bin\\EightMaxWorkbench.exe",
+          "sha256": "845578b9a6596009e68ce6f182d47ae20ddd511f58b9c37a3d4b12e1c7f32290",
+          "bytes": 161792,
+          "fileVersion": "0.36.2.0",
+          "productVersion": "0.36.2-dev"
+        },
+        {
+          "file": "desktop\\bin\\EightMaxInput.exe",
+          "sha256": "93867a03f43534d65d41853901b706bb892456894cb118f89b5d4a80bce71da1",
+          "bytes": 83968,
+          "fileVersion": "0.36.2.0",
+          "productVersion": "0.36.2-dev"
+        },
+        {
+          "file": "desktop\\bin\\EightMaxTestTable.exe",
+          "sha256": "3e5a76995a24d169336179e7e3805ddeb57271d951029226b43653c217464348",
+          "bytes": 18432,
+          "fileVersion": "0.36.2.0",
+          "productVersion": "0.36.2-dev"
+        },
+        {
+          "file": "desktop\\bin\\EightMaxCapture.exe",
+          "sha256": "8180c32910bfd1d5053c42f8c9ccf484bb6146022dc1284e45dbbde622124da0",
+          "bytes": 41472,
+          "fileVersion": "0.35.0.0",
+          "productVersion": "0.35.0"
+        },
+        {
+          "file": "desktop\\bin\\EightMaxWgc.exe",
+          "sha256": "bc001504382306e180af0f76abf0836d561faa07e8c210317df73048e55cafc1",
+          "bytes": 41653047,
+          "fileVersion": "0.35.0.0",
+          "productVersion": "0.35.0"
+        },
+        {
+          "file": "native\\mwcli.exe",
+          "sha256": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+          "bytes": 2553344,
+          "fileVersion": "",
+          "productVersion": ""
+        },
+        {
+          "file": "runtime\\node\\node.exe",
+          "sha256": "247e9693d316da9857e44990e5e11709f596f18112251b8026ec6eed80bdf38a",
+          "bytes": 87077704,
+          "fileVersion": "22.23.5",
+          "productVersion": "22.23.5"
+        }
+      ]
+    },
+    {
+      "run": "45217637720",
+      "url": "https://github.com/derekwtgm/PTO/actions/runs/45217637720",
+      "folder": "evidence/0.36.2-m3/windows-ci-45217637720",
+      "environment": "GitHub Actions Windows runner (real Windows, real windows and input)",
+      "machine": {
+        "windows": {
+          "caption": "Microsoft Windows Server 2025 Datacenter",
+          "version": "10.0.26100",
+          "build": "26100",
+          "architecture": "64-bit"
+        },
+        "cpu": [
+          "AMD EPYC 7763 64-Core Processor (2 cores, 4 threads)"
+        ],
+        "ramGiB": 16,
+        "gpu": [
+          {
+            "name": "Microsoft Hyper-V Video",
+            "driver": "10.0.26100.1150",
+            "resolution": "1920x1080"
+          }
+        ],
+        "screens": [
+          {
+            "device": "\\\\.\\DISPLAY1",
+            "primary": true,
+            "bounds": "1920x1080"
+          }
+        ],
+        "appliedDpi": 96,
+        "displayScalingPercent": 100,
+        "dotNetFrameworkRelease": 533509,
+        "powershell": "5.1.26100.33822",
+        "computerNameHash": "0e284c565e99",
+        "ci": {
+          "githubActions": true,
+          "runId": "45217637720",
+          "runner": "GitHub Actions 1000000183",
+          "repository": "derekwtgm/PTO",
+          "sha": "da661cbffbd33089472ea9491b678e24a4add5ba"
+        }
+      },
+      "overall": "FAIL",
+      "counts": {
+        "passed": 49,
+        "failed": 1,
+        "warnings": 0,
+        "checks": 50
+      },
+      "groups": {
+        "machine": {
+          "pass": 1,
+          "fail": 0,
+          "warn": 0
+        },
+        "identity": {
+          "pass": 10,
+          "fail": 0,
+          "warn": 0
+        },
+        "unit": {
+          "pass": 1,
+          "fail": 0,
+          "warn": 0
+        },
+        "host-start": {
+          "pass": 7,
+          "fail": 0,
+          "warn": 0
+        },
+        "lifecycle: scripted gameplay": {
+          "pass": 1,
+          "fail": 0,
+          "warn": 0
+        },
+        "lifecycle: capture lifecycle": {
+          "pass": 6,
+          "fail": 0,
+          "warn": 0
+        },
+        "lifecycle: input cancellation": {
+          "pass": 3,
+          "fail": 0,
+          "warn": 0
+        },
+        "lifecycle: safety": {
+          "pass": 1,
+          "fail": 0,
+          "warn": 0
+        },
+        "runner cleanup": {
+          "pass": 1,
+          "fail": 0,
+          "warn": 0
+        },
+        "gameplay": {
+          "pass": 7,
+          "fail": 1,
+          "warn": 0
+        },
+        "multi-table": {
+          "pass": 6,
+          "fail": 0,
+          "warn": 0
+        },
+        "campaign": {
+          "pass": 3,
+          "fail": 0,
+          "warn": 0
+        },
+        "cleanup": {
+          "pass": 2,
+          "fail": 0,
+          "warn": 0
+        }
+      },
+      "failed": [
+        {
+          "group": "gameplay",
+          "name": "T2: A tournament is played to its end; the end is a normal stop",
+          "detail": "failed: no reading refused (except the unseen opening of a hand that needed no decision) ({\"refusalCodes\":{\"missed-hand-start\":1,\"untracked-hand\":6},\"refusedFrames\":8,\"handsWithoutDecisions\":[8],\"other\":[]})"
+        }
+      ],
+      "warnings": [],
+      "unitTests": {
+        "mode": "complete suite",
+        "files": 108,
+        "tests": 965,
+        "passed": 900,
+        "failed": 0,
+        "skipped": 65,
+        "exitCode": 0,
+        "seconds": 462,
+        "failedNames": []
+      },
+      "hostStart": [
+        {
+          "case": "prebuilt host launch",
+          "error": null,
+          "launcherSeconds": 3,
+          "healthStatus": 200,
+          "appVersion": "0.36.2-dev",
+          "shutdown": {
+            "hostExited": true,
+            "portFreeMs": 101,
+            "inputDriverGone": true,
+            "inputDriversSeen": 0
+          },
+          "path": "prebuilt",
+          "invalidCache": null
+        },
+        {
+          "case": "forced fallback compile with a fresh cache",
+          "error": null,
+          "launcherSeconds": 3,
+          "healthStatus": 200,
+          "appVersion": "0.36.2-dev",
+          "shutdown": {
+            "hostExited": true,
+            "portFreeMs": 89,
+            "inputDriverGone": true,
+            "inputDriversSeen": 0
+          },
+          "path": "compiled",
+          "invalidCache": null
+        },
+        {
+          "case": "repeated start reuses the valid cache",
+          "error": null,
+          "launcherSeconds": 2,
+          "healthStatus": 200,
+          "appVersion": "0.36.2-dev",
+          "shutdown": {
+            "hostExited": true,
+            "portFreeMs": 115,
+            "inputDriverGone": true,
+            "inputDriversSeen": 0
+          },
+          "path": "cache",
+          "invalidCache": null
+        },
+        {
+          "case": "invalid cache: corrupted executable is rebuilt",
+          "error": null,
+          "launcherSeconds": 4,
+          "healthStatus": 200,
+          "appVersion": "0.36.2-dev",
+          "shutdown": {
+            "hostExited": true,
+            "portFreeMs": 108,
+            "inputDriverGone": true,
+            "inputDriversSeen": 0
+          },
+          "path": "compiled",
+          "invalidCache": "cached executable does not match its recorded hash"
+        },
+        {
+          "case": "invalid cache: manifest of other sources is rebuilt",
+          "error": null,
+          "launcherSeconds": 3,
+          "healthStatus": 200,
+          "appVersion": "0.36.2-dev",
+          "shutdown": {
+            "hostExited": true,
+            "portFreeMs": 100,
+            "inputDriverGone": true,
+            "inputDriversSeen": 0
+          },
+          "path": "compiled",
+          "invalidCache": "cache manifest sources differ"
+        },
+        {
+          "case": "an old (Milestone 2) cache key is never reused",
+          "error": null,
+          "launcherSeconds": 3,
+          "healthStatus": 200,
+          "appVersion": "0.36.2-dev",
+          "shutdown": {
+            "hostExited": true,
+            "portFreeMs": 117,
+            "inputDriverGone": true,
+            "inputDriversSeen": 0
+          },
+          "path": "cache",
+          "invalidCache": null
+        },
+        {
+          "case": "build-only compiles or reuses without launching",
+          "error": null,
+          "launcherSeconds": 3,
+          "healthStatus": null,
+          "appVersion": null,
+          "shutdown": null,
+          "path": "cache",
+          "invalidCache": null
+        }
+      ],
+      "tools": {
+        "lifecycle": {
+          "overall": "FAIL",
+          "reportToExitMs": 21,
+          "exitCode": 1,
+          "exitCodeMatchesVerdict": true
+        },
+        "gameplay-acceptance": {
+          "exitCode": 1,
+          "timedOut": false,
+          "seconds": 218,
+          "report": "gameplay-acceptance.json",
+          "overall": "FAIL"
+        },
+        "gameplay-stability": {
+          "exitCode": 0,
+          "timedOut": false,
+          "seconds": 264,
+          "report": "gameplay-stability.json",
+          "overall": "PASS"
+        },
+        "gameplay-campaign": {
+          "exitCode": 0,
+          "timedOut": false,
+          "seconds": 991,
+          "report": "gameplay-campaign.json",
+          "overall": "PASS"
+        }
+      },
+      "executables": [
+        {
+          "file": "desktop\\bin\\EightMaxWorkbench.exe",
+          "sha256": "845578b9a6596009e68ce6f182d47ae20ddd511f58b9c37a3d4b12e1c7f32290",
+          "bytes": 161792,
+          "fileVersion": "0.36.2.0",
+          "productVersion": "0.36.2-dev"
+        },
+        {
+          "file": "desktop\\bin\\EightMaxInput.exe",
+          "sha256": "2c4d7b739ceb617925600c663848d51d21570d5fe566e10fa15713d6d390c91c",
+          "bytes": 83968,
+          "fileVersion": "0.36.2.0",
+          "productVersion": "0.36.2-dev"
+        },
+        {
+          "file": "desktop\\bin\\EightMaxTestTable.exe",
+          "sha256": "3e5a76995a24d169336179e7e3805ddeb57271d951029226b43653c217464348",
+          "bytes": 18432,
+          "fileVersion": "0.36.2.0",
+          "productVersion": "0.36.2-dev"
+        },
+        {
+          "file": "desktop\\bin\\EightMaxCapture.exe",
+          "sha256": "8180c32910bfd1d5053c42f8c9ccf484bb6146022dc1284e45dbbde622124da0",
+          "bytes": 41472,
+          "fileVersion": "0.35.0.0",
+          "productVersion": "0.35.0"
+        },
+        {
+          "file": "desktop\\bin\\EightMaxWgc.exe",
+          "sha256": "bc001504382306e180af0f76abf0836d561faa07e8c210317df73048e55cafc1",
+          "bytes": 41653047,
+          "fileVersion": "0.35.0.0",
+          "productVersion": "0.35.0"
+        },
+        {
+          "file": "native\\mwcli.exe",
+          "sha256": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+          "bytes": 2553344,
+          "fileVersion": "",
+          "productVersion": ""
+        },
+        {
+          "file": "runtime\\node\\node.exe",
+          "sha256": "247e9693d316da9857e44990e5e11709f596f18112251b8026ec6eed80bdf38a",
+          "bytes": 87077704,
+          "fileVersion": "22.23.5",
+          "productVersion": "22.23.5"
+        }
+      ]
+    },
+    {
+      "run": "45225443410",
+      "url": "https://github.com/derekwtgm/PTO/actions/runs/45225443410",
+      "folder": "evidence/0.36.2-m3/windows-ci-45225443410",
+      "environment": "GitHub Actions Windows runner (real Windows, real windows and input)",
+      "machine": {
+        "windows": {
+          "caption": "Microsoft Windows Server 2025 Datacenter",
+          "version": "10.0.26100",
+          "build": "26100",
+          "architecture": "64-bit"
+        },
+        "cpu": [
+          "AMD EPYC 9V74 80-Core Processor (2 cores, 4 threads)"
+        ],
+        "ramGiB": 16,
+        "gpu": [
+          {
+            "name": "Microsoft Hyper-V Video",
+            "driver": "10.0.26100.1150",
+            "resolution": "1920x1080"
+          }
+        ],
+        "screens": [
+          {
+            "device": "\\\\.\\DISPLAY1",
+            "primary": true,
+            "bounds": "1920x1080"
+          }
+        ],
+        "appliedDpi": 96,
+        "displayScalingPercent": 100,
+        "dotNetFrameworkRelease": 533509,
+        "powershell": "5.1.26100.33822",
+        "computerNameHash": "0e284c565e99",
+        "ci": {
+          "githubActions": true,
+          "runId": "45225443410",
+          "runner": "GitHub Actions 1000000185",
+          "repository": "derekwtgm/PTO",
+          "sha": "6a98dc4c4ab1f4d20470887f0ba62f360320753a"
+        }
+      },
+      "overall": "PASS",
+      "counts": {
+        "passed": 51,
+        "failed": 0,
+        "warnings": 0,
+        "checks": 51
+      },
+      "groups": {
+        "machine": {
+          "pass": 1,
+          "fail": 0,
+          "warn": 0
+        },
+        "identity": {
+          "pass": 10,
+          "fail": 0,
+          "warn": 0
+        },
+        "unit": {
+          "pass": 1,
+          "fail": 0,
+          "warn": 0
+        },
+        "host-start": {
+          "pass": 7,
+          "fail": 0,
+          "warn": 0
+        },
+        "lifecycle: scripted gameplay": {
+          "pass": 1,
+          "fail": 0,
+          "warn": 0
+        },
+        "lifecycle: capture lifecycle": {
+          "pass": 6,
+          "fail": 0,
+          "warn": 0
+        },
+        "lifecycle: input cancellation": {
+          "pass": 3,
+          "fail": 0,
+          "warn": 0
+        },
+        "lifecycle: safety": {
+          "pass": 1,
+          "fail": 0,
+          "warn": 0
+        },
+        "runner cleanup": {
+          "pass": 2,
+          "fail": 0,
+          "warn": 0
+        },
+        "gameplay": {
+          "pass": 8,
+          "fail": 0,
+          "warn": 0
+        },
+        "multi-table": {
+          "pass": 6,
+          "fail": 0,
+          "warn": 0
+        },
+        "campaign": {
+          "pass": 3,
+          "fail": 0,
+          "warn": 0
+        },
+        "cleanup": {
+          "pass": 2,
+          "fail": 0,
+          "warn": 0
+        }
+      },
+      "failed": [],
+      "warnings": [],
+      "unitTests": {
+        "mode": "complete suite",
+        "files": 108,
+        "tests": 965,
+        "passed": 900,
+        "failed": 0,
+        "skipped": 65,
+        "exitCode": 0,
+        "seconds": 494,
+        "failedNames": []
+      },
+      "hostStart": [
+        {
+          "case": "prebuilt host launch",
+          "error": null,
+          "launcherSeconds": 4,
+          "healthStatus": 200,
+          "appVersion": "0.36.2-dev",
+          "shutdown": {
+            "hostExited": true,
+            "portFreeMs": 522,
+            "inputDriverGone": true,
+            "inputDriversSeen": 0
+          },
+          "path": "prebuilt",
+          "invalidCache": null
+        },
+        {
+          "case": "forced fallback compile with a fresh cache",
+          "error": null,
+          "launcherSeconds": 11,
+          "healthStatus": 200,
+          "appVersion": "0.36.2-dev",
+          "shutdown": {
+            "hostExited": true,
+            "portFreeMs": 108,
+            "inputDriverGone": true,
+            "inputDriversSeen": 0
+          },
+          "path": "compiled",
+          "invalidCache": null
+        },
+        {
+          "case": "repeated start reuses the valid cache",
+          "error": null,
+          "launcherSeconds": 3,
+          "healthStatus": 200,
+          "appVersion": "0.36.2-dev",
+          "shutdown": {
+            "hostExited": true,
+            "portFreeMs": 89,
+            "inputDriverGone": true,
+            "inputDriversSeen": 0
+          },
+          "path": "cache",
+          "invalidCache": null
+        },
+        {
+          "case": "invalid cache: corrupted executable is rebuilt",
+          "error": null,
+          "launcherSeconds": 3,
+          "healthStatus": 200,
+          "appVersion": "0.36.2-dev",
+          "shutdown": {
+            "hostExited": true,
+            "portFreeMs": 91,
+            "inputDriverGone": true,
+            "inputDriversSeen": 0
+          },
+          "path": "compiled",
+          "invalidCache": "cached executable does not match its recorded hash"
+        },
+        {
+          "case": "invalid cache: manifest of other sources is rebuilt",
+          "error": null,
+          "launcherSeconds": 3,
+          "healthStatus": 200,
+          "appVersion": "0.36.2-dev",
+          "shutdown": {
+            "hostExited": true,
+            "portFreeMs": 100,
+            "inputDriverGone": true,
+            "inputDriversSeen": 0
+          },
+          "path": "compiled",
+          "invalidCache": "cache manifest sources differ"
+        },
+        {
+          "case": "an old (Milestone 2) cache key is never reused",
+          "error": null,
+          "launcherSeconds": 3,
+          "healthStatus": 200,
+          "appVersion": "0.36.2-dev",
+          "shutdown": {
+            "hostExited": true,
+            "portFreeMs": 94,
+            "inputDriverGone": true,
+            "inputDriversSeen": 0
+          },
+          "path": "cache",
+          "invalidCache": null
+        },
+        {
+          "case": "build-only compiles or reuses without launching",
+          "error": null,
+          "launcherSeconds": 3,
+          "healthStatus": null,
+          "appVersion": null,
+          "shutdown": null,
+          "path": "cache",
+          "invalidCache": null
+        }
+      ],
+      "tools": {
+        "lifecycle": {
+          "overall": "PASS",
+          "reportToExitMs": 15,
+          "exitCode": 0,
+          "exitCodeMatchesVerdict": true
+        },
+        "gameplay-acceptance": {
+          "exitCode": 0,
+          "timedOut": false,
+          "seconds": 219,
+          "report": "gameplay-acceptance.json",
+          "overall": "PASS"
+        },
+        "gameplay-stability": {
+          "exitCode": 0,
+          "timedOut": false,
+          "seconds": 735,
+          "report": "gameplay-stability.json",
+          "overall": "PASS"
+        },
+        "gameplay-campaign": {
+          "exitCode": 0,
+          "timedOut": false,
+          "seconds": 841,
+          "report": "gameplay-campaign.json",
+          "overall": "PASS"
+        }
+      },
+      "executables": [
+        {
+          "file": "desktop\\bin\\EightMaxWorkbench.exe",
+          "sha256": "845578b9a6596009e68ce6f182d47ae20ddd511f58b9c37a3d4b12e1c7f32290",
+          "bytes": 161792,
+          "fileVersion": "0.36.2.0",
+          "productVersion": "0.36.2-dev"
+        },
+        {
+          "file": "desktop\\bin\\EightMaxInput.exe",
+          "sha256": "2c4d7b739ceb617925600c663848d51d21570d5fe566e10fa15713d6d390c91c",
+          "bytes": 83968,
+          "fileVersion": "0.36.2.0",
+          "productVersion": "0.36.2-dev"
+        },
+        {
+          "file": "desktop\\bin\\EightMaxTestTable.exe",
+          "sha256": "3e5a76995a24d169336179e7e3805ddeb57271d951029226b43653c217464348",
+          "bytes": 18432,
+          "fileVersion": "0.36.2.0",
+          "productVersion": "0.36.2-dev"
+        },
+        {
+          "file": "desktop\\bin\\EightMaxCapture.exe",
+          "sha256": "8180c32910bfd1d5053c42f8c9ccf484bb6146022dc1284e45dbbde622124da0",
+          "bytes": 41472,
+          "fileVersion": "0.35.0.0",
+          "productVersion": "0.35.0"
+        },
+        {
+          "file": "desktop\\bin\\EightMaxWgc.exe",
+          "sha256": "bc001504382306e180af0f76abf0836d561faa07e8c210317df73048e55cafc1",
+          "bytes": 41653047,
+          "fileVersion": "0.35.0.0",
+          "productVersion": "0.35.0"
+        },
+        {
+          "file": "native\\mwcli.exe",
+          "sha256": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+          "bytes": 2553344,
+          "fileVersion": "",
+          "productVersion": ""
+        },
+        {
+          "file": "runtime\\node\\node.exe",
+          "sha256": "247e9693d316da9857e44990e5e11709f596f18112251b8026ec6eed80bdf38a",
+          "bytes": 87077704,
+          "fileVersion": "22.23.5",
+          "productVersion": "22.23.5"
+        }
+      ]
+    }
+  ],
+  "executed": true,
+  "status": "executed on GitHub-hosted Windows (real Windows desktop, real windows and input); NOT the target PC",
+  "targetHardware": {
+    "status": "PENDING",
+    "note": "Windows 11 Home, i7-13700F, RTX 4060 Ti, 3840x2160 at 125 %: run RUN-0362-MILESTONE3-TESTS.cmd and send the results ZIP"
+  },
+  "criteria": {
+    "elimination-hand-tracking": {
+      "criterion": "Hands that start with eliminated players are tracked on real windows (the Milestone 2 stall)",
+      "status": "passed on Windows CI run 45225443410",
+      "checks": [
+        {
+          "name": "T1: Hands that start with eliminated players are tracked (the Milestone 2 stall)",
+          "status": "pass",
+          "detail": "6 checks passed in 45 s"
+        }
+      ]
+    },
+    "tournament-completion": {
+      "criterion": "A tournament is played to its end; the end is a normal stop",
+      "status": "passed on Windows CI run 45225443410",
+      "checks": [
+        {
+          "name": "T2: A tournament is played to its end; the end is a normal stop",
+          "status": "pass",
+          "detail": "12 checks passed in 39 s"
+        }
+      ]
+    },
+    "untracked-hand-recovery": {
+      "criterion": "A hand first seen after its opening stays untracked (no input) and play recovers at the next verified hand",
+      "status": "passed on Windows CI run 45225443410",
+      "checks": [
+        {
+          "name": "T3: A hand first seen after its opening: untracked, no input; recovery at the next verified hand",
+          "status": "pass",
+          "detail": "8 checks passed in 20 s"
+        }
+      ]
+    },
+    "think-time-holds": {
+      "criterion": "Think-time holds with every control hidden (pre-existing defect fixed)",
+      "status": "passed on Windows CI run 45225443410",
+      "checks": [
+        {
+          "name": "T4: Think-time holds: one seat acting on consecutive streets with every control hidden (pre-existing defect fixed in M3)",
+          "status": "pass",
+          "detail": "4 checks passed in 37 s"
+        }
+      ]
+    },
+    "multi-table-elimination-closure": {
+      "criterion": "Two tables with eliminations; one window closes; no input crosses tables",
+      "status": "passed on Windows CI run 45225443410",
+      "checks": [
+        {
+          "name": "T5: Two tables: eliminations on both, one window closes; no input crosses tables",
+          "status": "pass",
+          "detail": "6 checks passed in 56 s"
+        }
+      ]
+    },
+    "estop-after-elimination": {
+      "criterion": "Emergency stop right after an elimination: stop wins, no input, no automatic recovery",
+      "status": "passed on Windows CI run 45225443410",
+      "checks": [
+        {
+          "name": "T6: Emergency stop right after an elimination: stop wins, no input, no automatic recovery",
+          "status": "pass",
+          "detail": "6 checks passed in 21 s"
+        }
+      ]
+    },
+    "gameplay-tool-cleanup": {
+      "criterion": "Gameplay tools leave no process or handle behind and exit with the code of their verdict",
+      "status": "passed on Windows CI run 45225443410",
+      "checks": [
+        {
+          "name": "gameplay-acceptance: exit code matches the result",
+          "status": "pass",
+          "detail": "overall PASS, exit 0"
+        },
+        {
+          "name": "gameplay-stability: exit code matches the result",
+          "status": "pass",
+          "detail": "overall PASS, exit 0"
+        },
+        {
+          "name": "gameplay-campaign: exit code matches the result",
+          "status": "pass",
+          "detail": "overall PASS, exit 0"
+        }
+      ]
+    },
+    "lifecycle-regression": {
+      "criterion": "Milestone 2 lifecycle scenarios A-K still pass (scripted play, capture lifecycle, input cancellation, safety)",
+      "status": "passed on Windows CI run 45225443410",
+      "checks": [
+        {
+          "name": "J: Scripted practice plays hand after hand (no regression)",
+          "status": "pass",
+          "detail": "6 checks passed in 31 s"
+        },
+        {
+          "name": "A: Window closes during capture",
+          "status": "pass",
+          "detail": "8 checks passed in 8 s"
+        },
+        {
+          "name": "B: Window closes during mouse movement",
+          "status": "pass",
+          "detail": "7 checks passed in 12 s"
+        },
+        {
+          "name": "C: Simulator restarts with a different handle",
+          "status": "pass",
+          "detail": "10 checks passed in 12 s"
+        },
+        {
+          "name": "D: Temporary capture failures (injected while the window stays open)",
+          "status": "pass",
+          "detail": "6 checks passed in 12 s"
+        },
+        {
+          "name": "E: Minimised window",
+          "status": "pass",
+          "detail": "5 checks passed in 10 s"
+        },
+        {
+          "name": "F: Several tables, one closes",
+          "status": "pass",
+          "detail": "6 checks passed in 17 s"
+        },
+        {
+          "name": "G: Emergency stop during recovery",
+          "status": "pass",
+          "detail": "5 checks passed in 8 s"
+        },
+        {
+          "name": "H: Repeated target-loss signals",
+          "status": "pass",
+          "detail": "6 checks passed in 4 s"
+        },
+        {
+          "name": "I: Identity mismatch / handle reuse: no inherited permission",
+          "status": "pass",
+          "detail": "5 checks passed in 3 s"
+        },
+        {
+          "name": "K: Window resized while playing (geometry / display-scaling re-check)",
+          "status": "pass",
+          "detail": "3 checks passed in 8 s"
+        }
+      ]
+    },
+    "runner-exits-after-report": {
+      "criterion": "The lifecycle runner exits by itself right after its report, with the exit code of its verdict (timer-leak repair)",
+      "status": "passed on Windows CI run 45225443410",
+      "checks": [
+        {
+          "name": "lifecycle-acceptance: process cleanup (children exited, no live timers)",
+          "status": "pass",
+          "detail": "{\"PipeWrap\":2}"
+        },
+        {
+          "name": "lifecycle runner exits by itself after its report; exit code matches",
+          "status": "pass",
+          "detail": "report -> exit 15 ms, exit 0, live at report: {\"PipeWrap\":2}"
+        }
+      ]
+    },
+    "desktop-host-start": {
+      "criterion": "Desktop host: prebuilt start, forced fallback compile including InputBroker.cs, fresh cache, cache reuse, invalid-cache rebuild, old cache key never reused, build-only; shutdown, port 48713 released, input driver gone",
+      "status": "passed on Windows CI run 45225443410",
+      "checks": [
+        {
+          "name": "prebuilt host launch",
+          "status": "pass",
+          "detail": "path prebuilt; shutdown ok, port free after 522 ms, input driver gone"
+        },
+        {
+          "name": "forced fallback compile with a fresh cache",
+          "status": "pass",
+          "detail": "path compiled; shutdown ok, port free after 108 ms, input driver gone"
+        },
+        {
+          "name": "repeated start reuses the valid cache",
+          "status": "pass",
+          "detail": "path cache; shutdown ok, port free after 89 ms, input driver gone"
+        },
+        {
+          "name": "invalid cache: corrupted executable is rebuilt",
+          "status": "pass",
+          "detail": "path compiled, invalid cache: cached executable does not match its recorded hash; shutdown ok, port free after 91 ms, input driver gone"
+        },
+        {
+          "name": "invalid cache: manifest of other sources is rebuilt",
+          "status": "pass",
+          "detail": "path compiled, invalid cache: cache manifest sources differ; shutdown ok, port free after 100 ms, input driver gone"
+        },
+        {
+          "name": "an old (Milestone 2) cache key is never reused",
+          "status": "pass",
+          "detail": "path cache; shutdown ok, port free after 94 ms, input driver gone"
+        },
+        {
+          "name": "build-only compiles or reuses without launching",
+          "status": "pass",
+          "detail": "path cache"
+        }
+      ]
+    },
+    "multi-table-stability": {
+      "criterion": "Multi-table stability with 1, 2, 5 and 8 tables (eliminations, a window closed and reopened, emergency stops, finished tournaments replaced)",
+      "status": "passed on Windows CI run 45225443410",
+      "checks": [
+        {
+          "name": "M1: 1 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+          "status": "pass",
+          "detail": "5 checks passed in 183 s"
+        },
+        {
+          "name": "M2: 2 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+          "status": "pass",
+          "detail": "5 checks passed in 182 s"
+        },
+        {
+          "name": "M5: 5 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+          "status": "pass",
+          "detail": "5 checks passed in 182 s"
+        },
+        {
+          "name": "M8: 8 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+          "status": "pass",
+          "detail": "5 checks passed in 187 s"
+        }
+      ]
+    },
+    "long-campaign": {
+      "criterion": "Long campaign: at least 100 completed hands with eliminations and finished tournaments",
+      "status": "passed on Windows CI run 45225443410",
+      "checks": [
+        {
+          "name": "C: Long campaign: tournaments played to the end one after another until 120 hands are completed",
+          "status": "pass",
+          "detail": "7 checks passed in 840 s"
+        },
+        {
+          "name": "gameplay-campaign: process cleanup (children exited, no live timers)",
+          "status": "pass",
+          "detail": "{}"
+        },
+        {
+          "name": "gameplay-campaign: exit code matches the result",
+          "status": "pass",
+          "detail": "overall PASS, exit 0"
+        }
+      ]
+    },
+    "executable-identity": {
+      "criterion": "Executable identities and release checksums; EightMax 5.1 unchanged (binary and build id)",
+      "status": "passed on Windows CI run 45225443410",
+      "checks": [
+        {
+          "name": "desktop\\bin\\EightMaxWorkbench.exe",
+          "status": "pass",
+          "detail": "sha256 845578b9a6596009... version 0.36.2.0 / 0.36.2-dev"
+        },
+        {
+          "name": "desktop\\bin\\EightMaxInput.exe",
+          "status": "pass",
+          "detail": "sha256 2c4d7b739ceb6179... version 0.36.2.0 / 0.36.2-dev"
+        },
+        {
+          "name": "desktop\\bin\\EightMaxTestTable.exe",
+          "status": "pass",
+          "detail": "sha256 3e5a76995a24d169... version 0.36.2.0 / 0.36.2-dev"
+        },
+        {
+          "name": "desktop\\bin\\EightMaxCapture.exe",
+          "status": "pass",
+          "detail": "sha256 8180c32910bfd1d5... version 0.35.0.0 / 0.35.0"
+        },
+        {
+          "name": "desktop\\bin\\EightMaxWgc.exe",
+          "status": "pass",
+          "detail": "sha256 bc001504382306e1... version 0.35.0.0 / 0.35.0"
+        },
+        {
+          "name": "native\\mwcli.exe",
+          "status": "pass",
+          "detail": "sha256 b3e675bfe2ae231e... version  / "
+        },
+        {
+          "name": "runtime\\node\\node.exe",
+          "status": "pass",
+          "detail": "sha256 247e9693d316da98... version 22.23.5 / 22.23.5"
+        },
+        {
+          "name": "release checksums (SHA256SUMS.txt)",
+          "status": "pass",
+          "detail": "every shipped file matches"
+        },
+        {
+          "name": "EightMax 5.1 binary unchanged",
+          "status": "pass",
+          "detail": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72"
+        },
+        {
+          "name": "EightMax 5.1 build id",
+          "status": "pass",
+          "detail": "EightMaxBuild=7d08acc7eb4577ee"
+        }
+      ]
+    },
+    "regression-suite": {
+      "criterion": "Complete regression suite with the bundled Node.js on Windows",
+      "status": "passed on Windows CI run 45225443410",
+      "checks": [
+        {
+          "name": "regression tests (complete suite)",
+          "status": "pass",
+          "detail": "900 passed, 0 failed, 65 skipped"
+        }
+      ]
+    },
+    "no-leftovers": {
+      "criterion": "No process left behind and port 48713 released after all phases",
+      "status": "passed on Windows CI run 45225443410",
+      "checks": [
+        {
+          "name": "no leftover processes started by these tests",
+          "status": "pass",
+          "detail": "none"
+        },
+        {
+          "name": "port 48713 released",
+          "status": "pass",
+          "detail": "free"
+        }
+      ]
+    },
+    "target-hardware": {
+      "criterion": "The operator's PC (Windows 11 Home, i7-13700F, RTX 4060 Ti, 3840x2160 at 125 % scaling)",
+      "status": "PENDING",
+      "evidence": "not available to this milestone; run RUN-0362-MILESTONE3-TESTS.cmd"
+    }
+  },
+  "allCiCriteriaPassed": true
+}

@@ -1,17 +1,15 @@
 # EightMax Test Workbench 0.36.2 - Milestone 3 (tournament hand tracking, simulator stability, test automation, Windows hardening)
 
-**Development in progress - not a release yet.** The final package, report and evidence files are added to this branch when Milestone 3 is complete.
-
-| Path | Contents |
+| File | Contents |
 |---|---|
-| `m3-overlay/EightMax-Test-Workbench/` | every file that Milestone 3 adds or changes relative to `EightMax-Test-Workbench-0.36.2-Milestone-2.zip` (branch `milestone-2-0362`, SHA-256 `4518a133...febc32`), including the regenerated `SHA256SUMS.txt` |
-| `.github/workflows/windows-0362-m3.yml` | Windows CI: assembles the package (Milestone 2 ZIP + overlay, or the final Milestone 3 ZIP once committed), verifies every checksum, parses every PowerShell script, then runs `windows/Test-Milestone3-0362.ps1` (the same script as `RUN-0362-MILESTONE3-TESTS.cmd`) with real windows. Results: job log, artifact, and branch `m3-results/<run id>` |
+| `EightMax-Test-Workbench-0.36.2-Milestone-3.zip` | the complete release (1,415 entries); SHA-256 in `EightMax-Test-Workbench-0.36.2-Milestone-3.zip.sha256` |
+| `EightMax-Test-Workbench-0.36.2-Milestone-3-verification.json` | the ZIP extracted into an empty folder: CRCs, every checksum-manifest entry, executable identities, and the complete test suite run from the extracted copy (`...-verification-tests.tap`) |
+| `REPORT-0.36.2-Milestone-3.md` | the development report (also inside the ZIP) |
+| `HAND-TRACKING-VALIDATION-0362M3.json`, `GAMEPLAY-STRESS-0362M3.json`, `WINDOWS-VALIDATION-0362M3.json`, `REGRESSION-0362M3.json` | the validation records (also inside the ZIP) |
+| `READ-ME-MILESTONE3-TESTS.txt` | how to run the Milestone 3 tests on your own Windows PC |
+| `.github/workflows/windows-0362-m3.yml` | Windows CI of the committed ZIP (real windows on `windows-latest`); results on branch `m3-results/<run id>` |
+| `.github/workflows/windows-0362-m3-driver-build.yml` | the Windows build of `EightMaxInput.exe` used in this release (run 45216843075) |
 
-The EightMax 5.1 native solver (`native/mwcli.exe`, build `7d08acc7eb4577ee`) is not modified.
-
-## Input driver build (Milestone 3)
-
-Milestone 3 changes `desktop/input/Driver.cs`. `.github/workflows/windows-0362-m3-driver-build.yml` compiles the executables on
-`windows-latest` with the shipped `windows\Build-Executables.ps1 -SkipWgc` and publishes `EightMaxInput.exe` with its build records to
-`m3-results/<run id>`. Only that executable is taken into the package. Validation runs (`windows-0362-m3.yml`) are started by committing
-`ci-request.json` or the Milestone 3 ZIP.
+Windows validation of the final development tree: GitHub Actions run 45225443410, 51 of 51 checks passed. The run of this exact ZIP is
+recorded in the verification file once it has finished. The operator's own PC has not run the tests yet (pending).
+The EightMax 5.1 native solver (`native/mwcli.exe`, build `7d08acc7eb4577ee`) is byte-identical to Milestone 2.
