@@ -6,7 +6,8 @@ name: EightMax 0.36.2 Milestone 3.1 - Windows test-runner validation and full ac
 #              no unlisted entry, release integrity). The same ZIP file (artifact) is used by both Windows jobs, which check its hash.
 #   scenarios  tests/windows/M31-Scenarios.ps1 from the extracted ZIP: launchers A/D, standalone diagnostic, previous results, corruption,
 #              host-start failure and time-out, exceptions, midway failure, killed runner, missing dependency, occupied port, repeated
-#              runs, long paths, packaging of an incomplete run, launcher failures, Mark of the Web (Milestone 3 vs 3.1)
+#              runs, long paths, packaging of an incomplete run, launcher failures, Mark of the Web (Milestone 3 vs 3.1), Ctrl+C,
+#              the default results folder under a user folder with a non-ASCII name
 #   full       RUN-0362-MILESTONE3.1-TESTS.cmd option C (full acceptance, complete regression suite) exactly as on the operator PC
 # The ZIP is extracted into a folder whose path has spaces, parentheses and a non-ASCII character. Results: job log, artifacts and the
 # branches m31-results/<run id>-scenarios and m31-results/<run id>-full (readable with git when the artifact store is not reachable).
@@ -92,6 +93,16 @@ jobs:
           $app = Join-Path $base 'EightMax-Test-Workbench'
           [IO.File]::AppendAllText($env:GITHUB_ENV, "APP=$app`n", (New-Object Text.UTF8Encoding($false)))
           "extracted to $app"
+      - name: Probe - bundled Node.js fs.cpSync from a folder whose path has a non-ASCII character (diagnostic, never fails)
+        shell: powershell
+        run: |
+          $node = Join-Path $env:APP 'runtime\node\node.exe'; $probe = Join-Path $env:RUNNER_TEMP 'cpsync-probe.cjs'
+          [IO.File]::WriteAllText($probe, "const fs=require('fs'),path=require('path'),os=require('os');const d=fs.mkdtempSync(path.join(os.tmpdir(),'cp-'));fs.cpSync(process.argv[2],path.join(d,'x'),{recursive:true});console.log('copied '+fs.readdirSync(path.join(d,'x')).length+' entries');")
+          $ascii = Join-Path $env:RUNNER_TEMP 'ascii-copy-of-tools'; Copy-Item -Recurse -LiteralPath (Join-Path $env:APP 'tools') -Destination $ascii
+          & $node $probe (Join-Path $env:APP 'tools'); $a = $LASTEXITCODE; & $node $probe $ascii; $b = $LASTEXITCODE
+          $line = 'node ' + (& $node --version) + ' fs.cpSync: source path with a non-ASCII character -> exit ' + $a + ' (0x' + ('{0:X8}' -f $a) + '); ASCII source path -> exit ' + $b
+          $line; [IO.File]::WriteAllText((Join-Path $env:RUNNER_TEMP 'node-cpsync-probe.txt'), $line + "`r`n")
+          exit 0
       - name: Parse every PowerShell script with the Windows PowerShell 5.1 parser
         shell: powershell
         run: |
@@ -148,6 +159,7 @@ jobs:
           res="$RUNNER_TEMP/m31-scenarios"; dest="$RUNNER_TEMP/branch"; mkdir -p "$dest/results"
           if [ -d "$res" ]; then (cd "$res" && find . -type f -size -6M ! -name '*.zip' -print0 | xargs -0 -I{} cp --parents {} "$dest/results/"; find . -type f -name 'milestone3-results.zip' -size -2M -print0 | xargs -0 -I{} cp --parents {} "$dest/results/") ; fi
           cp "$RUNNER_TEMP/m31-scenarios.log" "$RUNNER_TEMP/m31-scenarios.err.log" "$dest/" 2>/dev/null || true
+          cp "$RUNNER_TEMP/node-cpsync-probe.txt" "$dest/" 2>/dev/null || true
           printf '{"run":"%s","sha":"%s","zipSha256":"%s","mode":"%s","job":"scenarios","outcome":"%s"}\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" "${{ needs.package.outputs.zip_sha256 }}" "${{ needs.package.outputs.mode }}" "${{ steps.scen.outcome }}" > "$dest/run.json"
           cd "$dest" && git init -q && git config core.longpaths true && git checkout -q -b "m31-results/$GITHUB_RUN_ID-scenarios" && git add -A && git -c user.name="eightmax-ci" -c user.email="eightmax-ci@users.noreply.github.com" commit -q -m "Milestone 3.1 Windows scenarios, run $GITHUB_RUN_ID ($GITHUB_SHA)"
           git push -q "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" "HEAD:refs/heads/m31-results/$GITHUB_RUN_ID-scenarios" && echo "results pushed to m31-results/$GITHUB_RUN_ID-scenarios"

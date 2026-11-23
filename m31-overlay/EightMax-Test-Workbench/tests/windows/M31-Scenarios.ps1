@@ -28,7 +28,8 @@ function ConvertTo-PlainValue($v, [int]$depth = 0) {
 }
 function Save-Results {
     try { Save-ResultsCore } catch {
-        try { foreach ($r in $results) { $r.facts = [string]$r.facts }; Save-ResultsCore } catch { Write-Host ('scenarios.json could not be written: ' + $_.Exception.Message) -ForegroundColor Red }
+        $why = $_.Exception.Message; Write-Host ('scenarios.json: full write failed (' + $why + '); facts are stored as JSON text') -ForegroundColor Yellow
+        try { foreach ($r in $results) { if ($r.facts -isnot [string]) { try { $r.facts = ConvertTo-Json -InputObject $r.facts -Depth 8 -Compress } catch { $r.facts = [string]$r.facts } } }; Save-ResultsCore } catch { Write-Host ('scenarios.json could not be written: ' + $_.Exception.Message) -ForegroundColor Red }
     }
 }
 function Save-ResultsCore {
@@ -348,6 +349,17 @@ Test-Scenario 'S18' 'cancel' 'the run is cancelled with Ctrl+C while a start-up 
     $hs = $(if ($doc) { @($doc['phases'] | Where-Object { $_['name'] -eq 'host-start' })[0] } else { $null }); $cl = $(if ($doc) { @($doc['phases'] | Where-Object { $_['name'] -eq 'cleanup' })[0] } else { $null })
     $ok = ($sent.Trim() -eq 'sent') -and $exited -and $p.ExitCode -eq 4 -and [string]$st['state'] -eq 'interrupted' -and $doc -and [string]$doc['overall'] -eq 'INTERRUPTED' -and $hs['status'] -eq 'INTERRUPTED' -and $cl['status'] -eq 'NOT RUN' -and (Test-Path -LiteralPath (Join-Path $d 'milestone3-results.zip')) -and $left -eq 0
     Add-Result 'S18' 'cancel' 'Ctrl+C: the run ends by itself with an INTERRUPTED report and ZIP; its child processes are stopped' $ok ('Ctrl+C ' + $sent.Trim() + '; runner exited ' + $exited + ' (code ' + $(if ($exited) { [string]$p.ExitCode } else { '-' }) + '); state ' + [string]$st['state'] + '; overall ' + [string]$doc['overall'] + '; host-start ' + [string]$hs['status'] + ', cleanup ' + [string]$cl['status'] + '; hung processes left ' + $left) 'exit 4; state interrupted, overall INTERRUPTED, report + ZIP, nothing left running' $null
+}
+Test-Scenario 'S19' 'M' 'default results folder for a Windows user whose folder name has spaces and non-ASCII characters' {
+    # RUN-0362-MILESTONE3.1-TESTS.cmd A without a results folder: %LOCALAPPDATA%\EightMax-Test-Workbench\TestResults, here under a user
+    # folder such as C:\Users\Jose Mueller (accented) - the launcher, the runner and the ZIP must handle it
+    $lad = Join-Path $res ('Users\Jos' + [char]0x00e9 + ' M' + [char]0x00fc + 'ller (x)\AppData\Local'); [void][IO.Directory]::CreateDirectory($lad)
+    $old = $env:LOCALAPPDATA; $env:LOCALAPPDATA = $lad
+    try { $r = Invoke-Launcher $App 'RUN-0362-MILESTONE3.1-TESTS.cmd' 'A' 'S19-launcher' 900 } finally { $env:LOCALAPPDATA = $old }
+    $root = Join-Path $lad 'EightMax-Test-Workbench\TestResults'
+    $d = @(Get-RunDirs $root)[0]; $doc = $(if ($d) { Read-Json (Join-Path $d 'milestone3-results.json') } else { $null }); $rep = $(if ($d) { Test-Report $d } else { $null })
+    $ok = ($r.code -eq 0) -and $doc -and @('PASS', 'WARNING') -contains [string]$doc['overall'] -and $rep.ok -and ($r.out -match 'ZIP to send back:')
+    Add-Result 'S19' 'M' 'default results folder under a user folder with spaces and non-ASCII characters (%LOCALAPPDATA%)' $ok ('exit ' + [string]$r.code + ', run folder ' + $(if ($d) { 'found under %LOCALAPPDATA%\EightMax-Test-Workbench\TestResults' } else { 'NOT found' }) + ', overall ' + [string]$doc['overall'] + ', report ' + [string]$rep.ok + ', ' + [string]$r.seconds + ' s' + $(if (-not $ok) { '; launcher output: ' + (Get-OutTail $r 8) } else { '' })) 'exit 0, report and ZIP in the default folder' ([ordered]@{ exitCode = $r.code; runFolder = $d; report = $rep })
 }
 Stop-EightMaxLeftovers
 Save-Results

@@ -70,7 +70,8 @@
   "tests/windows/M31-Scenarios.ps1",
   "tests/fixtures/m31/fake-desktop-host.cjs",
   "tests/fixtures/m31/Start-FakeDesktop.ps1",
-  ".github/workflows/windows-0362-m31.yml"
+  ".github/workflows/windows-0362-m31.yml",
+  "evidence/0.36.2-m31/ (baseline verification, reproduction TAPs, operator-evidence analysis, Windows CI development-run results)"
  ],
  "changedFiles": [
   "RUN-0362-MILESTONE3-TESTS.cmd (now starts RUN-0362-MILESTONE3.1-TESTS.cmd C)",
@@ -81,6 +82,9 @@
   "tests/release-0362m3.test.cjs",
   "tests/release-033.test.cjs",
   "tests/start-desktop-0362m3.test.cjs",
+  "tests/release-consistency.test.cjs (copies the sources without fs.cpSync, which stops Node.js 22 on Windows in a folder whose path has a non-ASCII character)",
+  "tests/windows-findings-0362m3.test.cjs (checks the Milestone 3.1 equivalents of the Milestone 3 runner internals it pinned)",
+  "tests/fixtures/capture-stubs/*.sh, tests/fixtures/wgc-stubs/wgc-session.sh (file mode only: executable, as the Linux tests need; content unchanged)",
   "docs/CHANGELOG.md",
   "SHA256SUMS.txt"
  ],

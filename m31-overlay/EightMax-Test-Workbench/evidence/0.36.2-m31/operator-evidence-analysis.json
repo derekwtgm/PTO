@@ -1,0 +1,91 @@
+{
+ "format": "eightmax-m31-operator-evidence-analysis",
+ "version": 1,
+ "sources": {
+  "Milestone3-20261123-122544.zip": {
+   "sha256": "0ca9feec7aa984281c5cefd1765c7b8ff78db948549bed11e5208af30502bdf7",
+   "entries": 8,
+   "createdBy": "Windows 11 File Explorer 'Compress to ZIP' (libarchive layout: Unix origin, 0666/0777 modes, UT and ux extra fields, local DOS times)"
+  },
+  "Milestone3-20261123-124637.zip": {
+   "sha256": "33e420a2ea7d76764ae98059aa2311d2115234c61c58cf4c123901d86ebe12f4",
+   "entries": 8
+  },
+  "20261123124834.mp4": {
+   "sha256": "1d17f30fe2963f09f0595c74e57234232d5b04b6b29da158e324919eb7ef31e5",
+   "duration": "4.75 s",
+   "recordedAt": "12:48:34 local (19:48:34 UTC)",
+   "content": "Windows Terminal running RUN-0362-MILESTONE3-TESTS.cmd; last line '==== host-start (12:47:14)'; no further output during the whole clip"
+  },
+  "RUN-M3-HOST-DIAGNOSTIC.cmd": "not provided and not present in any branch of derekwtgm/PTO; its failure cannot be analysed from its source"
+ },
+ "machine": "Windows 11 Home, display scaling 125 % (from the run-2 console in the video; other hardware details are deliberately not repeated here)",
+ "timeline": {
+  "run1": [
+   {
+    "time": "12:25:44",
+    "event": "run started; results folder and state\\ created inside the application folder (test-results\\Milestone3-20261123-122544)"
+   },
+   {
+    "time": "12:26:00",
+    "event": "identity phase finished (mwcli-build-id: EightMaxBuild=7d08acc7eb4577ee)"
+   },
+   {
+    "time": "12:26:00-12:26:42",
+    "event": "unit phase: 114 passed, 1 failed, 1 skipped; the failure is 'M3 release: SHA256SUMS.txt lists every shipped file except itself' on test-results/Milestone3-20261123-122544/mwcli-build-id.err.txt - the run's own identity-phase log"
+   },
+   {
+    "time": "12:26:42-43",
+    "event": "host-start\\ created (Test-Milestone3-0362.ps1 line 150 runs after the unit phase)"
+   },
+   {
+    "time": "12:26:44",
+    "event": "last change of the results folder: 'host-prebuilt host launch.out.txt' / '.err.txt' created - Start-Desktop.ps1 started as a hidden PowerShell"
+   },
+   {
+    "time": "after 12:26:44",
+    "event": "no status record, no session file, no phase state, no report; the two host-prebuilt logs are missing from the operator's ZIP although run 2 found them on disk"
+   }
+  ],
+  "run2": [
+   {
+    "time": "12:46:37",
+    "event": "run started"
+   },
+   {
+    "time": "12:46:40-12:47:14",
+    "event": "unit phase: same 114/1/1; the failure now names run 1's leftover 'host-prebuilt host launch.err.txt'"
+   },
+   {
+    "time": "12:47:14",
+    "event": "host-start started; 'no EightMax host already running' passed (no host process existed: run 1 never started one)"
+   },
+   {
+    "time": "12:48:34",
+    "event": "video: still no output 80 s into host-start (the same case took 2-4 s on the Windows CI runner)"
+   },
+   {
+    "time": "later",
+    "event": "same pattern: no report; the host-prebuilt logs are missing from the ZIP"
+   }
+  ]
+ },
+ "findings": [
+  "The checksum failure is established and reproduced byte for byte: the release test treated the runner's own logs in test-results\\ as release files (runs 1 and 2 report exactly the files the runner had just written).",
+  "In both runs windows\\Start-Desktop.ps1 did not exit: the runner prints nothing for a host case until the start-up script exits (Run-Logged waits up to 900 s), and the video shows no output 80 s into the case.",
+  "The start-up script was still alive when each folder was zipped: Explorer's ZIP omitted exactly the two files that script held open for writing (it cannot open a file another process is writing), while run 2 saw the run-1 file on disk.",
+  "No desktop host was running at the start of run 2, so run 1's script never launched one (a headless host started by it would have kept running); the stop happened inside Start-Desktop.ps1 before or at the host launch.",
+  "The Milestone 3 script launched the host with a plain Start-Process, i.e. through the Windows shell (ShellExecuteEx). REPRODUCED on a real Windows machine (GitHub-hosted Windows Server 2025, scenario S17): with the release files marked as downloaded (Mark of the Web, as after extracting a downloaded ZIP), the Milestone 3 start-up script, called exactly as the Milestone 3 runner calls it, did not finish within 120 s; its hidden PowerShell owned a dialog of class #32770 titled 'Open File - Security Warning' with visible = 0, and a screenshot taken during the stop shows no dialog on the desktop. The same script on the same files without the mark finished in about 2 s. A process started hidden shows its first window with the hidden flag it was started with, so the prompt can never be seen or answered."
+ ],
+ "notEstablished": [
+  "Whether the prompt on the operator PC was 'Open File - Security Warning' or Windows SmartScreen (both are shell prompts for downloaded unsigned programs; both block the Milestone 3 start-up script).",
+  "Why the separate RUN-M3-HOST-DIAGNOSTIC.cmd did not work (the file is not available)."
+ ],
+ "reproduction": {
+  "machine": "GitHub-hosted windows-latest (Windows Server 2025 Datacenter build 26100)",
+  "scenario": "tests/windows/M31-Scenarios.ps1 S17c (control) and S17a (marked files)",
+  "control": "unmarked Milestone 3 files: Start-Desktop.ps1 finished in about 2 s, exit 0",
+  "marked": "Start-Desktop.ps1 did not finish within 120 s; window of the stopped script: '#32770 | Open File - Security Warning | visible 0'",
+  "screenshot": "evidence/0.36.2-m31/S17-desktop-during-the-stop.jpg (no dialog visible)"
+ }
+}

@@ -8,11 +8,12 @@ WHAT WAS WRONG IN MILESTONE 3 (your two runs on 2026-11-23)
   1. "M3 release: SHA256SUMS.txt lists every shipped file except itself" failed because the test runner wrote its own logs into
      test-results\ inside the program folder, and that test treated those logs as release files. Fixed: test results are no longer
      part of the release check, while a changed, missing or added program file is still detected.
-  2. The "host-start" step printed nothing and never finished: the start-up script started the desktop host through the Windows
-     shell, which can wait for an answer to a Windows security question about a downloaded program that nobody sees during an
-     unattended test; the runner then waited up to 15 minutes per step without showing anything. Fixed: every step has a time limit,
-     shows its progress, and on a time-out the report names the step and anything Windows was showing (for example a SmartScreen
-     window). The test start no longer goes through the Windows shell.
+  2. The "host-start" step printed nothing and never finished. Cause, reproduced on a Windows test machine: the files came from a
+     downloaded ZIP, and the start-up script started the desktop host through the Windows shell, so Windows asked "Open File -
+     Security Warning: do you want to run this file?" - in a window that was INVISIBLE, because the test had started the script
+     hidden. Nobody could answer it, so the script waited forever, and the runner waited up to 15 minutes per step without showing
+     anything. Fixed: the tests now start the programs directly (no such question is asked), every step has a time limit and shows
+     its progress, and if a step ever stops again the report names the step and any window Windows was showing, visible or not.
   3. The report was written only at the very end, so nothing was saved when the run stopped. Fixed: every check is saved the moment
      it finishes.
 
@@ -81,8 +82,9 @@ IF THE TEST CANNOT START AT ALL
   PowerShell cannot run, when files are missing or when the file was started from inside the ZIP. Send that ZIP.
 
 WINDOWS SECURITY PROMPTS
-  Programs extracted from a downloaded ZIP are marked by Windows as "downloaded from the internet". When you START THE WORKBENCH
-  YOURSELF (START-EIGHTMAX.cmd), Windows may show "Windows protected your PC" (SmartScreen) or "Open File - Security Warning".
+  Programs extracted from a downloaded ZIP are marked by Windows as "downloaded from the internet". When you double-click one of the
+  .cmd files or START THE WORKBENCH YOURSELF (START-EIGHTMAX.cmd), Windows may show "Windows protected your PC" (SmartScreen) or
+  "Open File - Security Warning".
   That is normal for an unsigned program: choose "More info" > "Run anyway" (or "Run"). The tests start the programs directly and are
   not blocked by these prompts; the report says whether the files carry the mark ("Mark of the Web").
   To remove the mark once for the whole folder (optional), right-click the ZIP BEFORE extracting it > Properties > tick "Unblock" > OK,

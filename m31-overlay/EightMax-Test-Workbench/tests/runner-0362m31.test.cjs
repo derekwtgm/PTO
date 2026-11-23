@@ -92,6 +92,22 @@ test('M3.1 results location: outside the application folder by default; inside i
 // live scenarios (PowerShell 7 on Linux, fake desktop host)
 // ---------------------------------------------------------------------------------------------------------------------------------------
 const tmpRoot = () => fs.mkdtempSync(path.join(os.tmpdir(), 'em-m31-runner-'));
+
+test('M3.1 runner: a test FILE that stopped without reporting its tests is named with its exit code (Windows CI run 1 shape)', { skip: LIVE }, () => {
+  const tmp = tmpRoot(), tap = path.join(tmp, 'unit.tap');
+  fs.writeFileSync(tap, ['TAP version 13', '# Subtest: a normal test', 'not ok 1 - a normal test', '  ---', '  duration_ms: 3.1', "  failureType: 'testCodeFailure'", '  ...',
+    '# Subtest: tests\\\\release-consistency.test.cjs', 'not ok 2 - tests\\\\release-consistency.test.cjs', '  ---', '  duration_ms: 511.1658', "  type: 'test'",
+    "  failureType: 'testCodeFailure'", '  exitCode: 3221226505', '  signal: ~', "  error: 'test failed'", "  code: 'ERR_TEST_FAILURE'", '  ...',
+    '# Subtest: fine', 'ok 3 - fine', '  ---', '  duration_ms: 1', '  ...', '1..3', '# tests 3', '# pass 1', '# fail 2', ''].join('\r\n'));
+  const q = (s) => "'" + s.replace(/'/g, "''") + "'";
+  const ps = '. ' + q(path.join(ROOT, 'windows', 'M31-Lib.ps1')) + '; $r = Get-M31TapFailures ([IO.File]::ReadAllText(' + q(tap) + ")); ($r.failed -join '|'); ('stopped=' + $r.stopped.Count)";
+  const p = cp.spawnSync('pwsh', ['-NoProfile', '-NonInteractive', '-Command', ps], { encoding: 'utf8', timeout: 120000 });
+  assert.equal(p.status, 0, p.stderr);
+  const [names, stopped] = p.stdout.trim().split(/\r?\n/);
+  assert.equal(stopped, 'stopped=1');
+  assert.deepEqual(names.split('|'), ['a normal test', 'tests\\release-consistency.test.cjs stopped with exit code 3221226505 (0xC0000409) before reporting its tests']);
+  fs.rmSync(tmp, { recursive: true, force: true });
+});
 function runner(outRoot, args, env = {}, app = ROOT) {
   const r = cp.spawnSync('pwsh', ['-NoProfile', '-File', path.join(app, 'windows', 'Test-Milestone31.ps1'), '-OutRoot', outRoot, '-NonInteractive', '-StartScript', path.join(app, 'tests', 'fixtures', 'm31', 'Start-FakeDesktop.ps1'), ...args],
     { encoding: 'utf8', timeout: 240000, env: { ...process.env, EIGHTMAX_NONINTERACTIVE: '1', ...env } });

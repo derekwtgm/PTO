@@ -1024,13 +1024,23 @@ function Find-M31Runs([string]$OutRoot, [string]$AppRoot) {
     }
     return @($runs | Sort-Object -Property @{ Expression = { $_.lastWrite }; Descending = $true })
 }
+function Get-M31TapFailures([string]$Tap) {
+    # the failed tests of a node:test TAP report; a test FILE that stopped without reporting its tests (Node.js ended abnormally,
+    # for example exit code 3221226505 = 0xC0000409) is named with its exit code instead of only "test failed"
+    $names = @([regex]::Matches([string]$Tap, '(?m)^not ok \d+ - (.+?)\r?$') | ForEach-Object { $_.Groups[1].Value -replace '\\\\', '\' })
+    $stopped = @([regex]::Matches([string]$Tap, '(?ms)^not ok \d+ - ([^\r\n]+?\.test\.cjs)\r?\n  ---\r?\n(.*?)^  \.\.\.') | ForEach-Object {
+        $x = [regex]::Match($_.Groups[2].Value, 'exitCode: (\d+)')
+        if ($x.Success) { ($_.Groups[1].Value -replace '\\\\', '\') + ' stopped with exit code ' + $x.Groups[1].Value + ' (0x' + ('{0:X8}' -f [int64]$x.Groups[1].Value) + ') before reporting its tests' } })
+    if ($stopped.Count) { $names = @(@($names | Where-Object { $n0 = $_; -not @($stopped | Where-Object { $_.StartsWith($n0 + ' ') }).Count }) + $stopped) }
+    return [ordered]@{ failed = $names; stopped = $stopped }
+}
 function Get-M31LegacySummary([string]$Dir) {
     # a Milestone 2 / 3 results folder without run-status.json: what is there, read-only
     $s = [ordered]@{ unitTests = $null; phasesWithState = @(); hostStartFiles = 0; files = 0 }
     $tap = Join-Path $Dir 'unit-tests.tap'
     if (Test-Path -LiteralPath $tap) {
         $t = Read-M31Text $tap; $n = { param($k) $ms = [regex]::Matches($t, '(?m)^' + [string][char]35 + ' ' + $k + ' (\d+)\r?$'); if ($ms.Count) { [int]$ms[$ms.Count - 1].Groups[1].Value } else { $null } }
-        $s.unitTests = [ordered]@{ tests = (& $n 'tests'); pass = (& $n 'pass'); fail = (& $n 'fail'); skipped = (& $n 'skipped'); failed = @([regex]::Matches($t, '(?m)^not ok \d+ - (.+)$') | ForEach-Object { $_.Groups[1].Value }) }
+        $s.unitTests = [ordered]@{ tests = (& $n 'tests'); pass = (& $n 'pass'); fail = (& $n 'fail'); skipped = (& $n 'skipped'); failed = @((Get-M31TapFailures $t).failed) }
     }
     $sd = Join-Path $Dir 'state'; if (Test-Path -LiteralPath $sd) { $s.phasesWithState = @(Get-ChildItem -LiteralPath $sd -Filter '*.json' -ErrorAction SilentlyContinue | ForEach-Object { $_.BaseName }) }
     $s.hostStartFiles = @(Get-ChildItem -LiteralPath $Dir -Filter 'host-*' -File -ErrorAction SilentlyContinue).Count + @(Get-ChildItem -LiteralPath (Join-Path $Dir 'host-start') -Recurse -File -ErrorAction SilentlyContinue).Count
