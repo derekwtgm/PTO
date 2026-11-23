@@ -1,0 +1,47 @@
+{
+  "format": "eightmax-package-verification",
+  "version": 1,
+  "package": "EightMax-Test-Workbench-0.36.2-Milestone-2.zip",
+  "sha256": "4518a133090be292d3e6d190e6259173d25807323e2156d95f10fcc523febc32",
+  "at": "2026-11-23",
+  "environment": "Linux x64, Node 22.23.5, Chromium (Playwright), Mono 6.8 - NOT Windows",
+  "zip": {
+    "entries": 899,
+    "crc": "ok",
+    "extractedWith": "python zipfile into an empty folder"
+  },
+  "manifest": {
+    "entries": 898,
+    "result": "all match (sha256sum -c)"
+  },
+  "executables": {
+    "unchangedFromMilestone1": true,
+    "native/mwcli.exe": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72"
+  },
+  "fullNodeSuiteFromExtractedPackage": {
+    "tests": 920,
+    "passed": 867,
+    "failed": 1,
+    "skipped": 52,
+    "failed_test": "driver: cancel stops a movement mid-way; nothing moves afterwards; emergency stop latches until reset (tests/input-driver-035.test.cjs, C# driver under Mono)",
+    "assessment": "intermittent timing under parallel load: reset-estop arrived while the cancelled operation was still finishing (driver answered busy, as designed). Re-run alone: 5/5 passed on this package, 3/3 on the unmodified Milestone 1 package. Neither the driver source nor this test changed in Milestone 2."
+  },
+  "lifecycleAcceptanceFakeSelfCheck": {
+    "overall": "PASS",
+    "scenarios": {
+      "scenarios": 11,
+      "passed": 11,
+      "failed": 0,
+      "checks": 67,
+      "failedChecks": 0
+    }
+  },
+  "stress60s": {
+    "pass": true,
+    "violations": 0,
+    "registrations": 15,
+    "confirmed": 206
+  },
+  "buildCheck": "OK (all C# components compile with Mono against .NET 4.8 reference assemblies; shipped binaries identical to the Windows build)",
+  "windows": "NOT executed: run RUN-0362-MILESTONE2-TESTS.cmd on the target PC, or .github/workflows/windows-0362-m2.yml"
+}

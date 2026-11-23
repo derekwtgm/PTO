@@ -1,0 +1,521 @@
+TAP version 13
+# Unhandled Exception:
+# System.ComponentModel.Win32Exception (0x80004005): ApplicationName='/home/user/verify/EightMax-Test-Workbench/tests/fixtures/wgc-stubs/wgc-session.sh', CommandLine='--session --emit-png --hwnd 0x10 --pid 42 --fps 10 --queue 2 --stall-ms 3000 --timeout-ms 5000 --out-dir "/tmp/eightmax-wgc-f78e8112b442485b839a15c9c98767db"', CurrentDirectory='', Native error= Access denied
+#   at System.Diagnostics.Process.StartWithCreateProcess (System.Diagnostics.ProcessStartInfo startInfo) [0x002f4] in <a85c1a570f9a4f9f9c3d2cfa5504e34f>:0 
+#   at System.Diagnostics.Process.Start () [0x00040] in <a85c1a570f9a4f9f9c3d2cfa5504e34f>:0 
+#   at (wrapper remoting-invoke-with-check) System.Diagnostics.Process.Start()
+#   at System.Diagnostics.Process.Start (System.Diagnostics.ProcessStartInfo startInfo) [0x0001e] in <a85c1a570f9a4f9f9c3d2cfa5504e34f>:0 
+#   at EightMax.Workbench.CaptureService+WgcStream.Start (System.String helper, System.String hwnd, System.Int32 pid, System.Double fps, System.String tempDir) [0x000a2] in <97c0276a70ee465ea22c1837282a12ed>:0 
+#   at EightMax.Workbench.CaptureService.StreamFrame (System.String helper, EightMax.Workbench.CaptureService+Target t, System.String hexHandle, System.UInt32 pid, System.Double t0, System.Int32 waitMs) [0x00101] in <97c0276a70ee465ea22c1837282a12ed>:0 
+#   at EightMax.Workbench.CaptureService.StreamFrameForTest (System.String helper, System.String hwnd, System.Int32 pid, System.Int32 waitMs) [0x00006] in <97c0276a70ee465ea22c1837282a12ed>:0 
+#   at WgcStreamHarness.Main (System.String[] a) [0x00013] in <97c0276a70ee465ea22c1837282a12ed>:0 
+# [ERROR] FATAL UNHANDLED EXCEPTION: System.ComponentModel.Win32Exception (0x80004005): ApplicationName='/home/user/verify/EightMax-Test-Workbench/tests/fixtures/wgc-stubs/wgc-session.sh', CommandLine='--session --emit-png --hwnd 0x10 --pid 42 --fps 10 --queue 2 --stall-ms 3000 --timeout-ms 5000 --out-dir "/tmp/eightmax-wgc-f78e8112b442485b839a15c9c98767db"', CurrentDirectory='', Native error= Access denied
+#   at System.Diagnostics.Process.StartWithCreateProcess (System.Diagnostics.ProcessStartInfo startInfo) [0x002f4] in <a85c1a570f9a4f9f9c3d2cfa5504e34f>:0 
+#   at System.Diagnostics.Process.Start () [0x00040] in <a85c1a570f9a4f9f9c3d2cfa5504e34f>:0 
+#   at (wrapper remoting-invoke-with-check) System.Diagnostics.Process.Start()
+#   at System.Diagnostics.Process.Start (System.Diagnostics.ProcessStartInfo startInfo) [0x0001e] in <a85c1a570f9a4f9f9c3d2cfa5504e34f>:0 
+#   at EightMax.Workbench.CaptureService+WgcStream.Start (System.String helper, System.String hwnd, System.Int32 pid, System.Double fps, System.String tempDir) [0x000a2] in <97c0276a70ee465ea22c1837282a12ed>:0 
+#   at EightMax.Workbench.CaptureService.StreamFrame (System.String helper, EightMax.Workbench.CaptureService+Target t, System.String hexHandle, System.UInt32 pid, System.Double t0, System.Int32 waitMs) [0x00101] in <97c0276a70ee465ea22c1837282a12ed>:0 
+#   at EightMax.Workbench.CaptureService.StreamFrameForTest (System.String helper, System.String hwnd, System.Int32 pid, System.Int32 waitMs) [0x00006] in <97c0276a70ee465ea22c1837282a12ed>:0 
+#   at WgcStreamHarness.Main (System.String[] a) [0x00013] in <97c0276a70ee465ea22c1837282a12ed>:0 
+# Subtest: host keeps ONE helper session per window: newest frame served, unchanged content marked not fresh, sessions end and leave no process
+not ok 1 - host keeps ONE helper session per window: newest frame served, unchanged content marked not fresh, sessions end and leave no process
+  ---
+  duration_ms: 273.343053
+  type: 'test'
+  location: '/home/user/verify/EightMax-Test-Workbench/tests/capture-029.test.cjs:12:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Command failed: mono /tmp/em-ws-nu4XTm/ws.exe /home/user/verify/EightMax-Test-Workbench/tests/fixtures/wgc-stubs/wgc-session.sh
+    
+    Unhandled Exception:
+    System.ComponentModel.Win32Exception (0x80004005): ApplicationName='/home/user/verify/EightMax-Test-Workbench/tests/fixtures/wgc-stubs/wgc-session.sh', CommandLine='--session --emit-png --hwnd 0x10 --pid 42 --fps 10 --queue 2 --stall-ms 3000 --timeout-ms 5000 --out-dir "/tmp/eightmax-wgc-f78e8112b442485b839a15c9c98767db"', CurrentDirectory='', Native error= Access denied
+      at System.Diagnostics.Process.StartWithCreateProcess (System.Diagnostics.ProcessStartInfo startInfo) [0x002f4] in <a85c1a570f9a4f9f9c3d2cfa5504e34f>:0 
+      at System.Diagnostics.Process.Start () [0x00040] in <a85c1a570f9a4f9f9c3d2cfa5504e34f>:0 
+      at (wrapper remoting-invoke-with-check) System.Diagnostics.Process.Start()
+      at System.Diagnostics.Process.Start (System.Diagnostics.ProcessStartInfo startInfo) [0x0001e] in <a85c1a570f9a4f9f9c3d2cfa5504e34f>:0 
+      at EightMax.Workbench.CaptureService+WgcStream.Start (System.String helper, System.String hwnd, System.Int32 pid, System.Double fps, System.String tempDir) [0x000a2] in <97c0276a70ee465ea22c1837282a12ed>:0 
+      at EightMax.Workbench.CaptureService.StreamFrame (System.String helper, EightMax.Workbench.CaptureService+Target t, System.String hexHandle, System.UInt32 pid, System.Double t0, System.Int32 waitMs) [0x00101] in <97c0276a70ee465ea22c1837282a12ed>:0 
+      at EightMax.Workbench.CaptureService.StreamFrameForTest (System.String helper, System.String hwnd, System.Int32 pid, System.Int32 waitMs) [0x00006] in <97c0276a70ee465ea22c1837282a12ed>:0 
+      at WgcStreamHarness.Main (System.String[] a) [0x00013] in <97c0276a70ee465ea22c1837282a12ed>:0 
+    [ERROR] FATAL UNHANDLED EXCEPTION: System.ComponentModel.Win32Exception (0x80004005): ApplicationName='/home/user/verify/EightMax-Test-Workbench/tests/fixtures/wgc-stubs/wgc-session.sh', CommandLine='--session --emit-png --hwnd 0x10 --pid 42 --fps 10 --queue 2 --stall-ms 3000 --timeout-ms 5000 --out-dir "/tmp/eightmax-wgc-f78e8112b442485b839a15c9c98767db"', CurrentDirectory='', Native error= Access denied
+      at System.Diagnostics.Process.StartWithCreateProcess (System.Diagnostics.ProcessStartInfo startInfo) [0x002f4] in <a85c1a570f9a4f9f9c3d2cfa5504e34f>:0 
+      at System.Diagnostics.Process.Start () [0x00040] in <a85c1a570f9a4f9f9c3d2cfa5504e34f>:0 
+      at (wrapper remoting-invoke-with-check) System.Diagnostics.Process.Start()
+      at System.Diagnostics.Process.Start (System.Diagnostics.ProcessStartInfo startInfo) [0x0001e] in <a85c1a570f9a4f9f9c3d2cfa5504e34f>:0 
+      at EightMax.Workbench.CaptureService+WgcStream.Start (System.String helper, System.String hwnd, System.Int32 pid, System.Double fps, System.String tempDir) [0x000a2] in <97c0276a70ee465ea22c1837282a12ed>:0 
+      at EightMax.Workbench.CaptureService.StreamFrame (System.String helper, EightMax.Workbench.CaptureService+Target t, System.String hexHandle, System.UInt32 pid, System.Double t0, System.Int32 waitMs) [0x00101] in <97c0276a70ee465ea22c1837282a12ed>:0 
+      at EightMax.Workbench.CaptureService.StreamFrameForTest (System.String helper, System.String hwnd, System.Int32 pid, System.Int32 waitMs) [0x00006] in <97c0276a70ee465ea22c1837282a12ed>:0 
+      at WgcStreamHarness.Main (System.String[] a) [0x00013] in <97c0276a70ee465ea22c1837282a12ed>:0 
+    
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    genericNodeError (node:internal/errors:983:15)
+    wrappedFn (node:internal/errors:537:14)
+    checkExecSyncError (node:child_process:916:11)
+    Object.execFileSync (node:child_process:952:15)
+    TestContext.<anonymous> (/home/user/verify/EightMax-Test-Workbench/tests/capture-029.test.cjs:15:18)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: host wiring: capture close and host shutdown end persistent sessions; health reports them
+ok 2 - host wiring: capture close and host shutdown end persistent sessions; health reports them
+  ---
+  duration_ms: 0.751007
+  type: 'test'
+  ...
+# Subtest: a window move is recorded without invalidating content; a DPI change restarts settling like a resize
+ok 3 - a window move is recorded without invalidating content; a DPI change restarts settling like a resize
+  ---
+  duration_ms: 42.137802
+  type: 'test'
+  ...
+# Subtest: invalid frames never reach action execution: the observation gate refuses them
+ok 4 - invalid frames never reach action execution: the observation gate refuses them
+  ---
+  duration_ms: 4.880575
+  type: 'test'
+  ...
+# Subtest: adapter contract rejects unknown kinds and missing methods
+ok 5 - adapter contract rejects unknown kinds and missing methods
+  ---
+  duration_ms: 0.958057
+  type: 'test'
+  ...
+# Subtest: profile interface selects the adapter; "none" means no execution; missing authorisation refuses instead of downgrading
+ok 6 - profile interface selects the adapter; "none" means no execution; missing authorisation refuses instead of downgrading
+  ---
+  duration_ms: 1.126555
+  type: 'test'
+  ...
+# Subtest: UI-automation adapter needs authorisation, a driver and profile regions; it clicks only profile regions
+ok 7 - UI-automation adapter needs authorisation, a driver and profile regions; it clicks only profile regions
+  ---
+  duration_ms: 1.682194
+  type: 'test'
+  ...
+# Subtest: UI-automation adapter attaches in QA mode, never in simulation or study
+ok 8 - UI-automation adapter attaches in QA mode, never in simulation or study
+  ---
+  duration_ms: 0.858406
+  type: 'test'
+  ...
+# Subtest: acknowledgment: confirmed, rejected (ignored) and ambiguous outcomes
+ok 9 - acknowledgment: confirmed, rejected (ignored) and ambiguous outcomes
+  ---
+  duration_ms: 0.410618
+  type: 'test'
+  ...
+# Subtest: diagnostics recorder is bounded, ordered, per-table and exportable
+ok 10 - diagnostics recorder is bounded, ordered, per-table and exportable
+  ---
+  duration_ms: 0.57553
+  type: 'test'
+  ...
+# Subtest: driver: wrong token is refused and the process ends; commands before hello are refused
+ok 11 - driver: wrong token is refused and the process ends; commands before hello are refused
+  ---
+  duration_ms: 106.007364
+  type: 'test'
+  ...
+# Subtest: driver: input needs arming, a registered window and an executable-bound authorization
+ok 12 - driver: input needs arming, a registered window and an executable-bound authorization
+  ---
+  duration_ms: 124.177998
+  type: 'test'
+  ...
+# Subtest: driver: smooth movement follows the minimum-jerk plan, respects limits and ends exactly on target
+ok 13 - driver: smooth movement follows the minimum-jerk plan, respects limits and ends exactly on target
+  ---
+  duration_ms: 1473.873235
+  type: 'test'
+  ...
+# Subtest: driver: move-click lands one click inside the region; stale layout, outside region and covering windows are refused
+ok 14 - driver: move-click lands one click inside the region; stale layout, outside region and covering windows are refused
+  ---
+  duration_ms: 1629.293154
+  type: 'test'
+  ...
+# Subtest: driver: exact wager entry clears, types key by key and verifies; non-numeric text is refused
+ok 15 - driver: exact wager entry clears, types key by key and verifies; non-numeric text is refused
+  ---
+  duration_ms: 2063.277068
+  type: 'test'
+  ...
+# Subtest: driver: cancel stops a movement mid-way; nothing moves afterwards; emergency stop latches until reset
+ok 16 - driver: cancel stops a movement mid-way; nothing moves afterwards; emergency stop latches until reset
+  ---
+  duration_ms: 2237.421953
+  type: 'test'
+  ...
+# Subtest: driver: a person moving the mouse makes automation yield until an explicit resume; the queue is bounded
+ok 17 - driver: a person moving the mouse makes automation yield until an explicit resume; the queue is bounded
+  ---
+  duration_ms: 2843.787637
+  type: 'test'
+  ...
+# Subtest: geometry: normalised regions convert with the CURRENT client rectangle at 1080p, 1440p, 4K, 150 % and negative monitors
+ok 18 - geometry: normalised regions convert with the CURRENT client rectangle at 1080p, 1440p, 4K, 150 % and negative monitors
+  ---
+  duration_ms: 0.741919
+  type: 'test'
+  ...
+# Subtest: motion: minimum-jerk plans never exceed speed/acceleration limits and are continuous; violations are detected
+ok 19 - motion: minimum-jerk plans never exceed speed/acceleration limits and are continuous; violations are detected
+  ---
+  duration_ms: 11.775384
+  type: 'test'
+  ...
+# Subtest: M2 unit: lifecycle transitions are explicit; TARGET_LOST is absorbing; operator-only exits; stale generations are ignored
+ok 20 - M2 unit: lifecycle transitions are explicit; TARGET_LOST is absorbing; operator-only exits; stale generations are ignored
+  ---
+  duration_ms: 2.876236
+  type: 'test'
+  ...
+# Subtest: M2 unit: capture failures are classified; strategy-unavailable is never a capture failure
+ok 21 - M2 unit: capture failures are classified; strategy-unavailable is never a capture failure
+  ---
+  duration_ms: 0.566008
+  type: 'test'
+  ...
+# Subtest: M2 unit: bounded backoff and identity comparison (handle alone is not identity; title is not identity)
+ok 22 - M2 unit: bounded backoff and identity comparison (handle alone is not identity; title is not identity)
+  ---
+  duration_ms: 0.687194
+  type: 'test'
+  ...
+# Subtest: M2 unit: identityOf keeps every identity field the driver reports (handle text verbatim)
+ok 23 - M2 unit: identityOf keeps every identity field the driver reports (handle text verbatim)
+  ---
+  duration_ms: 0.161433
+  type: 'test'
+  ...
+# Subtest: M2 unit: repeated identical failures are coalesced; totals stay exact (801 target-lost events -> bounded)
+ok 24 - M2 unit: repeated identical failures are coalesced; totals stay exact (801 target-lost events -> bounded)
+  ---
+  duration_ms: 1.443419
+  type: 'test'
+  ...
+# Subtest: M2 Test A: window closes during capture -> TARGET_LOST, capture stops, no retries, no input after the loss
+ok 25 - M2 Test A: window closes during capture -> TARGET_LOST, capture stops, no retries, no input after the loss
+  ---
+  duration_ms: 3963.377207
+  type: 'test'
+  ...
+# Subtest: M2 Test B: window closes during mouse movement -> refused before the click, no other window touched, nothing replayed
+ok 26 - M2 Test B: window closes during mouse movement -> refused before the click, no other window touched, nothing replayed
+  ---
+  duration_ms: 1176.239256
+  type: 'test'
+  ...
+# Subtest: M2 Test B2: window closes right AFTER the click -> the action is UNCERTAIN (review), never re-sent
+ok 27 - M2 Test B2: window closes right AFTER the click -> the action is UNCERTAIN (review), never re-sent
+  ---
+  duration_ms: 740.980231
+  type: 'test'
+  ...
+# Subtest: M2 Test B3: loss signalled while the click is running -> scheduler cancels it, queued work of that table is dropped, lease revoked
+ok 28 - M2 Test B3: loss signalled while the click is running -> scheduler cancels it, queued work of that table is dropped, lease revoked
+  ---
+  duration_ms: 358.502325
+  type: 'test'
+  ...
+# Subtest: M2 Test C: simulator restarts with a different handle -> old registration invalid, replacement only a candidate, no automatic input
+ok 29 - M2 Test C: simulator restarts with a different handle -> old registration invalid, replacement only a candidate, no automatic input
+  ---
+  duration_ms: 1157.512419
+  type: 'test'
+  ...
+# Subtest: M2 Test D: temporary capture failures -> classified, bounded backoff, no stale action, recovery after fresh verified readings
+ok 30 - M2 Test D: temporary capture failures -> classified, bounded backoff, no stale action, recovery after fresh verified readings
+  ---
+  duration_ms: 3464.24023
+  type: 'test'
+  ...
+# Subtest: M2 Test E: minimised window -> TEMPORARILY_UNAVAILABLE (minimised), no input; restored -> verified again, then play resumes
+ok 31 - M2 Test E: minimised window -> TEMPORARILY_UNAVAILABLE (minimised), no input; restored -> verified again, then play resumes
+  ---
+  duration_ms: 926.035041
+  type: 'test'
+  ...
+# Subtest: M2 Test F: three tables, one closes -> only that table stops; the others keep their registrations and play; no redirected input
+ok 32 - M2 Test F: three tables, one closes -> only that table stops; the others keep their registrations and play; no redirected input
+  ---
+  duration_ms: 1875.652641
+  type: 'test'
+  ...
+# Subtest: M2 Test G: emergency stop while a target is unavailable or being re-registered -> stop wins, nothing re-enables input
+ok 33 - M2 Test G: emergency stop while a target is unavailable or being re-registered -> stop wins, nothing re-enables input
+  ---
+  duration_ms: 2264.004107
+  type: 'test'
+  ...
+# Subtest: M2 Test H: repeated target-loss signals -> one transition per loss, bounded diagnostics, exact counts, no leaked retries
+ok 34 - M2 Test H: repeated target-loss signals -> one transition per loss, bounded diagnostics, exact counts, no leaked retries
+  ---
+  duration_ms: 206.021921
+  type: 'test'
+  ...
+# Subtest: M2 Test I: the old handle is reused by an unrelated process -> registration rejected, no input, no inherited permission
+ok 35 - M2 Test I: the old handle is reused by an unrelated process -> registration rejected, no input, no inherited permission
+  ---
+  duration_ms: 299.732439
+  type: 'test'
+  ...
+# Subtest: M2 Test I2: same handle AND same process id but another process instance (start time differs) -> TARGET_LOST, no input
+ok 36 - M2 Test I2: same handle AND same process id but another process instance (start time differs) -> TARGET_LOST, no input
+  ---
+  duration_ms: 334.750467
+  type: 'test'
+  ...
+# Subtest: M2 Test J: scripted practice on the controlled simulator still plays hand after hand with confirmed actions
+ok 37 - M2 Test J: scripted practice on the controlled simulator still plays hand after hand with confirmed actions
+  ---
+  duration_ms: 14564.777223
+  type: 'test'
+  ...
+# Subtest: no script assigns to a variable whose name (ignoring case) is one of its own [switch] parameters
+ok 38 - no script assigns to a variable whose name (ignoring case) is one of its own [switch] parameters
+  ---
+  duration_ms: 7.414643
+  type: 'test'
+  ...
+# Subtest: no script uses -is / -isnot [pscustomobject] to tell JSON values apart (always true for PSObject-wrapped values in 5.1)
+ok 39 - no script uses -is / -isnot [pscustomobject] to tell JSON values apart (always true for PSObject-wrapped values in 5.1)
+  ---
+  duration_ms: 4.233939
+  type: 'test'
+  ...
+# Subtest: no script passes $null to a .NET method (Windows PowerShell turns it into "" - [IO.File]::Replace then fails "path is not of a legal form")
+ok 40 - no script passes $null to a .NET method (Windows PowerShell turns it into "" - [IO.File]::Replace then fails "path is not of a legal form")
+  ---
+  duration_ms: 2.217563
+  type: 'test'
+  ...
+# Subtest: no script wraps a generic List in @( ) (Windows PowerShell: "Argument types do not match" - it stopped every native job after training)
+ok 41 - no script wraps a generic List in @( ) (Windows PowerShell: "Argument types do not match" - it stopped every native job after training)
+  ---
+  duration_ms: 2.69104
+  type: 'test'
+  ...
+# Subtest: dashboard Solver research panel, host allow-list, launchers (CRLF, existing tools) and preserved user controls agree
+ok 42 - dashboard Solver research panel, host allow-list, launchers (CRLF, existing tools) and preserved user controls agree
+  ---
+  duration_ms: 13.258463
+  type: 'test'
+  ...
+# Subtest: Solver research views keep classifications: approximate modes explained, unresolved gains not called profitable, unavailable never 0
+ok 43 - Solver research views keep classifications: approximate modes explained, unresolved gains not called profitable, unavailable never 0
+  ---
+  duration_ms: 17.602186
+  type: 'test'
+  ...
+# Subtest: research summary 0.33 keeps the 0.32 keys and adds the v033 block from release reports without training anything
+ok 44 - research summary 0.33 keeps the 0.32 keys and adds the v033 block from release reports without training anything
+  ---
+  duration_ms: 77.81318
+  type: 'test'
+  ...
+# Subtest: release metadata 0.33: component statuses come from evidence; binary versions distinguish carried-over and rebuilt components; the native engine is unchanged
+ok 45 - release metadata 0.33: component statuses come from evidence; binary versions distinguish carried-over and rebuilt components; the native engine is unchanged
+  ---
+  duration_ms: 121.276595
+  type: 'test'
+  ...
+# Subtest: checksum manifest covers every shipped file and verifies
+ok 46 - checksum manifest covers every shipped file and verifies
+  ---
+  duration_ms: 38.996225
+  type: 'test'
+  ...
+# Subtest: strategy-library ranges command runs end to end and writes ranges-latest.json beside the library (0.33 Windows CI regression)
+ok 47 - strategy-library ranges command runs end to end and writes ranges-latest.json beside the library (0.33 Windows CI regression) # SKIP native EightMax CLI not available (set EIGHTMAX_TEST_CLI)
+  ---
+  duration_ms: 0.104574
+  type: 'test'
+  ...
+# Subtest: M2 release: EightMax 5.1 is byte-identical (build 7d08acc7eb4577ee)
+ok 48 - M2 release: EightMax 5.1 is byte-identical (build 7d08acc7eb4577ee)
+  ---
+  duration_ms: 5.314517
+  type: 'test'
+  ...
+# Subtest: M2 release: every Windows executable is the Windows-built Milestone 1 binary and its C\# sources are unchanged
+ok 49 - M2 release: every Windows executable is the Windows-built Milestone 1 binary and its C\# sources are unchanged
+  ---
+  duration_ms: 58.600464
+  type: 'test'
+  ...
+# Subtest: M2 release: the dashboard loads the lifecycle module and START.html was rebuilt from the current sources
+ok 50 - M2 release: the dashboard loads the lifecycle module and START.html was rebuilt from the current sources
+  ---
+  duration_ms: 8.245217
+  type: 'test'
+  ...
+# Subtest: M2 release: the Windows test runner, its instructions and the acceptance tool are shipped and wired together
+ok 51 - M2 release: the Windows test runner, its instructions and the acceptance tool are shipped and wired together
+  ---
+  duration_ms: 0.609759
+  type: 'test'
+  ...
+# Subtest: one application version everywhere
+ok 52 - one application version everywhere
+  ---
+  duration_ms: 201.406389
+  type: 'test'
+  ...
+# Subtest: engine identity is unchanged: vendor files and native build match the provenance record
+ok 53 - engine identity is unchanged: vendor files and native build match the provenance record
+  ---
+  duration_ms: 6.222793
+  type: 'test'
+  ...
+# Subtest: every new module is wired into the standalone build and the dashboard
+ok 54 - every new module is wired into the standalone build and the dashboard
+  ---
+  duration_ms: 9.539479
+  type: 'test'
+  ...
+# Subtest: standalone START.html is exactly what tools/build.py produces from the sources
+ok 55 - standalone START.html is exactly what tools/build.py produces from the sources
+  ---
+  duration_ms: 155.390594
+  type: 'test'
+  ...
+# Subtest: Windows scripts and launchers exist; prebuilt host is a 64-bit PE and is referenced by the launcher
+ok 56 - Windows scripts and launchers exist; prebuilt host is a 64-bit PE and is referenced by the launcher
+  ---
+  duration_ms: 0.574653
+  type: 'test'
+  ...
+# Subtest: no module in the new code references live-client interaction, process memory or evasion
+ok 57 - no module in the new code references live-client interaction, process memory or evasion
+  ---
+  duration_ms: 2.106228
+  type: 'test'
+  ...
+# Subtest: one table: every executed action is read back from the screen and matches what the table received
+ok 58 - one table: every executed action is read back from the screen and matches what the table received
+  ---
+  duration_ms: 4098.31903
+  type: 'test'
+  ...
+# Subtest: while another player is to act the table shows no controls: the controller waits, and confirms from the very next frame
+ok 59 - while another player is to act the table shows no controls: the controller waits, and confirms from the very next frame
+  ---
+  duration_ms: 1737.579277
+  type: 'test'
+  ...
+# Subtest: three tables share one cursor: input never overlaps, every table progresses
+ok 60 - three tables share one cursor: input never overlaps, every table progresses
+  ---
+  duration_ms: 2779.180219
+  type: 'test'
+  ...
+# Subtest: an ignored click is reported as REJECTED, the table pauses and the click is never repeated
+ok 61 - an ignored click is reported as REJECTED, the table pauses and the click is never repeated
+  ---
+  duration_ms: 492.361236
+  type: 'test'
+  ...
+# Subtest: a different action than the one sent is AMBIGUOUS: the table pauses, nothing is re-sent
+ok 62 - a different action than the one sent is AMBIGUOUS: the table pauses, nothing is re-sent
+  ---
+  duration_ms: 299.381959
+  type: 'test'
+  ...
+# Subtest: the window moved between reading and input: the click is refused and the next action needs a fresh reading
+ok 63 - the window moved between reading and input: the click is refused and the next action needs a fresh reading
+  ---
+  duration_ms: 462.773394
+  type: 'test'
+  ...
+# Subtest: a decision that cannot be executed in time at the configured speed is refused, never rushed
+ok 64 - a decision that cannot be executed in time at the configured speed is refused, never rushed
+  ---
+  duration_ms: 80.077837
+  type: 'test'
+  ...
+# Subtest: scheduler: earliest deadline first, one table at a time, pause and emergency stop reject queued work
+ok 65 - scheduler: earliest deadline first, one table at a time, pause and emergency stop reject queued work
+  ---
+  duration_ms: 1.440336
+  type: 'test'
+  ...
+# Subtest: wager conversion: raise-to vs raise-by, chip units and limits are checked before anything is typed
+ok 66 - wager conversion: raise-to vs raise-by, chip units and limits are checked before anything is typed
+  ---
+  duration_ms: 0.267538
+  type: 'test'
+  ...
+# Subtest: UI adapter: the idempotency key is taken before input, so a slow click can never be sent twice
+ok 67 - UI adapter: the idempotency key is taken before input, so a slow click can never be sent twice
+  ---
+  duration_ms: 1.056819
+  type: 'test'
+  ...
+# Subtest: calibration: regions convert at the current window size; overlaps, missing controls and unbound executables are reported
+ok 68 - calibration: regions convert at the current window size; overlaps, missing controls and unbound executables are reported
+  ---
+  duration_ms: 2.851925
+  type: 'test'
+  ...
+# Subtest: settings panel restores saved mouse speed, curve seed, keyboard timing and validates bounds
+ok 69 - settings panel restores saved mouse speed, curve seed, keyboard timing and validates bounds
+  ---
+  duration_ms: 70.53789
+  type: 'test'
+  ...
+# Subtest: simulator controls panel: register, calibrate with UI Automation suggestions, save, dry run, emergency stop
+ok 70 - simulator controls panel: register, calibrate with UI Automation suggestions, save, dry run, emergency stop
+  ---
+  duration_ms: 8095.087366
+  type: 'test'
+  ...
+# Subtest: 0.36 settings: presets, persisted settings reload, and dry-run compatibility
+ok 71 - 0.36 settings: presets, persisted settings reload, and dry-run compatibility
+  ---
+  duration_ms: 8476.034963
+  type: 'test'
+  ...
+# Subtest: M2 dashboard: lost window is shown and never retried; a replacement needs review, confirmation, fresh authorisation and an explicit enable
+ok 72 - M2 dashboard: lost window is shown and never retried; a replacement needs review, confirmation, fresh authorisation and an explicit enable
+  ---
+  duration_ms: 7416.981947
+  type: 'test'
+  ...
+# Subtest: 0.28 acceptance orchestrator: structure, honest reporting, loopback-only HTTP, no downloads (NOT executed here: no Windows PowerShell)
+ok 73 - 0.28 acceptance orchestrator: structure, honest reporting, loopback-only HTTP, no downloads (NOT executed here: no Windows PowerShell)
+  ---
+  duration_ms: 3.461535
+  type: 'test'
+  ...
+# Subtest: current host and Windows scripts agree; unchanged capture helper retains its own version
+ok 74 - current host and Windows scripts agree; unchanged capture helper retains its own version
+  ---
+  duration_ms: 3.119201
+  type: 'test'
+  ...
+# Subtest: rebuilt Windows executables carry their component versions (host 0.36.2, capture 0.35.0) and are x64 PE32+; their sources compile with Mono at C\# 5 (cross-compilation only: NOT Windows execution)
+ok 75 - rebuilt Windows executables carry their component versions (host 0.36.2, capture 0.35.0) and are x64 PE32+; their sources compile with Mono at C\# 5 (cross-compilation only: NOT Windows execution)
+  ---
+  duration_ms: 530.861805
+  type: 'test'
+  ...
+# Subtest: capture catalogue and host agree: Windows Graphics Capture exists only as an installed helper and is manual-only
+ok 76 - capture catalogue and host agree: Windows Graphics Capture exists only as an installed helper and is manual-only
+  ---
+  duration_ms: 5.503597
+  type: 'test'
+  ...
+1..76
+# tests 76
+# suites 0
+# pass 74
+# fail 1
+# cancelled 0
+# skipped 1
+# todo 0
+# duration_ms 31487.834391

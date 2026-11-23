@@ -1,0 +1,440 @@
+{
+  "format": "eightmax-m2-lifecycle-stress",
+  "version": 1,
+  "app": "0.36.2-dev",
+  "environment": "fake host (in-process); logic and invariants only, not Windows evidence",
+  "at": "2026-11-23T04:17:36.657Z",
+  "tables": 8,
+  "seconds": 60,
+  "faults": {
+    "close": 7,
+    "reopen": 7,
+    "minimize": 7,
+    "transient": 12,
+    "reuse": 8,
+    "estop": 4
+  },
+  "registrations": 15,
+  "lostRegistrations": 14,
+  "confirmedActions": 206,
+  "uncertainActions": 2,
+  "diagnostics": {
+    "storedEvents": 1479,
+    "totalRecords": 1914,
+    "suppressedDuplicates": 451,
+    "dropped": 0
+  },
+  "scheduler": {
+    "submitted": 238,
+    "started": 217,
+    "completed": 217,
+    "failed": 0,
+    "rejected": {
+      "stale": 11,
+      "emergency-stop": 10
+    },
+    "deadlineMisses": 0,
+    "peakQueue": 7,
+    "queueWaitMs": {
+      "n": 217,
+      "mean": 254.34,
+      "p50": 255.82,
+      "p95": 651.25,
+      "p99": 735.33,
+      "max": 747.26
+    },
+    "runMs": {
+      "n": 217,
+      "mean": 79.94,
+      "p50": 61.47,
+      "p95": 174.44,
+      "p99": 207.3,
+      "max": 362.12
+    },
+    "slackAtStartMs": {
+      "n": 217,
+      "mean": 8366.77,
+      "p50": 8634.33,
+      "p95": 9304.82,
+      "p99": 9309.4,
+      "max": 9310.22
+    },
+    "invalidations": [
+      {
+        "table": 1,
+        "registrationId": "reg-mwsr7g6f-1",
+        "reason": "The window no longer matches the registered simulator: process id 90444 differs from 4001; process start time differs (handle or process id reused); window class Other differs from WindowsForms10.Window.8.app.0.EightMaxTestTable; executable path differs",
+        "dropped": 0,
+        "cancelledRunning": false,
+        "at": 4457.801584
+      },
+      {
+        "table": 6,
+        "registrationId": "reg-mwsr7g6k-6",
+        "reason": "The window no longer matches the registered simulator: process id 90023 differs from 4006; process start time differs (handle or process id reused); window class Other differs from WindowsForms10.Window.8.app.0.EightMaxTestTable; executable path differs",
+        "dropped": 0,
+        "cancelledRunning": false,
+        "at": 6478.774272
+      },
+      {
+        "table": 7,
+        "registrationId": "reg-mwsr7g8t-7",
+        "reason": "The window no longer exists (capture: target-lost; driver: window-gone).",
+        "dropped": 0,
+        "cancelledRunning": true,
+        "at": 9675.956529
+      },
+      {
+        "table": 2,
+        "registrationId": "reg-mwsr7g6j-2",
+        "reason": "The window no longer exists (capture: target-lost; driver: window-gone).",
+        "dropped": 0,
+        "cancelledRunning": false,
+        "at": 17722.344134
+      },
+      {
+        "table": 8,
+        "registrationId": "reg-mwsr7g9z-8",
+        "reason": "The window no longer matches the registered simulator: process id 90949 differs from 4008; process start time differs (handle or process id reused); window class Other differs from WindowsForms10.Window.8.app.0.EightMaxTestTable; executable path differs",
+        "dropped": 0,
+        "cancelledRunning": false,
+        "at": 21364.647977
+      },
+      {
+        "table": 5,
+        "registrationId": "reg-mwsr7g6j-5",
+        "reason": "The window no longer matches the registered simulator: process id 90610 differs from 4005; process start time differs (handle or process id reused); window class Other differs from WindowsForms10.Window.8.app.0.EightMaxTestTable; executable path differs",
+        "dropped": 0,
+        "cancelledRunning": false,
+        "at": 28577.447886
+      },
+      {
+        "table": 4,
+        "registrationId": "reg-mwsr7g6j-4",
+        "reason": "The window no longer exists (capture: target-lost; driver: window-gone).",
+        "dropped": 0,
+        "cancelledRunning": false,
+        "at": 29407.321326
+      },
+      {
+        "table": 7,
+        "registrationId": "reg-mwsr7miz-9",
+        "reason": "The window no longer exists (capture: target-lost; driver: window-gone).",
+        "dropped": 0,
+        "cancelledRunning": false,
+        "at": 38740.847237
+      },
+      {
+        "table": 7,
+        "registrationId": "reg-mwsr891w-12",
+        "reason": "The window no longer matches the registered simulator: process id 90964 differs from 4012; process start time differs (handle or process id reused); window class Other differs from WindowsForms10.Window.8.app.0.EightMaxTestTable; executable path differs",
+        "dropped": 0,
+        "cancelledRunning": false,
+        "at": 40088.181599
+      },
+      {
+        "table": 2,
+        "registrationId": "reg-mwsr7stf-10",
+        "reason": "The window no longer exists (capture: target-lost; driver: window-gone).",
+        "dropped": 0,
+        "cancelledRunning": false,
+        "at": 42895.607762
+      },
+      {
+        "table": 2,
+        "registrationId": "reg-mwsr8c8y-13",
+        "reason": "The window no longer matches the registered simulator: process id 90393 differs from 4013; process start time differs (handle or process id reused); window class Other differs from WindowsForms10.Window.8.app.0.EightMaxTestTable; executable path differs",
+        "dropped": 0,
+        "cancelledRunning": true,
+        "at": 45107.253567
+      },
+      {
+        "table": 3,
+        "registrationId": "reg-mwsr7g6j-3",
+        "reason": "The window no longer matches the registered simulator: process id 90013 differs from 4003; process start time differs (handle or process id reused); window class Other differs from WindowsForms10.Window.8.app.0.EightMaxTestTable; executable path differs",
+        "dropped": 0,
+        "cancelledRunning": false,
+        "at": 47655.365419
+      },
+      {
+        "table": 4,
+        "registrationId": "reg-mwsr81ux-11",
+        "reason": "The window no longer exists (capture: target-lost; driver: window-gone).",
+        "dropped": 0,
+        "cancelledRunning": false,
+        "at": 48906.558717
+      },
+      {
+        "table": 4,
+        "registrationId": "reg-mwsr8gvw-14",
+        "reason": "The window no longer exists (capture: target-lost; driver: window-gone).",
+        "dropped": 0,
+        "cancelledRunning": false,
+        "at": 55145.042796
+      }
+    ]
+  },
+  "resources": {
+    "heapMiBBefore": 5.2,
+    "heapMiBAfter": 14.3,
+    "activeResourcesBefore": 0,
+    "activeResourcesAfter": 1
+  },
+  "violations": [],
+  "perRegistration": [
+    {
+      "table": 1,
+      "hwnd": "0x2000",
+      "registrationId": "reg-mwsr7g6f-1",
+      "finalState": "TARGET_LOST",
+      "lost": "identity-changed",
+      "confirmed": 2,
+      "uncertain": 0,
+      "deliveredUnconfirmed": 0,
+      "unconfirmedOrUncertain": 0,
+      "rejected": 1,
+      "transitions": 2,
+      "recoveries": 0,
+      "captureFailures": {}
+    },
+    {
+      "table": 2,
+      "hwnd": "0x3000",
+      "registrationId": "reg-mwsr7g6j-2",
+      "finalState": "TARGET_LOST",
+      "lost": "window-closed",
+      "confirmed": 15,
+      "uncertain": 1,
+      "deliveredUnconfirmed": 1,
+      "unconfirmedOrUncertain": 1,
+      "rejected": 3,
+      "transitions": 11,
+      "recoveries": 3,
+      "captureFailures": {
+        "target-minimized": 2,
+        "capture-interrupted": 2
+      }
+    },
+    {
+      "table": 3,
+      "hwnd": "0x4000",
+      "registrationId": "reg-mwsr7g6j-3",
+      "finalState": "TARGET_LOST",
+      "lost": "identity-changed",
+      "confirmed": 18,
+      "uncertain": 0,
+      "deliveredUnconfirmed": 1,
+      "unconfirmedOrUncertain": 1,
+      "rejected": 1,
+      "transitions": 9,
+      "recoveries": 1,
+      "captureFailures": {
+        "no-frame": 3
+      }
+    },
+    {
+      "table": 4,
+      "hwnd": "0x5000",
+      "registrationId": "reg-mwsr7g6j-4",
+      "finalState": "TARGET_LOST",
+      "lost": "window-closed",
+      "confirmed": 23,
+      "uncertain": 0,
+      "deliveredUnconfirmed": 1,
+      "unconfirmedOrUncertain": 1,
+      "rejected": 4,
+      "transitions": 17,
+      "recoveries": 5,
+      "captureFailures": {
+        "target-minimized": 6,
+        "no-frame": 1,
+        "target-lost": 1
+      }
+    },
+    {
+      "table": 5,
+      "hwnd": "0x6000",
+      "registrationId": "reg-mwsr7g6j-5",
+      "finalState": "TARGET_LOST",
+      "lost": "identity-changed",
+      "confirmed": 17,
+      "uncertain": 0,
+      "deliveredUnconfirmed": 1,
+      "unconfirmedOrUncertain": 1,
+      "rejected": 2,
+      "transitions": 12,
+      "recoveries": 2,
+      "captureFailures": {
+        "capture-interrupted": 4,
+        "target-identity-changed": 1
+      }
+    },
+    {
+      "table": 6,
+      "hwnd": "0x7000",
+      "registrationId": "reg-mwsr7g6k-6",
+      "finalState": "TARGET_LOST",
+      "lost": "identity-changed",
+      "confirmed": 4,
+      "uncertain": 0,
+      "deliveredUnconfirmed": 0,
+      "unconfirmedOrUncertain": 0,
+      "rejected": 1,
+      "transitions": 2,
+      "recoveries": 0,
+      "captureFailures": {}
+    },
+    {
+      "table": 7,
+      "hwnd": "0x8000",
+      "registrationId": "reg-mwsr7g8t-7",
+      "finalState": "TARGET_LOST",
+      "lost": "window-closed",
+      "confirmed": 7,
+      "uncertain": 0,
+      "deliveredUnconfirmed": 0,
+      "unconfirmedOrUncertain": 0,
+      "rejected": 2,
+      "transitions": 5,
+      "recoveries": 1,
+      "captureFailures": {}
+    },
+    {
+      "table": 8,
+      "hwnd": "0x9000",
+      "registrationId": "reg-mwsr7g9z-8",
+      "finalState": "TARGET_LOST",
+      "lost": "identity-changed",
+      "confirmed": 23,
+      "uncertain": 1,
+      "deliveredUnconfirmed": 1,
+      "unconfirmedOrUncertain": 1,
+      "rejected": 1,
+      "transitions": 5,
+      "recoveries": 1,
+      "captureFailures": {}
+    },
+    {
+      "table": 7,
+      "hwnd": "0xA000",
+      "registrationId": "reg-mwsr7miz-9",
+      "finalState": "TARGET_LOST",
+      "lost": "window-closed",
+      "confirmed": 12,
+      "uncertain": 0,
+      "deliveredUnconfirmed": 1,
+      "unconfirmedOrUncertain": 1,
+      "rejected": 0,
+      "transitions": 9,
+      "recoveries": 1,
+      "captureFailures": {
+        "capture-interrupted": 2,
+        "target-minimized": 4,
+        "target-lost": 1
+      }
+    },
+    {
+      "table": 2,
+      "hwnd": "0xB000",
+      "registrationId": "reg-mwsr7stf-10",
+      "finalState": "TARGET_LOST",
+      "lost": "window-closed",
+      "confirmed": 34,
+      "uncertain": 0,
+      "deliveredUnconfirmed": 1,
+      "unconfirmedOrUncertain": 1,
+      "rejected": 2,
+      "transitions": 11,
+      "recoveries": 3,
+      "captureFailures": {
+        "no-frame": 4,
+        "target-lost": 1
+      }
+    },
+    {
+      "table": 4,
+      "hwnd": "0xC000",
+      "registrationId": "reg-mwsr81ux-11",
+      "finalState": "TARGET_LOST",
+      "lost": "window-closed",
+      "confirmed": 17,
+      "uncertain": 0,
+      "deliveredUnconfirmed": 1,
+      "unconfirmedOrUncertain": 1,
+      "rejected": 1,
+      "transitions": 10,
+      "recoveries": 2,
+      "captureFailures": {
+        "capture-interrupted": 5,
+        "target-lost": 1
+      }
+    },
+    {
+      "table": 7,
+      "hwnd": "0xD000",
+      "registrationId": "reg-mwsr891w-12",
+      "finalState": "TARGET_LOST",
+      "lost": "identity-changed",
+      "confirmed": 1,
+      "uncertain": 0,
+      "deliveredUnconfirmed": 0,
+      "unconfirmedOrUncertain": 0,
+      "rejected": 0,
+      "transitions": 2,
+      "recoveries": 0,
+      "captureFailures": {}
+    },
+    {
+      "table": 2,
+      "hwnd": "0xE000",
+      "registrationId": "reg-mwsr8c8y-13",
+      "finalState": "TARGET_LOST",
+      "lost": "identity-changed",
+      "confirmed": 5,
+      "uncertain": 0,
+      "deliveredUnconfirmed": 0,
+      "unconfirmedOrUncertain": 0,
+      "rejected": 1,
+      "transitions": 2,
+      "recoveries": 0,
+      "captureFailures": {}
+    },
+    {
+      "table": 4,
+      "hwnd": "0xF000",
+      "registrationId": "reg-mwsr8gvw-14",
+      "finalState": "TARGET_LOST",
+      "lost": "window-closed",
+      "confirmed": 15,
+      "uncertain": 0,
+      "deliveredUnconfirmed": 0,
+      "unconfirmedOrUncertain": 0,
+      "rejected": 2,
+      "transitions": 6,
+      "recoveries": 1,
+      "captureFailures": {
+        "target-minimized": 13,
+        "target-lost": 1
+      }
+    },
+    {
+      "table": 4,
+      "hwnd": "0x10000",
+      "registrationId": "reg-mwsr8lo5-15",
+      "finalState": "STOPPED",
+      "lost": null,
+      "confirmed": 13,
+      "uncertain": 0,
+      "deliveredUnconfirmed": 0,
+      "unconfirmedOrUncertain": 0,
+      "rejected": 3,
+      "transitions": 10,
+      "recoveries": 3,
+      "captureFailures": {
+        "no-frame": 11,
+        "target-minimized": 5
+      }
+    }
+  ],
+  "pass": true
+}
