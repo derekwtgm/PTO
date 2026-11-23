@@ -10,6 +10,6 @@
 | `.github/workflows/windows-0362-m3.yml` | Windows CI of the committed ZIP (real windows on `windows-latest`); results on branch `m3-results/<run id>` |
 | `.github/workflows/windows-0362-m3-driver-build.yml` | the Windows build of `EightMaxInput.exe` used in this release (run 45216843075) |
 
-Windows validation of the final development tree: GitHub Actions run 45225443410, 51 of 51 checks passed. The run of this exact ZIP is
-recorded in the verification file once it has finished. The operator's own PC has not run the tests yet (pending).
+Windows validation of the final development tree: GitHub Actions run 45225443410, 51 of 51 checks passed. The run of this exact ZIP,
+45236322220, also passed 51 of 51 checks (recorded in the verification file). The operator's own PC has not run the tests yet (pending).
 The EightMax 5.1 native solver (`native/mwcli.exe`, build `7d08acc7eb4577ee`) is byte-identical to Milestone 2.
