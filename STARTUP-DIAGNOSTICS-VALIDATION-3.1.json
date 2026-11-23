@@ -1,0 +1,2017 @@
+{
+ "format": "eightmax-m31-startup-diagnostics-validation",
+ "version": 1,
+ "milestone": "0.36.2 Milestone 3.1",
+ "generatedAt": "2026-11-23T23:21:19Z",
+ "ci": {
+  "repository": "derekwtgm/PTO",
+  "branch": "milestone-3.1-0362",
+  "runs": [
+   {
+    "id": "45284015577",
+    "url": "https://github.com/derekwtgm/PTO/actions/runs/45284015577",
+    "kind": "the committed release ZIP: package verification, scenario suite, full acceptance",
+    "commit": "9f7acb80710bd19e4b56d8ee524d33486b937b7b",
+    "scenariosOutcome": "success",
+    "fullOutcome": "success",
+    "resultsBranches": [
+     "m31-results/45284015577-scenarios",
+     "m31-results/45284015577-full"
+    ]
+   },
+   {
+    "id": "45284068127",
+    "url": "https://github.com/derekwtgm/PTO/actions/runs/45284068127",
+    "kind": "repetition of the scenario suite on the same committed ZIP"
+   }
+  ],
+  "zip": {
+   "name": "EightMax-Test-Workbench-0.36.2-Milestone-3.1.zip",
+   "sha256": "49d0d7a4cf3c4e1e130b5d0a2d08f9dc9fe97419cd3651deae9460aa642bdf1f",
+   "bytes": 80958422,
+   "entries": 1444,
+   "manifestEntries": 1443,
+   "hashCheckedByEveryWindowsJob": true
+  },
+  "scenarioRepetitions": [
+   {
+    "run": "45284068127",
+    "url": "https://github.com/derekwtgm/PTO/actions/runs/45284068127",
+    "zipSha256": "49d0d7a4cf3c4e1e130b5d0a2d08f9dc9fe97419cd3651deae9460aa642bdf1f",
+    "counts": {
+     "passed": 26,
+     "failed": 0,
+     "total": 26
+    },
+    "failed": []
+   }
+  ],
+  "packageJobVerification": {
+   "format": "eightmax-release-verification",
+   "version": 2,
+   "zip": "EightMax-Test-Workbench-0.36.2-Milestone-3.1.zip",
+   "zipSha256": "49d0d7a4cf3c4e1e130b5d0a2d08f9dc9fe97419cd3651deae9460aa642bdf1f",
+   "zipBytes": 80958422,
+   "entries": 1444,
+   "crcOk": true,
+   "singleTopFolder": true,
+   "unsafePaths": [],
+   "manifest": {
+    "entries": 1443,
+    "mismatches": [],
+    "unlisted": [],
+    "missing": [],
+    "runtimeOutputInZip": []
+   },
+   "releaseIntegrity": {
+    "exitCode": 0,
+    "summary": "PASS: 1443 of 1443 listed files verified; missing 0, modified 0, unexpected executables 0, other unlisted files 0; runtime output ignored: 0 file(s) in 0 folder(s); warnings 0"
+   },
+   "mwcliSha256": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+   "mwcliUnchanged": true,
+   "ok": true,
+   "extractedTo": "a new temporary folder whose path contains spaces (deleted afterwards)"
+  },
+  "zipVerificationLocal": {
+   "format": "eightmax-release-verification",
+   "version": 2,
+   "zip": "EightMax-Test-Workbench-0.36.2-Milestone-3.1.zip",
+   "zipSha256": "49d0d7a4cf3c4e1e130b5d0a2d08f9dc9fe97419cd3651deae9460aa642bdf1f",
+   "zipBytes": 80958422,
+   "entries": 1444,
+   "crcOk": true,
+   "singleTopFolder": true,
+   "unsafePaths": [],
+   "manifest": {
+    "entries": 1443,
+    "mismatches": [],
+    "unlisted": [],
+    "missing": [],
+    "runtimeOutputInZip": []
+   },
+   "releaseIntegrity": {
+    "exitCode": 0,
+    "summary": "PASS: 1443 of 1443 listed files verified; missing 0, modified 0, unexpected executables 0, other unlisted files 0; runtime output ignored: 0 file(s) in 0 folder(s); warnings 0"
+   },
+   "mwcliSha256": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+   "mwcliUnchanged": true,
+   "ok": true,
+   "extractedTo": "a new temporary folder whose path contains spaces (deleted afterwards)"
+  },
+  "developmentRuns": [
+   {
+    "id": "45272448662",
+    "url": "https://github.com/derekwtgm/PTO/actions/runs/45272448662",
+    "commit": "6371c13",
+    "purpose": "development run 1: Milestone 3 ZIP + m31-overlay, packaged by tools/make-release-0362m31.py",
+    "scenarios": {
+     "counts": {
+      "passed": 15,
+      "total": 21,
+      "failed": 6
+     },
+     "failed": [
+      {
+       "id": "S01",
+       "title": "clean installation: quick verification through the main launcher"
+      },
+      {
+       "id": "S02",
+       "title": "standalone start-up diagnostic: complete report for every case without the main suite"
+      },
+      {
+       "id": "S10",
+       "title": "killed runner: its hung child processes end with it (job object); checkpoint packaged INTERRUPTED by option D"
+      },
+      {
+       "id": "S13",
+       "title": "three sequential quick runs: three folders, three reports, all exit 0"
+      },
+      {
+       "id": "S14",
+       "title": "long paths and names with spaces in a results folder are packaged"
+      },
+      {
+       "id": "S15",
+       "title": "existing incomplete run packaged (D): the log another process holds open is included"
+      }
+     ],
+     "passedIds": [
+      "S03",
+      "S03r",
+      "S04a",
+      "S04b",
+      "S04c",
+      "S05",
+      "S06",
+      "S07",
+      "S08",
+      "S09",
+      "S11",
+      "S12",
+      "S16a",
+      "S16b",
+      "S16c"
+     ],
+     "note": "the results branch of this run could not be pushed (a 284-character file name, fixed in run 2); the results are read from the job log"
+    },
+    "fullAcceptance": {
+     "zipSha256": "0864c17720422aaffc431325f6c960b2baf549edd1471aecfd187b0f969d1dff",
+     "mode": "overlay",
+     "overall": "FAIL",
+     "exitCode": 1,
+     "launcherExitCode": 5,
+     "counts": {
+      "PASS": 141,
+      "FAIL": 1,
+      "WARNING": 0,
+      "SKIPPED": 5,
+      "total": 147
+     },
+     "failureCategories": {
+      "application": 1,
+      "harness": 0,
+      "environment": 0,
+      "timeout": 0
+     },
+     "elapsedSeconds": 1742.5,
+     "phases": [
+      {
+       "name": "environment",
+       "status": "PASS",
+       "seconds": 6.3,
+       "counts": {
+        "PASS": 9,
+        "FAIL": 0,
+        "WARNING": 0,
+        "SKIPPED": 0
+       }
+      },
+      {
+       "name": "integrity",
+       "status": "PASS",
+       "seconds": 5.5,
+       "counts": {
+        "PASS": 10,
+        "FAIL": 0,
+        "WARNING": 0,
+        "SKIPPED": 0
+       }
+      },
+      {
+       "name": "dependencies",
+       "status": "PASS",
+       "seconds": 2.5,
+       "counts": {
+        "PASS": 6,
+        "FAIL": 0,
+        "WARNING": 0,
+        "SKIPPED": 0
+       }
+      },
+      {
+       "name": "unit",
+       "status": "FAIL",
+       "seconds": 577.3,
+       "counts": {
+        "PASS": 0,
+        "FAIL": 1,
+        "WARNING": 0,
+        "SKIPPED": 0
+       }
+      },
+      {
+       "name": "host-start",
+       "status": "PASS",
+       "seconds": 58.3,
+       "counts": {
+        "PASS": 86,
+        "FAIL": 0,
+        "WARNING": 0,
+        "SKIPPED": 5
+       }
+      },
+      {
+       "name": "lifecycle",
+       "status": "PASS",
+       "seconds": 126.9,
+       "counts": {
+        "PASS": 13,
+        "FAIL": 0,
+        "WARNING": 0,
+        "SKIPPED": 0
+       }
+      },
+      {
+       "name": "gameplay",
+       "status": "PASS",
+       "seconds": 219.9,
+       "counts": {
+        "PASS": 8,
+        "FAIL": 0,
+        "WARNING": 0,
+        "SKIPPED": 0
+       }
+      },
+      {
+       "name": "multi-table",
+       "status": "PASS",
+       "seconds": 737.6,
+       "counts": {
+        "PASS": 6,
+        "FAIL": 0,
+        "WARNING": 0,
+        "SKIPPED": 0
+       }
+      },
+      {
+       "name": "cleanup",
+       "status": "PASS",
+       "seconds": 2.8,
+       "counts": {
+        "PASS": 3,
+        "FAIL": 0,
+        "WARNING": 0,
+        "SKIPPED": 0
+       }
+      }
+     ],
+     "unitTests": {
+      "tests": 993,
+      "pass": 947,
+      "fail": 2,
+      "skipped": 44
+     },
+     "unitDetail": "947 passed, 2 failed (exit 1): tests\\\\release-consistency.test.cjs; Windows runner and fixtures: check names become safe file names; a window gone before the fixture stops cannot crash it (static)",
+     "failures": [
+      {
+       "phase": "unit",
+       "name": "regression tests (complete suite)",
+       "category": "application",
+       "detail": "947 passed, 2 failed (exit 1): tests\\\\release-consistency.test.cjs; Windows runner and fixtures: check names become safe file names; a window gone before the fixture stops cannot crash it (static)"
+      }
+     ],
+     "realWindowChecks": [
+      {
+       "phase": "lifecycle",
+       "name": "J: Scripted practice plays hand after hand (no regression)",
+       "status": "PASS",
+       "detail": "6 checks passed in 31 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "A: Window closes during capture",
+       "status": "PASS",
+       "detail": "8 checks passed in 8 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "B: Window closes during mouse movement",
+       "status": "PASS",
+       "detail": "7 checks passed in 12 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "C: Simulator restarts with a different handle",
+       "status": "PASS",
+       "detail": "10 checks passed in 12 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "D: Temporary capture failures (injected while the window stays open)",
+       "status": "PASS",
+       "detail": "6 checks passed in 11 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "E: Minimised window",
+       "status": "PASS",
+       "detail": "5 checks passed in 10 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "F: Several tables, one closes",
+       "status": "PASS",
+       "detail": "6 checks passed in 16 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "G: Emergency stop during recovery",
+       "status": "PASS",
+       "detail": "5 checks passed in 8 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "H: Repeated target-loss signals",
+       "status": "PASS",
+       "detail": "6 checks passed in 4 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "I: Identity mismatch / handle reuse: no inherited permission",
+       "status": "PASS",
+       "detail": "5 checks passed in 3 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "K: Window resized while playing (geometry / display-scaling re-check)",
+       "status": "PASS",
+       "detail": "3 checks passed in 8 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "lifecycle-acceptance: process cleanup (children exited, no live timers)",
+       "status": "PASS",
+       "detail": "ok"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "lifecycle runner exits by itself after its report; exit code matches",
+       "status": "PASS",
+       "detail": "report -> exit 13 ms, exit 0"
+      },
+      {
+       "phase": "gameplay",
+       "name": "T1: Hands that start with eliminated players are tracked (the Milestone 2 stall)",
+       "status": "PASS",
+       "detail": "6 checks passed in 44 s"
+      },
+      {
+       "phase": "gameplay",
+       "name": "T2: A tournament is played to its end; the end is a normal stop",
+       "status": "PASS",
+       "detail": "12 checks passed in 40 s"
+      },
+      {
+       "phase": "gameplay",
+       "name": "T3: A hand first seen after its opening: untracked, no input; recovery at the next verified hand",
+       "status": "PASS",
+       "detail": "8 checks passed in 20 s"
+      },
+      {
+       "phase": "gameplay",
+       "name": "T4: Think-time holds: one seat acting on consecutive streets with every control hidden (pre-existing defect fixed in M3)",
+       "status": "PASS",
+       "detail": "4 checks passed in 37 s"
+      },
+      {
+       "phase": "gameplay",
+       "name": "T5: Two tables: eliminations on both, one window closes; no input crosses tables",
+       "status": "PASS",
+       "detail": "6 checks passed in 55 s"
+      },
+      {
+       "phase": "gameplay",
+       "name": "T6: Emergency stop right after an elimination: stop wins, no input, no automatic recovery",
+       "status": "PASS",
+       "detail": "6 checks passed in 21 s"
+      },
+      {
+       "phase": "gameplay",
+       "name": "gameplay-acceptance: process cleanup (children exited, no live timers)",
+       "status": "PASS",
+       "detail": "ok"
+      },
+      {
+       "phase": "gameplay",
+       "name": "gameplay-acceptance: exit code matches the result",
+       "status": "PASS",
+       "detail": "overall PASS, exit 0"
+      },
+      {
+       "phase": "multi-table",
+       "name": "M1: 1 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+       "status": "PASS",
+       "detail": "5 checks passed in 183 s"
+      },
+      {
+       "phase": "multi-table",
+       "name": "M2: 2 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+       "status": "PASS",
+       "detail": "5 checks passed in 181 s"
+      },
+      {
+       "phase": "multi-table",
+       "name": "M5: 5 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+       "status": "PASS",
+       "detail": "5 checks passed in 184 s"
+      },
+      {
+       "phase": "multi-table",
+       "name": "M8: 8 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+       "status": "PASS",
+       "detail": "5 checks passed in 187 s"
+      },
+      {
+       "phase": "multi-table",
+       "name": "gameplay-stability: process cleanup (children exited, no live timers)",
+       "status": "PASS",
+       "detail": "ok"
+      },
+      {
+       "phase": "multi-table",
+       "name": "gameplay-stability: exit code matches the result",
+       "status": "PASS",
+       "detail": "overall PASS, exit 0"
+      }
+     ],
+     "launcherExitSource": "job log (launcher exit N)"
+    },
+    "fixedAfterThisRun": [
+     "launchers: the run-folder token line had no line end, so findstr /x never matched and the launcher reported exit 5 after a completed run; the token is now written with CRLF and matched with findstr /b",
+     "results branch push: a 284-character file name failed in git; core.longpaths is now set (CI only)",
+     "S14 (harness): a window title built with + in command-argument mode; parenthesised",
+     "S17 (harness): saving the results failed on a circular object; facts are converted to plain values first",
+     "S17 (harness): the window list excluded invisible windows - exactly the ones that matter; they are now included (runner and harness)",
+     "regression suite: tests/windows-findings-0362m3.test.cjs pinned Milestone 3 runner internals (900 s wait, Safe-Name); it now checks the Milestone 3.1 equivalents"
+    ]
+   },
+   {
+    "id": "45275384911",
+    "url": "https://github.com/derekwtgm/PTO/actions/runs/45275384911",
+    "commit": "6ea6629",
+    "purpose": "development run 2: the fixes of run 1",
+    "scenarios": {
+     "zipSha256": "0feff9244b545aea91398cf9ee4f985c5d0d483e9e006e02dab7ab755cd17819",
+     "mode": "overlay",
+     "counts": {
+      "passed": 22,
+      "failed": 3,
+      "total": 25
+     },
+     "windows": "Microsoft Windows NT 10.0.26100.0",
+     "powershell": "5.1.26100.33822",
+     "failed": [
+      {
+       "id": "S14",
+       "title": "long path (284 characters) and spaces: the ZIP is created; the file is included or listed as skipped",
+       "observed": "package exit 1; long file created True (284 chars); in ZIP False; skipped list False; entries 0"
+      },
+      {
+       "id": "S15",
+       "title": "existing incomplete run packaged (D): the log another process holds open is included",
+       "observed": "package exit 5; ZIP milestone3-results.zip with 9 entries; locked log included True; launcher output:    2  Milestone3-20261123-124637                   no final report                      D:\\a\\_temp\\EightMax CI (scenarios) \\EightMax-Test-Workbench\\test-results /    3  Milestone3-20261123-122544                   no final report                      D:\\a\\_temp\\EightMax CI (scenarios) \\EightMax-Test-Workbench\\test-results / Packaging D:\\a\\_temp\\EightMax CI (scenarios) \\EightMax-Test-Workbench\\test-results\\Milestone3-20261123-220607 ... / Run status: INTERRUPTED / Results ZIP: D:\\a\\_temp\\EightMax CI (scenarios) \\EightMax-Test-Workbench\\test-results\\Milestone3-20261123-220607\\milestone3-results.zip /  -------------------------------------------------------------------------- /  THE TEST COULD NOT BE STARTED. /  Packaging did not complete (PowerShell exit code 0). The PowerShell error output is included below. /  A diagnostic file was saved: /    \"D:\\a\\_temp\\m31-scenarios\\runs\\S15\\_launcher\\launcher-failure-package-Mon011-23-2026-22-06-07-55-10908243621522.txt\" /  ZIP to send back: /    \"D:\\a\\_temp\\m31-scenarios\\runs\\S15\\_launcher\\launcher-failure-package-Mon011-23-2026-22-06-07-55-10908243621522.txt.zip\""
+      },
+      {
+       "id": "S17c",
+       "title": "control: the Milestone 3 start-up script on the SAME files WITHOUT the download mark",
+       "observed": "Start-Desktop.ps1 finished: True after 1.7 s, exit 0, host ready False"
+      }
+     ],
+     "passedIds": [
+      "S01",
+      "S02",
+      "S03",
+      "S03r",
+      "S04a",
+      "S04b",
+      "S04c",
+      "S05",
+      "S06",
+      "S07",
+      "S08",
+      "S09",
+      "S10",
+      "S11",
+      "S12",
+      "S13",
+      "S16a",
+      "S16b",
+      "S16c",
+      "S17a",
+      "S17b",
+      "S18"
+     ]
+    },
+    "fullAcceptance": {
+     "zipSha256": "0feff9244b545aea91398cf9ee4f985c5d0d483e9e006e02dab7ab755cd17819",
+     "mode": "overlay",
+     "overall": "FAIL",
+     "exitCode": 1,
+     "launcherExitCode": 1,
+     "counts": {
+      "PASS": 141,
+      "FAIL": 1,
+      "WARNING": 0,
+      "SKIPPED": 5,
+      "total": 147
+     },
+     "failureCategories": {
+      "application": 1,
+      "harness": 0,
+      "environment": 0,
+      "timeout": 0
+     },
+     "elapsedSeconds": 1731.2,
+     "phases": [
+      {
+       "name": "environment",
+       "status": "PASS",
+       "seconds": 5.8,
+       "counts": {
+        "PASS": 9,
+        "FAIL": 0,
+        "WARNING": 0,
+        "SKIPPED": 0
+       }
+      },
+      {
+       "name": "integrity",
+       "status": "PASS",
+       "seconds": 5.4,
+       "counts": {
+        "PASS": 10,
+        "FAIL": 0,
+        "WARNING": 0,
+        "SKIPPED": 0
+       }
+      },
+      {
+       "name": "dependencies",
+       "status": "PASS",
+       "seconds": 1.8,
+       "counts": {
+        "PASS": 6,
+        "FAIL": 0,
+        "WARNING": 0,
+        "SKIPPED": 0
+       }
+      },
+      {
+       "name": "unit",
+       "status": "FAIL",
+       "seconds": 562.8,
+       "counts": {
+        "PASS": 0,
+        "FAIL": 1,
+        "WARNING": 0,
+        "SKIPPED": 0
+       }
+      },
+      {
+       "name": "host-start",
+       "status": "PASS",
+       "seconds": 58.2,
+       "counts": {
+        "PASS": 86,
+        "FAIL": 0,
+        "WARNING": 0,
+        "SKIPPED": 5
+       }
+      },
+      {
+       "name": "lifecycle",
+       "status": "PASS",
+       "seconds": 126.5,
+       "counts": {
+        "PASS": 13,
+        "FAIL": 0,
+        "WARNING": 0,
+        "SKIPPED": 0
+       }
+      },
+      {
+       "name": "gameplay",
+       "status": "PASS",
+       "seconds": 219.3,
+       "counts": {
+        "PASS": 8,
+        "FAIL": 0,
+        "WARNING": 0,
+        "SKIPPED": 0
+       }
+      },
+      {
+       "name": "multi-table",
+       "status": "PASS",
+       "seconds": 743.6,
+       "counts": {
+        "PASS": 6,
+        "FAIL": 0,
+        "WARNING": 0,
+        "SKIPPED": 0
+       }
+      },
+      {
+       "name": "cleanup",
+       "status": "PASS",
+       "seconds": 2.8,
+       "counts": {
+        "PASS": 3,
+        "FAIL": 0,
+        "WARNING": 0,
+        "SKIPPED": 0
+       }
+      }
+     ],
+     "unitTests": {
+      "tests": 993,
+      "pass": 948,
+      "fail": 1,
+      "skipped": 44
+     },
+     "unitDetail": "948 passed, 1 failed (exit 1): tests\\\\release-consistency.test.cjs",
+     "failures": [
+      {
+       "phase": "unit",
+       "name": "regression tests (complete suite)",
+       "category": "application",
+       "detail": "948 passed, 1 failed (exit 1): tests\\\\release-consistency.test.cjs"
+      }
+     ],
+     "realWindowChecks": [
+      {
+       "phase": "lifecycle",
+       "name": "J: Scripted practice plays hand after hand (no regression)",
+       "status": "PASS",
+       "detail": "6 checks passed in 30 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "A: Window closes during capture",
+       "status": "PASS",
+       "detail": "8 checks passed in 8 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "B: Window closes during mouse movement",
+       "status": "PASS",
+       "detail": "7 checks passed in 12 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "C: Simulator restarts with a different handle",
+       "status": "PASS",
+       "detail": "10 checks passed in 12 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "D: Temporary capture failures (injected while the window stays open)",
+       "status": "PASS",
+       "detail": "6 checks passed in 12 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "E: Minimised window",
+       "status": "PASS",
+       "detail": "5 checks passed in 10 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "F: Several tables, one closes",
+       "status": "PASS",
+       "detail": "6 checks passed in 16 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "G: Emergency stop during recovery",
+       "status": "PASS",
+       "detail": "5 checks passed in 8 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "H: Repeated target-loss signals",
+       "status": "PASS",
+       "detail": "6 checks passed in 4 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "I: Identity mismatch / handle reuse: no inherited permission",
+       "status": "PASS",
+       "detail": "5 checks passed in 4 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "K: Window resized while playing (geometry / display-scaling re-check)",
+       "status": "PASS",
+       "detail": "3 checks passed in 8 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "lifecycle-acceptance: process cleanup (children exited, no live timers)",
+       "status": "PASS",
+       "detail": "ok"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "lifecycle runner exits by itself after its report; exit code matches",
+       "status": "PASS",
+       "detail": "report -> exit 14 ms, exit 0"
+      },
+      {
+       "phase": "gameplay",
+       "name": "T1: Hands that start with eliminated players are tracked (the Milestone 2 stall)",
+       "status": "PASS",
+       "detail": "6 checks passed in 45 s"
+      },
+      {
+       "phase": "gameplay",
+       "name": "T2: A tournament is played to its end; the end is a normal stop",
+       "status": "PASS",
+       "detail": "12 checks passed in 39 s"
+      },
+      {
+       "phase": "gameplay",
+       "name": "T3: A hand first seen after its opening: untracked, no input; recovery at the next verified hand",
+       "status": "PASS",
+       "detail": "8 checks passed in 20 s"
+      },
+      {
+       "phase": "gameplay",
+       "name": "T4: Think-time holds: one seat acting on consecutive streets with every control hidden (pre-existing defect fixed in M3)",
+       "status": "PASS",
+       "detail": "4 checks passed in 37 s"
+      },
+      {
+       "phase": "gameplay",
+       "name": "T5: Two tables: eliminations on both, one window closes; no input crosses tables",
+       "status": "PASS",
+       "detail": "6 checks passed in 55 s"
+      },
+      {
+       "phase": "gameplay",
+       "name": "T6: Emergency stop right after an elimination: stop wins, no input, no automatic recovery",
+       "status": "PASS",
+       "detail": "6 checks passed in 21 s"
+      },
+      {
+       "phase": "gameplay",
+       "name": "gameplay-acceptance: process cleanup (children exited, no live timers)",
+       "status": "PASS",
+       "detail": "ok"
+      },
+      {
+       "phase": "gameplay",
+       "name": "gameplay-acceptance: exit code matches the result",
+       "status": "PASS",
+       "detail": "overall PASS, exit 0"
+      },
+      {
+       "phase": "multi-table",
+       "name": "M1: 1 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+       "status": "PASS",
+       "detail": "5 checks passed in 183 s"
+      },
+      {
+       "phase": "multi-table",
+       "name": "M2: 2 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+       "status": "PASS",
+       "detail": "5 checks passed in 182 s"
+      },
+      {
+       "phase": "multi-table",
+       "name": "M5: 5 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+       "status": "PASS",
+       "detail": "5 checks passed in 184 s"
+      },
+      {
+       "phase": "multi-table",
+       "name": "M8: 8 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+       "status": "PASS",
+       "detail": "5 checks passed in 193 s"
+      },
+      {
+       "phase": "multi-table",
+       "name": "gameplay-stability: process cleanup (children exited, no live timers)",
+       "status": "PASS",
+       "detail": "ok"
+      },
+      {
+       "phase": "multi-table",
+       "name": "gameplay-stability: exit code matches the result",
+       "status": "PASS",
+       "detail": "overall PASS, exit 0"
+      }
+     ],
+     "launcherExitSource": "job log (launcher exit N)"
+    },
+    "fixedAfterThisRun": [
+     "S14: packaging an interrupted run whose status file lacked the result field threw (a property set on a JSON object that does not have it); missing fields are now added with Add-Member",
+     "S15: option D looked only for Milestone3.1-* folders and missed the Milestone 3 run folders; every run folder is now examined",
+     "S17c (harness): the control checked the host before it was ready; it now waits up to 30 s",
+     "Ctrl+C ended the runner with exit code 0; it now ends with 4 (interrupted), and S18 requires 4",
+     "regression suite on Windows: tests/release-consistency.test.cjs stopped Node.js (exit 0xC0000409) in the folder with a non-ASCII character (fs.cpSync); the test now copies with directory reads (fixed after run 3, see below)"
+    ]
+   },
+   {
+    "id": "45277279723",
+    "url": "https://github.com/derekwtgm/PTO/actions/runs/45277279723",
+    "commit": "f42a194",
+    "purpose": "development run 3: the fixes of run 2",
+    "scenarios": {
+     "zipSha256": "17384daf69393aaa6863dfd3673fc5258b3edb95fe4e59cf7d9a8ec8d7cc2e8c",
+     "mode": "overlay",
+     "counts": {
+      "passed": 25,
+      "failed": 0,
+      "total": 25
+     },
+     "windows": "Microsoft Windows NT 10.0.26100.0",
+     "powershell": "5.1.26100.33822",
+     "failed": [],
+     "passedIds": [
+      "S01",
+      "S02",
+      "S03",
+      "S03r",
+      "S04a",
+      "S04b",
+      "S04c",
+      "S05",
+      "S06",
+      "S07",
+      "S08",
+      "S09",
+      "S10",
+      "S11",
+      "S12",
+      "S13",
+      "S14",
+      "S15",
+      "S16a",
+      "S16b",
+      "S16c",
+      "S17c",
+      "S17a",
+      "S17b",
+      "S18"
+     ]
+    },
+    "fullAcceptance": {
+     "zipSha256": "17384daf69393aaa6863dfd3673fc5258b3edb95fe4e59cf7d9a8ec8d7cc2e8c",
+     "mode": "overlay",
+     "overall": "FAIL",
+     "exitCode": 1,
+     "launcherExitCode": 1,
+     "counts": {
+      "PASS": 141,
+      "FAIL": 1,
+      "WARNING": 0,
+      "SKIPPED": 5,
+      "total": 147
+     },
+     "failureCategories": {
+      "application": 1,
+      "harness": 0,
+      "environment": 0,
+      "timeout": 0
+     },
+     "elapsedSeconds": 1643.1,
+     "phases": [
+      {
+       "name": "environment",
+       "status": "PASS",
+       "seconds": 5,
+       "counts": {
+        "PASS": 9,
+        "FAIL": 0,
+        "WARNING": 0,
+        "SKIPPED": 0
+       }
+      },
+      {
+       "name": "integrity",
+       "status": "PASS",
+       "seconds": 3.8,
+       "counts": {
+        "PASS": 10,
+        "FAIL": 0,
+        "WARNING": 0,
+        "SKIPPED": 0
+       }
+      },
+      {
+       "name": "dependencies",
+       "status": "PASS",
+       "seconds": 1.3,
+       "counts": {
+        "PASS": 6,
+        "FAIL": 0,
+        "WARNING": 0,
+        "SKIPPED": 0
+       }
+      },
+      {
+       "name": "unit",
+       "status": "FAIL",
+       "seconds": 505.1,
+       "counts": {
+        "PASS": 0,
+        "FAIL": 1,
+        "WARNING": 0,
+        "SKIPPED": 0
+       }
+      },
+      {
+       "name": "host-start",
+       "status": "PASS",
+       "seconds": 42.6,
+       "counts": {
+        "PASS": 86,
+        "FAIL": 0,
+        "WARNING": 0,
+        "SKIPPED": 5
+       }
+      },
+      {
+       "name": "lifecycle",
+       "status": "PASS",
+       "seconds": 124,
+       "counts": {
+        "PASS": 13,
+        "FAIL": 0,
+        "WARNING": 0,
+        "SKIPPED": 0
+       }
+      },
+      {
+       "name": "gameplay",
+       "status": "PASS",
+       "seconds": 216.9,
+       "counts": {
+        "PASS": 8,
+        "FAIL": 0,
+        "WARNING": 0,
+        "SKIPPED": 0
+       }
+      },
+      {
+       "name": "multi-table",
+       "status": "PASS",
+       "seconds": 738,
+       "counts": {
+        "PASS": 6,
+        "FAIL": 0,
+        "WARNING": 0,
+        "SKIPPED": 0
+       }
+      },
+      {
+       "name": "cleanup",
+       "status": "PASS",
+       "seconds": 2.6,
+       "counts": {
+        "PASS": 3,
+        "FAIL": 0,
+        "WARNING": 0,
+        "SKIPPED": 0
+       }
+      }
+     ],
+     "unitTests": {
+      "tests": 994,
+      "pass": 948,
+      "fail": 1,
+      "skipped": 45
+     },
+     "unitDetail": "948 passed, 1 failed (exit 1): tests\\\\release-consistency.test.cjs",
+     "failures": [
+      {
+       "phase": "unit",
+       "name": "regression tests (complete suite)",
+       "category": "application",
+       "detail": "948 passed, 1 failed (exit 1): tests\\\\release-consistency.test.cjs"
+      }
+     ],
+     "realWindowChecks": [
+      {
+       "phase": "lifecycle",
+       "name": "J: Scripted practice plays hand after hand (no regression)",
+       "status": "PASS",
+       "detail": "6 checks passed in 30 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "A: Window closes during capture",
+       "status": "PASS",
+       "detail": "8 checks passed in 7 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "B: Window closes during mouse movement",
+       "status": "PASS",
+       "detail": "7 checks passed in 12 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "C: Simulator restarts with a different handle",
+       "status": "PASS",
+       "detail": "10 checks passed in 11 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "D: Temporary capture failures (injected while the window stays open)",
+       "status": "PASS",
+       "detail": "6 checks passed in 11 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "E: Minimised window",
+       "status": "PASS",
+       "detail": "5 checks passed in 10 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "F: Several tables, one closes",
+       "status": "PASS",
+       "detail": "6 checks passed in 16 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "G: Emergency stop during recovery",
+       "status": "PASS",
+       "detail": "5 checks passed in 8 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "H: Repeated target-loss signals",
+       "status": "PASS",
+       "detail": "6 checks passed in 4 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "I: Identity mismatch / handle reuse: no inherited permission",
+       "status": "PASS",
+       "detail": "5 checks passed in 4 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "K: Window resized while playing (geometry / display-scaling re-check)",
+       "status": "PASS",
+       "detail": "3 checks passed in 8 s"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "lifecycle-acceptance: process cleanup (children exited, no live timers)",
+       "status": "PASS",
+       "detail": "ok"
+      },
+      {
+       "phase": "lifecycle",
+       "name": "lifecycle runner exits by itself after its report; exit code matches",
+       "status": "PASS",
+       "detail": "report -> exit 14 ms, exit 0"
+      },
+      {
+       "phase": "gameplay",
+       "name": "T1: Hands that start with eliminated players are tracked (the Milestone 2 stall)",
+       "status": "PASS",
+       "detail": "6 checks passed in 43 s"
+      },
+      {
+       "phase": "gameplay",
+       "name": "T2: A tournament is played to its end; the end is a normal stop",
+       "status": "PASS",
+       "detail": "12 checks passed in 39 s"
+      },
+      {
+       "phase": "gameplay",
+       "name": "T3: A hand first seen after its opening: untracked, no input; recovery at the next verified hand",
+       "status": "PASS",
+       "detail": "8 checks passed in 20 s"
+      },
+      {
+       "phase": "gameplay",
+       "name": "T4: Think-time holds: one seat acting on consecutive streets with every control hidden (pre-existing defect fixed in M3)",
+       "status": "PASS",
+       "detail": "4 checks passed in 38 s"
+      },
+      {
+       "phase": "gameplay",
+       "name": "T5: Two tables: eliminations on both, one window closes; no input crosses tables",
+       "status": "PASS",
+       "detail": "6 checks passed in 55 s"
+      },
+      {
+       "phase": "gameplay",
+       "name": "T6: Emergency stop right after an elimination: stop wins, no input, no automatic recovery",
+       "status": "PASS",
+       "detail": "6 checks passed in 21 s"
+      },
+      {
+       "phase": "gameplay",
+       "name": "gameplay-acceptance: process cleanup (children exited, no live timers)",
+       "status": "PASS",
+       "detail": "ok"
+      },
+      {
+       "phase": "gameplay",
+       "name": "gameplay-acceptance: exit code matches the result",
+       "status": "PASS",
+       "detail": "overall PASS, exit 0"
+      },
+      {
+       "phase": "multi-table",
+       "name": "M1: 1 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+       "status": "PASS",
+       "detail": "5 checks passed in 183 s"
+      },
+      {
+       "phase": "multi-table",
+       "name": "M2: 2 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+       "status": "PASS",
+       "detail": "5 checks passed in 181 s"
+      },
+      {
+       "phase": "multi-table",
+       "name": "M5: 5 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+       "status": "PASS",
+       "detail": "5 checks passed in 184 s"
+      },
+      {
+       "phase": "multi-table",
+       "name": "M8: 8 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+       "status": "PASS",
+       "detail": "5 checks passed in 189 s"
+      },
+      {
+       "phase": "multi-table",
+       "name": "gameplay-stability: process cleanup (children exited, no live timers)",
+       "status": "PASS",
+       "detail": "ok"
+      },
+      {
+       "phase": "multi-table",
+       "name": "gameplay-stability: exit code matches the result",
+       "status": "PASS",
+       "detail": "overall PASS, exit 0"
+      }
+     ],
+     "launcherExitSource": "job log (launcher exit N)"
+    },
+    "fixedAfterThisRun": [
+     "tests/release-consistency.test.cjs: fs.cpSync replaced by a plain recursive copy (fs.cpSync stopped the bundled Node.js 22 when the application folder path has a non-ASCII character); a CI probe step records fs.cpSync's exit code from such a folder",
+     "runner: a test file that stops without reporting its tests is now named with its exit code (Get-M31TapFailures), escaped backslashes in test names are unescaped",
+     "runner: empty Windows security values are named ('not set', 'none reported') instead of printed as nothing"
+    ]
+   },
+   {
+    "id": "45281425813",
+    "url": "https://github.com/derekwtgm/PTO/actions/runs/45281425813",
+    "commit": "a4b19f8",
+    "purpose": "development run 4 (scenarios only): the fixes of run 3 and the new scenario S19",
+    "scenarios": {
+     "counts": {
+      "passed": 26,
+      "total": 26,
+      "failed": 0
+     },
+     "failed": [],
+     "passedIds": [
+      "S01",
+      "S02",
+      "S03",
+      "S03r",
+      "S04a",
+      "S04b",
+      "S04c",
+      "S05",
+      "S06",
+      "S07",
+      "S08",
+      "S09",
+      "S10",
+      "S11",
+      "S12",
+      "S13",
+      "S14",
+      "S15",
+      "S16a",
+      "S16b",
+      "S16c",
+      "S17c",
+      "S17a",
+      "S17b",
+      "S18",
+      "S19"
+     ],
+     "note": "scenarios.json of this run stops after S16c (the harness defect below); the results of all 26 scenarios are read from the suite's own log",
+     "zipSha256": "a0ed066dc364209099add02dc938974a0851a779aa13ca7f099777ac8da01b5c",
+     "mode": "overlay"
+    },
+    "fullAcceptance": {
+     "note": "not run (scenarios-only development run; the full acceptance runs on the final ZIP)"
+    },
+    "notes": [
+     "fs.cpSync probe step (bundled Node.js): node v22.23.5 fs.cpSync: source path with a non-ASCII character -> exit -1073740791 (0xC0000409); ASCII source path -> exit 0 - the cause of the release-consistency.test.cjs stop in runs 1-3 is confirmed",
+     "the scenario log reports SCENARIOS: 26 passed, 0 failed (26), including the new S19; scenarios.json holds only S01-S16c because writing it failed from S17 on (harness defect below)"
+    ],
+    "fixedAfterThisRun": [
+     "scenario harness: scenarios.json stopped being updated at S17 - a string read by Get-Content is wrapped in a PSObject and JavaScriptSerializer met its PSMethod members (\"circular reference\"); in runs 2 and 3 the fallback had silently replaced every scenario's facts by a type name. Scalars are now unwrapped and the file is written with ConvertTo-Json."
+    ]
+   }
+  ]
+ },
+ "operatorEvidence": {
+  "format": "eightmax-m31-operator-evidence-analysis",
+  "version": 1,
+  "sources": {
+   "Milestone3-20261123-122544.zip": {
+    "sha256": "0ca9feec7aa984281c5cefd1765c7b8ff78db948549bed11e5208af30502bdf7",
+    "entries": 8,
+    "createdBy": "Windows 11 File Explorer 'Compress to ZIP' (libarchive layout: Unix origin, 0666/0777 modes, UT and ux extra fields, local DOS times)"
+   },
+   "Milestone3-20261123-124637.zip": {
+    "sha256": "33e420a2ea7d76764ae98059aa2311d2115234c61c58cf4c123901d86ebe12f4",
+    "entries": 8
+   },
+   "20261123124834.mp4": {
+    "sha256": "1d17f30fe2963f09f0595c74e57234232d5b04b6b29da158e324919eb7ef31e5",
+    "duration": "4.75 s",
+    "recordedAt": "12:48:34 local (19:48:34 UTC)",
+    "content": "Windows Terminal running RUN-0362-MILESTONE3-TESTS.cmd; last line '==== host-start (12:47:14)'; no further output during the whole clip"
+   },
+   "RUN-M3-HOST-DIAGNOSTIC.cmd": "not provided and not present in any branch of derekwtgm/PTO; its failure cannot be analysed from its source"
+  },
+  "machine": "Windows 11 Home, display scaling 125 % (from the run-2 console in the video; other hardware details are deliberately not repeated here)",
+  "timeline": {
+   "run1": [
+    {
+     "time": "12:25:44",
+     "event": "run started; results folder and state\\ created inside the application folder (test-results\\Milestone3-20261123-122544)"
+    },
+    {
+     "time": "12:26:00",
+     "event": "identity phase finished (mwcli-build-id: EightMaxBuild=7d08acc7eb4577ee)"
+    },
+    {
+     "time": "12:26:00-12:26:42",
+     "event": "unit phase: 114 passed, 1 failed, 1 skipped; the failure is 'M3 release: SHA256SUMS.txt lists every shipped file except itself' on test-results/Milestone3-20261123-122544/mwcli-build-id.err.txt - the run's own identity-phase log"
+    },
+    {
+     "time": "12:26:42-43",
+     "event": "host-start\\ created (Test-Milestone3-0362.ps1 line 150 runs after the unit phase)"
+    },
+    {
+     "time": "12:26:44",
+     "event": "last change of the results folder: 'host-prebuilt host launch.out.txt' / '.err.txt' created - Start-Desktop.ps1 started as a hidden PowerShell"
+    },
+    {
+     "time": "after 12:26:44",
+     "event": "no status record, no session file, no phase state, no report; the two host-prebuilt logs are missing from the operator's ZIP although run 2 found them on disk"
+    }
+   ],
+   "run2": [
+    {
+     "time": "12:46:37",
+     "event": "run started"
+    },
+    {
+     "time": "12:46:40-12:47:14",
+     "event": "unit phase: same 114/1/1; the failure now names run 1's leftover 'host-prebuilt host launch.err.txt'"
+    },
+    {
+     "time": "12:47:14",
+     "event": "host-start started; 'no EightMax host already running' passed (no host process existed: run 1 never started one)"
+    },
+    {
+     "time": "12:48:34",
+     "event": "video: still no output 80 s into host-start (the same case took 2-4 s on the Windows CI runner)"
+    },
+    {
+     "time": "later",
+     "event": "same pattern: no report; the host-prebuilt logs are missing from the ZIP"
+    }
+   ]
+  },
+  "findings": [
+   "The checksum failure is established and reproduced byte for byte: the release test treated the runner's own logs in test-results\\ as release files (runs 1 and 2 report exactly the files the runner had just written).",
+   "In both runs windows\\Start-Desktop.ps1 did not exit: the runner prints nothing for a host case until the start-up script exits (Run-Logged waits up to 900 s), and the video shows no output 80 s into the case.",
+   "The start-up script was still alive when each folder was zipped: Explorer's ZIP omitted exactly the two files that script held open for writing (it cannot open a file another process is writing), while run 2 saw the run-1 file on disk.",
+   "No desktop host was running at the start of run 2, so run 1's script never launched one (a headless host started by it would have kept running); the stop happened inside Start-Desktop.ps1 before or at the host launch.",
+   "The Milestone 3 script launched the host with a plain Start-Process, i.e. through the Windows shell (ShellExecuteEx). REPRODUCED on a real Windows machine (GitHub-hosted Windows Server 2025, scenario S17): with the release files marked as downloaded (Mark of the Web, as after extracting a downloaded ZIP), the Milestone 3 start-up script, called exactly as the Milestone 3 runner calls it, did not finish within 120 s; its hidden PowerShell owned a dialog of class #32770 titled 'Open File - Security Warning' with visible = 0, and a screenshot taken during the stop shows no dialog on the desktop. The same script on the same files without the mark finished in about 2 s. A process started hidden shows its first window with the hidden flag it was started with, so the prompt can never be seen or answered."
+  ],
+  "notEstablished": [
+   "Whether the prompt on the operator PC was 'Open File - Security Warning' or Windows SmartScreen (both are shell prompts for downloaded unsigned programs; both block the Milestone 3 start-up script).",
+   "Why the separate RUN-M3-HOST-DIAGNOSTIC.cmd did not work (the file is not available)."
+  ],
+  "reproduction": {
+   "machine": "GitHub-hosted windows-latest (Windows Server 2025 Datacenter build 26100)",
+   "scenario": "tests/windows/M31-Scenarios.ps1 S17c (control) and S17a (marked files)",
+   "control": "unmarked Milestone 3 files: Start-Desktop.ps1 finished in about 2 s, exit 0",
+   "marked": "Start-Desktop.ps1 did not finish within 120 s; window of the stopped script: '#32770 | Open File - Security Warning | visible 0'",
+   "screenshot": "evidence/0.36.2-m31/S17-desktop-during-the-stop.jpg (no dialog visible)"
+  }
+ },
+ "operations": [
+  "check-existing-processes",
+  "check-port",
+  "prepare-directories",
+  "launch-startup-script",
+  "launch-desktop-host",
+  "wait-readiness",
+  "read-session-file",
+  "verify-health",
+  "verify-input-driver",
+  "authenticated-shutdown",
+  "verify-process-termination",
+  "verify-port-release"
+ ],
+ "timeLimitsSeconds": {
+  "startup script launch (prebuilt)": 120,
+  "startup script launch (compile cases)": 300,
+  "host ready": 60,
+  "health": "12 per request, 45 in all",
+  "input driver": 40,
+  "shutdown request": 20,
+  "process exit after an accepted shutdown": 30,
+  "port release": 30,
+  "scale": "-TimeoutScale 0.2-10"
+ },
+ "startCases": [
+  "prebuilt host launch",
+  "forced fallback compile with a fresh cache",
+  "repeated start reuses the valid cache",
+  "invalid cache: corrupted executable is rebuilt",
+  "invalid cache: manifest of other sources is rebuilt",
+  "an old (Milestone 2) cache key is never reused",
+  "build-only compiles or reuses without launching"
+ ],
+ "windowsScenarios": [
+  {
+   "id": "S02",
+   "spec": "D,N",
+   "title": "standalone start-up diagnostic: complete report for every case without the main suite",
+   "ok": true,
+   "expected": "exit 0; 7 start cases PASS; own complete report and ZIP; folder ...-host-diagnostic",
+   "observed": "exit 0, overall PASS, cases prebuilt=PASS fallback-fresh=PASS cache-reuse=PASS invalid-exe=PASS invalid-manifest=PASS old-key=PASS build-only=PASS, report True, 71 s",
+   "facts": {
+    "dir": "D:\\a\\_temp\\m31-scenarios\\runs\\S02 diag (spaces)\\Milestone3.1-20261123-225525-host-diagnostic",
+    "counts": {
+     "PASS": 114,
+     "FAIL": 0,
+     "WARNING": 0,
+     "SKIPPED": 5,
+     "total": 119
+    }
+   },
+   "at": "2026-11-23T22:56:35.9094499Z"
+  },
+  {
+   "id": "S05",
+   "spec": "E",
+   "title": "host start failure: the step and the host error are named; report and ZIP produced",
+   "ok": true,
+   "expected": "exit 1; failure at 6/12 with exit code 3 and the host stderr text",
+   "observed": "exit 1; report True; prebuilt host launch - 6/12 Wait for the host to report ready (session file): the desktop host exited before it was ready; host stderr: The desktop host could not start: simulated start-up failure (test fixture, mode exit). [0 s]",
+   "facts": null,
+   "at": "2026-11-23T22:58:05.7094196Z"
+  },
+  {
+   "id": "S06",
+   "spec": "E,K",
+   "title": "existing EightMax instance: environment failure naming it; it was NOT stopped by the test",
+   "ok": true,
+   "expected": "exit 3; host named with its pid; still running afterwards",
+   "observed": "exit 3; foreign host pid 7020 still alive after the run: True; environment: already running (not started by this test, left running): EightMaxWorkbench pid 7020 (started 22:58:08) D:\\a\\_temp\\EightMax CI (scenarios) ü\\EightMax-Test-Workbench\\desktop\\bin\\EightMaxWorkbench.exe. Close the EightMax Workbench and its ",
+   "facts": null,
+   "at": "2026-11-23T22:58:31.8292919Z"
+  },
+  {
+   "id": "S07",
+   "spec": "F",
+   "title": "start-up time-out: recorded with the step, process tree saved, processes stopped, report produced",
+   "ok": true,
+   "expected": "exit 1 (timeout) within the limit; last step named; tree recorded; nothing left running",
+   "observed": "exit 1 after 43 s; timeout: the start-up script did not finish within 20 s; its last recorded step: \"launch-host\" start (CreateProcess: fake host, mode script-hang). The script and its child processes were stopped; see hang-diagnostics.json. [20.6 s]; tree 2 process(es), alive afterwards 0",
+   "facts": null,
+   "at": "2026-11-23T22:59:15.1963406Z"
+  },
+  {
+   "id": "S12",
+   "spec": "K",
+   "title": "occupied port: the owner is named (process and pid); the owner is left running; exit 3",
+   "ok": true,
+   "expected": "exit 3; \"Port 48713 is already occupied by powershell (pid N, LISTEN)\"; owner still running",
+   "observed": "exit 3; owner alive after the run True; environment: Port 48713 is already occupied by powershell (pid 9332, LISTEN). The desktop host needs this port; the program was left running. Close it or restart Windows, then run the test again.",
+   "facts": null,
+   "at": "2026-11-23T23:01:01.5531177Z"
+  },
+  {
+   "id": "S17c",
+   "spec": "host-start root cause",
+   "title": "control: the Milestone 3 start-up script on the SAME files WITHOUT the download mark",
+   "ok": true,
+   "expected": "finishes in seconds and the host becomes ready",
+   "observed": "Start-Desktop.ps1 finished: True after 3.1 s, exit 0, host ready True",
+   "facts": {
+    "startDesktopExited": true,
+    "seconds": 3.1,
+    "exitCode": 0,
+    "readyWritten": true,
+    "status": "{\"format\":\"eightmax-desktop-start\",\"version\":1,\"at\":\"2026-11-23T23:02:21.7234433Z\",\"path\":\"prebuilt\",\"cacheFolder\":\"C:\\\\Users\\\\runneradmin\\\\AppData\\\\Local\\\\EightMax-Test-Workbench\\\\DesktopCache\\\\5b7895ddc7f8ba1cec36b1b844a9b80bda178b371bf3e6dbba83a75eee8888ab\",\"fingerprint\":\"5b7895ddc7f8ba1cec36b1b844a9b80bda178b371bf3e6dbba83a75eee8888ab\",\"sources\":[{\"path\":\"desktop/DesktopHost.cs\",\"sha256\":\"9ddd7c5098078574127dc199230e60a3596af2249dc51dba6ad064526a00e57a\"},{\"path\":\"desktop/CaptureService.cs\",\"sha256\":\"a1b018b05ea44c8abc4f3f2affad369ee5c376a4766afd3d2cf15c83e63faa2c\"},{\"path\":\"desktop/InputBroker.cs\",\"sha256\":\"97f1e7227c60f3a5fbbcf41b985ff3648f0aeff3b529b59e9c71e9b5709ba017\"}],\"compiled\":false,\"reusedCache\":false,\"invalidCache\":null,\"exe\":\"D:\\\\a\\\\_temp\\\\m31-work\\\\m3 control (spaces)\\\\EightMax-Test-Workbench\\\\desktop\\\\bin\\\\EightMaxWorkbench.exe\",\"exeSha256\":\"845578b9a6596009e68ce6f182d47ae20ddd511f58b9c37a3d4b12e1c7f32290\",\"launched\":true,\"pid\":6960,\"error\":null}",
+    "stderr": null
+   },
+   "at": "2026-11-23T23:02:26.7902784Z"
+  },
+  {
+   "id": "S17a",
+   "spec": "host-start root cause",
+   "title": "reproduction: the Milestone 3 start-up script on files marked as downloaded (the operator condition)",
+   "ok": true,
+   "expected": "does not finish (the operator symptom), while the unmarked control does",
+   "observed": "Start-Desktop.ps1 did NOT finish within 120 s - the operator symptom; windows of the stopped script: #32770 | Open File - Security Warning | visible 0 | pid 6000 ; ConsoleWindowClass | Administrator: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe | visible 0 | pid 6000 ; MSCTFIME UI | MSCTFIME UI | visible 0 | pid 6000 ; IME | Default IME | visible 0 | pid 6000 ; IME | Default IME | visible 0 | pid 5972; finding: a Windows security dialog is waiting for an answer: Open File - Security Warning (powershell pid 6000; the dialog is INVISIBLE because its process was started hidden, so nobody can answer it); new processes: conhost 5972, MoUsoCoreWorker 6600, powershell 6000, RuntimeBroker 8364, svchost 3372, svchost 3992, svchost 6716, TiWorker 1184, TrustedInstaller 2320, WmiPrvSE 10132",
+   "facts": {
+    "startDesktopExited": false,
+    "seconds": 120,
+    "exitCode": null,
+    "readyWritten": false,
+    "status": null,
+    "stderr": null,
+    "windowsOfTheHungScript": [
+     "#32770 | Open File - Security Warning | visible 0 | pid 6000",
+     "ConsoleWindowClass | Administrator: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe | visible 0 | pid 6000",
+     "MSCTFIME UI | MSCTFIME UI | visible 0 | pid 6000",
+     "IME | Default IME | visible 0 | pid 6000",
+     "IME | Default IME | visible 0 | pid 5972"
+    ],
+    "newProcesses": [
+     "conhost 5972",
+     "MoUsoCoreWorker 6600",
+     "powershell 6000",
+     "RuntimeBroker 8364",
+     "svchost 3372",
+     "svchost 3992",
+     "svchost 6716",
+     "TiWorker 1184",
+     "TrustedInstaller 2320",
+     "WmiPrvSE 10132"
+    ],
+    "finding": "a Windows security dialog is waiting for an answer: Open File - Security Warning (powershell pid 6000; the dialog is INVISIBLE because its process was started hidden, so nobody can answer it)",
+    "screenshot": "S17-desktop-during-the-stop.png"
+   },
+   "at": "2026-11-23T23:04:31.8906077Z"
+  },
+  {
+   "id": "S17b",
+   "spec": "host-start root cause",
+   "title": "Milestone 3.1 on the same marked files: the host starts (CreateProcess) and the mark is reported",
+   "ok": true,
+   "expected": "exit 0; host-start PASS; Mark of the Web WARNING",
+   "observed": "exit 0; host-start PASS; WARNING 408 of 408 program files carry the internet zone mark (e.g. BUILD-WGC.cmd, CANCEL-TRAINING.cmd, COLLECT-TEST-RESULTS.cmd, CONTINUE-TRAINING.cmd, EXPORT-STRATEGIES.cmd). Windows may ask for confirmation (SmartScreen / security warning) when the Workbench is started by double-click; the tests start programs directly and are not blocked by it. See READ-ME-MILESTONE-3.1.txt.",
+   "facts": null,
+   "at": "2026-11-23T23:04:57.6886577Z"
+  }
+ ],
+ "hostStartInFullAcceptance": {
+  "name": "host-start",
+  "status": "PASS",
+  "seconds": 33.6,
+  "counts": {
+   "PASS": 86,
+   "FAIL": 0,
+   "WARNING": 0,
+   "SKIPPED": 5
+  },
+  "reason": null
+ },
+ "rootCause": {
+  "status": "established for the mechanism and reproduced on real Windows; the exact prompt on the operator PC is not observable from the operator's files",
+  "cause": "windows\\Start-Desktop.ps1 (Milestone 3) launched the desktop host with a plain Start-Process, i.e. through the Windows shell (ShellExecuteEx). For an unsigned program extracted from a downloaded ZIP (Mark of the Web) the shell asks for confirmation and waits. The Milestone 3 runner had started Start-Desktop.ps1 hidden, and a process started hidden shows its first window hidden, so the prompt was INVISIBLE and could never be answered; the runner waited up to 900 s per start case without output.",
+  "reproduction": {
+   "scenario": "tests/windows/M31-Scenarios.ps1 S17c (control), S17a (marked files), S17b (Milestone 3.1 on the marked files)",
+   "control": "unmarked Milestone 3 files: Start-Desktop.ps1 finished in about 2-3 s, exit 0, host ready",
+   "marked": "files with the internet-zone mark: Start-Desktop.ps1 did not finish within 120 s; its hidden PowerShell owned one window: class #32770, title 'Open File - Security Warning', visible 0; a screenshot during the stop shows an empty desktop",
+   "milestone31": "the same marked files with Milestone 3.1: host-start PASS (CreateProcess), Mark of the Web reported as a WARNING",
+   "runs": [
+    "45275384911",
+    "45277279723"
+   ]
+  },
+  "repair": [
+   "headless (test) launches use CreateProcess (Start-Process with redirection, never the shell) and capture the host's stdout/stderr",
+   "every Start-Desktop step is traced (-TraceFile) and every host-start operation has a time limit and progress output",
+   "on a time-out the process tree, the windows of those processes (including invisible ones), prompt windows, the port owner and the Mark of the Web are recorded before only this session's processes are stopped",
+   "the environment phase records the Mark of the Web and the SmartScreen, Smart App Control and Defender settings"
+  ],
+  "notEstablished": [
+   "whether the operator PC showed 'Open File - Security Warning' (reproduced) or the SmartScreen prompt: both are shell prompts for downloaded unsigned programs and both block the Milestone 3 script; neither can occur with the Milestone 3.1 test launch",
+   "why the earlier RUN-M3-HOST-DIAGNOSTIC.cmd did not work: the file was not provided and is not in any branch of derekwtgm/PTO"
+  ]
+ },
+ "hostStartCasesInFullAcceptance": [
+  {
+   "id": "prebuilt",
+   "case": "prebuilt host launch",
+   "result": "PASS",
+   "launchMethod": "CreateProcess",
+   "startPath": "prebuilt",
+   "operations": {
+    "check-existing-processes": {
+     "status": "PASS",
+     "ms": 55,
+     "detail": "no EightMax program is running"
+    },
+    "check-port": {
+     "status": "PASS",
+     "ms": 2,
+     "detail": "free"
+    },
+    "prepare-directories": {
+     "status": "PASS",
+     "ms": 4,
+     "detail": "case folder ready: D:\\a\\_temp\\m31-full\\Milestone3.1-20261123-225447-full\\host-start\\01-prebuilt"
+    },
+    "launch-startup-script": {
+     "status": "PASS",
+     "ms": 130,
+     "detail": "started powershell.exe pid 9412"
+    },
+    "launch-desktop-host": {
+     "status": "PASS",
+     "ms": 1721,
+     "detail": "host pid 7612 launched (CreateProcess, path prebuilt); start-up script finished in 1.7 s"
+    },
+    "wait-readiness": {
+     "status": "PASS",
+     "ms": 3,
+     "detail": "ready after 0 s"
+    },
+    "read-session-file": {
+     "status": "PASS",
+     "ms": 15,
+     "detail": "session of host pid 7612, app 0.36.2-dev"
+    },
+    "verify-health": {
+     "status": "PASS",
+     "ms": 65,
+     "detail": "HTTP 200, app 0.36.2-dev, input driver installed True"
+    },
+    "verify-input-driver": {
+     "status": "PASS",
+     "ms": 95,
+     "detail": "EightMaxInput.exe started and accepted the session (running, not crashed, emergency-stop hotkey Ctrl+Alt+F12)"
+    },
+    "authenticated-shutdown": {
+     "status": "PASS",
+     "ms": 3,
+     "detail": "HTTP 200 (shutdown accepted)"
+    },
+    "verify-process-termination": {
+     "status": "PASS",
+     "ms": 30,
+     "detail": "host exited (exit code 0) after 0 s; no input driver left"
+    },
+    "verify-port-release": {
+     "status": "PASS",
+     "ms": 7,
+     "detail": "free after 6 ms"
+    }
+   }
+  },
+  {
+   "id": "fallback-fresh",
+   "case": "forced fallback compile with a fresh cache",
+   "result": "PASS",
+   "launchMethod": "CreateProcess",
+   "startPath": "compiled",
+   "operations": {
+    "check-existing-processes": {
+     "status": "PASS",
+     "ms": 6,
+     "detail": "no EightMax program is running"
+    },
+    "check-port": {
+     "status": "PASS",
+     "ms": 1,
+     "detail": "free"
+    },
+    "prepare-directories": {
+     "status": "PASS",
+     "ms": 2,
+     "detail": "case folder ready: D:\\a\\_temp\\m31-full\\Milestone3.1-20261123-225447-full\\host-start\\02-fallback-fresh"
+    },
+    "launch-startup-script": {
+     "status": "PASS",
+     "ms": 134,
+     "detail": "started powershell.exe pid 2024"
+    },
+    "launch-desktop-host": {
+     "status": "PASS",
+     "ms": 1910,
+     "detail": "host pid 9928 launched (CreateProcess, path compiled); start-up script finished in 1.9 s"
+    },
+    "wait-readiness": {
+     "status": "PASS",
+     "ms": 0,
+     "detail": "ready after 0 s"
+    },
+    "read-session-file": {
+     "status": "PASS",
+     "ms": 5,
+     "detail": "session of host pid 9928, app 0.36.2-dev"
+    },
+    "verify-health": {
+     "status": "PASS",
+     "ms": 16,
+     "detail": "HTTP 200, app 0.36.2-dev, input driver installed True"
+    },
+    "verify-input-driver": {
+     "status": "PASS",
+     "ms": 79,
+     "detail": "EightMaxInput.exe started and accepted the session (running, not crashed, emergency-stop hotkey Ctrl+Alt+F12)"
+    },
+    "authenticated-shutdown": {
+     "status": "PASS",
+     "ms": 2,
+     "detail": "HTTP 200 (shutdown accepted)"
+    },
+    "verify-process-termination": {
+     "status": "PASS",
+     "ms": 21,
+     "detail": "host exited (exit code 0) after 0 s; no input driver left"
+    },
+    "verify-port-release": {
+     "status": "PASS",
+     "ms": 1,
+     "detail": "free after 1 ms"
+    }
+   }
+  },
+  {
+   "id": "cache-reuse",
+   "case": "repeated start reuses the valid cache",
+   "result": "PASS",
+   "launchMethod": "CreateProcess",
+   "startPath": "cache",
+   "operations": {
+    "check-existing-processes": {
+     "status": "PASS",
+     "ms": 7,
+     "detail": "no EightMax program is running"
+    },
+    "check-port": {
+     "status": "PASS",
+     "ms": 1,
+     "detail": "free"
+    },
+    "prepare-directories": {
+     "status": "PASS",
+     "ms": 1,
+     "detail": "case folder ready: D:\\a\\_temp\\m31-full\\Milestone3.1-20261123-225447-full\\host-start\\03-cache-reuse"
+    },
+    "launch-startup-script": {
+     "status": "PASS",
+     "ms": 132,
+     "detail": "started powershell.exe pid 9700"
+    },
+    "launch-desktop-host": {
+     "status": "PASS",
+     "ms": 1586,
+     "detail": "host pid 8808 launched (CreateProcess, path cache); start-up script finished in 1.6 s"
+    },
+    "wait-readiness": {
+     "status": "PASS",
+     "ms": 0,
+     "detail": "ready after 0 s"
+    },
+    "read-session-file": {
+     "status": "PASS",
+     "ms": 5,
+     "detail": "session of host pid 8808, app 0.36.2-dev"
+    },
+    "verify-health": {
+     "status": "PASS",
+     "ms": 17,
+     "detail": "HTTP 200, app 0.36.2-dev, input driver installed True"
+    },
+    "verify-input-driver": {
+     "status": "PASS",
+     "ms": 83,
+     "detail": "EightMaxInput.exe started and accepted the session (running, not crashed, emergency-stop hotkey Ctrl+Alt+F12)"
+    },
+    "authenticated-shutdown": {
+     "status": "PASS",
+     "ms": 2,
+     "detail": "HTTP 200 (shutdown accepted)"
+    },
+    "verify-process-termination": {
+     "status": "PASS",
+     "ms": 17,
+     "detail": "host exited (exit code 0) after 0 s; no input driver left"
+    },
+    "verify-port-release": {
+     "status": "PASS",
+     "ms": 2,
+     "detail": "free after 1 ms"
+    }
+   }
+  },
+  {
+   "id": "invalid-exe",
+   "case": "invalid cache: corrupted executable is rebuilt",
+   "result": "PASS",
+   "launchMethod": "CreateProcess",
+   "startPath": "compiled",
+   "operations": {
+    "check-existing-processes": {
+     "status": "PASS",
+     "ms": 8,
+     "detail": "no EightMax program is running"
+    },
+    "check-port": {
+     "status": "PASS",
+     "ms": 1,
+     "detail": "free"
+    },
+    "prepare-directories": {
+     "status": "PASS",
+     "ms": 2,
+     "detail": "case folder ready: D:\\a\\_temp\\m31-full\\Milestone3.1-20261123-225447-full\\host-start\\04-invalid-exe"
+    },
+    "launch-startup-script": {
+     "status": "PASS",
+     "ms": 147,
+     "detail": "started powershell.exe pid 940"
+    },
+    "launch-desktop-host": {
+     "status": "PASS",
+     "ms": 1719,
+     "detail": "host pid 8796 launched (CreateProcess, path compiled); start-up script finished in 1.7 s"
+    },
+    "wait-readiness": {
+     "status": "PASS",
+     "ms": 0,
+     "detail": "ready after 0 s"
+    },
+    "read-session-file": {
+     "status": "PASS",
+     "ms": 6,
+     "detail": "session of host pid 8796, app 0.36.2-dev"
+    },
+    "verify-health": {
+     "status": "PASS",
+     "ms": 17,
+     "detail": "HTTP 200, app 0.36.2-dev, input driver installed True"
+    },
+    "verify-input-driver": {
+     "status": "PASS",
+     "ms": 86,
+     "detail": "EightMaxInput.exe started and accepted the session (running, not crashed, emergency-stop hotkey Ctrl+Alt+F12)"
+    },
+    "authenticated-shutdown": {
+     "status": "PASS",
+     "ms": 2,
+     "detail": "HTTP 200 (shutdown accepted)"
+    },
+    "verify-process-termination": {
+     "status": "PASS",
+     "ms": 22,
+     "detail": "host exited (exit code 0) after 0 s; no input driver left"
+    },
+    "verify-port-release": {
+     "status": "PASS",
+     "ms": 3,
+     "detail": "free after 2 ms"
+    }
+   }
+  },
+  {
+   "id": "invalid-manifest",
+   "case": "invalid cache: manifest of other sources is rebuilt",
+   "result": "PASS",
+   "launchMethod": "CreateProcess",
+   "startPath": "compiled",
+   "operations": {
+    "check-existing-processes": {
+     "status": "PASS",
+     "ms": 9,
+     "detail": "no EightMax program is running"
+    },
+    "check-port": {
+     "status": "PASS",
+     "ms": 1,
+     "detail": "free"
+    },
+    "prepare-directories": {
+     "status": "PASS",
+     "ms": 2,
+     "detail": "case folder ready: D:\\a\\_temp\\m31-full\\Milestone3.1-20261123-225447-full\\host-start\\05-invalid-manifest"
+    },
+    "launch-startup-script": {
+     "status": "PASS",
+     "ms": 127,
+     "detail": "started powershell.exe pid 6432"
+    },
+    "launch-desktop-host": {
+     "status": "PASS",
+     "ms": 1751,
+     "detail": "host pid 10092 launched (CreateProcess, path compiled); start-up script finished in 1.7 s"
+    },
+    "wait-readiness": {
+     "status": "PASS",
+     "ms": 0,
+     "detail": "ready after 0 s"
+    },
+    "read-session-file": {
+     "status": "PASS",
+     "ms": 6,
+     "detail": "session of host pid 10092, app 0.36.2-dev"
+    },
+    "verify-health": {
+     "status": "PASS",
+     "ms": 17,
+     "detail": "HTTP 200, app 0.36.2-dev, input driver installed True"
+    },
+    "verify-input-driver": {
+     "status": "PASS",
+     "ms": 80,
+     "detail": "EightMaxInput.exe started and accepted the session (running, not crashed, emergency-stop hotkey Ctrl+Alt+F12)"
+    },
+    "authenticated-shutdown": {
+     "status": "PASS",
+     "ms": 2,
+     "detail": "HTTP 200 (shutdown accepted)"
+    },
+    "verify-process-termination": {
+     "status": "PASS",
+     "ms": 21,
+     "detail": "host exited (exit code 0) after 0 s; no input driver left"
+    },
+    "verify-port-release": {
+     "status": "PASS",
+     "ms": 2,
+     "detail": "free after 2 ms"
+    }
+   }
+  },
+  {
+   "id": "old-key",
+   "case": "an old (Milestone 2) cache key is never reused",
+   "result": "PASS",
+   "launchMethod": "CreateProcess",
+   "startPath": "cache",
+   "operations": {
+    "check-existing-processes": {
+     "status": "PASS",
+     "ms": 8,
+     "detail": "no EightMax program is running"
+    },
+    "check-port": {
+     "status": "PASS",
+     "ms": 1,
+     "detail": "free"
+    },
+    "prepare-directories": {
+     "status": "PASS",
+     "ms": 2,
+     "detail": "case folder ready: D:\\a\\_temp\\m31-full\\Milestone3.1-20261123-225447-full\\host-start\\06-old-key"
+    },
+    "launch-startup-script": {
+     "status": "PASS",
+     "ms": 135,
+     "detail": "started powershell.exe pid 2768"
+    },
+    "launch-desktop-host": {
+     "status": "PASS",
+     "ms": 1614,
+     "detail": "host pid 7136 launched (CreateProcess, path cache); start-up script finished in 1.6 s"
+    },
+    "wait-readiness": {
+     "status": "PASS",
+     "ms": 1,
+     "detail": "ready after 0 s"
+    },
+    "read-session-file": {
+     "status": "PASS",
+     "ms": 5,
+     "detail": "session of host pid 7136, app 0.36.2-dev"
+    },
+    "verify-health": {
+     "status": "PASS",
+     "ms": 20,
+     "detail": "HTTP 200, app 0.36.2-dev, input driver installed True"
+    },
+    "verify-input-driver": {
+     "status": "PASS",
+     "ms": 77,
+     "detail": "EightMaxInput.exe started and accepted the session (running, not crashed, emergency-stop hotkey Ctrl+Alt+F12)"
+    },
+    "authenticated-shutdown": {
+     "status": "PASS",
+     "ms": 2,
+     "detail": "HTTP 200 (shutdown accepted)"
+    },
+    "verify-process-termination": {
+     "status": "PASS",
+     "ms": 21,
+     "detail": "host exited (exit code 0) after 0 s; no input driver left"
+    },
+    "verify-port-release": {
+     "status": "PASS",
+     "ms": 2,
+     "detail": "free after 2 ms"
+    }
+   }
+  },
+  {
+   "id": "build-only",
+   "case": "build-only compiles or reuses without launching",
+   "result": "PASS",
+   "launchMethod": null,
+   "startPath": "cache",
+   "operations": {
+    "check-existing-processes": {
+     "status": "PASS",
+     "ms": 7,
+     "detail": "no EightMax program is running"
+    },
+    "check-port": {
+     "status": "PASS",
+     "ms": 1,
+     "detail": "free"
+    },
+    "prepare-directories": {
+     "status": "PASS",
+     "ms": 2,
+     "detail": "case folder ready: D:\\a\\_temp\\m31-full\\Milestone3.1-20261123-225447-full\\host-start\\07-build-only"
+    },
+    "launch-startup-script": {
+     "status": "PASS",
+     "ms": 129,
+     "detail": "started powershell.exe pid 5244"
+    },
+    "launch-desktop-host": {
+     "status": "PASS",
+     "ms": 1664,
+     "detail": "built without launching: path cache, launched False"
+    },
+    "wait-readiness": {
+     "status": "SKIPPED",
+     "ms": 1,
+     "detail": "not run: a build-only case starts no host"
+    },
+    "read-session-file": {
+     "status": "SKIPPED",
+     "ms": 0,
+     "detail": "not run: a build-only case starts no host"
+    },
+    "verify-health": {
+     "status": "SKIPPED",
+     "ms": 0,
+     "detail": "not run: a build-only case starts no host"
+    },
+    "verify-input-driver": {
+     "status": "SKIPPED",
+     "ms": 0,
+     "detail": "not run: a build-only case starts no host"
+    },
+    "authenticated-shutdown": {
+     "status": "SKIPPED",
+     "ms": 0,
+     "detail": "not run: a build-only case starts no host"
+    },
+    "verify-process-termination": {
+     "status": "PASS",
+     "ms": 19,
+     "detail": "no input driver left"
+    },
+    "verify-port-release": {
+     "status": "PASS",
+     "ms": 2,
+     "detail": "free after 2 ms"
+    }
+   }
+  }
+ ]
+}
