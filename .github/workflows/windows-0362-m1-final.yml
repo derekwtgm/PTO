@@ -1,0 +1,111 @@
+name: EightMax 0.36.2 Milestone 1 - package and re-verify the final ZIP on Windows
+# Takes the candidate tree built and tested by windows-0362-m1.yml (run id in milestone-1/final/BUILD-RUN-ID), adds the final
+# report files, packages EightMax-Test-Workbench-0.36.2-Milestone-1.zip, then extracts THAT ZIP into a fresh folder and reruns
+# the focused Milestone 1 checks with Python and Node removed from PATH (normal operation uses only the bundled runtimes).
+# Nothing is recompiled here: the executables must be byte-identical to the build run's evidence.
+on:
+  push:
+    branches: [milestone-1-0362]
+    paths: ['milestone-1/final/**']
+  workflow_dispatch:
+permissions:
+  contents: write   # only to publish the final ZIP and its verification to its own m1-final/<run id> branch
+  actions: read
+jobs:
+  package-and-verify:
+    runs-on: windows-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Read build run id
+        shell: pwsh
+        run: |
+          $id = (Get-Content milestone-1/final/BUILD-RUN-ID -Raw).Trim(); if ($id -notmatch '^\d+$') { throw 'bad run id' }
+          "BUILD_RUN_ID=$id" >> $env:GITHUB_ENV; "CANDIDATE_SHA256=$((Get-Content milestone-1/final/CANDIDATE-SHA256 -Raw).Trim())" >> $env:GITHUB_ENV
+      - uses: actions/download-artifact@v4
+        with:
+          name: eightmax-0362-m1-candidate
+          path: ${{ runner.temp }}/candidate
+          run-id: ${{ env.BUILD_RUN_ID }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Verify candidate, add final report files, package the final ZIP
+        shell: pwsh
+        run: |
+          $L = "$env:RUNNER_TEMP\logs"; New-Item -ItemType Directory -Force $L | Out-Null
+          $zip = "$env:RUNNER_TEMP\candidate\EightMax-0.36.2-M1-candidate.zip"; $h = (Get-FileHash $zip).Hash.ToLowerInvariant()
+          "candidate from run $env:BUILD_RUN_ID sha256 $h (expected $env:CANDIDATE_SHA256)" | Tee-Object "$L\package.log"; if ($h -ne $env:CANDIDATE_SHA256) { throw 'candidate checksum mismatch' }
+          python -I -c "import zipfile,sys; zipfile.ZipFile(sys.argv[1]).extractall(sys.argv[2])" $zip "$env:RUNNER_TEMP\pkg"
+          $W = "$env:RUNNER_TEMP\pkg\EightMax-Test-Workbench"; . "$W\windows\Common.ps1"; $f = @(Get-WorkbenchHashFailures $W); "candidate manifest failures: $($f.Count)" | Tee-Object -Append "$L\package.log"; if ($f.Count) { throw ($f -join '; ') }
+          $before = @{}; foreach ($e in Get-ChildItem "$W\desktop\bin\*.exe", "$W\native\mwcli.exe", "$W\runtime\node\node.exe") { $before[$e.FullName] = (Get-FileHash $e.FullName).Hash }
+          python -I -c "import shutil,sys; shutil.copytree(sys.argv[1], sys.argv[2], dirs_exist_ok=True)" milestone-1/final/package $W
+          foreach ($k in $before.Keys) { if ((Get-FileHash $k).Hash -ne $before[$k]) { throw "executable changed while packaging: $k" } }
+          Push-Location $W; python -I tools/release-manifest-0362.py | Tee-Object -Append "$L\package.log"; Pop-Location
+          New-Item -ItemType Directory -Force "$env:RUNNER_TEMP\final" | Out-Null
+          python -I "$W\tools\package-0361.py" "$env:RUNNER_TEMP\final\EightMax-Test-Workbench-0.36.2-Milestone-1.zip" | Tee-Object -Append "$L\package.log"
+          $fh = (Get-FileHash "$env:RUNNER_TEMP\final\EightMax-Test-Workbench-0.36.2-Milestone-1.zip").Hash.ToLowerInvariant()
+          "$fh  EightMax-Test-Workbench-0.36.2-Milestone-1.zip" | Out-File -Encoding ascii "$env:RUNNER_TEMP\final\EightMax-Test-Workbench-0.36.2-Milestone-1.zip.sha256"
+      - name: Set the runner desktop to 1920x1080 (test environment only; matches the earlier 0.35 Windows CI)
+        shell: powershell
+        run: |
+          Add-Type -TypeDefinition @"
+          using System; using System.Runtime.InteropServices;
+          public static class EmDisplay {
+            [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)] public struct DEVMODE {
+              [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)] public string dmDeviceName; public short dmSpecVersion, dmDriverVersion, dmSize, dmDriverExtra;
+              public int dmFields, dmPositionX, dmPositionY, dmDisplayOrientation, dmDisplayFixedOutput; public short dmColor, dmDuplex, dmYResolution, dmTTOption, dmCollate;
+              [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)] public string dmFormName; public short dmLogPixels;
+              public int dmBitsPerPel, dmPelsWidth, dmPelsHeight, dmDisplayFlags, dmDisplayFrequency, dmICMMethod, dmICMIntent, dmMediaType, dmDitherType, dmReserved1, dmReserved2, dmPanningWidth, dmPanningHeight; }
+            [DllImport("user32.dll")] static extern bool EnumDisplaySettings(string d, int m, ref DEVMODE dm);
+            [DllImport("user32.dll")] static extern int ChangeDisplaySettings(ref DEVMODE dm, int f);
+            public static int Set(int w, int h) { DEVMODE dm = new DEVMODE(); dm.dmSize = (short)Marshal.SizeOf(typeof(DEVMODE)); EnumDisplaySettings(null, -1, ref dm); dm.dmPelsWidth = w; dm.dmPelsHeight = h; dm.dmFields = 0x80000 | 0x100000; return ChangeDisplaySettings(ref dm, 0); }
+          }
+          "@
+          $r = [EmDisplay]::Set(1920, 1080); Start-Sleep -Seconds 2; Add-Type -AssemblyName System.Windows.Forms
+          "ChangeDisplaySettings returned $r; virtual screen now $([System.Windows.Forms.SystemInformation]::VirtualScreen)" | Tee-Object "$env:RUNNER_TEMP\logs\display.log"
+      - name: Extract the final ZIP into a fresh folder and rerun the focused checks (no Python/Node on PATH)
+        shell: pwsh
+        run: |
+          $dest = 'C:\EightMax-M1-final-check'; if (Test-Path $dest) { Remove-Item -Recurse -Force $dest }
+          Expand-Archive "$env:RUNNER_TEMP\final\EightMax-Test-Workbench-0.36.2-Milestone-1.zip" -DestinationPath $dest
+          $W = "$dest\EightMax-Test-Workbench"
+          $env:PATH = "$env:SystemRoot\System32;$env:SystemRoot;$env:SystemRoot\System32\Wbem;$env:SystemRoot\System32\WindowsPowerShell\v1.0"
+          $env:NODE_PATH = $null; $env:PYTHONHOME = $null
+          $tools = @('python','python3','node','npm','dotnet','csc') | ForEach-Object { $c = Get-Command $_ -ErrorAction SilentlyContinue; "$_ -> $(if ($c) { $c.Source } else { 'not on PATH' })" }
+          $tools | Tee-Object "$env:RUNNER_TEMP\logs\final-path.log"
+          & "$env:SystemRoot\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -ExecutionPolicy Bypass -File "$W\windows\Test-Milestone1-0362.ps1" -OutDir "$env:RUNNER_TEMP\final-check" -WithInputSelfTest 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP\logs\final-milestone1-test.log"
+          $code = $LASTEXITCODE
+          & "$W\runtime\node\node.exe" "$W\tools\input-acceptance-035.cjs" --out "$env:RUNNER_TEMP\final-check\input-acceptance.json" --oracle-dir "$env:RUNNER_TEMP\final-oracle" *> "$env:RUNNER_TEMP\logs\final-input-acceptance.log"
+          $acc = $LASTEXITCODE; Get-Content "$env:RUNNER_TEMP\logs\final-input-acceptance.log" | Select-Object -Last 5
+          if ($code -ne 0) { throw "final-ZIP Milestone 1 checks failed (exit $code)" }; if ($acc -ne 0) { throw "final-ZIP input acceptance failed (exit $acc)" }
+      - name: Publish the final ZIP and its verification to the m1-final/<run id> branch
+        if: always()
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $R = "$env:RUNNER_TEMP\publish"; New-Item -ItemType Directory -Force "$R\logs", "$R\final-check" | Out-Null
+          Copy-Item "$env:RUNNER_TEMP\final\*" $R -Force -ErrorAction SilentlyContinue; Copy-Item "$env:RUNNER_TEMP\logs\*" "$R\logs" -Force -ErrorAction SilentlyContinue
+          if (Test-Path "$env:RUNNER_TEMP\final-check") { Get-ChildItem "$env:RUNNER_TEMP\final-check" -File | Where-Object { $_.Name -notlike '*-session.json' } | Copy-Item -Destination "$R\final-check" -Force }
+          Set-Location $R; "* -text" | Out-File -Encoding ascii .gitattributes
+          git init -q; git config user.name "github-actions"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A; git commit -q -m "Milestone 1 final ZIP and re-verification from run $env:GITHUB_RUN_ID"
+          git push -q "https://x-access-token:$env:GH_TOKEN@github.com/$env:GITHUB_REPOSITORY.git" "HEAD:refs/heads/m1-final/$env:GITHUB_RUN_ID"
+          foreach ($x in Get-ChildItem "$R\logs" -File) { "===== $($x.Name)"; Get-Content $x.FullName -Tail 200 }
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: EightMax-Test-Workbench-0.36.2-Milestone-1
+          path: |
+            ${{ runner.temp }}/final
+          compression-level: 0
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eightmax-0362-m1-final-verification
+          path: |
+            ${{ runner.temp }}/logs
+            ${{ runner.temp }}/final-check
+            !${{ runner.temp }}/final-check/*-session.json

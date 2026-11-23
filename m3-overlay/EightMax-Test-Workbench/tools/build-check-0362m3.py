@@ -30,7 +30,10 @@ targets = {
 mcs = subprocess.run(['mcs', '--version'], capture_output=True, text=True).stdout.strip()
 out = {'format': 'eightmax-build-check', 'version': 2, 'milestone': '0.36.2-milestone-3', 'at': datetime.datetime.now(datetime.timezone.utc).isoformat(),
        'buildHost': 'Linux (Mono cross-compilation check; outputs discarded) - NOT a Windows build', 'compiler': mcs, 'referenceAssemblies': A + ' (.NET Framework 4.8 API)',
-       'shippedBinariesRebuilt': False, 'reason': 'Milestone 3 changes no C# source; the shipped executables are the Windows-built Milestone 1 binaries (evidence/build-evidence.json, GitHub Actions run 45083913369). The fallback-compile repair is in windows/Start-Desktop.ps1 (PowerShell).',
+       # 0.36.2 M3: the executables rebuilt ON WINDOWS for this milestone come from release-0362-m3.json (rebuiltExecutables); this Mono
+       # check only compiles the sources (outputs discarded) and compares every shipped binary with its Windows build record
+       'shippedBinariesRebuilt': sorted((json.loads((root / 'release-0362-m3.json').read_text()).get('rebuiltExecutables') or {}).keys()),
+       'reason': 'Milestone 3 changes one C# source (desktop/input/Driver.cs): EightMaxInput.exe was rebuilt on Windows by the CI build job (record: evidence/build-evidence.json, evidence/0.36.2-m3/driver-build/); every other executable is the unchanged Windows-built Milestone 1 binary (GitHub Actions run 45083913369). The fallback-compile repair is in windows/Start-Desktop.ps1 (PowerShell).',
        'components': {}, 'fallbackCompile': {}}
 tmp = pathlib.Path(tempfile.mkdtemp(prefix='em-m3-build-'))
 def mono(flags, srcs, name):

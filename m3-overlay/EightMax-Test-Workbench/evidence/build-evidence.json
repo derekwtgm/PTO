@@ -1,0 +1,106 @@
+{
+  "appVersion": "0.36.2-dev",
+  "format": "eightmax-build-evidence",
+  "version": 1,
+  "builtAt": "2026-11-22T23:34:09.4815999Z",
+  "buildHost": "Windows: Microsoft Windows Server 2025 Datacenter 10.0.26100 build 26100",
+  "ci": {
+    "runId": "45083913369",
+    "runner": "GitHub Actions 1000000174",
+    "repository": "derekwtgm/PTO",
+    "sha": "5063e9616d08820a35a0d17505d064489a643c54"
+  },
+  "outputs": {
+    "desktop/bin/EightMaxWorkbench.exe": {
+      "sha256": "845578b9a6596009e68ce6f182d47ae20ddd511f58b9c37a3d4b12e1c7f32290",
+      "compiler": "Microsoft (R) Visual C# Compiler version 4.8.9221.0 (.NET Framework 4.x, /langversion:5 /platform:x64 /optimize+)",
+      "sources": [
+        "desktop/DesktopHost.cs",
+        "desktop/CaptureService.cs",
+        "desktop/InputBroker.cs"
+      ],
+      "crossCompiled": false,
+      "sourceHashes": {
+        "desktop/DesktopHost.cs": "9ddd7c5098078574127dc199230e60a3596af2249dc51dba6ad064526a00e57a",
+        "desktop/CaptureService.cs": "a1b018b05ea44c8abc4f3f2affad369ee5c376a4766afd3d2cf15c83e63faa2c",
+        "desktop/InputBroker.cs": "97f1e7227c60f3a5fbbcf41b985ff3648f0aeff3b529b59e9c71e9b5709ba017"
+      }
+    },
+    "desktop/bin/EightMaxCapture.exe": {
+      "sha256": "8180c32910bfd1d5053c42f8c9ccf484bb6146022dc1284e45dbbde622124da0",
+      "compiler": "Microsoft (R) Visual C# Compiler version 4.8.9221.0 (.NET Framework 4.x)",
+      "sources": [
+        "desktop/capture/EightMaxCapture.cs",
+        "desktop/CaptureService.cs"
+      ],
+      "crossCompiled": false,
+      "sourceHashes": {
+        "desktop/capture/EightMaxCapture.cs": "f939c2dbcb721d0f2eb5456b9566d778ff9e06cf913af61e09a93a928cea52a6",
+        "desktop/CaptureService.cs": "a1b018b05ea44c8abc4f3f2affad369ee5c376a4766afd3d2cf15c83e63faa2c"
+      }
+    },
+    "desktop/bin/EightMaxInput.exe": {
+      "sha256": "2c4d7b739ceb617925600c663848d51d21570d5fe566e10fa15713d6d390c91c",
+      "compiler": "Microsoft (R) Visual C# Compiler version 4.8.9221.0 (.NET Framework 4.x, /define:UIA, UIAutomationClient)",
+      "sources": [
+        "desktop/input/Driver.cs",
+        "desktop/input/Motion.cs",
+        "desktop/input/Platform.cs",
+        "desktop/input/Program.cs",
+        "desktop/input/Safety.cs",
+        "desktop/input/Uia.cs"
+      ],
+      "crossCompiled": false,
+      "sourceHashes": {
+        "desktop/input/Driver.cs": "503f153914543c5c84ae1737342ea257bce5a9bf772586723b5a9dcf9193d107",
+        "desktop/input/Motion.cs": "0eea332e21ac2b5ea8713427f17a56c6299aa42f2afce5fea2e699bab8fd2848",
+        "desktop/input/Platform.cs": "2211a2b38785e5238735fd41c79a0046cdb528788ae3afb1dcfbacb4b7a43605",
+        "desktop/input/Program.cs": "4cad506cb945d74cf3c67f78fc5a2df42484c8d1d99144a4b40c66bd23fd3669",
+        "desktop/input/Safety.cs": "678223148e17a04ca9e8abaf0c187997214a2f0113c8b11582e99abc21b476bd",
+        "desktop/input/Uia.cs": "63adbb47cdadf5e1cf0957bc170e7495a217243f3b54541c06c2984def7ad7ce"
+      },
+      "rebuiltIn": {
+        "milestone": "0.36.2-milestone-3",
+        "reason": "desktop/input/Driver.cs changed (cursor bookkeeping after an operation the driver stopped part-way; Windows CI run 45203097931)",
+        "ci": {
+          "runId": "45216843075",
+          "runner": "GitHub Actions 1000000182",
+          "repository": "derekwtgm/PTO",
+          "sha": "74378647fa128d70e939569ea4d338d166fdcfa8"
+        },
+        "builtAt": "2026-11-23T16:28:31.8996693Z",
+        "buildHost": "Windows: Microsoft Windows Server 2025 Datacenter 10.0.26100 build 26100",
+        "script": "windows\\Build-Executables.ps1 -SkipWgc",
+        "replaces": "93867a03f43534d65d41853901b706bb892456894cb118f89b5d4a80bce71da1"
+      }
+    },
+    "desktop/bin/EightMaxTestTable.exe": {
+      "sha256": "3e5a76995a24d169336179e7e3805ddeb57271d951029226b43653c217464348",
+      "compiler": "Microsoft (R) Visual C# Compiler version 4.8.9221.0 (.NET Framework 4.x)",
+      "sources": [
+        "desktop/testtable/EightMaxTestTable.cs"
+      ],
+      "crossCompiled": false,
+      "sourceHashes": {
+        "desktop/testtable/EightMaxTestTable.cs": "4610f42b2b634ab085859ffe1da13093fec9e04648dc1b0e9d6ed42978455ab1"
+      }
+    }
+  },
+  "rebuilds": [
+    {
+      "milestone": "0.36.2-milestone-3",
+      "outputs": [
+        "desktop/bin/EightMaxInput.exe"
+      ],
+      "ci": {
+        "runId": "45216843075",
+        "runner": "GitHub Actions 1000000182",
+        "repository": "derekwtgm/PTO",
+        "sha": "74378647fa128d70e939569ea4d338d166fdcfa8"
+      },
+      "builtAt": "2026-11-23T16:28:31.8996693Z",
+      "buildHost": "Windows: Microsoft Windows Server 2025 Datacenter 10.0.26100 build 26100",
+      "note": "Only EightMaxInput.exe was taken from this build; the other executables are unchanged Milestone 1 Windows builds (their sources did not change), whose entries above keep the Milestone 1 build record."
+    }
+  ]
+}

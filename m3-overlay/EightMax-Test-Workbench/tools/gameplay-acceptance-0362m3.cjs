@@ -180,11 +180,11 @@ const ACCEPTANCE = {
 /* ---------------- stability (N tables) and campaign: tournaments one after another, with faults ---------------- */
 async function playSlots(env, n, o) {
   const fx = env.fixture(n, { stacks: o.stacks, ...GAP, width: 800, layout: n > 4 ? 'cascade' : 'grid' });
-  const sc = new Scope('slots'); sc.onCleanup(() => fx.stop()); const ws = await fx.ready(), rec = new XA.DiagnosticsRecorder({ max: 50000 }), sched = new SCH.InputScheduler({ maxQueue: 32, onCancel: () => env.session.request('cancel-all') });
+  const sc = new Scope('slots'), outer = M2.currentScope(); sc.onCleanup(() => fx.stop()); const ws = await fx.ready(), rec = new XA.DiagnosticsRecorder({ max: 50000 }); if (outer) outer.recorder(rec); const sched = new SCH.InputScheduler({ maxQueue: 32, onCancel: () => env.session.request('cancel-all') });
   const arm = await env.session.request('arm'); if (!arm.ok) throw new Error('arm refused: ' + arm.error);
   const slots = ws.map((w) => ({ w, t: null, run: null, generation: 0, tournaments: [], estopInputs: 0, facts: [] })), faults = { closeReopen: 0, estop: 0 }, violations = [];
   let stopAll = false, completedHands = 0;
-  const start = async (sl) => { const r = await M2.register(env, sl.w); const t = M2.table(env, sl.w, r, sched, rec, { options: tableOpts }); const op = await t.capture.open(); if (!op || op.ok !== true) throw new Error('capture refused'); const facts = new Map(); sl.facts.push(facts); observeHands(t, facts); sl.t = sc.table(t); sl.run = sc.run(t.run(Infinity)); sl.startedAt = mono(); sl.lastConfirmed = 0; sl.lastProgress = mono(); };
+  const start = async (sl) => { const r = await M2.register(env, sl.w); const t = M2.table(env, sl.w, r, sched, rec, { options: tableOpts }); const op = await t.capture.open(); if (!op || op.ok !== true) throw new Error('capture refused'); const facts = new Map(); sl.facts.push(facts); observeHands(t, facts); sl.t = sc.table(t); if (outer) outer.watch(t); sl.run = sc.run(t.run(Infinity)); sl.startedAt = mono(); sl.lastConfirmed = 0; sl.lastProgress = mono(); };
   const finish = async (sl, why) => {   // record the tournament, retire the table window, open a fresh one (new tournament, new registration)
     const t = sl.t; t.stop(why); await settleWithin(sl.run, 15000); t.dispose(); const list = await fx.oracle(true), orc = oracleFor(list, sl.w), x = crossCheck(t, orc);
     const hands = orc ? orc.hands - (orc.state.status === 'playing' ? 1 : 0) : 0; completedHands += Math.max(0, hands);
@@ -274,7 +274,8 @@ async function main() {
       catch (e) { timedOut = e.code === 'ETIMEOUT'; r = { checks: [{ name: timedOut ? 'scenario finished within its time limit' : 'scenario ran to completion', pass: false, detail: e.stack ? e.stack.split('\n').slice(0, 3).join(' | ') : String(e) }] }; }
       if (timedOut) scope.aborted = true; await scope.cleanup(timedOut ? 'time limit' : 'finished'); if (timedOut) await settleWithin(work, 30000); M2.setScope(null);
       env.hooks.onRequest = null; const status = r.checks.length && r.checks.every((c) => c.pass) ? 'pass' : 'fail';
-      out.scenarios.push({ id, name, status, durationMs: Math.round(mono() - ts), timedOut, checks: r.checks, metrics: r.metrics || null });
+      let diag = null; if (status === 'fail') { try { diag = 'diag-' + SUITE + '-' + id + '.json'; fs.writeFileSync(path.join(M2.WORK, diag), JSON.stringify(M2.diagnosticsDump(scope), null, 1)); } catch (e) { diag = 'not written: ' + e.message; } }
+      out.scenarios.push({ id, name, status, durationMs: Math.round(mono() - ts), timedOut, checks: r.checks, metrics: r.metrics || null, ...(diag ? { diagnostics: diag } : {}) });
       for (const c of r.checks) console.log('  [' + (c.pass ? 'PASS' : 'FAIL') + '] ' + c.name + (c.detail !== null && c.detail !== undefined ? ' - ' + (typeof c.detail === 'string' ? c.detail : JSON.stringify(c.detail)).slice(0, 200) : ''));
       console.log('  => ' + status.toUpperCase() + ' (' + Math.round((mono() - ts) / 1000) + ' s)');
     }

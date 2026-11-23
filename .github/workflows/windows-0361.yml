@@ -1,0 +1,64 @@
+name: Windows 0.36.1 build and regression
+on:
+  workflow_dispatch:
+  push:
+    branches: [development-0361]
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build affected Windows executables
+        shell: powershell
+        run: ./windows/Build-Executables.ps1 -SkipWgc
+      - name: Install browser test dependencies outside release
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force "$env:RUNNER_TEMP/em-browser" | Out-Null
+          Set-Location "$env:RUNNER_TEMP/em-browser"
+          npm install playwright
+          npx playwright install chromium
+          "NODE_PATH=$env:RUNNER_TEMP/em-browser/node_modules" >> $env:GITHUB_ENV
+          $chrome = node -e "console.log(require('playwright').chromium.executablePath())"
+          "CHROME_PATH=$chrome" >> $env:GITHUB_ENV
+      - name: Rebuild dashboard and manifest
+        shell: pwsh
+        run: |
+          python tools/build.py
+          python tools/make-components.py
+          python tools/release-manifest-0361.py
+      - name: Verify engine and run regression suite
+        shell: pwsh
+        run: |
+          $id = & ./native/mwcli.exe --build-id
+          if ($LASTEXITCODE -ne 0 -or $id -ne 'EightMaxBuild=7d08acc7eb4577ee') { throw 'Engine identity failed' }
+          $env:EIGHTMAX_TEST_CLI = (Resolve-Path native/mwcli.exe).Path
+          node --test tests/*.test.cjs *> "$env:RUNNER_TEMP/regression-0361.log"
+          if ($LASTEXITCODE -ne 0) { throw 'Regression failed; inspect uploaded log' }
+      - name: Package candidate and evidence
+        if: always()
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force evidence/0.36.1/windows | Out-Null
+          if (Test-Path "$env:RUNNER_TEMP/regression-0361.log") { Copy-Item "$env:RUNNER_TEMP/regression-0361.log" evidence/0.36.1/windows/ }
+          python tools/release-manifest-0361.py
+          python tools/package-0361.py "$env:RUNNER_TEMP/EightMax-0.36.1-Windows-Candidate.zip"
+          Get-FileHash "$env:RUNNER_TEMP/EightMax-0.36.1-Windows-Candidate.zip" | Format-List | Out-File "$env:RUNNER_TEMP/candidate-sha256.txt"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: windows-0361-candidate-and-evidence
+          path: |
+            ${{ runner.temp }}/EightMax-0.36.1-Windows-Candidate.zip
+            ${{ runner.temp }}/candidate-sha256.txt
+            ${{ runner.temp }}/regression-0361.log
+# Build/regression evidence only. This workflow does not certify interactive Windows gameplay.

@@ -2,12 +2,14 @@
  "format": "eightmax-build-check",
  "version": 2,
  "milestone": "0.36.2-milestone-3",
- "at": "2026-11-23T16:07:19.002024+00:00",
+ "at": "2026-11-23T16:29:51.472797+00:00",
  "buildHost": "Linux (Mono cross-compilation check; outputs discarded) - NOT a Windows build",
  "compiler": "Mono C# compiler version 6.8.0.105",
  "referenceAssemblies": "/usr/lib/mono/4.8-api (.NET Framework 4.8 API)",
- "shippedBinariesRebuilt": false,
- "reason": "Milestone 3 changes no C# source; the shipped executables are the Windows-built Milestone 1 binaries (evidence/build-evidence.json, GitHub Actions run 45083913369). The fallback-compile repair is in windows/Start-Desktop.ps1 (PowerShell).",
+ "shippedBinariesRebuilt": [
+  "desktop/bin/EightMaxInput.exe"
+ ],
+ "reason": "Milestone 3 changes one C# source (desktop/input/Driver.cs): EightMaxInput.exe was rebuilt on Windows by the CI build job (record: evidence/build-evidence.json, evidence/0.36.2-m3/driver-build/); every other executable is the unchanged Windows-built Milestone 1 binary (GitHub Actions run 45083913369). The fallback-compile repair is in windows/Start-Desktop.ps1 (PowerShell).",
  "components": {
   "desktop/bin/EightMaxWorkbench.exe": {
    "shippedSha256": "845578b9a6596009e68ce6f182d47ae20ddd511f58b9c37a3d4b12e1c7f32290",
@@ -58,13 +60,13 @@
    "ok": true
   },
   "desktop/bin/EightMaxInput.exe": {
-   "shippedSha256": "93867a03f43534d65d41853901b706bb892456894cb118f89b5d4a80bce71da1",
-   "windowsBuildSha256": "93867a03f43534d65d41853901b706bb892456894cb118f89b5d4a80bce71da1",
+   "shippedSha256": "2c4d7b739ceb617925600c663848d51d21570d5fe566e10fa15713d6d390c91c",
+   "windowsBuildSha256": "2c4d7b739ceb617925600c663848d51d21570d5fe566e10fa15713d6d390c91c",
    "binaryIdenticalToWindowsBuild": true,
    "sources": {
     "desktop/input/Driver.cs": {
      "sha256": "503f153914543c5c84ae1737342ea257bce5a9bf772586723b5a9dcf9193d107",
-     "matchesWindowsBuildEvidence": false
+     "matchesWindowsBuildEvidence": true
     },
     "desktop/input/Motion.cs": {
      "sha256": "0eea332e21ac2b5ea8713427f17a56c6299aa42f2afce5fea2e699bab8fd2848",
@@ -94,7 +96,7 @@
     "errors": [],
     "note": "without /define:UIA (UI Automation reference assemblies are Windows-only)"
    },
-   "ok": false
+   "ok": true
   },
   "desktop/bin/EightMaxTestTable.exe": {
    "shippedSha256": "3e5a76995a24d169336179e7e3805ddeb57271d951029226b43653c217464348",
@@ -174,5 +176,5 @@
   "build": "7d08acc7eb4577ee",
   "unchanged": true
  },
- "ok": false
+ "ok": true
 }

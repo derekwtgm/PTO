@@ -43,8 +43,10 @@ async function withTimeout(work, ms, label) { const t = timeout(ms, label); try 
 async function settleWithin(work, ms) { const t = timeout(ms, 'settle'); try { await Promise.race([Promise.resolve(work).then(() => 'done', () => 'done'), t.promise]); return 'done'; } catch (e) { return 'timeout'; } finally { t.cancel(); } }
 /** Everything a scenario starts is registered here so it can be cleaned up after success, failure or timeout. */
 class Scope {
-  constructor(id) { this.id = id; this.tables = []; this.runs = []; this.cleanups = []; this.aborted = false; this.cleaned = false; }
+  constructor(id) { this.id = id; this.tables = []; this.runs = []; this.cleanups = []; this.aborted = false; this.cleaned = false; this.recorders = []; this.watched = []; }
   table(t) { this.tables.push(t); return t; }
+  recorder(rec) { this.recorders.push(rec); return rec; }   // 0.36.2 M3: kept for the failure dump (diagnosticsDump)
+  watch(t) { this.watched.push(t); return t; }              // a table another scope owns, included in the failure dump
   run(p) { this.runs.push(p); return p; }
   onCleanup(fn) { this.cleanups.push(fn); }
   async cleanup(reason) {
@@ -56,6 +58,14 @@ class Scope {
   }
 }
 let SCOPE = null;   // the running scenario's scope (scenarios run one at a time)
+/** 0.36.2 M3: what a FAILED scenario leaves for diagnosis (written next to the fixtures' oracle files, so it reaches the CI results branch):
+ * each table's lifecycle / gameplay condition / tracking status and the last diagnostics events of every recorder it used. */
+function diagnosticsDump(scope) {
+  const tables = scope.tables.concat(scope.watched).filter((t, i, a) => a.indexOf(t) === i).map((t) => { const q = (f) => { try { return f(); } catch (e) { return 'unavailable: ' + e.message; } };
+    return { table: t.id, hwnd: t.win && t.win.hwnd, lifecycle: q(() => t.lc.state), cause: q(() => t.lc.cause), gameplay: q(() => t.gameplay), tracking: q(() => t.engine.trackingStatus()), tournament: q(() => t.engine.tournamentStatus()),
+      lastConfirm: t._lastConfirm || null, counts: q(() => Object.fromEntries(Object.entries(t.m).filter(([, v]) => typeof v === 'number'))), rejections: q(() => t.engine.rejections.slice(-20)) }; });
+  return { scenario: scope.id, at: new Date().toISOString(), tables, recorders: scope.recorders.map((r) => ({ counts: r.counts, failureTotals: r.failureTotals, dropped: r.dropped, suppressed: r.suppressed, events: r.events.slice(-300) })) };
+}
 const T = FAKE ? { ack: 800, poll: 5, idle: 5, retryBase: 40, retryMax: 320, settle: 400, scale: 0.25 } : { ack: 4000, poll: 60, idle: 120, retryBase: 250, retryMax: 4000, settle: 3000, scale: 1 };
 fs.mkdirSync(WORK, { recursive: true });
 
@@ -146,7 +156,7 @@ function table(env, w, r, sched, rec, o = {}) {
 }
 async function until(pred, ms, step = 25) { const end = mono() + ms; while (mono() < end) { if (SCOPE && SCOPE.aborted) return !!pred(); if (pred()) return true; await sleep(step); } return !!pred(); }
 async function setup(env, n, o = {}) {
-  const fx = env.fixture(n, o); if (SCOPE) SCOPE.onCleanup(() => fx.stop()); const ws = await fx.ready(), rec = new XA.DiagnosticsRecorder({ max: 20000 }), sched = new SCH.InputScheduler({ maxQueue: 16, onCancel: () => env.session.request('cancel-all') });
+  const fx = env.fixture(n, o); if (SCOPE) SCOPE.onCleanup(() => fx.stop()); const ws = await fx.ready(), rec = SCOPE ? SCOPE.recorder(new XA.DiagnosticsRecorder({ max: 20000 })) : new XA.DiagnosticsRecorder({ max: 20000 }), sched = new SCH.InputScheduler({ maxQueue: 16, onCancel: () => env.session.request('cancel-all') });
   const regs = [], tables = []; for (const w of ws) { const r = await register(env, w); regs.push(r); const t = table(env, w, r, sched, rec, o); const op = await t.capture.open(); if (!op || op.ok !== true) throw new Error('capture refused: ' + JSON.stringify(op)); tables.push(t); }
   const arm = await env.session.request('arm'); if (!arm.ok) throw new Error('arm refused: ' + arm.error);
   if (o.beforeRun) await o.beforeRun(fx, ws, tables);   // 0.36.2 M3: e.g. an action made before automation starts reading
@@ -328,7 +338,8 @@ async function main() {
       if (timedOut) { const s2 = await settleWithin(work, 30000); r.checks.push({ name: 'timed-out scenario stopped after cleanup', pass: s2 === 'done', detail: s2 }); }
       SCOPE = null;
       env.hooks.onRequest = null; const status = r.checks.length && r.checks.every((c) => c.pass) ? 'pass' : 'fail';
-      out.scenarios.push({ id, name, status, durationMs: Math.round(mono() - t0), timedOut, checks: r.checks, metrics: r.metrics || null });
+      let diag = null; if (status === 'fail') { try { diag = 'diag-' + id + '.json'; fs.writeFileSync(path.join(WORK, diag), JSON.stringify(diagnosticsDump(scope), null, 1)); } catch (e) { diag = 'not written: ' + e.message; } }
+      out.scenarios.push({ id, name, status, durationMs: Math.round(mono() - t0), timedOut, checks: r.checks, metrics: r.metrics || null, ...(diag ? { diagnostics: diag } : {}) });
       for (const c of r.checks) console.log('  [' + (c.pass ? 'PASS' : 'FAIL') + '] ' + c.name + (c.detail !== null && c.detail !== undefined ? ' — ' + (typeof c.detail === 'string' ? c.detail : JSON.stringify(c.detail)).slice(0, 160) : ''));
       console.log('  => ' + status.toUpperCase() + ' (' + Math.round((mono() - t0) / 1000) + ' s)');
     }
@@ -348,5 +359,5 @@ async function main() {
   process.exitCode = out.overall === 'PASS' ? 0 : 1;
 }
 // 0.36.2 M3: importable (tools/gameplay-acceptance-0362m3.cjs reuses the environments, registration and scenario helpers)
-module.exports = { windowsEnv, fakeEnv, register, table, setup, grade, checker, until, since, withTimeout, settleWithin, Scope, setScope: (sc) => { SCOPE = sc; }, CHILDREN, T, MOTION, FAKE, ROOT, SCENARIOS };
+module.exports = { windowsEnv, fakeEnv, register, table, setup, grade, checker, until, since, withTimeout, settleWithin, Scope, setScope: (sc) => { SCOPE = sc; }, currentScope: () => SCOPE, diagnosticsDump, WORK, CHILDREN, T, MOTION, FAKE, ROOT, SCENARIOS };
 if (require.main === module) main().catch((e) => { console.error(e.stack); process.exitCode = 1; });

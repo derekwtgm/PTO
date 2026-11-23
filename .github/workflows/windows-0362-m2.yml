@@ -1,0 +1,74 @@
+name: EightMax 0.36.2 Milestone 2 - Windows lifecycle verification (real windows)
+# Runs the Milestone 2 Windows tests of the COMPLETE package on a real Windows desktop: PowerShell parse check of every script,
+# release checksums, executable identities, the lifecycle unit tests and the real-window lifecycle acceptance (scenarios A-K:
+# close during capture / movement, restart with a new handle, transient failures, minimise, several tables, emergency stop,
+# repeated loss, identity mismatch, resize, scripted gameplay), exactly as RUN-0362-MILESTONE2-TESTS.cmd does on the target PC.
+# Input: the package ZIP committed next to this workflow (M2_ZIP). Bundled Node only; Python only verifies the ZIP CRC.
+# NOT run in the development environment that produced Milestone 2 (no Windows runner was available there): see REPORT-0.36.2-Milestone-2.md.
+on:
+  workflow_dispatch:
+  push:
+    branches: [milestone-2-0362]
+    paths: ['.github/workflows/windows-0362-m2.yml', 'EightMax-Test-Workbench-0.36.2-Milestone-2.zip']
+permissions:
+  contents: read
+jobs:
+  lifecycle-windows:
+    runs-on: windows-latest
+    timeout-minutes: 90
+    env:
+      M2_ZIP: EightMax-Test-Workbench-0.36.2-Milestone-2.zip
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify and extract the Milestone 2 package
+        shell: pwsh
+        run: |
+          $L = "$env:RUNNER_TEMP\logs"; New-Item -ItemType Directory -Force $L | Out-Null
+          if (Test-Path "$env:M2_ZIP.sha256") { $want = ((Get-Content "$env:M2_ZIP.sha256") -split '\s+')[0]; $h = (Get-FileHash $env:M2_ZIP -Algorithm SHA256).Hash.ToLowerInvariant(); "package sha256 $h (expected $want)" | Tee-Object "$L\package.log"; if ($h -ne $want) { throw 'package checksum mismatch' } }
+          python -I -c "import zipfile,sys; z=zipfile.ZipFile(sys.argv[1]); bad=z.testzip(); print('zip entries', len(z.namelist()), 'crc', 'ok' if bad is None else bad); sys.exit(bad is not None)" $env:M2_ZIP | Tee-Object -Append "$L\package.log"
+          if ($LASTEXITCODE) { throw 'package CRC failed' }
+          Expand-Archive -Path $env:M2_ZIP -DestinationPath work -Force
+          $W = (Resolve-Path work\EightMax-Test-Workbench).Path; "W=$W" >> $env:GITHUB_ENV
+      - name: Parse every Windows PowerShell script (Windows PowerShell 5.1 parser)
+        shell: powershell
+        run: |
+          $errs = @(); foreach ($f in Get-ChildItem "$env:W\windows","$env:W\native" -Filter *.ps1) { $t = $null; $e = $null; [void][System.Management.Automation.Language.Parser]::ParseFile($f.FullName, [ref]$t, [ref]$e); foreach ($x in $e) { $errs += ($f.Name + ':' + $x.Extent.StartLineNumber + ': ' + $x.Message) } }
+          $errs | Out-File "$env:RUNNER_TEMP\logs\powershell-parse.log"; "parsed; $($errs.Count) errors"
+          if ($errs.Count) { $errs; throw 'PowerShell parse errors' }
+      - name: Set the runner desktop to 1920x1080 (test environment only; matches the earlier 0.35 Windows CI)
+        shell: powershell
+        run: |
+          Add-Type -TypeDefinition @"
+          using System; using System.Runtime.InteropServices;
+          public static class EmDisplay {
+            [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)] public struct DEVMODE {
+              [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)] public string dmDeviceName; public short dmSpecVersion, dmDriverVersion, dmSize, dmDriverExtra;
+              public int dmFields, dmPositionX, dmPositionY, dmDisplayOrientation, dmDisplayFixedOutput; public short dmColor, dmDuplex, dmYResolution, dmTTOption, dmCollate;
+              [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)] public string dmFormName; public short dmLogPixels;
+              public int dmBitsPerPel, dmPelsWidth, dmPelsHeight, dmDisplayFlags, dmDisplayFrequency, dmICMMethod, dmICMIntent, dmMediaType, dmDitherType, dmReserved1, dmReserved2, dmPanningWidth, dmPanningHeight; }
+            [DllImport("user32.dll")] static extern bool EnumDisplaySettings(string d, int m, ref DEVMODE dm);
+            [DllImport("user32.dll")] static extern int ChangeDisplaySettings(ref DEVMODE dm, int f);
+            public static int Set(int w, int h) { DEVMODE dm = new DEVMODE(); dm.dmSize = (short)Marshal.SizeOf(typeof(DEVMODE)); EnumDisplaySettings(null, -1, ref dm); dm.dmPelsWidth = w; dm.dmPelsHeight = h; dm.dmFields = 0x80000 | 0x100000; return ChangeDisplaySettings(ref dm, 0); }
+          }
+          "@
+          $r = [EmDisplay]::Set(1920, 1080); Start-Sleep -Seconds 2; Add-Type -AssemblyName System.Windows.Forms
+          "ChangeDisplaySettings returned $r; virtual screen now $([System.Windows.Forms.SystemInformation]::VirtualScreen)" | Tee-Object "$env:RUNNER_TEMP\logs\display.log"
+      - name: Milestone 2 Windows tests (same script as RUN-0362-MILESTONE2-TESTS.cmd)
+        shell: powershell
+        run: |
+          Set-Location $env:W
+          powershell -NoProfile -ExecutionPolicy Bypass -File windows\Test-Milestone2-0362.ps1 -OutDir "$env:RUNNER_TEMP\m2-results" *> "$env:RUNNER_TEMP\logs\milestone2.log"
+          $code = $LASTEXITCODE; Get-Content "$env:RUNNER_TEMP\logs\milestone2.log"; "exit $code" | Tee-Object -Append "$env:RUNNER_TEMP\logs\milestone2.log"
+          exit $code
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eightmax-0362-m2-windows-results
+          path: |
+            ${{ runner.temp }}\m2-results
+            ${{ runner.temp }}\m2-results.zip
+            ${{ runner.temp }}\logs

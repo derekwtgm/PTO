@@ -16,8 +16,8 @@
     "sha256": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
     "changed": false
   },
-  "windowsBinariesRebuilt": false,
-  "windowsBinariesReason": "Milestone 3 changes no C# source (the fallback-compile repair is in windows/Start-Desktop.ps1, PowerShell). The shipped executables are the Windows-built Milestone 1 binaries (GitHub Actions run 45083913369), byte-identical; evidence/0.36.2-m3/build-check.json proves source and binary identity and that the fallback source set compiles (Mono, .NET Framework 4.8 reference assemblies, outputs discarded).",
+  "windowsBinariesRebuilt": true,
+  "windowsBinariesReason": "One C# source changed in Milestone 3 (desktop/input/Driver.cs), so EightMaxInput.exe was rebuilt ON WINDOWS by GitHub Actions run 45216843075 (windows\\Build-Executables.ps1 -SkipWgc, .NET Framework 4.x compiler). Every other executable is the unchanged Windows-built Milestone 1 binary.",
   "executables": {
     "desktop/bin/EightMaxWorkbench.exe": {
       "fileVersion": "0.36.2.0",
@@ -25,7 +25,7 @@
     },
     "desktop/bin/EightMaxInput.exe": {
       "fileVersion": "0.36.2.0",
-      "sha256": "93867a03f43534d65d41853901b706bb892456894cb118f89b5d4a80bce71da1"
+      "sha256": "2c4d7b739ceb617925600c663848d51d21570d5fe566e10fa15713d6d390c91c"
     },
     "desktop/bin/EightMaxTestTable.exe": {
       "fileVersion": "0.36.2.0",
@@ -183,5 +183,21 @@
     "vendor/eightmax-5.1/lib_runouts.js": "fd2095c06df50f7a52e9d00f10a2e23433e5403d792fb024baf40f3b392866b9",
     "vendor/eightmax-5.1/lib_wide.js": "b990630397b97d1504c5bd8c13c142dece9a6d2d4d62aea266091e33534b6c4e",
     "vendor/eightmax-5.1/provenance.json": "07b8bcb864eaafc1aa05eb2c58127a70001ae53550e496c73b486759981170ac"
+  },
+  "rebuiltExecutables": {
+    "desktop/bin/EightMaxInput.exe": {
+      "sha256": "2c4d7b739ceb617925600c663848d51d21570d5fe566e10fa15713d6d390c91c",
+      "replaces": "93867a03f43534d65d41853901b706bb892456894cb118f89b5d4a80bce71da1",
+      "sources": [
+        "desktop/input/Driver.cs",
+        "desktop/input/Motion.cs",
+        "desktop/input/Platform.cs",
+        "desktop/input/Program.cs",
+        "desktop/input/Safety.cs",
+        "desktop/input/Uia.cs"
+      ],
+      "ciRun": 45216843075,
+      "buildRecord": "evidence/build-evidence.json (outputs, rebuilds) and evidence/0.36.2-m3/driver-build/"
+    }
   }
 }
