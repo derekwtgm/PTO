@@ -1,0 +1,43 @@
+22:04:14  EightMax Test Workbench 0.36.2 - Milestone 3.1 tests, mode A - Quick verification
+22:04:14  Results folder: D:\a\_temp\m31-scenarios\runs\S08\Milestone3.1-20261123-220414-quick
+22:04:14  Application:    D:\a\_temp\EightMax CI (scenarios) Å\EightMax-Test-Workbench
+22:04:14  This mode does not move the mouse. Progress is shown below; every step has a time limit.
+22:04:14  TEST MODE: fault injected on purpose: exception:integrity (this run is not a real result)
+22:04:14  Session job active: every process this run starts ends with the run, however it ends.
+22:04:15  
+22:04:15  ==== Computer and environment [environment] (1 of 5)
+22:04:17    [environment] PASS machine details collected: Microsoft Windows Server 2025 Datacenter build 26100; AMD EPYC 9V45 96-Core Processor (2 cores, 4 threads); 16 GiB; display scaling 100%; PowerShell 5.1.26100.33822 Desktop
+22:04:17    [environment] PASS application folder path: application folder D:\a\_temp\EightMax CI (scenarios) Å\EightMax-Test-Workbench (60 characters, spaces, non-ASCII characters, parentheses)
+22:04:17    [environment] PASS results folder: D:\a\_temp\m31-scenarios\runs\S08\Milestone3.1-20261123-220414-quick (requested)
+22:04:17    [environment] PASS session process control: job object: every process of this run ends with the run
+22:04:17    [environment] PASS files marked as downloaded from the internet (Mark of the Web): none of 408 program files is marked
+22:04:17    [environment] PASS Windows security settings: SmartScreen ; Smart App Control unknown; antivirus ; Defender real-time protection False, controlled folder access 0
+22:04:17    [environment] PASS PowerShell execution policy: MachinePolicy=Undefined, UserPolicy=Undefined, Process=Bypass, CurrentUser=Undefined, LocalMachine=Unrestricted
+22:04:17    [environment] PASS no EightMax desktop host already running: none
+22:04:17    [environment] PASS port 48713 free: free
+22:04:18  ---- environment: PASS (3 s)
+22:04:18  
+22:04:18  ==== Release integrity and executable identities [integrity] (2 of 5)
+22:04:18    [harness] FAIL (harness) integrity phase ran to completion: System.InvalidOperationException: Injected test fault: an unexpected exception inside phase integrity (fault injection, -InjectFault) (M31-Lib.ps1 line 775)
+22:04:18  ---- integrity: FAIL (0.2 s)
+22:04:18  
+22:04:18  ==== Required components [dependencies] (3 of 5)
+22:04:18    [dependencies] PASS 64-bit Windows and 64-bit PowerShell: yes
+22:04:18    [dependencies] PASS .NET Framework 4.x: release 533509 (4.8 or later)
+22:04:18    [dependencies] PASS csc.exe compiler of .NET Framework (used only by the fallback start): C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe
+22:04:18    [dependencies] PASS required release files present: 7 files present
+22:04:18    [dependencies] PASS bundled Node.js (runtime\node\node.exe) runs: v22.23.5
+22:04:19    [dependencies] PASS Windows helper for diagnostics (process tree, port owner, prompt windows): compiled
+22:04:19  ---- dependencies: PASS (0.7 s)
+22:04:19  ---- host-start: SKIPPED - not run because requirement "release-integrity" was not established (the check that establishes it did not run)
+22:04:19  
+22:04:19  ==== Cleanup: nothing left running, port released [cleanup] (5 of 5)
+22:04:21    [cleanup] PASS no leftover EightMax processes started by these tests: none
+22:04:21    [cleanup] PASS no other process of this test session left: none
+22:04:21    [cleanup] PASS port 48713 released: free
+22:04:21  ---- cleanup: PASS (2.3 s)
+22:04:22  
+22:04:22  Checks: 18 passed, 1 failed, 0 warnings, 0 skipped
+22:04:22  OVERALL: FAIL  (exit code 2: HARNESS ERROR: the test runner itself failed; results may be incomplete)
+22:04:22  Results folder: D:\a\_temp\m31-scenarios\runs\S08\Milestone3.1-20261123-220414-quick
+22:04:22  Results ZIP to send back: D:\a\_temp\m31-scenarios\runs\S08\Milestone3.1-20261123-220414-quick\milestone3-results.zip

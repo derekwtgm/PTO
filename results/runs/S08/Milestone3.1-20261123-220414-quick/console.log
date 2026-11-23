@@ -1,0 +1,43 @@
+2026-11-23 22:04:14.847  EightMax Test Workbench 0.36.2 - Milestone 3.1 tests, mode A - Quick verification
+2026-11-23 22:04:14.849  Results folder: D:\a\_temp\m31-scenarios\runs\S08\Milestone3.1-20261123-220414-quick
+2026-11-23 22:04:14.850  Application:    D:\a\_temp\EightMax CI (scenarios) ü\EightMax-Test-Workbench
+2026-11-23 22:04:14.851  This mode does not move the mouse. Progress is shown below; every step has a time limit.
+2026-11-23 22:04:14.852  TEST MODE: fault injected on purpose: exception:integrity (this run is not a real result)
+2026-11-23 22:04:14.917  Session job active: every process this run starts ends with the run, however it ends.
+2026-11-23 22:04:15.002  
+2026-11-23 22:04:15.005  ==== Computer and environment [environment] (1 of 5)
+2026-11-23 22:04:17.193    [environment] PASS machine details collected: Microsoft Windows Server 2025 Datacenter build 26100; AMD EPYC 9V45 96-Core Processor (2 cores, 4 threads); 16 GiB; display scaling 100%; PowerShell 5.1.26100.33822 Desktop
+2026-11-23 22:04:17.306    [environment] PASS application folder path: application folder D:\a\_temp\EightMax CI (scenarios) ü\EightMax-Test-Workbench (60 characters, spaces, non-ASCII characters, parentheses)
+2026-11-23 22:04:17.364    [environment] PASS results folder: D:\a\_temp\m31-scenarios\runs\S08\Milestone3.1-20261123-220414-quick (requested)
+2026-11-23 22:04:17.422    [environment] PASS session process control: job object: every process of this run ends with the run
+2026-11-23 22:04:17.481    [environment] PASS files marked as downloaded from the internet (Mark of the Web): none of 408 program files is marked
+2026-11-23 22:04:17.545    [environment] PASS Windows security settings: SmartScreen ; Smart App Control unknown; antivirus ; Defender real-time protection False, controlled folder access 0
+2026-11-23 22:04:17.603    [environment] PASS PowerShell execution policy: MachinePolicy=Undefined, UserPolicy=Undefined, Process=Bypass, CurrentUser=Undefined, LocalMachine=Unrestricted
+2026-11-23 22:04:17.672    [environment] PASS no EightMax desktop host already running: none
+2026-11-23 22:04:17.848    [environment] PASS port 48713 free: free
+2026-11-23 22:04:18.149  ---- environment: PASS (3 s)
+2026-11-23 22:04:18.151  
+2026-11-23 22:04:18.152  ==== Release integrity and executable identities [integrity] (2 of 5)
+2026-11-23 22:04:18.273    [harness] FAIL (harness) integrity phase ran to completion: System.InvalidOperationException: Injected test fault: an unexpected exception inside phase integrity (fault injection, -InjectFault) (M31-Lib.ps1 line 775)
+2026-11-23 22:04:18.415  ---- integrity: FAIL (0.2 s)
+2026-11-23 22:04:18.417  
+2026-11-23 22:04:18.419  ==== Required components [dependencies] (3 of 5)
+2026-11-23 22:04:18.482    [dependencies] PASS 64-bit Windows and 64-bit PowerShell: yes
+2026-11-23 22:04:18.607    [dependencies] PASS .NET Framework 4.x: release 533509 (4.8 or later)
+2026-11-23 22:04:18.669    [dependencies] PASS csc.exe compiler of .NET Framework (used only by the fallback start): C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe
+2026-11-23 22:04:18.736    [dependencies] PASS required release files present: 7 files present
+2026-11-23 22:04:18.979    [dependencies] PASS bundled Node.js (runtime\node\node.exe) runs: v22.23.5
+2026-11-23 22:04:19.105    [dependencies] PASS Windows helper for diagnostics (process tree, port owner, prompt windows): compiled
+2026-11-23 22:04:19.272  ---- dependencies: PASS (0.7 s)
+2026-11-23 22:04:19.350  ---- host-start: SKIPPED - not run because requirement "release-integrity" was not established (the check that establishes it did not run)
+2026-11-23 22:04:19.350  
+2026-11-23 22:04:19.352  ==== Cleanup: nothing left running, port released [cleanup] (5 of 5)
+2026-11-23 22:04:21.456    [cleanup] PASS no leftover EightMax processes started by these tests: none
+2026-11-23 22:04:21.536    [cleanup] PASS no other process of this test session left: none
+2026-11-23 22:04:21.604    [cleanup] PASS port 48713 released: free
+2026-11-23 22:04:21.743  ---- cleanup: PASS (2.3 s)
+2026-11-23 22:04:22.224  
+2026-11-23 22:04:22.225  Checks: 18 passed, 1 failed, 0 warnings, 0 skipped
+2026-11-23 22:04:22.227  OVERALL: FAIL  (exit code 2: HARNESS ERROR: the test runner itself failed; results may be incomplete)
+2026-11-23 22:04:22.228  Results folder: D:\a\_temp\m31-scenarios\runs\S08\Milestone3.1-20261123-220414-quick
+2026-11-23 22:04:22.231  Results ZIP to send back: D:\a\_temp\m31-scenarios\runs\S08\Milestone3.1-20261123-220414-quick\milestone3-results.zip

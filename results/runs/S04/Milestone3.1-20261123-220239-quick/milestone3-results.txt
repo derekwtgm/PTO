@@ -1,0 +1,55 @@
+EightMax Test Workbench 0.36.2 - Milestone 3.1 Windows test results
+=====================================================================
+RESULT:   FAIL   (exit code 3: ENVIRONMENT PROBLEM: this computer prevented a valid test (see the failures))
+Mode:     A - Quick verification
+Started:  2026-11-23 22:02:39   Ended: 2026-11-23 22:02:49   (9.6 s)
+Machine:  Microsoft Windows Server 2025 Datacenter build 26100 | AMD EPYC 9V45 96-Core Processor (2 cores, 4 threads) | 16 GiB | display scaling 100% | PowerShell 5.1.26100.33822 Desktop
+Folder:   D:\a\_temp\m31-scenarios\runs\S04\Milestone3.1-20261123-220239-quick
+Checks:   26 passed, 2 failed, 0 warnings, 0 skipped
+
+PHASES
+  environment    PASS         pass 9, fail 0, warn 0, skip 0         3.1 s
+  integrity      FAIL         pass 8, fail 2, warn 0, skip 0         2.3 s
+  dependencies   PASS         pass 6, fail 0, warn 0, skip 0         0.8 s
+  host-start     SKIPPED      pass 0, fail 0, warn 0, skip 0         not run because requirement "release-integrity" failed: the release files failed verification
+  cleanup        PASS         pass 3, fail 0, warn 0, skip 0         2.3 s
+
+WHAT FAILED
+  [integrity] FAIL (environment) release files match SHA256SUMS.txt (runtime output excluded by release-integrity-policy.json)
+      FAIL: 1435 of 1436 listed files verified; missing 0, modified 1, unexpected executables 0, other unlisted files 0; runtime output ignored: 0 file(s) in 0 folder(s); warnings 0: desktop/bin/EightMaxWorkbench.exe differs from its release checksum. Extract the complete ZIP again into a new, empty folder.
+      What to do: Extract the complete release ZIP again into a NEW, empty folder and run the test from there.
+  [identity] FAIL (environment) desktop\bin\EightMaxWorkbench.exe
+      sha256 203db14209eff321b4a949af84176f957dc2e838e945a8150d20bf838e2b2f10 differs from the release record 845578b9a6596009e68ce6f182d47ae20ddd511f58b9c37a3d4b12e1c7f32290
+
+ALL CHECKS (in the order they completed)
+     1 [environment] PASS    machine details collected: Microsoft Windows Server 2025 Datacenter build 26100; AMD EPYC 9V45 96-Core Processor (2 cores, 4 threads); 16 GiB; display scaling 100%; PowerShell 5.1.26100.33822 Desktop
+     2 [environment] PASS    application folder path: application folder D:\a\_temp\m31-work\S04 corrupted copy é (40 characters, spaces, non-ASCII characters)
+     3 [environment] PASS    results folder: D:\a\_temp\m31-scenarios\runs\S04\Milestone3.1-20261123-220239-quick (requested)
+     4 [environment] PASS    session process control: job object: every process of this run ends with the run
+     5 [environment] PASS    files marked as downloaded from the internet (Mark of the Web): none of 408 program files is marked
+     6 [environment] PASS    Windows security settings: SmartScreen ; Smart App Control unknown; antivirus ; Defender real-time protection False, controlled folder access 0
+     7 [environment] PASS    PowerShell execution policy: MachinePolicy=Undefined, UserPolicy=Undefined, Process=Bypass, CurrentUser=Undefined, LocalMachine=Unrestricted
+     8 [environment] PASS    no EightMax desktop host already running: none
+     9 [environment] PASS    port 48713 free: free
+    10 [integrity] FAIL/environment release files match SHA256SUMS.txt (runtime output excluded by release-integrity-policy.json): FAIL: 1435 of 1436 listed files verified; missing 0, modified 1, unexpected executables 0, other unlisted files 0; runtime output ignored: 0 file(s) in 0 folder(s); warnings 0: desktop/bin/EightMaxWorkbench.exe differs from its release checksum. Extract the complete ZIP again into a new, empty folder.
+    11 [identity] FAIL/environment desktop\bin\EightMaxWorkbench.exe: sha256 203db14209eff321b4a949af84176f957dc2e838e945a8150d20bf838e2b2f10 differs from the release record 845578b9a6596009e68ce6f182d47ae20ddd511f58b9c37a3d4b12e1c7f32290
+    12 [identity] PASS    desktop\bin\EightMaxInput.exe: sha256 2c4d7b739ceb6179... version 0.36.2.0 / 0.36.2-dev
+    13 [identity] PASS    desktop\bin\EightMaxTestTable.exe: sha256 3e5a76995a24d169... version 0.36.2.0 / 0.36.2-dev
+    14 [identity] PASS    desktop\bin\EightMaxCapture.exe: sha256 8180c32910bfd1d5... version 0.35.0.0 / 0.35.0
+    15 [identity] PASS    desktop\bin\EightMaxWgc.exe: sha256 bc001504382306e1... version 0.35.0.0 / 0.35.0
+    16 [identity] PASS    native\mwcli.exe: sha256 b3e675bfe2ae231e... version  / 
+    17 [identity] PASS    runtime\node\node.exe: sha256 247e9693d316da98... version 22.23.5 / 22.23.5
+    18 [identity] PASS    EightMax 5.1 binary unchanged: b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72
+    19 [identity] PASS    EightMax 5.1 build id: EightMaxBuild=7d08acc7eb4577ee
+    20 [dependencies] PASS    64-bit Windows and 64-bit PowerShell: yes
+    21 [dependencies] PASS    .NET Framework 4.x: release 533509 (4.8 or later)
+    22 [dependencies] PASS    csc.exe compiler of .NET Framework (used only by the fallback start): C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe
+    23 [dependencies] PASS    required release files present: 7 files present
+    24 [dependencies] PASS    bundled Node.js (runtime\node\node.exe) runs: v22.23.5
+    25 [dependencies] PASS    Windows helper for diagnostics (process tree, port owner, prompt windows): compiled
+    26 [cleanup] PASS    no leftover EightMax processes started by these tests: none
+    27 [cleanup] PASS    no other process of this test session left: none
+    28 [cleanup] PASS    port 48713 released: free
+
+FILES IN THIS FOLDER: 17 (run-status.json, console.log, errors.log, checks.jsonl, operations.jsonl, phases\, and the logs of every step)
+Send this file back: D:\a\_temp\m31-scenarios\runs\S04\Milestone3.1-20261123-220239-quick\milestone3-results.zip

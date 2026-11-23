@@ -1,0 +1,63 @@
+
+==== S01 (A): clean installation: RUN-0362-MILESTONE3.1-TESTS.cmd A (quick verification, real desktop host)  22:01:25
+[S01] PASS clean installation: quick verification through the main launcher - exit 0, overall PASS, host-start PASS, input driver True, report True, 18 s
+
+==== S02 (D,N): standalone diagnostic: RUN-M3-HOST-DIAGNOSTIC-3.1.cmd on its own (every start case, real host)  22:01:43
+[S02] PASS standalone start-up diagnostic: complete report for every case without the main suite - exit 0, overall PASS, cases prebuilt=PASS fallback-fresh=PASS cache-reuse=PASS invalid-exe=PASS invalid-manifest=PASS old-key=PASS build-only=PASS, report True, 42 s
+
+==== S03 (B): previous test results inside the application folder: release checks and the M3 release tests still pass  22:02:25
+[S03] PASS previous results folders do not fail the release checks (Node tests and the runner) - node tests exit 0 (failed: ); runner integrity ok True, runtime output files ignored 12
+[S03r] PASS reproduction: the ORIGINAL Milestone 3 release test fails on the same folders (operator failure) - M3 test exit 1, message: listed in SHA256SUMS.txt: test-results/Milestone3-20261123-122544/host-prebuilt host launch.err.txt
+
+==== S04 (C): genuine release corruption: modified executable, planted executable, missing file  22:02:38
+[S04a] PASS a modified executable is detected; the host is not started from a damaged release - exit 3; FAIL: 1435 of 1436 listed files verified; missing 0, modified 1, unexpected executables 0, other unlisted files 0; runtime output ignored: 0 file(s) in 0 folder(s); warnings 0: desktop/bin/EightMaxWorkbench.exe differs f; host-start SKIPPED
+[S04b] PASS an unexpected executable inside the protected payload is detected - exit 3; FAIL: 1436 of 1436 listed files verified; missing 0, modified 0, unexpected executables 1, other unlisted files 0; runtime output ignored: 0 file(s) in 0 folder(s); warnings 0: executable or script not in the release man
+[S04c] PASS a missing manifest-listed file and a missing dependency (node.exe) give a clear environment failure and a full report - exit 3; report True; environment: FAIL: 1435 of 1436 listed files verified; missing 1, modified 0, unexpected executables 0, other unlisted files 0; runtime output ignored: 0 file(s) in 0 folder(s); warnings 0: runtime/node/node.exe is listed in SHA256SUMS.txt but missing. Extract the complete ZIP again into a new, empt
+
+==== S05 (E): host start fails: the start-up script launches a host that exits with an error  22:03:09
+[S05] PASS host start failure: the step and the host error are named; report and ZIP produced - exit 1; report True; prebuilt host launch - 6/12 Wait for the host to report ready (session file): the desktop host exited before it was ready; host stderr: The desktop host could not start: simulated start-up failure (test fixture, mode exit). [0 s]
+
+==== S06 (E,K): an EightMax desktop host already running (started outside the test) is reported and left running  22:03:22
+[S06] PASS existing EightMax instance: environment failure naming it; it was NOT stopped by the test - exit 3; foreign host pid 6800 still alive after the run: True; environment: already running (not started by this test, left running): EightMaxWorkbench pid 6800 (started 22:03:24) D:\a\_temp\EightMax CI (scenarios) ü\EightMax-Test-Workbench\desktop\bin\EightMaxWorkbench.exe. Close the EightMax Workbench and its 
+
+==== S07 (F): host start times out: the start-up script stops responding at its launch step  22:03:40
+[S07] PASS start-up time-out: recorded with the step, process tree saved, processes stopped, report produced - exit 1 after 34 s; timeout: the start-up script did not finish within 20 s; its last recorded step: "launch-host" start (CreateProcess: fake host, mode script-hang). The script and its child processes were stopped; see hang-diagnostics.json. [20.4 s]; tree 2 process(es), alive afterwards 0
+
+==== S08 (G): PowerShell exception inside a phase  22:04:14
+[S08] PASS an exception keeps type, message, script, line, stack and phase; dependants SKIPPED - exit 2; host-start SKIPPED; errors.log 2756 characters
+
+==== S09 (H): a test fails midway  22:04:22
+[S09] PASS midway failure: earlier checks saved, the failed one identified, the next phase still ran - exit 1; failed check number 26 of 42 in phase dependencies; host-start PASS
+
+==== S10 (I): the runner is killed while a start-up step hangs (the operator closed the window)  22:04:37
+[S10] PASS killed runner: its hung child processes end with it (job object); checkpoint packaged INTERRUPTED by option D - hung processes alive before kill 1, after 0; checkpoint state running/host-start; package exit 0, overall INTERRUPTED, host-start INTERRUPTED
+
+==== S11 (J): missing dependency reported by the runner itself (fault injection on an intact release)  22:04:53
+[S11] PASS missing dependency: clear message, environment class, exit 3 - exit 3; missing dependency: D:\a\_temp\EightMax CI (scenarios) ü\EightMax-Test-Workbench\runtime\node\node-missing-by-fault-injection.exe does not exist. The regression and real-window tests need it. Extract the complete ZIP again.
+
+==== S12 (K): port 48713 already occupied by another program  22:05:08
+[S12] PASS occupied port: the owner is named (process and pid); the owner is left running; exit 3 - exit 3; owner alive after the run True; environment: Port 48713 is already occupied by powershell (pid 6752, LISTEN). The desktop host needs this port; the program was left running. Close it or restart Windows, then run the test again.
+
+==== S13 (L): repeated runs do not interfere  22:05:22
+[S13] PASS three sequential quick runs: three folders, three reports, all exit 0 - exit codes 0,0,0; folders 3; ZIPs 3
+
+==== S14 (M): long paths and names with spaces in a results folder are packaged  22:06:06
+[S14] FAIL long path (284 characters) and spaces: the ZIP is created; the file is included or listed as skipped - package exit 1; long file created True (284 chars); in ZIP False; skipped list False; entries 0
+
+==== S15 (O): an incomplete Milestone 3 run (operator layout) with a log still open in another process is packaged without running tests  22:06:07
+[S15] FAIL existing incomplete run packaged (D): the log another process holds open is included - package exit 5; ZIP milestone3-results.zip with 9 entries; locked log included True; launcher output:    2  Milestone3-20261123-124637                   no final report                      D:\a\_temp\EightMax CI (scenarios) \EightMax-Test-Workbench\test-results /    3  Milestone3-20261123-122544                   no final report                      D:\a\_temp\EightMax CI (scenarios) \EightMax-Test-Workbench\test-results / Packaging D:\a\_temp\EightMax CI (scenarios) \EightMax-Test-Workbench\test-results\Milestone3-20261123-220607 ... / Run status: INTERRUPTED / Results ZIP: D:\a\_temp\EightMax CI (scenarios) \EightMax-Test-Workbench\test-results\Milestone3-20261123-220607\milestone3-results.zip /  -------------------------------------------------------------------------- /  THE TEST COULD NOT BE STARTED. /  Packaging did not complete (PowerShell exit code 0). The PowerShell error output is included below. /  A diagnostic file was saved: /    "D:\a\_temp\m31-scenarios\runs\S15\_launcher\launcher-failure-package-Mon011-23-2026-22-06-07-55-10908243621522.txt" /  ZIP to send back: /    "D:\a\_temp\m31-scenarios\runs\S15\_launcher\launcher-failure-package-Mon011-23-2026-22-06-07-55-10908243621522.txt.zip"
+
+==== S16 (launcher): launcher failures always leave a diagnostic file and a ZIP  22:06:08
+[S16a] PASS launcher outside the application folder: exit 5, missing files named, diagnostic file and ZIP - exit 5; failure file 1; EightMax Test Workbench 0.36.2 - Milestone 3.1 - the launcher could not run the test (host-diagnostic) Time: Mon 11/23/2026 22:06:08.47 Problem: "This file must be run from the extracted EightMax-Test-Workbench folder (next to START-EIGHTMAX.cmd), but files are missing: windows\Test-Milestone31.ps1, windows\M31-Lib.ps1, windows\M31-Integrity.ps1, windows\M31-HostStart.ps1, windows\Start-Desktop.ps1, windows\Common.ps1, desktop\bin\EightMaxWorkbench.exe, desktop\bin\EightMaxInput.exe, SHA256SUMS.txt, release-integrity-policy.json. Extract the complete ZIP into a new folder and run it from there."
+[S16b] PASS launcher started from inside a ZIP: the message says to extract first; exit 5 - exit 5; message found True
+[S16c] PASS the runner cannot run in PowerShell (script damaged): exit 5, the PowerShell error text saved - exit 5; failure file 1; PowerShell text saved True
+
+==== S17 (host-start root cause): downloaded files (Mark of the Web): the Milestone 3 start path versus Milestone 3.1  22:06:09
+[S17c] FAIL control: the Milestone 3 start-up script on the SAME files WITHOUT the download mark - Start-Desktop.ps1 finished: True after 1.7 s, exit 0, host ready False
+[S17a] PASS reproduction: the Milestone 3 start-up script on files marked as downloaded (the operator condition) - Start-Desktop.ps1 did NOT finish within 120 s - the operator symptom; windows of the stopped script: #32770 | Open File - Security Warning | visible 0 | pid 9428 ; ConsoleWindowClass | Administrator: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe | visible 0 | pid 9428 ; MSCTFIME UI | MSCTFIME UI | visible 0 | pid 9428 ; IME | Default IME | visible 0 | pid 9428 ; IME | Default IME | visible 0 | pid 8952; finding: a Windows security dialog is waiting for an answer: Open File - Security Warning (powershell pid 9428; the dialog is INVISIBLE because its process was started hidden, so nobody can answer it); new processes: conhost 8952, powershell 9428, smartscreen 1292, svchost 4064
+[S17b] PASS Milestone 3.1 on the same marked files: the host starts (CreateProcess) and the mark is reported - exit 0; host-start PASS; WARNING 408 of 408 program files carry the internet zone mark (e.g. BUILD-WGC.cmd, CANCEL-TRAINING.cmd, COLLECT-TEST-RESULTS.cmd, CONTINUE-TRAINING.cmd, EXPORT-STRATEGIES.cmd). Windows may ask for confirmation (SmartScreen / security warning) when the Workbench is started by double-click; the tests start programs directly and are not blocked by it. See READ-ME-MILESTONE-3.1.txt.
+
+==== S18 (cancel): the run is cancelled with Ctrl+C while a start-up step is running  22:08:34
+[S18] PASS Ctrl+C: the run ends by itself with an INTERRUPTED report and ZIP; its child processes are stopped - Ctrl+C sent; runner exited True (code 0); state interrupted; overall INTERRUPTED; host-start INTERRUPTED, cleanup NOT RUN; hung processes left 0
+
+SCENARIOS: 22 passed, 3 failed (25)
