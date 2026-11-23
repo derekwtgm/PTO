@@ -1,0 +1,99 @@
+{
+ "format": "eightmax-release",
+ "version": "0.36.2-dev",
+ "milestone": "0.36.2 Milestone 3.1: Windows test-runner repair, startup diagnostics, crash recovery and reliable test reporting",
+ "status": "milestone-3.1: see REPORT-0.36.2-Milestone-3.1.md for the Windows CI results; target-PC run pending",
+ "baseline": {
+  "archive": "EightMax-Test-Workbench-0.36.2-Milestone-3.zip",
+  "sha256": "ca115d3794cc99ee7847696d4fe3cb343e255b670353990cccb78df5786f6b19",
+  "entries": 1415,
+  "manifestEntries": 1414
+ },
+ "nativeEngine": {
+  "version": "5.1",
+  "build": "7d08acc7eb4577ee",
+  "sha256": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+  "changed": false
+ },
+ "windowsBinariesRebuilt": false,
+ "windowsBinariesReason": "Milestone 3.1 changes only test infrastructure (PowerShell, CMD, Node tests and tools) and the headless launch path of windows/Start-Desktop.ps1; no C# source changed, so every executable is byte-identical to Milestone 3.",
+ "executables": {
+  "desktop/bin/EightMaxWorkbench.exe": {
+   "fileVersion": "0.36.2.0",
+   "sha256": "845578b9a6596009e68ce6f182d47ae20ddd511f58b9c37a3d4b12e1c7f32290"
+  },
+  "desktop/bin/EightMaxInput.exe": {
+   "fileVersion": "0.36.2.0",
+   "sha256": "2c4d7b739ceb617925600c663848d51d21570d5fe566e10fa15713d6d390c91c"
+  },
+  "desktop/bin/EightMaxTestTable.exe": {
+   "fileVersion": "0.36.2.0",
+   "sha256": "3e5a76995a24d169336179e7e3805ddeb57271d951029226b43653c217464348"
+  },
+  "desktop/bin/EightMaxCapture.exe": {
+   "fileVersion": "0.35.0.0",
+   "sha256": "8180c32910bfd1d5053c42f8c9ccf484bb6146022dc1284e45dbbde622124da0"
+  },
+  "desktop/bin/EightMaxWgc.exe": {
+   "version": "0.35.0",
+   "sha256": "bc001504382306e180af0f76abf0836d561faa07e8c210317df73048e55cafc1",
+   "rebuilt": false
+  },
+  "native/mwcli.exe": {
+   "version": "EightMax 5.1 build 7d08acc7eb4577ee",
+   "sha256": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72"
+  },
+  "runtime/node/node.exe": {
+   "version": "Node.js v22.23.5",
+   "sha256": "247e9693d316da9857e44990e5e11709f596f18112251b8026ec6eed80bdf38a"
+  }
+ },
+ "windowsTestRunner": "RUN-0362-MILESTONE3.1-TESTS.cmd",
+ "hostDiagnostic": "RUN-M3-HOST-DIAGNOSTIC-3.1.cmd",
+ "instructions": "READ-ME-MILESTONE-3.1.txt",
+ "resultsLocation": "%LOCALAPPDATA%\\EightMax-Test-Workbench\\TestResults\\Milestone3.1-<date>-<time>-<mode>",
+ "integrityPolicy": "release-integrity-policy.json",
+ "newFiles": [
+  "RUN-0362-MILESTONE3.1-TESTS.cmd",
+  "RUN-M3-HOST-DIAGNOSTIC-3.1.cmd",
+  "READ-ME-MILESTONE-3.1.txt",
+  "release-integrity-policy.json",
+  "release-0362-m31.json",
+  "windows/Test-Milestone31.ps1",
+  "windows/M31-Lib.ps1",
+  "windows/M31-HostStart.ps1",
+  "windows/M31-Integrity.ps1",
+  "tools/release-integrity.cjs",
+  "tools/make-release-0362m31.py",
+  "tests/release-integrity-0362m31.test.cjs",
+  "tests/runner-0362m31.test.cjs",
+  "tests/windows/M31-Scenarios.ps1",
+  "tests/fixtures/m31/fake-desktop-host.cjs",
+  "tests/fixtures/m31/Start-FakeDesktop.ps1",
+  ".github/workflows/windows-0362-m31.yml"
+ ],
+ "changedFiles": [
+  "RUN-0362-MILESTONE3-TESTS.cmd (now starts RUN-0362-MILESTONE3.1-TESTS.cmd C)",
+  "READ-ME-MILESTONE3-TESTS.txt (points to READ-ME-MILESTONE-3.1.txt)",
+  "READ-ME-FIRST.txt",
+  "windows/Start-Desktop.ps1 (headless launches: CreateProcess with captured host output; step trace)",
+  "windows/Test-Milestone3-0362.ps1 (compatibility wrapper of Test-Milestone31.ps1 -Mode Full)",
+  "tests/release-0362m3.test.cjs",
+  "tests/release-033.test.cjs",
+  "tests/start-desktop-0362m3.test.cjs",
+  "docs/CHANGELOG.md",
+  "SHA256SUMS.txt"
+ ],
+ "deliverables": [
+  "RUN-0362-MILESTONE3.1-TESTS.cmd",
+  "RUN-M3-HOST-DIAGNOSTIC-3.1.cmd",
+  "READ-ME-MILESTONE-3.1.txt",
+  "windows/Test-Milestone31.ps1",
+  "windows/M31-Lib.ps1",
+  "windows/M31-HostStart.ps1",
+  "windows/M31-Integrity.ps1",
+  "release-integrity-policy.json",
+  "tools/release-integrity.cjs",
+  ".github/workflows/windows-0362-m31.yml"
+ ]
+}

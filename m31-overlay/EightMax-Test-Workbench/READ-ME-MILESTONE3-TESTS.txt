@@ -1,0 +1,17 @@
+EIGHTMAX TEST WORKBENCH 0.36.2 - MILESTONE 3 WINDOWS TESTS: REPLACED BY MILESTONE 3.1
+=====================================================================================
+
+Read READ-ME-MILESTONE-3.1.txt.
+
+RUN-0362-MILESTONE3-TESTS.cmd still works: it now starts RUN-0362-MILESTONE3.1-TESTS.cmd with option C (full acceptance), with the
+Milestone 3.1 runner (windows\Test-Milestone31.ps1). Its Milestone 3 options (-FullSuite, -SkipStability, -StabilitySeconds 60,
+-CampaignHands 120) are passed on.
+
+What changed for this runner:
+  - results are no longer written into test-results\Milestone3-<date-time>\ inside the program folder (that made the release
+    checksum test fail on the runner's own logs); they go to %LOCALAPPDATA%\EightMax-Test-Workbench\TestResults\
+  - every check is saved the moment it finishes; a report and a ZIP are produced also when a test fails, stops responding or the
+    window is closed (the next start packages an unfinished run)
+  - every step of the desktop host start has a time limit and shows its progress (the Milestone 3 host-start phase showed nothing and
+    could wait 15 minutes per step)
+  - option D packages the Milestone 3 results folders you already have in test-results\ without running any test

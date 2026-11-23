@@ -1,0 +1,233 @@
+name: EightMax 0.36.2 Milestone 3.1 - Windows test-runner validation and full acceptance of the release ZIP
+# Tests the EXACT release ZIP on real Windows (GitHub-hosted windows-latest, Windows PowerShell 5.1, real desktop):
+#   package    the committed EightMax-Test-Workbench-0.36.2-Milestone-3.1.zip (SHA-256 checked against its .sha256), or for development
+#              runs the Milestone 3 ZIP of this branch (SHA-256 checked) with m31-overlay/ applied and packaged by
+#              tools/make-release-0362m31.py; the ZIP is then extracted into a NEW folder and verified (CRCs, every manifest entry,
+#              no unlisted entry, release integrity). The same ZIP file (artifact) is used by both Windows jobs, which check its hash.
+#   scenarios  tests/windows/M31-Scenarios.ps1 from the extracted ZIP: launchers A/D, standalone diagnostic, previous results, corruption,
+#              host-start failure and time-out, exceptions, midway failure, killed runner, missing dependency, occupied port, repeated
+#              runs, long paths, packaging of an incomplete run, launcher failures, Mark of the Web (Milestone 3 vs 3.1)
+#   full       RUN-0362-MILESTONE3.1-TESTS.cmd option C (full acceptance, complete regression suite) exactly as on the operator PC
+# The ZIP is extracted into a folder whose path has spaces, parentheses and a non-ASCII character. Results: job log, artifacts and the
+# branches m31-results/<run id>-scenarios and m31-results/<run id>-full (readable with git when the artifact store is not reachable).
+on:
+  workflow_dispatch:
+    inputs:
+      stability_seconds: { description: 'seconds per multi-table stability part (full job)', required: false, default: '180' }
+      run_full: { description: 'run the full acceptance job (yes/no)', required: false, default: 'yes' }
+  push:
+    branches: [milestone-3.1-0362]
+    paths: ['ci-request-m31.json', 'EightMax-Test-Workbench-0.36.2-Milestone-3.1.zip', 'EightMax-Test-Workbench-0.36.2-Milestone-3.1.zip.sha256']
+permissions:
+  contents: write
+concurrency:
+  group: eightmax-m31-windows
+  cancel-in-progress: true
+env:
+  M31_ZIP: EightMax-Test-Workbench-0.36.2-Milestone-3.1.zip
+  M3_ZIP: EightMax-Test-Workbench-0.36.2-Milestone-3.zip
+  M3_SHA256: ca115d3794cc99ee7847696d4fe3cb343e255b670353990cccb78df5786f6b19
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      zip_sha256: ${{ steps.pkg.outputs.sha }}
+      mode: ${{ steps.pkg.outputs.mode }}
+      run_full: ${{ steps.pkg.outputs.run_full }}
+      stability: ${{ steps.pkg.outputs.stability }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Assemble or verify the release ZIP, then verify it from a fresh extraction
+        id: pkg
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          have=$(sha256sum "$M3_ZIP" | cut -d' ' -f1); echo "Milestone 3 ZIP sha256 $have (expected $M3_SHA256)"; [ "$have" = "$M3_SHA256" ]
+          if [ -f "$M31_ZIP" ]; then
+            echo "mode=committed" >> "$GITHUB_OUTPUT"; echo "mode: the committed Milestone 3.1 ZIP"
+            want=$(cut -d' ' -f1 "$M31_ZIP.sha256"); have=$(sha256sum "$M31_ZIP" | cut -d' ' -f1); echo "zip sha256 $have (expected $want)"; [ "$have" = "$want" ]
+            cp "$M31_ZIP" out/
+            mkdir -p tree && python3 -I -c "import zipfile,sys; zipfile.ZipFile(sys.argv[1]).extractall(sys.argv[2])" "$M31_ZIP" tree
+          else
+            echo "mode=overlay" >> "$GITHUB_OUTPUT"; echo "mode: development run - Milestone 3 ZIP + m31-overlay"
+            mkdir -p tree && python3 -I -c "import zipfile,sys; z=zipfile.ZipFile(sys.argv[1]); assert z.testzip() is None; z.extractall(sys.argv[2])" "$M3_ZIP" tree
+            cp -a m31-overlay/EightMax-Test-Workbench/. tree/EightMax-Test-Workbench/
+            if [ -f m31-overlay/DELETED.txt ]; then while IFS= read -r f; do [ -n "$f" ] && rm -f "tree/EightMax-Test-Workbench/$f"; done < m31-overlay/DELETED.txt; fi
+            (cd tree/EightMax-Test-Workbench && python3 -I tools/make-release-0362m31.py package "$GITHUB_WORKSPACE/out/$M31_ZIP")
+          fi
+          EIGHTMAX_NODE=node python3 -I tree/EightMax-Test-Workbench/tools/make-release-0362m31.py verify "out/$M31_ZIP" out/zip-verification.json
+          sha=$(sha256sum "out/$M31_ZIP" | cut -d' ' -f1); echo "sha=$sha" >> "$GITHUB_OUTPUT"; echo "$sha  $M31_ZIP" | tee out/zip.sha256
+          full='${{ github.event.inputs.run_full }}'; secs='${{ github.event.inputs.stability_seconds }}'
+          if [ -f ci-request-m31.json ]; then
+            f=$(python3 -I -c "import json; d=json.load(open('ci-request-m31.json')); print(d.get('runFull', True))"); [ "$f" = "False" ] && full=no
+            s=$(python3 -I -c "import json; d=json.load(open('ci-request-m31.json')); print(d.get('stabilitySeconds', ''))"); [ -n "$s" ] && secs=$s
+          fi
+          echo "run_full=${full:-yes}" >> "$GITHUB_OUTPUT"; echo "stability=${secs:-180}" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: m31-release-zip
+          path: out/
+          retention-days: 14
+
+  scenarios:
+    needs: package
+    runs-on: windows-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: m31-release-zip
+          path: zipdir
+      - name: Check the ZIP is the packaged one; extract it into a new folder (spaces, parentheses, non-ASCII)
+        shell: powershell
+        run: |
+          $zip = Join-Path $env:GITHUB_WORKSPACE ('zipdir\' + $env:M31_ZIP)
+          $h = (Get-FileHash -LiteralPath $zip -Algorithm SHA256).Hash.ToLowerInvariant(); "zip sha256 $h (package job: ${{ needs.package.outputs.zip_sha256 }}, mode ${{ needs.package.outputs.mode }})"
+          if ($h -ne '${{ needs.package.outputs.zip_sha256 }}') { throw 'the ZIP differs from the packaged one' }
+          $base = Join-Path $env:RUNNER_TEMP ('EightMax CI (scenarios) ' + [char]0x00fc); Add-Type -AssemblyName System.IO.Compression.FileSystem
+          [IO.Compression.ZipFile]::ExtractToDirectory($zip, $base)
+          $app = Join-Path $base 'EightMax-Test-Workbench'
+          [IO.File]::AppendAllText($env:GITHUB_ENV, "APP=$app`n", (New-Object Text.UTF8Encoding($false)))
+          "extracted to $app"
+      - name: Parse every PowerShell script with the Windows PowerShell 5.1 parser
+        shell: powershell
+        run: |
+          $errs = @(); $n = 0
+          foreach ($f in Get-ChildItem (Join-Path $env:APP 'windows'), (Join-Path $env:APP 'native'), (Join-Path $env:APP 'tests\windows'), (Join-Path $env:APP 'tests\fixtures\m31') -Filter *.ps1) { $n++; $t = $null; $e = $null; [void][System.Management.Automation.Language.Parser]::ParseFile($f.FullName, [ref]$t, [ref]$e); foreach ($x in $e) { $errs += ($f.Name + ':' + $x.Extent.StartLineNumber + ': ' + $x.Message) } }
+          "parsed $n scripts with PowerShell $($PSVersionTable.PSVersion); $($errs.Count) errors"; if ($errs.Count) { $errs; throw 'PowerShell parse errors' }
+      - name: Set the runner desktop to 1920x1080 (test environment only)
+        shell: powershell
+        run: |
+          Add-Type -TypeDefinition @"
+          using System; using System.Runtime.InteropServices;
+          public static class EmDisplay {
+            [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)] public struct DEVMODE {
+              [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)] public string dmDeviceName; public short dmSpecVersion, dmDriverVersion, dmSize, dmDriverExtra;
+              public int dmFields, dmPositionX, dmPositionY, dmDisplayOrientation, dmDisplayFixedOutput; public short dmColor, dmDuplex, dmYResolution, dmTTOption, dmCollate;
+              [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)] public string dmFormName; public short dmLogPixels;
+              public int dmBitsPerPel, dmPelsWidth, dmPelsHeight, dmDisplayFlags, dmDisplayFrequency, dmICMMethod, dmICMIntent, dmMediaType, dmDitherType, dmReserved1, dmReserved2, dmPanningWidth, dmPanningHeight; }
+            [DllImport("user32.dll")] static extern bool EnumDisplaySettings(string d, int m, ref DEVMODE dm);
+            [DllImport("user32.dll")] static extern int ChangeDisplaySettings(ref DEVMODE dm, int f);
+            public static int Set(int w, int h) { DEVMODE dm = new DEVMODE(); dm.dmSize = (short)Marshal.SizeOf(typeof(DEVMODE)); EnumDisplaySettings(null, -1, ref dm); dm.dmPelsWidth = w; dm.dmPelsHeight = h; dm.dmFields = 0x80000 | 0x100000; return ChangeDisplaySettings(ref dm, 0); }
+          }
+          "@
+          $r = [EmDisplay]::Set(1920, 1080); Start-Sleep -Seconds 2; "ChangeDisplaySettings returned $r"
+      - name: Milestone 3.1 scenario suite (Windows PowerShell 5.1, real desktop host, real launchers)
+        id: scen
+        continue-on-error: true
+        timeout-minutes: 120
+        shell: powershell
+        run: |
+          $out = Join-Path $env:RUNNER_TEMP 'm31-scenarios'; $log = Join-Path $env:RUNNER_TEMP 'm31-scenarios.log'; $err = Join-Path $env:RUNNER_TEMP 'm31-scenarios.err.log'
+          $env:EIGHTMAX_NONINTERACTIVE = '1'
+          $p = Start-Process -FilePath powershell.exe -ArgumentList ('-NoProfile -ExecutionPolicy Bypass -File "' + (Join-Path $env:APP 'tests\windows\M31-Scenarios.ps1') + '" -App "' + $env:APP + '" -Out "' + $out + '" -M3Zip "' + (Join-Path $env:GITHUB_WORKSPACE $env:M3_ZIP) + '" -Work "' + (Join-Path $env:RUNNER_TEMP 'm31-work') + '"') -WorkingDirectory $env:APP -RedirectStandardOutput $log -RedirectStandardError $err -NoNewWindow -PassThru; $null = $p.Handle; $p.WaitForExit()
+          Get-Content $log; if ((Get-Item $err).Length -gt 0) { '--- stderr ---'; Get-Content $err }
+          "exit $($p.ExitCode)"; exit $p.ExitCode
+      - name: Publish the scenario results into the job log
+        if: always()
+        shell: powershell
+        run: |
+          $f = Join-Path $env:RUNNER_TEMP 'm31-scenarios\scenarios.json'
+          if (Test-Path $f) { $d = Get-Content $f -Raw | ConvertFrom-Json; foreach ($s in $d.scenarios) { '{0,-5} {1,-4} {2}' -f $s.id, $(if ($s.ok) { 'PASS' } else { 'FAIL' }), $s.title; '      observed: ' + $s.observed }; ''; 'passed ' + $d.counts.passed + ' of ' + $d.counts.total } else { 'no scenarios.json' }
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: m31-scenarios
+          path: |
+            ${{ runner.temp }}\m31-scenarios
+            ${{ runner.temp }}\m31-scenarios.log
+            ${{ runner.temp }}\m31-scenarios.err.log
+      - name: Push the results to branch m31-results/<run id>-scenarios
+        if: always()
+        shell: bash
+        run: |
+          set -u
+          res="$RUNNER_TEMP/m31-scenarios"; dest="$RUNNER_TEMP/branch"; mkdir -p "$dest/results"
+          if [ -d "$res" ]; then (cd "$res" && find . -type f -size -6M ! -name '*.zip' -print0 | xargs -0 -I{} cp --parents {} "$dest/results/"; find . -type f -name 'milestone3-results.zip' -size -2M -print0 | xargs -0 -I{} cp --parents {} "$dest/results/") ; fi
+          cp "$RUNNER_TEMP/m31-scenarios.log" "$RUNNER_TEMP/m31-scenarios.err.log" "$dest/" 2>/dev/null || true
+          printf '{"run":"%s","sha":"%s","zipSha256":"%s","mode":"%s","job":"scenarios","outcome":"%s"}\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" "${{ needs.package.outputs.zip_sha256 }}" "${{ needs.package.outputs.mode }}" "${{ steps.scen.outcome }}" > "$dest/run.json"
+          cd "$dest" && git init -q && git checkout -q -b "m31-results/$GITHUB_RUN_ID-scenarios" && git add -A && git -c user.name="eightmax-ci" -c user.email="eightmax-ci@users.noreply.github.com" commit -q -m "Milestone 3.1 Windows scenarios, run $GITHUB_RUN_ID ($GITHUB_SHA)"
+          git push -q "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" "HEAD:refs/heads/m31-results/$GITHUB_RUN_ID-scenarios" && echo "results pushed to m31-results/$GITHUB_RUN_ID-scenarios"
+      - name: Outcome
+        if: always()
+        shell: bash
+        run: '[ "${{ steps.scen.outcome }}" = "success" ]'
+
+  full:
+    needs: package
+    if: needs.package.outputs.run_full != 'no'
+    runs-on: windows-latest
+    timeout-minutes: 200
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: m31-release-zip
+          path: zipdir
+      - name: Check the ZIP is the packaged one; extract it into a new folder (spaces, parentheses, non-ASCII)
+        shell: powershell
+        run: |
+          $zip = Join-Path $env:GITHUB_WORKSPACE ('zipdir\' + $env:M31_ZIP)
+          $h = (Get-FileHash -LiteralPath $zip -Algorithm SHA256).Hash.ToLowerInvariant(); "zip sha256 $h (package job: ${{ needs.package.outputs.zip_sha256 }})"
+          if ($h -ne '${{ needs.package.outputs.zip_sha256 }}') { throw 'the ZIP differs from the packaged one' }
+          $base = Join-Path $env:RUNNER_TEMP ('EightMax CI (full) ' + [char]0x00e9); Add-Type -AssemblyName System.IO.Compression.FileSystem
+          [IO.Compression.ZipFile]::ExtractToDirectory($zip, $base)
+          [IO.File]::AppendAllText($env:GITHUB_ENV, ("APP=" + (Join-Path $base 'EightMax-Test-Workbench') + "`n"), (New-Object Text.UTF8Encoding($false)))
+      - name: Set the runner desktop to 1920x1080 (test environment only)
+        shell: powershell
+        run: |
+          Add-Type -TypeDefinition @"
+          using System; using System.Runtime.InteropServices;
+          public static class EmDisplay {
+            [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)] public struct DEVMODE {
+              [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)] public string dmDeviceName; public short dmSpecVersion, dmDriverVersion, dmSize, dmDriverExtra;
+              public int dmFields, dmPositionX, dmPositionY, dmDisplayOrientation, dmDisplayFixedOutput; public short dmColor, dmDuplex, dmYResolution, dmTTOption, dmCollate;
+              [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)] public string dmFormName; public short dmLogPixels;
+              public int dmBitsPerPel, dmPelsWidth, dmPelsHeight, dmDisplayFlags, dmDisplayFrequency, dmICMMethod, dmICMIntent, dmMediaType, dmDitherType, dmReserved1, dmReserved2, dmPanningWidth, dmPanningHeight; }
+            [DllImport("user32.dll")] static extern bool EnumDisplaySettings(string d, int m, ref DEVMODE dm);
+            [DllImport("user32.dll")] static extern int ChangeDisplaySettings(ref DEVMODE dm, int f);
+            public static int Set(int w, int h) { DEVMODE dm = new DEVMODE(); dm.dmSize = (short)Marshal.SizeOf(typeof(DEVMODE)); EnumDisplaySettings(null, -1, ref dm); dm.dmPelsWidth = w; dm.dmPelsHeight = h; dm.dmFields = 0x80000 | 0x100000; return ChangeDisplaySettings(ref dm, 0); }
+          }
+          "@
+          $r = [EmDisplay]::Set(1920, 1080); Start-Sleep -Seconds 2; "ChangeDisplaySettings returned $r"
+      - name: "Full acceptance: RUN-0362-MILESTONE3.1-TESTS.cmd C (complete regression suite, real windows)"
+        id: full
+        continue-on-error: true
+        timeout-minutes: 180
+        shell: powershell
+        run: |
+          $out = Join-Path $env:RUNNER_TEMP 'm31-full'; $log = Join-Path $env:RUNNER_TEMP 'm31-full.log'; $err = Join-Path $env:RUNNER_TEMP 'm31-full.err.log'
+          $env:EIGHTMAX_NONINTERACTIVE = '1'; $env:EIGHTMAX_M31_ARGS = '-FullSuite -StabilitySeconds ${{ needs.package.outputs.stability }}'
+          $p = Start-Process -FilePath cmd.exe -ArgumentList ('/d /c ""' + (Join-Path $env:APP 'RUN-0362-MILESTONE3.1-TESTS.cmd') + '" C "' + $out + '""') -WorkingDirectory $env:APP -RedirectStandardOutput $log -RedirectStandardError $err -NoNewWindow -PassThru; $null = $p.Handle; $p.WaitForExit()
+          Get-Content $log; if ((Get-Item $err).Length -gt 0) { '--- stderr ---'; Get-Content $err }
+          $d = @(Get-ChildItem $out -Directory | Where-Object { $_.Name -like 'Milestone3.1-*' } | Sort-Object LastWriteTime -Descending)[0]
+          if ($d) { '===== milestone3-results.txt'; Get-Content (Join-Path $d.FullName 'milestone3-results.txt') }
+          "launcher exit $($p.ExitCode)"; exit $p.ExitCode
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: m31-full
+          path: |
+            ${{ runner.temp }}\m31-full
+            ${{ runner.temp }}\m31-full.log
+            ${{ runner.temp }}\m31-full.err.log
+      - name: Push the results to branch m31-results/<run id>-full
+        if: always()
+        shell: bash
+        run: |
+          set -u
+          res="$RUNNER_TEMP/m31-full"; dest="$RUNNER_TEMP/branch"; mkdir -p "$dest/results"
+          if [ -d "$res" ]; then (cd "$res" && find . -type f -size -8M ! -name '*.zip' -print0 | xargs -0 -I{} cp --parents {} "$dest/results/") ; fi
+          cp "$RUNNER_TEMP/m31-full.log" "$RUNNER_TEMP/m31-full.err.log" "$dest/" 2>/dev/null || true
+          printf '{"run":"%s","sha":"%s","zipSha256":"%s","mode":"%s","job":"full","outcome":"%s"}\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" "${{ needs.package.outputs.zip_sha256 }}" "${{ needs.package.outputs.mode }}" "${{ steps.full.outcome }}" > "$dest/run.json"
+          cd "$dest" && git init -q && git checkout -q -b "m31-results/$GITHUB_RUN_ID-full" && git add -A && git -c user.name="eightmax-ci" -c user.email="eightmax-ci@users.noreply.github.com" commit -q -m "Milestone 3.1 Windows full acceptance, run $GITHUB_RUN_ID ($GITHUB_SHA)"
+          git push -q "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" "HEAD:refs/heads/m31-results/$GITHUB_RUN_ID-full" && echo "results pushed to m31-results/$GITHUB_RUN_ID-full"
+      - name: Outcome
+        if: always()
+        shell: bash
+        run: '[ "${{ steps.full.outcome }}" = "success" ]'

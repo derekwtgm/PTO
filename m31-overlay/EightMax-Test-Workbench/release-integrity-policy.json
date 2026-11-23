@@ -1,0 +1,34 @@
+{
+  "format": "eightmax-release-integrity-policy",
+  "version": 1,
+  "introducedIn": "0.36.2 Milestone 3.1",
+  "purpose": "Defines the immutable release payload (every file SHA256SUMS.txt must list and that must keep its SHA-256) and the runtime output that legitimately appears beside it. Used by tools/release-integrity.cjs (Node tests) and windows/M31-Integrity.ps1 (Windows test runner); both read this file only after its own SHA-256 has been verified against SHA256SUMS.txt.",
+  "manifest": "SHA256SUMS.txt",
+  "payload": "Every file under the application folder, except the runtime output folders, development metadata folders and operating-system metadata files listed here.",
+  "runtimeOutputFolders": ["test-results"],
+  "runtimeOutputNote": "test-results is the only folder inside the application folder where test runners may write. Milestone 3.1 runners write to %LOCALAPPDATA%\\EightMax-Test-Workbench\\TestResults by default; test-results holds output of older runners or a location the operator chose. Nothing in the release runs files from it.",
+  "developmentMetadataFolders": [".git"],
+  "operatingSystemMetadataFiles": ["Thumbs.db", "ehthumbs.db", "ehthumbs_vista.db", "desktop.ini", ".DS_Store"],
+  "executableExtensions": [".exe", ".dll", ".sys", ".drv", ".ocx", ".cpl", ".scr", ".com", ".pif", ".msi", ".msp", ".msc", ".appx", ".msix", ".application", ".gadget", ".bat", ".cmd", ".ps1", ".psm1", ".psd1", ".ps1xml", ".psc1", ".vbs", ".vbe", ".js", ".jse", ".cjs", ".mjs", ".wsf", ".wsh", ".wsc", ".hta", ".htm", ".html", ".xhtml", ".lnk", ".url", ".reg", ".inf", ".chm", ".scf", ".jar", ".py", ".pyw", ".pyc", ".node", ".wasm", ".sh", ".xll", ".cs"],
+  "knownRuntimeExecutables": [
+    {
+      "id": "desktop-host-test-cache",
+      "pattern": "^test-results/[^/]+/host-start/cache/[0-9a-f]{64}/EightMaxWorkbench\\.exe$",
+      "verifiedBy": "compiler-output.sha256",
+      "description": "Desktop host compiled from the shipped sources by the host-start test (fallback compile cache of an older runner or of a run written to test-results). Recognised only when compiler-output.sha256 in the same folder equals the file's SHA-256."
+    }
+  ],
+  "rules": {
+    "listedFileMissing": "FAIL",
+    "listedFileModified": "FAIL",
+    "manifestMalformedOrUnsafe": "FAIL",
+    "unexpectedExecutableInPayload": "FAIL",
+    "linkInPayload": "FAIL",
+    "unexpectedOtherFileInPayload": "WARNING",
+    "unrecognisedExecutableInRuntimeOutput": "WARNING",
+    "linkInRuntimeOutput": "WARNING",
+    "runtimeOutput": "IGNORED (counted)",
+    "operatingSystemMetadata": "IGNORED (counted)",
+    "developmentMetadata": "IGNORED"
+  }
+}
