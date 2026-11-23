@@ -21,7 +21,14 @@ $js = New-Object Web.Script.Serialization.JavaScriptSerializer; $js.MaxJsonLengt
 function ConvertTo-PlainValue($v, [int]$depth = 0) {
     if ($null -eq $v) { return $null }
     if ($depth -gt 12) { return [string]$v }
-    if ($v -is [string] -or $v -is [bool] -or $v -is [int] -or $v -is [long] -or $v -is [double] -or $v -is [decimal]) { return $v }
+    # scalars are returned as plain .NET values: a string read by a cmdlet (Get-Content, -split of its output) is wrapped in a PSObject,
+    # and a serializer that walks that wrapper meets PSMethod objects ("circular reference") - the run-3 and run-4 harness defect
+    if ($v -is [string]) { return [string]$v }
+    if ($v -is [bool]) { return [bool]$v }
+    if ($v -is [int]) { return [int]$v }
+    if ($v -is [long]) { return [long]$v }
+    if ($v -is [double]) { return [double]$v }
+    if ($v -is [decimal]) { return [decimal]$v }
     if ($v -is [Collections.IDictionary]) { $o = [ordered]@{}; foreach ($k in @($v.Keys)) { $o[[string]$k] = ConvertTo-PlainValue $v[$k] ($depth + 1) }; return $o }
     if ($v -is [Collections.IEnumerable]) { $a = New-Object Collections.ArrayList; foreach ($x in $v) { [void]$a.Add((ConvertTo-PlainValue $x ($depth + 1))) }; return ,($a.ToArray()) }
     return [string]$v
@@ -29,13 +36,13 @@ function ConvertTo-PlainValue($v, [int]$depth = 0) {
 function Save-Results {
     try { Save-ResultsCore } catch {
         $why = $_.Exception.Message; Write-Host ('scenarios.json: full write failed (' + $why + '); facts are stored as JSON text') -ForegroundColor Yellow
-        try { foreach ($r in $results) { if ($r.facts -isnot [string]) { try { $r.facts = ConvertTo-Json -InputObject $r.facts -Depth 8 -Compress } catch { $r.facts = [string]$r.facts } } }; Save-ResultsCore } catch { Write-Host ('scenarios.json could not be written: ' + $_.Exception.Message) -ForegroundColor Red }
+        try { foreach ($r in $results) { if ($r.facts -isnot [string]) { try { $r.facts = [string](ConvertTo-Json -InputObject $r.facts -Depth 8 -Compress) } catch { $r.facts = [string]$r.facts } } }; Save-ResultsCore } catch { Write-Host ('scenarios.json could not be written: ' + $_.Exception.Message) -ForegroundColor Red }
     }
 }
 function Save-ResultsCore {
     $doc = [ordered]@{ format = 'eightmax-m31-windows-scenarios'; version = 1; startedAt = $suiteStart.ToString('o'); updatedAt = [DateTime]::UtcNow.ToString('o'); app = $App; powershell = $PSVersionTable.PSVersion.ToString(); os = [Environment]::OSVersion.VersionString
         counts = [ordered]@{ passed = @($results | Where-Object { $_.ok }).Count; failed = @($results | Where-Object { -not $_.ok }).Count; total = $results.Count }; scenarios = $results.ToArray() }
-    [IO.File]::WriteAllText((Join-Path $Out 'scenarios.json'), $js.Serialize($doc), $utf8)
+    [IO.File]::WriteAllText((Join-Path $Out 'scenarios.json'), [string](ConvertTo-Json -InputObject $doc -Depth 12), $utf8)   # PowerShell's serializer understands PSObject wrappers
 }
 function Add-Result([string]$Id, [string]$Spec, [string]$Title, [bool]$Ok, [string]$Observed, [string]$Expected, $Facts) {
     [void]$results.Add([ordered]@{ id = $Id; spec = $Spec; title = $Title; ok = $Ok; expected = $Expected; observed = $Observed; facts = (ConvertTo-PlainValue $Facts); at = [DateTime]::UtcNow.ToString('o') })

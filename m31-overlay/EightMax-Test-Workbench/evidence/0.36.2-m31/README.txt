@@ -22,8 +22,10 @@ Stage 5 - the host-start interruption
                                             waited on an INVISIBLE "Open File - Security Warning" (class #32770, visible 0) - nothing shows
 
 Stages 8-9 - tests
-  windows-ci-development-runs.json          every Windows CI development run of Milestone 3.1: scenario results, full-acceptance phases,
-                                            the problems each run found and what was fixed before the next run
+  windows-ci-development-runs.json          the four Windows CI development runs of Milestone 3.1 (45272448662, 45275384911, 45277279723,
+                                            45281425813): scenario results, full-acceptance phases and regression counts, the problems each
+                                            run found and what was fixed before the next run, and the fs.cpSync probe (exit 0xC0000409 from
+                                            a folder whose path has a non-ASCII character, 0 from an ASCII one)
   windows-ci-45277279723-scenarios.json     the Windows scenario suite of development run 3 (25 of 25 passed)
   windows-ci-<run id>-full-results.txt      a complete full-acceptance report (RUN-0362-MILESTONE3.1-TESTS.cmd C) from Windows CI
   m31-linux-full-suite.tap                  the complete Node suite on the final Milestone 3.1 tree (Linux)

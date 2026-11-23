@@ -1,0 +1,95 @@
+EIGHTMAX TEST WORKBENCH 0.36.2 - MILESTONE 3.1 WINDOWS TESTS
+============================================================
+
+Milestone 3.1 repairs the Windows test runner. The EightMax program itself, its gameplay and the EightMax 5.1 engine are unchanged.
+Whatever happens during a test - a failed check, a step that stops responding, a closed window - you get a report and a ZIP.
+
+WHAT WAS WRONG IN MILESTONE 3 (your two runs on 2026-11-23)
+  1. "M3 release: SHA256SUMS.txt lists every shipped file except itself" failed because the test runner wrote its own logs into
+     test-results\ inside the program folder, and that test treated those logs as release files. Fixed: test results are no longer
+     part of the release check, while a changed, missing or added program file is still detected.
+  2. The "host-start" step printed nothing and never finished. Cause, reproduced on a Windows test machine: the files came from a
+     downloaded ZIP, and the start-up script started the desktop host through the Windows shell, so Windows asked "Open File -
+     Security Warning: do you want to run this file?" - in a window that was INVISIBLE, because the test had started the script
+     hidden. Nobody could answer it, so the script waited forever, and the runner waited up to 15 minutes per step without showing
+     anything. Fixed: the tests now start the programs directly (no such question is asked), every step has a time limit and shows
+     its progress, and if a step ever stops again the report names the step and any window Windows was showing, visible or not.
+  3. The report was written only at the very end, so nothing was saved when the run stopped. Fixed: every check is saved the moment
+     it finishes.
+
+BEFORE YOU START
+  1. Extract the complete ZIP into a NEW, empty folder (right-click the ZIP > Extract All). Do not run anything from inside the ZIP
+     and do not copy over an older version. A short folder such as C:\EightMax is ideal, but any folder works.
+  2. Close the EightMax Workbench and its dashboard.
+
+THE QUICKEST USEFUL TEST (recommended first): the standalone start-up diagnostic
+  Double-click   RUN-M3-HOST-DIAGNOSTIC-3.1.cmd
+  It checks that the desktop host starts, answers, starts its input driver and shuts down, and that the backup "build from source"
+  start works. The mouse does NOT move. About 3-8 minutes. Press a key when asked; the window shows every step as it runs.
+
+ALL TESTS: double-click   RUN-0362-MILESTONE3.1-TESTS.cmd   and press a letter:
+  A  Quick verification      package, programs, desktop host start, input driver, shutdown       2-5 minutes, no mouse movement
+  B  Startup diagnostics     A plus the backup start and its cache (the same as the diagnostic)   3-8 minutes, no mouse movement
+  C  Full acceptance         B plus the regression tests and the real-window tests: window lifecycle, input cancellation,
+                             tournament gameplay, hand tracking, emergency stop, multi-table stability.
+                             45-75 minutes. Small "EightMax Test Table" windows open and the MOUSE MOVES BY ITSELF inside them:
+                             do not touch the mouse or keyboard until the window says the tests ended. Ctrl+Alt+F12 stops all
+                             input. Keep the computer awake and plugged in.
+  D  Package an earlier run  finds a run that did not finish (also the Milestone 3 runs in test-results\) and makes a ZIP of it.
+                             It runs NO test.
+  L  Choose another folder for the results.        Q  Quit.
+  (RUN-0362-MILESTONE3-TESTS.cmd still works: it now starts option C.)
+
+WHERE THE RESULTS ARE SAVED
+  %LOCALAPPDATA%\EightMax-Test-Workbench\TestResults\Milestone3.1-<date>-<time>-<mode>\
+  (usually C:\Users\<you>\AppData\Local\EightMax-Test-Workbench\TestResults\). Earlier results are kept, never overwritten.
+  When the test ends, the window shows the exact ZIP path and File Explorer opens with the ZIP selected:
+      milestone3-results.zip      <- SEND THIS FILE BACK
+  If that folder cannot be written, the TEMP folder is used and the window says so. Option L chooses another folder.
+
+  Inside the results folder:
+      milestone3-results.txt   plain summary: RESULT, every phase, what failed and what to do, every check
+      milestone3-results.json  the same, machine-readable
+      run-status.json          the run's state, saved continuously (where it stood if it stopped)
+      console.log              everything the window showed, with times
+      errors.log               every failure and error with full details
+      checks.jsonl             one line per finished check, saved immediately
+      operations.jsonl         each start-up step, saved when it starts and when it ends
+      phases\                  one file per finished phase
+      host-start\              per start case: the start-up script trace, the host's own error output, diagnostics
+
+WHAT THE RESULT MEANS
+  PASS          every required check passed
+  WARNING       no check failed, but something is worth knowing (listed in the report); the tests still count as passed
+  FAIL          a check failed. Each failure is marked:
+                  application  - the Workbench failed a test
+                  environment  - this computer prevented the test (for example port 48713 used by another program, another
+                                 EightMax still running, a missing or changed file)
+                  timeout      - a step exceeded its time limit (the report shows where it stopped)
+                  harness      - the test runner itself failed (errors.log has the details)
+  SKIPPED       a phase did not run because something it needs failed (the reason is given) - never counted as passed
+  NOT RUN       a phase was not reached or not selected
+  INTERRUPTED   the run did not finish (window closed, Ctrl+C, shutdown); everything done until then is in the report
+  The window also shows the exit code: 0 PASS, 1 FAIL, 2 test-runner error, 3 environment problem, 4 interrupted,
+  5 the launcher could not start the test, 6 nothing to package.
+
+IF THE WINDOW WAS CLOSED, THE COMPUTER RESTARTED OR THE POWER FAILED
+  Nothing is lost: progress is saved continuously. Start RUN-0362-MILESTONE3.1-TESTS.cmd again: it reports the unfinished run and
+  packages it automatically when you start a new test, or choose D to package it without running anything.
+
+IF THE TEST CANNOT START AT ALL
+  The launcher writes a diagnostic file (launcher-failure-....txt and a ZIP of it) and opens File Explorer at it - also when Windows
+  PowerShell cannot run, when files are missing or when the file was started from inside the ZIP. Send that ZIP.
+
+WINDOWS SECURITY PROMPTS
+  Programs extracted from a downloaded ZIP are marked by Windows as "downloaded from the internet". When you double-click one of the
+  .cmd files or START THE WORKBENCH YOURSELF (START-EIGHTMAX.cmd), Windows may show "Windows protected your PC" (SmartScreen) or
+  "Open File - Security Warning".
+  That is normal for an unsigned program: choose "More info" > "Run anyway" (or "Run"). The tests start the programs directly and are
+  not blocked by these prompts; the report says whether the files carry the mark ("Mark of the Web").
+  To remove the mark once for the whole folder (optional), right-click the ZIP BEFORE extracting it > Properties > tick "Unblock" > OK,
+  then extract it again.
+
+PRIVACY
+  The report contains your computer's Windows version, processor, memory, display settings and folder paths (which can include your
+  Windows user name). It contains no passwords; the desktop host's session key is never written into the report.

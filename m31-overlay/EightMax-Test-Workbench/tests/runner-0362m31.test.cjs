@@ -294,6 +294,21 @@ test('M3.1: a results folder inside the application folder is refused (except te
   } finally { fs.rmSync(out, { recursive: true, force: true }); }
 });
 
+test('M3.1: a results folder that cannot be created or written gives a clear note and the safe default is used', { skip: LIVE }, () => {
+  const out = tmpRoot();
+  try {
+    const blocker = path.join(out, 'not a folder.txt'); fs.writeFileSync(blocker, 'a file where the results folder should go');
+    const r = cp.spawnSync('pwsh', ['-NoProfile', '-File', path.join(ROOT, 'windows', 'Test-Milestone31.ps1'), '-Mode', 'Quick', '-NonInteractive', '-OutRoot', path.join(blocker, 'results'), '-Phases', 'environment'],
+      { encoding: 'utf8', timeout: 240000, env: { ...process.env, EIGHTMAX_NONINTERACTIVE: '1', LOCALAPPDATA: path.join(out, 'local') } });
+    assert.match(r.stdout, /cannot write to .*not a folder\.txt/);
+    const base = path.join(out, 'local', 'EightMax-Test-Workbench', 'TestResults'), dir = fs.readdirSync(base).find((d) => d.startsWith('Milestone3.1-'));
+    const res = JSON.parse(fs.readFileSync(path.join(base, dir, 'milestone3-results.json'), 'utf8'));
+    const c = res.checks.find((x) => x.name === 'results folder');
+    assert.equal(c.status, 'WARNING'); assert.match(c.detail, /\(default\); cannot write to /);
+    assert.ok(fs.existsSync(path.join(base, dir, 'milestone3-results.zip')));
+  } finally { fs.rmSync(out, { recursive: true, force: true }); }
+});
+
 test('M3.1: option D also packages a run whose status file is partial or from an older runner (missing fields are added, nothing invented)', { skip: LIVE }, () => {
   const out = tmpRoot();
   try {
