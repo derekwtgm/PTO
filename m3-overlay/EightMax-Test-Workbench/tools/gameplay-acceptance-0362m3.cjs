@@ -108,7 +108,11 @@ const ACCEPTANCE = {
       ck('lifecycle STOPPED with cause tournament-complete; run() ended', t.lc.state === LS.STOPPED && t.lc.cause.kind === 'tournament-complete', t.lc.state + ' / ' + (t.lc.cause && t.lc.cause.kind));
       ck('dashboard message: "Tournament finished. Automated gameplay has stopped normally."', t.lc.message()[1] === 'Tournament finished. Automated gameplay has stopped normally.' && t.gameplay.code === 'tournament-complete');
       ck('eliminations during play were recognised', st.eliminationsSeen >= 2, st.eliminationsSeen);
-      ck('no reading refused', st.refusedReadings === 0, st.refusalCodes);
+      // A hand in which NOBODY had to act (every remaining player all-in from the blinds and antes) is dealt, run out and settled at once,
+      // so its opening may never be on screen: such a hand is refused as missed / untracked - it needed no input - and nothing else may be.
+      const acted = new Set(((o && o.accepted) || []).map((a) => a.hand)), handOf = (d) => { const m = /hand (\d+)/i.exec(d || ''); return m ? Number(m[1]) : null; }, noInput = new Set();
+      const other = t.engine.rejections.filter((r) => { const i = r.issues[0], h = handOf(i.detail); if (['missed-hand-start', 'untracked-hand'].includes(i.code) && h !== null && !acted.has(h)) { noInput.add(h); return false; } return true; });
+      ck('no reading refused (except the unseen opening of a hand that needed no decision)', other.length === 0 && st.refusedReadings <= t.engine.rejections.length - other.length, { refusalCodes: st.refusalCodes, refusedFrames: st.refusedReadings, handsWithoutDecisions: [...noInput], other: other.slice(0, 3).map((r) => r.issues[0].code + ': ' + r.issues[0].detail) });
       ck('every confirmed action matches the dealer, in order; nothing applied unconfirmed', x.wrongActions === 0 && x.confirmedNotApplied === 0 && x.appliedNotConfirmed === 0, x);
       ck('no incorrect click, no invalid wager', x.incorrectClicks === 0 && x.invalidWagers === 0, x);
       await sleep(FAKE ? 300 : 2000); ck('no capture and no input after the end', since(env.log, 'input', s.ws[0].hwnd, tEnd) === 0 && since(env.log, 'capture', s.ws[0].hwnd, tEnd) === 0, [since(env.log, 'input', s.ws[0].hwnd, tEnd), since(env.log, 'capture', s.ws[0].hwnd, tEnd)]);
@@ -276,9 +280,13 @@ async function main() {
     }
   } finally { await env.stop(); }
   for (const c of M2.CHILDREN) if (!c.done) await settleWithin(c.promise, 5000);
-  await new Promise((r) => setImmediate(r));
-  const live = process.getActiveResourcesInfo ? process.getActiveResourcesInfo() : [], counts = {}; for (const k of live) counts[k] = (counts[k] || 0) + 1;
-  const unexpected = Object.entries(counts).filter(([k]) => !['PipeWrap', 'TTYWrap', 'FSReqCallback', 'FileHandle', 'Immediate'].includes(k)).map(([k, v]) => k + ' x' + v);
+  // 0.36.2 M3: the handle of a child that has just exited is closed in a later phase of the event loop: sample again (bounded, 1 s)
+  // before calling anything a leak (Windows CI run 45203097931 reported the desktop host's handle, sampled one turn after its exit)
+  const ALLOWED = ['PipeWrap', 'TTYWrap', 'FSReqCallback', 'FileHandle', 'Immediate']; let counts = {}, unexpected = [];
+  for (let i = 0; i < 20; i++) {
+    await new Promise((r) => setTimeout(r, i ? 50 : 0)); counts = {}; for (const k of (process.getActiveResourcesInfo ? process.getActiveResourcesInfo() : [])) counts[k] = (counts[k] || 0) + 1;
+    unexpected = Object.entries(counts).filter(([k]) => !ALLOWED.includes(k)).map(([k, v]) => k + ' x' + v); if (!unexpected.length) break;
+  }
   out.cleanup = { childProcesses: M2.CHILDREN.map((c) => ({ ...c.info })), allChildrenExited: M2.CHILDREN.every((c) => c.done), activeResources: counts, unexpected, ok: M2.CHILDREN.every((c) => c.done) && unexpected.length === 0 };
   const failed = out.scenarios.filter((s) => s.status !== 'pass');
   out.summary = { scenarios: out.scenarios.length, passed: out.scenarios.length - failed.length, failed: failed.length, checks: out.scenarios.reduce((a, s) => a + s.checks.length, 0), failedChecks: out.scenarios.reduce((a, s) => a + s.checks.filter((c) => !c.pass).length, 0), cleanupOk: out.cleanup.ok };

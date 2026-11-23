@@ -39,6 +39,12 @@
     frame() {
       // While the other players "think" (turn delay) the table shows no action controls and the view stays put.
       if (this.playing && this.t.actor >= 0 && !this.holding) this.view = this.t.actor;
+      // 0.36.2 M3: the window always shows the table from a seat DEALT IN to the current hand. A hand in which nobody has to act (every
+      // remaining player all-in from the blinds and antes) kept the previous view - possibly a seat eliminated in the hand before, which
+      // holds no cards, so no frame of that hand could be read and the end of the tournament was never seen (found when the Linux
+      // self-check dealt the Windows run's hands at 800 px). The next dealt-in seat clockwise is shown instead.
+      const dealt = (i) => !!(this.t.players[i] && this.t.players[i].cards && this.t.players[i].cards.length === 2), n = this.t.players.length;
+      if (this.t.hand > 0 && !dealt(this.view)) for (let k = 1; k < n; k++) { const i = (this.view + k) % n; if (dealt(i)) { this.view = i; break; } }
       const img = SIM.renderTable(this.t, this.w, { v2: true, heroSeat: this.view, hideControls: this.holding || this.t.actor !== this.view });
       if (img.height !== this.h) { /* the window keeps 1.6:1; a 1 px rounding difference is padded/cropped */ const out = { width: this.w, height: this.h, data: new Uint8ClampedArray(this.w * this.h * 4) }; for (let y = 0; y < this.h; y++) { const sy = Math.min(img.height - 1, y); out.data.set(img.data.subarray(sy * this.w * 4, (sy + 1) * this.w * 4), y * this.w * 4); } SS.draw(out, { table: this.id, viewSeat: this.view, playing: this.playing, revision: this.rev }); return out; }
       return SS.draw(img, { table: this.id, viewSeat: this.view, playing: this.playing, revision: this.rev });

@@ -389,9 +389,11 @@
     }
     async _readImage(g) {
       const client = { x: g.bounds.x, y: g.bounds.y, w: g.bounds.width, h: g.bounds.height };
-      let view = this.profile.layout.heroSeat || 0, rev; if (this.strip) { const st = STRIP.read(g.image); if (!st.ok) return {}; view = st.viewSeat; rev = st.revision; }
-      const r = this.reader.observe(g.image, { heroSeat: view, capturedAt: Date.now() }); if (!r.ok) return {};
-      if (rev !== undefined) r.observation.simRevision = rev; const x = this.engine.ingest(r.observation); if (!x.accepted) return {};
+      // 0.36.2 M3: a reading refused while confirming an action is recorded like any other refused reading (it was silent, so a
+      // confirmation that timed out could not be explained afterwards); repeats are coalesced by the diagnostics recorder
+      let view = this.profile.layout.heroSeat || 0, rev; if (this.strip) { const st = STRIP.read(g.image); if (!st.ok) { this.m.rejectedFrames++; this._diag('recognition', { ok: false, reasons: ['status strip: ' + st.reason], during: 'confirmation' }); return {}; } view = st.viewSeat; rev = st.revision; }
+      const r = this.reader.observe(g.image, { heroSeat: view, capturedAt: Date.now() }); if (!r.ok) { this.m.rejectedFrames++; this._diag('recognition', { ok: false, reasons: r.reasons.slice(0, 3), during: 'confirmation' }); return {}; }
+      if (rev !== undefined) r.observation.simRevision = rev; const x = this.engine.ingest(r.observation); if (!x.accepted) { this.m.rejectedFrames++; this._diag('state', { ok: false, issues: x.issues.slice(0, 3), during: 'confirmation' }); return {}; }
       this.state = x.state; this.lastFrame = { client, at: g.at, frameId: g.frameId, strip: this.strip ? STRIP.read(g.image) : null }; return { state: x.state };
     }
     async _decision(st) {

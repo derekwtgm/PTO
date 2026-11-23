@@ -9895,6 +9895,8 @@ window.cancelWorkspaceChecks=()=>{const active=!!(checkQueue||checkLease);checkG
   const SEAT_STATUS = Object.freeze({ ACTIVE: 'active', FOLDED: 'folded', ALL_IN: 'all-in', ELIMINATED: 'eliminated', SITTING_OUT: 'sitting-out', UNKNOWN: 'unknown' });
   /** Rejection codes that leave a whole hand untracked (the engine then waits for the next verified opening). */
   const UNTRACKED_CODES = Object.freeze(['missed-hand-start', 'hand-start-mismatch', 'inconsistent-start-pot', 'seating-contradiction', 'stack-continuity', 'button-movement', 'ambiguous-start', 'persistent-contradiction']);
+  // 0.36.2 M3: refusals that mean 'this frame could not be read reliably' (recognition), as opposed to a reliable reading that contradicts the hand
+  const UNREADABLE_CODES = Object.freeze(['low-confidence', 'missing-confidence', 'missing-field', 'unrecognized-layout', 'bad-sequence', 'malformed', 'invalid-card', 'ambiguous-seats']);
   const DEFAULTS = Object.freeze({
     minOverallConfidence: 0.9, minFieldConfidence: 0.85, autoResumeAfter: 2,
     expectedLayout: 'eightmax-8max-v1', expectedBankroll: null, maxSeqGap: 1000,
@@ -10291,6 +10293,10 @@ window.cancelWorkspaceChecks=()=>{const active=!!(checkQueue||checkLease);checkG
     _noteContradiction(obs, issues) {
       const code = issues[0].code; if (code === 'untracked-hand' || UNTRACKED_CODES.includes(code) || !obs || !isInt(obs.hand)) { this.tr.contradiction = null; return; }
       if (code === 'stale-observation' || code === 'wrong-table' || code === 'unsupported-format') return;
+      // An UNREADABLE frame (low confidence, missing or impossible fields) says nothing against the reconstructed hand: it is refused,
+      // input stays blocked, but it never turns the hand untracked - the hand resumes as soon as the screen reads reliably again
+      // (Windows CI run 45203097931: 25 low-confidence readings of one turn card had escalated to 'persistent-contradiction').
+      if (UNREADABLE_CODES.includes(code)) return;
       const c = this.tr.contradiction;
       if (c && c.hand === obs.hand && c.code === code) c.frames++; else this.tr.contradiction = { hand: obs.hand, code, detail: issues[0].detail, frames: 1 };
       if (this.tr.contradiction.frames >= this.opt.maxContradictionFrames && (this.tr.hand === null || obs.hand >= this.tr.hand)) {
@@ -10458,7 +10464,7 @@ window.cancelWorkspaceChecks=()=>{const active=!!(checkQueue||checkLease);checkG
     return obs;
   }
 
-  return { SEATS, SB, BB, ANTE, START_POT, STREETS, BOARD_LEN, DEFAULTS, SEAT_STATUS, UNTRACKED_CODES, HandStateEngine, observeSimulator, stateKey, legalFrom, cardToString, cardFromString, screenSeatStatus };
+  return { SEATS, SB, BB, ANTE, START_POT, STREETS, BOARD_LEN, DEFAULTS, SEAT_STATUS, UNTRACKED_CODES, UNREADABLE_CODES, HandStateEngine, observeSimulator, stateKey, legalFrom, cardToString, cardFromString, screenSeatStatus };
 });
 
 </script><script>
@@ -12725,7 +12731,16 @@ window.cancelWorkspaceChecks=()=>{const active=!!(checkQueue||checkLease);checkG
   function calibrate(widths = [800, 960, 1440, 1920], layout = layoutFor(8, false)) {
     const profiles = new O.ProfileSet().add(layout), cards = new O.CardTemplates(), glyphs = new O.GlyphTemplates();
     for (const w of widths) {
-      for (let c = 0; c < 52; c++) { const m = makeImage(w, 0, 1); m.card(layout.board[0], c); cards.add(HS.cardToString(c), V.normalize(m.finish(), layout.board[0])); }
+      // 0.36.2 M3: card templates from EVERY card slot (board and hero), not only the first board slot. The slots sit at different
+      // sub-pixel offsets; at 800 px four cards drawn in the turn slot (5h, 6c, 8s, Td) correlated only 0.883-0.892 with the slot-0
+      // template, under the 0.9 reading threshold, so a table showing one of them on the turn could not be read for the rest of the hand
+      // (found on the Windows CI runner, run 45203097931: scenarios J, T2, M1, M5 paused). Each card is drawn once per width in all slots
+      // (the slots do not overlap); a pattern identical to one already added for that card is skipped.
+      const cardBoxes = layout.board.concat(layout.hero || []);
+      for (let c = 0; c < 52; c++) {
+        const m = makeImage(w, 0, 1); for (const box of cardBoxes) m.card(box, c); const img = m.finish(), seen = new Set();
+        for (const box of cardBoxes) { const n = V.normalize(img, box), key = n.pixels.map((x) => Math.round(x * 1000)).join(','); if (seen.has(key)) continue; seen.add(key); cards.add(HS.cardToString(c), n); }
+      }
       // Digit templates are taken from every kind of numeral box the layout uses (their pixel grids differ by a pixel or two).
       const boxes = [layout.pot, layout.seats[0].stack, layout.seats[0].bet, layout.seats[Math.min(3, layout.seats.length - 1)].bet]; if (layout.seats.length !== 8) for (const s of layout.seats) boxes.push(s.stack, s.bet);   // 0.27: other seat counts have other sub-pixel positions, so every numeral box contributes templates (8 seats: unchanged) if (layout.handId) boxes.push(layout.handId, layout.callAmount, layout.minRaise);
       for (const box of boxes) for (let dgt = 0; dgt < 10; dgt++) { const m = makeImage(w, 0, 1); m.text(box, String(dgt) + String((dgt + 1) % 10)); const img = m.finish(); const seg = O.segmentGlyphs(img, box); if (seg.glyphs.length < 2) continue; glyphs.add(String(dgt), O.glyphPixels(img, seg.glyphs[0], seg.inkIsDark)); glyphs.add(String((dgt + 1) % 10), O.glyphPixels(img, seg.glyphs[1], seg.inkIsDark)); }
@@ -15553,6 +15568,12 @@ const close=$('r33-close');if(close)close.addEventListener('click',()=>{$('r33-p
     frame() {
       // While the other players "think" (turn delay) the table shows no action controls and the view stays put.
       if (this.playing && this.t.actor >= 0 && !this.holding) this.view = this.t.actor;
+      // 0.36.2 M3: the window always shows the table from a seat DEALT IN to the current hand. A hand in which nobody has to act (every
+      // remaining player all-in from the blinds and antes) kept the previous view - possibly a seat eliminated in the hand before, which
+      // holds no cards, so no frame of that hand could be read and the end of the tournament was never seen (found when the Linux
+      // self-check dealt the Windows run's hands at 800 px). The next dealt-in seat clockwise is shown instead.
+      const dealt = (i) => !!(this.t.players[i] && this.t.players[i].cards && this.t.players[i].cards.length === 2), n = this.t.players.length;
+      if (this.t.hand > 0 && !dealt(this.view)) for (let k = 1; k < n; k++) { const i = (this.view + k) % n; if (dealt(i)) { this.view = i; break; } }
       const img = SIM.renderTable(this.t, this.w, { v2: true, heroSeat: this.view, hideControls: this.holding || this.t.actor !== this.view });
       if (img.height !== this.h) { /* the window keeps 1.6:1; a 1 px rounding difference is padded/cropped */ const out = { width: this.w, height: this.h, data: new Uint8ClampedArray(this.w * this.h * 4) }; for (let y = 0; y < this.h; y++) { const sy = Math.min(img.height - 1, y); out.data.set(img.data.subarray(sy * this.w * 4, (sy + 1) * this.w * 4), y * this.w * 4); } SS.draw(out, { table: this.id, viewSeat: this.view, playing: this.playing, revision: this.rev }); return out; }
       return SS.draw(img, { table: this.id, viewSeat: this.view, playing: this.playing, revision: this.rev });
@@ -16313,9 +16334,11 @@ const close=$('r33-close');if(close)close.addEventListener('click',()=>{$('r33-p
     }
     async _readImage(g) {
       const client = { x: g.bounds.x, y: g.bounds.y, w: g.bounds.width, h: g.bounds.height };
-      let view = this.profile.layout.heroSeat || 0, rev; if (this.strip) { const st = STRIP.read(g.image); if (!st.ok) return {}; view = st.viewSeat; rev = st.revision; }
-      const r = this.reader.observe(g.image, { heroSeat: view, capturedAt: Date.now() }); if (!r.ok) return {};
-      if (rev !== undefined) r.observation.simRevision = rev; const x = this.engine.ingest(r.observation); if (!x.accepted) return {};
+      // 0.36.2 M3: a reading refused while confirming an action is recorded like any other refused reading (it was silent, so a
+      // confirmation that timed out could not be explained afterwards); repeats are coalesced by the diagnostics recorder
+      let view = this.profile.layout.heroSeat || 0, rev; if (this.strip) { const st = STRIP.read(g.image); if (!st.ok) { this.m.rejectedFrames++; this._diag('recognition', { ok: false, reasons: ['status strip: ' + st.reason], during: 'confirmation' }); return {}; } view = st.viewSeat; rev = st.revision; }
+      const r = this.reader.observe(g.image, { heroSeat: view, capturedAt: Date.now() }); if (!r.ok) { this.m.rejectedFrames++; this._diag('recognition', { ok: false, reasons: r.reasons.slice(0, 3), during: 'confirmation' }); return {}; }
+      if (rev !== undefined) r.observation.simRevision = rev; const x = this.engine.ingest(r.observation); if (!x.accepted) { this.m.rejectedFrames++; this._diag('state', { ok: false, issues: x.issues.slice(0, 3), during: 'confirmation' }); return {}; }
       this.state = x.state; this.lastFrame = { client, at: g.at, frameId: g.frameId, strip: this.strip ? STRIP.read(g.image) : null }; return { state: x.state };
     }
     async _decision(st) {

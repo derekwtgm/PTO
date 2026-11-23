@@ -10,9 +10,11 @@ function lifecycleHost(n, o = {}) {
   const world = { estop: null, registered: new Set() }, tables = new Map(), log = [], stats = { clicks: 0, violations: [], cancelAll: 0, unregister: [], captureClose: [], inputByHwnd: {}, captureByHwnd: {}, probesByHwnd: {} };
   let nextHwnd = 0x1000, nextPid = 4000;
   function addWindow(id, extra = {}) {
-    const hwnd = '0x' + (nextHwnd += 0x1000).toString(16).toUpperCase(), client = extra.client || { x: 30 + id * 40, y: 20 + id * 30, w: 960, h: 600 };
+    // 0.36.2 M3: o.width / o.seed reproduce the Windows test-table fixture (tools/test-table-035.cjs: client o.width x round(o.width / 1.6),
+    // dealer seed o.seed * 1000 + table, the same seed for a reopened window), so a Linux self-check deals the hands the Windows run dealt
+    const cw = o.width || 960, hwnd = '0x' + (nextHwnd += 0x1000).toString(16).toUpperCase(), client = extra.client || { x: 30 + id * 40, y: 20 + id * 30, w: cw, h: Math.round(cw / 1.6) };
     const t = { id, hwnd, pid: ++nextPid, processStart: String(1000 + nextPid), className: 'WindowsForms10.Window.8.app.0.EightMaxTestTable', exe: 'C:\\EightMax\\desktop\\bin\\EightMaxTestTable.exe', exeSha256: SHA, client, frame: null, field: '', closed: false, minimized: false, transient: 0, transientCode: 'no-frame', reused: null, captureDelayMs: 2, moveMs: o.moveMs || 15 };
-    t.dealer = new FD.TableDealer({ table: id, seed: 100 + id + (extra.seedOffset || 0), handGapMs: o.handGapMs || 50, ...(o.stackChips ? { stacks: Array(8).fill(o.stackChips) } : {}), ...(o.stacks ? { stacks: (typeof o.stacks === 'function' ? o.stacks(id) : o.stacks).slice() } : {}), ...(extra.stacks ? { stacks: extra.stacks } : {}), turnDelayMs: o.turnDelayMs || 0, actionTimeoutMs: o.actionTimeoutMs || 0, actionTimeoutUntilHand: o.actionTimeoutUntilHand, record: o.record ? (ev) => o.record(id, ev) : undefined, send: (m) => { if (m.type === 'frame') t.frame = m; } });
+    t.dealer = new FD.TableDealer({ table: id, seed: o.seed !== undefined && extra.seedOffset === undefined ? o.seed * 1000 + id : 100 + id + (extra.seedOffset || 0), handGapMs: o.handGapMs || 50, ...(o.stackChips ? { stacks: Array(8).fill(o.stackChips) } : {}), ...(o.stacks ? { stacks: (typeof o.stacks === 'function' ? o.stacks(id) : o.stacks).slice() } : {}), ...(extra.stacks ? { stacks: extra.stacks } : {}), turnDelayMs: o.turnDelayMs || 0, actionTimeoutMs: o.actionTimeoutMs || 0, actionTimeoutUntilHand: o.actionTimeoutUntilHand, record: o.record ? (ev) => o.record(id, ev) : undefined, send: (m) => { if (m.type === 'frame') t.frame = m; } });
     t.dealer.onWindow({ type: 'ready', client, hwnd }); tables.set(hwnd, t); return t;
   }
   for (let i = 1; i <= n; i++) addWindow(i);

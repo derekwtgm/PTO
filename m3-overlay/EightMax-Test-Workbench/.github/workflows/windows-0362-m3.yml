@@ -16,7 +16,9 @@ on:
       campaign_hands: { description: 'long campaign: hands to complete (0 = skip)', required: false, default: '0' }
   push:
     branches: [milestone-3-0362]
-    paths: ['.github/workflows/windows-0362-m3.yml', 'EightMax-Test-Workbench-0.36.2-Milestone-3.zip', 'm3-overlay/**', 'ci-request.json']
+    # a run is requested by committing ci-request.json (development runs) or the Milestone 3 ZIP; an overlay or workflow change alone
+    # does not start one (the input-driver build workflow runs first when a C# source changes)
+    paths: ['ci-request.json', 'EightMax-Test-Workbench-0.36.2-Milestone-3.zip', 'EightMax-Test-Workbench-0.36.2-Milestone-3.zip.sha256']
 permissions:
   contents: write
 jobs:

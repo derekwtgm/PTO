@@ -2,7 +2,7 @@
  "format": "eightmax-build-check",
  "version": 2,
  "milestone": "0.36.2-milestone-3",
- "at": "2026-11-23T12:53:13.775422+00:00",
+ "at": "2026-11-23T16:07:19.002024+00:00",
  "buildHost": "Linux (Mono cross-compilation check; outputs discarded) - NOT a Windows build",
  "compiler": "Mono C# compiler version 6.8.0.105",
  "referenceAssemblies": "/usr/lib/mono/4.8-api (.NET Framework 4.8 API)",
@@ -63,8 +63,8 @@
    "binaryIdenticalToWindowsBuild": true,
    "sources": {
     "desktop/input/Driver.cs": {
-     "sha256": "8c9aa4e1d5a99fd291ca0993202b304a8d3b046fa0fb1978fe0ce2bd726a763b",
-     "matchesWindowsBuildEvidence": true
+     "sha256": "503f153914543c5c84ae1737342ea257bce5a9bf772586723b5a9dcf9193d107",
+     "matchesWindowsBuildEvidence": false
     },
     "desktop/input/Motion.cs": {
      "sha256": "0eea332e21ac2b5ea8713427f17a56c6299aa42f2afce5fea2e699bab8fd2848",
@@ -94,7 +94,7 @@
     "errors": [],
     "note": "without /define:UIA (UI Automation reference assemblies are Windows-only)"
    },
-   "ok": true
+   "ok": false
   },
   "desktop/bin/EightMaxTestTable.exe": {
    "shippedSha256": "3e5a76995a24d169336179e7e3805ddeb57271d951029226b43653c217464348",
@@ -174,5 +174,5 @@
   "build": "7d08acc7eb4577ee",
   "unchanged": true
  },
- "ok": true
+ "ok": false
 }

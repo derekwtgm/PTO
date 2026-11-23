@@ -46,6 +46,8 @@
   const SEAT_STATUS = Object.freeze({ ACTIVE: 'active', FOLDED: 'folded', ALL_IN: 'all-in', ELIMINATED: 'eliminated', SITTING_OUT: 'sitting-out', UNKNOWN: 'unknown' });
   /** Rejection codes that leave a whole hand untracked (the engine then waits for the next verified opening). */
   const UNTRACKED_CODES = Object.freeze(['missed-hand-start', 'hand-start-mismatch', 'inconsistent-start-pot', 'seating-contradiction', 'stack-continuity', 'button-movement', 'ambiguous-start', 'persistent-contradiction']);
+  // 0.36.2 M3: refusals that mean 'this frame could not be read reliably' (recognition), as opposed to a reliable reading that contradicts the hand
+  const UNREADABLE_CODES = Object.freeze(['low-confidence', 'missing-confidence', 'missing-field', 'unrecognized-layout', 'bad-sequence', 'malformed', 'invalid-card', 'ambiguous-seats']);
   const DEFAULTS = Object.freeze({
     minOverallConfidence: 0.9, minFieldConfidence: 0.85, autoResumeAfter: 2,
     expectedLayout: 'eightmax-8max-v1', expectedBankroll: null, maxSeqGap: 1000,
@@ -442,6 +444,10 @@
     _noteContradiction(obs, issues) {
       const code = issues[0].code; if (code === 'untracked-hand' || UNTRACKED_CODES.includes(code) || !obs || !isInt(obs.hand)) { this.tr.contradiction = null; return; }
       if (code === 'stale-observation' || code === 'wrong-table' || code === 'unsupported-format') return;
+      // An UNREADABLE frame (low confidence, missing or impossible fields) says nothing against the reconstructed hand: it is refused,
+      // input stays blocked, but it never turns the hand untracked - the hand resumes as soon as the screen reads reliably again
+      // (Windows CI run 45203097931: 25 low-confidence readings of one turn card had escalated to 'persistent-contradiction').
+      if (UNREADABLE_CODES.includes(code)) return;
       const c = this.tr.contradiction;
       if (c && c.hand === obs.hand && c.code === code) c.frames++; else this.tr.contradiction = { hand: obs.hand, code, detail: issues[0].detail, frames: 1 };
       if (this.tr.contradiction.frames >= this.opt.maxContradictionFrames && (this.tr.hand === null || obs.hand >= this.tr.hand)) {
@@ -609,5 +615,5 @@
     return obs;
   }
 
-  return { SEATS, SB, BB, ANTE, START_POT, STREETS, BOARD_LEN, DEFAULTS, SEAT_STATUS, UNTRACKED_CODES, HandStateEngine, observeSimulator, stateKey, legalFrom, cardToString, cardFromString, screenSeatStatus };
+  return { SEATS, SB, BB, ANTE, START_POT, STREETS, BOARD_LEN, DEFAULTS, SEAT_STATUS, UNTRACKED_CODES, UNREADABLE_CODES, HandStateEngine, observeSimulator, stateKey, legalFrom, cardToString, cardFromString, screenSeatStatus };
 });

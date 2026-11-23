@@ -148,12 +148,15 @@ Phase 'unit' {
 # ---------------- 4. desktop host start: prebuilt, fallback compile, cache ----------------
 $hostStart = New-Object Collections.ArrayList
 $hostWork = Join-Path $OutDir 'host-start'; [IO.Directory]::CreateDirectory($hostWork) | Out-Null; $cacheRoot = Join-Path $hostWork 'cache'
+# a check name as a file name: Windows file names cannot contain : \ / * ? " < > | (a colon made NTFS write an alternate data stream and the
+# launcher could not write its status file - CI run 45203097931, the two invalid-cache cases)
+function Safe-Name([string]$Name) { return ($Name -replace '[^A-Za-z0-9 ._()-]', '-') }
 function Start-ViaLauncher([string]$Name, [string]$Extra) {
-    $ready = Join-Path $hostWork ($Name + '-session.json'); $st = Join-Path $hostWork ($Name + '-status.json')
+    $file = Safe-Name $Name; $ready = Join-Path $hostWork ($file + '-session.json'); $st = Join-Path $hostWork ($file + '-status.json')
     foreach ($f in @($ready, $st)) { if (Test-Path -LiteralPath $f) { Remove-Item -LiteralPath $f -Force } }
     if (@(Port-Owners).Count) { if ((Wait-PortFree 20000) -lt 0) { throw ('port 48713 is still in use before ' + $Name + ': ' + (@(Port-Owners) -join ', ')) } }
     $a = '-NoProfile -ExecutionPolicy Bypass -File "' + (Join-Path $root 'windows\Start-Desktop.ps1') + '" -Headless -ReadyFile "' + $ready + '" -StatusFile "' + $st + '" ' + $Extra
-    $r = Run-Logged 'powershell.exe' $a ('host-' + $Name) 900
+    $r = Run-Logged 'powershell.exe' $a ('host-' + $file) 900
     $status = $null; if (Test-Path -LiteralPath $st) { $status = $js.DeserializeObject((Read-Text $st)) }
     if ($r['code'] -ne 0) { throw ('Start-Desktop.ps1 exit ' + $r['code'] + ': ' + ((Read-Text $r['err']).Trim() -split "`n" | Select-Object -Last 3) -join ' | ') }
     if ($Extra -match '-BuildOnly') { return [ordered]@{ status = $status; session = $null; health = $null; launcherSeconds = $r['seconds'] } }
