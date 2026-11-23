@@ -168,8 +168,10 @@ a later hand is verified (two consistent fresh readings), and the recovery is co
 | 8 × 300 chips | Linux | 163 | 9 | 1,064 | 0 / 0 | 0 | 0 (2 hands nobody acted in) | 61 |
 | 8 × 1,500 chips | Linux | 200 | 1 | 1,270 | 0 / 0 | 0 | 0 | 7 |
 | 5 players × 400 chips | **Windows CI run 4** (45217637720) | 136 | 8 | 872 of 872 | 0 / 0 | 0 | 0 | 56 |
-| 5 players × 400 chips, distinct deals | **Windows CI 45225443410** | 135 | 9 (10 started) | 685 of 685 | 0 / 0 | 0 | 0 | 63 | |
+| 5 players × 400 chips, distinct deals | **Windows CI 45225443410** | 135 | 9 (10 started) | 685 of 685 | 0 / 0 | 0 | 0 | 63 |
 
+The Linux 5 × 400 campaign deals exactly the hands the Windows runs deal (same 800-px table and dealer seeds), and the final Windows
+campaign ended with the same totals as the Linux one: 135 hands, 9 finished tournaments, 685 confirmed actions, 63 eliminations.
 Run 4's campaign replayed one tournament eight times (a reopened test table dealt with the seed of the table it replaced — fixed: every
 generation now deals its own hands, and the later runs play distinct tournaments). Every campaign: each completed tournament's winner is
 the dealer's winner, chips are conserved, no stall, no unexpected pause.
@@ -234,8 +236,8 @@ Run 45225443410 in detail (Windows Server 2025 build 26100, AMD EPYC, 2 cores / 
 | Suite | Environment | Tests | Passed | Failed | Skipped |
 |---|---|---|---|---|---|
 | Milestone 2 baseline (unmodified) | Linux, Node 22.23.5 | 920 | 848 | 0 | 72 |
-| Milestone 3 final | Linux, Node 22.23.5, Chromium, Mono 6.8 | 965 | 913 | 0 | 52 | |
-| Milestone 3, complete suite with the bundled Node | **Windows CI 45225443410** | 965 | 900 | 0 | 65 | |
+| Milestone 3 final | Linux, Node 22.23.5, Chromium, Mono 6.8 | 965 | 913 | 0 | 52 |
+| Milestone 3, complete suite with the bundled Node | **Windows CI 45225443410** | 965 | 900 | 0 | 65 |
 
 Skipped tests need tools that the environment does not have (on Linux: the Windows `mwcli.exe`, PowerShell, the .NET SDK; on the
 Windows runner: Mono, the .NET 8 SDK for the WGC helper, Linux-only stubs) — the same categories as the Milestone 2 baseline.
