@@ -149,7 +149,13 @@
     pausedIdentityCheckMs: 1000, stoppedIdentityCheckMs: 5000, activeIdentitySlackMs: 2500, maxUnconfirmedEvidence: 20, evidenceProbeMs: 2500,
     // 0.36.2 M4.0: input pipeline profile ('compat-3.2' = exactly Milestone 3.2; 'optimized' = see PIPELINE below) and recognition
     // templates for the window's exact width (base widths unchanged)
-    pipeline: 'compat-3.2', exactWidthTemplates: true, stripPollMs: 30 });
+    pipeline: 'compat-3.2', exactWidthTemplates: true, stripPollMs: 30,
+    // 0.36.2 M4.0 deadlineAnchor: 'frame' (default, Milestone 3.2) = the decision deadline counts from the capture the decision was read
+    // from. 'change' = from the request of the last capture that still showed the PREVIOUS status-strip revision: the change (the turn)
+    // happened after it, so a late first reading cannot push the deadline past a table clock that started with the turn. ONLY for a
+    // table that has its own action clock: without one, a decision refused for its deadline is refused again on every reading of the
+    // same revision (nothing else moves that table on), and a pause (emergency stop) counts against the deadline.
+    deadlineAnchor: 'frame' });
   /**
    * 0.36.2 M4.0: what each input pipeline profile does on the table side (the driver side is DRV.PIPELINE_PROFILES):
    *   revalidate   'full'  - the in-lease revalidation captures the whole window (Milestone 3.2)
@@ -159,10 +165,7 @@
    *                'strip' - polls capture only the strip until its revision changes; the new frame is then captured whole and read
    *                          completely before anything is confirmed (the same comparison as before)
    */
-  // 0.36.2 M4.0 deadlineAnchor: 'frame' = the decision deadline counts from the capture the decision was read from (Milestone 3.2);
-  // 'change' = from the request of the last capture that still showed the PREVIOUS status-strip revision - the turn began after it, so a
-  // table clock that started with the turn cannot run out before the deadline (a later first reading no longer extends the deadline)
-  const PIPELINE = Object.freeze({ 'compat-3.2': Object.freeze({ revalidate: 'full', confirmPoll: 'full', deadlineAnchor: 'frame' }), 'optimized': Object.freeze({ revalidate: 'strip', confirmPoll: 'strip', deadlineAnchor: 'change' }) });
+  const PIPELINE = Object.freeze({ 'compat-3.2': Object.freeze({ revalidate: 'full', confirmPoll: 'full' }), 'optimized': Object.freeze({ revalidate: 'strip', confirmPoll: 'strip' }) });
   const LS = LC.STATES;
   /** 0.36.2 M3: gameplay conditions (title, plain-language explanation). One condition per table at a time. */
   const GAMEPLAY = Object.freeze({
@@ -234,7 +237,7 @@
       this.executor.setMode('qa', { authorization: o.qaAuthorization }); this.executor.attach(o.id, this.adapter);
       this.m = { frames: 0, rejectedFrames: 0, decisions: 0, scripted: 0, solver: 0, unavailable: 0, attempted: 0, confirmed: 0, rejected: 0, ambiguous: 0, timedOut: 0, cancelled: 0, blocked: 0, deadline: 0, errors: 0, e2e: [], cursor: [], input: [], wait: [], confirmMs: [], focusErrors: 0, driverErrors: 0,
         captureFailuresByCode: {}, transientFailures: 0, lossSignals: 0, uncertain: 0, cancelledByLoss: 0, staleDiscarded: 0, recoveries: 0, backoffWaits: 0, probes: 0, manualOverrides: 0, emergencyStops: 0, strategyUnavailable: 0,
-        verifyingSteps: 0, handRecoveries: 0, eliminationsSeen: 0, inputRejectedNoChange: 0, scheduleWait: [], unconfirmedEvidence: 0, deadlineAnchorSlackMs: [] };
+        verifyingSteps: 0, handRecoveries: 0, eliminationsSeen: 0, inputRejectedNoChange: 0, scheduleWait: [], unconfirmedEvidence: 0, deadlineAnchorSlackMs: [], changeAgeMs: [] };
       this.log = [];
       // 0.36.2 M3: gameplay condition (one at a time), per-condition step counts and episode counts, last seating event, completion
       this.gameplay = { code: 'starting', since: Date.now(), detail: null, counts: {}, episodes: { starting: 1 }, lastEvent: null }; this.completed = null;
@@ -491,10 +494,10 @@
       if (!Number.isInteger(rev) || !Number.isFinite(requestedAt)) return; const r = this._rev;
       if (!r || r.value !== rev) this._rev = { value: rev, changedAfterAt: r ? r.lastAt : null, lastAt: requestedAt }; else if (requestedAt > r.lastAt) r.lastAt = requestedAt;
     }
-    /** 0.36.2 M4.0: when the decision deadline starts (see PIPELINE deadlineAnchor); never later than the decision frame itself. */
+    /** 0.36.2 M4.0: when the decision deadline starts (option deadlineAnchor, see DEFAULTS); never later than the decision frame itself. */
     _deadlineAnchor(frame) {
-      const mode = this.opt.deadlineAnchor || this.pipe.deadlineAnchor || 'frame', c = frame.changedAfterAt;
-      return mode === 'change' && Number.isFinite(c) && c <= frame.at ? c : frame.at;
+      const c = frame.changedAfterAt;
+      return this.opt.deadlineAnchor === 'change' && Number.isFinite(c) && c <= frame.at ? c : frame.at;
     }
     async look() {
       const gen = this.lc.generation;
@@ -646,7 +649,10 @@
       if (this.stopped || this.paused) return {kind: 'paused', reason: this.paused || 'stopped'}; if (!decision) { this.pause('no EightMax decision: ' + this.lastDecisionReason); return { kind: 'unavailable', category: 'strategy-unavailable' }; }
       if (!this.lc.valid(token)) { this.m.staleDiscarded++; return { kind: 'stale', reason: 'the window lifecycle changed while deciding; decision discarded' }; }
       this.m.decisions++; const anchorAt = this._deadlineAnchor(v.frame), deadline = anchorAt + this.opt.decisionWindowMs, before = st, frame = v.frame;
-      if (anchorAt < v.frame.at) { this.m.deadlineAnchorSlackMs.push(v.frame.at - anchorAt); if (this.m.deadlineAnchorSlackMs.length > 5000) this.m.deadlineAnchorSlackMs.shift(); }   // 0.36.2 M4.0 (measurement)
+      // 0.36.2 M4.0 (measurement): how long before the decision reading the table had changed at most (every decision, either anchor),
+      // and by how much the 'change' anchor moved the deadline earlier
+      const age = Number.isFinite(v.frame.changedAfterAt) ? v.frame.at - v.frame.changedAfterAt : null; if (age !== null && age >= 0) { this.m.changeAgeMs.push(age); if (this.m.changeAgeMs.length > 5000) this.m.changeAgeMs.shift(); }
+      if (anchorAt < v.frame.at) { this.m.deadlineAnchorSlackMs.push(v.frame.at - anchorAt); if (this.m.deadlineAnchorSlackMs.length > 5000) this.m.deadlineAnchorSlackMs.shift(); }
       this._diag('decision', { source: decision.source, recommended: decision.recommended, label: decision.label, frameId: frame.frameId });
       const sentRef = {}; this.m.attempted++;
       // Extend the adapter submission with the deadline and the in-lease revalidation (the executor passes `act` through).
@@ -727,8 +733,9 @@
         unconfirmedInputs: this.unconfirmed.map((r) => JSON.parse(JSON.stringify(r))), scheduleWaitMs: st(this.m.scheduleWait), schedulerRegistration: this.schedRegistration,
         // 0.36.2 M4.0 (additive): pipeline profile, strip-only captures, driver-client counters, recognition templates
         pipeline: this.pipelineName, stripCaptures: this.capture.crops || 0, driverPipeline: this.driver.stats ? { ...this.driver.stats } : null, recognitionWidths: this.reader.calibratedWidths || null,
-        // how much earlier the decision deadline started than the decision frame (deadlineAnchor 'change'): the longest a change was unobserved
-        deadlineAnchor: this.opt.deadlineAnchor || this.pipe.deadlineAnchor || 'frame', deadlineAnchorSlackMs: st(this.m.deadlineAnchorSlackMs) };
+        // changeAgeMs: how long before each decision reading the table had changed (at most); deadlineAnchorSlackMs: how much earlier the
+        // 'change' anchor started the deadline (only with deadlineAnchor 'change')
+        deadlineAnchor: this.opt.deadlineAnchor === 'change' ? 'change' : 'frame', deadlineAnchorSlackMs: st(this.m.deadlineAnchorSlackMs), changeAgeMs: st(this.m.changeAgeMs) };
     }
   }
 

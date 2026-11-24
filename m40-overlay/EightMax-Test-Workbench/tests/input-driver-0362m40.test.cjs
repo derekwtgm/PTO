@@ -153,3 +153,24 @@ test('M4.0 driver: capture barrier - the reply waits until the clicked control r
   // the Milestone 3.2 sequence (no drain field) is unchanged: no barrier, no extra reply fields
   const y = await open({ tables: 1, clientW: 800 }); try { const r = await click(y, y.desk.windows[0], 'check'); assert.equal(r.captureBarrier, undefined); assert.equal(r.press, undefined); } finally { await y.close(); }
 });
+
+// 0.36.2 M4.0 (Windows CI run 45432528536, motion validation): the driver rounds every step with .NET Math.Round (a midpoint to the
+// EVEN neighbour); the reference plan rounded every midpoint up, so the middle step of a straight move over an odd distance with an even
+// step count differed by one pixel. The plan now rounds as the driver does.
+test('M4.0 motion plan rounds exactly like the driver (.NET Math.Round: midpoint to even), negative coordinates included', () => {
+  const M = require('../src/input-motion.js');
+  for (const [v, want] of [[4.5, 4], [5.5, 6], [-2.5, -2], [-3.5, -4], [4.49, 4], [4.51, 5], [0.5, 0], [-0.5, 0], [7, 7]]) assert.equal(M.roundEven(v) + 0, want, String(v));
+});
+test('M4.0 driver: a straight move whose middle step lands exactly on .5 commands the pixels of the plan', { skip }, async () => {
+  const M = require('../src/input-motion.js'), x = await open(); try {
+    const w = x.desk.windows[0], motion = { maxSpeed: 1600, maxAccel: 9000, minDurationMs: 140, intervalMs: 16, arc: 0 }, prof = M.profile(motion), c = w.client;
+    const a = { x: c.x + 40, y: c.y + 60 }; await x.s.call('move', { hwnd: hex(w), to: a, motion, expectClient: c });
+    // an odd horizontal distance, an even step count, an even integer part at the midpoint: Math.round and Math.Round disagree there
+    let dx = 0; for (let k = 9; k < 400; k += 2) { const pl = M.plan(a, { x: a.x + k, y: a.y }, prof); if (pl.steps % 2 === 0 && Math.floor(a.x + k / 2) % 2 === 0) { dx = k; break; } }
+    assert.ok(dx > 0, 'a midpoint case exists');
+    const b = { x: a.x + dx, y: a.y }, r = await x.s.call('move', { hwnd: hex(w), to: b, motion, expectClient: c }), pl = M.plan(r.from, r.to, prof);
+    const mid = r.samples[pl.steps / 2 - 1]; assert.equal(mid.x, Math.floor(a.x + dx / 2), 'the driver rounds the midpoint to the even pixel');
+    assert.deepEqual(r.samples.map((q) => [q.x, q.y]), pl.points.map((q) => [q.x, q.y]), 'C# and JS command the same pixels');
+    assert.equal(M.commanded(r, prof).matchesPlan, true);
+  } finally { await x.close(); }
+});

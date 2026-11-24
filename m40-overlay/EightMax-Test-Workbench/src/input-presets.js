@@ -27,8 +27,8 @@
   const ORDER = Object.freeze(['conservative', 'normal', 'fast', 'custom']);
   const LIMITS = Object.freeze({ maxSpeed: [400, 2800], maxAccel: [2000, 30000] });
   const PIPELINES = Object.freeze({
-    'optimized': Object.freeze({ id: 'optimized', label: 'Optimized (Milestone 4.0)', note: 'the cursor is held only for the movement and the click; verified checks are not repeated; the settle runs after the target window confirmed it processed the click; a decision deadline counts from before the change it answers (never from a late reading)' }),
-    'compat-3.2': Object.freeze({ id: 'compat-3.2', label: 'Milestone 3.2 compatibility', note: 'exactly the Milestone 3.2 input sequence (extra window check, global click spacing, settle inside the cursor lease, deadline from the decision reading)' }),
+    'optimized': Object.freeze({ id: 'optimized', label: 'Optimized (Milestone 4.0)', note: 'the cursor is held only for the movement and the click; verified checks are not repeated; the settle runs after the target window confirmed it processed the click' }),
+    'compat-3.2': Object.freeze({ id: 'compat-3.2', label: 'Milestone 3.2 compatibility', note: 'exactly the Milestone 3.2 input sequence (extra window check, global click spacing, settle inside the cursor lease)' }),
   });
   /** {ok, reason} for a speed / acceleration pair (numbers only, inside the verified bounds). */
   function validate(maxSpeed, maxAccel) {

@@ -1,9 +1,11 @@
 'use strict';
-// 0.36.2 Milestone 4.0: where a decision deadline starts (src/simulator-controls.js PIPELINE.deadlineAnchor).
-//  'compat-3.2' (Milestone 3.2): from the capture the decision was read from.
-//  'optimized': from the REQUEST of the last capture that still showed the previous status-strip revision. The change (a turn that began)
-//  happened after that capture, so the deadline can never start after the change - a table whose first reading of a turn comes late (a
-//  busy cursor or capture slots) no longer gets a deadline beyond a table clock that started with the turn (late clicks, Windows CI run 2).
+// 0.36.2 Milestone 4.0: where a decision deadline starts (src/simulator-controls.js option deadlineAnchor).
+//  'frame' (the default for every pipeline = Milestone 3.2): from the capture the decision was read from.
+//  'change' (only for a table with its own action clock - the one-hero test workload): from the REQUEST of the last capture that still
+//  showed the previous status-strip revision. The change (a turn that began) happened after that capture, so the deadline can never start
+//  after the change - a late first reading of a turn no longer gets a deadline beyond a table clock that started with the turn. Not the
+//  default: on a table WITHOUT a clock a decision refused for its deadline would be refused on every reading of the unchanged revision.
+// Either way every decision records how long before its reading the table had changed (changeAgeMs).
 // In-process fake desktop host (as tests/simulator-controls-035.test.cjs): the captures return the fixture dealer's rendered frames.
 const test = require('node:test'), assert = require('node:assert/strict');
 const SC = require('../src/simulator-controls.js'), SP = require('../src/simulator-profiles.js'), SCH = require('../src/input-scheduler.js'), FD = require('../src/fixture-dealer.js'), XA = require('../src/execution-adapters.js'), G = require('../src/input-geometry.js');
@@ -34,11 +36,11 @@ function fakeHost(o = {}) {
   }
   return { t, fetch };
 }
-async function play(pipeline, o = {}) {
+async function play(pipeline, o = {}) {   // o.anchor: deadlineAnchor option (undefined = the default)
   const host = fakeHost(o), api = new SC.HostApi({ token: TOKEN, fetch: host.fetch }), session = SC.hostSession(api), sched = new SCH.InputScheduler({ maxQueue: 8 });
   const auth = SC.authorizations({ environment: 'fake-host-test', approvedBy: 'unit test', exeFileName: 'EightMaxTestTable.exe', exeSha256: 'c'.repeat(64) }), profile = SP.fixtureProfile({ exeSha256: 'c'.repeat(64) });
   const W = 10000, t = new SC.SimulatorTable({ id: 1, window: { hwnd: host.t.hwnd, pid: 1, title: 'EightMax Test Table 01', client: host.t.client }, profile, api, session, scheduler: sched, qaAuthorization: auth.qa, recorder: new XA.DiagnosticsRecorder({ max: 5000 }), allowScripted: true, seed: 3, timing: { postClickSettleMs: 0 }, pipeline,
-    options: { decisionWindowMs: W, pollMs: 5, idlePollMs: 5, postActionTimeoutMs: 800 } });
+    options: { decisionWindowMs: W, pollMs: 5, idlePollMs: 5, postActionTimeoutMs: 800, ...(o.anchor ? { deadlineAnchor: o.anchor } : {}) } });
   const decisions = [], deadlines = [], anchor = t._deadlineAnchor.bind(t), submit = sched.submit.bind(sched);
   t._deadlineAnchor = (f) => { const a = anchor(f); decisions.push({ at: f.at, changedAfterAt: f.changedAfterAt, revision: f.strip ? f.strip.revision : null, anchor: a }); return a; };
   sched.submit = (job) => { deadlines.push(job.deadline); return submit(job); };
@@ -48,8 +50,8 @@ async function play(pipeline, o = {}) {
   return { t, host, decisions, deadlines, W };
 }
 
-test('optimized: every decision deadline starts at the last capture that still showed the previous revision - before the change itself', async () => {
-  const r = await play('optimized', { captureMs: 25 });
+test('deadlineAnchor change: every decision deadline starts at the last capture that still showed the previous revision - before the change itself', async () => {
+  const r = await play('optimized', { captureMs: 25, anchor: 'change' });
   assert.ok(r.t.m.confirmed >= 8, 'confirmed ' + r.t.m.confirmed); assert.equal(r.decisions.length, r.deadlines.length, 'one submission per decision');
   const later = r.decisions.slice(1); assert.ok(later.length >= 7);
   for (const [i, d] of r.decisions.entries()) {
@@ -60,21 +62,21 @@ test('optimized: every decision deadline starts at the last capture that still s
     const changed = r.host.t.revAt.get(d.revision); assert.ok(Number.isFinite(changed), 'the dealer showed revision ' + d.revision);
     assert.ok(d.anchor <= changed, 'decision ' + i + ': the deadline started ' + (d.anchor - changed).toFixed(1) + ' ms after the table changed');
   }
-  const rep = r.t.report(); assert.equal(rep.deadlineAnchor, 'change'); assert.ok(rep.deadlineAnchorSlackMs && rep.deadlineAnchorSlackMs.n >= 7, JSON.stringify(rep.deadlineAnchorSlackMs));
+  const rep = r.t.report(); assert.equal(rep.deadlineAnchor, 'change'); assert.ok(rep.deadlineAnchorSlackMs && rep.deadlineAnchorSlackMs.n >= 7, JSON.stringify(rep.deadlineAnchorSlackMs)); assert.ok(rep.changeAgeMs.n >= 7);
 });
 
-test('compat-3.2: exactly Milestone 3.2 - the deadline starts at the decision frame, after the change (by the observation delay)', async () => {
-  const r = await play('compat-3.2', { captureMs: 25 });
+for (const pipeline of ['compat-3.2', 'optimized']) test(pipeline + ' default: exactly Milestone 3.2 - the deadline starts at the decision frame; the change age is still measured', async () => {
+  const r = await play(pipeline, { captureMs: 25 });
   assert.ok(r.t.m.confirmed >= 8, 'confirmed ' + r.t.m.confirmed);
   let after = 0;
   for (const [i, d] of r.decisions.entries()) { assert.equal(d.anchor, d.at, 'anchor = decision frame'); assert.equal(r.deadlines[i], d.at + r.W); const changed = r.host.t.revAt.get(d.revision); if (Number.isFinite(changed) && d.anchor > changed) after++; }
   assert.ok(after >= r.decisions.length - 1, 'the Milestone 3.2 deadline starts after the change it is for: ' + after + '/' + r.decisions.length);
-  const rep = r.t.report(); assert.equal(rep.deadlineAnchor, 'frame'); assert.equal(rep.deadlineAnchorSlackMs.n || 0, 0);
+  const rep = r.t.report(); assert.equal(rep.deadlineAnchor, 'frame'); assert.equal(rep.deadlineAnchorSlackMs.n || 0, 0); assert.ok(rep.changeAgeMs.n >= r.decisions.length - 1, JSON.stringify(rep.changeAgeMs));
 });
 
-test('optimized: a late first reading of a change does not move the deadline later (the table clock started with the change)', async () => {
+test('deadlineAnchor change: a late first reading of a change does not move the deadline later (the table clock started with the change)', async () => {
   // every reading takes 120 ms: the change is first seen long after it happened; the deadline must still start before the change
-  const r = await play('optimized', { captureMs: 120, actions: 5 });
+  const r = await play('optimized', { captureMs: 120, actions: 5, anchor: 'change' });
   assert.ok(r.t.m.confirmed >= 5, 'confirmed ' + r.t.m.confirmed);
   for (const d of r.decisions.slice(1)) { const changed = r.host.t.revAt.get(d.revision); assert.ok(d.anchor <= changed, (d.anchor - changed).toFixed(1) + ' ms after the change'); assert.ok(d.at - changed > 100, 'the reading came late (the test condition)'); }
 });

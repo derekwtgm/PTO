@@ -59,7 +59,10 @@
       // self-check dealt the Windows run's hands at 800 px). The next dealt-in seat clockwise is shown instead.
       const dealt = (i) => !!(this.t.players[i] && this.t.players[i].cards && this.t.players[i].cards.length === 2), n = this.t.players.length;
       if (this.t.hand > 0 && !dealt(this.view)) for (let k = 1; k < n; k++) { const i = (this.view + k) % n; if (dealt(i)) { this.view = i; break; } }
-      const img = SIM.renderTable(this.t, this.w, { v2: true, heroSeat: this.view, hideControls: this.holding || this.t.actor !== this.view });
+      // 0.36.2 M4.0: with heroSeats the window shows action controls only to a seat played THROUGH THE WINDOW. When every hero seat is
+      // out of the hand (eliminated), the rule above shows a seat the dealer plays itself; its turn must not look actionable (its buttons
+      // are disabled - legal() - so a click there pressed a disabled control: Windows CI run 45432528536, one hero per table, 8 s clock)
+      const img = SIM.renderTable(this.t, this.w, { v2: true, heroSeat: this.view, hideControls: this.holding || this.t.actor !== this.view || !this.isHero(this.view) });
       if (img.height !== this.h) { /* the window keeps 1.6:1; a 1 px rounding difference is padded/cropped */ const out = { width: this.w, height: this.h, data: new Uint8ClampedArray(this.w * this.h * 4) }; for (let y = 0; y < this.h; y++) { const sy = Math.min(img.height - 1, y); out.data.set(img.data.subarray(sy * this.w * 4, (sy + 1) * this.w * 4), y * this.w * 4); } SS.draw(out, { table: this.id, viewSeat: this.view, playing: this.playing, revision: this.rev }); return out; }
       return SS.draw(img, { table: this.id, viewSeat: this.view, playing: this.playing, revision: this.rev });
     }
@@ -115,7 +118,7 @@
           const down = m.type === 'mouse-down'; if (down) this.counts.mouseDown++; else if (m.type === 'mouse-up') this.counts.mouseUp++; else if (m.type === 'double-click') this.counts.doubleClicks++; else this.counts.rightClicks++;
           const onControl = m.control in CONTROLS || m.control === 'wager'; if (down && !onControl) this.counts.downOutsideControls++; if (down && onControl && m.enabled === false) this.counts.downOnDisabled++;
           if (m.type === 'mouse-up' && m.control in CONTROLS && m.enabled !== false && this.lastPress === 'mouse-down') this.pendingUp = { control: m.control, x: m.x, y: m.y, rev: m.rev, wt: m.t === undefined ? null : m.t };   // 0.36.2 M4.0
-          if (m.type !== 'mouse-up') this.lastPress = m.type;
+          this.lastPress = m.type === 'mouse-up' ? null : m.type;   // only the FIRST release after a press can raise a click (an emergency stop's release-all repeats the release: Windows CI run 45432528536)
           this.record({ kind: m.type, x: m.x, y: m.y, control: m.control, enabled: m.enabled, rev: m.rev, wt: m.t === undefined ? null : m.t, dealerRev: this.rev }); return;
         }
         case 'action': return this.onAction(m);

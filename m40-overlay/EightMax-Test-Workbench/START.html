@@ -15148,10 +15148,14 @@ const close=$('r33-close');if(close)close.addEventListener('click',()=>{$('r33-p
     if (arc !== 0) { const bow = 4 * k * (1 - k) * arc; x += -dy * bow; y += dx * bow; }
     return { x, y };
   }
+  /** 0.36.2 M4.0: the driver's rounding of every step - .NET Math.Round(double): the nearest integer, an exact midpoint to the EVEN
+   *  neighbour (Math.round rounds every midpoint up, so a step that lands exactly on .5 - the middle step of a straight move over an odd
+   *  distance with an even step count - differed by one pixel from the path the driver commanded; Windows CI run 45432528536). */
+  function roundEven(v) { const f = Math.floor(v), d = v - f; if (d > 0.5) return f + 1; if (d < 0.5) return f; return f % 2 === 0 ? f : f + 1; }
   /** The path the driver will command (integer pixels, last point exactly on target), with the planned timestamps. */
   function plan(from, to, p = DEFAULT_PROFILE) {
     const d = Math.hypot(to.x - from.x, to.y - from.y); p = { ...p, arc: effectiveArc(d, p) }; const ms = durationMs(d, p), n = steps(ms, p), pts = [];
-    for (let k = 1; k <= n; k++) { const q = at(from.x, from.y, to.x, to.y, k / n, p.arc); pts.push({ t: ms * k / n, x: k === n ? to.x : Math.round(q.x), y: k === n ? to.y : Math.round(q.y) }); }
+    for (let k = 1; k <= n; k++) { const q = at(from.x, from.y, to.x, to.y, k / n, p.arc); pts.push({ t: ms * k / n, x: k === n ? to.x : roundEven(q.x), y: k === n ? to.y : roundEven(q.y) }); }
     return { distance: d, durationMs: ms, steps: n, peakSpeed: n ? velocityFactor(p.arc) * d / (ms / 1000) : 0, peakAccel: n ? accelFactor(p.arc) * d / Math.pow(ms / 1000, 2) : 0, points: pts };
   }
 
@@ -15206,7 +15210,7 @@ const close=$('r33-close');if(close)close.addEventListener('click',()=>{$('r33-p
   /** Cursor-monitor rows from the driver are [t*10, x, y, down]. */
   const fromMonitor = (rows) => rows.map((r) => ({ t: r[0] / 10, x: r[1], y: r[2], down: r[3] === 1 }));
 
-  return { effectiveArc, DEFAULT_PROFILE, DEFAULT_TIMING, LIMITS, profile, s, durationMs, steps, at, plan, analyse, commanded, movedAfter, fromMonitor, velocityFactor, accelFactor };
+  return { effectiveArc, DEFAULT_PROFILE, DEFAULT_TIMING, LIMITS, profile, s, durationMs, steps, at, plan, roundEven, analyse, commanded, movedAfter, fromMonitor, velocityFactor, accelFactor };
 });
 
 </script>
@@ -15695,8 +15699,8 @@ const close=$('r33-close');if(close)close.addEventListener('click',()=>{$('r33-p
   const ORDER = Object.freeze(['conservative', 'normal', 'fast', 'custom']);
   const LIMITS = Object.freeze({ maxSpeed: [400, 2800], maxAccel: [2000, 30000] });
   const PIPELINES = Object.freeze({
-    'optimized': Object.freeze({ id: 'optimized', label: 'Optimized (Milestone 4.0)', note: 'the cursor is held only for the movement and the click; verified checks are not repeated; the settle runs after the target window confirmed it processed the click; a decision deadline counts from before the change it answers (never from a late reading)' }),
-    'compat-3.2': Object.freeze({ id: 'compat-3.2', label: 'Milestone 3.2 compatibility', note: 'exactly the Milestone 3.2 input sequence (extra window check, global click spacing, settle inside the cursor lease, deadline from the decision reading)' }),
+    'optimized': Object.freeze({ id: 'optimized', label: 'Optimized (Milestone 4.0)', note: 'the cursor is held only for the movement and the click; verified checks are not repeated; the settle runs after the target window confirmed it processed the click' }),
+    'compat-3.2': Object.freeze({ id: 'compat-3.2', label: 'Milestone 3.2 compatibility', note: 'exactly the Milestone 3.2 input sequence (extra window check, global click spacing, settle inside the cursor lease)' }),
   });
   /** {ok, reason} for a speed / acceleration pair (numbers only, inside the verified bounds). */
   function validate(maxSpeed, maxAccel) {
@@ -16054,7 +16058,10 @@ const close=$('r33-close');if(close)close.addEventListener('click',()=>{$('r33-p
       // self-check dealt the Windows run's hands at 800 px). The next dealt-in seat clockwise is shown instead.
       const dealt = (i) => !!(this.t.players[i] && this.t.players[i].cards && this.t.players[i].cards.length === 2), n = this.t.players.length;
       if (this.t.hand > 0 && !dealt(this.view)) for (let k = 1; k < n; k++) { const i = (this.view + k) % n; if (dealt(i)) { this.view = i; break; } }
-      const img = SIM.renderTable(this.t, this.w, { v2: true, heroSeat: this.view, hideControls: this.holding || this.t.actor !== this.view });
+      // 0.36.2 M4.0: with heroSeats the window shows action controls only to a seat played THROUGH THE WINDOW. When every hero seat is
+      // out of the hand (eliminated), the rule above shows a seat the dealer plays itself; its turn must not look actionable (its buttons
+      // are disabled - legal() - so a click there pressed a disabled control: Windows CI run 45432528536, one hero per table, 8 s clock)
+      const img = SIM.renderTable(this.t, this.w, { v2: true, heroSeat: this.view, hideControls: this.holding || this.t.actor !== this.view || !this.isHero(this.view) });
       if (img.height !== this.h) { /* the window keeps 1.6:1; a 1 px rounding difference is padded/cropped */ const out = { width: this.w, height: this.h, data: new Uint8ClampedArray(this.w * this.h * 4) }; for (let y = 0; y < this.h; y++) { const sy = Math.min(img.height - 1, y); out.data.set(img.data.subarray(sy * this.w * 4, (sy + 1) * this.w * 4), y * this.w * 4); } SS.draw(out, { table: this.id, viewSeat: this.view, playing: this.playing, revision: this.rev }); return out; }
       return SS.draw(img, { table: this.id, viewSeat: this.view, playing: this.playing, revision: this.rev });
     }
@@ -16110,7 +16117,7 @@ const close=$('r33-close');if(close)close.addEventListener('click',()=>{$('r33-p
           const down = m.type === 'mouse-down'; if (down) this.counts.mouseDown++; else if (m.type === 'mouse-up') this.counts.mouseUp++; else if (m.type === 'double-click') this.counts.doubleClicks++; else this.counts.rightClicks++;
           const onControl = m.control in CONTROLS || m.control === 'wager'; if (down && !onControl) this.counts.downOutsideControls++; if (down && onControl && m.enabled === false) this.counts.downOnDisabled++;
           if (m.type === 'mouse-up' && m.control in CONTROLS && m.enabled !== false && this.lastPress === 'mouse-down') this.pendingUp = { control: m.control, x: m.x, y: m.y, rev: m.rev, wt: m.t === undefined ? null : m.t };   // 0.36.2 M4.0
-          if (m.type !== 'mouse-up') this.lastPress = m.type;
+          this.lastPress = m.type === 'mouse-up' ? null : m.type;   // only the FIRST release after a press can raise a click (an emergency stop's release-all repeats the release: Windows CI run 45432528536)
           this.record({ kind: m.type, x: m.x, y: m.y, control: m.control, enabled: m.enabled, rev: m.rev, wt: m.t === undefined ? null : m.t, dealerRev: this.rev }); return;
         }
         case 'action': return this.onAction(m);
@@ -16806,7 +16813,13 @@ const close=$('r33-close');if(close)close.addEventListener('click',()=>{$('r33-p
     pausedIdentityCheckMs: 1000, stoppedIdentityCheckMs: 5000, activeIdentitySlackMs: 2500, maxUnconfirmedEvidence: 20, evidenceProbeMs: 2500,
     // 0.36.2 M4.0: input pipeline profile ('compat-3.2' = exactly Milestone 3.2; 'optimized' = see PIPELINE below) and recognition
     // templates for the window's exact width (base widths unchanged)
-    pipeline: 'compat-3.2', exactWidthTemplates: true, stripPollMs: 30 });
+    pipeline: 'compat-3.2', exactWidthTemplates: true, stripPollMs: 30,
+    // 0.36.2 M4.0 deadlineAnchor: 'frame' (default, Milestone 3.2) = the decision deadline counts from the capture the decision was read
+    // from. 'change' = from the request of the last capture that still showed the PREVIOUS status-strip revision: the change (the turn)
+    // happened after it, so a late first reading cannot push the deadline past a table clock that started with the turn. ONLY for a
+    // table that has its own action clock: without one, a decision refused for its deadline is refused again on every reading of the
+    // same revision (nothing else moves that table on), and a pause (emergency stop) counts against the deadline.
+    deadlineAnchor: 'frame' });
   /**
    * 0.36.2 M4.0: what each input pipeline profile does on the table side (the driver side is DRV.PIPELINE_PROFILES):
    *   revalidate   'full'  - the in-lease revalidation captures the whole window (Milestone 3.2)
@@ -16816,10 +16829,7 @@ const close=$('r33-close');if(close)close.addEventListener('click',()=>{$('r33-p
    *                'strip' - polls capture only the strip until its revision changes; the new frame is then captured whole and read
    *                          completely before anything is confirmed (the same comparison as before)
    */
-  // 0.36.2 M4.0 deadlineAnchor: 'frame' = the decision deadline counts from the capture the decision was read from (Milestone 3.2);
-  // 'change' = from the request of the last capture that still showed the PREVIOUS status-strip revision - the turn began after it, so a
-  // table clock that started with the turn cannot run out before the deadline (a later first reading no longer extends the deadline)
-  const PIPELINE = Object.freeze({ 'compat-3.2': Object.freeze({ revalidate: 'full', confirmPoll: 'full', deadlineAnchor: 'frame' }), 'optimized': Object.freeze({ revalidate: 'strip', confirmPoll: 'strip', deadlineAnchor: 'change' }) });
+  const PIPELINE = Object.freeze({ 'compat-3.2': Object.freeze({ revalidate: 'full', confirmPoll: 'full' }), 'optimized': Object.freeze({ revalidate: 'strip', confirmPoll: 'strip' }) });
   const LS = LC.STATES;
   /** 0.36.2 M3: gameplay conditions (title, plain-language explanation). One condition per table at a time. */
   const GAMEPLAY = Object.freeze({
@@ -16891,7 +16901,7 @@ const close=$('r33-close');if(close)close.addEventListener('click',()=>{$('r33-p
       this.executor.setMode('qa', { authorization: o.qaAuthorization }); this.executor.attach(o.id, this.adapter);
       this.m = { frames: 0, rejectedFrames: 0, decisions: 0, scripted: 0, solver: 0, unavailable: 0, attempted: 0, confirmed: 0, rejected: 0, ambiguous: 0, timedOut: 0, cancelled: 0, blocked: 0, deadline: 0, errors: 0, e2e: [], cursor: [], input: [], wait: [], confirmMs: [], focusErrors: 0, driverErrors: 0,
         captureFailuresByCode: {}, transientFailures: 0, lossSignals: 0, uncertain: 0, cancelledByLoss: 0, staleDiscarded: 0, recoveries: 0, backoffWaits: 0, probes: 0, manualOverrides: 0, emergencyStops: 0, strategyUnavailable: 0,
-        verifyingSteps: 0, handRecoveries: 0, eliminationsSeen: 0, inputRejectedNoChange: 0, scheduleWait: [], unconfirmedEvidence: 0, deadlineAnchorSlackMs: [] };
+        verifyingSteps: 0, handRecoveries: 0, eliminationsSeen: 0, inputRejectedNoChange: 0, scheduleWait: [], unconfirmedEvidence: 0, deadlineAnchorSlackMs: [], changeAgeMs: [] };
       this.log = [];
       // 0.36.2 M3: gameplay condition (one at a time), per-condition step counts and episode counts, last seating event, completion
       this.gameplay = { code: 'starting', since: Date.now(), detail: null, counts: {}, episodes: { starting: 1 }, lastEvent: null }; this.completed = null;
@@ -17148,10 +17158,10 @@ const close=$('r33-close');if(close)close.addEventListener('click',()=>{$('r33-p
       if (!Number.isInteger(rev) || !Number.isFinite(requestedAt)) return; const r = this._rev;
       if (!r || r.value !== rev) this._rev = { value: rev, changedAfterAt: r ? r.lastAt : null, lastAt: requestedAt }; else if (requestedAt > r.lastAt) r.lastAt = requestedAt;
     }
-    /** 0.36.2 M4.0: when the decision deadline starts (see PIPELINE deadlineAnchor); never later than the decision frame itself. */
+    /** 0.36.2 M4.0: when the decision deadline starts (option deadlineAnchor, see DEFAULTS); never later than the decision frame itself. */
     _deadlineAnchor(frame) {
-      const mode = this.opt.deadlineAnchor || this.pipe.deadlineAnchor || 'frame', c = frame.changedAfterAt;
-      return mode === 'change' && Number.isFinite(c) && c <= frame.at ? c : frame.at;
+      const c = frame.changedAfterAt;
+      return this.opt.deadlineAnchor === 'change' && Number.isFinite(c) && c <= frame.at ? c : frame.at;
     }
     async look() {
       const gen = this.lc.generation;
@@ -17303,7 +17313,10 @@ const close=$('r33-close');if(close)close.addEventListener('click',()=>{$('r33-p
       if (this.stopped || this.paused) return {kind: 'paused', reason: this.paused || 'stopped'}; if (!decision) { this.pause('no EightMax decision: ' + this.lastDecisionReason); return { kind: 'unavailable', category: 'strategy-unavailable' }; }
       if (!this.lc.valid(token)) { this.m.staleDiscarded++; return { kind: 'stale', reason: 'the window lifecycle changed while deciding; decision discarded' }; }
       this.m.decisions++; const anchorAt = this._deadlineAnchor(v.frame), deadline = anchorAt + this.opt.decisionWindowMs, before = st, frame = v.frame;
-      if (anchorAt < v.frame.at) { this.m.deadlineAnchorSlackMs.push(v.frame.at - anchorAt); if (this.m.deadlineAnchorSlackMs.length > 5000) this.m.deadlineAnchorSlackMs.shift(); }   // 0.36.2 M4.0 (measurement)
+      // 0.36.2 M4.0 (measurement): how long before the decision reading the table had changed at most (every decision, either anchor),
+      // and by how much the 'change' anchor moved the deadline earlier
+      const age = Number.isFinite(v.frame.changedAfterAt) ? v.frame.at - v.frame.changedAfterAt : null; if (age !== null && age >= 0) { this.m.changeAgeMs.push(age); if (this.m.changeAgeMs.length > 5000) this.m.changeAgeMs.shift(); }
+      if (anchorAt < v.frame.at) { this.m.deadlineAnchorSlackMs.push(v.frame.at - anchorAt); if (this.m.deadlineAnchorSlackMs.length > 5000) this.m.deadlineAnchorSlackMs.shift(); }
       this._diag('decision', { source: decision.source, recommended: decision.recommended, label: decision.label, frameId: frame.frameId });
       const sentRef = {}; this.m.attempted++;
       // Extend the adapter submission with the deadline and the in-lease revalidation (the executor passes `act` through).
@@ -17384,8 +17397,9 @@ const close=$('r33-close');if(close)close.addEventListener('click',()=>{$('r33-p
         unconfirmedInputs: this.unconfirmed.map((r) => JSON.parse(JSON.stringify(r))), scheduleWaitMs: st(this.m.scheduleWait), schedulerRegistration: this.schedRegistration,
         // 0.36.2 M4.0 (additive): pipeline profile, strip-only captures, driver-client counters, recognition templates
         pipeline: this.pipelineName, stripCaptures: this.capture.crops || 0, driverPipeline: this.driver.stats ? { ...this.driver.stats } : null, recognitionWidths: this.reader.calibratedWidths || null,
-        // how much earlier the decision deadline started than the decision frame (deadlineAnchor 'change'): the longest a change was unobserved
-        deadlineAnchor: this.opt.deadlineAnchor || this.pipe.deadlineAnchor || 'frame', deadlineAnchorSlackMs: st(this.m.deadlineAnchorSlackMs) };
+        // changeAgeMs: how long before each decision reading the table had changed (at most); deadlineAnchorSlackMs: how much earlier the
+        // 'change' anchor started the deadline (only with deadlineAnchor 'change')
+        deadlineAnchor: this.opt.deadlineAnchor === 'change' ? 'change' : 'frame', deadlineAnchorSlackMs: st(this.m.deadlineAnchorSlackMs), changeAgeMs: st(this.m.changeAgeMs) };
     }
   }
 

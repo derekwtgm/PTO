@@ -45,8 +45,28 @@ test('dealer lost-click record: a release on an enabled button that is not follo
     press('table'); d.onWindow({ type: 'shown', rev: d.rev });
     press('raise'); d.onWindow({ type: 'action', control: 'raise', wager: '', rev: d.rev }); ev('double-click', 'raise'); ev('mouse-up', 'raise'); d.onWindow({ type: 'shown', rev: d.rev });
     assert.equal(d.counts.releasesWithoutAction, 1, JSON.stringify(events.filter((e) => e.kind === 'release-without-action')));
+    // a click whose release is repeated (an emergency stop releases every button again): press, release, action, a second release - one
+    // click, nothing lost (Windows CI run 45432528536: the repeated release had been counted)
+    press('call'); d.onWindow({ type: 'action', control: 'call', wager: '', rev: d.rev }); ev('mouse-up', 'call'); d.onWindow({ type: 'shown', rev: d.rev });
+    assert.equal(d.counts.releasesWithoutAction, 1, 'a repeated release is not a lost click');
     // a release whose next message is ANOTHER button's action is also lost (that action belongs to the next press)
     press('fold'); d.onWindow({ type: 'action', control: 'call', wager: '', rev: d.rev }); assert.equal(d.counts.releasesWithoutAction, 2);
     assert.equal(d.summary().counts.releasesWithoutAction, 2, 'reported in the dealer summary');
+  } finally { d.dispose(); }
+});
+
+test('dealer one-hero mode: with the hero seat eliminated the window shows a dealt-in seat the dealer plays - never with action controls', () => {
+  const SIM = require('../src/sim-display.js'), frames = [];
+  const d = new FD.TableDealer({ table: 7, seed: 5, handGapMs: 0, heroSeats: [0], botThinkMs: 50, stacks: [0, 2000, 2000, 2000, 2000, 2000, 2000, 2000], send: (m) => frames.push(m), record: () => {} });
+  try {
+    d.onWindow({ type: 'ready', client: { x: 0, y: 0, w: 800, h: 500 } });
+    const t = d.t; assert.equal(t.status, 'playing'); assert.ok(!(t.players[0].cards && t.players[0].cards.length === 2), 'the hero seat is not dealt in');
+    let guard = 0; while (t.status === 'playing' && t.actor !== d.view && guard++ < 40) d.botAct(t.hand, t.revision, t.actor);   // the bots play until the shown seat is to act
+    assert.equal(t.actor, d.view, 'the shown seat is to act'); assert.equal(d.isHero(d.view), false, 'and the dealer plays it');
+    assert.deepEqual(d.legal(), { fold: false, check: false, call: false, raise: false, allin: false }, 'its buttons are disabled');
+    const img = d.frame(), hidden = SIM.renderTable(t, 800, { v2: true, heroSeat: d.view, hideControls: true }), shown = SIM.renderTable(t, 800, { v2: true, heroSeat: d.view, hideControls: false });
+    const same = (a, b) => { const h = Math.min(a.height, b.height) - 30; for (let i = 0; i < a.width * h * 4; i++) if (a.data[i] !== b.data[i]) return false; return true; };   // the status strip at the bottom differs by design
+    assert.equal(same(hidden, shown), false, 'the test is meaningful: controls are drawn when not hidden');
+    assert.equal(same(img, hidden), true, 'the window does not offer the dealer-played seat an action');
   } finally { d.dispose(); }
 });
