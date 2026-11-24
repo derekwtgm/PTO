@@ -1,0 +1,2693 @@
+{
+ "format": "eightmax-recognition-validation",
+ "version": 1,
+ "app": "0.36.2-dev",
+ "milestone": "0.36.2-milestone-4.0",
+ "at": "2026-11-24T14:08:39.310Z",
+ "tool": "tools/recognition-validation-040.cjs",
+ "node": "v22.23.5",
+ "platform": "win32",
+ "mode": "synthetic",
+ "dataset": {
+  "seed": 4000,
+  "framesPerSize": 10,
+  "logicalWidths": [
+   800,
+   960,
+   1024,
+   1280,
+   1440,
+   1920
+  ],
+  "scales": [
+   1,
+   1.25,
+   1.5,
+   1.75,
+   2
+  ],
+  "physicalWidths": [
+   800,
+   960,
+   1000,
+   1024,
+   1200,
+   1280,
+   1400,
+   1440,
+   1536,
+   1600,
+   1680,
+   1792,
+   1800,
+   1920,
+   2048,
+   2160,
+   2240,
+   2400,
+   2520,
+   2560,
+   2880,
+   3360,
+   3840
+  ],
+  "degradations": [
+   "clean",
+   "noise",
+   "shift-1px",
+   "blur",
+   "dim",
+   "occluded",
+   "dpi-stretched"
+  ],
+  "renderer": "src/sim-display.js renderTable (the bundled test table draws exactly this) + src/status-strip.js",
+  "reader": "SimulatorControls.tableReader (exact-width templates), as in automated play"
+ },
+ "frames": {
+  "total": 1620,
+  "accepted": 1144,
+  "refused": 476,
+  "acceptedWithWrongValue": 0,
+  "refusalReasons": {
+   "pot: Unreadable glyph (score N, margin N)": 256,
+   "hero cards unreadable": 113,
+   "seat N stack: Unreadable glyph (score N, margin N)": 71,
+   "board card unreadable (score N)": 26,
+   "call amount: Unreadable glyph (score N, margin N)": 5,
+   "seat N bet: Unreadable glyph (score N, margin N)": 5
+  },
+  "examplesOfWrong": [],
+  "acceptanceRate": 0.7062
+ },
+ "features": {
+  "board": {
+   "readings": 2148,
+   "correct": 2122,
+   "falsePositives": 0,
+   "falseNegatives": 26,
+   "accuracy": 0.9879,
+   "precision": 1,
+   "confidenceCorrect": {
+    "min": 0.9098,
+    "p01": 0.9429,
+    "p05": 0.9594,
+    "p50": 1
+   },
+   "confidenceWrongMax": null
+  },
+  "hero": {
+   "readings": 3182,
+   "correct": 3069,
+   "falsePositives": 0,
+   "falseNegatives": 113,
+   "accuracy": 0.96449,
+   "precision": 1,
+   "confidenceCorrect": {
+    "min": 0.9164,
+    "p01": 0.9415,
+    "p05": 0.9624,
+    "p50": 1
+   },
+   "confidenceWrongMax": null
+  },
+  "pot": {
+   "readings": 1620,
+   "correct": 1364,
+   "falsePositives": 0,
+   "falseNegatives": 256,
+   "accuracy": 0.84198,
+   "precision": 1,
+   "confidenceCorrect": {
+    "min": 0.8025,
+    "p01": 0.8217,
+    "p05": 0.8878,
+    "p50": 1
+   },
+   "confidenceWrongMax": null
+  },
+  "hand": {
+   "readings": 1620,
+   "correct": 1620,
+   "falsePositives": 0,
+   "falseNegatives": 0,
+   "accuracy": 1,
+   "precision": 1,
+   "confidenceCorrect": {
+    "min": 0.8213,
+    "p01": 0.8548,
+    "p05": 0.8962,
+    "p50": 1
+   },
+   "confidenceWrongMax": null
+  },
+  "stack": {
+   "readings": 12960,
+   "correct": 11503,
+   "falsePositives": 0,
+   "falseNegatives": 1457,
+   "accuracy": 0.88758,
+   "precision": 1,
+   "confidenceCorrect": {
+    "min": 0.75,
+    "p01": 0.8331,
+    "p05": 0.8855,
+    "p50": 1
+   },
+   "confidenceWrongMax": null
+  },
+  "bet": {
+   "readings": 5326,
+   "correct": 4594,
+   "falsePositives": 0,
+   "falseNegatives": 732,
+   "accuracy": 0.86256,
+   "precision": 1,
+   "confidenceCorrect": {
+    "min": 0.7554,
+    "p01": 0.7901,
+    "p05": 0.8731,
+    "p50": 1
+   },
+   "confidenceWrongMax": null
+  },
+  "folded": {
+   "readings": 12960,
+   "correct": 12960,
+   "falsePositives": 0,
+   "falseNegatives": 0,
+   "accuracy": 1,
+   "precision": 1,
+   "confidenceCorrect": {
+    "min": 1,
+    "p01": 1,
+    "p05": 1,
+    "p50": 1
+   },
+   "confidenceWrongMax": null
+  },
+  "controls": {
+   "readings": 6372,
+   "correct": 6372,
+   "falsePositives": 0,
+   "falseNegatives": 0,
+   "accuracy": 1,
+   "precision": 1,
+   "confidenceCorrect": {
+    "min": 0.9541,
+    "p01": 0.9556,
+    "p05": 0.9559,
+    "p50": 1
+   },
+   "confidenceWrongMax": null
+  },
+  "callAmount": {
+   "readings": 1147,
+   "correct": 987,
+   "falsePositives": 0,
+   "falseNegatives": 160,
+   "accuracy": 0.86051,
+   "precision": 1,
+   "confidenceCorrect": {
+    "min": 0.7724,
+    "p01": 0.7753,
+    "p05": 0.839,
+    "p50": 0.9743
+   },
+   "confidenceWrongMax": null
+  },
+  "minRaise": {
+   "readings": 1485,
+   "correct": 1276,
+   "falsePositives": 0,
+   "falseNegatives": 209,
+   "accuracy": 0.85926,
+   "precision": 1,
+   "confidenceCorrect": {
+    "min": 0.7798,
+    "p01": 0.808,
+    "p05": 0.878,
+    "p50": 1
+   },
+   "confidenceWrongMax": null
+  }
+ },
+ "perDegradation": {
+  "clean": {
+   "frames": 230,
+   "accepted": 230,
+   "acceptanceRate": 1,
+   "acceptedWithWrongValue": 0,
+   "features": {
+    "board": {
+     "readings": 316,
+     "correct": 316,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 1,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "hero": {
+     "readings": 460,
+     "correct": 460,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 1,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "pot": {
+     "readings": 230,
+     "correct": 230,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 1,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "hand": {
+     "readings": 230,
+     "correct": 230,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 1,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "stack": {
+     "readings": 1840,
+     "correct": 1840,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.9296,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "bet": {
+     "readings": 749,
+     "correct": 749,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.9319,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "folded": {
+     "readings": 1840,
+     "correct": 1840,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 1,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "controls": {
+     "readings": 904,
+     "correct": 904,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.9559,
+      "p01": 0.9559,
+      "p05": 0.9559,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "callAmount": {
+     "readings": 163,
+     "correct": 163,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.839,
+      "p01": 0.839,
+      "p05": 0.839,
+      "p50": 0.9765
+     },
+     "confidenceWrongMax": null
+    },
+    "minRaise": {
+     "readings": 211,
+     "correct": 211,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 1,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    }
+   }
+  },
+  "noise": {
+   "frames": 230,
+   "accepted": 230,
+   "acceptanceRate": 1,
+   "acceptedWithWrongValue": 0,
+   "features": {
+    "board": {
+     "readings": 316,
+     "correct": 316,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.998,
+      "p01": 0.9981,
+      "p05": 0.9982,
+      "p50": 0.9984
+     },
+     "confidenceWrongMax": null
+    },
+    "hero": {
+     "readings": 460,
+     "correct": 460,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.998,
+      "p01": 0.998,
+      "p05": 0.9982,
+      "p50": 0.9984
+     },
+     "confidenceWrongMax": null
+    },
+    "pot": {
+     "readings": 230,
+     "correct": 230,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.9978,
+      "p01": 0.9979,
+      "p05": 0.998,
+      "p50": 0.9981
+     },
+     "confidenceWrongMax": null
+    },
+    "hand": {
+     "readings": 230,
+     "correct": 230,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.998,
+      "p01": 0.9981,
+      "p05": 0.9981,
+      "p50": 0.9982
+     },
+     "confidenceWrongMax": null
+    },
+    "stack": {
+     "readings": 1840,
+     "correct": 1840,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.9285,
+      "p01": 0.9978,
+      "p05": 0.9979,
+      "p50": 0.9981
+     },
+     "confidenceWrongMax": null
+    },
+    "bet": {
+     "readings": 749,
+     "correct": 749,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.931,
+      "p01": 0.9978,
+      "p05": 0.998,
+      "p50": 0.9982
+     },
+     "confidenceWrongMax": null
+    },
+    "folded": {
+     "readings": 1840,
+     "correct": 1840,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 1,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "controls": {
+     "readings": 904,
+     "correct": 904,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.9541,
+      "p01": 0.955,
+      "p05": 0.9554,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "callAmount": {
+     "readings": 163,
+     "correct": 163,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.8345,
+      "p01": 0.8346,
+      "p05": 0.8369,
+      "p50": 0.975
+     },
+     "confidenceWrongMax": null
+    },
+    "minRaise": {
+     "readings": 211,
+     "correct": 211,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.9979,
+      "p01": 0.9979,
+      "p05": 0.998,
+      "p50": 0.9982
+     },
+     "confidenceWrongMax": null
+    }
+   }
+  },
+  "shift-1px": {
+   "frames": 230,
+   "accepted": 230,
+   "acceptanceRate": 1,
+   "acceptedWithWrongValue": 0,
+   "features": {
+    "board": {
+     "readings": 316,
+     "correct": 316,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.9702,
+      "p01": 0.9702,
+      "p05": 0.9714,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "hero": {
+     "readings": 460,
+     "correct": 460,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.9707,
+      "p01": 0.9715,
+      "p05": 0.974,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "pot": {
+     "readings": 230,
+     "correct": 230,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 1,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "hand": {
+     "readings": 230,
+     "correct": 230,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 1,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "stack": {
+     "readings": 1840,
+     "correct": 1840,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.9296,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "bet": {
+     "readings": 749,
+     "correct": 749,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.9319,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "folded": {
+     "readings": 1840,
+     "correct": 1840,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 1,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "controls": {
+     "readings": 904,
+     "correct": 904,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.9565,
+      "p01": 0.9565,
+      "p05": 0.9568,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "callAmount": {
+     "readings": 163,
+     "correct": 163,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.839,
+      "p01": 0.839,
+      "p05": 0.839,
+      "p50": 0.9765
+     },
+     "confidenceWrongMax": null
+    },
+    "minRaise": {
+     "readings": 211,
+     "correct": 211,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 1,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    }
+   }
+  },
+  "blur": {
+   "frames": 230,
+   "accepted": 0,
+   "acceptanceRate": 0,
+   "acceptedWithWrongValue": 0,
+   "features": {
+    "board": {
+     "readings": 316,
+     "correct": 316,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.9098,
+      "p01": 0.9098,
+      "p05": 0.9351,
+      "p50": 0.9673
+     },
+     "confidenceWrongMax": null
+    },
+    "hero": {
+     "readings": 460,
+     "correct": 460,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.9164,
+      "p01": 0.9198,
+      "p05": 0.937,
+      "p50": 0.97
+     },
+     "confidenceWrongMax": null
+    },
+    "pot": {
+     "readings": 230,
+     "correct": 18,
+     "falsePositives": 0,
+     "falseNegatives": 212,
+     "accuracy": 0.07826,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.8538,
+      "p01": 0.8538,
+      "p05": 0.8538,
+      "p50": 0.9036
+     },
+     "confidenceWrongMax": null
+    },
+    "hand": {
+     "readings": 230,
+     "correct": 230,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.8213,
+      "p01": 0.8213,
+      "p05": 0.8548,
+      "p50": 0.9216
+     },
+     "confidenceWrongMax": null
+    },
+    "stack": {
+     "readings": 1840,
+     "correct": 442,
+     "falsePositives": 0,
+     "falseNegatives": 1398,
+     "accuracy": 0.24022,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.8213,
+      "p01": 0.8213,
+      "p05": 0.8526,
+      "p50": 0.9123
+     },
+     "confidenceWrongMax": null
+    },
+    "bet": {
+     "readings": 749,
+     "correct": 27,
+     "falsePositives": 0,
+     "falseNegatives": 722,
+     "accuracy": 0.03605,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.8491,
+      "p01": 0.8491,
+      "p05": 0.8798,
+      "p50": 0.9428
+     },
+     "confidenceWrongMax": null
+    },
+    "folded": {
+     "readings": 1840,
+     "correct": 1840,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 1,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "controls": {
+     "readings": 904,
+     "correct": 904,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.9563,
+      "p01": 0.9563,
+      "p05": 0.9565,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "callAmount": {
+     "readings": 163,
+     "correct": 8,
+     "falsePositives": 0,
+     "falseNegatives": 155,
+     "accuracy": 0.04908,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.8317,
+      "p01": 0.8317,
+      "p05": 0.8317,
+      "p50": 0.9445
+     },
+     "confidenceWrongMax": null
+    },
+    "minRaise": {
+     "readings": 211,
+     "correct": 2,
+     "falsePositives": 0,
+     "falseNegatives": 209,
+     "accuracy": 0.00948,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.9058,
+      "p01": 0.9058,
+      "p05": 0.9058,
+      "p50": 0.9058
+     },
+     "confidenceWrongMax": null
+    }
+   }
+  },
+  "dim": {
+   "frames": 230,
+   "accepted": 230,
+   "acceptanceRate": 1,
+   "acceptedWithWrongValue": 0,
+   "features": {
+    "board": {
+     "readings": 316,
+     "correct": 316,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 1,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "hero": {
+     "readings": 460,
+     "correct": 460,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 1,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "pot": {
+     "readings": 230,
+     "correct": 230,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 1,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "hand": {
+     "readings": 230,
+     "correct": 230,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 1,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "stack": {
+     "readings": 1840,
+     "correct": 1840,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.9296,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "bet": {
+     "readings": 749,
+     "correct": 749,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.9319,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "folded": {
+     "readings": 1840,
+     "correct": 1840,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 1,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "controls": {
+     "readings": 904,
+     "correct": 904,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 1,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "callAmount": {
+     "readings": 163,
+     "correct": 163,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.839,
+      "p01": 0.839,
+      "p05": 0.839,
+      "p50": 0.9765
+     },
+     "confidenceWrongMax": null
+    },
+    "minRaise": {
+     "readings": 211,
+     "correct": 211,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 1,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    }
+   }
+  },
+  "occluded": {
+   "frames": 230,
+   "accepted": 0,
+   "acceptanceRate": 0,
+   "acceptedWithWrongValue": 0,
+   "features": {
+    "board": {
+     "readings": 253,
+     "correct": 227,
+     "falsePositives": 0,
+     "falseNegatives": 26,
+     "accuracy": 0.89723,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 1,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "hero": {
+     "readings": 402,
+     "correct": 289,
+     "falsePositives": 0,
+     "falseNegatives": 113,
+     "accuracy": 0.71891,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 1,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "pot": {
+     "readings": 230,
+     "correct": 186,
+     "falsePositives": 0,
+     "falseNegatives": 44,
+     "accuracy": 0.8087,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 1,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "hand": {
+     "readings": 230,
+     "correct": 230,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 1,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "stack": {
+     "readings": 1840,
+     "correct": 1793,
+     "falsePositives": 0,
+     "falseNegatives": 47,
+     "accuracy": 0.97446,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.9296,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "bet": {
+     "readings": 749,
+     "correct": 749,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.9319,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "folded": {
+     "readings": 1840,
+     "correct": 1840,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 1,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "controls": {
+     "readings": 904,
+     "correct": 904,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.9559,
+      "p01": 0.9559,
+      "p05": 0.9559,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "callAmount": {
+     "readings": 163,
+     "correct": 163,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.839,
+      "p01": 0.839,
+      "p05": 0.839,
+      "p50": 0.9765
+     },
+     "confidenceWrongMax": null
+    },
+    "minRaise": {
+     "readings": 211,
+     "correct": 211,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 1,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    }
+   }
+  },
+  "dpi-stretched": {
+   "frames": 240,
+   "accepted": 224,
+   "acceptanceRate": 0.9333,
+   "acceptedWithWrongValue": 0,
+   "features": {
+    "board": {
+     "readings": 315,
+     "correct": 315,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.9496,
+      "p01": 0.9496,
+      "p05": 0.9567,
+      "p50": 0.9823
+     },
+     "confidenceWrongMax": null
+    },
+    "hero": {
+     "readings": 480,
+     "correct": 480,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.9492,
+      "p01": 0.9522,
+      "p05": 0.9648,
+      "p50": 0.9835
+     },
+     "confidenceWrongMax": null
+    },
+    "pot": {
+     "readings": 240,
+     "correct": 240,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.8025,
+      "p01": 0.8054,
+      "p05": 0.8217,
+      "p50": 0.9225
+     },
+     "confidenceWrongMax": null
+    },
+    "hand": {
+     "readings": 240,
+     "correct": 240,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.8446,
+      "p01": 0.8446,
+      "p05": 0.8617,
+      "p50": 0.954
+     },
+     "confidenceWrongMax": null
+    },
+    "stack": {
+     "readings": 1920,
+     "correct": 1908,
+     "falsePositives": 0,
+     "falseNegatives": 12,
+     "accuracy": 0.99375,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.75,
+      "p01": 0.7932,
+      "p05": 0.8286,
+      "p50": 0.9195
+     },
+     "confidenceWrongMax": null
+    },
+    "bet": {
+     "readings": 832,
+     "correct": 822,
+     "falsePositives": 0,
+     "falseNegatives": 10,
+     "accuracy": 0.98798,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.7554,
+      "p01": 0.7649,
+      "p05": 0.7855,
+      "p50": 0.9081
+     },
+     "confidenceWrongMax": null
+    },
+    "folded": {
+     "readings": 1920,
+     "correct": 1920,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 1,
+      "p01": 1,
+      "p05": 1,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "controls": {
+     "readings": 948,
+     "correct": 948,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.956,
+      "p01": 0.956,
+      "p05": 0.9561,
+      "p50": 1
+     },
+     "confidenceWrongMax": null
+    },
+    "callAmount": {
+     "readings": 169,
+     "correct": 164,
+     "falsePositives": 0,
+     "falseNegatives": 5,
+     "accuracy": 0.97041,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.7724,
+      "p01": 0.7724,
+      "p05": 0.7753,
+      "p50": 0.904
+     },
+     "confidenceWrongMax": null
+    },
+    "minRaise": {
+     "readings": 219,
+     "correct": 219,
+     "falsePositives": 0,
+     "falseNegatives": 0,
+     "accuracy": 1,
+     "precision": 1,
+     "confidenceCorrect": {
+      "min": 0.7798,
+      "p01": 0.7798,
+      "p05": 0.8014,
+      "p50": 0.9107
+     },
+     "confidenceWrongMax": null
+    }
+   }
+  }
+ },
+ "perSize": [
+  {
+   "width": 800,
+   "height": 500,
+   "combos": [
+    {
+     "logical": 800,
+     "scale": 1
+    }
+   ],
+   "templateMs": 1948,
+   "frames": 60,
+   "accepted": 40,
+   "acceptedWithWrongValue": 0,
+   "recognitionMs": {
+    "n": 10,
+    "mean": 22.945,
+    "p95": 40.376,
+    "max": 40.38
+   },
+   "perDegradation": {
+    "clean": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "noise": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "shift-1px": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "blur": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dim": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "occluded": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    }
+   }
+  },
+  {
+   "width": 960,
+   "height": 600,
+   "combos": [
+    {
+     "logical": 960,
+     "scale": 1
+    }
+   ],
+   "templateMs": 0,
+   "frames": 60,
+   "accepted": 40,
+   "acceptedWithWrongValue": 0,
+   "recognitionMs": {
+    "n": 10,
+    "mean": 14.488,
+    "p95": 16.2973,
+    "max": 16.3
+   },
+   "perDegradation": {
+    "clean": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "noise": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "shift-1px": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "blur": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dim": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "occluded": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    }
+   }
+  },
+  {
+   "width": 1000,
+   "height": 625,
+   "combos": [
+    {
+     "logical": 800,
+     "scale": 1.25
+    }
+   ],
+   "templateMs": 232,
+   "frames": 70,
+   "accepted": 50,
+   "acceptedWithWrongValue": 0,
+   "recognitionMs": {
+    "n": 10,
+    "mean": 21.984,
+    "p95": 32.2882,
+    "max": 32.29
+   },
+   "perDegradation": {
+    "clean": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "noise": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "shift-1px": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "blur": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dim": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "occluded": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dpi-stretched": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    }
+   }
+  },
+  {
+   "width": 1024,
+   "height": 640,
+   "combos": [
+    {
+     "logical": 1024,
+     "scale": 1
+    }
+   ],
+   "templateMs": 244,
+   "frames": 60,
+   "accepted": 40,
+   "acceptedWithWrongValue": 0,
+   "recognitionMs": {
+    "n": 10,
+    "mean": 21.462,
+    "p95": 24.5111,
+    "max": 24.51
+   },
+   "perDegradation": {
+    "clean": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "noise": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "shift-1px": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "blur": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dim": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "occluded": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    }
+   }
+  },
+  {
+   "width": 1200,
+   "height": 750,
+   "combos": [
+    {
+     "logical": 800,
+     "scale": 1.5
+    },
+    {
+     "logical": 960,
+     "scale": 1.25
+    }
+   ],
+   "templateMs": 328,
+   "frames": 80,
+   "accepted": 60,
+   "acceptedWithWrongValue": 0,
+   "recognitionMs": {
+    "n": 10,
+    "mean": 26.82,
+    "p95": 30.9521,
+    "max": 30.95
+   },
+   "perDegradation": {
+    "clean": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "noise": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "shift-1px": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "blur": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dim": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "occluded": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dpi-stretched": {
+     "frames": 20,
+     "accepted": 20,
+     "acceptedWithWrongValue": 0
+    }
+   }
+  },
+  {
+   "width": 1280,
+   "height": 800,
+   "combos": [
+    {
+     "logical": 1024,
+     "scale": 1.25
+    },
+    {
+     "logical": 1280,
+     "scale": 1
+    }
+   ],
+   "templateMs": 0,
+   "frames": 70,
+   "accepted": 45,
+   "acceptedWithWrongValue": 0,
+   "recognitionMs": {
+    "n": 10,
+    "mean": 22.807,
+    "p95": 26.1933,
+    "max": 26.19
+   },
+   "perDegradation": {
+    "clean": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "noise": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "shift-1px": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "blur": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dim": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "occluded": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dpi-stretched": {
+     "frames": 10,
+     "accepted": 5,
+     "acceptedWithWrongValue": 0
+    }
+   }
+  },
+  {
+   "width": 1400,
+   "height": 875,
+   "combos": [
+    {
+     "logical": 800,
+     "scale": 1.75
+    }
+   ],
+   "templateMs": 425,
+   "frames": 70,
+   "accepted": 50,
+   "acceptedWithWrongValue": 0,
+   "recognitionMs": {
+    "n": 10,
+    "mean": 29.067,
+    "p95": 33.0303,
+    "max": 33.03
+   },
+   "perDegradation": {
+    "clean": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "noise": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "shift-1px": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "blur": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dim": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "occluded": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dpi-stretched": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    }
+   }
+  },
+  {
+   "width": 1440,
+   "height": 900,
+   "combos": [
+    {
+     "logical": 960,
+     "scale": 1.5
+    },
+    {
+     "logical": 1440,
+     "scale": 1
+    }
+   ],
+   "templateMs": 0,
+   "frames": 70,
+   "accepted": 50,
+   "acceptedWithWrongValue": 0,
+   "recognitionMs": {
+    "n": 10,
+    "mean": 22.582,
+    "p95": 24.7945,
+    "max": 24.79
+   },
+   "perDegradation": {
+    "clean": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "noise": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "shift-1px": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "blur": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dim": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "occluded": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dpi-stretched": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    }
+   }
+  },
+  {
+   "width": 1536,
+   "height": 960,
+   "combos": [
+    {
+     "logical": 1024,
+     "scale": 1.5
+    }
+   ],
+   "templateMs": 489,
+   "frames": 70,
+   "accepted": 48,
+   "acceptedWithWrongValue": 0,
+   "recognitionMs": {
+    "n": 10,
+    "mean": 26.734,
+    "p95": 30.128,
+    "max": 30.13
+   },
+   "perDegradation": {
+    "clean": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "noise": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "shift-1px": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "blur": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dim": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "occluded": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dpi-stretched": {
+     "frames": 10,
+     "accepted": 8,
+     "acceptedWithWrongValue": 0
+    }
+   }
+  },
+  {
+   "width": 1600,
+   "height": 1000,
+   "combos": [
+    {
+     "logical": 800,
+     "scale": 2
+    },
+    {
+     "logical": 1280,
+     "scale": 1.25
+    }
+   ],
+   "templateMs": 542,
+   "frames": 80,
+   "accepted": 60,
+   "acceptedWithWrongValue": 0,
+   "recognitionMs": {
+    "n": 10,
+    "mean": 26.013,
+    "p95": 29.4778,
+    "max": 29.48
+   },
+   "perDegradation": {
+    "clean": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "noise": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "shift-1px": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "blur": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dim": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "occluded": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dpi-stretched": {
+     "frames": 20,
+     "accepted": 20,
+     "acceptedWithWrongValue": 0
+    }
+   }
+  },
+  {
+   "width": 1680,
+   "height": 1050,
+   "combos": [
+    {
+     "logical": 960,
+     "scale": 1.75
+    }
+   ],
+   "templateMs": 604,
+   "frames": 70,
+   "accepted": 50,
+   "acceptedWithWrongValue": 0,
+   "recognitionMs": {
+    "n": 10,
+    "mean": 25.048,
+    "p95": 30.9492,
+    "max": 30.95
+   },
+   "perDegradation": {
+    "clean": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "noise": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "shift-1px": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "blur": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dim": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "occluded": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dpi-stretched": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    }
+   }
+  },
+  {
+   "width": 1792,
+   "height": 1120,
+   "combos": [
+    {
+     "logical": 1024,
+     "scale": 1.75
+    }
+   ],
+   "templateMs": 677,
+   "frames": 70,
+   "accepted": 41,
+   "acceptedWithWrongValue": 0,
+   "recognitionMs": {
+    "n": 10,
+    "mean": 28.264,
+    "p95": 31.1813,
+    "max": 31.18
+   },
+   "perDegradation": {
+    "clean": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "noise": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "shift-1px": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "blur": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dim": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "occluded": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dpi-stretched": {
+     "frames": 10,
+     "accepted": 1,
+     "acceptedWithWrongValue": 0
+    }
+   }
+  },
+  {
+   "width": 1800,
+   "height": 1125,
+   "combos": [
+    {
+     "logical": 1440,
+     "scale": 1.25
+    }
+   ],
+   "templateMs": 693,
+   "frames": 70,
+   "accepted": 50,
+   "acceptedWithWrongValue": 0,
+   "recognitionMs": {
+    "n": 10,
+    "mean": 26.493,
+    "p95": 36.8914,
+    "max": 36.89
+   },
+   "perDegradation": {
+    "clean": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "noise": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "shift-1px": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "blur": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dim": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "occluded": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dpi-stretched": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    }
+   }
+  },
+  {
+   "width": 1920,
+   "height": 1200,
+   "combos": [
+    {
+     "logical": 960,
+     "scale": 2
+    },
+    {
+     "logical": 1280,
+     "scale": 1.5
+    },
+    {
+     "logical": 1920,
+     "scale": 1
+    }
+   ],
+   "templateMs": 0,
+   "frames": 80,
+   "accepted": 60,
+   "acceptedWithWrongValue": 0,
+   "recognitionMs": {
+    "n": 10,
+    "mean": 23.048,
+    "p95": 26.1217,
+    "max": 26.12
+   },
+   "perDegradation": {
+    "clean": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "noise": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "shift-1px": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "blur": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dim": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "occluded": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dpi-stretched": {
+     "frames": 20,
+     "accepted": 20,
+     "acceptedWithWrongValue": 0
+    }
+   }
+  },
+  {
+   "width": 2048,
+   "height": 1280,
+   "combos": [
+    {
+     "logical": 1024,
+     "scale": 2
+    }
+   ],
+   "templateMs": 863,
+   "frames": 70,
+   "accepted": 50,
+   "acceptedWithWrongValue": 0,
+   "recognitionMs": {
+    "n": 10,
+    "mean": 24.465,
+    "p95": 27.8598,
+    "max": 27.86
+   },
+   "perDegradation": {
+    "clean": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "noise": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "shift-1px": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "blur": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dim": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "occluded": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dpi-stretched": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    }
+   }
+  },
+  {
+   "width": 2160,
+   "height": 1350,
+   "combos": [
+    {
+     "logical": 1440,
+     "scale": 1.5
+    }
+   ],
+   "templateMs": 888,
+   "frames": 70,
+   "accepted": 50,
+   "acceptedWithWrongValue": 0,
+   "recognitionMs": {
+    "n": 10,
+    "mean": 26.474,
+    "p95": 30.2841,
+    "max": 30.28
+   },
+   "perDegradation": {
+    "clean": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "noise": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "shift-1px": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "blur": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dim": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "occluded": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dpi-stretched": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    }
+   }
+  },
+  {
+   "width": 2240,
+   "height": 1400,
+   "combos": [
+    {
+     "logical": 1280,
+     "scale": 1.75
+    }
+   ],
+   "templateMs": 985,
+   "frames": 70,
+   "accepted": 50,
+   "acceptedWithWrongValue": 0,
+   "recognitionMs": {
+    "n": 10,
+    "mean": 27.855,
+    "p95": 32.5838,
+    "max": 32.58
+   },
+   "perDegradation": {
+    "clean": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "noise": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "shift-1px": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "blur": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dim": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "occluded": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dpi-stretched": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    }
+   }
+  },
+  {
+   "width": 2400,
+   "height": 1500,
+   "combos": [
+    {
+     "logical": 1920,
+     "scale": 1.25
+    }
+   ],
+   "templateMs": 1126,
+   "frames": 70,
+   "accepted": 50,
+   "acceptedWithWrongValue": 0,
+   "recognitionMs": {
+    "n": 10,
+    "mean": 27.837,
+    "p95": 33.5373,
+    "max": 33.54
+   },
+   "perDegradation": {
+    "clean": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "noise": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "shift-1px": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "blur": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dim": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "occluded": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dpi-stretched": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    }
+   }
+  },
+  {
+   "width": 2520,
+   "height": 1575,
+   "combos": [
+    {
+     "logical": 1440,
+     "scale": 1.75
+    }
+   ],
+   "templateMs": 1276,
+   "frames": 70,
+   "accepted": 50,
+   "acceptedWithWrongValue": 0,
+   "recognitionMs": {
+    "n": 10,
+    "mean": 28.567,
+    "p95": 33.5079,
+    "max": 33.51
+   },
+   "perDegradation": {
+    "clean": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "noise": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "shift-1px": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "blur": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dim": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "occluded": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dpi-stretched": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    }
+   }
+  },
+  {
+   "width": 2560,
+   "height": 1600,
+   "combos": [
+    {
+     "logical": 1280,
+     "scale": 2
+    }
+   ],
+   "templateMs": 1317,
+   "frames": 70,
+   "accepted": 50,
+   "acceptedWithWrongValue": 0,
+   "recognitionMs": {
+    "n": 10,
+    "mean": 30.663,
+    "p95": 39.0317,
+    "max": 39.03
+   },
+   "perDegradation": {
+    "clean": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "noise": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "shift-1px": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "blur": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dim": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "occluded": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dpi-stretched": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    }
+   }
+  },
+  {
+   "width": 2880,
+   "height": 1800,
+   "combos": [
+    {
+     "logical": 1440,
+     "scale": 2
+    },
+    {
+     "logical": 1920,
+     "scale": 1.5
+    }
+   ],
+   "templateMs": 1526,
+   "frames": 80,
+   "accepted": 60,
+   "acceptedWithWrongValue": 0,
+   "recognitionMs": {
+    "n": 10,
+    "mean": 39.034,
+    "p95": 42.8617,
+    "max": 42.86
+   },
+   "perDegradation": {
+    "clean": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "noise": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "shift-1px": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "blur": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dim": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "occluded": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dpi-stretched": {
+     "frames": 20,
+     "accepted": 20,
+     "acceptedWithWrongValue": 0
+    }
+   }
+  },
+  {
+   "width": 3360,
+   "height": 2100,
+   "combos": [
+    {
+     "logical": 1920,
+     "scale": 1.75
+    }
+   ],
+   "templateMs": 2142,
+   "frames": 70,
+   "accepted": 50,
+   "acceptedWithWrongValue": 0,
+   "recognitionMs": {
+    "n": 10,
+    "mean": 39.099,
+    "p95": 47.772,
+    "max": 47.77
+   },
+   "perDegradation": {
+    "clean": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "noise": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "shift-1px": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "blur": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dim": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "occluded": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dpi-stretched": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    }
+   }
+  },
+  {
+   "width": 3840,
+   "height": 2400,
+   "combos": [
+    {
+     "logical": 1920,
+     "scale": 2
+    }
+   ],
+   "templateMs": 2805,
+   "frames": 70,
+   "accepted": 50,
+   "acceptedWithWrongValue": 0,
+   "recognitionMs": {
+    "n": 10,
+    "mean": 47.359,
+    "p95": 51.3129,
+    "max": 51.31
+   },
+   "perDegradation": {
+    "clean": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "noise": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "shift-1px": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "blur": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dim": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    },
+    "occluded": {
+     "frames": 10,
+     "accepted": 0,
+     "acceptedWithWrongValue": 0
+    },
+    "dpi-stretched": {
+     "frames": 10,
+     "accepted": 10,
+     "acceptedWithWrongValue": 0
+    }
+   }
+  }
+ ],
+ "confidence": {
+  "cardScoresCorrect": {
+   "0.90": 108,
+   "0.95": 2836,
+   "1.00": 2247
+  },
+  "cardScoresWrong": {}
+ },
+ "geometry": {
+  "dpiVirtualisedCaptures": 240,
+  "refusedAsCritical": 240,
+  "verifyCleanPass": 300,
+  "verifyClean": 300,
+  "verifyFails": [],
+  "verifyCleanPassRate": 1,
+  "dpiVirtualisedRefusalRate": 1
+ },
+ "durationMs": 193452,
+ "verdict": {
+  "acceptedFramesWithAWrongValue": 0,
+  "neverGuessed": true,
+  "cleanFramesAllAccepted": true,
+  "dpiVirtualisedCapturesAllRefused": true,
+  "verifyCleanAllPass": true
+ }
+}
