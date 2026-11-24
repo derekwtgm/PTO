@@ -1,0 +1,27 @@
+{
+ "m40Suite": {
+  "tests": 1087,
+  "pass": 1027,
+  "fail": 2,
+  "skipped": 58,
+  "failing": [
+   "host keeps ONE helper session per window: newest frame served, unchanged content marked not fresh, sessions end and leave no process",
+   "every corpus request gets its expected status and structured code from the real host"
+  ]
+ },
+ "failingFilesRunAlone": {
+  "tests/capture-029.test.cjs": "pass",
+  "tests/http-029.test.cjs": "pass"
+ },
+ "m32SuiteSameRunner": {
+  "tests": 1029,
+  "pass": 969,
+  "fail": 2,
+  "skipped": 58,
+  "failing": [
+   "protocol: HttpWebRequest POST with body is no longer refused as \"framing\"; every refusal has a code",
+   "host: authenticated shutdown ends the message loop by itself (no forced kill, no watchdog) in idle, after-error and stalled-connection states"
+  ]
+ },
+ "verdict": "pass: every failing test passed when its file ran alone (timing under full-suite load)"
+}

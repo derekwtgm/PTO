@@ -1,0 +1,34 @@
+TAP version 13
+# Subtest: host keeps ONE helper session per window: newest frame served, unchanged content marked not fresh, sessions end and leave no process
+ok 1 - host keeps ONE helper session per window: newest frame served, unchanged content marked not fresh, sessions end and leave no process
+  ---
+  duration_ms: 3773.209773
+  type: 'test'
+  ...
+# Subtest: host wiring: capture close and host shutdown end persistent sessions; health reports them
+ok 2 - host wiring: capture close and host shutdown end persistent sessions; health reports them
+  ---
+  duration_ms: 0.843777
+  type: 'test'
+  ...
+# Subtest: a window move is recorded without invalidating content; a DPI change restarts settling like a resize
+ok 3 - a window move is recorded without invalidating content; a DPI change restarts settling like a resize
+  ---
+  duration_ms: 39.20243
+  type: 'test'
+  ...
+# Subtest: invalid frames never reach action execution: the observation gate refuses them
+ok 4 - invalid frames never reach action execution: the observation gate refuses them
+  ---
+  duration_ms: 5.204081
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3906.637885

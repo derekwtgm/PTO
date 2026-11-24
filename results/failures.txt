@@ -1,0 +1,38 @@
+not ok 25 - host keeps ONE helper session per window: newest frame served, unchanged content marked not fresh, sessions end and leave no process
+  ---
+  duration_ms: 3011.244027
+  type: 'test'
+  location: '/home/runner/work/_temp/EightMax CI (linux)/EightMax-Test-Workbench/tests/capture-029.test.cjs:12:1'
+  failureType: 'testCodeFailure'
+  error: `Unexpected token 'a', "abort_thre"... is not valid JSON`
+  code: 'ERR_TEST_FAILURE'
+  name: 'SyntaxError'
+  stack: |-
+    JSON.parse (<anonymous>)
+    /home/runner/work/_temp/EightMax CI (linux)/EightMax-Test-Workbench/tests/capture-029.test.cjs:17:83
+    Array.map (<anonymous>)
+    TestContext.<anonymous> (/home/runner/work/_temp/EightMax CI (linux)/EightMax-Test-Workbench/tests/capture-029.test.cjs:17:55)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+not ok 236 - every corpus request gets its expected status and structured code from the real host
+  ---
+  duration_ms: 1365.497147
+  type: 'test'
+  location: '/home/runner/work/_temp/EightMax CI (linux)/EightMax-Test-Workbench/tests/http-029.test.cjs:9:1'
+  failureType: 'testCodeFailure'
+  error: `Unexpected token 'a', "abort_thre"... is not valid JSON`
+  code: 'ERR_TEST_FAILURE'
+  name: 'SyntaxError'
+  stack: |-
+    JSON.parse (<anonymous>)
+    /home/runner/work/_temp/EightMax CI (linux)/EightMax-Test-Workbench/tests/http-029.test.cjs:13:85
+    Array.map (<anonymous>)
+    TestContext.<anonymous> (/home/runner/work/_temp/EightMax CI (linux)/EightMax-Test-Workbench/tests/http-029.test.cjs:13:57)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
