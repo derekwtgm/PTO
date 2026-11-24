@@ -1,0 +1,48 @@
+TAP version 13
+# Subtest: host keeps ONE helper session per window: newest frame served, unchanged content marked not fresh, sessions end and leave no process
+not ok 1 - host keeps ONE helper session per window: newest frame served, unchanged content marked not fresh, sessions end and leave no process
+  ---
+  duration_ms: 2700.694835
+  type: 'test'
+  location: '/home/runner/work/_temp/EightMax CI (linux)/EightMax-Test-Workbench/tests/capture-029.test.cjs:12:1'
+  failureType: 'testCodeFailure'
+  error: `Unexpected token 'a', "abort_thre"... is not valid JSON`
+  code: 'ERR_TEST_FAILURE'
+  name: 'SyntaxError'
+  stack: |-
+    JSON.parse (<anonymous>)
+    /home/runner/work/_temp/EightMax CI (linux)/EightMax-Test-Workbench/tests/capture-029.test.cjs:17:83
+    Array.map (<anonymous>)
+    TestContext.<anonymous> (/home/runner/work/_temp/EightMax CI (linux)/EightMax-Test-Workbench/tests/capture-029.test.cjs:17:55)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: host wiring: capture close and host shutdown end persistent sessions; health reports them
+ok 2 - host wiring: capture close and host shutdown end persistent sessions; health reports them
+  ---
+  duration_ms: 0.70392
+  type: 'test'
+  ...
+# Subtest: a window move is recorded without invalidating content; a DPI change restarts settling like a resize
+ok 3 - a window move is recorded without invalidating content; a DPI change restarts settling like a resize
+  ---
+  duration_ms: 30.361153
+  type: 'test'
+  ...
+# Subtest: invalid frames never reach action execution: the observation gate refuses them
+ok 4 - invalid frames never reach action execution: the observation gate refuses them
+  ---
+  duration_ms: 3.725888
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 3
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2807.514387

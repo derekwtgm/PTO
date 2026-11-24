@@ -1,0 +1,34 @@
+not ok 25 - host keeps ONE helper session per window: newest frame served, unchanged content marked not fresh, sessions end and leave no process
+  ---
+  duration_ms: 2890.804728
+  type: 'test'
+  location: '/home/runner/work/_temp/EightMax CI (linux)/EightMax-Test-Workbench/tests/capture-029.test.cjs:12:1'
+  failureType: 'testCodeFailure'
+  error: `Unexpected token 'a', "abort_thre"... is not valid JSON`
+  code: 'ERR_TEST_FAILURE'
+  name: 'SyntaxError'
+  stack: |-
+    JSON.parse (<anonymous>)
+    /home/runner/work/_temp/EightMax CI (linux)/EightMax-Test-Workbench/tests/capture-029.test.cjs:17:83
+    Array.map (<anonymous>)
+    TestContext.<anonymous> (/home/runner/work/_temp/EightMax CI (linux)/EightMax-Test-Workbench/tests/capture-029.test.cjs:17:55)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+not ok 1031 - host: authenticated shutdown ends the message loop by itself (no forced kill, no watchdog) in idle, after-error and stalled-connection states
+  ---
+  duration_ms: 13383.948675
+  type: 'test'
+  location: '/home/runner/work/_temp/EightMax CI (linux)/EightMax-Test-Workbench/tests/windows-repairs-028.test.cjs:162:1'
+  failureType: 'testCodeFailure'
+  error: "ENOENT: no such file or directory, open '/tmp/em028-6UYoY7/session.json'"
+  code: 'ENOENT'
+  stack: |-
+    Object.readFileSync (node:fs:440:20)
+    startHost (/home/runner/work/_temp/EightMax CI (linux)/EightMax-Test-Workbench/tests/windows-repairs-028.test.cjs:157:33)
+    async TestContext.<anonymous> (/home/runner/work/_temp/EightMax CI (linux)/EightMax-Test-Workbench/tests/windows-repairs-028.test.cjs:165:32)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
