@@ -1,0 +1,81 @@
+csc /nologo /langversion:5 /platform:x64 /optimize+ /target:winexe /out:D:\a\_temp\m40-build\bin\EightMaxWorkbench.exe /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Core.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Web.Extensions.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Windows.Forms.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Drawing.dll /main:EightMax.Workbench.DesktopHost D:\a\PTO\PTO\work\EightMax-Test-Workbench\desktop\DesktopHost.cs D:\a\PTO\PTO\work\EightMax-Test-Workbench\desktop\CaptureService.cs D:\a\PTO\PTO\work\EightMax-Test-Workbench\desktop\InputBroker.cs
+csc /nologo /langversion:5 /platform:x64 /optimize+ /target:exe /out:D:\a\_temp\m40-build\bin\EightMaxCapture.exe /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Core.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Web.Extensions.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Windows.Forms.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Drawing.dll D:\a\PTO\PTO\work\EightMax-Test-Workbench\desktop\capture\EightMaxCapture.cs D:\a\PTO\PTO\work\EightMax-Test-Workbench\desktop\CaptureService.cs
+csc /nologo /langversion:5 /platform:x64 /optimize+ /target:exe /out:D:\a\_temp\m40-build\bin\EightMaxInput.exe /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Core.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Web.Extensions.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Windows.Forms.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Drawing.dll /main:EightMax.Input.Program /define:UIA /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\WPF\UIAutomationClient.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\WPF\UIAutomationTypes.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\WPF\WindowsBase.dll /win32manifest:D:\a\PTO\PTO\work\EightMax-Test-Workbench\desktop\input\app.manifest D:\a\PTO\PTO\work\EightMax-Test-Workbench\desktop\input\Driver.cs D:\a\PTO\PTO\work\EightMax-Test-Workbench\desktop\input\Motion.cs D:\a\PTO\PTO\work\EightMax-Test-Workbench\desktop\input\Platform.cs D:\a\PTO\PTO\work\EightMax-Test-Workbench\desktop\input\Program.cs D:\a\PTO\PTO\work\EightMax-Test-Workbench\desktop\input\Safety.cs D:\a\PTO\PTO\work\EightMax-Test-Workbench\desktop\input\Uia.cs
+csc /nologo /langversion:5 /platform:x64 /optimize+ /target:winexe /out:D:\a\_temp\m40-build\bin\EightMaxTestTable.exe /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Core.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Web.Extensions.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Windows.Forms.dll /r:C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Drawing.dll /main:EightMax.TestTable.Program /win32manifest:D:\a\PTO\PTO\work\EightMax-Test-Workbench\desktop\testtable\app.manifest D:\a\PTO\PTO\work\EightMax-Test-Workbench\desktop\testtable\EightMaxTestTable.cs
+work\EightMax-Test-Workbench\desktop\testtable\EightMaxTestTable.cs(94,11): warning CS0108: 'EightMax.TestTable.TableForm.DeviceDpi()' hides inherited member 'System.Windows.Forms.Control.DeviceDpi'. Use the new keyword if hiding was intended.
+c:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Windows.Forms.dll: (Location of symbol related to previous warning)
+{
+    "appVersion":  "0.36.2-dev",
+    "format":  "eightmax-build-evidence",
+    "version":  1,
+    "builtAt":  "2026-11-24T13:15:43.3415771Z",
+    "buildHost":  "Windows: Microsoft Windows Server 2025 Datacenter 10.0.26100 build 26100",
+    "ci":  {
+               "runId":  "45401450070",
+               "runner":  "GitHub Actions 1000000264",
+               "repository":  "derekwtgm/PTO",
+               "sha":  "5e5c437f89f7b5b96cfecec8f385e4ef96b64c12"
+           },
+    "outputs":  {
+                    "desktop/bin/EightMaxWorkbench.exe":  {
+                                                              "sha256":  "f2f86caf9a3c88b1dd8bf39a5a0e167c0215793755c8683e3a1d65d2938ed55a",
+                                                              "compiler":  "Microsoft (R) Visual C# Compiler version 4.8.9221.0 (.NET Framework 4.x, /langversion:5 /platform:x64 /optimize+)",
+                                                              "sources":  [
+                                                                              "desktop/DesktopHost.cs",
+                                                                              "desktop/CaptureService.cs",
+                                                                              "desktop/InputBroker.cs"
+                                                                          ],
+                                                              "crossCompiled":  false,
+                                                              "sourceHashes":  {
+                                                                                   "desktop/DesktopHost.cs":  "a4a189fc7e942691f9316510b85a904dc274e7a63a1f1f6d60b0e1aa0bbe256c",
+                                                                                   "desktop/CaptureService.cs":  "d773c43efdcf0a82aee249c2a8cc0bf0531c676856fb6d892067fb7e63eebb7e",
+                                                                                   "desktop/InputBroker.cs":  "97f1e7227c60f3a5fbbcf41b985ff3648f0aeff3b529b59e9c71e9b5709ba017"
+                                                                               }
+                                                          },
+                    "desktop/bin/EightMaxCapture.exe":  {
+                                                            "sha256":  "c7235e135c5603b2a037da746c466d2ab5b2f23647d118daaca2347dda8906c7",
+                                                            "compiler":  "Microsoft (R) Visual C# Compiler version 4.8.9221.0 (.NET Framework 4.x)",
+                                                            "sources":  [
+                                                                            "desktop/capture/EightMaxCapture.cs",
+                                                                            "desktop/CaptureService.cs"
+                                                                        ],
+                                                            "crossCompiled":  false,
+                                                            "sourceHashes":  {
+                                                                                 "desktop/capture/EightMaxCapture.cs":  "f939c2dbcb721d0f2eb5456b9566d778ff9e06cf913af61e09a93a928cea52a6",
+                                                                                 "desktop/CaptureService.cs":  "d773c43efdcf0a82aee249c2a8cc0bf0531c676856fb6d892067fb7e63eebb7e"
+                                                                             }
+                                                        },
+                    "desktop/bin/EightMaxInput.exe":  {
+                                                          "sha256":  "d469f23d73116e5cdf5c15a0cc4cd23c10efa08ddcd2f8ed3db6460d01d02cdf",
+                                                          "compiler":  "Microsoft (R) Visual C# Compiler version 4.8.9221.0 (.NET Framework 4.x, /define:UIA, UIAutomationClient)",
+                                                          "sources":  [
+                                                                          "desktop/input/Driver.cs",
+                                                                          "desktop/input/Motion.cs",
+                                                                          "desktop/input/Platform.cs",
+                                                                          "desktop/input/Program.cs",
+                                                                          "desktop/input/Safety.cs",
+                                                                          "desktop/input/Uia.cs"
+                                                                      ],
+                                                          "crossCompiled":  false,
+                                                          "sourceHashes":  {
+                                                                               "desktop/input/Driver.cs":  "86a28b316553a039fb1fa2d21e8558ce1b4c4685bcbefdf5c61e67d76b1dd1a3",
+                                                                               "desktop/input/Motion.cs":  "0eea332e21ac2b5ea8713427f17a56c6299aa42f2afce5fea2e699bab8fd2848",
+                                                                               "desktop/input/Platform.cs":  "89dd9a07853a7e1bdf63214522fdf06dfd5754b03a6101de9cd8f54eacb85a9f",
+                                                                               "desktop/input/Program.cs":  "4cad506cb945d74cf3c67f78fc5a2df42484c8d1d99144a4b40c66bd23fd3669",
+                                                                               "desktop/input/Safety.cs":  "678223148e17a04ca9e8abaf0c187997214a2f0113c8b11582e99abc21b476bd",
+                                                                               "desktop/input/Uia.cs":  "63adbb47cdadf5e1cf0957bc170e7495a217243f3b54541c06c2984def7ad7ce"
+                                                                           }
+                                                      },
+                    "desktop/bin/EightMaxTestTable.exe":  {
+                                                              "sha256":  "4700724591fd812e18686215625dfdb621582c725501fd4a9734dd22490d8553",
+                                                              "compiler":  "Microsoft (R) Visual C# Compiler version 4.8.9221.0 (.NET Framework 4.x)",
+                                                              "sources":  [
+                                                                              "desktop/testtable/EightMaxTestTable.cs"
+                                                                          ],
+                                                              "crossCompiled":  false,
+                                                              "sourceHashes":  {
+                                                                                   "desktop/testtable/EightMaxTestTable.cs":  "4610f42b2b634ab085859ffe1da13093fec9e04648dc1b0e9d6ed42978455ab1"
+                                                                               }
+                                                          }
+                }
+}
