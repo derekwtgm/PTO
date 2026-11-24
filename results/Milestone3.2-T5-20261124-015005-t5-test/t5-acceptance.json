@@ -1,0 +1,1150 @@
+{
+  "format": "eightmax-m3-gameplay-acceptance",
+  "version": 1,
+  "suite": "t5",
+  "app": "0.36.2-dev",
+  "milestone": "0.36.2-milestone-3",
+  "environment": "windows",
+  "at": "2026-11-24T01:51:47.670Z",
+  "machine": {
+    "platform": "win32",
+    "release": "10.0.26100",
+    "node": "v22.23.5",
+    "cpus": 4,
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "ramGiB": 16
+  },
+  "host": {
+    "appVersion": "0.36.2-dev",
+    "build": "7d08acc7eb4577ee",
+    "driver": {
+      "dpiAwareness": "per-monitor-v2",
+      "hotkeyRegistered": true,
+      "signedCurves": true
+    },
+    "monitors": [
+      {
+        "id": 0,
+        "name": "\\\\.\\DISPLAY1",
+        "bounds": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1080
+        },
+        "work": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1020
+        },
+        "dpiScale": 1.25,
+        "primary": true
+      }
+    ]
+  },
+  "scenarios": [
+    {
+      "id": "T5",
+      "name": "Two tables: eliminations on both, one window closes; no input crosses tables",
+      "status": "pass",
+      "durationMs": 61649,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "1. both tables started (REGISTERED -> ACTIVE: identity verified, first reading accepted)",
+          "pass": true,
+          "detail": [
+            "ACTIVE",
+            "ACTIVE"
+          ]
+        },
+        {
+          "name": "2. both tables performed confirmed actions",
+          "pass": true,
+          "detail": [
+            2,
+            2
+          ]
+        },
+        {
+          "name": "3. table 2 window closed (the test-table process exited)",
+          "pass": true,
+          "detail": {
+            "code": 0
+          }
+        },
+        {
+          "name": "4. the original window identity is no longer valid",
+          "pass": true,
+          "detail": {
+            "exists": false,
+            "code": "window-gone"
+          }
+        },
+        {
+          "name": "5. table 2 TARGET_LOST after its window closed",
+          "pass": true,
+          "detail": {
+            "state": "TARGET_LOST",
+            "detectMs": 2108,
+            "source": "confirmation",
+            "previousState": "ACTIVE",
+            "gameplayHeldAtLoss": false,
+            "reason": "The window no longer exists (capture: target-lost; driver: window-gone)."
+          }
+        },
+        {
+          "name": "6. the scheduler blocks only table 2 (its registration revoked; table 1 still registered)",
+          "pass": true,
+          "detail": {
+            "unavailableTables": [
+              2
+            ],
+            "revoked": [
+              "2:reg-mwu1h5uy-2"
+            ],
+            "invalidationEvents": 1,
+            "cancellation": {
+              "table": 2,
+              "registrationId": "reg-mwu1h5uy-2",
+              "reason": "The window no longer exists (capture: target-lost; driver: window-gone).",
+              "dropped": 0,
+              "cancelledRunning": false,
+              "at": 56672.4707,
+              "runningTable": 1
+            }
+          }
+        },
+        {
+          "name": "6b. a later job of the lost registration is refused (target-lost)",
+          "pass": true,
+          "detail": "target-lost"
+        },
+        {
+          "name": "7. no input reached the closed window after the loss",
+          "pass": true,
+          "detail": {
+            "afterLoss": 0,
+            "betweenCloseAndLoss": 0,
+            "beforeClose": 16
+          }
+        },
+        {
+          "name": "8a. table 1 keeps playing (or finished its tournament)",
+          "pass": true,
+          "detail": [
+            5,
+            false
+          ]
+        },
+        {
+          "name": "8b. table 1 not lost, not invalidated; its registration is current",
+          "pass": true,
+          "detail": {
+            "lifecycle": "ACTIVE",
+            "registration": true
+          }
+        },
+        {
+          "name": "8c. table 1: every confirmed action matches its own dealer; no incorrect click",
+          "pass": true,
+          "detail": {
+            "confirmed": 19,
+            "dealerAccepted": 19,
+            "matchedInOrder": 19,
+            "wrongActions": 0,
+            "wrong": [],
+            "confirmedNotApplied": 0,
+            "appliedNotConfirmed": 0,
+            "uncertainOrUnconfirmed": 0,
+            "incorrectClicks": 0,
+            "invalidWagers": 0,
+            "timeoutActions": 0
+          }
+        },
+        {
+          "name": "eliminations recognised on table 1",
+          "pass": true,
+          "detail": 4
+        },
+        {
+          "name": "9. cleanup completed: both run loops ended, health monitors stopped, no input job left",
+          "pass": true,
+          "detail": {
+            "runs": [
+              "done",
+              "done"
+            ],
+            "monitors": [
+              false,
+              false
+            ],
+            "scheduler": {
+              "running": null,
+              "queued": 0
+            }
+          }
+        },
+        {
+          "name": "input confirmation: every action sent on either table was confirmed (an unconfirmed input is reported here with its evidence)",
+          "pass": true,
+          "detail": "none",
+          "warning": true
+        }
+      ],
+      "metrics": {
+        "variant": "active-close",
+        "beforeClose": {
+          "lifecycle": "ACTIVE",
+          "cause": "first-reading",
+          "gameplayPaused": false,
+          "confirmed": 13,
+          "unconfirmedSoFar": 0
+        },
+        "table1": {
+          "attempted": 19,
+          "confirmed": 19,
+          "rejected": 0,
+          "ambiguous": 0,
+          "timedOut": 0,
+          "uncertain": 0,
+          "cancelled": 0,
+          "deadlineMisses": 0,
+          "frames": 25,
+          "refusedReadings": 0,
+          "refusalCodes": {},
+          "reconstructionFailures": 0,
+          "untrackedHands": 0,
+          "untrackedHandsWithoutDecision": 0,
+          "untrackedHandsNeedingInput": 0,
+          "recoveries": 0,
+          "eliminationsSeen": 4,
+          "verifyingSteps": 0,
+          "gameplay": "stopped",
+          "gameplayEpisodes": {
+            "starting": 1,
+            "playing": 3,
+            "elimination": 2,
+            "stopped": 1
+          },
+          "lifecycle": "STOPPED",
+          "completed": null,
+          "tournamentRemaining": 4,
+          "latencyMs": {
+            "endToEnd": {
+              "n": 19,
+              "mean": 2482.98,
+              "p50": 2750.61,
+              "p95": 4823.47,
+              "p99": 4823.47,
+              "max": 4823.47
+            },
+            "cursorTravel": {
+              "n": 19,
+              "mean": 894.03,
+              "p50": 1024.72,
+              "p95": 1594.86,
+              "p99": 1594.86,
+              "max": 1594.86
+            },
+            "inputOperation": {
+              "n": 19,
+              "mean": 2459.64,
+              "p50": 2727.87,
+              "p95": 4801.61,
+              "p99": 4801.61,
+              "max": 4801.61
+            },
+            "confirmation": {
+              "n": 19,
+              "mean": 143.38,
+              "p50": 140.41,
+              "p95": 176.04,
+              "p99": 176.04,
+              "max": 176.04
+            }
+          }
+        },
+        "table2": {
+          "attempted": 14,
+          "confirmed": 13,
+          "rejected": 0,
+          "ambiguous": 0,
+          "timedOut": 0,
+          "uncertain": 1,
+          "cancelled": 1,
+          "deadlineMisses": 0,
+          "frames": 14,
+          "refusedReadings": 0,
+          "refusalCodes": {},
+          "reconstructionFailures": 0,
+          "untrackedHands": 0,
+          "untrackedHandsWithoutDecision": 0,
+          "untrackedHandsNeedingInput": 0,
+          "recoveries": 0,
+          "eliminationsSeen": 0,
+          "verifyingSteps": 0,
+          "gameplay": "target-lost",
+          "gameplayEpisodes": {
+            "starting": 1,
+            "playing": 1,
+            "target-lost": 1
+          },
+          "lifecycle": "TARGET_LOST",
+          "completed": null,
+          "tournamentRemaining": null,
+          "latencyMs": {
+            "endToEnd": {
+              "n": 13,
+              "mean": 2908.95,
+              "p50": 3018.68,
+              "p95": 4888.19,
+              "p99": 4888.19,
+              "max": 4888.19
+            },
+            "cursorTravel": {
+              "n": 13,
+              "mean": 1178.21,
+              "p50": 1305.69,
+              "p95": 1600.24,
+              "p99": 1600.24,
+              "max": 1600.24
+            },
+            "inputOperation": {
+              "n": 13,
+              "mean": 2886.9,
+              "p50": 2997.18,
+              "p95": 4871.33,
+              "p99": 4871.33,
+              "max": 4871.33
+            },
+            "confirmation": {
+              "n": 13,
+              "mean": 144.33,
+              "p50": 140.44,
+              "p95": 176.01,
+              "p99": 176.01,
+              "max": 176.01
+            }
+          }
+        },
+        "crossCheck1": {
+          "confirmed": 19,
+          "dealerAccepted": 19,
+          "matchedInOrder": 19,
+          "wrongActions": 0,
+          "wrong": [],
+          "confirmedNotApplied": 0,
+          "appliedNotConfirmed": 0,
+          "uncertainOrUnconfirmed": 0,
+          "incorrectClicks": 0,
+          "invalidWagers": 0,
+          "timeoutActions": 0
+        },
+        "detectMs": 2108,
+        "lossSource": "confirmation",
+        "lostWhile": {
+          "previousState": "ACTIVE",
+          "gameplayHeld": false
+        },
+        "health2": {
+          "running": false,
+          "stoppedReason": "disposed",
+          "intervalMs": 1000,
+          "gameplayHeld": true,
+          "lastProbeMsAgo": 7475,
+          "lastHealthy": "2026-11-24T01:52:39.013Z",
+          "lastResult": {
+            "outcome": "healthy",
+            "minimized": false,
+            "visible": true,
+            "cloaked": false,
+            "foreground": false,
+            "source": "health-monitor",
+            "ms": 1225,
+            "stateAtStart": "ACTIVE",
+            "gameplayHeld": false,
+            "generationAtStart": 2
+          },
+          "unknownInRow": 0,
+          "counts": {
+            "checks": 6,
+            "ownProbes": 6,
+            "sharedProbes": 9,
+            "healthy": 6,
+            "unknown": 0,
+            "lost": 0,
+            "staleDiscarded": 0
+          }
+        },
+        "unconfirmedInputs": [
+          {
+            "ms": 56139,
+            "table": 2,
+            "inputStatus": "uncertain",
+            "control": "fold",
+            "oracle": {
+              "summary": {
+                "hands": 1,
+                "rev": 15,
+                "accepted": 14,
+                "counts": {
+                  "mouseDown": 16,
+                  "mouseUp": 16,
+                  "downOutsideControls": 0,
+                  "downOnDisabled": 0,
+                  "doubleClicks": 0,
+                  "rightClicks": 0,
+                  "keys": 6,
+                  "actions": 14,
+                  "accepted": 14,
+                  "staleClicks": 0,
+                  "illegal": 0,
+                  "wagerRejected": 0,
+                  "byType": {
+                    "fold": 6,
+                    "call": 6,
+                    "raise": 2
+                  },
+                  "timeoutActions": 0,
+                  "droppedByTest": 0
+                },
+                "lastShown": {
+                  "rev": 15,
+                  "wt": 303796
+                },
+                "dropPending": 0,
+                "state": {
+                  "hand": 1,
+                  "status": "complete",
+                  "actor": -1,
+                  "revision": 19
+                }
+              },
+              "events": 12
+            }
+          }
+        ],
+        "evidenceFiles": [
+          "unconfirmed-T5-table2-1.json",
+          "unconfirmed-T5-table2-1-before.png",
+          "unconfirmed-T5-table2-1-after.png"
+        ],
+        "timeline": [
+          {
+            "ms": 2800,
+            "kind": "scheduler-registered",
+            "table": 1,
+            "registrationId": "reg-mwu1h5u1-1"
+          },
+          {
+            "ms": 2833,
+            "kind": "scheduler-registered",
+            "table": 2,
+            "registrationId": "reg-mwu1h5uy-2"
+          },
+          {
+            "ms": 3069,
+            "kind": "lifecycle",
+            "table": 1,
+            "from": "REGISTERED",
+            "to": "ACTIVE",
+            "cause": "first-reading"
+          },
+          {
+            "ms": 3073,
+            "kind": "lifecycle",
+            "table": 2,
+            "from": "REGISTERED",
+            "to": "ACTIVE",
+            "cause": "first-reading"
+          },
+          {
+            "ms": 54040,
+            "kind": "close-requested",
+            "table": 2,
+            "table2": {
+              "lifecycle": "ACTIVE",
+              "cause": "first-reading",
+              "gameplayPaused": false,
+              "confirmed": 13,
+              "unconfirmedSoFar": 0
+            }
+          },
+          {
+            "ms": 54072,
+            "kind": "window-closed",
+            "table": 2,
+            "exited": true
+          },
+          {
+            "ms": 54075,
+            "kind": "identity-probe-by-test",
+            "exists": false,
+            "code": "window-gone"
+          },
+          {
+            "ms": 56137,
+            "kind": "lifecycle",
+            "table": 2,
+            "from": "ACTIVE",
+            "to": "TARGET_LOST",
+            "cause": "window-closed",
+            "source": "confirmation"
+          },
+          {
+            "ms": 56137,
+            "kind": "scheduler-invalidated",
+            "table": 2,
+            "registrationId": "reg-mwu1h5uy-2",
+            "dropped": 0,
+            "cancelledRunning": false
+          },
+          {
+            "ms": 56140,
+            "kind": "unconfirmed-input",
+            "table": 2,
+            "inputStatus": "uncertain",
+            "control": "fold",
+            "reason": "the window was lost after the input was sent (target-lost); delivery cannot be confirmed - review the simulator; the action is not repeated"
+          },
+          {
+            "ms": 56148,
+            "kind": "target-lost-observed",
+            "detectMs": 2108
+          },
+          {
+            "ms": 56149,
+            "kind": "scheduler-rejected",
+            "table": 2,
+            "registrationId": "reg-mwu1h5uy-2",
+            "code": "target-lost"
+          },
+          {
+            "ms": 61424,
+            "kind": "lifecycle",
+            "table": 1,
+            "from": "ACTIVE",
+            "to": "STOPPED",
+            "cause": "stopped"
+          }
+        ]
+      }
+    },
+    {
+      "id": "T5P",
+      "name": "Two tables: table 2 paused by an action its table did not apply, then its window closes (the operator failure, reproduced)",
+      "status": "pass",
+      "durationMs": 26541,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "1. both tables started (REGISTERED -> ACTIVE: identity verified, first reading accepted)",
+          "pass": true,
+          "detail": [
+            "ACTIVE",
+            "ACTIVE"
+          ]
+        },
+        {
+          "name": "2. both tables performed confirmed actions",
+          "pass": true,
+          "detail": [
+            2,
+            2
+          ]
+        },
+        {
+          "name": "P1. table 2 paused by the action its table did not apply: SAFETY_PAUSED (input-rejected), classified rejected-no-change",
+          "pass": true,
+          "detail": {
+            "lifecycle": "SAFETY_PAUSED",
+            "cause": "input-rejected",
+            "inputClass": "rejected-no-change",
+            "reason": "no change within 4000 ms; same actor still to act - the simulator did not apply the action; it is not repeated"
+          }
+        },
+        {
+          "name": "P2. the unapplied action was not repeated and nothing resumed by itself (no input while paused; the table received exactly the one dropped press)",
+          "pass": true,
+          "detail": {
+            "inputsWhilePaused": 0,
+            "lifecycle": "SAFETY_PAUSED",
+            "droppedByTest": 1,
+            "accepted": 2
+          }
+        },
+        {
+          "name": "P3. while paused the window is still monitored (identity probes continue; no capture, no input)",
+          "pass": true,
+          "detail": {
+            "probesWhilePaused": 4,
+            "capturesWhilePaused": 0,
+            "health": {
+              "checks": 6,
+              "ownProbes": 6,
+              "sharedProbes": 3,
+              "healthy": 6,
+              "unknown": 0,
+              "lost": 0,
+              "staleDiscarded": 0
+            }
+          }
+        },
+        {
+          "name": "P4. evidence of the unapplied input recorded (region, point, scaling, client, driver result, lease, confirmation trace, frames)",
+          "pass": true,
+          "detail": {
+            "inputStatus": "rejected-no-change",
+            "control": "call",
+            "windowAfter": {
+              "exists": true,
+              "matches": true,
+              "foreground": false,
+              "minimized": false,
+              "visible": true,
+              "cloaked": false,
+              "enabled": true,
+              "client": {
+                "x": 833,
+                "y": 46,
+                "w": 800,
+                "h": 500
+              },
+              "dpiScale": 1.25,
+              "monitor": 0
+            },
+            "polls": 31
+          }
+        },
+        {
+          "name": "P5. gameplay condition shown: input confirmation failure",
+          "pass": true,
+          "detail": "input-confirmation-failure"
+        },
+        {
+          "name": "3. table 2 window closed (the test-table process exited)",
+          "pass": true,
+          "detail": {
+            "code": 0
+          }
+        },
+        {
+          "name": "4. the original window identity is no longer valid",
+          "pass": true,
+          "detail": {
+            "exists": false,
+            "code": "window-gone"
+          }
+        },
+        {
+          "name": "5. table 2 TARGET_LOST after its window closed",
+          "pass": true,
+          "detail": {
+            "state": "TARGET_LOST",
+            "detectMs": 696,
+            "source": "health-monitor",
+            "previousState": "SAFETY_PAUSED",
+            "gameplayHeldAtLoss": true,
+            "reason": "The window no longer exists (detected while gameplay was paused; driver: window-gone)."
+          }
+        },
+        {
+          "name": "6. the scheduler blocks only table 2 (its registration revoked; table 1 still registered)",
+          "pass": true,
+          "detail": {
+            "unavailableTables": [
+              2
+            ],
+            "revoked": [
+              "2:reg-mwu1ifhb-4"
+            ],
+            "invalidationEvents": 1,
+            "cancellation": {
+              "table": 2,
+              "registrationId": "reg-mwu1ifhb-4",
+              "reason": "The window no longer exists (detected while gameplay was paused; driver: window-gone).",
+              "dropped": 0,
+              "cancelledRunning": false,
+              "at": 81220.6773,
+              "runningTable": null
+            }
+          }
+        },
+        {
+          "name": "6b. a later job of the lost registration is refused (target-lost)",
+          "pass": true,
+          "detail": "target-lost"
+        },
+        {
+          "name": "7. no input reached the closed window after the loss",
+          "pass": true,
+          "detail": {
+            "afterLoss": 0,
+            "betweenCloseAndLoss": 0,
+            "beforeClose": 3
+          }
+        },
+        {
+          "name": "8a. table 1 keeps playing (or finished its tournament)",
+          "pass": true,
+          "detail": [
+            5,
+            false
+          ]
+        },
+        {
+          "name": "8b. table 1 not lost, not invalidated; its registration is current",
+          "pass": true,
+          "detail": {
+            "lifecycle": "ACTIVE",
+            "registration": true
+          }
+        },
+        {
+          "name": "8c. table 1: every confirmed action matches its own dealer; no incorrect click",
+          "pass": true,
+          "detail": {
+            "confirmed": 13,
+            "dealerAccepted": 13,
+            "matchedInOrder": 13,
+            "wrongActions": 0,
+            "wrong": [],
+            "confirmedNotApplied": 0,
+            "appliedNotConfirmed": 0,
+            "uncertainOrUnconfirmed": 0,
+            "incorrectClicks": 0,
+            "invalidWagers": 0,
+            "timeoutActions": 0
+          }
+        },
+        {
+          "name": "9. cleanup completed: both run loops ended, health monitors stopped, no input job left",
+          "pass": true,
+          "detail": {
+            "runs": [
+              "done",
+              "done"
+            ],
+            "monitors": [
+              false,
+              false
+            ],
+            "scheduler": {
+              "running": null,
+              "queued": 0
+            }
+          }
+        },
+        {
+          "name": "input confirmation: every action sent on either table was confirmed (an unconfirmed input is reported here with its evidence)",
+          "pass": true,
+          "detail": "none",
+          "warning": true
+        }
+      ],
+      "metrics": {
+        "variant": "paused-then-closed",
+        "beforeClose": {
+          "lifecycle": "SAFETY_PAUSED",
+          "cause": "input-rejected",
+          "gameplayPaused": true,
+          "confirmed": 2,
+          "unconfirmedSoFar": 1
+        },
+        "table1": {
+          "attempted": 13,
+          "confirmed": 13,
+          "rejected": 0,
+          "ambiguous": 0,
+          "timedOut": 0,
+          "uncertain": 0,
+          "cancelled": 0,
+          "deadlineMisses": 0,
+          "frames": 14,
+          "refusedReadings": 0,
+          "refusalCodes": {},
+          "reconstructionFailures": 0,
+          "untrackedHands": 0,
+          "untrackedHandsWithoutDecision": 0,
+          "untrackedHandsNeedingInput": 0,
+          "recoveries": 0,
+          "eliminationsSeen": 0,
+          "verifyingSteps": 0,
+          "gameplay": "stopped",
+          "gameplayEpisodes": {
+            "starting": 1,
+            "playing": 1,
+            "stopped": 1
+          },
+          "lifecycle": "STOPPED",
+          "completed": null,
+          "tournamentRemaining": 8,
+          "latencyMs": {
+            "endToEnd": {
+              "n": 13,
+              "mean": 1593.09,
+              "p50": 952.91,
+              "p95": 3606.06,
+              "p99": 3606.06,
+              "max": 3606.06
+            },
+            "cursorTravel": {
+              "n": 13,
+              "mean": 582.43,
+              "p50": 352.39,
+              "p95": 1310.94,
+              "p99": 1310.94,
+              "max": 1310.94
+            },
+            "inputOperation": {
+              "n": 13,
+              "mean": 1571.99,
+              "p50": 931.53,
+              "p95": 3586.55,
+              "p99": 3586.55,
+              "max": 3586.55
+            },
+            "confirmation": {
+              "n": 13,
+              "mean": 147.79,
+              "p50": 142.7,
+              "p95": 174.8,
+              "p99": 174.8,
+              "max": 174.8
+            }
+          }
+        },
+        "table2": {
+          "attempted": 3,
+          "confirmed": 2,
+          "rejected": 1,
+          "ambiguous": 0,
+          "timedOut": 0,
+          "uncertain": 0,
+          "cancelled": 0,
+          "deadlineMisses": 0,
+          "frames": 4,
+          "refusedReadings": 0,
+          "refusalCodes": {},
+          "reconstructionFailures": 0,
+          "untrackedHands": 0,
+          "untrackedHandsWithoutDecision": 0,
+          "untrackedHandsNeedingInput": 0,
+          "recoveries": 0,
+          "eliminationsSeen": 0,
+          "verifyingSteps": 0,
+          "gameplay": "input-confirmation-failure",
+          "gameplayEpisodes": {
+            "starting": 1,
+            "playing": 1,
+            "input-confirmation-failure": 1
+          },
+          "lifecycle": "TARGET_LOST",
+          "completed": null,
+          "tournamentRemaining": null,
+          "latencyMs": {
+            "endToEnd": {
+              "n": 2,
+              "mean": 3051.92,
+              "p50": 2518.63,
+              "p95": 3585.21,
+              "p99": 3585.21,
+              "max": 3585.21
+            },
+            "cursorTravel": {
+              "n": 2,
+              "mean": 1451.01,
+              "p50": 1306.81,
+              "p95": 1595.21,
+              "p99": 1595.21,
+              "max": 1595.21
+            },
+            "inputOperation": {
+              "n": 2,
+              "mean": 3031.05,
+              "p50": 2496.08,
+              "p95": 3566.02,
+              "p99": 3566.02,
+              "max": 3566.02
+            },
+            "confirmation": {
+              "n": 2,
+              "mean": 133.12,
+              "p50": 125.42,
+              "p95": 140.81,
+              "p99": 140.81,
+              "max": 140.81
+            }
+          }
+        },
+        "crossCheck1": {
+          "confirmed": 13,
+          "dealerAccepted": 13,
+          "matchedInOrder": 13,
+          "wrongActions": 0,
+          "wrong": [],
+          "confirmedNotApplied": 0,
+          "appliedNotConfirmed": 0,
+          "uncertainOrUnconfirmed": 0,
+          "incorrectClicks": 0,
+          "invalidWagers": 0,
+          "timeoutActions": 0
+        },
+        "detectMs": 696,
+        "lossSource": "health-monitor",
+        "lostWhile": {
+          "previousState": "SAFETY_PAUSED",
+          "gameplayHeld": true
+        },
+        "health2": {
+          "running": false,
+          "stoppedReason": "disposed",
+          "intervalMs": 1000,
+          "gameplayHeld": true,
+          "lastProbeMsAgo": 7522,
+          "lastHealthy": "2026-11-24T01:53:07.331Z",
+          "lastResult": {
+            "outcome": "lost",
+            "cause": {
+              "kind": "window-closed",
+              "code": "target-lost",
+              "reason": "The window no longer exists (detected while gameplay was paused; driver: window-gone).",
+              "source": "health-monitor"
+            },
+            "source": "health-monitor",
+            "ms": 13,
+            "stateAtStart": "SAFETY_PAUSED",
+            "gameplayHeld": true,
+            "generationAtStart": 3
+          },
+          "unknownInRow": 0,
+          "counts": {
+            "checks": 7,
+            "ownProbes": 7,
+            "sharedProbes": 3,
+            "healthy": 6,
+            "unknown": 0,
+            "lost": 1,
+            "staleDiscarded": 0
+          }
+        },
+        "unconfirmedInputs": [
+          {
+            "ms": 14843,
+            "table": 2,
+            "inputStatus": "rejected-no-change",
+            "control": "call",
+            "oracle": {
+              "summary": {
+                "hands": 1,
+                "rev": 3,
+                "accepted": 2,
+                "counts": {
+                  "mouseDown": 3,
+                  "mouseUp": 3,
+                  "downOutsideControls": 0,
+                  "downOnDisabled": 0,
+                  "doubleClicks": 0,
+                  "rightClicks": 0,
+                  "keys": 0,
+                  "actions": 3,
+                  "accepted": 2,
+                  "staleClicks": 0,
+                  "illegal": 0,
+                  "wagerRejected": 0,
+                  "byType": {
+                    "fold": 1,
+                    "call": 1
+                  },
+                  "timeoutActions": 0,
+                  "droppedByTest": 1
+                },
+                "lastShown": {
+                  "rev": 3,
+                  "wt": 317796
+                },
+                "dropPending": 0,
+                "state": {
+                  "hand": 1,
+                  "status": "playing",
+                  "actor": 5,
+                  "revision": 3
+                }
+              },
+              "events": 3
+            }
+          }
+        ],
+        "evidenceFiles": [
+          "unconfirmed-T5P-table2-1.json",
+          "unconfirmed-T5P-table2-1-before.png",
+          "unconfirmed-T5P-table2-1-after.png"
+        ],
+        "timeline": [
+          {
+            "ms": 295,
+            "kind": "scheduler-registered",
+            "table": 1,
+            "registrationId": "reg-mwu1ifgz-3"
+          },
+          {
+            "ms": 306,
+            "kind": "scheduler-registered",
+            "table": 2,
+            "registrationId": "reg-mwu1ifhb-4"
+          },
+          {
+            "ms": 413,
+            "kind": "lifecycle",
+            "table": 1,
+            "from": "REGISTERED",
+            "to": "ACTIVE",
+            "cause": "first-reading"
+          },
+          {
+            "ms": 452,
+            "kind": "lifecycle",
+            "table": 2,
+            "from": "REGISTERED",
+            "to": "ACTIVE",
+            "cause": "first-reading"
+          },
+          {
+            "ms": 6599,
+            "kind": "test-control",
+            "table": 2,
+            "control": "drop-next-action",
+            "reply": 1
+          },
+          {
+            "ms": 14843,
+            "kind": "unconfirmed-input",
+            "table": 2,
+            "inputStatus": "rejected-no-change",
+            "control": "call",
+            "reason": "no change within 4000 ms; same actor still to act - the simulator did not apply the action; it is not repeated"
+          },
+          {
+            "ms": 14844,
+            "kind": "lifecycle",
+            "table": 2,
+            "from": "ACTIVE",
+            "to": "SAFETY_PAUSED",
+            "cause": "input-rejected"
+          },
+          {
+            "ms": 14847,
+            "kind": "table-2-paused",
+            "state": "SAFETY_PAUSED",
+            "cause": "input-rejected"
+          },
+          {
+            "ms": 18349,
+            "kind": "close-requested",
+            "table": 2,
+            "table2": {
+              "lifecycle": "SAFETY_PAUSED",
+              "cause": "input-rejected",
+              "gameplayPaused": true,
+              "confirmed": 2,
+              "unconfirmedSoFar": 1
+            }
+          },
+          {
+            "ms": 18367,
+            "kind": "window-closed",
+            "table": 2,
+            "exited": true
+          },
+          {
+            "ms": 18710,
+            "kind": "identity-probe-by-test",
+            "exists": false,
+            "code": "window-gone"
+          },
+          {
+            "ms": 19034,
+            "kind": "lifecycle",
+            "table": 2,
+            "from": "SAFETY_PAUSED",
+            "to": "TARGET_LOST",
+            "cause": "window-closed",
+            "source": "health-monitor"
+          },
+          {
+            "ms": 19034,
+            "kind": "scheduler-invalidated",
+            "table": 2,
+            "registrationId": "reg-mwu1ifhb-4",
+            "dropped": 0,
+            "cancelledRunning": false
+          },
+          {
+            "ms": 19046,
+            "kind": "target-lost-observed",
+            "detectMs": 696
+          },
+          {
+            "ms": 19046,
+            "kind": "scheduler-rejected",
+            "table": 2,
+            "registrationId": "reg-mwu1ifhb-4",
+            "code": "target-lost"
+          },
+          {
+            "ms": 23355,
+            "kind": "lifecycle",
+            "table": 1,
+            "from": "ACTIVE",
+            "to": "STOPPED",
+            "cause": "stopped"
+          }
+        ]
+      }
+    }
+  ],
+  "cleanup": {
+    "childProcesses": [
+      {
+        "name": "desktop host",
+        "pid": 9716,
+        "exited": true,
+        "code": 0,
+        "signal": null
+      },
+      {
+        "name": "test-table fixture 1",
+        "pid": 3612,
+        "exited": true,
+        "code": 0,
+        "signal": null
+      },
+      {
+        "name": "test-table fixture 2",
+        "pid": 9852,
+        "exited": true,
+        "code": 0,
+        "signal": null
+      }
+    ],
+    "allChildrenExited": true,
+    "activeResources": {},
+    "unexpected": [],
+    "ok": true
+  },
+  "summary": {
+    "scenarios": 2,
+    "passed": 2,
+    "failed": 0,
+    "withWarnings": 0,
+    "checks": 32,
+    "failedChecks": 0,
+    "warningChecks": 0,
+    "cleanupOk": true
+  },
+  "overall": "PASS",
+  "durationMs": 88304,
+  "exitCode": 0
+}
