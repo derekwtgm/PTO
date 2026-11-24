@@ -245,6 +245,9 @@ try {
         if ($FullSuite) { $files = @(Get-ChildItem (Join-Path $root 'tests') -Filter '*.test.cjs' | Sort-Object Name | ForEach-Object { 'tests\' + $_.Name }) } else { $files = @($focused | Where-Object { Test-Path -LiteralPath (Join-Path $root $_) }) }
         $unit.mode = $(if ($FullSuite) { 'complete suite' } elseif ($Mode -eq 'T5') { 'Milestone 3.2 paused-window / lifecycle set' } else { 'Milestone 3 / 3.1 focused set' }); $unit.files = $files.Count
         $env:EIGHTMAX_TEST_CLI = (Join-Path $root 'native\mwcli.exe')
+        # 0.36.2 M3.2: where the .NET SDK is installed, tests\wgc-027 builds with dotnet; MSBuild's node reuse would keep a worker process
+        # alive for minutes after the build (found as a leftover session process by the cleanup phase on Windows CI): no node reuse, no build server
+        $env:MSBUILDDISABLENODEREUSE = '1'; $env:DOTNET_CLI_DO_NOT_USE_MSBUILD_SERVER = '1'
         $log = Join-Path $M.Dir 'unit-tests'
         $tick = { param($el) $t = Read-M31Text ($log + '.out.txt'); [string]([regex]::Matches($t, '(?m)^(not )?ok \d+ ').Count) + ' tests finished' }
         $r = Invoke-M31Tool $node ('--test --test-reporter=tap --test-concurrency=2 --test-timeout=600000 ' + (($files | ForEach-Object { '"' + $_ + '"' }) -join ' ')) $log (Get-M31Limit 0 3600) 'regression tests' $root $tick

@@ -4,7 +4,7 @@
   "app": "0.36.2-dev",
   "root": "/home/user/work/dev/EightMax-Test-Workbench",
   "environment": "fake host (logic reproduction, not Windows evidence)",
-  "at": "2026-11-24T01:35:14.583Z",
+  "at": "2026-11-24T01:59:21.956Z",
   "beforeClose": {
     "t2Lifecycle": "SAFETY_PAUSED",
     "t2Paused": "Action visibly rejected by the simulator: no change within 400 ms; same actor still to act",
@@ -16,7 +16,7 @@
       }
     },
     "droppedClick": {
-      "ms": 2421,
+      "ms": 2547,
       "control": "fold",
       "rev": 4
     }
@@ -25,7 +25,7 @@
     "waitedMs": 15000,
     "t2Lifecycle": "TARGET_LOST",
     "t2Terminal": true,
-    "detectMs": 1022,
+    "detectMs": 1027,
     "t2LostReason": "The window no longer exists (detected while gameplay was paused; driver: window-gone).",
     "t2LostSource": "health-monitor",
     "schedulerUnavailableTables": [
@@ -33,10 +33,10 @@
     ],
     "schedulerInvalidations": [
       {
-        "ms": 3875,
+        "ms": 4029,
         "kind": "invalidated",
         "table": 2,
-        "registrationId": "reg-mwu0vtec-2"
+        "registrationId": "reg-mwu1qu75-2"
       }
     ],
     "requestsForTable2AfterClose": {
@@ -82,7 +82,7 @@
   "verdict": "REPAIRED: the paused table detected the closed window and its scheduler registration was invalidated",
   "events": [
     {
-      "ms": 1901,
+      "ms": 1949,
       "kind": "lifecycle",
       "table": 1,
       "from": "REGISTERED",
@@ -90,7 +90,7 @@
       "cause": "first-reading"
     },
     {
-      "ms": 1927,
+      "ms": 1980,
       "kind": "lifecycle",
       "table": 2,
       "from": "REGISTERED",
@@ -98,19 +98,19 @@
       "cause": "first-reading"
     },
     {
-      "ms": 2332,
+      "ms": 2478,
       "kind": "both-tables-playing",
       "t1": 3,
       "t2": 3
     },
     {
-      "ms": 2421,
+      "ms": 2547,
       "kind": "dealer-dropped-click",
       "table": 2,
       "control": "fold"
     },
     {
-      "ms": 2874,
+      "ms": 3002,
       "kind": "lifecycle",
       "table": 2,
       "from": "ACTIVE",
@@ -118,7 +118,7 @@
       "cause": "input-rejected"
     },
     {
-      "ms": 2874,
+      "ms": 3002,
       "kind": "table-2-paused",
       "paused": "Action visibly rejected by the simulator: no change within 400 ms; same actor still to act",
       "lifecycle": "SAFETY_PAUSED",
@@ -126,11 +126,11 @@
       "reason": "no change within 400 ms; same actor still to act - the simulator did not apply the action; it is not repeated"
     },
     {
-      "ms": 2874,
+      "ms": 3002,
       "kind": "table-2-window-closed"
     },
     {
-      "ms": 3874,
+      "ms": 4028,
       "kind": "lifecycle",
       "table": 2,
       "from": "SAFETY_PAUSED",
@@ -138,12 +138,12 @@
       "cause": "window-closed"
     },
     {
-      "ms": 3896,
+      "ms": 4029,
       "kind": "table-2-target-lost",
-      "waitedMs": 1022
+      "waitedMs": 1027
     },
     {
-      "ms": 3897,
+      "ms": 4030,
       "kind": "lifecycle",
       "table": 1,
       "from": "ACTIVE",
@@ -153,66 +153,66 @@
   ],
   "schedulerEvents": [
     {
-      "ms": 2650,
+      "ms": 2790,
       "kind": "rejected",
       "table": 1,
       "code": "deadline",
-      "registrationId": "reg-mwu0vtec-1"
+      "registrationId": "reg-mwu1qu74-1"
     },
     {
-      "ms": 2689,
+      "ms": 2824,
       "kind": "rejected",
       "table": 1,
       "code": "deadline",
-      "registrationId": "reg-mwu0vtec-1"
+      "registrationId": "reg-mwu1qu74-1"
     },
     {
-      "ms": 3121,
+      "ms": 3283,
       "kind": "rejected",
       "table": 1,
       "code": "deadline",
-      "registrationId": "reg-mwu0vtec-1"
+      "registrationId": "reg-mwu1qu74-1"
     },
     {
-      "ms": 3148,
+      "ms": 3305,
       "kind": "rejected",
       "table": 1,
       "code": "deadline",
-      "registrationId": "reg-mwu0vtec-1"
+      "registrationId": "reg-mwu1qu74-1"
     },
     {
-      "ms": 3173,
+      "ms": 3328,
       "kind": "rejected",
       "table": 1,
       "code": "deadline",
-      "registrationId": "reg-mwu0vtec-1"
+      "registrationId": "reg-mwu1qu74-1"
     },
     {
-      "ms": 3569,
+      "ms": 3694,
       "kind": "rejected",
       "table": 1,
       "code": "deadline",
-      "registrationId": "reg-mwu0vtec-1"
+      "registrationId": "reg-mwu1qu74-1"
     },
     {
-      "ms": 3871,
+      "ms": 3995,
       "kind": "rejected",
       "table": 1,
       "code": "deadline",
-      "registrationId": "reg-mwu0vtec-1"
+      "registrationId": "reg-mwu1qu74-1"
     },
     {
-      "ms": 3875,
+      "ms": 4029,
       "kind": "invalidated",
       "table": 2,
-      "registrationId": "reg-mwu0vtec-2"
+      "registrationId": "reg-mwu1qu75-2"
     },
     {
-      "ms": 3907,
+      "ms": 4040,
       "kind": "rejected",
       "table": 1,
       "code": "stale",
-      "registrationId": "reg-mwu0vtec-1"
+      "registrationId": "reg-mwu1qu74-1"
     }
   ]
 }

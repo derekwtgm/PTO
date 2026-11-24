@@ -1,0 +1,1213 @@
+{
+ "format": "eightmax-m32-windows-ci-development-runs",
+ "version": 1,
+ "repository": "derekwtgm/PTO",
+ "branch": "milestone-3.2-0362",
+ "note": "Development runs test the Milestone 3.1 ZIP + m32-overlay packaged by tools/make-release-0362m32.py (identical bytes to a local package of the same tree). The final release ZIP is tested in a separate run recorded in REPORT-0.36.2-Milestone-3.2.md.",
+ "runs": [
+  {
+   "run": "45306938867",
+   "url": "https://github.com/derekwtgm/PTO/actions/runs/45306938867",
+   "commit": "902839b6ce4a",
+   "note": "development run 1 (Milestone 3.1 ZIP + m32-overlay): first Windows run of the repair; T5 summary printed n/a for timings (the large-JSON reader returns dictionaries) - fixed in run 2",
+   "jobs": [
+    {
+     "name": "package",
+     "conclusion": "success"
+    },
+    {
+     "name": "t5 (1, 100)",
+     "conclusion": "success"
+    },
+    {
+     "name": "full",
+     "conclusion": "success"
+    },
+    {
+     "name": "scenarios",
+     "conclusion": "success"
+    },
+    {
+     "name": "t5 (2, 125)",
+     "conclusion": "success"
+    },
+    {
+     "name": "linux",
+     "conclusion": "success"
+    }
+   ],
+   "t5": [
+    {
+     "job": 1,
+     "scaleRequested": 100,
+     "scaleMeasured": 100,
+     "launcherExit": 0,
+     "runner": "PASS",
+     "unit": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "lossDetectMs": 98,
+       "lossSource": "driver",
+       "stateBeforeLoss": "ACTIVE",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "lossDetectMs": 894,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      }
+     ]
+    },
+    {
+     "job": 2,
+     "scaleRequested": 125,
+     "scaleMeasured": 125,
+     "launcherExit": 0,
+     "runner": "PASS",
+     "unit": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "lossDetectMs": 2069,
+       "lossSource": "confirmation",
+       "stateBeforeLoss": "ACTIVE",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "lossDetectMs": 343,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      }
+     ]
+    }
+   ],
+   "full": {
+    "overall": "WARNING",
+    "exitCode": 0,
+    "counts": {
+     "PASS": 142,
+     "FAIL": 0,
+     "WARNING": 1,
+     "SKIPPED": 5,
+     "total": 148
+    },
+    "phases": [
+     {
+      "name": "environment",
+      "status": "PASS",
+      "seconds": 6,
+      "counts": {
+       "PASS": 9,
+       "FAIL": 0,
+       "WARNING": 0,
+       "SKIPPED": 0
+      }
+     },
+     {
+      "name": "integrity",
+      "status": "PASS",
+      "seconds": 5.4,
+      "counts": {
+       "PASS": 10,
+       "FAIL": 0,
+       "WARNING": 0,
+       "SKIPPED": 0
+      }
+     },
+     {
+      "name": "dependencies",
+      "status": "PASS",
+      "seconds": 1.8,
+      "counts": {
+       "PASS": 6,
+       "FAIL": 0,
+       "WARNING": 0,
+       "SKIPPED": 0
+      }
+     },
+     {
+      "name": "unit",
+      "status": "PASS",
+      "seconds": 574.8,
+      "counts": {
+       "PASS": 1,
+       "FAIL": 0,
+       "WARNING": 0,
+       "SKIPPED": 0
+      }
+     },
+     {
+      "name": "host-start",
+      "status": "PASS",
+      "seconds": 58,
+      "counts": {
+       "PASS": 86,
+       "FAIL": 0,
+       "WARNING": 0,
+       "SKIPPED": 5
+      }
+     },
+     {
+      "name": "lifecycle",
+      "status": "PASS",
+      "seconds": 126.4,
+      "counts": {
+       "PASS": 13,
+       "FAIL": 0,
+       "WARNING": 0,
+       "SKIPPED": 0
+      }
+     },
+     {
+      "name": "gameplay",
+      "status": "PASS",
+      "seconds": 246.2,
+      "counts": {
+       "PASS": 9,
+       "FAIL": 0,
+       "WARNING": 0,
+       "SKIPPED": 0
+      }
+     },
+     {
+      "name": "multi-table",
+      "status": "PASS",
+      "seconds": 262.6,
+      "counts": {
+       "PASS": 6,
+       "FAIL": 0,
+       "WARNING": 0,
+       "SKIPPED": 0
+      }
+     },
+     {
+      "name": "cleanup",
+      "status": "WARNING",
+      "seconds": 2.9,
+      "counts": {
+       "PASS": 2,
+       "FAIL": 0,
+       "WARNING": 1,
+       "SKIPPED": 0
+      }
+     }
+    ],
+    "unit": {
+     "tests": 1029,
+     "passed": 982,
+     "failed": 0,
+     "skipped": 47,
+     "failedNames": []
+    }
+   },
+   "scenarios": {
+    "passed": 26,
+    "failed": 0,
+    "total": 26
+   }
+  },
+  {
+   "run": "45307833843",
+   "url": "https://github.com/derekwtgm/PTO/actions/runs/45307833843",
+   "commit": "f707524be932",
+   "note": "development run 2: every launcher ended with exit 2 (HARNESS ERROR) because the T5 summary writer called Dictionary.Contains, which Windows PowerShell 5.1 cannot reach; every T5 / T5P scenario inside passed. Fixed in run 3 (keys compared one by one; a summary failure is a WARNING)",
+   "jobs": [
+    {
+     "name": "package",
+     "conclusion": "success"
+    },
+    {
+     "name": "linux",
+     "conclusion": "success"
+    },
+    {
+     "name": "t5 (4, 125)",
+     "conclusion": "failure"
+    },
+    {
+     "name": "t5 (9, 100)",
+     "conclusion": "failure"
+    },
+    {
+     "name": "t5 (1, 100)",
+     "conclusion": "failure"
+    },
+    {
+     "name": "t5 (8, 125)",
+     "conclusion": "failure"
+    },
+    {
+     "name": "t5 (5, 100)",
+     "conclusion": "failure"
+    },
+    {
+     "name": "t5 (6, 125)",
+     "conclusion": "failure"
+    },
+    {
+     "name": "t5 (3, 100)",
+     "conclusion": "failure"
+    },
+    {
+     "name": "t5 (10, 125)",
+     "conclusion": "failure"
+    },
+    {
+     "name": "t5 (2, 125)",
+     "conclusion": "failure"
+    },
+    {
+     "name": "t5 (7, 100)",
+     "conclusion": "failure"
+    },
+    {
+     "name": "scenarios",
+     "conclusion": "skipped"
+    },
+    {
+     "name": "full",
+     "conclusion": "skipped"
+    }
+   ],
+   "t5": [
+    {
+     "job": 1,
+     "scaleRequested": 100,
+     "scaleMeasured": 100,
+     "launcherExit": 2,
+     "runner": "FAIL",
+     "unit": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "lossDetectMs": 48,
+       "lossSource": "driver",
+       "stateBeforeLoss": "ACTIVE",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "lossDetectMs": 528,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      }
+     ]
+    },
+    {
+     "job": 2,
+     "scaleRequested": 125,
+     "scaleMeasured": 125,
+     "launcherExit": 2,
+     "runner": "FAIL",
+     "unit": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "lossDetectMs": 2108,
+       "lossSource": "confirmation",
+       "stateBeforeLoss": "ACTIVE",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "lossDetectMs": 696,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      }
+     ]
+    },
+    {
+     "job": 3,
+     "scaleRequested": 100,
+     "scaleMeasured": 100,
+     "launcherExit": 2,
+     "runner": "FAIL",
+     "unit": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "lossDetectMs": 75,
+       "lossSource": "driver",
+       "stateBeforeLoss": "ACTIVE",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "lossDetectMs": 237,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      }
+     ]
+    },
+    {
+     "job": 4,
+     "scaleRequested": 125,
+     "scaleMeasured": 125,
+     "launcherExit": 2,
+     "runner": "FAIL",
+     "unit": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "lossDetectMs": 92,
+       "lossSource": "driver",
+       "stateBeforeLoss": "ACTIVE",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "lossDetectMs": 635,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      }
+     ]
+    },
+    {
+     "job": 5,
+     "scaleRequested": 100,
+     "scaleMeasured": 100,
+     "launcherExit": 2,
+     "runner": "FAIL",
+     "unit": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "lossDetectMs": 159,
+       "lossSource": "confirmation",
+       "stateBeforeLoss": "ACTIVE",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "lossDetectMs": 196,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      }
+     ]
+    },
+    {
+     "job": 6,
+     "scaleRequested": 125,
+     "scaleMeasured": 125,
+     "launcherExit": 2,
+     "runner": "FAIL",
+     "unit": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "lossDetectMs": 2079,
+       "lossSource": "confirmation",
+       "stateBeforeLoss": "ACTIVE",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "lossDetectMs": 202,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      }
+     ]
+    },
+    {
+     "job": 7,
+     "scaleRequested": 100,
+     "scaleMeasured": 100,
+     "launcherExit": 2,
+     "runner": "FAIL",
+     "unit": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "lossDetectMs": 2092,
+       "lossSource": "confirmation",
+       "stateBeforeLoss": "ACTIVE",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "lossDetectMs": 230,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      }
+     ]
+    },
+    {
+     "job": 8,
+     "scaleRequested": 125,
+     "scaleMeasured": 125,
+     "launcherExit": 2,
+     "runner": "FAIL",
+     "unit": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "lossDetectMs": 2123,
+       "lossSource": "confirmation",
+       "stateBeforeLoss": "ACTIVE",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "lossDetectMs": 139,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      }
+     ]
+    },
+    {
+     "job": 9,
+     "scaleRequested": 100,
+     "scaleMeasured": 100,
+     "launcherExit": 2,
+     "runner": "FAIL",
+     "unit": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "lossDetectMs": 2088,
+       "lossSource": "confirmation",
+       "stateBeforeLoss": "ACTIVE",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "lossDetectMs": 897,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      }
+     ]
+    },
+    {
+     "job": 10,
+     "scaleRequested": 125,
+     "scaleMeasured": 125,
+     "launcherExit": 2,
+     "runner": "FAIL",
+     "unit": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "lossDetectMs": 2085,
+       "lossSource": "confirmation",
+       "stateBeforeLoss": "ACTIVE",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "lossDetectMs": 909,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      }
+     ]
+    }
+   ],
+   "full": null,
+   "scenarios": null
+  },
+  {
+   "run": "45308811354",
+   "url": "https://github.com/derekwtgm/PTO/actions/runs/45308811354",
+   "commit": "cf4bfe7f2aca",
+   "note": "development run 3: summary fix, T5 attributes inputs interrupted by its own cleanup, stopped / finished tables probed every 5 s",
+   "jobs": [
+    {
+     "name": "package",
+     "conclusion": "success"
+    },
+    {
+     "name": "full",
+     "conclusion": "success"
+    },
+    {
+     "name": "linux",
+     "conclusion": "success"
+    },
+    {
+     "name": "t5 (1, 100)",
+     "conclusion": "success"
+    },
+    {
+     "name": "t5 (6, 125)",
+     "conclusion": "success"
+    },
+    {
+     "name": "t5 (3, 100)",
+     "conclusion": "success"
+    },
+    {
+     "name": "t5 (5, 100)",
+     "conclusion": "success"
+    },
+    {
+     "name": "t5 (7, 100)",
+     "conclusion": "success"
+    },
+    {
+     "name": "t5 (2, 125)",
+     "conclusion": "success"
+    },
+    {
+     "name": "t5 (9, 100)",
+     "conclusion": "success"
+    },
+    {
+     "name": "t5 (10, 125)",
+     "conclusion": "success"
+    },
+    {
+     "name": "t5 (8, 125)",
+     "conclusion": "success"
+    },
+    {
+     "name": "t5 (4, 125)",
+     "conclusion": "success"
+    },
+    {
+     "name": "scenarios",
+     "conclusion": "skipped"
+    }
+   ],
+   "t5": [
+    {
+     "job": 1,
+     "scaleRequested": 100,
+     "scaleMeasured": 100,
+     "launcherExit": 0,
+     "runner": "PASS",
+     "unit": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "lossDetectMs": 2089,
+       "lossSource": "confirmation",
+       "stateBeforeLoss": "ACTIVE",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "lossDetectMs": 244,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      }
+     ]
+    },
+    {
+     "job": 2,
+     "scaleRequested": 125,
+     "scaleMeasured": 125,
+     "launcherExit": 0,
+     "runner": "PASS",
+     "unit": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "lossDetectMs": 70,
+       "lossSource": "driver",
+       "stateBeforeLoss": "ACTIVE",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "lossDetectMs": 384,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      }
+     ]
+    },
+    {
+     "job": 3,
+     "scaleRequested": 100,
+     "scaleMeasured": 100,
+     "launcherExit": 0,
+     "runner": "PASS",
+     "unit": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "lossDetectMs": 2100,
+       "lossSource": "confirmation",
+       "stateBeforeLoss": "ACTIVE",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "lossDetectMs": 522,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      }
+     ]
+    },
+    {
+     "job": 4,
+     "scaleRequested": 125,
+     "scaleMeasured": 125,
+     "launcherExit": 0,
+     "runner": "PASS",
+     "unit": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "lossDetectMs": 2109,
+       "lossSource": "confirmation",
+       "stateBeforeLoss": "ACTIVE",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "lossDetectMs": 905,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      }
+     ]
+    },
+    {
+     "job": 5,
+     "scaleRequested": 100,
+     "scaleMeasured": 100,
+     "launcherExit": 0,
+     "runner": "PASS",
+     "unit": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "lossDetectMs": 28,
+       "lossSource": "driver",
+       "stateBeforeLoss": "ACTIVE",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "lossDetectMs": 198,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      }
+     ]
+    },
+    {
+     "job": 6,
+     "scaleRequested": 125,
+     "scaleMeasured": 125,
+     "launcherExit": 0,
+     "runner": "PASS",
+     "unit": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "lossDetectMs": 55,
+       "lossSource": "driver",
+       "stateBeforeLoss": "ACTIVE",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "lossDetectMs": 891,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      }
+     ]
+    },
+    {
+     "job": 7,
+     "scaleRequested": 100,
+     "scaleMeasured": 100,
+     "launcherExit": 0,
+     "runner": "PASS",
+     "unit": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "lossDetectMs": 72,
+       "lossSource": "driver",
+       "stateBeforeLoss": "ACTIVE",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "lossDetectMs": 129,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      }
+     ]
+    },
+    {
+     "job": 8,
+     "scaleRequested": 125,
+     "scaleMeasured": 125,
+     "launcherExit": 0,
+     "runner": "PASS",
+     "unit": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "lossDetectMs": 2114,
+       "lossSource": "confirmation",
+       "stateBeforeLoss": "ACTIVE",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "lossDetectMs": 266,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      }
+     ]
+    },
+    {
+     "job": 9,
+     "scaleRequested": 100,
+     "scaleMeasured": 100,
+     "launcherExit": 0,
+     "runner": "PASS",
+     "unit": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "lossDetectMs": 2085,
+       "lossSource": "confirmation",
+       "stateBeforeLoss": "ACTIVE",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "lossDetectMs": 614,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      }
+     ]
+    },
+    {
+     "job": 10,
+     "scaleRequested": 125,
+     "scaleMeasured": 125,
+     "launcherExit": 0,
+     "runner": "PASS",
+     "unit": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "lossDetectMs": 71,
+       "lossSource": "driver",
+       "stateBeforeLoss": "ACTIVE",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "lossDetectMs": 263,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "warnings": [],
+       "failed": []
+      }
+     ]
+    }
+   ],
+   "full": {
+    "overall": "WARNING",
+    "exitCode": 0,
+    "counts": {
+     "PASS": 142,
+     "FAIL": 0,
+     "WARNING": 1,
+     "SKIPPED": 5,
+     "total": 148
+    },
+    "phases": [
+     {
+      "name": "environment",
+      "status": "PASS",
+      "seconds": 4.9,
+      "counts": {
+       "PASS": 9,
+       "FAIL": 0,
+       "WARNING": 0,
+       "SKIPPED": 0
+      }
+     },
+     {
+      "name": "integrity",
+      "status": "PASS",
+      "seconds": 3.8,
+      "counts": {
+       "PASS": 10,
+       "FAIL": 0,
+       "WARNING": 0,
+       "SKIPPED": 0
+      }
+     },
+     {
+      "name": "dependencies",
+      "status": "PASS",
+      "seconds": 1.2,
+      "counts": {
+       "PASS": 6,
+       "FAIL": 0,
+       "WARNING": 0,
+       "SKIPPED": 0
+      }
+     },
+     {
+      "name": "unit",
+      "status": "PASS",
+      "seconds": 479.5,
+      "counts": {
+       "PASS": 1,
+       "FAIL": 0,
+       "WARNING": 0,
+       "SKIPPED": 0
+      }
+     },
+     {
+      "name": "host-start",
+      "status": "PASS",
+      "seconds": 41.9,
+      "counts": {
+       "PASS": 86,
+       "FAIL": 0,
+       "WARNING": 0,
+       "SKIPPED": 5
+      }
+     },
+     {
+      "name": "lifecycle",
+      "status": "PASS",
+      "seconds": 123.9,
+      "counts": {
+       "PASS": 13,
+       "FAIL": 0,
+       "WARNING": 0,
+       "SKIPPED": 0
+      }
+     },
+     {
+      "name": "gameplay",
+      "status": "PASS",
+      "seconds": 242.3,
+      "counts": {
+       "PASS": 9,
+       "FAIL": 0,
+       "WARNING": 0,
+       "SKIPPED": 0
+      }
+     },
+     {
+      "name": "multi-table",
+      "status": "PASS",
+      "seconds": 257.5,
+      "counts": {
+       "PASS": 6,
+       "FAIL": 0,
+       "WARNING": 0,
+       "SKIPPED": 0
+      }
+     },
+     {
+      "name": "cleanup",
+      "status": "WARNING",
+      "seconds": 2.6,
+      "counts": {
+       "PASS": 2,
+       "FAIL": 0,
+       "WARNING": 1,
+       "SKIPPED": 0
+      }
+     }
+    ],
+    "unit": {
+     "tests": 1029,
+     "passed": 982,
+     "failed": 0,
+     "skipped": 47,
+     "failedNames": []
+    }
+   },
+   "scenarios": null
+  }
+ ]
+}
