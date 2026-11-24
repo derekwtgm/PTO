@@ -1,3 +1,15 @@
+# EightMax Test Workbench 0.36.2 - Milestone 4.0 (in development: multi-table scheduler optimisation, 4K display recognition, input reliability, extended gameplay validation, ten-table feasibility)
+
+| File | Contents |
+|---|---|
+| `m40-overlay/EightMax-Test-Workbench/` | every file Milestone 4.0 adds or changes relative to `EightMax-Test-Workbench-0.36.2-Milestone-3.2.zip`; `m40-overlay/DELETED.txt` lists removed files (none) |
+| `.github/workflows/windows-0362-m40.yml` | Windows CI: build of the changed executables on Windows, package, Linux suite, baseline comparison, sustained multi-table play, full acceptance, T5; results on the branches `m40-results/<run id>-*` |
+| `ci-request-m40.json` | which CI jobs the current commit requests |
+
+Development in progress - the release ZIP and the report are added when the Windows validation is complete.
+
+---
+
 # EightMax Test Workbench 0.36.2 - Milestone 3.2 (input confirmation reliability, paused-window monitoring, target-loss recovery, multi-table isolation)
 
 | File | Contents |

@@ -1,0 +1,19 @@
+{
+ "purpose": "Milestone 4.0 development run 1: Windows build of the changed executables (input driver, desktop host, capture tool) and the driver self-test; Linux suite; baseline comparison on one machine (the Milestone 3.2 stability workload with compat-3.2, then optimized); the Milestone 3.2 ZIP itself as the true baseline; short sustained runs; full acceptance with the optimized pipeline; standalone T5 at 100 % and 125 %",
+ "linux": true,
+ "ab": true,
+ "m32": true,
+ "policies": false,
+ "ten": false,
+ "full": true,
+ "scenarios": false,
+ "launcher": false,
+ "stabilitySeconds": 60,
+ "sustained": [
+  { "tables": 5, "pipeline": "optimized", "seconds": 300 },
+  { "tables": 8, "pipeline": "optimized", "seconds": 300 },
+  { "tables": 8, "pipeline": "compat-3.2", "seconds": 300 }
+ ],
+ "t5Jobs": 2,
+ "recognitionScales": []
+}

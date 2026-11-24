@@ -1,0 +1,30 @@
+{
+ "format": "eightmax-release",
+ "version": "0.36.2-dev",
+ "milestone": "0.36.2 Milestone 4.0: multi-table scheduler optimisation, 4K display recognition, input reliability, extended gameplay validation and ten-table feasibility",
+ "status": "milestone-4.0 development: see REPORT-0.36.2-Milestone-4.0.md for the Windows CI results; target-PC run pending",
+ "baseline": {
+  "archive": "EightMax-Test-Workbench-0.36.2-Milestone-3.2.zip",
+  "sha256": "740e9c1fe853d8db0a57722cabbba78a66ad20525b63a7569fe51658cabeb54d",
+  "entries": 1464,
+  "manifestEntries": 1463
+ },
+ "nativeEngine": {
+  "version": "5.1",
+  "build": "7d08acc7eb4577ee",
+  "sha256": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+  "changed": false
+ },
+ "windowsBinariesRebuilt": null,
+ "windowsBinariesReason": "Milestone 4.0 changes three C# sources: desktop/input/Driver.cs and Platform.cs (per-process double-click guard, input drain, phase timings, read-only queries on the reader thread - all requested per command, Milestone 3.2 behaviour without the new fields) and desktop/CaptureService.cs + DesktopHost.cs (optional region of the client area in /api/capture/frame). EightMaxInput.exe, EightMaxWorkbench.exe and EightMaxCapture.exe are rebuilt ON WINDOWS with the .NET Framework 4.x compiler (windows/Build-Executables.ps1); the test table, the WGC helper, Node.js and the EightMax 5.1 engine are byte-identical to Milestone 3.2.",
+ "executables": {},
+ "defaults": {
+  "inputPipeline": "optimized (dashboard and the Milestone 4.0 test tools); compat-3.2 reproduces Milestone 3.2 exactly",
+  "schedulingPolicy": "edf (earliest deadline first, the Milestone 3.2 order)",
+  "motionAndClickTiming": "unchanged: the operator's saved settings are loaded as they are; presets change values only when the operator picks one"
+ },
+ "windowsTestRunner": "RUN-M4-PERFORMANCE-TEST.cmd",
+ "instructions": "READ-ME-MILESTONE4-TESTS.txt",
+ "resultsLocation": "%LOCALAPPDATA%\\EightMax-Test-Workbench\\TestResults\\Milestone4.0-<mode>-<date>-<time>",
+ "integrityPolicy": "release-integrity-policy.json"
+}
