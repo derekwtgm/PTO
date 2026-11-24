@@ -1,0 +1,296 @@
+{
+ "format": "eightmax-unconfirmed-input",
+ "version": 1,
+ "seq": 1,
+ "at": "2026-11-24T17:16:22.248Z",
+ "table": 7,
+ "registrationId": "reg-mwuxt56a-11",
+ "hwnd": "0x4029C",
+ "identityFingerprint": "737cb19b",
+ "identity": {
+  "pid": 3624,
+  "processStart": "134400130166372295",
+  "className": "WindowsForms10.Window.8.app.0.34f5582_r6_ad1",
+  "exe": "EightMaxTestTable.exe",
+  "exeSha256Prefix": "3e5a76995a24d169"
+ },
+ "hand": 22,
+ "street": "preflop",
+ "seat": 3,
+ "action": {
+  "type": "call",
+  "amount": 100
+ },
+ "decisionSource": "scripted-fallback",
+ "decisionLabel": "SCRIPTED FALLBACK — not a solver decision",
+ "inputStatus": "rejected-no-change",
+ "status": "rejected",
+ "reason": "no change within 4000 ms; same actor still to act - the simulator did not apply the action; it is not repeated",
+ "code": null,
+ "control": "call",
+ "expectedRegion": {
+  "normalized": {
+   "x": 0.84,
+   "y": 0.93,
+   "w": 0.07,
+   "h": 0.05
+  },
+  "clickRect": {
+   "x": 927,
+   "y": 679,
+   "w": 34,
+   "h": 15
+  }
+ },
+ "selectedPoint": {
+  "x": 944,
+  "y": 686
+ },
+ "clickedAt": {
+  "x": 944,
+  "y": 686
+ },
+ "hit": "0x302AC",
+ "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+ "displayScaling": 1,
+ "clientAtReading": {
+  "x": 244,
+  "y": 209,
+  "w": 800,
+  "h": 500
+ },
+ "clientAfter": {
+  "x": 244,
+  "y": 209,
+  "w": 800,
+  "h": 500
+ },
+ "windowAfter": {
+  "exists": true,
+  "matches": true,
+  "foreground": false,
+  "minimized": false,
+  "visible": true,
+  "cloaked": false,
+  "enabled": true,
+  "client": {
+   "x": 244,
+   "y": 209,
+   "w": 800,
+   "h": 500
+  },
+  "dpiScale": 1,
+  "monitor": 0
+ },
+ "driver": {
+  "reported": "input completed (driver reply ok)",
+  "plannedMs": 366.66,
+  "actualMs": 375.67,
+  "steps": 23,
+  "finalError": 0,
+  "distance": 209.57,
+  "maxObservedLag": 0,
+  "pipeline": "optimized",
+  "guardScope": "process",
+  "press": {
+   "seen": true,
+   "seenMs": 0.64,
+   "root": "0x4029C",
+   "child": "0x302AC",
+   "capturedByControl": false,
+   "capture": "0x0"
+  },
+  "captureReleased": false,
+  "captureReleaseMs": 300.28,
+  "drained": false,
+  "drainMs": 300.29,
+  "repliedAtWallMs": 1795540577937
+ },
+ "scheduler": {
+  "leaseId": 1926,
+  "waitedMs": 5880,
+  "runMs": 1012
+ },
+ "confirmation": {
+  "status": "rejected",
+  "reason": "no change within 4000 ms; same actor still to act",
+  "timeoutMs": 4000,
+  "pollMs": 30,
+  "polls": 58,
+  "failedCaptures": 0,
+  "failureCodes": {},
+  "newFrames": 0,
+  "unreadableNewFrames": 0,
+  "startRevision": 214,
+  "revisionsSeen": [
+   214
+  ],
+  "firstPollMs": 62,
+  "lastFrameId": null,
+  "finalReading": {
+   "hand": 22,
+   "actor": 3,
+   "status": "playing",
+   "actions": 1,
+   "frameId": 9082,
+   "revision": 214,
+   "freshLook": true
+  },
+  "stripPolls": 58,
+  "durationMs": 4159
+ },
+ "frames": {
+  "before": {
+   "frameId": 8969,
+   "revision": 214,
+   "ageAtSubmitMs": 13
+  },
+  "after": {
+   "lastFrameId": null,
+   "revisionsSeen": [
+    214
+   ],
+   "finalReading": {
+    "hand": 22,
+    "actor": 3,
+    "status": "playing",
+    "actions": 1,
+    "frameId": 9082,
+    "revision": 214,
+    "freshLook": true
+   }
+  }
+ },
+ "timeline": {
+  "readToSubmitMs": 13,
+  "queueWaitMs": 5880,
+  "inputRunMs": 1012,
+  "confirmMs": 4159,
+  "totalMs": 11053
+ },
+ "lifecycleAfter": "ACTIVE",
+ "recordedAt": 1795540582248,
+ "windowEvents": [],
+ "otherWindowEvents": [
+  {
+   "file": "oracle-table-01.jsonl",
+   "t": 1795540579139,
+   "table": 1,
+   "kind": "mouse-down",
+   "x": 396,
+   "y": 477,
+   "control": "wager",
+   "enabled": true,
+   "rev": 270,
+   "wt": 1613046,
+   "dealerRev": 270
+  },
+  {
+   "file": "oracle-table-01.jsonl",
+   "t": 1795540579210,
+   "table": 1,
+   "kind": "mouse-up",
+   "x": 396,
+   "y": 477,
+   "control": "wager",
+   "enabled": true,
+   "rev": 270,
+   "wt": 1613125,
+   "dealerRev": 270
+  },
+  {
+   "file": "oracle-table-04-g2.jsonl",
+   "t": 1795540576961,
+   "table": 4,
+   "kind": "mouse-down",
+   "x": 616,
+   "y": 477,
+   "control": "check",
+   "enabled": true,
+   "rev": 109,
+   "wt": 1610875,
+   "dealerRev": 109
+  },
+  {
+   "file": "oracle-table-04-g2.jsonl",
+   "t": 1795540577032,
+   "table": 4,
+   "kind": "mouse-up",
+   "x": 616,
+   "y": 477,
+   "control": "check",
+   "enabled": true,
+   "rev": 109,
+   "wt": 1610953,
+   "dealerRev": 109
+  },
+  {
+   "file": "oracle-table-04-g2.jsonl",
+   "t": 1795540577033,
+   "table": 4,
+   "kind": "action",
+   "control": "check",
+   "wager": "",
+   "rev": 109,
+   "wt": 1610953,
+   "dealerRev": 109,
+   "result": "accepted",
+   "applied": {
+    "hand": 8,
+    "seat": 5,
+    "street": "river",
+    "control": "check",
+    "type": "check",
+    "amount": 0,
+    "rev": 110
+   }
+  },
+  {
+   "file": "oracle-table-06-g1.jsonl",
+   "t": 1795540576499,
+   "table": 6,
+   "kind": "mouse-down",
+   "x": 616,
+   "y": 477,
+   "control": "check",
+   "enabled": true,
+   "rev": 49,
+   "wt": 1610406,
+   "dealerRev": 49
+  },
+  {
+   "file": "oracle-table-06-g1.jsonl",
+   "t": 1795540576569,
+   "table": 6,
+   "kind": "mouse-up",
+   "x": 616,
+   "y": 477,
+   "control": "check",
+   "enabled": true,
+   "rev": 49,
+   "wt": 1610484,
+   "dealerRev": 49
+  },
+  {
+   "file": "oracle-table-06-g1.jsonl",
+   "t": 1795540576569,
+   "table": 6,
+   "kind": "action",
+   "control": "check",
+   "wager": "",
+   "rev": 49,
+   "wt": 1610484,
+   "dealerRev": 49,
+   "result": "accepted",
+   "applied": {
+    "hand": 3,
+    "seat": 3,
+    "street": "flop",
+    "control": "check",
+    "type": "check",
+    "amount": 0,
+    "rev": 50
+   }
+  }
+ ]
+}
