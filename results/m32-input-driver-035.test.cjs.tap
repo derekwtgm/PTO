@@ -1,0 +1,64 @@
+TAP version 13
+# Subtest: driver: wrong token is refused and the process ends; commands before hello are refused
+ok 1 - driver: wrong token is refused and the process ends; commands before hello are refused
+  ---
+  duration_ms: 84.600519
+  type: 'test'
+  ...
+# Subtest: driver: input needs arming, a registered window and an executable-bound authorization
+ok 2 - driver: input needs arming, a registered window and an executable-bound authorization
+  ---
+  duration_ms: 85.210438
+  type: 'test'
+  ...
+# Subtest: driver: smooth movement follows the minimum-jerk plan, respects limits and ends exactly on target
+ok 3 - driver: smooth movement follows the minimum-jerk plan, respects limits and ends exactly on target
+  ---
+  duration_ms: 1420.30339
+  type: 'test'
+  ...
+# Subtest: driver: move-click lands one click inside the region; stale layout, outside region and covering windows are refused
+ok 4 - driver: move-click lands one click inside the region; stale layout, outside region and covering windows are refused
+  ---
+  duration_ms: 1570.763969
+  type: 'test'
+  ...
+# Subtest: driver: exact wager entry clears, types key by key and verifies; non-numeric text is refused
+ok 5 - driver: exact wager entry clears, types key by key and verifies; non-numeric text is refused
+  ---
+  duration_ms: 2026.836762
+  type: 'test'
+  ...
+# Subtest: driver: cancel stops a movement mid-way; nothing moves afterwards; emergency stop latches until reset
+ok 6 - driver: cancel stops a movement mid-way; nothing moves afterwards; emergency stop latches until reset
+  ---
+  duration_ms: 2171.332902
+  type: 'test'
+  ...
+# Subtest: driver: a person moving the mouse makes automation yield until an explicit resume; the queue is bounded
+ok 7 - driver: a person moving the mouse makes automation yield until an explicit resume; the queue is bounded
+  ---
+  duration_ms: 2799.035336
+  type: 'test'
+  ...
+# Subtest: geometry: normalised regions convert with the CURRENT client rectangle at 1080p, 1440p, 4K, 150 % and negative monitors
+ok 8 - geometry: normalised regions convert with the CURRENT client rectangle at 1080p, 1440p, 4K, 150 % and negative monitors
+  ---
+  duration_ms: 0.78557
+  type: 'test'
+  ...
+# Subtest: motion: minimum-jerk plans never exceed speed/acceleration limits and are continuous; violations are detected
+ok 9 - motion: minimum-jerk plans never exceed speed/acceleration limits and are continuous; violations are detected
+  ---
+  duration_ms: 12.521053
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 10486.382653

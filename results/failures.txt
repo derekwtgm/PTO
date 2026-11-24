@@ -1,0 +1,49 @@
+not ok 231 - every corpus request gets its expected status and structured code from the real host
+  ---
+  duration_ms: 1366.291776
+  type: 'test'
+  location: '/home/runner/work/_temp/EightMax CI (linux)/EightMax-Test-Workbench/tests/http-029.test.cjs:9:1'
+  failureType: 'testCodeFailure'
+  error: `Unexpected token 'a', "abort_thre"... is not valid JSON`
+  code: 'ERR_TEST_FAILURE'
+  name: 'SyntaxError'
+  stack: |-
+    JSON.parse (<anonymous>)
+    /home/runner/work/_temp/EightMax CI (linux)/EightMax-Test-Workbench/tests/http-029.test.cjs:13:85
+    Array.map (<anonymous>)
+    TestContext.<anonymous> (/home/runner/work/_temp/EightMax CI (linux)/EightMax-Test-Workbench/tests/http-029.test.cjs:13:57)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+not ok 273 - driver: cancel stops a movement mid-way; nothing moves afterwards; emergency stop latches until reset
+  ---
+  duration_ms: 930.712393
+  type: 'test'
+  location: '/home/runner/work/_temp/EightMax CI (linux)/EightMax-Test-Workbench/tests/input-driver-035.test.cjs:89:1'
+  failureType: 'testCodeFailure'
+  error: 'Wait for the cancelled operation to finish.'
+  code: 'busy'
+  stack: |-
+    DriverSession.call (/home/runner/work/_temp/EightMax CI (linux)/EightMax-Test-Workbench/src/windows-input-driver.js:63:128)
+    process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    async TestContext.<anonymous> (/home/runner/work/_temp/EightMax CI (linux)/EightMax-Test-Workbench/tests/input-driver-035.test.cjs:101:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+not ok 1006 - host: authenticated shutdown ends the message loop by itself (no forced kill, no watchdog) in idle, after-error and stalled-connection states
+  ---
+  duration_ms: 14190.403749
+  type: 'test'
+  location: '/home/runner/work/_temp/EightMax CI (linux)/EightMax-Test-Workbench/tests/windows-repairs-028.test.cjs:162:1'
+  failureType: 'testCodeFailure'
+  error: "ENOENT: no such file or directory, open '/tmp/em028-UdvmVm/session.json'"
+  code: 'ENOENT'
+  stack: |-
+    Object.readFileSync (node:fs:440:20)
+    startHost (/home/runner/work/_temp/EightMax CI (linux)/EightMax-Test-Workbench/tests/windows-repairs-028.test.cjs:157:33)
+    async TestContext.<anonymous> (/home/runner/work/_temp/EightMax CI (linux)/EightMax-Test-Workbench/tests/windows-repairs-028.test.cjs:165:32)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...

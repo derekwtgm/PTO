@@ -1,0 +1,130 @@
+TAP version 13
+# Subtest: 0.26 Windows evidence: capture died after the minimised check and desktop acceptance failed with HTTP 400 + forced shutdown
+ok 1 - 0.26 Windows evidence: capture died after the minimised check and desktop acceptance failed with HTTP 400 + forced shutdown
+  ---
+  duration_ms: 1.513709
+  type: 'test'
+  ...
+# Subtest: capture self-test never reads Form.Handle after Close() and always writes a stage result
+ok 2 - capture self-test never reads Form.Handle after Close() and always writes a stage result
+  ---
+  duration_ms: 1.067115
+  type: 'test'
+  ...
+# Subtest: Test-Capture.ps1 no longer pipes native stderr through PowerShell (empty-detail failure of 0.26)
+ok 3 - Test-Capture.ps1 no longer pipes native stderr through PowerShell (empty-detail failure of 0.26)
+  ---
+  duration_ms: 0.367481
+  type: 'test'
+  ...
+# Subtest: desktop host accepts Expect: 100-continue, returns structured errors and never logs the session token
+ok 4 - desktop host accepts Expect: 100-continue, returns structured errors and never logs the session token
+  ---
+  duration_ms: 0.794762
+  type: 'test'
+  ...
+# Subtest: Test-Desktop.ps1 records step/method/route/status/code per request and always attempts orderly shutdown
+ok 5 - Test-Desktop.ps1 records step/method/route/status/code per request and always attempts orderly shutdown
+  ---
+  duration_ms: 0.354536
+  type: 'test'
+  ...
+# Subtest: all .NET Framework sources compile with Mono at C\# 5 (cross-compilation only: NOT Windows execution)
+ok 6 - all .NET Framework sources compile with Mono at C\# 5 (cross-compilation only: NOT Windows execution)
+  ---
+  duration_ms: 454.839093
+  type: 'test'
+  ...
+# Subtest: protocol: HttpWebRequest POST with body is no longer refused as "framing"; every refusal has a code
+ok 7 - protocol: HttpWebRequest POST with body is no longer refused as "framing"; every refusal has a code
+  ---
+  duration_ms: 803.694552
+  type: 'test'
+  ...
+# Subtest: capture self-test runs all stages to completion: create, capture, verify, resize, minimise, restore, close -> target-lost
+ok 8 - capture self-test runs all stages to completion: create, capture, verify, resize, minimise, restore, close -> target-lost
+  ---
+  duration_ms: 4356.553516
+  type: 'test'
+  ...
+# Subtest: capture self-test: an exception in a stage is recorded with its stage name and exit code 4 (no crash, result file written)
+ok 9 - capture self-test: an exception in a stage is recorded with its stage name and exit code 4 (no crash, result file written)
+  ---
+  duration_ms: 2342.750346
+  type: 'test'
+  ...
+# Subtest: WinForms runtime confirms the 0.26 mechanism: Form.Handle after Close() of a shown form throws ObjectDisposedException
+ok 10 - WinForms runtime confirms the 0.26 mechanism: Form.Handle after Close() of a shown form throws ObjectDisposedException
+  ---
+  duration_ms: 317.179438
+  type: 'test'
+  ...
+# Subtest: host: authenticated shutdown ends the message loop by itself (no forced kill, no watchdog) in idle, after-error and stalled-connection states
+ok 11 - host: authenticated shutdown ends the message loop by itself (no forced kill, no watchdog) in idle, after-error and stalled-connection states
+  ---
+  duration_ms: 6707.352804
+  type: 'test'
+  ...
+# Subtest: host: work is refused with 503 host-stopping once shutdown starts; double shutdown is harmless
+ok 12 - host: work is refused with 503 host-stopping once shutdown starts; double shutdown is harmless
+  ---
+  duration_ms: 1542.89562
+  type: 'test'
+  ...
+# Subtest: all shipped PowerShell scripts parse (PowerShell 7 parser; Windows PowerShell 5.1 parse is re-checked by RUN-RELEASE-ACCEPTANCE)
+ok 13 - all shipped PowerShell scripts parse (PowerShell 7 parser; Windows PowerShell 5.1 parse is re-checked by RUN-RELEASE-ACCEPTANCE)
+  ---
+  duration_ms: 398.156606
+  type: 'test'
+  ...
+# Subtest: Common.ps1 reporting helpers: exact counts, never-empty messages, stderr captured not thrown, timeouts classified
+ok 14 - Common.ps1 reporting helpers: exact counts, never-empty messages, stderr captured not thrown, timeouts classified
+  ---
+  duration_ms: 2518.496532
+  type: 'test'
+  ...
+# Subtest: Test-Capture.ps1 replaying the 0.26 crash reports the exact failing stage with the crash text (not an empty detail)
+ok 15 - Test-Capture.ps1 replaying the 0.26 crash reports the exact failing stage with the crash text (not an empty detail)
+  ---
+  duration_ms: 1392.239193
+  type: 'test'
+  ...
+# Subtest: Test-Capture.ps1 with a passing 0.28 tool reports every self-test stage
+ok 16 - Test-Capture.ps1 with a passing 0.28 tool reports every self-test stage
+  ---
+  duration_ms: 1390.654475
+  type: 'test'
+  ...
+# Subtest: Test-Wgc.ps1 reports every WGC self-test stage plus refusals (stub tool; the real helper has not run on Windows)
+ok 17 - Test-Wgc.ps1 reports every WGC self-test stage plus refusals (stub tool; the real helper has not run on Windows)
+  ---
+  duration_ms: 1406.463946
+  type: 'test'
+  ...
+# Subtest: WGC self-test stage names match the acceptance script and the helper source
+ok 18 - WGC self-test stage names match the acceptance script and the helper source
+  ---
+  duration_ms: 1.115043
+  type: 'test'
+  ...
+# Subtest: every critical acceptance criterion in Test-Release.ps1 refers to checks the child scripts actually produce
+ok 19 - every critical acceptance criterion in Test-Release.ps1 refers to checks the child scripts actually produce
+  ---
+  duration_ms: 0.692911
+  type: 'test'
+  ...
+# Subtest: results collector: reads the real 0.26 reports, never modifies originals, excludes session files, redacts tokens/names, writes portable ZIP paths
+ok 20 - results collector: reads the real 0.26 reports, never modifies originals, excludes session files, redacts tokens/names, writes portable ZIP paths
+  ---
+  duration_ms: 826.093712
+  type: 'test'
+  ...
+1..20
+# tests 20
+# suites 0
+# pass 20
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 24734.531005
