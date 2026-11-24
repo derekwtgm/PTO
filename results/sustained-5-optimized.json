@@ -1,0 +1,112 @@
+{
+  "format": "eightmax-m3-gameplay-acceptance",
+  "version": 1,
+  "suite": "sustained",
+  "app": "0.36.2-dev",
+  "milestone": "0.36.2-milestone-3",
+  "environment": "windows",
+  "at": "2026-11-24T16:51:46.919Z",
+  "pipeline": "optimized",
+  "policy": "edf",
+  "motion": {
+    "maxSpeed": 1200,
+    "maxAccel": 9000,
+    "minDurationMs": 140,
+    "intervalMs": 16,
+    "arc": 0.12,
+    "maxDeviationPx": 240,
+    "maxDurationMs": 4000
+  },
+  "machine": {
+    "platform": "win32",
+    "release": "10.0.26100",
+    "node": "v22.23.5",
+    "cpus": 4,
+    "cpu": "AMD EPYC 9V74 80-Core Processor                ",
+    "ramGiB": 16
+  },
+  "host": {
+    "appVersion": "0.36.2-dev",
+    "build": "7d08acc7eb4577ee",
+    "driver": {
+      "dpiAwareness": "per-monitor-v2",
+      "hotkeyRegistered": true,
+      "signedCurves": true
+    },
+    "monitors": [
+      {
+        "id": 0,
+        "name": "\\\\.\\DISPLAY1",
+        "bounds": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1080
+        },
+        "work": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1032
+        },
+        "dpiScale": 1,
+        "primary": true
+      }
+    ]
+  },
+  "scenarios": [
+    {
+      "id": "S5",
+      "name": "5 table(s): sustained tournament play, no injected faults",
+      "status": "fail",
+      "durationMs": 1580722,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "scenario ran to completion",
+          "pass": false,
+          "detail": "Error: registration refused: fetch failed |     at Object.register (D:\\a\\_temp\\EightMax CI (sustained)\\EightMax-Test-Workbench\\tools\\lifecycle-acceptance-0362m2.cjs:162:156) |     at async start (D:\\a\\_temp\\EightMax CI (sustained)\\EightMax-Test-Workbench\\tools\\gameplay-acceptance-0362m3.cjs:355:43)"
+        }
+      ],
+      "metrics": null,
+      "diagnostics": "diag-sustained-S5.json"
+    }
+  ],
+  "cleanup": {
+    "childProcesses": [
+      {
+        "name": "desktop host",
+        "pid": 5512,
+        "exited": true,
+        "code": 0,
+        "signal": null
+      },
+      {
+        "name": "test-table fixture 1",
+        "pid": 1168,
+        "exited": true,
+        "code": 0,
+        "signal": null
+      }
+    ],
+    "allChildrenExited": true,
+    "activeResources": {
+      "PipeWrap": 2
+    },
+    "unexpected": [],
+    "ok": true
+  },
+  "summary": {
+    "scenarios": 1,
+    "passed": 0,
+    "failed": 1,
+    "withWarnings": 0,
+    "checks": 1,
+    "failedChecks": 1,
+    "warningChecks": 0,
+    "cleanupOk": true
+  },
+  "overall": "FAIL",
+  "durationMs": 1580840,
+  "exitCode": 1
+}
