@@ -1,0 +1,502 @@
+TAP version 13
+# Subtest: adapter contract rejects unknown kinds and missing methods
+ok 1 - adapter contract rejects unknown kinds and missing methods
+  ---
+  duration_ms: 1.4524
+  type: 'test'
+  ...
+# Subtest: profile interface selects the adapter; "none" means no execution; missing authorisation refuses instead of downgrading
+ok 2 - profile interface selects the adapter; "none" means no execution; missing authorisation refuses instead of downgrading
+  ---
+  duration_ms: 1.7551
+  type: 'test'
+  ...
+# Subtest: UI-automation adapter needs authorisation, a driver and profile regions; it clicks only profile regions
+ok 3 - UI-automation adapter needs authorisation, a driver and profile regions; it clicks only profile regions
+  ---
+  duration_ms: 3.5141
+  type: 'test'
+  ...
+# Subtest: UI-automation adapter attaches in QA mode, never in simulation or study
+ok 4 - UI-automation adapter attaches in QA mode, never in simulation or study
+  ---
+  duration_ms: 1.3899
+  type: 'test'
+  ...
+# Subtest: acknowledgment: confirmed, rejected (ignored) and ambiguous outcomes
+ok 5 - acknowledgment: confirmed, rejected (ignored) and ambiguous outcomes
+  ---
+  duration_ms: 0.5429
+  type: 'test'
+  ...
+# Subtest: diagnostics recorder is bounded, ordered, per-table and exportable
+ok 6 - diagnostics recorder is bounded, ordered, per-table and exportable
+  ---
+  duration_ms: 0.8021
+  type: 'test'
+  ...
+# Subtest: Study Mode is the default and never acts
+ok 7 - Study Mode is the default and never acts
+  ---
+  duration_ms: 14395.6048
+  type: 'test'
+  ...
+# Subtest: Simulation Mode executes a validated solver decision through the simulator and logs it
+ok 8 - Simulation Mode executes a validated solver decision through the simulator and logs it
+  ---
+  duration_ms: 2.1704
+  type: 'test'
+  ...
+# Subtest: stale decisions are rejected: any change to the table after the decision invalidates it
+ok 9 - stale decisions are rejected: any change to the table after the decision invalidates it
+  ---
+  duration_ms: 0.8779
+  type: 'test'
+  ...
+# Subtest: decisions older than the maximum action age are rejected
+ok 10 - decisions older than the maximum action age are rejected
+  ---
+  duration_ms: 0.6033
+  type: 'test'
+  ...
+# Subtest: duplicate actions for the same state are refused even if the first call is still in flight
+ok 11 - duplicate actions for the same state are refused even if the first call is still in flight
+  ---
+  duration_ms: 0.8389
+  type: 'test'
+  ...
+# Subtest: only EightMax study decisions execute; scripted fallback output and unavailable results never do
+ok 12 - only EightMax study decisions execute; scripted fallback output and unavailable results never do
+  ---
+  duration_ms: 2.5732
+  type: 'test'
+  ...
+# Subtest: illegal concrete actions are refused from reconstructed legal actions only
+ok 13 - illegal concrete actions are refused from reconstructed legal actions only
+  ---
+  duration_ms: 1.581
+  type: 'test'
+  ...
+# Subtest: a paused table or ambiguous state blocks execution; unknown tables are unrecognised
+ok 14 - a paused table or ambiguous state blocks execution; unknown tables are unrecognised
+  ---
+  duration_ms: 1.0377
+  type: 'test'
+  ...
+# Subtest: unconfirmed actions retry with the same idempotency key, then pause the table with no further automation
+ok 15 - unconfirmed actions retry with the same idempotency key, then pause the table with no further automation
+  ---
+  duration_ms: 123.5791
+  type: 'test'
+  ...
+# Subtest: a retry that succeeds on the second try is confirmed once
+ok 16 - a retry that succeeds on the second try is confirmed once
+  ---
+  duration_ms: 42.2799
+  type: 'test'
+  ...
+# Subtest: emergency stop blocks everything, aborts in-flight work, and needs an explicit reset
+ok 17 - emergency stop blocks everything, aborts in-flight work, and needs an explicit reset
+  ---
+  duration_ms: 43.7876
+  type: 'test'
+  ...
+# Subtest: Authorized QA Mode refuses to start without a complete, current, loopback-scoped authorization
+ok 18 - Authorized QA Mode refuses to start without a complete, current, loopback-scoped authorization
+  ---
+  duration_ms: 0.9414
+  type: 'test'
+  ...
+# Subtest: QA mode drives an approved loopback test client over real HTTP with idempotency keys
+ok 19 - QA mode drives an approved loopback test client over real HTTP with idempotency keys
+  ---
+  duration_ms: 25.4843
+  type: 'test'
+  ...
+# Subtest: the exported log replays on a fresh simulator to the identical table state
+ok 20 - the exported log replays on a fresh simulator to the identical table state
+  ---
+  duration_ms: 97.2692
+  type: 'test'
+  ...
+# Subtest: M2 unit: lifecycle transitions are explicit; TARGET_LOST is absorbing; operator-only exits; stale generations are ignored
+ok 21 - M2 unit: lifecycle transitions are explicit; TARGET_LOST is absorbing; operator-only exits; stale generations are ignored
+  ---
+  duration_ms: 3.6502
+  type: 'test'
+  ...
+# Subtest: M2 unit: capture failures are classified; strategy-unavailable is never a capture failure
+ok 22 - M2 unit: capture failures are classified; strategy-unavailable is never a capture failure
+  ---
+  duration_ms: 0.4664
+  type: 'test'
+  ...
+# Subtest: M2 unit: bounded backoff and identity comparison (handle alone is not identity; title is not identity)
+ok 23 - M2 unit: bounded backoff and identity comparison (handle alone is not identity; title is not identity)
+  ---
+  duration_ms: 0.5889
+  type: 'test'
+  ...
+# Subtest: M2 unit: identityOf keeps every identity field the driver reports (handle text verbatim)
+ok 24 - M2 unit: identityOf keeps every identity field the driver reports (handle text verbatim)
+  ---
+  duration_ms: 0.1787
+  type: 'test'
+  ...
+# Subtest: M2 unit: repeated identical failures are coalesced; totals stay exact (801 target-lost events -> bounded)
+ok 25 - M2 unit: repeated identical failures are coalesced; totals stay exact (801 target-lost events -> bounded)
+  ---
+  duration_ms: 1.5615
+  type: 'test'
+  ...
+# Subtest: M2 Test A: window closes during capture -> TARGET_LOST, capture stops, no retries, no input after the loss
+ok 26 - M2 Test A: window closes during capture -> TARGET_LOST, capture stops, no retries, no input after the loss
+  ---
+  duration_ms: 3765.4635
+  type: 'test'
+  ...
+# Subtest: M2 Test B: window closes during mouse movement -> refused before the click, no other window touched, nothing replayed
+ok 27 - M2 Test B: window closes during mouse movement -> refused before the click, no other window touched, nothing replayed
+  ---
+  duration_ms: 1186.2742
+  type: 'test'
+  ...
+# Subtest: M2 Test B2: window closes right AFTER the click -> the action is UNCERTAIN (review), never re-sent
+ok 28 - M2 Test B2: window closes right AFTER the click -> the action is UNCERTAIN (review), never re-sent
+  ---
+  duration_ms: 710.7605
+  type: 'test'
+  ...
+# Subtest: M2 Test B3: loss signalled while the click is running -> scheduler cancels it, queued work of that table is dropped, lease revoked
+ok 29 - M2 Test B3: loss signalled while the click is running -> scheduler cancels it, queued work of that table is dropped, lease revoked
+  ---
+  duration_ms: 339.6207
+  type: 'test'
+  ...
+# Subtest: M2 Test C: simulator restarts with a different handle -> old registration invalid, replacement only a candidate, no automatic input
+ok 30 - M2 Test C: simulator restarts with a different handle -> old registration invalid, replacement only a candidate, no automatic input
+  ---
+  duration_ms: 1119.1711
+  type: 'test'
+  ...
+# Subtest: M2 Test D: temporary capture failures -> classified, bounded backoff, no stale action, recovery after fresh verified readings
+ok 31 - M2 Test D: temporary capture failures -> classified, bounded backoff, no stale action, recovery after fresh verified readings
+  ---
+  duration_ms: 3513.1917
+  type: 'test'
+  ...
+# Subtest: M2 Test E: minimised window -> TEMPORARILY_UNAVAILABLE (minimised), no input; restored -> verified again, then play resumes
+ok 32 - M2 Test E: minimised window -> TEMPORARILY_UNAVAILABLE (minimised), no input; restored -> verified again, then play resumes
+  ---
+  duration_ms: 888.5645
+  type: 'test'
+  ...
+# Subtest: M2 Test F: three tables, one closes -> only that table stops; the others keep their registrations and play; no redirected input
+ok 33 - M2 Test F: three tables, one closes -> only that table stops; the others keep their registrations and play; no redirected input
+  ---
+  duration_ms: 1477.4527
+  type: 'test'
+  ...
+# Subtest: M2 Test G: emergency stop while a target is unavailable or being re-registered -> stop wins, nothing re-enables input
+ok 34 - M2 Test G: emergency stop while a target is unavailable or being re-registered -> stop wins, nothing re-enables input
+  ---
+  duration_ms: 2322.22
+  type: 'test'
+  ...
+# Subtest: M2 Test H: repeated target-loss signals -> one transition per loss, bounded diagnostics, exact counts, no leaked retries
+ok 35 - M2 Test H: repeated target-loss signals -> one transition per loss, bounded diagnostics, exact counts, no leaked retries
+  ---
+  duration_ms: 181.7061
+  type: 'test'
+  ...
+# Subtest: M2 Test I: the old handle is reused by an unrelated process -> registration rejected, no input, no inherited permission
+ok 36 - M2 Test I: the old handle is reused by an unrelated process -> registration rejected, no input, no inherited permission
+  ---
+  duration_ms: 302.7991
+  type: 'test'
+  ...
+# Subtest: M2 Test I2: same handle AND same process id but another process instance (start time differs) -> TARGET_LOST, no input
+ok 37 - M2 Test I2: same handle AND same process id but another process instance (start time differs) -> TARGET_LOST, no input
+  ---
+  duration_ms: 354.2746
+  type: 'test'
+  ...
+# Subtest: M2 Test J: scripted practice on the controlled simulator still plays hand after hand with confirmed actions
+ok 38 - M2 Test J: scripted practice on the controlled simulator still plays hand after hand with confirmed actions
+  ---
+  duration_ms: 13316.7291
+  type: 'test'
+  ...
+# Subtest: M3.2 A: an ACTIVE window closes -> TARGET_LOST, scheduler registration revoked, no input afterwards, the other table plays on
+ok 39 - M3.2 A: an ACTIVE window closes -> TARGET_LOST, scheduler registration revoked, no input afterwards, the other table plays on
+  ---
+  duration_ms: 2633.8886
+  type: 'test'
+  ...
+# Subtest: M3.2 B: a GAMEPLAY-PAUSED window closes -> the health monitor detects it (the operator T5 failure), registration revoked, nothing resumes
+ok 40 - M3.2 B: a GAMEPLAY-PAUSED window closes -> the health monitor detects it (the operator T5 failure), registration revoked, nothing resumes
+  ---
+  duration_ms: 863.874
+  type: 'test'
+  ...
+# Subtest: M3.2 C: an action the table did not apply (rejected, no change) -> SAFETY_PAUSED input-rejected; then the window closes -> TARGET_LOST
+ok 41 - M3.2 C: an action the table did not apply (rejected, no change) -> SAFETY_PAUSED input-rejected; then the window closes -> TARGET_LOST
+  ---
+  duration_ms: 1485.7333
+  type: 'test'
+  ...
+# Subtest: M3.2 D: an UNCONFIRMED (timed-out) input, then the window closes -> the uncertain input stays recorded for review and TARGET_LOST is reached
+ok 42 - M3.2 D: an UNCONFIRMED (timed-out) input, then the window closes -> the uncertain input stays recorded for review and TARGET_LOST is reached
+  ---
+  duration_ms: 1155.9465
+  type: 'test'
+  ...
+# Subtest: M3.2 E: the window closes DURING an identity probe -> the stale "healthy" answer authorises nothing; a late answer after the loss is discarded
+ok 43 - M3.2 E: the window closes DURING an identity probe -> the stale "healthy" answer authorises nothing; a late answer after the loss is discarded
+  ---
+  duration_ms: 1327.9148
+  type: 'test'
+  ...
+# Subtest: M3.2 F: the handle is reused by ANOTHER process while paused -> identity-changed TARGET_LOST; the old registration can never be used again
+ok 44 - M3.2 F: the handle is reused by ANOTHER process while paused -> identity-changed TARGET_LOST; the old registration can never be used again
+  ---
+  duration_ms: 536.9414
+  type: 'test'
+  ...
+# Subtest: M3.2 G: table 2 is lost while TABLE 1 holds the cursor lease -> table 1 is not cancelled and completes its action
+ok 45 - M3.2 G: table 2 is lost while TABLE 1 holds the cursor lease -> table 1 is not cancelled and completes its action
+  ---
+  duration_ms: 720.3125
+  type: 'test'
+  ...
+# Subtest: M3.2 H: table 2 is lost while ITS OWN input is queued -> the queued action is rejected (target-lost), table 1 continues
+ok 46 - M3.2 H: table 2 is lost while ITS OWN input is queued -> the queued action is rejected (target-lost), table 1 continues
+  ---
+  duration_ms: 938.1234
+  type: 'test'
+  ...
+# Subtest: M3.2 I: table 2 is lost while IT holds the cursor lease -> its input is cancelled before the press; table 1 is isolated
+ok 47 - M3.2 I: table 2 is lost while IT holds the cursor lease -> its input is cancelled before the press; table 1 is isolated
+  ---
+  duration_ms: 860.6022
+  type: 'test'
+  ...
+# Subtest: M3.2 J: emergency stop and target loss together -> TARGET_LOST wins for the closed table; nothing restarts automatically after the reset
+ok 48 - M3.2 J: emergency stop and target loss together -> TARGET_LOST wins for the closed table; nothing restarts automatically after the reset
+  ---
+  duration_ms: 1279.3664
+  type: 'test'
+  ...
+# Subtest: M3.2 K: a paused window that stays open is monitored, its lifecycle stays accurate, and nothing resumes gameplay
+ok 49 - M3.2 K: a paused window that stays open is monitored, its lifecycle stays accurate, and nothing resumes gameplay
+  ---
+  duration_ms: 2518.7671
+  type: 'test'
+  ...
+# Subtest: M3.2 L: a completed tournament stays stopped: monitoring continues but never restarts it; a later close is still recognised
+ok 50 - M3.2 L: a completed tournament stays stopped: monitoring continues but never restarts it; a later close is still recognised
+  ---
+  duration_ms: 4625.9935
+  type: 'test'
+  ...
+# Subtest: M3.2 M: re-registration needs a fresh authorisation and identity; the lost registration stays refused
+ok 51 - M3.2 M: re-registration needs a fresh authorisation and identity; the lost registration stays refused
+  ---
+  duration_ms: 861.7578
+  type: 'test'
+  ...
+# Subtest: M3.2 N: a confirmation that arrives late, after the attempt was cancelled, causes no retry and no second action
+ok 52 - M3.2 N: a confirmation that arrives late, after the attempt was cancelled, causes no retry and no second action
+  ---
+  duration_ms: 766.405
+  type: 'test'
+  ...
+# Subtest: M3.2 O: a valid fresh action is confirmed: input status confirmed, timings recorded, no evidence record
+ok 53 - M3.2 O: a valid fresh action is confirmed: input status confirmed, timings recorded, no evidence record
+  ---
+  duration_ms: 569.5397
+  type: 'test'
+  ...
+# Subtest: M3.2 P: a real "simulator rejected the action" outcome -> input-rejected safety pause, complete evidence, no retry, operator resume recovers
+ok 54 - M3.2 P: a real "simulator rejected the action" outcome -> input-rejected safety pause, complete evidence, no retry, operator resume recovers
+  ---
+  duration_ms: 1441.3658
+  type: 'test'
+  ...
+# Subtest: M3.2 Q: two tables under repeated faults (unapplied actions, pauses, closes and replacements) -> never any cross-table input
+ok 55 - M3.2 Q: two tables under repeated faults (unapplied actions, pauses, closes and replacements) -> never any cross-table input
+  ---
+  duration_ms: 5301.4216
+  type: 'test'
+  ...
+# Subtest: M3.2 R: several table windows close and are re-registered one after another -> each loss isolated, each replacement plays
+ok 56 - M3.2 R: several table windows close and are re-registered one after another -> each loss isolated, each replacement plays
+  ---
+  duration_ms: 2602.4597
+  type: 'test'
+  ...
+# Subtest: M3.2 unit: the health monitor never moves a lifecycle towards ACTIVE and never resumes anything
+ok 57 - M3.2 unit: the health monitor never moves a lifecycle towards ACTIVE and never resumes anything
+  ---
+  duration_ms: 1.1352
+  type: 'test'
+  ...
+# Subtest: M3.2 unit: unknown answers prove nothing and back off; a loss is reported exactly once (single-flight) and the monitor stops
+ok 58 - M3.2 unit: unknown answers prove nothing and back off; a loss is reported exactly once (single-flight) and the monitor stops
+  ---
+  duration_ms: 0.4816
+  type: 'test'
+  ...
+# Subtest: M3.2 unit: probes made by the table count as evidence (no duplicate probe while playing); a paused table is due on the short interval
+ok 59 - M3.2 unit: probes made by the table count as evidence (no duplicate probe while playing); a paused table is due on the short interval
+  ---
+  duration_ms: 0.1799
+  type: 'test'
+  ...
+# Subtest: M3.2 unit: scheduler registrations - revoke once, refuse the old registration for good, a replacement is available, an old pause never blocks it
+ok 60 - M3.2 unit: scheduler registrations - revoke once, refuse the old registration for good, a replacement is available, an old pause never blocks it
+  ---
+  duration_ms: 1.0869
+  type: 'test'
+  ...
+# Subtest: M3.2 unit: invalidating one registration never touches another table's queued or running job
+ok 61 - M3.2 unit: invalidating one registration never touches another table's queued or running job
+  ---
+  duration_ms: 31.8146
+  type: 'test'
+  ...
+# Subtest: M3 recovery A: a hand first seen after its opening is untracked (no input), the table clock ends it, the next verified opening resumes play
+ok 62 - M3 recovery A: a hand first seen after its opening is untracked (no input), the table clock ends it, the next verified opening resumes play
+  ---
+  duration_ms: 6530.584
+  type: 'test'
+  ...
+# Subtest: M3 recovery B: a reconstruction failure that persists within a hand becomes an explicit untracked hand; the next hand recovers
+ok 63 - M3 recovery B: a reconstruction failure that persists within a hand becomes an explicit untracked hand; the next hand recovers
+  ---
+  duration_ms: 10149.3936
+  type: 'test'
+  ...
+# Subtest: M3 eliminations: a short tournament is played to the end under strict tournament rules; the end is a normal stop, not a stall
+ok 64 - M3 eliminations: a short tournament is played to the end under strict tournament rules; the end is a normal stop, not a stall
+  ---
+  duration_ms: 12291.8632
+  type: 'test'
+  ...
+# Subtest: M3 x M2 protections: with eliminations in play a closed window is still terminal, an emergency stop still wins, nothing is re-enabled or re-sent
+ok 65 - M3 x M2 protections: with eliminations in play a closed window is still terminal, an emergency stop still wins, nothing is re-enabled or re-sent
+  ---
+  duration_ms: 4594.948
+  type: 'test'
+  ...
+# Subtest: M3 multi-table: two tables, one eliminates players while the other closes; no input crosses tables
+ok 66 - M3 multi-table: two tables, one eliminates players while the other closes; no input crosses tables
+  ---
+  duration_ms: 3815.2247
+  type: 'test'
+  ...
+# Subtest: M3.2 release record: every executable byte-identical to Milestone 3.1; the EightMax 5.1 engine unchanged
+ok 67 - M3.2 release record: every executable byte-identical to Milestone 3.1; the EightMax 5.1 engine unchanged
+  ---
+  duration_ms: 120.6618
+  type: 'test'
+  ...
+# Subtest: M3.2 launcher RUN-M3.2-T5-TEST.cmd: CRLF, ASCII, no BOM; starts the runner in mode T5; checks its files first; always ends with a pause
+ok 68 - M3.2 launcher RUN-M3.2-T5-TEST.cmd: CRLF, ASCII, no BOM; starts the runner in mode T5; checks its files first; always ends with a pause
+  ---
+  duration_ms: 2.6416
+  type: 'test'
+  ...
+# Subtest: M3.2 runner: mode T5 = environment, integrity, dependencies, Milestone 3.2 tests, host, T5/T5P, cleanup; Milestone3.2-T5 result folders
+ok 69 - M3.2 runner: mode T5 = environment, integrity, dependencies, Milestone 3.2 tests, host, T5/T5P, cleanup; Milestone3.2-T5 result folders
+  ---
+  duration_ms: 8.935
+  type: 'test'
+  ...
+# Subtest: M3.2 repair: the reproduction of the operator T5 failure reports REPAIRED on this tree (paused table, closed window, scheduler)
+ok 70 - M3.2 repair: the reproduction of the operator T5 failure reports REPAIRED on this tree (paused table, closed window, scheduler)
+  ---
+  duration_ms: 9132.6956
+  type: 'test'
+  ...
+# Subtest: M3.2 modules: health monitor and registration-aware scheduler exported; the standalone dashboard page embeds the current sources
+ok 71 - M3.2 modules: health monitor and registration-aware scheduler exported; the standalone dashboard page embeds the current sources
+  ---
+  duration_ms: 10.6475
+  type: 'test'
+  ...
+# Subtest: one table: every executed action is read back from the screen and matches what the table received
+ok 72 - one table: every executed action is read back from the screen and matches what the table received
+  ---
+  duration_ms: 4187.2463
+  type: 'test'
+  ...
+# Subtest: while another player is to act the table shows no controls: the controller waits, and confirms from the very next frame
+ok 73 - while another player is to act the table shows no controls: the controller waits, and confirms from the very next frame
+  ---
+  duration_ms: 1727.3904
+  type: 'test'
+  ...
+# Subtest: three tables share one cursor: input never overlaps, every table progresses
+ok 74 - three tables share one cursor: input never overlaps, every table progresses
+  ---
+  duration_ms: 2247.0875
+  type: 'test'
+  ...
+# Subtest: an ignored click is reported as REJECTED, the table pauses and the click is never repeated
+ok 75 - an ignored click is reported as REJECTED, the table pauses and the click is never repeated
+  ---
+  duration_ms: 489.0085
+  type: 'test'
+  ...
+# Subtest: a different action than the one sent is AMBIGUOUS: the table pauses, nothing is re-sent
+ok 76 - a different action than the one sent is AMBIGUOUS: the table pauses, nothing is re-sent
+  ---
+  duration_ms: 360.6982
+  type: 'test'
+  ...
+# Subtest: the window moved between reading and input: the click is refused and the next action needs a fresh reading
+ok 77 - the window moved between reading and input: the click is refused and the next action needs a fresh reading
+  ---
+  duration_ms: 421.4042
+  type: 'test'
+  ...
+# Subtest: a decision that cannot be executed in time at the configured speed is refused, never rushed
+ok 78 - a decision that cannot be executed in time at the configured speed is refused, never rushed
+  ---
+  duration_ms: 54.3704
+  type: 'test'
+  ...
+# Subtest: scheduler: earliest deadline first, one table at a time, pause and emergency stop reject queued work
+ok 79 - scheduler: earliest deadline first, one table at a time, pause and emergency stop reject queued work
+  ---
+  duration_ms: 1.5711
+  type: 'test'
+  ...
+# Subtest: wager conversion: raise-to vs raise-by, chip units and limits are checked before anything is typed
+ok 80 - wager conversion: raise-to vs raise-by, chip units and limits are checked before anything is typed
+  ---
+  duration_ms: 0.3423
+  type: 'test'
+  ...
+# Subtest: UI adapter: the idempotency key is taken before input, so a slow click can never be sent twice
+ok 81 - UI adapter: the idempotency key is taken before input, so a slow click can never be sent twice
+  ---
+  duration_ms: 0.9888
+  type: 'test'
+  ...
+# Subtest: calibration: regions convert at the current window size; overlaps, missing controls and unbound executables are reported
+ok 82 - calibration: regions convert at the current window size; overlaps, missing controls and unbound executables are reported
+  ---
+  duration_ms: 2.7111
+  type: 'test'
+  ...
+1..82
+# tests 82
+# suites 0
+# pass 82
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 67187.2293
