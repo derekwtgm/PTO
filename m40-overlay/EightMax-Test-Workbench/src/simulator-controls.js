@@ -159,7 +159,10 @@
    *                'strip' - polls capture only the strip until its revision changes; the new frame is then captured whole and read
    *                          completely before anything is confirmed (the same comparison as before)
    */
-  const PIPELINE = Object.freeze({ 'compat-3.2': Object.freeze({ revalidate: 'full', confirmPoll: 'full' }), 'optimized': Object.freeze({ revalidate: 'strip', confirmPoll: 'strip' }) });
+  // 0.36.2 M4.0 deadlineAnchor: 'frame' = the decision deadline counts from the capture the decision was read from (Milestone 3.2);
+  // 'change' = from the request of the last capture that still showed the PREVIOUS status-strip revision - the turn began after it, so a
+  // table clock that started with the turn cannot run out before the deadline (a later first reading no longer extends the deadline)
+  const PIPELINE = Object.freeze({ 'compat-3.2': Object.freeze({ revalidate: 'full', confirmPoll: 'full', deadlineAnchor: 'frame' }), 'optimized': Object.freeze({ revalidate: 'strip', confirmPoll: 'strip', deadlineAnchor: 'change' }) });
   const LS = LC.STATES;
   /** 0.36.2 M3: gameplay conditions (title, plain-language explanation). One condition per table at a time. */
   const GAMEPLAY = Object.freeze({
@@ -231,7 +234,7 @@
       this.executor.setMode('qa', { authorization: o.qaAuthorization }); this.executor.attach(o.id, this.adapter);
       this.m = { frames: 0, rejectedFrames: 0, decisions: 0, scripted: 0, solver: 0, unavailable: 0, attempted: 0, confirmed: 0, rejected: 0, ambiguous: 0, timedOut: 0, cancelled: 0, blocked: 0, deadline: 0, errors: 0, e2e: [], cursor: [], input: [], wait: [], confirmMs: [], focusErrors: 0, driverErrors: 0,
         captureFailuresByCode: {}, transientFailures: 0, lossSignals: 0, uncertain: 0, cancelledByLoss: 0, staleDiscarded: 0, recoveries: 0, backoffWaits: 0, probes: 0, manualOverrides: 0, emergencyStops: 0, strategyUnavailable: 0,
-        verifyingSteps: 0, handRecoveries: 0, eliminationsSeen: 0, inputRejectedNoChange: 0, scheduleWait: [], unconfirmedEvidence: 0 };
+        verifyingSteps: 0, handRecoveries: 0, eliminationsSeen: 0, inputRejectedNoChange: 0, scheduleWait: [], unconfirmedEvidence: 0, deadlineAnchorSlackMs: [] };
       this.log = [];
       // 0.36.2 M3: gameplay condition (one at a time), per-condition step counts and episode counts, last seating event, completion
       this.gameplay = { code: 'starting', since: Date.now(), detail: null, counts: {}, episodes: { starting: 1 }, lastEvent: null }; this.completed = null;
@@ -438,7 +441,12 @@
         inputStatus: entry.inputClass, status: entry.status, reason: entry.reason, code: x.code || null,
         control: region, expectedRegion: region && this.controls[region] ? { normalized: { ...this.controls[region] }, clickRect: inp.rect || null } : null, selectedPoint: inp.point || null, clickedAt: inp.clickedAt || null, hit: inp.hit || null, hitClass: inp.hitClass || null,
         displayScaling: (after && after.dpiScale) || frame.dpiScale || id.dpiScale || null, clientAtReading: frame.client || null, clientAfter: (after && after.client) || null, windowAfter: after,
-        driver: { reported: x.inputSent === true ? 'input completed (driver reply ok)' : x.inputMayHaveHappened ? 'refused or failed after the press may have happened' : 'not sent', plannedMs: inp.plannedMs, actualMs: inp.actualMs, steps: inp.steps, finalError: inp.finalError, distance: inp.distance, doubleClickGuardMs: inp.doubleClickGuardMs, maxObservedLag: inp.maxObservedLag },
+        driver: { reported: x.inputSent === true ? 'input completed (driver reply ok)' : x.inputMayHaveHappened ? 'refused or failed after the press may have happened' : 'not sent', plannedMs: inp.plannedMs, actualMs: inp.actualMs, steps: inp.steps, finalError: inp.finalError, distance: inp.distance, doubleClickGuardMs: inp.doubleClickGuardMs, maxObservedLag: inp.maxObservedLag,
+          // 0.36.2 M4.0 (evidence, additive): the click reply's pipeline fields - the press guard's view of the press (async state seen, the
+          // window and control under the cursor, whether the control took the mouse capture), the capture barrier and the drain - and the
+          // wall-clock time of the reply, so the press can be lined up with the simulator's own record
+          pipeline: inp.pipeline || null, guardScope: inp.guardScope || null, press: inp.press || null, captureReleased: inp.captureReleased === undefined ? null : inp.captureReleased, captureReleaseMs: inp.captureReleaseMs === undefined ? null : inp.captureReleaseMs,
+          drained: inp.drained === undefined ? null : inp.drained, drainMs: inp.drainMs === undefined ? null : inp.drainMs, repliedAtWallMs: inp.timing && Number.isFinite(inp.timing.repliedAt) ? Math.round(Date.now() - (mono() - inp.timing.repliedAt)) : null },
         scheduler: sched ? { leaseId: sched.leaseId == null ? null : sched.leaseId, waitedMs: r1(sched.waitedMs), runMs: r1(sched.runMs) } : null,
         confirmation: { status: c.status || null, reason: c.reason || null, timeoutMs: this.opt.postActionTimeoutMs, ...(tr || {}) },
         frames: { before: { frameId: frame.frameId === undefined ? null : frame.frameId, revision: frame.strip ? frame.strip.revision : null, ageAtSubmitMs: r1(tStart - frame.at) }, after: tr ? { lastFrameId: tr.lastFrameId, revisionsSeen: tr.revisionsSeen, finalReading: tr.finalReading } : null },
@@ -476,6 +484,18 @@
     }
 
     /** Capture + read + reconstruct. {state, frame} | {reject}. */
+    /** 0.36.2 M4.0: a status-strip revision seen in a capture requested at `requestedAt` (monotonic ms). When the revision changes, the change
+     *  happened after the last capture that still showed the previous one; that capture's REQUEST time is a strict lower bound (its pixels
+     *  were taken after it). */
+    _noteRevision(rev, requestedAt) {
+      if (!Number.isInteger(rev) || !Number.isFinite(requestedAt)) return; const r = this._rev;
+      if (!r || r.value !== rev) this._rev = { value: rev, changedAfterAt: r ? r.lastAt : null, lastAt: requestedAt }; else if (requestedAt > r.lastAt) r.lastAt = requestedAt;
+    }
+    /** 0.36.2 M4.0: when the decision deadline starts (see PIPELINE deadlineAnchor); never later than the decision frame itself. */
+    _deadlineAnchor(frame) {
+      const mode = this.opt.deadlineAnchor || this.pipe.deadlineAnchor || 'frame', c = frame.changedAfterAt;
+      return mode === 'change' && Number.isFinite(c) && c <= frame.at ? c : frame.at;
+    }
     async look() {
       const gen = this.lc.generation;
       // 0.36.2 M4.0: every reading starts a timeline; it is kept only when this reading leads to an action (measurement only)
@@ -492,7 +512,7 @@
       if ((g.method === 'print-window' || g.method === 'screen-copy') && !g.crop && (g.image.width !== client.w || g.image.height !== client.h)) { this.m.rejectedFrames++; this._diag('capture', { ok: false, code: 'scaled-capture', image: [g.image.width, g.image.height], client: [client.w, client.h] }); return { reject: 'geometry: the captured image is ' + g.image.width + 'x' + g.image.height + ' but the client area is ' + client.w + 'x' + client.h + ' physical pixels', code: 'scaled-capture' }; }
       if (this.win.title && !(g.title || '').startsWith(this.win.title)) return { reject: 'wrong window: the title no longer starts with ' + JSON.stringify(this.win.title) };
       let view = this.profile.layout.heroSeat || 0, rev; tl.mark('recognition-begin');
-      if (this.strip) { const st = STRIP.read(g.image); if (!st.ok) { this.m.rejectedFrames++; this._diag('recognition', { ok: false, reasons: ['status strip: ' + st.reason] }); return { reject: 'status strip: ' + st.reason }; } if (st.table !== this.id) return { reject: 'wrong table: the window shows table ' + st.table }; view = st.viewSeat; rev = st.revision; frame.strip = st; }
+      if (this.strip) { const st = STRIP.read(g.image); if (!st.ok) { this.m.rejectedFrames++; this._diag('recognition', { ok: false, reasons: ['status strip: ' + st.reason] }); return { reject: 'status strip: ' + st.reason }; } if (st.table !== this.id) return { reject: 'wrong table: the window shows table ' + st.table }; view = st.viewSeat; rev = st.revision; frame.strip = st; this._noteRevision(st.revision, g.timing ? g.timing.requestedAt : g.at); frame.changedAfterAt = this._rev ? this._rev.changedAfterAt : null; }
       const r = this.reader.observe(g.image, { heroSeat: view, capturedAt: Date.now() }); tl.mark('recognition-end');
       if (!r.ok) { this.m.rejectedFrames++; this._diag('recognition', { ok: false, reasons: r.reasons.slice(0, 3) }); return { reject: 'recognition: ' + r.reasons.slice(0, 2).join('; ') }; }
       if (this.rec && this.rec.success) this.rec.success(this.id, 'recognition');
@@ -542,12 +562,12 @@
         if (!g.ok) { tr.failedCaptures++; tr.failureCodes[g.code] = (tr.failureCodes[g.code] || 0) + 1; const f = await this._checkLoss(g); if (f && f.kind === 'lost') return lostAfterInput(g.code); continue; }
         if (g.crop) {
           tr.stripPolls++; const sc = STRIP.readCrop(g.image, g.crop, { width: g.bounds.width, height: g.bounds.height });
-          if (sc.ok && tr.revisionsSeen[tr.revisionsSeen.length - 1] !== sc.revision && tr.revisionsSeen.length < 20) tr.revisionsSeen.push(sc.revision);
+          if (sc.ok && tr.revisionsSeen[tr.revisionsSeen.length - 1] !== sc.revision && tr.revisionsSeen.length < 20) tr.revisionsSeen.push(sc.revision); if (sc.ok) this._noteRevision(sc.revision, g.timing ? g.timing.requestedAt : g.at);
           if (!sc.ok || sc.revision === startRev) continue;
           g = await this.capture.grab(); if (!g.ok) { tr.failedCaptures++; tr.failureCodes[g.code] = (tr.failureCodes[g.code] || 0) + 1; const f = await this._checkLoss(g); if (f && f.kind === 'lost') return lostAfterInput(g.code); continue; }
         }
         tr.lastFrameId = g.frameId; this._confirmImage = g.image;
-        if (this.strip) { const st = STRIP.read(g.image); if (st.ok && tr.revisionsSeen[tr.revisionsSeen.length - 1] !== st.revision && tr.revisionsSeen.length < 20) tr.revisionsSeen.push(st.revision); if (!st.ok || st.revision === beforeFrame.strip.revision) continue; }
+        if (this.strip) { const st = STRIP.read(g.image); if (st.ok && tr.revisionsSeen[tr.revisionsSeen.length - 1] !== st.revision && tr.revisionsSeen.length < 20) tr.revisionsSeen.push(st.revision); if (st.ok) this._noteRevision(st.revision, g.timing ? g.timing.requestedAt : g.at); if (!st.ok || st.revision === beforeFrame.strip.revision) continue; }
         // a new frame: read it fully
         tr.newFrames++; const v = await this._readImage(g); if (!v.state) { tr.unreadableNewFrames++; continue; }
         const c = XA.confirmAction(sent, before, v.state); this.m.confirmMs.push(mono() - t0);
@@ -625,7 +645,8 @@
       if (this.lc.terminal) return { kind: 'lost', reason: this.lost && this.lost.reason };
       if (this.stopped || this.paused) return {kind: 'paused', reason: this.paused || 'stopped'}; if (!decision) { this.pause('no EightMax decision: ' + this.lastDecisionReason); return { kind: 'unavailable', category: 'strategy-unavailable' }; }
       if (!this.lc.valid(token)) { this.m.staleDiscarded++; return { kind: 'stale', reason: 'the window lifecycle changed while deciding; decision discarded' }; }
-      this.m.decisions++; const deadline = v.frame.at + this.opt.decisionWindowMs, before = st, frame = v.frame;
+      this.m.decisions++; const anchorAt = this._deadlineAnchor(v.frame), deadline = anchorAt + this.opt.decisionWindowMs, before = st, frame = v.frame;
+      if (anchorAt < v.frame.at) { this.m.deadlineAnchorSlackMs.push(v.frame.at - anchorAt); if (this.m.deadlineAnchorSlackMs.length > 5000) this.m.deadlineAnchorSlackMs.shift(); }   // 0.36.2 M4.0 (measurement)
       this._diag('decision', { source: decision.source, recommended: decision.recommended, label: decision.label, frameId: frame.frameId });
       const sentRef = {}; this.m.attempted++;
       // Extend the adapter submission with the deadline and the in-lease revalidation (the executor passes `act` through).
@@ -705,7 +726,9 @@
         health: this.health ? this.health.snapshot() : null, inputStatus: this.log.reduce((a, e) => { const k = e.inputClass || e.status; a[k] = (a[k] || 0) + 1; return a; }, {}), inputRejectedNoChange: this.m.inputRejectedNoChange,
         unconfirmedInputs: this.unconfirmed.map((r) => JSON.parse(JSON.stringify(r))), scheduleWaitMs: st(this.m.scheduleWait), schedulerRegistration: this.schedRegistration,
         // 0.36.2 M4.0 (additive): pipeline profile, strip-only captures, driver-client counters, recognition templates
-        pipeline: this.pipelineName, stripCaptures: this.capture.crops || 0, driverPipeline: this.driver.stats ? { ...this.driver.stats } : null, recognitionWidths: this.reader.calibratedWidths || null };
+        pipeline: this.pipelineName, stripCaptures: this.capture.crops || 0, driverPipeline: this.driver.stats ? { ...this.driver.stats } : null, recognitionWidths: this.reader.calibratedWidths || null,
+        // how much earlier the decision deadline started than the decision frame (deadlineAnchor 'change'): the longest a change was unobserved
+        deadlineAnchor: this.opt.deadlineAnchor || this.pipe.deadlineAnchor || 'frame', deadlineAnchorSlackMs: st(this.m.deadlineAnchorSlackMs) };
     }
   }
 

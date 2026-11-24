@@ -67,8 +67,14 @@ async function main() {
         do { to = { x: Math.round(c.x + 40 + r0() * (c.w - 80)), y: Math.round(c.y + 40 + r0() * (c.h - 120)) }; } while (Math.hypot(to.x - cur.x, to.y - cur.y) > reach && ++k < 50);
         await s.call('monitor-start', { intervalMs: 1 }); const r = await s.request('move', { hwnd: T.hwnd, to, expectClient: c, motion: profile }, 20000); await sleep(25); const mr = await s.call('monitor-stop');
         if (!r.ok) { rec.moves.push({ ok: false, refused: true, code: r.code, error: String(r.error || '').slice(0, 160), distance: Math.round(Math.hypot(to.x - cur.x, to.y - cur.y)) }); continue; }
-        const an = M.analyse(M.fromMonitor(mr.samples), { profile, target: to, expectNoButton: true, dedupe: true, checkLimits: true });
-        rec.moves.push({ distance: r.distance, plannedMs: r.plannedMs, actualMs: r.actualMs, ok: an.ok, problems: an.problems.slice(0, 3), targetError: an.targetError, peakSpeed: an.peakSpeed, peakAccel: an.peakAccel, maxStepPx: an.maxStepPx, stepLimitPx: an.stepLimitPx, intervalMedianMs: an.intervalMs && an.intervalMs.median, samples: an.samples });
+        // the methodology of tools/input-acceptance-035.cjs: continuity, end point and button state from the INDEPENDENT sampler (which also
+        // sees Windows timer jitter - two 16 ms steps landing close together inflate an instantaneous speed); speed and acceleration limits
+        // on the driver's commanded path at its planned times; the observed peak is reported as information
+        const an = M.analyse(M.fromMonitor(mr.samples), { profile, target: to, expectNoButton: true, dedupe: true, checkLimits: false });
+        const cmd = Array.isArray(r.samples) && r.samples.length ? M.commanded(r, profile) : null, lim = cmd ? M.analyse(cmd.points, { profile, target: to }) : null;
+        if (lim && !lim.ok) an.problems.push(...lim.problems.map((x) => 'commanded path: ' + x)); if (cmd && !cmd.matchesPlan) an.problems.push('commanded path differs from the minimum-jerk plan'); an.ok = an.problems.length === 0;
+        rec.moves.push({ distance: r.distance, pathLengthPx: an.travel, pathToDistance: r.distance > 0 ? +(an.travel / r.distance).toFixed(4) : null, steps: r.steps, plannedMs: r.plannedMs, actualMs: r.actualMs, overheadMs: Number.isFinite(r.actualMs - r.plannedMs) ? +(r.actualMs - r.plannedMs).toFixed(2) : null,
+          averageSpeed: r.actualMs > 0 ? Math.round(1000 * r.distance / r.actualMs) : null, ok: an.ok, problems: an.problems.slice(0, 3), targetError: an.targetError, finalErrorPx: r.finalError, maxObservedLagPx: r.maxObservedLag, commandedPeakSpeed: lim ? lim.peakSpeed : null, commandedPeakAccel: lim ? lim.peakAccel : null, commandedMatchesPlan: cmd ? cmd.matchesPlan : null, peakSpeed: an.peakSpeed, peakAccel: an.peakAccel, maxStepPx: an.maxStepPx, stepLimitPx: an.stepLimitPx, intervalMedianMs: an.intervalMs && an.intervalMs.median, samples: an.samples });
       }
       // ---- clicks: the control the table enables now, through the Milestone 4.0 move-click; the table records every press ----
       for (let i = 0; i < CLICKS; i++) {
@@ -84,7 +90,8 @@ async function main() {
       }
       const mv = rec.moves, ck = rec.clicks;
       rec.summary = { moves: mv.length, movesOk: mv.filter((m) => m.ok).length, movesRefused: mv.filter((m) => m.refused).length, maxDistanceWithinLimitPx: rec.maxDistanceWithinLimitPx, longerMoveRefused: rec.refusedLongMove ? rec.refusedLongMove.ok === false : null, targetErrorMaxPx: Math.max(0, ...mv.map((m) => m.targetError || 0)), plannedMs: stat(mv.map((m) => m.plannedMs)), actualMs: stat(mv.map((m) => m.actualMs)),
-        timingRatio: stat(mv.filter((m) => !m.refused).map((m) => (m.plannedMs > 0 ? m.actualMs / m.plannedMs : NaN))), peakSpeedObserved: stat(mv.map((m) => m.peakSpeed)), maxStepPx: Math.max(0, ...mv.map((m) => m.maxStepPx || 0)),
+        timingRatio: stat(mv.filter((m) => !m.refused).map((m) => (m.plannedMs > 0 ? m.actualMs / m.plannedMs : NaN))), overheadMs: stat(mv.map((m) => m.overheadMs)), steps: stat(mv.map((m) => m.steps)),
+        pathToDistance: stat(mv.map((m) => m.pathToDistance)), averageSpeed: stat(mv.map((m) => m.averageSpeed)), maxObservedLagPx: stat(mv.map((m) => m.maxObservedLagPx)), requestedPeakSpeed: profile.maxSpeed, peakSpeedObserved: stat(mv.map((m) => m.peakSpeed)), commandedPeakSpeed: stat(mv.map((m) => m.commandedPeakSpeed)), commandedMatchesPlan: mv.filter((m) => m.commandedMatchesPlan === true).length, maxStepPx: Math.max(0, ...mv.map((m) => m.maxStepPx || 0)),
         clicks: ck.length, clicksOnTarget: ck.filter((x) => x.presses === 1 && x.pressOn === x.control && x.insideRegion).length, clicksWithExtraPress: ck.filter((x) => x.presses > 1).length, pressesOutsideRegion: ck.filter((x) => x.insideRegion === false).length,
         disabledControlPresses: ck.filter((x) => x.pressEnabled === false).length, actionsApplied: ck.filter((x) => x.actions === 1 && x.applied === 'accepted').length, driverRefusals: ck.filter((x) => !x.driverOk).length };
       rec.ok = rec.summary.movesOk === rec.summary.moves && rec.summary.clicksWithExtraPress === 0 && rec.summary.pressesOutsideRegion === 0 && rec.summary.clicksOnTarget === ck.filter((x) => x.presses > 0).length;

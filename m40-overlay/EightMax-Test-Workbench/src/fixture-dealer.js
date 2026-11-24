@@ -31,7 +31,7 @@
       this.id = o.table; this.t = new EM.Table(o.table, o.seed || o.table * 7919, 8, {persistentStacks:o.tournament!==false,blinds:o.blinds}); this.convention = o.convention || 'raise-to'; if (!CONVENTIONS.includes(this.convention)) throw new Error('Unknown wager convention');
       this.gap = o.handGapMs === undefined ? 600 : o.handGapMs; this.turnDelay = o.turnDelayMs || 0; this.holdUntil = 0; this.holdTimer = null; this.actionTimeout = o.actionTimeoutMs || 0; this.actionTimeoutUntilHand = o.actionTimeoutUntilHand === undefined ? Infinity : o.actionTimeoutUntilHand; this.actTimer = null; this.maxHands = o.maxHands || Infinity; this.now = o.now || Date.now; this.send = o.send; this.record = o.record || (() => {});
       this.rev = 0; this.view = 0; this.w = 0; this.h = 0; this.timer = null; this.closed = false; this.hands = 0;
-      this.counts = { mouseDown: 0, mouseUp: 0, downOutsideControls: 0, downOnDisabled: 0, doubleClicks: 0, rightClicks: 0, keys: 0, actions: 0, accepted: 0, staleClicks: 0, illegal: 0, wagerRejected: 0, byType: {}, timeoutActions: 0 };
+      this.counts = { mouseDown: 0, mouseUp: 0, downOutsideControls: 0, downOnDisabled: 0, doubleClicks: 0, rightClicks: 0, keys: 0, actions: 0, accepted: 0, staleClicks: 0, illegal: 0, wagerRejected: 0, byType: {}, timeoutActions: 0, releasesWithoutAction: 0 };
       this.accepted = []; if(o.stacks)this.t.setNextStacks(o.stacks);
       this.counts.droppedByTest = 0; this.dropNext = 0; this.lastShown = null;   // 0.36.2 M3.2
       // 0.36.2 M4.0 test fixture: heroSeats = the seats played through the window; every other seat is played by the dealer itself after
@@ -94,11 +94,15 @@
       if (this.closed || t.status !== 'playing' || t.hand !== hand || t.revision !== revision || t.actor !== actor) return;
       const lg = t.legal(); if (!lg) return; const type = lg.canCheck ? 'check' : 'fold', street = t.street;
       try { t.execute(t.request(type, 0, this.now()), this.now()); } catch (e) { this.record({ kind: 'timeout-action', hand, seat: actor, type, result: 'engine-refused', reason: e.message }); return; }
-      this.counts.timeoutActions++; (this.timeouts || (this.timeouts = [])).push({ hand, seat: actor, street, type, rev: this.rev + 1 }); if (this.timeouts.length > 2000) this.timeouts.shift();   // 0.36.2 M4.0 this.rev++; this.record({ kind: 'timeout-action', hand, seat: actor, type, result: 'applied', rev: this.rev, after: this.snapshot() });
+      this.counts.timeoutActions++; (this.timeouts || (this.timeouts = [])).push({ hand, seat: actor, street, type, rev: this.rev + 1 }); if (this.timeouts.length > 2000) this.timeouts.shift(); this.rev++; this.record({ kind: 'timeout-action', hand, seat: actor, type, result: 'applied', rev: this.rev, after: this.snapshot() });   // 0.36.2 M4.0: timeouts also listed (street-aware cross-check)
       this.push(); this.scheduleNextHand(); this.armClock(); this.armBot();
     }
     /** Messages from the window. */
     onWindow(m) {
+      // 0.36.2 M4.0: a release on an ENABLED button is followed at once by that button's 'action' when the button clicked (the window sends
+      // 'mouse-up' before dispatching the release and 'action' from the click it raises, on the same thread). Anything else next means the
+      // press and release reached the window but no click happened (a lost click) - counted and recorded, never treated as an action.
+      if (this.pendingUp) { const p = this.pendingUp; this.pendingUp = null; if (!(m.type === 'action' && m.control === p.control)) { this.counts.releasesWithoutAction++; this.record({ kind: 'release-without-action', control: p.control, x: p.x, y: p.y, rev: p.rev, wt: p.wt, next: m.type, dealerRev: this.rev }); } }
       switch (m.type) {
         case 'ready': this.w = m.client.w; this.h = m.client.h; this.record({ kind: 'ready', hwnd: m.hwnd, client: m.client, dpi: m.dpi }); this.start(); this.push(); return;
         case 'resize': if (m.w !== this.w || m.h !== this.h) { this.w = m.w; this.h = m.h; this.rev++; this.record({ kind: 'resize', w: m.w, h: m.h, rev: this.rev }); this.push(); } return;
@@ -110,6 +114,8 @@
         case 'mouse-down': case 'mouse-up': case 'double-click': case 'right-down': {
           const down = m.type === 'mouse-down'; if (down) this.counts.mouseDown++; else if (m.type === 'mouse-up') this.counts.mouseUp++; else if (m.type === 'double-click') this.counts.doubleClicks++; else this.counts.rightClicks++;
           const onControl = m.control in CONTROLS || m.control === 'wager'; if (down && !onControl) this.counts.downOutsideControls++; if (down && onControl && m.enabled === false) this.counts.downOnDisabled++;
+          if (m.type === 'mouse-up' && m.control in CONTROLS && m.enabled !== false && this.lastPress === 'mouse-down') this.pendingUp = { control: m.control, x: m.x, y: m.y, rev: m.rev, wt: m.t === undefined ? null : m.t };   // 0.36.2 M4.0
+          if (m.type !== 'mouse-up') this.lastPress = m.type;
           this.record({ kind: m.type, x: m.x, y: m.y, control: m.control, enabled: m.enabled, rev: m.rev, wt: m.t === undefined ? null : m.t, dealerRev: this.rev }); return;
         }
         case 'action': return this.onAction(m);

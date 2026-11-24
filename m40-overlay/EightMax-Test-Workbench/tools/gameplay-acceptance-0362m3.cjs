@@ -56,15 +56,15 @@ function crossCheck(t, o) {
   const unexplained = acc.length - j > uncertain ? acc.length - j - uncertain : 0;   // applied by the table, not confirmed and not flagged
   return { confirmed: conf.length, dealerAccepted: acc.length, matchedInOrder: conf.length - missing.filter((m) => !m.dealerOnly).length - wrong.length, wrongActions: wrong.length, wrong: wrong.slice(0, 5),
     confirmedByTableClock: byClock.length, confirmedNotApplied: missing.filter((m) => !m.dealerOnly).length, appliedNotConfirmed: missing.filter((m) => m.dealerOnly).length + unexplained, uncertainOrUnconfirmed: uncertain,
-    incorrectClicks: (c.downOutsideControls || 0) + (c.downOnDisabled || 0) + (c.doubleClicks || 0) + (c.staleClicks || 0) + (c.illegal || 0), invalidWagers: c.wagerRejected || 0, timeoutActions: c.timeoutActions || 0, downOutsideControls: c.downOutsideControls || 0,
+    incorrectClicks: (c.downOutsideControls || 0) + (c.downOnDisabled || 0) + (c.doubleClicks || 0) + (c.staleClicks || 0) + (c.illegal || 0), invalidWagers: c.wagerRejected || 0, timeoutActions: c.timeoutActions || 0, downOutsideControls: c.downOutsideControls || 0, releasesWithoutAction: c.releasesWithoutAction || 0,
     // 0.36.2 M4.0: what the incorrect clicks were (each kind is still an incorrect click for the checks)
     clickKinds: { outsideControls: c.downOutsideControls || 0, onDisabled: c.downOnDisabled || 0, doubleClicks: c.doubleClicks || 0, lateOnOldFrame: c.staleClicks || 0, notAvailable: c.illegal || 0 } };
 }
 /** Per-hand facts from the tracker's ACCEPTED states (who was dealt in, heads-up, all-ins, side pots, eliminations at settlement). */
 function observeHands(t, facts) {
-  const e = t.engine, orig = e.ingest.bind(e);
+  const e = t.engine, orig = e.ingest.bind(e), un = t.untrackedHandSet || (t.untrackedHandSet = new Set());   // 0.36.2 M4.0
   e.ingest = (obs) => {
-    const r = orig(obs);
+    const r = orig(obs), ut = e.tr && e.tr.untracked; if (ut && Number.isInteger(ut.hand) && un.size < 5000) un.add(ut.hand);
     if (r.accepted && r.state && r.state.hand !== null) {
       const s = r.state, f = facts.get(s.hand) || { hand: s.hand, dealtIn: null, headsUp: false, allIn: false, sidePots: 0, eliminatedAtSettlement: 0, settled: false };
       if (s.handStart && f.dealtIn === null) { f.dealtIn = s.participants; f.headsUp = !!s.headsUp; }
@@ -95,6 +95,11 @@ function tableStats(t, orc) {
     lifecycle: t.lc.state, completed: t.completed, tournamentRemaining: gs.tournament.remaining, latencyMs: r.latencyMs,
     // 0.36.2 M4.0 (one hero seat per table): decisions the table's own action clock took because the Workbench had not acted in time
     heroTimeouts: orc && orc.counts ? orc.counts.timeoutActions || 0 : 0, botActions: orc && orc.counts ? orc.counts.botActions || 0 : 0,
+    // 0.36.2 M4.0: a hand the Workbench did not see from its opening is never acted in (the Milestone 3 rule), so the clock takes the seat's
+    // decision there by design (every table's first hand when the bots start before the Workbench observes); only a timeout in a hand the
+    // Workbench TRACKED is a decision it was too late for (capacity)
+    heroTimeoutsInUntrackedHands: ((orc && orc.timeouts) || []).filter((x) => t.untrackedHandSet && t.untrackedHandSet.has(x.hand)).length,
+    heroTimeoutsInTrackedHands: Math.max(0, (orc && orc.counts ? orc.counts.timeoutActions || 0 : 0) - ((orc && orc.timeouts) || []).filter((x) => t.untrackedHandSet && t.untrackedHandSet.has(x.hand)).length),
     // 0.36.2 M4.0: presses the driver's press guard found on ANOTHER window (the target closed or was covered at that instant; released off
     // the control it reached, so no click was completed there; the action is not repeated)
     misdirectedPresses: t.log.filter((e) => /press-misdirected/.test(e.reason || '')).length };
@@ -203,7 +208,7 @@ function t5Timeline() {
 async function oracleAround(fx, table, atMs, spanMs = 8000) {
   const out = { table, summary: null, events: [] };
   try { const list = await fx.oracle(true), o = list.find((x) => x.table === table && !x.closed) || list.find((x) => x.table === table); if (o) out.summary = { hands: o.hands, rev: o.rev, accepted: (o.accepted || []).length, counts: o.counts, lastShown: o.lastShown || null, dropPending: o.dropPending || 0, state: o.state && { hand: o.state.hand, status: o.state.status, actor: o.state.actor, revision: o.state.revision } }; } catch (e) { out.summaryError = e.message; }
-  const keep = (e) => e && Math.abs(Number(e.t) - atMs) <= spanMs && ['mouse-down', 'mouse-up', 'double-click', 'action', 'shown', 'hand-start', 'hand-complete', 'test-control', 'closed', 'closed-by-user', 'resize', 'moved', 'minimized'].includes(e.kind);
+  const keep = (e) => e && Math.abs(Number(e.t) - atMs) <= spanMs && ['mouse-down', 'mouse-up', 'double-click', 'action', 'shown', 'hand-start', 'hand-complete', 'test-control', 'release-without-action', 'closed', 'closed-by-user', 'resize', 'moved', 'minimized'].includes(e.kind);
   const slim = (e) => { const { state, after, ...rest } = e; return rest; };
   try {
     if (fx.oracleEvents) out.events = fx.oracleEvents.filter((e) => e.table === table && keep(e)).map(slim);
@@ -227,16 +232,33 @@ function saveUnconfirmed(id, list) {
  *  before / after as PNG. Written into the work folder as unconfirmed-<suite>-table<N>-<seq>.json (+ .png). Best effort. */
 function saveSlotEvidence(list, oracleDir) {
   const files = [];
-  for (const u of list) {
-    const base = 'unconfirmed-' + SUITE + '-table' + u.table + '-g' + u.generation + '-' + (u.rec.seq === undefined ? files.length : u.rec.seq), events = [];
+  // 0.36.2 M4.0: every oracle file is read once; per unconfirmed input the evidence holds the table's own events from 10 s before to 3 s
+  // after the record and - from every OTHER window - the presses, releases, lost clicks and actions within 1.5 s of the driver's reply
+  // (a press that Windows routed elsewhere shows up there, not in the target's own record)
+  let all = null;
+  const load = () => {
+    if (all) return all; all = [];
     try {
-      if (oracleDir && fs.existsSync(oracleDir)) for (const f of fs.readdirSync(oracleDir).filter((x) => x.startsWith('oracle-table-' + String(u.table).padStart(2, '0')))) {
+      if (oracleDir && fs.existsSync(oracleDir)) for (const f of fs.readdirSync(oracleDir).filter((x) => /^oracle-table-\d+/.test(x))) {
         const lines = fs.readFileSync(path.join(oracleDir, f), 'utf8').split('\n').filter(Boolean).map((l) => { try { return JSON.parse(l); } catch (e) { return null; } }).filter(Boolean);
-        const mine = lines.some((e) => e.kind === 'ready' && e.hwnd && LC.normHwnd(e.hwnd) === LC.normHwnd(u.hwnd)); if (!mine) continue;
-        for (const e of lines) if (e.t >= u.at - 6000 && e.t <= u.at + 2000 && ['mouse-down', 'mouse-up', 'double-click', 'key', 'action', 'shown', 'timeout-action', 'bot-action', 'hand-start', 'hand-complete'].includes(e.kind)) events.push({ file: f, ...e, state: undefined, after: undefined });
+        const ready = lines.find((e) => e.kind === 'ready'); all.push({ file: f, hwnd: ready && ready.hwnd ? LC.normHwnd(ready.hwnd) : null, lines });
       }
+    } catch (e) { all.error = e.message; }
+    return all;
+  };
+  const OWN = ['mouse-down', 'mouse-up', 'double-click', 'key', 'action', 'shown', 'timeout-action', 'bot-action', 'hand-start', 'hand-complete', 'release-without-action'], OTHER = ['mouse-down', 'mouse-up', 'double-click', 'action', 'release-without-action'];
+  const slim = (f, e) => ({ file: f, ...e, state: undefined, after: undefined });
+  for (const u of list) {
+    const base = 'unconfirmed-' + SUITE + '-table' + u.table + '-g' + u.generation + '-' + (u.rec.seq === undefined ? files.length : u.rec.seq), events = [], others = [];
+    try {
+      const o = load(), me = LC.normHwnd(u.hwnd), d = u.rec.driver || {}, pressAt = Number.isFinite(d.repliedAtWallMs) ? d.repliedAtWallMs : null;
+      for (const x of o) {
+        if (x.hwnd === me) { for (const e of x.lines) if (e.t >= u.at - 10000 && e.t <= u.at + 3000 && OWN.includes(e.kind)) events.push(slim(x.file, e)); }
+        else if (pressAt !== null) { for (const e of x.lines) if (e.t >= pressAt - 1500 && e.t <= pressAt + 1500 && OTHER.includes(e.kind)) others.push(slim(x.file, e)); }
+      }
+      if (o.error) events.push({ error: o.error });
     } catch (e) { events.push({ error: e.message }); }
-    try { fs.writeFileSync(path.join(M2.WORK, base + '.json'), JSON.stringify({ ...JSON.parse(JSON.stringify({ ...u.rec, images: undefined })), recordedAt: u.at, windowEvents: events }, null, 1)); files.push(base + '.json'); } catch (e) { files.push(base + '.json not written: ' + e.message); }
+    try { fs.writeFileSync(path.join(M2.WORK, base + '.json'), JSON.stringify({ ...JSON.parse(JSON.stringify({ ...u.rec, images: undefined })), recordedAt: u.at, windowEvents: events, otherWindowEvents: others }, null, 1)); files.push(base + '.json'); } catch (e) { files.push(base + '.json not written: ' + e.message); }
     for (const k of ['before', 'after']) { const img = u.rec.images && u.rec.images[k]; if (!img) continue; try { fs.writeFileSync(path.join(M2.WORK, base + '-' + k + '.png'), Buffer.from(IC.encodePng(img))); files.push(base + '-' + k + '.png'); } catch (e) { /* best effort */ } }
   }
   return files;
@@ -324,9 +346,9 @@ async function playSlots(env, n, o) {
   const sc = new Scope('slots'), outer = M2.currentScope(); sc.onCleanup(() => fx.stop()); const ws = await fx.ready(), rec = new XA.DiagnosticsRecorder({ max: 50000 }); if (outer) outer.recorder(rec); const sched = new SCH.InputScheduler({ maxQueue: 32, onCancel: () => env.session.request('cancel-all'), ...M2.schedulerOptions() });
   const timelines = new TL.TimelineAggregator({ max: 50000 }), sampler = RS.start({ intervalMs: FAKE ? 2000 : 5000, system: !FAKE }), slot0 = env.api && env.api.slotStats ? env.api.slotStats() : null;   // 0.36.2 M4.0
   const arm = await env.session.request('arm'); if (!arm.ok) throw new Error('arm refused: ' + arm.error);
-  const slots = ws.map((w) => ({ w, t: null, run: null, generation: 0, tournaments: [], estopInputs: 0, facts: [], samples: { cursor: [], input: [], confirm: [], e2e: [], scheduleWait: [] }, inputStatus: {}, lossResponseMs: [] })), faults = { closeReopen: 0, estop: 0 }, violations = [];
+  const slots = ws.map((w) => ({ w, t: null, run: null, generation: 0, tournaments: [], estopInputs: 0, facts: [], samples: { cursor: [], input: [], confirm: [], e2e: [], scheduleWait: [], anchorSlack: [] }, inputStatus: {}, lossResponseMs: [] })), faults = { closeReopen: 0, estop: 0 }, violations = [];
   // 0.36.2 M3.2: raw timing samples of every table generation (measurements only; the motion speed is unchanged)
-  const collect = (sl, t) => { if (!t || t._collected) return; t._collected = true; const add = (k, a) => { for (const v of a || []) if (Number.isFinite(v)) sl.samples[k].push(v); }; add('cursor', t.m.cursor); add('input', t.m.input); add('confirm', t.m.confirmMs); add('e2e', t.m.e2e); add('scheduleWait', t.m.scheduleWait); for (const e of t.log) { const k = e.inputClass || e.status; sl.inputStatus[k] = (sl.inputStatus[k] || 0) + 1; } };
+  const collect = (sl, t) => { if (!t || t._collected) return; t._collected = true; const add = (k, a) => { for (const v of a || []) if (Number.isFinite(v)) sl.samples[k].push(v); }; add('cursor', t.m.cursor); add('input', t.m.input); add('confirm', t.m.confirmMs); add('e2e', t.m.e2e); add('scheduleWait', t.m.scheduleWait); add('anchorSlack', t.m.deadlineAnchorSlackMs); for (const e of t.log) { const k = e.inputClass || e.status; sl.inputStatus[k] = (sl.inputStatus[k] || 0) + 1; } };
   let stopAll = false, completedHands = 0;
   // 0.36.2 M4.0: every unconfirmed input of a multi-table run keeps its evidence (the table's record + the window's own events around it)
   const unconfirmed = [];
@@ -391,7 +413,7 @@ function summariseRaw(res) {
     actionsAttempted: sum((x) => x.stats.attempted), actionsConfirmed: sum((x) => x.stats.confirmed), incorrectActions: sum((x) => x.crossCheck.wrongActions + x.crossCheck.incorrectClicks), invalidWagers: sum((x) => x.crossCheck.invalidWagers),
     missedStateTransitions: sum((x) => x.crossCheck.appliedNotConfirmed), confirmedButNotApplied: sum((x) => x.crossCheck.confirmedNotApplied), confirmedByTableClock: sum((x) => x.crossCheck.confirmedByTableClock), wrongActions: sum((x) => x.crossCheck.wrongActions), incorrectClickKinds: ['outsideControls', 'onDisabled', 'doubleClicks', 'lateOnOldFrame', 'notAvailable'].reduce((o, k) => { o[k] = sum((x) => (x.crossCheck.clickKinds || {})[k]); return o; }, {}), refusedReadings: sum((x) => x.stats.refusedReadings), reconstructionFailures: sum((x) => x.stats.reconstructionFailures),
     untrackedHands: sum((x) => x.stats.untrackedHands), untrackedHandsWithoutDecision: sum((x) => x.stats.untrackedHandsWithoutDecision), untrackedHandsNeedingInput: sum((x) => x.stats.untrackedHandsNeedingInput), recoveryEvents: sum((x) => x.stats.recoveries), lifecycleRecoveries: tours.reduce((a, x) => a + ((x.stats.gameplayEpisodes || {}).verifying || 0), 0), eliminationsSeen: sum((x) => x.stats.eliminationsSeen),
-    uncertainOrUnconfirmed: sum((x) => x.crossCheck.uncertainOrUnconfirmed), uncertainByTestStop: res.slots.reduce((a, sl) => a + (sl.byTestStop || 0), 0), deadlineMisses: sum((x) => x.stats.deadlineMisses), misdirectedPresses: sum((x) => x.stats.misdirectedPresses), strayPressesOutsideControls: sum((x) => x.crossCheck.downOutsideControls), heroTimeouts: sum((x) => x.stats.heroTimeouts), botActions: sum((x) => x.stats.botActions), cleanRefusals: sum((x) => x.stats.rejected), unexpectedPauses: res.violations.filter((v) => /stalled|safety-paused|no confirmed action/.test(v)).length,
+    uncertainOrUnconfirmed: sum((x) => x.crossCheck.uncertainOrUnconfirmed), uncertainByTestStop: res.slots.reduce((a, sl) => a + (sl.byTestStop || 0), 0), deadlineMisses: sum((x) => x.stats.deadlineMisses), misdirectedPresses: sum((x) => x.stats.misdirectedPresses), strayPressesOutsideControls: sum((x) => x.crossCheck.downOutsideControls), heroTimeouts: sum((x) => x.stats.heroTimeouts), heroTimeoutsInUntrackedHands: sum((x) => x.stats.heroTimeoutsInUntrackedHands), heroTimeoutsInTrackedHands: sum((x) => x.stats.heroTimeoutsInTrackedHands), releasesWithoutAction: sum((x) => x.crossCheck.releasesWithoutAction), botActions: sum((x) => x.stats.botActions), cleanRefusals: sum((x) => x.stats.rejected), unexpectedPauses: res.violations.filter((v) => /stalled|safety-paused|no confirmed action/.test(v)).length,
     finalPlayerCounts: tours.filter((x) => x.completed).map((x) => x.finalPlayers), hands: handSummary(res.slots.flatMap((s) => s.facts.flatMap((m) => [...m.values()]))), faults: res.faults, violations: res.violations,
     // 0.36.2 M3.2: multi-table measurements (brief section 9) - observation only, nothing was tuned or sped up to produce them
     measurements: measurements(res), evidenceFiles: res.evidence || [] };
@@ -418,7 +440,9 @@ function m40Measurements(res, sm, status) {
   return { pipeline: M2.PIPELINE, policy: M2.POLICY, workload: res.workload || null, actionsConfirmed: confirmed, actionsPerMinute: +(confirmed / minutes).toFixed(2), handsPerMinute: +(res.completedHands / minutes).toFixed(3), completedHands: res.completedHands,
     scheduler: { policy: sm.policy, leaseMs: sm.leaseMs, cursorUtilization: sm.cursorUtilization, meanQueueDepth: sm.meanQueueDepth, peakQueue: sm.peakQueue, fairness: sm.fairness, queueWaitMs: sm.queueWaitMs, deadlineMisses: sm.deadlineMisses },
     fairness: { jainActionsPerTable: SCH.jain ? SCH.jain(perTable.map((x) => x.confirmed)) : null, maxWaitMs: Math.max(0, ...perTable.map((x) => x.maxWaitMs || 0)), perTable }, inputStatus: status,
-    timeline: res.timelines || null, hostApi: res.hostApi || null, resources: res.resources || null };
+    timeline: res.timelines || null, hostApi: res.hostApi || null, resources: res.resources || null,
+    // 0.36.2 M4.0: deadline anchor - how much earlier than the decision frame each decision deadline started (the change was unobserved that long at most)
+    deadlineAnchorSlackMs: SCH.stats(res.slots.flatMap((sl) => (sl.samples && sl.samples.anchorSlack) || [])) };
 }
 const STABILITY = {};
 for (const n of (arg('tables', SUITE === 'campaign' ? '1' : '1,2,5,8')).split(',').map(Number)) STABILITY['M' + n] = [n + ' table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced', async (env) => {
@@ -429,6 +453,7 @@ for (const n of (arg('tables', SUITE === 'campaign' ? '1' : '1,2,5,8')).split(',
   ck('no confirmed action the table did not apply', s.confirmedButNotApplied === 0, s.confirmedButNotApplied);
   ck('no stall, no unexpected pause, no violation', res.violations.length === 0, res.violations.slice(0, 5));
   if (s.misdirectedPresses) { ck('a press that reached another window (its target closed at that instant) was released off that control: no action there, not repeated', true, { misdirectedPresses: s.misdirectedPresses, strayPressesOutsideControls: s.strayPressesOutsideControls }); checks[checks.length - 1].pass = false; checks[checks.length - 1].warning = true; }
+  if (s.releasesWithoutAction) { ck('every press and release on an enabled button raised its click (a lost click is never taken as an action and never repeated)', false, { releasesWithoutAction: s.releasesWithoutAction }); checks[checks.length - 1].warning = true; }   // 0.36.2 M4.0
   ck('faults exercised (closure + reopen' + (n > 1 ? '' : ' n/a') + ', emergency stop)', res.faults.estop >= 1 && (n === 1 || res.faults.closeReopen >= 1), res.faults);
   return { checks, metrics: s };
 }];
@@ -448,7 +473,8 @@ for (const n of (arg('tables', '1,2,5,8')).split(',').map(Number)) SUSTAINED['S'
   if (s.misdirectedPresses) warn('a press that reached another window (its target closed at that instant) was released off that control: no action there, not repeated', false, { misdirectedPresses: s.misdirectedPresses, strayPressesOutsideControls: s.strayPressesOutsideControls });
   ck('hands were completed', s.completedHands > 0, s.completedHands);
   if (hero.heroSeats && s.confirmedByTableClock) warn('an action the table\'s own clock took was seen as the intended one (the hero was too late; same action on the screen)', false, { confirmedByTableClock: s.confirmedByTableClock });
-  if (hero.heroSeats) warn('every hero decision was made before the table\'s action clock ran out (capacity: a decision the clock took is a missed deadline, never an unsafe input)', s.heroTimeouts === 0, { heroTimeouts: s.heroTimeouts, deadlineMisses: s.deadlineMisses, botActions: s.botActions });
+  if (hero.heroSeats) warn('every hero decision in a tracked hand was made before the table\'s action clock ran out (capacity: a decision the clock took is a missed deadline, never an unsafe input; in a hand not seen from its opening the Workbench never acts, so the clock decides there by design)', s.heroTimeoutsInTrackedHands === 0, { heroTimeoutsInTrackedHands: s.heroTimeoutsInTrackedHands, heroTimeoutsInUntrackedHands: s.heroTimeoutsInUntrackedHands, heroTimeouts: s.heroTimeouts, untrackedHands: s.untrackedHands, deadlineMisses: s.deadlineMisses, botActions: s.botActions });
+  if (s.releasesWithoutAction) warn('every press and release on an enabled button raised its click (a lost click is never taken as an action and never repeated)', false, { releasesWithoutAction: s.releasesWithoutAction });
   warn('every action that was sent was confirmed (an action interrupted by the harness stopping its table is uncertain by design and counted apart)', s.uncertainOrUnconfirmed - s.uncertainByTestStop <= 0, { uncertainOrUnconfirmed: s.uncertainOrUnconfirmed, causedByTheHarnessStop: s.uncertainByTestStop });
   return { checks, metrics: s };
 }];

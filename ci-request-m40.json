@@ -1,9 +1,10 @@
 {
- "purpose": "Milestone 4.0 development run 4 (final sources): Windows build of the executables with the capture barrier (the click reply waits until the clicked control has processed the release: WinForms raises Click only if the button is still under the cursor when it processes the release) and the press guard; Linux suite with the Milestone 3.2 comparison; full acceptance; the launcher A, B (short) and E (a completed run is no longer rewritten); one A/B machine; T5 at 125 %",
+ "purpose": "Milestone 4.0 FINAL validation of the committed release ZIP (EightMax-Test-Workbench-0.36.2-Milestone-4.0.zip, SHA-256 checked): Linux suite (with the Milestone 3.2 suite under the same load); full acceptance; T5/T5P on 4 machines at 100 and 125 %; same-machine A/B on 3 machines (order alternating) with the policies fair-rr and nearest-guarded on the same machines; 30-minute uninterrupted play at 5, 8 and 10 tables (and 8 tables with the Milestone 3.2 pipeline); one hero seat per table at 8 tables (8 and 15 s action clock) and 10 tables (8, 12 and 15 s action clock); recognition on real windows at 100-175 % and the dataset; mouse motion at 400-2800 px/s; the operator launcher A, B and E",
  "linux": true,
  "ab": true,
- "abJobs": 1,
- "abFast": false,
+ "abJobs": 3,
+ "abFast": true,
+ "abPolicies": "fair-rr,nearest-guarded",
  "m32": false,
  "policies": false,
  "full": true,
@@ -11,7 +12,18 @@
  "launcher": true,
  "motion": true,
  "stabilitySeconds": 60,
- "sustained": [],
- "t5Jobs": 2,
- "recognitionScales": []
+ "sustained": [
+  { "tables": 5, "pipeline": "optimized", "seconds": 1800 },
+  { "tables": 8, "pipeline": "optimized", "seconds": 1800 },
+  { "tables": 8, "pipeline": "compat-3.2", "seconds": 1800 },
+  { "tables": 10, "pipeline": "optimized", "seconds": 1800 },
+  { "tables": 8, "pipeline": "optimized", "seconds": 1800, "hero": true, "tag": "sustained-8-optimized-hero-8s" },
+  { "tables": 8, "pipeline": "optimized", "seconds": 1800, "hero": true, "botThinkMs": 1500, "actionTimeout": 15000, "tag": "sustained-8-optimized-hero-15s" },
+  { "tables": 10, "pipeline": "optimized", "seconds": 1800, "hero": true, "tag": "sustained-10-optimized-hero-8s" },
+  { "tables": 10, "pipeline": "optimized", "seconds": 1800, "hero": true, "botThinkMs": 1500, "actionTimeout": 12000, "tag": "sustained-10-optimized-hero-12s" },
+  { "tables": 10, "pipeline": "optimized", "seconds": 1800, "hero": true, "botThinkMs": 1500, "actionTimeout": 15000, "tag": "sustained-10-optimized-hero-15s" }
+ ],
+ "t5Jobs": 4,
+ "recognitionScales": [100, 125, 150, 175],
+ "recognitionDataset": true
 }

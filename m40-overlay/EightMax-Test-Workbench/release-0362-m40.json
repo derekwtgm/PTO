@@ -15,9 +15,56 @@
   "sha256": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
   "changed": false
  },
- "windowsBinariesRebuilt": null,
- "windowsBinariesReason": "Milestone 4.0 changes four C# sources. desktop/input/Driver.cs and Platform.cs: per-process double-click guard, input drain with a button barrier (BM_GETSTATE: the lease is held until the clicked button has processed the release), press guard (a press that reached another window because its target closed or was covered at that instant is released off that control and reported), polled raise wait, phase timings, read-only queries answered while another operation runs - every one requested per command; without the new fields the driver does exactly what Milestone 3.2 did. desktop/CaptureService.cs + DesktopHost.cs: an optional region of the client area in /api/capture/frame. EightMaxInput.exe, EightMaxWorkbench.exe and EightMaxCapture.exe are rebuilt ON WINDOWS with the .NET Framework 4.x compiler (windows/Build-Executables.ps1); the test table, the WGC helper, Node.js and the EightMax 5.1 engine are byte-identical to Milestone 3.2.",
- "executables": {},
+ "windowsBinariesRebuilt": true,
+ "windowsBinariesReason": "Milestone 4.0 changes four C# sources. desktop/input/Driver.cs and Platform.cs: per-process double-click guard, input drain with a capture barrier (GetGUIThreadInfo: the lease is held until the control that took the press has released the mouse capture, i.e. its window has processed the release - a WinForms button raises Click only if it is still under the cursor at that moment), press guard (a press that reached another window because its target closed or was covered at that instant is released off that control and reported), polled raise wait, phase timings, read-only queries answered while another operation runs - every one requested per command; without the new fields the driver does exactly what Milestone 3.2 did. desktop/CaptureService.cs + DesktopHost.cs: an optional region of the client area in /api/capture/frame. EightMaxInput.exe, EightMaxWorkbench.exe and EightMaxCapture.exe are rebuilt ON WINDOWS with the .NET Framework 4.x compiler (windows/Build-Executables.ps1); the test table, the WGC helper, Node.js and the EightMax 5.1 engine are byte-identical to Milestone 3.2.",
+ "executables": {
+  "desktop/bin/EightMaxWorkbench.exe": {
+   "sha256": "c84a0f68530c3048d9a61b94e22fa16673c28b460dd3c22e042d0ef21d93e996",
+   "milestone32Sha256": "845578b9a6596009e68ce6f182d47ae20ddd511f58b9c37a3d4b12e1c7f32290",
+   "rebuiltForMilestone40": true,
+   "changedSources": [
+    "desktop/CaptureService.cs",
+    "desktop/DesktopHost.cs"
+   ]
+  },
+  "desktop/bin/EightMaxInput.exe": {
+   "sha256": "2460e41ef51afdbec6bcba824aeaec5168a8de6ff20abb4d48fa0092213a6503",
+   "milestone32Sha256": "2c4d7b739ceb617925600c663848d51d21570d5fe566e10fa15713d6d390c91c",
+   "rebuiltForMilestone40": true,
+   "changedSources": [
+    "desktop/input/Driver.cs",
+    "desktop/input/Platform.cs"
+   ]
+  },
+  "desktop/bin/EightMaxTestTable.exe": {
+   "sha256": "3e5a76995a24d169336179e7e3805ddeb57271d951029226b43653c217464348",
+   "milestone32Sha256": "3e5a76995a24d169336179e7e3805ddeb57271d951029226b43653c217464348",
+   "rebuiltForMilestone40": false
+  },
+  "desktop/bin/EightMaxCapture.exe": {
+   "sha256": "6b758678c7cff0e429e7c6ea9d65a130499b0fca5cacdaaaef97b0411aed7e4c",
+   "milestone32Sha256": "8180c32910bfd1d5053c42f8c9ccf484bb6146022dc1284e45dbbde622124da0",
+   "rebuiltForMilestone40": true,
+   "changedSources": [
+    "desktop/CaptureService.cs"
+   ]
+  },
+  "desktop/bin/EightMaxWgc.exe": {
+   "sha256": "bc001504382306e180af0f76abf0836d561faa07e8c210317df73048e55cafc1",
+   "milestone32Sha256": "bc001504382306e180af0f76abf0836d561faa07e8c210317df73048e55cafc1",
+   "rebuiltForMilestone40": false
+  },
+  "native/mwcli.exe": {
+   "sha256": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+   "milestone32Sha256": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+   "rebuiltForMilestone40": false
+  },
+  "runtime/node/node.exe": {
+   "sha256": "247e9693d316da9857e44990e5e11709f596f18112251b8026ec6eed80bdf38a",
+   "milestone32Sha256": "247e9693d316da9857e44990e5e11709f596f18112251b8026ec6eed80bdf38a",
+   "rebuiltForMilestone40": false
+  }
+ },
  "defaults": {
   "inputPipeline": "optimized (dashboard and the Milestone 4.0 test tools); compat-3.2 reproduces Milestone 3.2 exactly",
   "schedulingPolicy": "edf (earliest deadline first, the Milestone 3.2 order)",
@@ -26,5 +73,101 @@
  "windowsTestRunner": "RUN-M4-PERFORMANCE-TEST.cmd",
  "instructions": "READ-ME-MILESTONE4-TESTS.txt",
  "resultsLocation": "%LOCALAPPDATA%\\EightMax-Test-Workbench\\TestResults\\Milestone4.0-<date>-<time>-<mode>",
- "integrityPolicy": "release-integrity-policy.json"
+ "integrityPolicy": "release-integrity-policy.json",
+ "rebuiltExecutables": {
+  "desktop/bin/EightMaxWorkbench.exe": {
+   "replaces": "845578b9a6596009e68ce6f182d47ae20ddd511f58b9c37a3d4b12e1c7f32290",
+   "sha256": "c84a0f68530c3048d9a61b94e22fa16673c28b460dd3c22e042d0ef21d93e996",
+   "ciRun": 45414444138,
+   "sources": [
+    "desktop/CaptureService.cs",
+    "desktop/DesktopHost.cs"
+   ]
+  },
+  "desktop/bin/EightMaxInput.exe": {
+   "replaces": "2c4d7b739ceb617925600c663848d51d21570d5fe566e10fa15713d6d390c91c",
+   "sha256": "2460e41ef51afdbec6bcba824aeaec5168a8de6ff20abb4d48fa0092213a6503",
+   "ciRun": 45414444138,
+   "sources": [
+    "desktop/input/Driver.cs",
+    "desktop/input/Platform.cs"
+   ]
+  },
+  "desktop/bin/EightMaxCapture.exe": {
+   "replaces": "8180c32910bfd1d5053c42f8c9ccf484bb6146022dc1284e45dbbde622124da0",
+   "sha256": "6b758678c7cff0e429e7c6ea9d65a130499b0fca5cacdaaaef97b0411aed7e4c",
+   "ciRun": 45414444138,
+   "sources": [
+    "desktop/CaptureService.cs"
+   ]
+  }
+ },
+ "windowsBuild": {
+  "run": "45414444138",
+  "buildHost": "Windows: Microsoft Windows Server 2025 Datacenter 10.0.26100 build 26100",
+  "compiler": null,
+  "sourceHashes": null,
+  "outputs": {
+   "desktop/bin/EightMaxWorkbench.exe": {
+    "sha256": "c84a0f68530c3048d9a61b94e22fa16673c28b460dd3c22e042d0ef21d93e996",
+    "compiler": "Microsoft (R) Visual C# Compiler version 4.8.9221.0 (.NET Framework 4.x, /langversion:5 /platform:x64 /optimize+)",
+    "sources": [
+     "desktop/DesktopHost.cs",
+     "desktop/CaptureService.cs",
+     "desktop/InputBroker.cs"
+    ],
+    "crossCompiled": false,
+    "sourceHashes": {
+     "desktop/DesktopHost.cs": "a4a189fc7e942691f9316510b85a904dc274e7a63a1f1f6d60b0e1aa0bbe256c",
+     "desktop/CaptureService.cs": "d773c43efdcf0a82aee249c2a8cc0bf0531c676856fb6d892067fb7e63eebb7e",
+     "desktop/InputBroker.cs": "97f1e7227c60f3a5fbbcf41b985ff3648f0aeff3b529b59e9c71e9b5709ba017"
+    }
+   },
+   "desktop/bin/EightMaxCapture.exe": {
+    "sha256": "6b758678c7cff0e429e7c6ea9d65a130499b0fca5cacdaaaef97b0411aed7e4c",
+    "compiler": "Microsoft (R) Visual C# Compiler version 4.8.9221.0 (.NET Framework 4.x)",
+    "sources": [
+     "desktop/capture/EightMaxCapture.cs",
+     "desktop/CaptureService.cs"
+    ],
+    "crossCompiled": false,
+    "sourceHashes": {
+     "desktop/capture/EightMaxCapture.cs": "f939c2dbcb721d0f2eb5456b9566d778ff9e06cf913af61e09a93a928cea52a6",
+     "desktop/CaptureService.cs": "d773c43efdcf0a82aee249c2a8cc0bf0531c676856fb6d892067fb7e63eebb7e"
+    }
+   },
+   "desktop/bin/EightMaxInput.exe": {
+    "sha256": "2460e41ef51afdbec6bcba824aeaec5168a8de6ff20abb4d48fa0092213a6503",
+    "compiler": "Microsoft (R) Visual C# Compiler version 4.8.9221.0 (.NET Framework 4.x, /define:UIA, UIAutomationClient)",
+    "sources": [
+     "desktop/input/Driver.cs",
+     "desktop/input/Motion.cs",
+     "desktop/input/Platform.cs",
+     "desktop/input/Program.cs",
+     "desktop/input/Safety.cs",
+     "desktop/input/Uia.cs"
+    ],
+    "crossCompiled": false,
+    "sourceHashes": {
+     "desktop/input/Driver.cs": "d11f1f6c052cbb8c59009091f103674a23ceb52fd5e6c75d4f9543dca07a72cb",
+     "desktop/input/Motion.cs": "0eea332e21ac2b5ea8713427f17a56c6299aa42f2afce5fea2e699bab8fd2848",
+     "desktop/input/Platform.cs": "f499ac0aa55ac73df0336452c82dadc372bd6ccaee96f49aa65a477163a96bfe",
+     "desktop/input/Program.cs": "4cad506cb945d74cf3c67f78fc5a2df42484c8d1d99144a4b40c66bd23fd3669",
+     "desktop/input/Safety.cs": "678223148e17a04ca9e8abaf0c187997214a2f0113c8b11582e99abc21b476bd",
+     "desktop/input/Uia.cs": "63adbb47cdadf5e1cf0957bc170e7495a217243f3b54541c06c2984def7ad7ce"
+    }
+   },
+   "desktop/bin/EightMaxTestTable.exe": {
+    "sha256": "17e9161e5632c55811765bf225903a8427f6fc98e5be3ad07d2d289660f27f62",
+    "compiler": "Microsoft (R) Visual C# Compiler version 4.8.9221.0 (.NET Framework 4.x)",
+    "sources": [
+     "desktop/testtable/EightMaxTestTable.cs"
+    ],
+    "crossCompiled": false,
+    "sourceHashes": {
+     "desktop/testtable/EightMaxTestTable.cs": "4610f42b2b634ab085859ffe1da13093fec9e04648dc1b0e9d6ed42978455ab1"
+    }
+   }
+  }
+ }
 }
