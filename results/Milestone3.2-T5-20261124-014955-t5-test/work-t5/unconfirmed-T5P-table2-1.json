@@ -1,0 +1,240 @@
+{
+ "format": "eightmax-unconfirmed-input",
+ "version": 1,
+ "seq": 1,
+ "at": "2026-11-24T01:52:19.476Z",
+ "table": 2,
+ "registrationId": "reg-mwu1hi4v-4",
+ "hwnd": "0x30248",
+ "identityFingerprint": "bd0b7f4d",
+ "identity": {
+  "pid": 2316,
+  "processStart": "134399587262766753",
+  "className": "WindowsForms10.Window.8.app.0.34f5582_r6_ad1",
+  "exe": "EightMaxTestTable.exe",
+  "exeSha256Prefix": "3e5a76995a24d169"
+ },
+ "hand": 1,
+ "street": "preflop",
+ "seat": 5,
+ "action": {
+  "type": "call",
+  "amount": 100
+ },
+ "decisionSource": "scripted-fallback",
+ "decisionLabel": "SCRIPTED FALLBACK — not a solver decision",
+ "inputStatus": "rejected-no-change",
+ "status": "rejected",
+ "reason": "no change within 4000 ms; same actor still to act - the simulator did not apply the action; it is not repeated",
+ "code": null,
+ "control": "call",
+ "expectedRegion": {
+  "normalized": {
+   "x": 0.84,
+   "y": 0.93,
+   "w": 0.07,
+   "h": 0.05
+  },
+  "clickRect": {
+   "x": 1515,
+   "y": 509,
+   "w": 34,
+   "h": 15
+  }
+ },
+ "selectedPoint": {
+  "x": 1532,
+  "y": 516
+ },
+ "clickedAt": {
+  "x": 1532,
+  "y": 516
+ },
+ "hit": "0x3018C",
+ "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+ "displayScaling": 1,
+ "clientAtReading": {
+  "x": 832,
+  "y": 39,
+  "w": 800,
+  "h": 500
+ },
+ "clientAfter": {
+  "x": 832,
+  "y": 39,
+  "w": 800,
+  "h": 500
+ },
+ "windowAfter": {
+  "exists": true,
+  "matches": true,
+  "foreground": false,
+  "minimized": false,
+  "visible": true,
+  "cloaked": false,
+  "enabled": true,
+  "client": {
+   "x": 832,
+   "y": 39,
+   "w": 800,
+   "h": 500
+  },
+  "dpiScale": 1,
+  "monitor": 0
+ },
+ "driver": {
+  "reported": "input completed (driver reply ok)",
+  "plannedMs": 1556.25,
+  "actualMs": 1572.45,
+  "steps": 98,
+  "finalError": 0,
+  "distance": 996,
+  "maxObservedLag": 0
+ },
+ "scheduler": {
+  "leaseId": 5,
+  "waitedMs": 150,
+  "runMs": 1880
+ },
+ "confirmation": {
+  "status": "rejected",
+  "reason": "no change within 4000 ms; same actor still to act",
+  "timeoutMs": 4000,
+  "pollMs": 60,
+  "polls": 38,
+  "failedCaptures": 0,
+  "failureCodes": {},
+  "newFrames": 0,
+  "unreadableNewFrames": 0,
+  "startRevision": 3,
+  "revisionsSeen": [
+   3
+  ],
+  "firstPollMs": 91,
+  "lastFrameId": 181,
+  "finalReading": {
+   "hand": 1,
+   "actor": 5,
+   "status": "playing",
+   "actions": 2,
+   "frameId": 183,
+   "revision": 3,
+   "freshLook": true
+  },
+  "durationMs": 4162
+ },
+ "frames": {
+  "before": {
+   "frameId": 130,
+   "revision": 3,
+   "ageAtSubmitMs": 10
+  },
+  "after": {
+   "lastFrameId": 181,
+   "revisionsSeen": [
+    3
+   ],
+   "finalReading": {
+    "hand": 1,
+    "actor": 5,
+    "status": "playing",
+    "actions": 2,
+    "frameId": 183,
+    "revision": 3,
+    "freshLook": true
+   }
+  }
+ },
+ "timeline": {
+  "readToSubmitMs": 10,
+  "queueWaitMs": 150,
+  "inputRunMs": 1880,
+  "confirmMs": 4162,
+  "totalMs": 6201
+ },
+ "lifecycleAfter": "ACTIVE",
+ "oracle": {
+  "table": 2,
+  "summary": {
+   "hands": 1,
+   "rev": 3,
+   "accepted": 2,
+   "counts": {
+    "mouseDown": 3,
+    "mouseUp": 3,
+    "downOutsideControls": 0,
+    "downOnDisabled": 0,
+    "doubleClicks": 0,
+    "rightClicks": 0,
+    "keys": 0,
+    "actions": 3,
+    "accepted": 2,
+    "staleClicks": 0,
+    "illegal": 0,
+    "wagerRejected": 0,
+    "byType": {
+     "fold": 1,
+     "call": 1
+    },
+    "timeoutActions": 0,
+    "droppedByTest": 1
+   },
+   "lastShown": {
+    "rev": 3,
+    "wt": 267656
+   },
+   "dropPending": 0,
+   "state": {
+    "hand": 1,
+    "status": "playing",
+    "actor": 5,
+    "revision": 3
+   }
+  },
+  "events": [
+   {
+    "t": 1795485133469,
+    "table": 2,
+    "kind": "test-control",
+    "control": "drop-next-action",
+    "count": 1
+   },
+   {
+    "t": 1795485135083,
+    "table": 2,
+    "kind": "mouse-down",
+    "x": 700,
+    "y": 477,
+    "control": "call",
+    "enabled": true,
+    "rev": 3,
+    "wt": 271421,
+    "dealerRev": 3
+   },
+   {
+    "t": 1795485135151,
+    "table": 2,
+    "kind": "mouse-up",
+    "x": 700,
+    "y": 477,
+    "control": "call",
+    "enabled": true,
+    "rev": 3,
+    "wt": 271500,
+    "dealerRev": 3
+   },
+   {
+    "t": 1795485135151,
+    "table": 2,
+    "kind": "action",
+    "control": "call",
+    "wager": "",
+    "rev": 3,
+    "wt": 271500,
+    "dealerRev": 3,
+    "result": "dropped-by-test"
+   }
+  ]
+ },
+ "scenarioMs": 13259
+}

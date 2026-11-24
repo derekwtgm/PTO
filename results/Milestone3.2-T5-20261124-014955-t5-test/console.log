@@ -1,0 +1,132 @@
+2026-11-24 01:49:56.218  EightMax Test Workbench 0.36.2 - Milestone 3.2 tests, mode standalone T5 test, 1 repetition(s) of T5 and T5P (real windows; the mouse moves by itself)
+2026-11-24 01:49:56.219  Results folder: D:\a\_temp\m32-t5\Milestone3.2-T5-20261124-014955-t5-test
+2026-11-24 01:49:56.220  Application:    D:\a\_temp\EightMax CI (t5 1) ü\EightMax-Test-Workbench
+2026-11-24 01:49:56.222  The mouse will move by itself inside the EightMax test tables. Do not touch the mouse or keyboard until this finishes. Ctrl+Alt+F12 stops all input.
+2026-11-24 01:49:56.298  Session job active: every process this run starts ends with the run, however it ends.
+2026-11-24 01:49:56.420  
+2026-11-24 01:49:56.422  ==== Computer and environment [environment] (1 of 7)
+2026-11-24 01:49:59.572    [environment] PASS machine details collected: Microsoft Windows Server 2025 Datacenter build 26100; AMD EPYC 9V45 96-Core Processor (2 cores, 4 threads); 16 GiB; display scaling 100%; PowerShell 5.1.26100.33822 Desktop
+2026-11-24 01:49:59.651    [environment] PASS application folder path: application folder D:\a\_temp\EightMax CI (t5 1) ü\EightMax-Test-Workbench (55 characters, spaces, non-ASCII characters, parentheses)
+2026-11-24 01:49:59.718    [environment] PASS results folder: D:\a\_temp\m32-t5\Milestone3.2-T5-20261124-014955-t5-test (requested)
+2026-11-24 01:49:59.788    [environment] PASS session process control: job object: every process of this run ends with the run
+2026-11-24 01:49:59.854    [environment] PASS files marked as downloaded from the internet (Mark of the Web): none of 414 program files is marked
+2026-11-24 01:49:59.930    [environment] PASS Windows security settings: SmartScreen not set (Windows default); Smart App Control unknown; antivirus none reported by Windows Security Center; Defender real-time protection False, controlled folder access 0
+2026-11-24 01:49:59.993    [environment] PASS PowerShell execution policy: MachinePolicy=Undefined, UserPolicy=Undefined, Process=Bypass, CurrentUser=Undefined, LocalMachine=Unrestricted
+2026-11-24 01:50:00.071    [environment] PASS no EightMax desktop host already running: none
+2026-11-24 01:50:00.273    [environment] PASS port 48713 free: free
+2026-11-24 01:50:00.632  ---- environment: PASS (4 s)
+2026-11-24 01:50:00.634  
+2026-11-24 01:50:00.634  ==== Release integrity and executable identities [integrity] (2 of 7)
+2026-11-24 01:50:02.006    [integrity] PASS release files match SHA256SUMS.txt (runtime output excluded by release-integrity-policy.json): PASS: 1461 of 1461 listed files verified; missing 0, modified 0, unexpected executables 0, other unlisted files 0; runtime output ignored: 0 file(s) in 0 folder(s); warnings 0 (1.3 s)
+2026-11-24 01:50:02.166    [identity] PASS desktop\bin\EightMaxWorkbench.exe: sha256 845578b9a6596009... version 0.36.2.0 / 0.36.2-dev
+2026-11-24 01:50:02.246    [identity] PASS desktop\bin\EightMaxInput.exe: sha256 2c4d7b739ceb6179... version 0.36.2.0 / 0.36.2-dev
+2026-11-24 01:50:02.321    [identity] PASS desktop\bin\EightMaxTestTable.exe: sha256 3e5a76995a24d169... version 0.36.2.0 / 0.36.2-dev
+2026-11-24 01:50:02.397    [identity] PASS desktop\bin\EightMaxCapture.exe: sha256 8180c32910bfd1d5... version 0.35.0.0 / 0.35.0
+2026-11-24 01:50:02.513    [identity] PASS desktop\bin\EightMaxWgc.exe: sha256 bc001504382306e1... version 0.35.0.0 / 0.35.0
+2026-11-24 01:50:02.593    [identity] PASS native\mwcli.exe: sha256 b3e675bfe2ae231e... version  / 
+2026-11-24 01:50:02.750    [identity] PASS runtime\node\node.exe: sha256 247e9693d316da98... version 22.23.5 / 22.23.5
+2026-11-24 01:50:02.952    [identity] PASS EightMax 5.1 binary unchanged: b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72
+2026-11-24 01:50:03.236    [identity] PASS EightMax 5.1 build id: EightMaxBuild=7d08acc7eb4577ee
+2026-11-24 01:50:03.437  ---- integrity: PASS (2.7 s)
+2026-11-24 01:50:03.439  
+2026-11-24 01:50:03.439  ==== Required components [dependencies] (3 of 7)
+2026-11-24 01:50:03.522    [dependencies] PASS 64-bit Windows and 64-bit PowerShell: yes
+2026-11-24 01:50:03.679    [dependencies] PASS .NET Framework 4.x: release 533509 (4.8 or later)
+2026-11-24 01:50:03.758    [dependencies] PASS csc.exe compiler of .NET Framework (used only by the fallback start): C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe
+2026-11-24 01:50:03.858    [dependencies] PASS required release files present: 16 files present
+2026-11-24 01:50:04.098    [dependencies] PASS bundled Node.js (runtime\node\node.exe) runs: v22.23.5
+2026-11-24 01:50:04.260    [dependencies] PASS Windows helper for diagnostics (process tree, port owner, prompt windows): compiled
+2026-11-24 01:50:04.449  ---- dependencies: PASS (0.9 s)
+2026-11-24 01:50:04.449  
+2026-11-24 01:50:04.451  ==== Regression tests (bundled Node, no windows) [unit] (4 of 7)
+2026-11-24 01:50:19.787       ... regression tests still running after 15 s (time limit 3600 s) - 37 tests finished
+2026-11-24 01:50:34.965       ... regression tests still running after 30 s (time limit 3600 s) - 54 tests finished
+2026-11-24 01:50:50.156       ... regression tests still running after 45 s (time limit 3600 s) - 63 tests finished
+2026-11-24 01:51:01.274    [unit] PASS regression tests (Milestone 3.2 paused-window / lifecycle set): 82 passed, 0 failed, 0 skipped
+2026-11-24 01:51:01.440  ---- unit: PASS (56.9 s)
+2026-11-24 01:51:01.442  
+2026-11-24 01:51:01.442  ==== Desktop host start: prebuilt, fallback compile, cache cases [host-start] (5 of 7)
+2026-11-24 01:51:01.533  
+2026-11-24 01:51:01.537    -- start case 1: prebuilt host launch
+2026-11-24 01:51:01.650    [1/12] Check for EightMax programs that are already running ...
+2026-11-24 01:51:01.723    [host-start] PASS prebuilt host launch - 1/12 Check for EightMax programs that are already running: no EightMax program is running [0 s]
+2026-11-24 01:51:01.886    [2/12] Check that port 48713 is free ...
+2026-11-24 01:51:01.895    [host-start] PASS prebuilt host launch - 2/12 Check that port 48713 is free: free [0 s]
+2026-11-24 01:51:02.054    [3/12] Prepare the start-up folders ...
+2026-11-24 01:51:02.075    [host-start] PASS prebuilt host launch - 3/12 Prepare the start-up folders: case folder ready: D:\a\_temp\m32-t5\Milestone3.2-T5-20261124-014955-t5-test\host-start\01-prebuilt [0 s]
+2026-11-24 01:51:02.234    [4/12] Start the start-up script (Start-Desktop.ps1) ...
+2026-11-24 01:51:02.369    [host-start] PASS prebuilt host launch - 4/12 Start the start-up script (Start-Desktop.ps1): started powershell.exe pid 7372 [0.1 s]
+2026-11-24 01:51:02.559    [5/12] Wait for the start-up script to launch the desktop host ...
+2026-11-24 01:51:04.389    [host-start] PASS prebuilt host launch - 5/12 Wait for the start-up script to launch the desktop host: host pid 3164 launched (CreateProcess, path prebuilt); start-up script finished in 1.8 s [1.8 s]
+2026-11-24 01:51:04.554    [6/12] Wait for the host to report ready (session file) ...
+2026-11-24 01:51:04.565    [host-start] PASS prebuilt host launch - 6/12 Wait for the host to report ready (session file): ready after 0 s [0 s]
+2026-11-24 01:51:04.736    [7/12] Read and validate the session file ...
+2026-11-24 01:51:04.768    [host-start] PASS prebuilt host launch - 7/12 Read and validate the session file: session of host pid 3164, app 0.36.2-dev [0 s]
+2026-11-24 01:51:04.965    [8/12] Check the health endpoint ...
+2026-11-24 01:51:05.036    [host-start] PASS prebuilt host launch - 8/12 Check the health endpoint: HTTP 200, app 0.36.2-dev, input driver installed True [0.1 s]
+2026-11-24 01:51:05.248    [9/12] Check that the input driver starts (authenticated hello, no mouse movement) ...
+2026-11-24 01:51:05.375    [host-start] PASS prebuilt host launch - 9/12 Check that the input driver starts (authenticated hello, no mouse movement): EightMaxInput.exe started and accepted the session (running, not crashed, emergency-stop hotkey Ctrl+Alt+F12) [0.1 s]
+2026-11-24 01:51:05.551    [10/12] Shut the host down (authenticated request) ...
+2026-11-24 01:51:05.564    [host-start] PASS prebuilt host launch - 10/12 Shut the host down (authenticated request): HTTP 200 (shutdown accepted) [0 s]
+2026-11-24 01:51:05.728    [11/12] Check that the host, the input driver and the start-up script have exited ...
+2026-11-24 01:51:05.764    [host-start] PASS prebuilt host launch - 11/12 Check that the host, the input driver and the start-up script have exited: host exited (exit code 0) after 0 s; no input driver left [0 s]
+2026-11-24 01:51:05.927    [12/12] Check that port 48713 is released ...
+2026-11-24 01:51:05.943    [host-start] PASS prebuilt host launch - 12/12 Check that port 48713 is released: free after 6 ms [0 s]
+2026-11-24 01:51:06.031    [host-start] PASS prebuilt host launch - expected result: path prebuilt
+2026-11-24 01:51:06.536  ---- host-start: PASS (4.9 s)
+2026-11-24 01:51:06.540  
+2026-11-24 01:51:06.541  ==== T5 and T5P with real windows (1 repetition(s)): one of two tables closes - while active and while paused [t5] (6 of 7)
+2026-11-24 01:51:21.749       ... t5-acceptance still running after 15 s (time limit 2400 s) - --- T5: Two tables: eliminations on both, one window closes; no input crosses tables
+2026-11-24 01:51:36.849       ... t5-acceptance still running after 30 s (time limit 2400 s) - --- T5: Two tables: eliminations on both, one window closes; no input crosses tables
+2026-11-24 01:51:51.946       ... t5-acceptance still running after 45 s (time limit 2400 s) - --- T5: Two tables: eliminations on both, one window closes; no input crosses tables
+2026-11-24 01:52:07.046       ... t5-acceptance still running after 60 s (time limit 2400 s) - --- T5P: Two tables: table 2 paused by an action its table did not apply, then its window closes (the operator failure, 
+2026-11-24 01:52:22.145       ... t5-acceptance still running after 75 s (time limit 2400 s) - --- T5P: Two tables: table 2 paused by an action its table did not apply, then its window closes (the operator failure, 
+2026-11-24 01:52:30.057    [t5] PASS T5: Two tables: eliminations on both, one window closes; no input crosses tables: 14 checks passed in 59 s
+2026-11-24 01:52:30.139    [t5 T5] PASS 1. both tables started (REGISTERED -> ACTIVE: identity verified, first reading accepted): ["ACTIVE","ACTIVE"]
+2026-11-24 01:52:30.222    [t5 T5] PASS 2. both tables performed confirmed actions: [2,2]
+2026-11-24 01:52:30.308    [t5 T5] PASS 3. table 2 window closed (the test-table process exited): {"code":0}
+2026-11-24 01:52:30.387    [t5 T5] PASS 4. the original window identity is no longer valid: {"exists":false,"code":"window-gone"}
+2026-11-24 01:52:30.471    [t5 T5] PASS 5. table 2 TARGET_LOST after its window closed: {"state":"TARGET_LOST","detectMs":48,"source":"driver","previousState":"ACTIVE","gameplayHeldAtLoss":false,"reason":"The window was closed while an action was prepared."}
+2026-11-24 01:52:30.554    [t5 T5] PASS 6. the scheduler blocks only table 2 (its registration revoked; table 1 still registered): {"unavailableTables":[2],"revoked":["2:reg-mwu1g9jj-2"],"invalidationEvents":1,"cancellation":{"table":2,"registrationId":"reg-mwu1g9jj-2","reason":"The window was closed while an action was prepared.","dropped":0,"cancelledRunning":false,"at":52433.1699,"runningTable":null}}
+2026-11-24 01:52:30.633    [t5 T5] PASS 6b. a later job of the lost registration is refused (target-lost): "target-lost"
+2026-11-24 01:52:30.712    [t5 T5] PASS 7. no input reached the closed window after the loss: {"afterLoss":0,"betweenCloseAndLoss":0,"beforeClose":17}
+2026-11-24 01:52:30.799    [t5 T5] PASS 8a. table 1 keeps playing (or finished its tournament): [5,false]
+2026-11-24 01:52:30.879    [t5 T5] PASS 8b. table 1 not lost, not invalidated; its registration is current: {"lifecycle":"ACTIVE","registration":true}
+2026-11-24 01:52:30.966    [t5 T5] PASS 8c. table 1: every confirmed action matches its own dealer; no incorrect click: {"confirmed":19,"dealerAccepted":19,"matchedInOrder":19,"wrongActions":0,"wrong":[],"confirmedNotApplied":0,"appliedNotConfirmed":0,"uncertainOrUnconfirmed":0,"incorrectClicks":0,"invalidWagers":0,"timeoutActions":0}
+2026-11-24 01:52:31.043    [t5 T5] PASS eliminations recognised on table 1: 4
+2026-11-24 01:52:31.124    [t5 T5] PASS 9. cleanup completed: both run loops ended, health monitors stopped, no input job left: {"runs":["done","done"],"monitors":[false,false],"scheduler":{"running":null,"queued":0}}
+2026-11-24 01:52:31.203    [t5 T5] PASS input confirmation: every action sent on either table was confirmed (an unconfirmed input is reported here with its evidence): "none"
+2026-11-24 01:52:31.284    [t5] PASS T5P: Two tables: table 2 paused by an action its table did not apply, then its window closes (the operator failure, reproduced): 18 checks passed in 24 s
+2026-11-24 01:52:31.460    [t5 T5P] PASS 1. both tables started (REGISTERED -> ACTIVE: identity verified, first reading accepted): ["ACTIVE","ACTIVE"]
+2026-11-24 01:52:31.539    [t5 T5P] PASS 2. both tables performed confirmed actions: [2,2]
+2026-11-24 01:52:31.621    [t5 T5P] PASS P1. table 2 paused by the action its table did not apply: SAFETY_PAUSED (input-rejected), classified rejected-no-change: {"lifecycle":"SAFETY_PAUSED","cause":"input-rejected","inputClass":"rejected-no-change","reason":"no change within 4000 ms; same actor still to act - the simulator did not apply the action; it is not repeated"}
+2026-11-24 01:52:31.703    [t5 T5P] PASS P2. the unapplied action was not repeated and nothing resumed by itself (no input while paused; the table received exactly the one dropped press): {"inputsWhilePaused":0,"lifecycle":"SAFETY_PAUSED","droppedByTest":1,"accepted":2}
+2026-11-24 01:52:31.785    [t5 T5P] PASS P3. while paused the window is still monitored (identity probes continue; no capture, no input): {"probesWhilePaused":3,"capturesWhilePaused":0,"health":{"checks":5,"ownProbes":5,"sharedProbes":3,"healthy":5,"unknown":0,"lost":0,"staleDiscarded":0}}
+2026-11-24 01:52:31.877    [t5 T5P] PASS P4. evidence of the unapplied input recorded (region, point, scaling, client, driver result, lease, confirmation trace, frames): {"inputStatus":"rejected-no-change","control":"call","windowAfter":{"exists":true,"matches":true,"foreground":false,"minimized":false,"visible":true,"cloaked":false,"enabled":true,"client":{"x":832,"y":39,"w":800,"h":500},"dpiScale":1,"monitor":0},"polls":38}
+2026-11-24 01:52:31.957    [t5 T5P] PASS P5. gameplay condition shown: input confirmation failure: "input-confirmation-failure"
+2026-11-24 01:52:32.039    [t5 T5P] PASS 3. table 2 window closed (the test-table process exited): {"code":0}
+2026-11-24 01:52:32.119    [t5 T5P] PASS 4. the original window identity is no longer valid: {"exists":false,"code":"window-gone"}
+2026-11-24 01:52:32.290    [t5 T5P] PASS 5. table 2 TARGET_LOST after its window closed: {"state":"TARGET_LOST","detectMs":528,"source":"health-monitor","previousState":"SAFETY_PAUSED","gameplayHeldAtLoss":true,"reason":"The window no longer exists (detected while gameplay was paused; driver: window-gone)."}
+2026-11-24 01:52:32.380    [t5 T5P] PASS 6. the scheduler blocks only table 2 (its registration revoked; table 1 still registered): {"unavailableTables":[2],"revoked":["2:reg-mwu1hi4v-4"],"invalidationEvents":1,"cancellation":{"table":2,"registrationId":"reg-mwu1hi4v-4","reason":"The window no longer exists (detected while gameplay was paused; driver: window-gone).","dropped":0,"cancelledRunning":false,"at":76846.1799,"runningTable":1}}
+2026-11-24 01:52:32.465    [t5 T5P] PASS 6b. a later job of the lost registration is refused (target-lost): "target-lost"
+2026-11-24 01:52:32.546    [t5 T5P] PASS 7. no input reached the closed window after the loss: {"afterLoss":0,"betweenCloseAndLoss":0,"beforeClose":3}
+2026-11-24 01:52:32.626    [t5 T5P] PASS 8a. table 1 keeps playing (or finished its tournament): [5,false]
+2026-11-24 01:52:32.705    [t5 T5P] PASS 8b. table 1 not lost, not invalidated; its registration is current: {"lifecycle":"ACTIVE","registration":true}
+2026-11-24 01:52:32.790    [t5 T5P] PASS 8c. table 1: every confirmed action matches its own dealer; no incorrect click: {"confirmed":12,"dealerAccepted":12,"matchedInOrder":12,"wrongActions":0,"wrong":[],"confirmedNotApplied":0,"appliedNotConfirmed":0,"uncertainOrUnconfirmed":0,"incorrectClicks":0,"invalidWagers":0,"timeoutActions":0}
+2026-11-24 01:52:32.872    [t5 T5P] PASS 9. cleanup completed: both run loops ended, health monitors stopped, no input job left: {"runs":["done","done"],"monitors":[false,false],"scheduler":{"running":null,"queued":0}}
+2026-11-24 01:52:32.953    [t5 T5P] PASS input confirmation: every action sent on either table was confirmed (an unconfirmed input is reported here with its evidence): "none"
+2026-11-24 01:52:33.044    [t5] PASS t5-acceptance: process cleanup (children exited, no live timers): ok
+2026-11-24 01:52:33.122    [t5] PASS t5-acceptance: exit code matches the result: overall PASS, exit 0
+2026-11-24 01:52:33.292    [harness] FAIL (harness) T5 plain-language summary: System.Management.Automation.MethodException: Cannot find an overload for "Contains" and the argument count: "1". (M32-T5.ps1 line 7)
+2026-11-24 01:52:33.598  ---- t5: FAIL (1 min 27 s)
+2026-11-24 01:52:33.599  
+2026-11-24 01:52:33.600  ==== Cleanup: nothing left running, port released [cleanup] (7 of 7)
+2026-11-24 01:52:35.688    [cleanup] PASS no leftover EightMax processes started by these tests: none
+2026-11-24 01:52:35.777    [cleanup] PASS no other process of this test session left: none
+2026-11-24 01:52:35.872    [cleanup] PASS port 48713 released: free
+2026-11-24 01:52:36.039  ---- cleanup: PASS (2.3 s)
+2026-11-24 01:52:36.829  
+2026-11-24 01:52:36.831  Checks: 78 passed, 1 failed, 0 warnings, 0 skipped
+2026-11-24 01:52:36.831  OVERALL: FAIL  (exit code 2: HARNESS ERROR: the test runner itself failed; results may be incomplete)
+2026-11-24 01:52:36.833  Results folder: D:\a\_temp\m32-t5\Milestone3.2-T5-20261124-014955-t5-test
+2026-11-24 01:52:36.835  Results ZIP to send back: D:\a\_temp\m32-t5\Milestone3.2-T5-20261124-014955-t5-test\milestone3-results.zip
