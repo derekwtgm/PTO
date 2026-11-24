@@ -1,0 +1,558 @@
+{
+ "format": "eightmax-m32-input-confirmation-validation",
+ "version": 1,
+ "release": {
+  "sha256": "740e9c1fe853d8db0a57722cabbba78a66ad20525b63a7569fe51658cabeb54d"
+ },
+ "validationKinds": {
+  "developmentEnvironment": "Linux development machine: Node 22.23.5, no PowerShell, no Windows",
+  "simulated": "production controller / scheduler / executor / driver client against the in-process fake desktop host (tests/lifecycle-host-fixture.cjs) - logic evidence only, never Windows evidence",
+  "realWindowsCI": "GitHub-hosted windows-latest (Windows Server 2025 Datacenter, Windows PowerShell 5.1, real interactive desktop 1920x1080, AMD EPYC 2 cores / 4 threads, Defender real-time protection off): real windows, real capture, real mouse input",
+  "operatorHardware": "Windows 11 Home, i7-13700F, RTX 4060 Ti, 16 GB, 3840x2160 at 125 %: PENDING - Milestone 3.2 has not run there yet"
+ },
+ "inputStatus": [
+  {
+   "status": "confirmed",
+   "meaning": "the next state shows exactly this action",
+   "handling": "play continues"
+  },
+  {
+   "status": "rejected-before-input",
+   "meaning": "refused before any button or key went down (deadline, lease revoked, lifecycle guard, layout changed, ...)",
+   "handling": "nothing was sent: a NEW decision from a fresh reading may follow (bounded: 4 in a row pause the table)"
+  },
+  {
+   "status": "rejected-no-change",
+   "meaning": "delivered by the driver; the screen did not change within the confirmation window and a fresh reading shows the same decision point",
+   "handling": "SAFETY_PAUSED (input-rejected), never repeated, evidence recorded, operator Resume -> RECOVERY_PENDING -> fresh readings"
+  },
+  {
+   "status": "uncertain",
+   "meaning": "may have been applied (window lost after the input, stop / emergency stop / manual override during it)",
+   "handling": "SAFETY_PAUSED or TARGET_LOST, never repeated, review required, evidence recorded"
+  },
+  {
+   "status": "timed-out",
+   "meaning": "no reliable reading within the confirmation window",
+   "handling": "SAFETY_PAUSED (unconfirmed-input), never repeated, evidence recorded"
+  },
+  {
+   "status": "ambiguous",
+   "meaning": "the table changed, but not as one application of this action",
+   "handling": "SAFETY_PAUSED (unconfirmed-input), never repeated, evidence recorded"
+  },
+  {
+   "status": "cancelled-after-input / cancelled-before-input",
+   "meaning": "cancelled during / before the operation",
+   "handling": "after input: as uncertain; before input: nothing was sent"
+  }
+ ],
+ "operatorCall": {
+  "status": "cause NOT established",
+  "facts": [
+   "the driver returned success for the Call move-click (r851, 1 372 ms, operator host log)",
+   "no new status-strip revision for 4 000 ms of ~100 ms polls (r858-r919)",
+   "a fresh reading afterwards showed the same player to act -> rejected (clean) -> gameplay paused"
+  ],
+  "unknown": [
+   "whether the press reached the window",
+   "whether its button fired",
+   "whether the dealer refused it, never received it, or applied it without the window repainting"
+  ],
+  "whyUnknown": "the oracle file and diag-acceptance-T5.json of the failing run were not among the uploaded files",
+  "seeAlso": "T5-ROOT-CAUSE-ANALYSIS-3.2.md section 4"
+ },
+ "confirmationLatencyWindowsCI": {
+  "milestone31": [
+   {
+    "scenario": "T1",
+    "table": "table",
+    "confirmationMs": {
+     "n": 36,
+     "mean": 120.05,
+     "p50": 121.7,
+     "p95": 134.34,
+     "p99": 145.32,
+     "max": 145.32
+    }
+   },
+   {
+    "scenario": "T2",
+    "table": "table",
+    "confirmationMs": {
+     "n": 28,
+     "mean": 118.55,
+     "p50": 120.32,
+     "p95": 133.44,
+     "p99": 136.93,
+     "max": 136.93
+    }
+   },
+   {
+    "scenario": "T4",
+    "table": "table",
+    "confirmationMs": {
+     "n": 15,
+     "mean": 122.11,
+     "p50": 124.66,
+     "p95": 136.69,
+     "p99": 136.69,
+     "max": 136.69
+    }
+   },
+   {
+    "scenario": "T5",
+    "table": "table1",
+    "confirmationMs": {
+     "n": 17,
+     "mean": 116.52,
+     "p50": 119.82,
+     "p95": 139.04,
+     "p99": 139.04,
+     "max": 139.04
+    }
+   },
+   {
+    "scenario": "T5",
+    "table": "table2",
+    "confirmationMs": {
+     "n": 13,
+     "mean": 124.7,
+     "p50": 123.52,
+     "p95": 139.2,
+     "p99": 139.2,
+     "max": 139.2
+    }
+   },
+   {
+    "scenario": "T6",
+    "table": "table",
+    "confirmationMs": {
+     "n": 14,
+     "mean": 117.22,
+     "p50": 120.77,
+     "p95": 128.5,
+     "p99": 128.5,
+     "max": 128.5
+    }
+   }
+  ],
+  "milestone32": [
+   {
+    "scenario": "T1",
+    "table": "table",
+    "confirmationMs": {
+     "n": 36,
+     "mean": 145.72,
+     "p50": 146.74,
+     "p95": 157.12,
+     "p99": 157.51,
+     "max": 157.51
+    }
+   },
+   {
+    "scenario": "T2",
+    "table": "table",
+    "confirmationMs": {
+     "n": 28,
+     "mean": 138.42,
+     "p50": 137.65,
+     "p95": 153.89,
+     "p99": 154.51,
+     "max": 154.51
+    }
+   },
+   {
+    "scenario": "T4",
+    "table": "table",
+    "confirmationMs": {
+     "n": 15,
+     "mean": 148.59,
+     "p50": 148.93,
+     "p95": 162.67,
+     "p99": 162.67,
+     "max": 162.67
+    }
+   },
+   {
+    "scenario": "T5",
+    "table": "table1",
+    "confirmationMs": {
+     "n": 17,
+     "mean": 146.47,
+     "p50": 143.02,
+     "p95": 173.07,
+     "p99": 173.07,
+     "max": 173.07
+    }
+   },
+   {
+    "scenario": "T5",
+    "table": "table2",
+    "confirmationMs": {
+     "n": 13,
+     "mean": 145.73,
+     "p50": 142.04,
+     "p95": 175.58,
+     "p99": 175.58,
+     "max": 175.58
+    }
+   },
+   {
+    "scenario": "T5P",
+    "table": "table1",
+    "confirmationMs": {
+     "n": 13,
+     "mean": 147.67,
+     "p50": 147.64,
+     "p95": 173.73,
+     "p99": 173.73,
+     "max": 173.73
+    }
+   },
+   {
+    "scenario": "T5P",
+    "table": "table2",
+    "confirmationMs": {
+     "n": 2,
+     "mean": 143.29,
+     "p50": 130.09,
+     "p95": 156.49,
+     "p99": 156.49,
+     "max": 156.49
+    }
+   },
+   {
+    "scenario": "T6",
+    "table": "table",
+    "confirmationMs": {
+     "n": 14,
+     "mean": 144.41,
+     "p50": 144.39,
+     "p95": 151.44,
+     "p99": 151.44,
+     "max": 151.44
+    }
+   }
+  ],
+  "timeoutMs": 4000,
+  "conclusion": "a normal confirmation takes ~120 ms on Windows CI; a longer timeout is not supported by the evidence and was not changed"
+ },
+ "ciClickAnalysisMilestone3and31": {
+  "buttonPresses": 8141,
+  "withAction": 8140,
+  "presssesWithoutAction": 1,
+  "results": {
+   "accepted": 8148
+  },
+  "conclusion": "On Windows CI every button press produced an action that the dealer accepted, except one press whose window was closed 16 ms later by the test itself (lifecycle close-during-action). The operator's unapplied Call has not occurred on CI under these conditions."
+ },
+ "milestone32EvidenceRecord": {
+  "fields": [
+   "table",
+   "registrationId",
+   "hwnd",
+   "identityFingerprint",
+   "identity",
+   "action",
+   "control",
+   "expectedRegion",
+   "selectedPoint",
+   "clickedAt",
+   "hit",
+   "hitClass",
+   "displayScaling",
+   "clientAtReading",
+   "clientAfter",
+   "windowAfter (foreground, minimised, visible, cloaked)",
+   "driver",
+   "scheduler (lease)",
+   "confirmation (timeout, trace)",
+   "frames (revisions before/after)",
+   "timeline",
+   "inputStatus"
+  ],
+  "windowsExampleInducedT5P": {
+   "format": "eightmax-unconfirmed-input",
+   "version": 1,
+   "seq": 1,
+   "at": "2026-11-24T02:26:09.479Z",
+   "table": 2,
+   "registrationId": "reg-mwu2p0jj-4",
+   "hwnd": "0x20232",
+   "identityFingerprint": "4d519b13",
+   "identity": {
+    "pid": 8900,
+    "processStart": "134399607563279286",
+    "className": "WindowsForms10.Window.8.app.0.34f5582_r6_ad1",
+    "exe": "EightMaxTestTable.exe",
+    "exeSha256Prefix": "3e5a76995a24d169"
+   },
+   "hand": 1,
+   "street": "preflop",
+   "seat": 5,
+   "action": {
+    "type": "call",
+    "amount": 100
+   },
+   "decisionSource": "scripted-fallback",
+   "decisionLabel": "SCRIPTED FALLBACK \u2014 not a solver decision",
+   "inputStatus": "rejected-no-change",
+   "status": "rejected",
+   "reason": "no change within 4000 ms; same actor still to act - the simulator did not apply the action; it is not repeated",
+   "code": null,
+   "control": "call",
+   "expectedRegion": {
+    "normalized": {
+     "x": 0.84,
+     "y": 0.93,
+     "w": 0.07,
+     "h": 0.05
+    },
+    "clickRect": {
+     "x": 1516,
+     "y": 516,
+     "w": 34,
+     "h": 15
+    }
+   },
+   "selectedPoint": {
+    "x": 1533,
+    "y": 523
+   },
+   "clickedAt": {
+    "x": 1533,
+    "y": 523
+   },
+   "hit": "0x30214",
+   "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+   "displayScaling": 1.25,
+   "clientAtReading": {
+    "x": 833,
+    "y": 46,
+    "w": 800,
+    "h": 500
+   },
+   "clientAfter": {
+    "x": 833,
+    "y": 46,
+    "w": 800,
+    "h": 500
+   },
+   "windowAfter": {
+    "exists": true,
+    "matches": true,
+    "foreground": false,
+    "minimized": false,
+    "visible": true,
+    "cloaked": false,
+    "enabled": true,
+    "client": {
+     "x": 833,
+     "y": 46,
+     "w": 800,
+     "h": 500
+    },
+    "dpiScale": 1.25,
+    "monitor": 0
+   },
+   "driver": {
+    "reported": "input completed (driver reply ok)",
+    "plannedMs": 1556.25,
+    "actualMs": 1582.27,
+    "steps": 98,
+    "finalError": 0,
+    "distance": 996,
+    "maxObservedLag": 0
+   },
+   "scheduler": {
+    "leaseId": 5,
+    "waitedMs": 132,
+    "runMs": 1892
+   },
+   "confirmation": {
+    "status": "rejected",
+    "reason": "no change within 4000 ms; same actor still to act",
+    "timeoutMs": 4000,
+    "pollMs": 60,
+    "polls": 36,
+    "failedCaptures": 0,
+    "failureCodes": {},
+    "newFrames": 0,
+    "unreadableNewFrames": 0,
+    "startRevision": 3,
+    "revisionsSeen": [
+     3
+    ],
+    "firstPollMs": 109,
+    "lastFrameId": 179,
+    "finalReading": {
+     "hand": 1,
+     "actor": 5,
+     "status": "playing",
+     "actions": 2,
+     "frameId": 180,
+     "revision": 3,
+     "freshLook": true
+    },
+    "durationMs": 4089
+   },
+   "frames": {
+    "before": {
+     "frameId": 130,
+     "revision": 3,
+     "ageAtSubmitMs": 12
+    },
+    "after": {
+     "lastFrameId": 179,
+     "revisionsSeen": [
+      3
+     ],
+     "finalReading": {
+      "hand": 1,
+      "actor": 5,
+      "status": "playing",
+      "actions": 2,
+      "frameId": 180,
+      "revision": 3,
+      "freshLook": true
+     }
+    }
+   },
+   "timeline": {
+    "readToSubmitMs": 12,
+    "queueWaitMs": 132,
+    "inputRunMs": 1892,
+    "confirmMs": 4089,
+    "totalMs": 6125
+   },
+   "lifecycleAfter": "ACTIVE",
+   "oracle": {
+    "table": 2,
+    "summary": {
+     "hands": 1,
+     "rev": 3,
+     "accepted": 2,
+     "counts": {
+      "mouseDown": 3,
+      "mouseUp": 3,
+      "downOutsideControls": 0,
+      "downOnDisabled": 0,
+      "doubleClicks": 0,
+      "rightClicks": 0,
+      "keys": 0,
+      "actions": 3,
+      "accepted": 2,
+      "staleClicks": 0,
+      "illegal": 0,
+      "wagerRejected": 0,
+      "byType": {
+       "fold": 1,
+       "call": 1
+      },
+      "timeoutActions": 0,
+      "droppedByTest": 1
+     },
+     "lastShown": {
+      "rev": 3,
+      "wt": 319093
+     },
+     "dropPending": 0,
+     "state": {
+      "hand": 1,
+      "status": "playing",
+      "actor": 5,
+      "revision": 3
+     }
+    },
+    "events": [
+     {
+      "t": 1795487163549,
+      "table": 2,
+      "kind": "test-control",
+      "control": "drop-next-action",
+      "count": 1
+     },
+     {
+      "t": 1795487165161,
+      "table": 2,
+      "kind": "mouse-down",
+      "x": 700,
+      "y": 477,
+      "control": "call",
+      "enabled": true,
+      "rev": 3,
+      "wt": 322859,
+      "dealerRev": 3
+     },
+     {
+      "t": 1795487165228,
+      "table": 2,
+      "kind": "mouse-up",
+      "x": 700,
+      "y": 477,
+      "control": "call",
+      "enabled": true,
+      "rev": 3,
+      "wt": 322937,
+      "dealerRev": 3
+     },
+     {
+      "t": 1795487165228,
+      "table": 2,
+      "kind": "action",
+      "control": "call",
+      "wager": "",
+      "rev": 3,
+      "wt": 322937,
+      "dealerRev": 3,
+      "result": "dropped-by-test"
+     }
+    ]
+   },
+   "scenarioMs": 13210,
+   "ciJob": "m32-results/45311974352-t5-2",
+   "ciJobDisplay": {
+    "resolution": [
+     1920,
+     1080
+    ],
+    "monitorDpi": 120,
+    "systemDpi": 96,
+    "scalePercentMeasured": 125,
+    "achieved": {
+     "resolution": true,
+     "scaling": true
+    },
+    "scaleResult": [
+     "source 0: set 125% (relative 1) returned 0; now 125% (recommended 100%)"
+    ]
+   }
+  }
+ },
+ "unconfirmedInputsInMilestone32WindowsCI": {
+  "notInducedAndNotCausedByTheClose": []
+ },
+ "deterministicTests": [
+  {
+   "name": "M3.2 D: an UNCONFIRMED (timed-out) input, then the window closes -> the uncertain input stays recorded for review and TARGET_LOST is reached",
+   "pass": true,
+   "durationMs": 1149
+  },
+  {
+   "name": "M3.2 N: a confirmation that arrives late, after the attempt was cancelled, causes no retry and no second action",
+   "pass": true,
+   "durationMs": 706
+  },
+  {
+   "name": "M3.2 O: a valid fresh action is confirmed: input status confirmed, timings recorded, no evidence record",
+   "pass": true,
+   "durationMs": 566
+  },
+  {
+   "name": "M3.2 P: a real \"simulator rejected the action\" outcome -> input-rejected safety pause, complete evidence, no retry, operator resume recovers",
+   "pass": true,
+   "durationMs": 1405
+  }
+ ]
+}

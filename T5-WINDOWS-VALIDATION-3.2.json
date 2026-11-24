@@ -1,0 +1,6757 @@
+{
+ "format": "eightmax-m32-t5-windows-validation",
+ "version": 1,
+ "release": {
+  "zip": "EightMax-Test-Workbench-0.36.2-Milestone-3.2.zip",
+  "sha256": "740e9c1fe853d8db0a57722cabbba78a66ad20525b63a7569fe51658cabeb54d"
+ },
+ "validationKinds": {
+  "developmentEnvironment": "Linux development machine: Node 22.23.5, no PowerShell, no Windows",
+  "simulated": "production controller / scheduler / executor / driver client against the in-process fake desktop host (tests/lifecycle-host-fixture.cjs) - logic evidence only, never Windows evidence",
+  "realWindowsCI": "GitHub-hosted windows-latest (Windows Server 2025 Datacenter, Windows PowerShell 5.1, real interactive desktop 1920x1080, AMD EPYC 2 cores / 4 threads, Defender real-time protection off): real windows, real capture, real mouse input",
+  "operatorHardware": "Windows 11 Home, i7-13700F, RTX 4060 Ti, 16 GB, 3840x2160 at 125 %: PENDING - Milestone 3.2 has not run there yet"
+ },
+ "standaloneTest": {
+  "launcher": "RUN-M3.2-T5-TEST.cmd",
+  "runner": "windows/Test-Milestone31.ps1 -Mode T5 -T5Repeat N",
+  "phases": [
+   "environment",
+   "integrity",
+   "dependencies",
+   "unit (Milestone 3.2 deterministic tests)",
+   "host-start (prebuilt host, input driver, authenticated shutdown, port release)",
+   "t5 (T5 + T5P per repetition, real windows)",
+   "cleanup (no leftover process, port 48713 released)"
+  ],
+  "assertions": [
+   "1 both tables start (REGISTERED -> ACTIVE)",
+   "2 both perform confirmed actions",
+   "P1-P5 (T5P only) table 2 safety-paused by an action its table did not apply, not repeated, still monitored, evidence recorded, condition shown",
+   "3 table 2 window closed",
+   "4 the original identity is no longer valid",
+   "5 table 2 TARGET_LOST (bounded wait)",
+   "6 scheduler blocks only table 2, its registration revoked; 6b a later job of that registration refused",
+   "7 no input after the loss",
+   "8a-c table 1 keeps playing, not invalidated, every action matches its dealer",
+   "9 cleanup: run loops ended, monitors stopped, no input job left",
+   "input confirmation (WARNING with evidence)"
+  ]
+ },
+ "operatorFailureReproduction": {
+  "tool": "tools/repro-paused-target-lost-0362m32.cjs (fake host, production code)",
+  "milestone31": {
+   "verdict": "DEFECT REPRODUCED: the paused table never noticed its window closed (lifecycle ACTIVE, scheduler unavailable [])",
+   "checks": [
+    {
+     "name": "table 2 TARGET_LOST after its window closed",
+     "pass": false,
+     "detail": "ACTIVE"
+    },
+    {
+     "name": "the scheduler blocks only table 2",
+     "pass": false,
+     "detail": []
+    },
+    {
+     "name": "no input to the closed window",
+     "pass": true,
+     "detail": 0
+    },
+    {
+     "name": "table 1 keeps playing (or finished its tournament)",
+     "pass": true,
+     "detail": {
+      "lifecycle": "ACTIVE",
+      "confirmedAfterClose": 136,
+      "completed": false
+     }
+    }
+   ],
+   "afterClose": {
+    "waitedMs": 15000,
+    "t2Lifecycle": "ACTIVE",
+    "t2Terminal": false,
+    "detectMs": null,
+    "t2LostReason": null,
+    "t2LostSource": null,
+    "schedulerUnavailableTables": [],
+    "schedulerInvalidations": [],
+    "requestsForTable2AfterClose": {
+     "captures": 0,
+     "identityProbes": 0
+    },
+    "inputsToTable2AfterClose": 0,
+    "table1": {
+     "lifecycle": "ACTIVE",
+     "confirmedAfterClose": 136,
+     "completed": false
+    }
+   }
+  },
+  "milestone32": {
+   "verdict": "REPAIRED: the paused table detected the closed window and its scheduler registration was invalidated",
+   "checks": [
+    {
+     "name": "table 2 TARGET_LOST after its window closed",
+     "pass": true,
+     "detail": "TARGET_LOST"
+    },
+    {
+     "name": "the scheduler blocks only table 2",
+     "pass": true,
+     "detail": [
+      2
+     ]
+    },
+    {
+     "name": "no input to the closed window",
+     "pass": true,
+     "detail": 0
+    },
+    {
+     "name": "table 1 keeps playing (or finished its tournament)",
+     "pass": true,
+     "detail": {
+      "lifecycle": "ACTIVE",
+      "confirmedAfterClose": 10,
+      "completed": false
+     }
+    }
+   ],
+   "afterClose": {
+    "waitedMs": 15000,
+    "t2Lifecycle": "TARGET_LOST",
+    "t2Terminal": true,
+    "detectMs": 1027,
+    "t2LostReason": "The window no longer exists (detected while gameplay was paused; driver: window-gone).",
+    "t2LostSource": "health-monitor",
+    "schedulerUnavailableTables": [
+     2
+    ],
+    "schedulerInvalidations": [
+     {
+      "ms": 4029,
+      "kind": "invalidated",
+      "table": 2,
+      "registrationId": "reg-mwu1qu75-2"
+     }
+    ],
+    "requestsForTable2AfterClose": {
+     "captures": 0,
+     "identityProbes": 1
+    },
+    "inputsToTable2AfterClose": 0,
+    "table1": {
+     "lifecycle": "ACTIVE",
+     "confirmedAfterClose": 10,
+     "completed": false
+    }
+   }
+  }
+ },
+ "finalRun": {
+  "runId": "45311974352",
+  "url": "https://github.com/derekwtgm/PTO/actions/runs/45311974352",
+  "jobs": [
+   {
+    "job": 1,
+    "branch": "m32-results/45311974352-t5-1",
+    "outcome": "success",
+    "scaleRequested": 100,
+    "display": {
+     "resolution": [
+      1920,
+      1080
+     ],
+     "monitorDpi": 96,
+     "systemDpi": 96,
+     "scalePercentMeasured": 100,
+     "achieved": {
+      "resolution": true,
+      "scaling": true
+     },
+     "scaleResult": []
+    },
+    "runner": {
+     "overall": "PASS",
+     "exitCode": 0,
+     "counts": {
+      "PASS": 78,
+      "FAIL": 0,
+      "WARNING": 0,
+      "SKIPPED": 0,
+      "total": 78
+     },
+     "elapsedSeconds": 156.4,
+     "phases": [
+      {
+       "name": "environment",
+       "status": "PASS",
+       "seconds": 3.8
+      },
+      {
+       "name": "integrity",
+       "status": "PASS",
+       "seconds": 2.4
+      },
+      {
+       "name": "dependencies",
+       "status": "PASS",
+       "seconds": 0.8
+      },
+      {
+       "name": "unit",
+       "status": "PASS",
+       "seconds": 54.6
+      },
+      {
+       "name": "host-start",
+       "status": "PASS",
+       "seconds": 4.5
+      },
+      {
+       "name": "t5",
+       "status": "PASS",
+       "seconds": 86.4
+      },
+      {
+       "name": "cleanup",
+       "status": "PASS",
+       "seconds": 2.3
+      }
+     ]
+    },
+    "unitDetail": "82 passed, 0 failed, 0 skipped",
+    "scenarios": [
+     {
+      "id": "T5",
+      "status": "pass",
+      "durationMs": 58861,
+      "checks": 14,
+      "failedChecks": [],
+      "warnings": [],
+      "lossDetectMs": 49,
+      "lossSource": "driver",
+      "stateBeforeLoss": "ACTIVE",
+      "gameplayHeldAtLoss": false,
+      "unavailableTables": [
+       2
+      ],
+      "inputsAfterLoss": 0,
+      "table1Continued": true,
+      "unconfirmedInputs": [],
+      "evidenceFiles": [],
+      "cleanupCheck": true
+     },
+     {
+      "id": "T5P",
+      "status": "pass",
+      "durationMs": 23478,
+      "checks": 18,
+      "failedChecks": [],
+      "warnings": [],
+      "lossDetectMs": 513,
+      "lossSource": "health-monitor",
+      "stateBeforeLoss": "SAFETY_PAUSED",
+      "gameplayHeldAtLoss": true,
+      "unavailableTables": [
+       2
+      ],
+      "inputsAfterLoss": 0,
+      "table1Continued": true,
+      "unconfirmedInputs": [
+       {
+        "ms": 13059,
+        "table": 2,
+        "inputStatus": "rejected-no-change",
+        "control": "call",
+        "cause": "induced by T5P (drop-next-action)",
+        "oracle": {
+         "summary": {
+          "hands": 1,
+          "rev": 3,
+          "accepted": 2,
+          "counts": {
+           "mouseDown": 3,
+           "mouseUp": 3,
+           "downOutsideControls": 0,
+           "downOnDisabled": 0,
+           "doubleClicks": 0,
+           "rightClicks": 0,
+           "keys": 0,
+           "actions": 3,
+           "accepted": 2,
+           "staleClicks": 0,
+           "illegal": 0,
+           "wagerRejected": 0,
+           "byType": {
+            "fold": 1,
+            "call": 1
+           },
+           "timeoutActions": 0,
+           "droppedByTest": 1
+          },
+          "lastShown": {
+           "rev": 3,
+           "wt": 971546
+          },
+          "dropPending": 0,
+          "state": {
+           "hand": 1,
+           "status": "playing",
+           "actor": 5,
+           "revision": 3
+          }
+         },
+         "events": 4
+        }
+       }
+      ],
+      "evidenceFiles": [
+       "unconfirmed-T5P-table2-1.json",
+       "unconfirmed-T5P-table2-1-before.png",
+       "unconfirmed-T5P-table2-1-after.png"
+      ],
+      "cleanupCheck": true
+     }
+    ],
+    "toolCleanup": true
+   },
+   {
+    "job": 2,
+    "branch": "m32-results/45311974352-t5-2",
+    "outcome": "success",
+    "scaleRequested": 125,
+    "display": {
+     "resolution": [
+      1920,
+      1080
+     ],
+     "monitorDpi": 120,
+     "systemDpi": 96,
+     "scalePercentMeasured": 125,
+     "achieved": {
+      "resolution": true,
+      "scaling": true
+     },
+     "scaleResult": [
+      "source 0: set 125% (relative 1) returned 0; now 125% (recommended 100%)"
+     ]
+    },
+    "runner": {
+     "overall": "PASS",
+     "exitCode": 0,
+     "counts": {
+      "PASS": 78,
+      "FAIL": 0,
+      "WARNING": 0,
+      "SKIPPED": 0,
+      "total": 78
+     },
+     "elapsedSeconds": 158.6,
+     "phases": [
+      {
+       "name": "environment",
+       "status": "PASS",
+       "seconds": 4
+      },
+      {
+       "name": "integrity",
+       "status": "PASS",
+       "seconds": 2.5
+      },
+      {
+       "name": "dependencies",
+       "status": "PASS",
+       "seconds": 0.9
+      },
+      {
+       "name": "unit",
+       "status": "PASS",
+       "seconds": 55.4
+      },
+      {
+       "name": "host-start",
+       "status": "PASS",
+       "seconds": 4.7
+      },
+      {
+       "name": "t5",
+       "status": "PASS",
+       "seconds": 87.1
+      },
+      {
+       "name": "cleanup",
+       "status": "PASS",
+       "seconds": 2.4
+      }
+     ]
+    },
+    "unitDetail": "82 passed, 0 failed, 0 skipped",
+    "scenarios": [
+     {
+      "id": "T5",
+      "status": "pass",
+      "durationMs": 59616,
+      "checks": 14,
+      "failedChecks": [],
+      "warnings": [],
+      "lossDetectMs": 89,
+      "lossSource": "driver",
+      "stateBeforeLoss": "ACTIVE",
+      "gameplayHeldAtLoss": false,
+      "unavailableTables": [
+       2
+      ],
+      "inputsAfterLoss": 0,
+      "table1Continued": true,
+      "unconfirmedInputs": [],
+      "evidenceFiles": [],
+      "cleanupCheck": true
+     },
+     {
+      "id": "T5P",
+      "status": "pass",
+      "durationMs": 23736,
+      "checks": 18,
+      "failedChecks": [],
+      "warnings": [],
+      "lossDetectMs": 540,
+      "lossSource": "health-monitor",
+      "stateBeforeLoss": "SAFETY_PAUSED",
+      "gameplayHeldAtLoss": true,
+      "unavailableTables": [
+       2
+      ],
+      "inputsAfterLoss": 0,
+      "table1Continued": true,
+      "unconfirmedInputs": [
+       {
+        "ms": 13210,
+        "table": 2,
+        "inputStatus": "rejected-no-change",
+        "control": "call",
+        "cause": "induced by T5P (drop-next-action)",
+        "oracle": {
+         "summary": {
+          "hands": 1,
+          "rev": 3,
+          "accepted": 2,
+          "counts": {
+           "mouseDown": 3,
+           "mouseUp": 3,
+           "downOutsideControls": 0,
+           "downOnDisabled": 0,
+           "doubleClicks": 0,
+           "rightClicks": 0,
+           "keys": 0,
+           "actions": 3,
+           "accepted": 2,
+           "staleClicks": 0,
+           "illegal": 0,
+           "wagerRejected": 0,
+           "byType": {
+            "fold": 1,
+            "call": 1
+           },
+           "timeoutActions": 0,
+           "droppedByTest": 1
+          },
+          "lastShown": {
+           "rev": 3,
+           "wt": 319093
+          },
+          "dropPending": 0,
+          "state": {
+           "hand": 1,
+           "status": "playing",
+           "actor": 5,
+           "revision": 3
+          }
+         },
+         "events": 4
+        }
+       }
+      ],
+      "evidenceFiles": [
+       "unconfirmed-T5P-table2-1.json",
+       "unconfirmed-T5P-table2-1-before.png",
+       "unconfirmed-T5P-table2-1-after.png"
+      ],
+      "cleanupCheck": true
+     }
+    ],
+    "toolCleanup": true
+   },
+   {
+    "job": 3,
+    "branch": "m32-results/45311974352-t5-3",
+    "outcome": "success",
+    "scaleRequested": 100,
+    "display": {
+     "resolution": [
+      1920,
+      1080
+     ],
+     "monitorDpi": 96,
+     "systemDpi": 96,
+     "scalePercentMeasured": 100,
+     "achieved": {
+      "resolution": true,
+      "scaling": true
+     },
+     "scaleResult": []
+    },
+    "runner": {
+     "overall": "PASS",
+     "exitCode": 0,
+     "counts": {
+      "PASS": 78,
+      "FAIL": 0,
+      "WARNING": 0,
+      "SKIPPED": 0,
+      "total": 78
+     },
+     "elapsedSeconds": 201.5,
+     "phases": [
+      {
+       "name": "environment",
+       "status": "PASS",
+       "seconds": 5.5
+      },
+      {
+       "name": "integrity",
+       "status": "PASS",
+       "seconds": 5.7
+      },
+      {
+       "name": "dependencies",
+       "status": "PASS",
+       "seconds": 1.4
+      },
+      {
+       "name": "unit",
+       "status": "PASS",
+       "seconds": 80
+      },
+      {
+       "name": "host-start",
+       "status": "PASS",
+       "seconds": 8.8
+      },
+      {
+       "name": "t5",
+       "status": "PASS",
+       "seconds": 94.8
+      },
+      {
+       "name": "cleanup",
+       "status": "PASS",
+       "seconds": 2.6
+      }
+     ]
+    },
+    "unitDetail": "82 passed, 0 failed, 0 skipped",
+    "scenarios": [
+     {
+      "id": "T5",
+      "status": "pass",
+      "durationMs": 62117,
+      "checks": 14,
+      "failedChecks": [],
+      "warnings": [],
+      "lossDetectMs": 82,
+      "lossSource": "driver",
+      "stateBeforeLoss": "ACTIVE",
+      "gameplayHeldAtLoss": false,
+      "unavailableTables": [
+       2
+      ],
+      "inputsAfterLoss": 0,
+      "table1Continued": true,
+      "unconfirmedInputs": [],
+      "evidenceFiles": [],
+      "cleanupCheck": true
+     },
+     {
+      "id": "T5P",
+      "status": "pass",
+      "durationMs": 26444,
+      "checks": 18,
+      "failedChecks": [],
+      "warnings": [],
+      "lossDetectMs": 725,
+      "lossSource": "health-monitor",
+      "stateBeforeLoss": "SAFETY_PAUSED",
+      "gameplayHeldAtLoss": true,
+      "unavailableTables": [
+       2
+      ],
+      "inputsAfterLoss": 0,
+      "table1Continued": true,
+      "unconfirmedInputs": [
+       {
+        "ms": 14846,
+        "table": 2,
+        "inputStatus": "rejected-no-change",
+        "control": "call",
+        "cause": "induced by T5P (drop-next-action)",
+        "oracle": {
+         "summary": {
+          "hands": 1,
+          "rev": 3,
+          "accepted": 2,
+          "counts": {
+           "mouseDown": 3,
+           "mouseUp": 3,
+           "downOutsideControls": 0,
+           "downOnDisabled": 0,
+           "doubleClicks": 0,
+           "rightClicks": 0,
+           "keys": 0,
+           "actions": 3,
+           "accepted": 2,
+           "staleClicks": 0,
+           "illegal": 0,
+           "wagerRejected": 0,
+           "byType": {
+            "fold": 1,
+            "call": 1
+           },
+           "timeoutActions": 0,
+           "droppedByTest": 1
+          },
+          "lastShown": {
+           "rev": 3,
+           "wt": 297203
+          },
+          "dropPending": 0,
+          "state": {
+           "hand": 1,
+           "status": "playing",
+           "actor": 5,
+           "revision": 3
+          }
+         },
+         "events": 3
+        }
+       }
+      ],
+      "evidenceFiles": [
+       "unconfirmed-T5P-table2-1.json",
+       "unconfirmed-T5P-table2-1-before.png",
+       "unconfirmed-T5P-table2-1-after.png"
+      ],
+      "cleanupCheck": true
+     }
+    ],
+    "toolCleanup": true
+   },
+   {
+    "job": 4,
+    "branch": "m32-results/45311974352-t5-4",
+    "outcome": "success",
+    "scaleRequested": 125,
+    "display": {
+     "resolution": [
+      1920,
+      1080
+     ],
+     "monitorDpi": 120,
+     "systemDpi": 96,
+     "scalePercentMeasured": 125,
+     "achieved": {
+      "resolution": true,
+      "scaling": true
+     },
+     "scaleResult": [
+      "source 0: set 125% (relative 1) returned 0; now 125% (recommended 100%)"
+     ]
+    },
+    "runner": {
+     "overall": "PASS",
+     "exitCode": 0,
+     "counts": {
+      "PASS": 78,
+      "FAIL": 0,
+      "WARNING": 0,
+      "SKIPPED": 0,
+      "total": 78
+     },
+     "elapsedSeconds": 157.2,
+     "phases": [
+      {
+       "name": "environment",
+       "status": "PASS",
+       "seconds": 3.8
+      },
+      {
+       "name": "integrity",
+       "status": "PASS",
+       "seconds": 2.4
+      },
+      {
+       "name": "dependencies",
+       "status": "PASS",
+       "seconds": 0.8
+      },
+      {
+       "name": "unit",
+       "status": "PASS",
+       "seconds": 55.2
+      },
+      {
+       "name": "host-start",
+       "status": "PASS",
+       "seconds": 4.6
+      },
+      {
+       "name": "t5",
+       "status": "PASS",
+       "seconds": 86.5
+      },
+      {
+       "name": "cleanup",
+       "status": "PASS",
+       "seconds": 2.3
+      }
+     ]
+    },
+    "unitDetail": "82 passed, 0 failed, 0 skipped",
+    "scenarios": [
+     {
+      "id": "T5",
+      "status": "pass",
+      "durationMs": 59339,
+      "checks": 14,
+      "failedChecks": [],
+      "warnings": [],
+      "lossDetectMs": 69,
+      "lossSource": "driver",
+      "stateBeforeLoss": "ACTIVE",
+      "gameplayHeldAtLoss": false,
+      "unavailableTables": [
+       2
+      ],
+      "inputsAfterLoss": 0,
+      "table1Continued": true,
+      "unconfirmedInputs": [],
+      "evidenceFiles": [],
+      "cleanupCheck": true
+     },
+     {
+      "id": "T5P",
+      "status": "pass",
+      "durationMs": 23554,
+      "checks": 18,
+      "failedChecks": [],
+      "warnings": [],
+      "lossDetectMs": 525,
+      "lossSource": "health-monitor",
+      "stateBeforeLoss": "SAFETY_PAUSED",
+      "gameplayHeldAtLoss": true,
+      "unavailableTables": [
+       2
+      ],
+      "inputsAfterLoss": 0,
+      "table1Continued": true,
+      "unconfirmedInputs": [
+       {
+        "ms": 13185,
+        "table": 2,
+        "inputStatus": "rejected-no-change",
+        "control": "call",
+        "cause": "induced by T5P (drop-next-action)",
+        "oracle": {
+         "summary": {
+          "hands": 1,
+          "rev": 3,
+          "accepted": 2,
+          "counts": {
+           "mouseDown": 3,
+           "mouseUp": 3,
+           "downOutsideControls": 0,
+           "downOnDisabled": 0,
+           "doubleClicks": 0,
+           "rightClicks": 0,
+           "keys": 0,
+           "actions": 3,
+           "accepted": 2,
+           "staleClicks": 0,
+           "illegal": 0,
+           "wagerRejected": 0,
+           "byType": {
+            "fold": 1,
+            "call": 1
+           },
+           "timeoutActions": 0,
+           "droppedByTest": 1
+          },
+          "lastShown": {
+           "rev": 3,
+           "wt": 304109
+          },
+          "dropPending": 0,
+          "state": {
+           "hand": 1,
+           "status": "playing",
+           "actor": 5,
+           "revision": 3
+          }
+         },
+         "events": 4
+        }
+       }
+      ],
+      "evidenceFiles": [
+       "unconfirmed-T5P-table2-1.json",
+       "unconfirmed-T5P-table2-1-before.png",
+       "unconfirmed-T5P-table2-1-after.png"
+      ],
+      "cleanupCheck": true
+     }
+    ],
+    "toolCleanup": true
+   },
+   {
+    "job": 5,
+    "branch": "m32-results/45311974352-t5-5",
+    "outcome": "success",
+    "scaleRequested": 100,
+    "display": {
+     "resolution": [
+      1920,
+      1080
+     ],
+     "monitorDpi": 96,
+     "systemDpi": 96,
+     "scalePercentMeasured": 100,
+     "achieved": {
+      "resolution": true,
+      "scaling": true
+     },
+     "scaleResult": []
+    },
+    "runner": {
+     "overall": "PASS",
+     "exitCode": 0,
+     "counts": {
+      "PASS": 78,
+      "FAIL": 0,
+      "WARNING": 0,
+      "SKIPPED": 0,
+      "total": 78
+     },
+     "elapsedSeconds": 177,
+     "phases": [
+      {
+       "name": "environment",
+       "status": "PASS",
+       "seconds": 4.6
+      },
+      {
+       "name": "integrity",
+       "status": "PASS",
+       "seconds": 3.4
+      },
+      {
+       "name": "dependencies",
+       "status": "PASS",
+       "seconds": 1.1
+      },
+      {
+       "name": "unit",
+       "status": "PASS",
+       "seconds": 67.1
+      },
+      {
+       "name": "host-start",
+       "status": "PASS",
+       "seconds": 6
+      },
+      {
+       "name": "t5",
+       "status": "PASS",
+       "seconds": 90.3
+      },
+      {
+       "name": "cleanup",
+       "status": "PASS",
+       "seconds": 2.5
+      }
+     ]
+    },
+    "unitDetail": "82 passed, 0 failed, 0 skipped",
+    "scenarios": [
+     {
+      "id": "T5",
+      "status": "pass",
+      "durationMs": 59858,
+      "checks": 14,
+      "failedChecks": [],
+      "warnings": [],
+      "lossDetectMs": 2089,
+      "lossSource": "confirmation",
+      "stateBeforeLoss": "ACTIVE",
+      "gameplayHeldAtLoss": false,
+      "unavailableTables": [
+       2
+      ],
+      "inputsAfterLoss": 0,
+      "table1Continued": true,
+      "unconfirmedInputs": [
+       {
+        "ms": 54674,
+        "table": 2,
+        "inputStatus": "uncertain",
+        "control": "fold",
+        "cause": "the window was closed by the test",
+        "oracle": {
+         "summary": {
+          "hands": 1,
+          "rev": 15,
+          "accepted": 14,
+          "counts": {
+           "mouseDown": 16,
+           "mouseUp": 16,
+           "downOutsideControls": 0,
+           "downOnDisabled": 0,
+           "doubleClicks": 0,
+           "rightClicks": 0,
+           "keys": 6,
+           "actions": 14,
+           "accepted": 14,
+           "staleClicks": 0,
+           "illegal": 0,
+           "wagerRejected": 0,
+           "byType": {
+            "fold": 6,
+            "call": 6,
+            "raise": 2
+           },
+           "timeoutActions": 0,
+           "droppedByTest": 0
+          },
+          "lastShown": {
+           "rev": 15,
+           "wt": 285453
+          },
+          "dropPending": 0,
+          "state": {
+           "hand": 1,
+           "status": "complete",
+           "actor": -1,
+           "revision": 19
+          }
+         },
+         "events": 12
+        }
+       }
+      ],
+      "evidenceFiles": [
+       "unconfirmed-T5-table2-1.json",
+       "unconfirmed-T5-table2-1-before.png",
+       "unconfirmed-T5-table2-1-after.png"
+      ],
+      "cleanupCheck": true
+     },
+     {
+      "id": "T5P",
+      "status": "pass",
+      "durationMs": 25720,
+      "checks": 18,
+      "failedChecks": [],
+      "warnings": [],
+      "lossDetectMs": 196,
+      "lossSource": "health-monitor",
+      "stateBeforeLoss": "SAFETY_PAUSED",
+      "gameplayHeldAtLoss": true,
+      "unavailableTables": [
+       2
+      ],
+      "inputsAfterLoss": 0,
+      "table1Continued": true,
+      "unconfirmedInputs": [
+       {
+        "ms": 14419,
+        "table": 2,
+        "inputStatus": "rejected-no-change",
+        "control": "call",
+        "cause": "induced by T5P (drop-next-action)",
+        "oracle": {
+         "summary": {
+          "hands": 1,
+          "rev": 3,
+          "accepted": 2,
+          "counts": {
+           "mouseDown": 3,
+           "mouseUp": 3,
+           "downOutsideControls": 0,
+           "downOnDisabled": 0,
+           "doubleClicks": 0,
+           "rightClicks": 0,
+           "keys": 0,
+           "actions": 3,
+           "accepted": 2,
+           "staleClicks": 0,
+           "illegal": 0,
+           "wagerRejected": 0,
+           "byType": {
+            "fold": 1,
+            "call": 1
+           },
+           "timeoutActions": 0,
+           "droppedByTest": 1
+          },
+          "lastShown": {
+           "rev": 3,
+           "wt": 298937
+          },
+          "dropPending": 0,
+          "state": {
+           "hand": 1,
+           "status": "playing",
+           "actor": 5,
+           "revision": 3
+          }
+         },
+         "events": 4
+        }
+       }
+      ],
+      "evidenceFiles": [
+       "unconfirmed-T5P-table2-1.json",
+       "unconfirmed-T5P-table2-1-before.png",
+       "unconfirmed-T5P-table2-1-after.png"
+      ],
+      "cleanupCheck": true
+     }
+    ],
+    "toolCleanup": true
+   },
+   {
+    "job": 6,
+    "branch": "m32-results/45311974352-t5-6",
+    "outcome": "success",
+    "scaleRequested": 125,
+    "display": {
+     "resolution": [
+      1920,
+      1080
+     ],
+     "monitorDpi": 120,
+     "systemDpi": 96,
+     "scalePercentMeasured": 125,
+     "achieved": {
+      "resolution": true,
+      "scaling": true
+     },
+     "scaleResult": [
+      "source 0: set 125% (relative 1) returned 0; now 125% (recommended 100%)"
+     ]
+    },
+    "runner": {
+     "overall": "PASS",
+     "exitCode": 0,
+     "counts": {
+      "PASS": 78,
+      "FAIL": 0,
+      "WARNING": 0,
+      "SKIPPED": 0,
+      "total": 78
+     },
+     "elapsedSeconds": 195,
+     "phases": [
+      {
+       "name": "environment",
+       "status": "PASS",
+       "seconds": 5.7
+      },
+      {
+       "name": "integrity",
+       "status": "PASS",
+       "seconds": 4.4
+      },
+      {
+       "name": "dependencies",
+       "status": "PASS",
+       "seconds": 1.7
+      },
+      {
+       "name": "unit",
+       "status": "PASS",
+       "seconds": 76.1
+      },
+      {
+       "name": "host-start",
+       "status": "PASS",
+       "seconds": 7.8
+      },
+      {
+       "name": "t5",
+       "status": "PASS",
+       "seconds": 93.8
+      },
+      {
+       "name": "cleanup",
+       "status": "PASS",
+       "seconds": 2.6
+      }
+     ]
+    },
+    "unitDetail": "82 passed, 0 failed, 0 skipped",
+    "scenarios": [
+     {
+      "id": "T5",
+      "status": "pass",
+      "durationMs": 61302,
+      "checks": 14,
+      "failedChecks": [],
+      "warnings": [],
+      "lossDetectMs": 2084,
+      "lossSource": "confirmation",
+      "stateBeforeLoss": "ACTIVE",
+      "gameplayHeldAtLoss": false,
+      "unavailableTables": [
+       2
+      ],
+      "inputsAfterLoss": 0,
+      "table1Continued": true,
+      "unconfirmedInputs": [
+       {
+        "ms": 55812,
+        "table": 2,
+        "inputStatus": "uncertain",
+        "control": "fold",
+        "cause": "the window was closed by the test",
+        "oracle": {
+         "summary": {
+          "hands": 1,
+          "rev": 15,
+          "accepted": 14,
+          "counts": {
+           "mouseDown": 16,
+           "mouseUp": 16,
+           "downOutsideControls": 0,
+           "downOnDisabled": 0,
+           "doubleClicks": 0,
+           "rightClicks": 0,
+           "keys": 6,
+           "actions": 14,
+           "accepted": 14,
+           "staleClicks": 0,
+           "illegal": 0,
+           "wagerRejected": 0,
+           "byType": {
+            "fold": 6,
+            "call": 6,
+            "raise": 2
+           },
+           "timeoutActions": 0,
+           "droppedByTest": 0
+          },
+          "lastShown": {
+           "rev": 15,
+           "wt": 289031
+          },
+          "dropPending": 0,
+          "state": {
+           "hand": 1,
+           "status": "complete",
+           "actor": -1,
+           "revision": 19
+          }
+         },
+         "events": 12
+        }
+       }
+      ],
+      "evidenceFiles": [
+       "unconfirmed-T5-table2-1.json",
+       "unconfirmed-T5-table2-1-before.png",
+       "unconfirmed-T5-table2-1-after.png"
+      ],
+      "cleanupCheck": true
+     },
+     {
+      "id": "T5P",
+      "status": "pass",
+      "durationMs": 26122,
+      "checks": 18,
+      "failedChecks": [],
+      "warnings": [],
+      "lossDetectMs": 853,
+      "lossSource": "health-monitor",
+      "stateBeforeLoss": "SAFETY_PAUSED",
+      "gameplayHeldAtLoss": true,
+      "unavailableTables": [
+       2
+      ],
+      "inputsAfterLoss": 0,
+      "table1Continued": true,
+      "unconfirmedInputs": [
+       {
+        "ms": 14691,
+        "table": 2,
+        "inputStatus": "rejected-no-change",
+        "control": "call",
+        "cause": "induced by T5P (drop-next-action)",
+        "oracle": {
+         "summary": {
+          "hands": 1,
+          "rev": 3,
+          "accepted": 2,
+          "counts": {
+           "mouseDown": 3,
+           "mouseUp": 3,
+           "downOutsideControls": 0,
+           "downOnDisabled": 0,
+           "doubleClicks": 0,
+           "rightClicks": 0,
+           "keys": 0,
+           "actions": 3,
+           "accepted": 2,
+           "staleClicks": 0,
+           "illegal": 0,
+           "wagerRejected": 0,
+           "byType": {
+            "fold": 1,
+            "call": 1
+           },
+           "timeoutActions": 0,
+           "droppedByTest": 1
+          },
+          "lastShown": {
+           "rev": 3,
+           "wt": 302984
+          },
+          "dropPending": 0,
+          "state": {
+           "hand": 1,
+           "status": "playing",
+           "actor": 5,
+           "revision": 3
+          }
+         },
+         "events": 3
+        }
+       }
+      ],
+      "evidenceFiles": [
+       "unconfirmed-T5P-table2-1.json",
+       "unconfirmed-T5P-table2-1-before.png",
+       "unconfirmed-T5P-table2-1-after.png"
+      ],
+      "cleanupCheck": true
+     }
+    ],
+    "toolCleanup": true
+   },
+   {
+    "job": 7,
+    "branch": "m32-results/45311974352-t5-7",
+    "outcome": "success",
+    "scaleRequested": 100,
+    "display": {
+     "resolution": [
+      1920,
+      1080
+     ],
+     "monitorDpi": 96,
+     "systemDpi": 96,
+     "scalePercentMeasured": 100,
+     "achieved": {
+      "resolution": true,
+      "scaling": true
+     },
+     "scaleResult": []
+    },
+    "runner": {
+     "overall": "PASS",
+     "exitCode": 0,
+     "counts": {
+      "PASS": 78,
+      "FAIL": 0,
+      "WARNING": 0,
+      "SKIPPED": 0,
+      "total": 78
+     },
+     "elapsedSeconds": 177.2,
+     "phases": [
+      {
+       "name": "environment",
+       "status": "PASS",
+       "seconds": 4.7
+      },
+      {
+       "name": "integrity",
+       "status": "PASS",
+       "seconds": 3.4
+      },
+      {
+       "name": "dependencies",
+       "status": "PASS",
+       "seconds": 1.1
+      },
+      {
+       "name": "unit",
+       "status": "PASS",
+       "seconds": 67.1
+      },
+      {
+       "name": "host-start",
+       "status": "PASS",
+       "seconds": 6.1
+      },
+      {
+       "name": "t5",
+       "status": "PASS",
+       "seconds": 90.4
+      },
+      {
+       "name": "cleanup",
+       "status": "PASS",
+       "seconds": 2.5
+      }
+     ]
+    },
+    "unitDetail": "82 passed, 0 failed, 0 skipped",
+    "scenarios": [
+     {
+      "id": "T5",
+      "status": "pass",
+      "durationMs": 60010,
+      "checks": 14,
+      "failedChecks": [],
+      "warnings": [],
+      "lossDetectMs": 84,
+      "lossSource": "driver",
+      "stateBeforeLoss": "ACTIVE",
+      "gameplayHeldAtLoss": false,
+      "unavailableTables": [
+       2
+      ],
+      "inputsAfterLoss": 0,
+      "table1Continued": true,
+      "unconfirmedInputs": [],
+      "evidenceFiles": [],
+      "cleanupCheck": true
+     },
+     {
+      "id": "T5P",
+      "status": "pass",
+      "durationMs": 25628,
+      "checks": 18,
+      "failedChecks": [],
+      "warnings": [],
+      "lossDetectMs": 190,
+      "lossSource": "health-monitor",
+      "stateBeforeLoss": "SAFETY_PAUSED",
+      "gameplayHeldAtLoss": true,
+      "unavailableTables": [
+       2
+      ],
+      "inputsAfterLoss": 0,
+      "table1Continued": true,
+      "unconfirmedInputs": [
+       {
+        "ms": 14340,
+        "table": 2,
+        "inputStatus": "rejected-no-change",
+        "control": "call",
+        "cause": "induced by T5P (drop-next-action)",
+        "oracle": {
+         "summary": {
+          "hands": 1,
+          "rev": 3,
+          "accepted": 2,
+          "counts": {
+           "mouseDown": 3,
+           "mouseUp": 3,
+           "downOutsideControls": 0,
+           "downOnDisabled": 0,
+           "doubleClicks": 0,
+           "rightClicks": 0,
+           "keys": 0,
+           "actions": 3,
+           "accepted": 2,
+           "staleClicks": 0,
+           "illegal": 0,
+           "wagerRejected": 0,
+           "byType": {
+            "fold": 1,
+            "call": 1
+           },
+           "timeoutActions": 0,
+           "droppedByTest": 1
+          },
+          "lastShown": {
+           "rev": 3,
+           "wt": 307109
+          },
+          "dropPending": 0,
+          "state": {
+           "hand": 1,
+           "status": "playing",
+           "actor": 5,
+           "revision": 3
+          }
+         },
+         "events": 4
+        }
+       }
+      ],
+      "evidenceFiles": [
+       "unconfirmed-T5P-table2-1.json",
+       "unconfirmed-T5P-table2-1-before.png",
+       "unconfirmed-T5P-table2-1-after.png"
+      ],
+      "cleanupCheck": true
+     }
+    ],
+    "toolCleanup": true
+   },
+   {
+    "job": 8,
+    "branch": "m32-results/45311974352-t5-8",
+    "outcome": "success",
+    "scaleRequested": 125,
+    "display": {
+     "resolution": [
+      1920,
+      1080
+     ],
+     "monitorDpi": 120,
+     "systemDpi": 96,
+     "scalePercentMeasured": 125,
+     "achieved": {
+      "resolution": true,
+      "scaling": true
+     },
+     "scaleResult": [
+      "source 0: set 125% (relative 1) returned 0; now 125% (recommended 100%)"
+     ]
+    },
+    "runner": {
+     "overall": "PASS",
+     "exitCode": 0,
+     "counts": {
+      "PASS": 78,
+      "FAIL": 0,
+      "WARNING": 0,
+      "SKIPPED": 0,
+      "total": 78
+     },
+     "elapsedSeconds": 175.7,
+     "phases": [
+      {
+       "name": "environment",
+       "status": "PASS",
+       "seconds": 4.7
+      },
+      {
+       "name": "integrity",
+       "status": "PASS",
+       "seconds": 3.5
+      },
+      {
+       "name": "dependencies",
+       "status": "PASS",
+       "seconds": 1.1
+      },
+      {
+       "name": "unit",
+       "status": "PASS",
+       "seconds": 67.1
+      },
+      {
+       "name": "host-start",
+       "status": "PASS",
+       "seconds": 6.2
+      },
+      {
+       "name": "t5",
+       "status": "PASS",
+       "seconds": 88.5
+      },
+      {
+       "name": "cleanup",
+       "status": "PASS",
+       "seconds": 2.5
+      }
+     ]
+    },
+    "unitDetail": "82 passed, 0 failed, 0 skipped",
+    "scenarios": [
+     {
+      "id": "T5",
+      "status": "pass",
+      "durationMs": 59776,
+      "checks": 14,
+      "failedChecks": [],
+      "warnings": [],
+      "lossDetectMs": 2115,
+      "lossSource": "confirmation",
+      "stateBeforeLoss": "ACTIVE",
+      "gameplayHeldAtLoss": false,
+      "unavailableTables": [
+       2
+      ],
+      "inputsAfterLoss": 0,
+      "table1Continued": true,
+      "unconfirmedInputs": [
+       {
+        "ms": 54589,
+        "table": 2,
+        "inputStatus": "uncertain",
+        "control": "fold",
+        "cause": "the window was closed by the test",
+        "oracle": {
+         "summary": {
+          "hands": 1,
+          "rev": 15,
+          "accepted": 14,
+          "counts": {
+           "mouseDown": 16,
+           "mouseUp": 16,
+           "downOutsideControls": 0,
+           "downOnDisabled": 0,
+           "doubleClicks": 0,
+           "rightClicks": 0,
+           "keys": 6,
+           "actions": 14,
+           "accepted": 14,
+           "staleClicks": 0,
+           "illegal": 0,
+           "wagerRejected": 0,
+           "byType": {
+            "fold": 6,
+            "call": 6,
+            "raise": 2
+           },
+           "timeoutActions": 0,
+           "droppedByTest": 0
+          },
+          "lastShown": {
+           "rev": 15,
+           "wt": 465984
+          },
+          "dropPending": 0,
+          "state": {
+           "hand": 1,
+           "status": "complete",
+           "actor": -1,
+           "revision": 19
+          }
+         },
+         "events": 12
+        }
+       }
+      ],
+      "evidenceFiles": [
+       "unconfirmed-T5-table2-1.json",
+       "unconfirmed-T5-table2-1-before.png",
+       "unconfirmed-T5-table2-1-after.png"
+      ],
+      "cleanupCheck": true
+     },
+     {
+      "id": "T5P",
+      "status": "pass",
+      "durationMs": 23888,
+      "checks": 18,
+      "failedChecks": [],
+      "warnings": [],
+      "lossDetectMs": 639,
+      "lossSource": "health-monitor",
+      "stateBeforeLoss": "SAFETY_PAUSED",
+      "gameplayHeldAtLoss": true,
+      "unavailableTables": [
+       2
+      ],
+      "inputsAfterLoss": 0,
+      "table1Continued": true,
+      "unconfirmedInputs": [
+       {
+        "ms": 13284,
+        "table": 2,
+        "inputStatus": "rejected-no-change",
+        "control": "call",
+        "cause": "induced by T5P (drop-next-action)",
+        "oracle": {
+         "summary": {
+          "hands": 1,
+          "rev": 3,
+          "accepted": 2,
+          "counts": {
+           "mouseDown": 3,
+           "mouseUp": 3,
+           "downOutsideControls": 0,
+           "downOnDisabled": 0,
+           "doubleClicks": 0,
+           "rightClicks": 0,
+           "keys": 0,
+           "actions": 3,
+           "accepted": 2,
+           "staleClicks": 0,
+           "illegal": 0,
+           "wagerRejected": 0,
+           "byType": {
+            "fold": 1,
+            "call": 1
+           },
+           "timeoutActions": 0,
+           "droppedByTest": 1
+          },
+          "lastShown": {
+           "rev": 3,
+           "wt": 478515
+          },
+          "dropPending": 0,
+          "state": {
+           "hand": 1,
+           "status": "playing",
+           "actor": 5,
+           "revision": 3
+          }
+         },
+         "events": 4
+        }
+       }
+      ],
+      "evidenceFiles": [
+       "unconfirmed-T5P-table2-1.json",
+       "unconfirmed-T5P-table2-1-before.png",
+       "unconfirmed-T5P-table2-1-after.png"
+      ],
+      "cleanupCheck": true
+     }
+    ],
+    "toolCleanup": true
+   },
+   {
+    "job": 9,
+    "branch": "m32-results/45311974352-t5-9",
+    "outcome": "success",
+    "scaleRequested": 100,
+    "display": {
+     "resolution": [
+      1920,
+      1080
+     ],
+     "monitorDpi": 96,
+     "systemDpi": 96,
+     "scalePercentMeasured": 100,
+     "achieved": {
+      "resolution": true,
+      "scaling": true
+     },
+     "scaleResult": []
+    },
+    "runner": {
+     "overall": "PASS",
+     "exitCode": 0,
+     "counts": {
+      "PASS": 78,
+      "FAIL": 0,
+      "WARNING": 0,
+      "SKIPPED": 0,
+      "total": 78
+     },
+     "elapsedSeconds": 161,
+     "phases": [
+      {
+       "name": "environment",
+       "status": "PASS",
+       "seconds": 3.9
+      },
+      {
+       "name": "integrity",
+       "status": "PASS",
+       "seconds": 2.5
+      },
+      {
+       "name": "dependencies",
+       "status": "PASS",
+       "seconds": 0.9
+      },
+      {
+       "name": "unit",
+       "status": "PASS",
+       "seconds": 57.1
+      },
+      {
+       "name": "host-start",
+       "status": "PASS",
+       "seconds": 4.7
+      },
+      {
+       "name": "t5",
+       "status": "PASS",
+       "seconds": 88
+      },
+      {
+       "name": "cleanup",
+       "status": "PASS",
+       "seconds": 2.4
+      }
+     ]
+    },
+    "unitDetail": "82 passed, 0 failed, 0 skipped",
+    "scenarios": [
+     {
+      "id": "T5",
+      "status": "pass",
+      "durationMs": 58850,
+      "checks": 14,
+      "failedChecks": [],
+      "warnings": [],
+      "lossDetectMs": 2105,
+      "lossSource": "confirmation",
+      "stateBeforeLoss": "ACTIVE",
+      "gameplayHeldAtLoss": false,
+      "unavailableTables": [
+       2
+      ],
+      "inputsAfterLoss": 0,
+      "table1Continued": true,
+      "unconfirmedInputs": [
+       {
+        "ms": 53673,
+        "table": 2,
+        "inputStatus": "uncertain",
+        "control": "fold",
+        "cause": "the window was closed by the test",
+        "oracle": {
+         "summary": {
+          "hands": 1,
+          "rev": 15,
+          "accepted": 14,
+          "counts": {
+           "mouseDown": 16,
+           "mouseUp": 16,
+           "downOutsideControls": 0,
+           "downOnDisabled": 0,
+           "doubleClicks": 0,
+           "rightClicks": 0,
+           "keys": 6,
+           "actions": 14,
+           "accepted": 14,
+           "staleClicks": 0,
+           "illegal": 0,
+           "wagerRejected": 0,
+           "byType": {
+            "fold": 6,
+            "call": 6,
+            "raise": 2
+           },
+           "timeoutActions": 0,
+           "droppedByTest": 0
+          },
+          "lastShown": {
+           "rev": 15,
+           "wt": 394468
+          },
+          "dropPending": 0,
+          "state": {
+           "hand": 1,
+           "status": "complete",
+           "actor": -1,
+           "revision": 19
+          }
+         },
+         "events": 12
+        }
+       }
+      ],
+      "evidenceFiles": [
+       "unconfirmed-T5-table2-1.json",
+       "unconfirmed-T5-table2-1-before.png",
+       "unconfirmed-T5-table2-1-after.png"
+      ],
+      "cleanupCheck": true
+     },
+     {
+      "id": "T5P",
+      "status": "pass",
+      "durationMs": 25289,
+      "checks": 18,
+      "failedChecks": [],
+      "warnings": [],
+      "lossDetectMs": 217,
+      "lossSource": "health-monitor",
+      "stateBeforeLoss": "SAFETY_PAUSED",
+      "gameplayHeldAtLoss": true,
+      "unavailableTables": [
+       2
+      ],
+      "inputsAfterLoss": 0,
+      "table1Continued": true,
+      "unconfirmedInputs": [
+       {
+        "ms": 14075,
+        "table": 2,
+        "inputStatus": "rejected-no-change",
+        "control": "call",
+        "cause": "induced by T5P (drop-next-action)",
+        "oracle": {
+         "summary": {
+          "hands": 1,
+          "rev": 3,
+          "accepted": 2,
+          "counts": {
+           "mouseDown": 3,
+           "mouseUp": 3,
+           "downOutsideControls": 0,
+           "downOnDisabled": 0,
+           "doubleClicks": 0,
+           "rightClicks": 0,
+           "keys": 0,
+           "actions": 3,
+           "accepted": 2,
+           "staleClicks": 0,
+           "illegal": 0,
+           "wagerRejected": 0,
+           "byType": {
+            "fold": 1,
+            "call": 1
+           },
+           "timeoutActions": 0,
+           "droppedByTest": 1
+          },
+          "lastShown": {
+           "rev": 3,
+           "wt": 407812
+          },
+          "dropPending": 0,
+          "state": {
+           "hand": 1,
+           "status": "playing",
+           "actor": 5,
+           "revision": 3
+          }
+         },
+         "events": 4
+        }
+       }
+      ],
+      "evidenceFiles": [
+       "unconfirmed-T5P-table2-1.json",
+       "unconfirmed-T5P-table2-1-before.png",
+       "unconfirmed-T5P-table2-1-after.png"
+      ],
+      "cleanupCheck": true
+     }
+    ],
+    "toolCleanup": true
+   },
+   {
+    "job": 10,
+    "branch": "m32-results/45311974352-t5-10",
+    "outcome": "success",
+    "scaleRequested": 125,
+    "display": {
+     "resolution": [
+      1920,
+      1080
+     ],
+     "monitorDpi": 120,
+     "systemDpi": 96,
+     "scalePercentMeasured": 125,
+     "achieved": {
+      "resolution": true,
+      "scaling": true
+     },
+     "scaleResult": [
+      "source 0: set 125% (relative 1) returned 0; now 125% (recommended 100%)"
+     ]
+    },
+    "runner": {
+     "overall": "PASS",
+     "exitCode": 0,
+     "counts": {
+      "PASS": 78,
+      "FAIL": 0,
+      "WARNING": 0,
+      "SKIPPED": 0,
+      "total": 78
+     },
+     "elapsedSeconds": 160.6,
+     "phases": [
+      {
+       "name": "environment",
+       "status": "PASS",
+       "seconds": 4.3
+      },
+      {
+       "name": "integrity",
+       "status": "PASS",
+       "seconds": 2.6
+      },
+      {
+       "name": "dependencies",
+       "status": "PASS",
+       "seconds": 0.9
+      },
+      {
+       "name": "unit",
+       "status": "PASS",
+       "seconds": 56.2
+      },
+      {
+       "name": "host-start",
+       "status": "PASS",
+       "seconds": 4.8
+      },
+      {
+       "name": "t5",
+       "status": "PASS",
+       "seconds": 87.9
+      },
+      {
+       "name": "cleanup",
+       "status": "PASS",
+       "seconds": 2.3
+      }
+     ]
+    },
+    "unitDetail": "82 passed, 0 failed, 0 skipped",
+    "scenarios": [
+     {
+      "id": "T5",
+      "status": "pass",
+      "durationMs": 58971,
+      "checks": 14,
+      "failedChecks": [],
+      "warnings": [],
+      "lossDetectMs": 2103,
+      "lossSource": "confirmation",
+      "stateBeforeLoss": "ACTIVE",
+      "gameplayHeldAtLoss": false,
+      "unavailableTables": [
+       2
+      ],
+      "inputsAfterLoss": 0,
+      "table1Continued": true,
+      "unconfirmedInputs": [
+       {
+        "ms": 53792,
+        "table": 2,
+        "inputStatus": "uncertain",
+        "control": "fold",
+        "cause": "the window was closed by the test",
+        "oracle": {
+         "summary": {
+          "hands": 1,
+          "rev": 15,
+          "accepted": 14,
+          "counts": {
+           "mouseDown": 16,
+           "mouseUp": 16,
+           "downOutsideControls": 0,
+           "downOnDisabled": 0,
+           "doubleClicks": 0,
+           "rightClicks": 0,
+           "keys": 6,
+           "actions": 14,
+           "accepted": 14,
+           "staleClicks": 0,
+           "illegal": 0,
+           "wagerRejected": 0,
+           "byType": {
+            "fold": 6,
+            "call": 6,
+            "raise": 2
+           },
+           "timeoutActions": 0,
+           "droppedByTest": 0
+          },
+          "lastShown": {
+           "rev": 15,
+           "wt": 255421
+          },
+          "dropPending": 0,
+          "state": {
+           "hand": 1,
+           "status": "complete",
+           "actor": -1,
+           "revision": 19
+          }
+         },
+         "events": 12
+        }
+       }
+      ],
+      "evidenceFiles": [
+       "unconfirmed-T5-table2-1.json",
+       "unconfirmed-T5-table2-1-before.png",
+       "unconfirmed-T5-table2-1-after.png"
+      ],
+      "cleanupCheck": true
+     },
+     {
+      "id": "T5P",
+      "status": "pass",
+      "durationMs": 25155,
+      "checks": 18,
+      "failedChecks": [],
+      "warnings": [],
+      "lossDetectMs": 244,
+      "lossSource": "health-monitor",
+      "stateBeforeLoss": "SAFETY_PAUSED",
+      "gameplayHeldAtLoss": true,
+      "unavailableTables": [
+       2
+      ],
+      "inputsAfterLoss": 0,
+      "table1Continued": true,
+      "unconfirmedInputs": [
+       {
+        "ms": 14057,
+        "table": 2,
+        "inputStatus": "rejected-no-change",
+        "control": "call",
+        "cause": "induced by T5P (drop-next-action)",
+        "oracle": {
+         "summary": {
+          "hands": 1,
+          "rev": 3,
+          "accepted": 2,
+          "counts": {
+           "mouseDown": 3,
+           "mouseUp": 3,
+           "downOutsideControls": 0,
+           "downOnDisabled": 0,
+           "doubleClicks": 0,
+           "rightClicks": 0,
+           "keys": 0,
+           "actions": 3,
+           "accepted": 2,
+           "staleClicks": 0,
+           "illegal": 0,
+           "wagerRejected": 0,
+           "byType": {
+            "fold": 1,
+            "call": 1
+           },
+           "timeoutActions": 0,
+           "droppedByTest": 1
+          },
+          "lastShown": {
+           "rev": 3,
+           "wt": 268765
+          },
+          "dropPending": 0,
+          "state": {
+           "hand": 1,
+           "status": "playing",
+           "actor": 5,
+           "revision": 3
+          }
+         },
+         "events": 4
+        }
+       }
+      ],
+      "evidenceFiles": [
+       "unconfirmed-T5P-table2-1.json",
+       "unconfirmed-T5P-table2-1-before.png",
+       "unconfirmed-T5P-table2-1-after.png"
+      ],
+      "cleanupCheck": true
+     }
+    ],
+    "toolCleanup": true
+   }
+  ],
+  "summary": {
+   "jobs": 10,
+   "jobsPassed": 10,
+   "launcherExitCodes": [
+    0
+   ],
+   "T5": {
+    "runs": 10,
+    "passed": 10,
+    "withWarnings": 0,
+    "failed": 0,
+    "lossDetectMs": {
+     "n": 10,
+     "min": 49,
+     "median": 1086.5,
+     "p95": 2115,
+     "max": 2115,
+     "mean": 1086.9
+    },
+    "lossSources": {
+     "confirmation": 5,
+     "driver": 5
+    },
+    "stateBeforeLoss": {
+     "ACTIVE": 10
+    },
+    "inputsAfterLoss": 0,
+    "schedulerBlockedOnlyTable2": 10,
+    "table1Continued": 10,
+    "cleanupOk": 10
+   },
+   "T5P": {
+    "runs": 10,
+    "passed": 10,
+    "withWarnings": 0,
+    "failed": 0,
+    "lossDetectMs": {
+     "n": 10,
+     "min": 190,
+     "median": 519.0,
+     "p95": 853,
+     "max": 853,
+     "mean": 464.2
+    },
+    "lossSources": {
+     "health-monitor": 10
+    },
+    "stateBeforeLoss": {
+     "SAFETY_PAUSED": 10
+    },
+    "inputsAfterLoss": 0,
+    "schedulerBlockedOnlyTable2": 10,
+    "table1Continued": 10,
+    "cleanupOk": 10
+   },
+   "jobsAt125PercentMeasured": 5,
+   "jobsAt100PercentMeasured": 5,
+   "scenariosAt125Percent": {
+    "runs": 10,
+    "passed": 10
+   },
+   "standaloneRunSeconds": {
+    "n": 10,
+    "min": 156.4,
+    "median": 168.35,
+    "p95": 201.5,
+    "max": 201.5,
+    "mean": 172.0
+   },
+   "unconfirmedInputsByCause": {
+    "T5P table 2 rejected-no-change: induced by T5P (drop-next-action)": 10,
+    "T5 table 2 uncertain: the window was closed by the test": 5
+   },
+   "unconfirmedInputsNotInduced": []
+  }
+ },
+ "developmentRuns": [
+  {
+   "runId": "45306938867",
+   "url": "https://github.com/derekwtgm/PTO/actions/runs/45306938867",
+   "jobs": [
+    {
+     "job": 1,
+     "branch": "m32-results/45306938867-t5-1",
+     "outcome": "success",
+     "scaleRequested": 100,
+     "display": {
+      "resolution": [
+       1920,
+       1080
+      ],
+      "monitorDpi": 96,
+      "systemDpi": 96,
+      "scalePercentMeasured": 100,
+      "achieved": {
+       "resolution": true,
+       "scaling": true
+      },
+      "scaleResult": []
+     },
+     "runner": {
+      "overall": "PASS",
+      "exitCode": 0,
+      "counts": {
+       "PASS": 78,
+       "FAIL": 0,
+       "WARNING": 0,
+       "SKIPPED": 0,
+       "total": 78
+      },
+      "elapsedSeconds": 203.9,
+      "phases": [
+       {
+        "name": "environment",
+        "status": "PASS",
+        "seconds": 13.1
+       },
+       {
+        "name": "integrity",
+        "status": "PASS",
+        "seconds": 5.1
+       },
+       {
+        "name": "dependencies",
+        "status": "PASS",
+        "seconds": 1.6
+       },
+       {
+        "name": "unit",
+        "status": "PASS",
+        "seconds": 76.3
+       },
+       {
+        "name": "host-start",
+        "status": "PASS",
+        "seconds": 8.4
+       },
+       {
+        "name": "t5",
+        "status": "PASS",
+        "seconds": 94
+       },
+       {
+        "name": "cleanup",
+        "status": "PASS",
+        "seconds": 2.7
+       }
+      ]
+     },
+     "unitDetail": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "durationMs": 61250,
+       "checks": 14,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 98,
+       "lossSource": "driver",
+       "stateBeforeLoss": "ACTIVE",
+       "gameplayHeldAtLoss": false,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [],
+       "evidenceFiles": [],
+       "cleanupCheck": true
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "durationMs": 26178,
+       "checks": 18,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 894,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "gameplayHeldAtLoss": true,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 14724,
+         "table": 2,
+         "inputStatus": "rejected-no-change",
+         "control": "call",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 3,
+           "accepted": 2,
+           "counts": {
+            "mouseDown": 3,
+            "mouseUp": 3,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 0,
+            "actions": 3,
+            "accepted": 2,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 1,
+             "call": 1
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 1
+           },
+           "lastShown": {
+            "rev": 3,
+            "wt": 438515
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "playing",
+            "actor": 5,
+            "revision": 3
+           }
+          },
+          "events": 3
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5P-table2-1.json",
+        "unconfirmed-T5P-table2-1-before.png",
+        "unconfirmed-T5P-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      }
+     ],
+     "toolCleanup": true
+    },
+    {
+     "job": 2,
+     "branch": "m32-results/45306938867-t5-2",
+     "outcome": "success",
+     "scaleRequested": 125,
+     "display": {
+      "resolution": [
+       1920,
+       1080
+      ],
+      "monitorDpi": 120,
+      "systemDpi": 96,
+      "scalePercentMeasured": 125,
+      "achieved": {
+       "resolution": true,
+       "scaling": true
+      },
+      "scaleResult": [
+       "source 0: set 125% (relative 1) returned 0; now 125% (recommended 100%)"
+      ]
+     },
+     "runner": {
+      "overall": "PASS",
+      "exitCode": 0,
+      "counts": {
+       "PASS": 78,
+       "FAIL": 0,
+       "WARNING": 0,
+       "SKIPPED": 0,
+       "total": 78
+      },
+      "elapsedSeconds": 158.2,
+      "phases": [
+       {
+        "name": "environment",
+        "status": "PASS",
+        "seconds": 4
+       },
+       {
+        "name": "integrity",
+        "status": "PASS",
+        "seconds": 2.4
+       },
+       {
+        "name": "dependencies",
+        "status": "PASS",
+        "seconds": 0.8
+       },
+       {
+        "name": "unit",
+        "status": "PASS",
+        "seconds": 55.4
+       },
+       {
+        "name": "host-start",
+        "status": "PASS",
+        "seconds": 4.5
+       },
+       {
+        "name": "t5",
+        "status": "PASS",
+        "seconds": 87.2
+       },
+       {
+        "name": "cleanup",
+        "status": "PASS",
+        "seconds": 2.3
+       }
+      ]
+     },
+     "unitDetail": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "durationMs": 58496,
+       "checks": 14,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 2069,
+       "lossSource": "confirmation",
+       "stateBeforeLoss": "ACTIVE",
+       "gameplayHeldAtLoss": false,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 53363,
+         "table": 2,
+         "inputStatus": "uncertain",
+         "control": "fold",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 15,
+           "accepted": 14,
+           "counts": {
+            "mouseDown": 16,
+            "mouseUp": 16,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 6,
+            "actions": 14,
+            "accepted": 14,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 6,
+             "call": 6,
+             "raise": 2
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 0
+           },
+           "lastShown": {
+            "rev": 15,
+            "wt": 247937
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "complete",
+            "actor": -1,
+            "revision": 19
+           }
+          },
+          "events": 12
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5-table2-1.json",
+        "unconfirmed-T5-table2-1-before.png",
+        "unconfirmed-T5-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "durationMs": 25025,
+       "checks": 18,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 343,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "gameplayHeldAtLoss": true,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 13928,
+         "table": 2,
+         "inputStatus": "rejected-no-change",
+         "control": "call",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 3,
+           "accepted": 2,
+           "counts": {
+            "mouseDown": 3,
+            "mouseUp": 3,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 0,
+            "actions": 3,
+            "accepted": 2,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 1,
+             "call": 1
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 1
+           },
+           "lastShown": {
+            "rev": 3,
+            "wt": 261156
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "playing",
+            "actor": 5,
+            "revision": 3
+           }
+          },
+          "events": 7
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5P-table2-1.json",
+        "unconfirmed-T5P-table2-1-before.png",
+        "unconfirmed-T5P-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      }
+     ],
+     "toolCleanup": true
+    }
+   ],
+   "summary": {
+    "jobs": 2,
+    "jobsPassed": 2,
+    "launcherExitCodes": [
+     0
+    ],
+    "T5": {
+     "runs": 2,
+     "passed": 2,
+     "withWarnings": 0,
+     "failed": 0,
+     "lossDetectMs": {
+      "n": 2,
+      "min": 98,
+      "median": 1083.5,
+      "p95": 2069,
+      "max": 2069,
+      "mean": 1083.5
+     },
+     "lossSources": {
+      "confirmation": 1,
+      "driver": 1
+     },
+     "stateBeforeLoss": {
+      "ACTIVE": 2
+     },
+     "inputsAfterLoss": 0,
+     "schedulerBlockedOnlyTable2": 2,
+     "table1Continued": 2,
+     "cleanupOk": 2
+    },
+    "T5P": {
+     "runs": 2,
+     "passed": 2,
+     "withWarnings": 0,
+     "failed": 0,
+     "lossDetectMs": {
+      "n": 2,
+      "min": 343,
+      "median": 618.5,
+      "p95": 894,
+      "max": 894,
+      "mean": 618.5
+     },
+     "lossSources": {
+      "health-monitor": 2
+     },
+     "stateBeforeLoss": {
+      "SAFETY_PAUSED": 2
+     },
+     "inputsAfterLoss": 0,
+     "schedulerBlockedOnlyTable2": 2,
+     "table1Continued": 2,
+     "cleanupOk": 2
+    },
+    "jobsAt125PercentMeasured": 1,
+    "jobsAt100PercentMeasured": 1,
+    "scenariosAt125Percent": {
+     "runs": 2,
+     "passed": 2
+    },
+    "standaloneRunSeconds": {
+     "n": 2,
+     "min": 158.2,
+     "median": 181.05,
+     "p95": 203.9,
+     "max": 203.9,
+     "mean": 181.1
+    },
+    "unconfirmedInputsByCause": {
+     "T5P table 2 rejected-no-change: induced by T5P (drop-next-action) [attributed from scenario/table/status; recorded before the cause field existed]": 2,
+     "T5 table 2 uncertain: the window was closed by the test [attributed from scenario/table/status; recorded before the cause field existed]": 1
+    },
+    "unconfirmedInputsNotInduced": []
+   }
+  },
+  {
+   "runId": "45307833843",
+   "url": "https://github.com/derekwtgm/PTO/actions/runs/45307833843",
+   "jobs": [
+    {
+     "job": 1,
+     "branch": "m32-results/45307833843-t5-1",
+     "outcome": "failure",
+     "scaleRequested": 100,
+     "display": {
+      "resolution": [
+       1920,
+       1080
+      ],
+      "monitorDpi": 96,
+      "systemDpi": 96,
+      "scalePercentMeasured": 100,
+      "achieved": {
+       "resolution": true,
+       "scaling": true
+      },
+      "scaleResult": []
+     },
+     "runner": {
+      "overall": "FAIL",
+      "exitCode": 2,
+      "counts": {
+       "PASS": 78,
+       "FAIL": 1,
+       "WARNING": 0,
+       "SKIPPED": 0,
+       "total": 79
+      },
+      "elapsedSeconds": 160.2,
+      "phases": [
+       {
+        "name": "environment",
+        "status": "PASS",
+        "seconds": 4
+       },
+       {
+        "name": "integrity",
+        "status": "PASS",
+        "seconds": 2.7
+       },
+       {
+        "name": "dependencies",
+        "status": "PASS",
+        "seconds": 0.9
+       },
+       {
+        "name": "unit",
+        "status": "PASS",
+        "seconds": 56.9
+       },
+       {
+        "name": "host-start",
+        "status": "PASS",
+        "seconds": 4.9
+       },
+       {
+        "name": "t5",
+        "status": "FAIL",
+        "seconds": 86.8
+       },
+       {
+        "name": "cleanup",
+        "status": "PASS",
+        "seconds": 2.3
+       }
+      ]
+     },
+     "unitDetail": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "durationMs": 59110,
+       "checks": 14,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 48,
+       "lossSource": "driver",
+       "stateBeforeLoss": "ACTIVE",
+       "gameplayHeldAtLoss": false,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [],
+       "evidenceFiles": [],
+       "cleanupCheck": true
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "durationMs": 23647,
+       "checks": 18,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 528,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "gameplayHeldAtLoss": true,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 13259,
+         "table": 2,
+         "inputStatus": "rejected-no-change",
+         "control": "call",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 3,
+           "accepted": 2,
+           "counts": {
+            "mouseDown": 3,
+            "mouseUp": 3,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 0,
+            "actions": 3,
+            "accepted": 2,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 1,
+             "call": 1
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 1
+           },
+           "lastShown": {
+            "rev": 3,
+            "wt": 267656
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "playing",
+            "actor": 5,
+            "revision": 3
+           }
+          },
+          "events": 4
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5P-table2-1.json",
+        "unconfirmed-T5P-table2-1-before.png",
+        "unconfirmed-T5P-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      }
+     ],
+     "toolCleanup": true
+    },
+    {
+     "job": 2,
+     "branch": "m32-results/45307833843-t5-2",
+     "outcome": "failure",
+     "scaleRequested": 125,
+     "display": {
+      "resolution": [
+       1920,
+       1080
+      ],
+      "monitorDpi": 120,
+      "systemDpi": 96,
+      "scalePercentMeasured": 125,
+      "achieved": {
+       "resolution": true,
+       "scaling": true
+      },
+      "scaleResult": [
+       "source 0: set 125% (relative 1) returned 0; now 125% (recommended 100%)"
+      ]
+     },
+     "runner": {
+      "overall": "FAIL",
+      "exitCode": 2,
+      "counts": {
+       "PASS": 78,
+       "FAIL": 1,
+       "WARNING": 0,
+       "SKIPPED": 0,
+       "total": 79
+      },
+      "elapsedSeconds": 198.9,
+      "phases": [
+       {
+        "name": "environment",
+        "status": "PASS",
+        "seconds": 6.2
+       },
+       {
+        "name": "integrity",
+        "status": "PASS",
+        "seconds": 4.2
+       },
+       {
+        "name": "dependencies",
+        "status": "PASS",
+        "seconds": 1.5
+       },
+       {
+        "name": "unit",
+        "status": "PASS",
+        "seconds": 77.4
+       },
+       {
+        "name": "host-start",
+        "status": "PASS",
+        "seconds": 7.8
+       },
+       {
+        "name": "t5",
+        "status": "FAIL",
+        "seconds": 94.7
+       },
+       {
+        "name": "cleanup",
+        "status": "PASS",
+        "seconds": 2.6
+       }
+      ]
+     },
+     "unitDetail": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "durationMs": 61649,
+       "checks": 14,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 2108,
+       "lossSource": "confirmation",
+       "stateBeforeLoss": "ACTIVE",
+       "gameplayHeldAtLoss": false,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 56139,
+         "table": 2,
+         "inputStatus": "uncertain",
+         "control": "fold",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 15,
+           "accepted": 14,
+           "counts": {
+            "mouseDown": 16,
+            "mouseUp": 16,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 6,
+            "actions": 14,
+            "accepted": 14,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 6,
+             "call": 6,
+             "raise": 2
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 0
+           },
+           "lastShown": {
+            "rev": 15,
+            "wt": 303796
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "complete",
+            "actor": -1,
+            "revision": 19
+           }
+          },
+          "events": 12
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5-table2-1.json",
+        "unconfirmed-T5-table2-1-before.png",
+        "unconfirmed-T5-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "durationMs": 26541,
+       "checks": 18,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 696,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "gameplayHeldAtLoss": true,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 14843,
+         "table": 2,
+         "inputStatus": "rejected-no-change",
+         "control": "call",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 3,
+           "accepted": 2,
+           "counts": {
+            "mouseDown": 3,
+            "mouseUp": 3,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 0,
+            "actions": 3,
+            "accepted": 2,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 1,
+             "call": 1
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 1
+           },
+           "lastShown": {
+            "rev": 3,
+            "wt": 317796
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "playing",
+            "actor": 5,
+            "revision": 3
+           }
+          },
+          "events": 3
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5P-table2-1.json",
+        "unconfirmed-T5P-table2-1-before.png",
+        "unconfirmed-T5P-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      }
+     ],
+     "toolCleanup": true
+    },
+    {
+     "job": 3,
+     "branch": "m32-results/45307833843-t5-3",
+     "outcome": "failure",
+     "scaleRequested": 100,
+     "display": {
+      "resolution": [
+       1920,
+       1080
+      ],
+      "monitorDpi": 96,
+      "systemDpi": 96,
+      "scalePercentMeasured": 100,
+      "achieved": {
+       "resolution": true,
+       "scaling": true
+      },
+      "scaleResult": []
+     },
+     "runner": {
+      "overall": "FAIL",
+      "exitCode": 2,
+      "counts": {
+       "PASS": 78,
+       "FAIL": 1,
+       "WARNING": 0,
+       "SKIPPED": 0,
+       "total": 79
+      },
+      "elapsedSeconds": 180.6,
+      "phases": [
+       {
+        "name": "environment",
+        "status": "PASS",
+        "seconds": 4.5
+       },
+       {
+        "name": "integrity",
+        "status": "PASS",
+        "seconds": 3.6
+       },
+       {
+        "name": "dependencies",
+        "status": "PASS",
+        "seconds": 1.1
+       },
+       {
+        "name": "unit",
+        "status": "PASS",
+        "seconds": 68.6
+       },
+       {
+        "name": "host-start",
+        "status": "PASS",
+        "seconds": 6.8
+       },
+       {
+        "name": "t5",
+        "status": "FAIL",
+        "seconds": 91.4
+       },
+       {
+        "name": "cleanup",
+        "status": "PASS",
+        "seconds": 2.5
+       }
+      ]
+     },
+     "unitDetail": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "durationMs": 60762,
+       "checks": 14,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 75,
+       "lossSource": "driver",
+       "stateBeforeLoss": "ACTIVE",
+       "gameplayHeldAtLoss": false,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [],
+       "evidenceFiles": [],
+       "cleanupCheck": true
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "durationMs": 25641,
+       "checks": 18,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 237,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "gameplayHeldAtLoss": true,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 14270,
+         "table": 2,
+         "inputStatus": "rejected-no-change",
+         "control": "call",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 3,
+           "accepted": 2,
+           "counts": {
+            "mouseDown": 3,
+            "mouseUp": 3,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 0,
+            "actions": 3,
+            "accepted": 2,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 1,
+             "call": 1
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 1
+           },
+           "lastShown": {
+            "rev": 3,
+            "wt": 327390
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "playing",
+            "actor": 5,
+            "revision": 3
+           }
+          },
+          "events": 4
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5P-table2-1.json",
+        "unconfirmed-T5P-table2-1-before.png",
+        "unconfirmed-T5P-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      }
+     ],
+     "toolCleanup": true
+    },
+    {
+     "job": 4,
+     "branch": "m32-results/45307833843-t5-4",
+     "outcome": "failure",
+     "scaleRequested": 125,
+     "display": {
+      "resolution": [
+       1920,
+       1080
+      ],
+      "monitorDpi": 120,
+      "systemDpi": 96,
+      "scalePercentMeasured": 125,
+      "achieved": {
+       "resolution": true,
+       "scaling": true
+      },
+      "scaleResult": [
+       "source 0: set 125% (relative 1) returned 0; now 125% (recommended 100%)"
+      ]
+     },
+     "runner": {
+      "overall": "FAIL",
+      "exitCode": 2,
+      "counts": {
+       "PASS": 78,
+       "FAIL": 1,
+       "WARNING": 0,
+       "SKIPPED": 0,
+       "total": 79
+      },
+      "elapsedSeconds": 178.6,
+      "phases": [
+       {
+        "name": "environment",
+        "status": "PASS",
+        "seconds": 5.1
+       },
+       {
+        "name": "integrity",
+        "status": "PASS",
+        "seconds": 3.6
+       },
+       {
+        "name": "dependencies",
+        "status": "PASS",
+        "seconds": 1.1
+       },
+       {
+        "name": "unit",
+        "status": "PASS",
+        "seconds": 68.6
+       },
+       {
+        "name": "host-start",
+        "status": "PASS",
+        "seconds": 6.1
+       },
+       {
+        "name": "t5",
+        "status": "FAIL",
+        "seconds": 89.5
+       },
+       {
+        "name": "cleanup",
+        "status": "PASS",
+        "seconds": 2.5
+       }
+      ]
+     },
+     "unitDetail": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "durationMs": 60432,
+       "checks": 14,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 92,
+       "lossSource": "driver",
+       "stateBeforeLoss": "ACTIVE",
+       "gameplayHeldAtLoss": false,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [],
+       "evidenceFiles": [],
+       "cleanupCheck": true
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "durationMs": 24027,
+       "checks": 18,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 635,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "gameplayHeldAtLoss": true,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 13318,
+         "table": 2,
+         "inputStatus": "rejected-no-change",
+         "control": "call",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 3,
+           "accepted": 2,
+           "counts": {
+            "mouseDown": 3,
+            "mouseUp": 3,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 0,
+            "actions": 3,
+            "accepted": 2,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 1,
+             "call": 1
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 1
+           },
+           "lastShown": {
+            "rev": 3,
+            "wt": 367906
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "playing",
+            "actor": 5,
+            "revision": 3
+           }
+          },
+          "events": 4
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5P-table2-1.json",
+        "unconfirmed-T5P-table2-1-before.png",
+        "unconfirmed-T5P-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      }
+     ],
+     "toolCleanup": true
+    },
+    {
+     "job": 5,
+     "branch": "m32-results/45307833843-t5-5",
+     "outcome": "failure",
+     "scaleRequested": 100,
+     "display": {
+      "resolution": [
+       1920,
+       1080
+      ],
+      "monitorDpi": 96,
+      "systemDpi": 96,
+      "scalePercentMeasured": 100,
+      "achieved": {
+       "resolution": true,
+       "scaling": true
+      },
+      "scaleResult": []
+     },
+     "runner": {
+      "overall": "FAIL",
+      "exitCode": 2,
+      "counts": {
+       "PASS": 78,
+       "FAIL": 1,
+       "WARNING": 0,
+       "SKIPPED": 0,
+       "total": 79
+      },
+      "elapsedSeconds": 179.9,
+      "phases": [
+       {
+        "name": "environment",
+        "status": "PASS",
+        "seconds": 4.7
+       },
+       {
+        "name": "integrity",
+        "status": "PASS",
+        "seconds": 4.3
+       },
+       {
+        "name": "dependencies",
+        "status": "PASS",
+        "seconds": 1.1
+       },
+       {
+        "name": "unit",
+        "status": "PASS",
+        "seconds": 68.3
+       },
+       {
+        "name": "host-start",
+        "status": "PASS",
+        "seconds": 6.5
+       },
+       {
+        "name": "t5",
+        "status": "FAIL",
+        "seconds": 90.6
+       },
+       {
+        "name": "cleanup",
+        "status": "PASS",
+        "seconds": 2.5
+       }
+      ]
+     },
+     "unitDetail": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "durationMs": 60097,
+       "checks": 14,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 159,
+       "lossSource": "confirmation",
+       "stateBeforeLoss": "ACTIVE",
+       "gameplayHeldAtLoss": false,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 52864,
+         "table": 2,
+         "inputStatus": "uncertain",
+         "control": "fold",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 15,
+           "accepted": 14,
+           "counts": {
+            "mouseDown": 16,
+            "mouseUp": 16,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 6,
+            "actions": 14,
+            "accepted": 14,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 6,
+             "call": 6,
+             "raise": 2
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 0
+           },
+           "lastShown": {
+            "rev": 15,
+            "wt": 259421
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "complete",
+            "actor": -1,
+            "revision": 19
+           }
+          },
+          "events": 12
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5-table2-1.json",
+        "unconfirmed-T5-table2-1-before.png",
+        "unconfirmed-T5-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "durationMs": 25566,
+       "checks": 18,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 196,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "gameplayHeldAtLoss": true,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 14329,
+         "table": 2,
+         "inputStatus": "rejected-no-change",
+         "control": "call",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 3,
+           "accepted": 2,
+           "counts": {
+            "mouseDown": 3,
+            "mouseUp": 3,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 0,
+            "actions": 3,
+            "accepted": 2,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 1,
+             "call": 1
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 1
+           },
+           "lastShown": {
+            "rev": 3,
+            "wt": 273062
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "playing",
+            "actor": 5,
+            "revision": 3
+           }
+          },
+          "events": 4
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5P-table2-1.json",
+        "unconfirmed-T5P-table2-1-before.png",
+        "unconfirmed-T5P-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      }
+     ],
+     "toolCleanup": true
+    },
+    {
+     "job": 6,
+     "branch": "m32-results/45307833843-t5-6",
+     "outcome": "failure",
+     "scaleRequested": 125,
+     "display": {
+      "resolution": [
+       1920,
+       1080
+      ],
+      "monitorDpi": 120,
+      "systemDpi": 96,
+      "scalePercentMeasured": 125,
+      "achieved": {
+       "resolution": true,
+       "scaling": true
+      },
+      "scaleResult": [
+       "source 0: set 125% (relative 1) returned 0; now 125% (recommended 100%)"
+      ]
+     },
+     "runner": {
+      "overall": "FAIL",
+      "exitCode": 2,
+      "counts": {
+       "PASS": 78,
+       "FAIL": 1,
+       "WARNING": 0,
+       "SKIPPED": 0,
+       "total": 79
+      },
+      "elapsedSeconds": 195.8,
+      "phases": [
+       {
+        "name": "environment",
+        "status": "PASS",
+        "seconds": 5.7
+       },
+       {
+        "name": "integrity",
+        "status": "PASS",
+        "seconds": 5
+       },
+       {
+        "name": "dependencies",
+        "status": "PASS",
+        "seconds": 1.5
+       },
+       {
+        "name": "unit",
+        "status": "PASS",
+        "seconds": 76.3
+       },
+       {
+        "name": "host-start",
+        "status": "PASS",
+        "seconds": 8.3
+       },
+       {
+        "name": "t5",
+        "status": "FAIL",
+        "seconds": 93.5
+       },
+       {
+        "name": "cleanup",
+        "status": "PASS",
+        "seconds": 2.7
+       }
+      ]
+     },
+     "unitDetail": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "durationMs": 60751,
+       "checks": 14,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 2079,
+       "lossSource": "confirmation",
+       "stateBeforeLoss": "ACTIVE",
+       "gameplayHeldAtLoss": false,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 55264,
+         "table": 2,
+         "inputStatus": "uncertain",
+         "control": "fold",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 15,
+           "accepted": 14,
+           "counts": {
+            "mouseDown": 16,
+            "mouseUp": 16,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 6,
+            "actions": 14,
+            "accepted": 14,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 6,
+             "call": 6,
+             "raise": 2
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 0
+           },
+           "lastShown": {
+            "rev": 15,
+            "wt": 446609
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "complete",
+            "actor": -1,
+            "revision": 19
+           }
+          },
+          "events": 12
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5-table2-1.json",
+        "unconfirmed-T5-table2-1-before.png",
+        "unconfirmed-T5-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "durationMs": 25973,
+       "checks": 18,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 202,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "gameplayHeldAtLoss": true,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 14533,
+         "table": 2,
+         "inputStatus": "rejected-no-change",
+         "control": "call",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 3,
+           "accepted": 2,
+           "counts": {
+            "mouseDown": 3,
+            "mouseUp": 3,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 0,
+            "actions": 3,
+            "accepted": 2,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 1,
+             "call": 1
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 1
+           },
+           "lastShown": {
+            "rev": 3,
+            "wt": 460437
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "playing",
+            "actor": 5,
+            "revision": 3
+           }
+          },
+          "events": 3
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5P-table2-1.json",
+        "unconfirmed-T5P-table2-1-before.png",
+        "unconfirmed-T5P-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      }
+     ],
+     "toolCleanup": true
+    },
+    {
+     "job": 7,
+     "branch": "m32-results/45307833843-t5-7",
+     "outcome": "failure",
+     "scaleRequested": 100,
+     "display": {
+      "resolution": [
+       1920,
+       1080
+      ],
+      "monitorDpi": 96,
+      "systemDpi": 96,
+      "scalePercentMeasured": 100,
+      "achieved": {
+       "resolution": true,
+       "scaling": true
+      },
+      "scaleResult": []
+     },
+     "runner": {
+      "overall": "FAIL",
+      "exitCode": 2,
+      "counts": {
+       "PASS": 78,
+       "FAIL": 1,
+       "WARNING": 0,
+       "SKIPPED": 0,
+       "total": 79
+      },
+      "elapsedSeconds": 196,
+      "phases": [
+       {
+        "name": "environment",
+        "status": "PASS",
+        "seconds": 5.5
+       },
+       {
+        "name": "integrity",
+        "status": "PASS",
+        "seconds": 5.2
+       },
+       {
+        "name": "dependencies",
+        "status": "PASS",
+        "seconds": 1.6
+       },
+       {
+        "name": "unit",
+        "status": "PASS",
+        "seconds": 76.2
+       },
+       {
+        "name": "host-start",
+        "status": "PASS",
+        "seconds": 8.3
+       },
+       {
+        "name": "t5",
+        "status": "FAIL",
+        "seconds": 93.9
+       },
+       {
+        "name": "cleanup",
+        "status": "PASS",
+        "seconds": 2.6
+       }
+      ]
+     },
+     "unitDetail": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "durationMs": 61113,
+       "checks": 14,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 2092,
+       "lossSource": "confirmation",
+       "stateBeforeLoss": "ACTIVE",
+       "gameplayHeldAtLoss": false,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 55671,
+         "table": 2,
+         "inputStatus": "uncertain",
+         "control": "fold",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 15,
+           "accepted": 14,
+           "counts": {
+            "mouseDown": 16,
+            "mouseUp": 16,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 6,
+            "actions": 14,
+            "accepted": 14,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 6,
+             "call": 6,
+             "raise": 2
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 0
+           },
+           "lastShown": {
+            "rev": 15,
+            "wt": 300921
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "complete",
+            "actor": -1,
+            "revision": 19
+           }
+          },
+          "events": 12
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5-table2-1.json",
+        "unconfirmed-T5-table2-1-before.png",
+        "unconfirmed-T5-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "durationMs": 26090,
+       "checks": 18,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 230,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "gameplayHeldAtLoss": true,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 14627,
+         "table": 2,
+         "inputStatus": "rejected-no-change",
+         "control": "call",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 3,
+           "accepted": 2,
+           "counts": {
+            "mouseDown": 3,
+            "mouseUp": 3,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 0,
+            "actions": 3,
+            "accepted": 2,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 1,
+             "call": 1
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 1
+           },
+           "lastShown": {
+            "rev": 3,
+            "wt": 314765
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "playing",
+            "actor": 5,
+            "revision": 3
+           }
+          },
+          "events": 3
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5P-table2-1.json",
+        "unconfirmed-T5P-table2-1-before.png",
+        "unconfirmed-T5P-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      }
+     ],
+     "toolCleanup": true
+    },
+    {
+     "job": 8,
+     "branch": "m32-results/45307833843-t5-8",
+     "outcome": "failure",
+     "scaleRequested": 125,
+     "display": {
+      "resolution": [
+       1920,
+       1080
+      ],
+      "monitorDpi": 120,
+      "systemDpi": 96,
+      "scalePercentMeasured": 125,
+      "achieved": {
+       "resolution": true,
+       "scaling": true
+      },
+      "scaleResult": [
+       "source 0: set 125% (relative 1) returned 0; now 125% (recommended 100%)"
+      ]
+     },
+     "runner": {
+      "overall": "FAIL",
+      "exitCode": 2,
+      "counts": {
+       "PASS": 78,
+       "FAIL": 1,
+       "WARNING": 0,
+       "SKIPPED": 0,
+       "total": 79
+      },
+      "elapsedSeconds": 181.6,
+      "phases": [
+       {
+        "name": "environment",
+        "status": "PASS",
+        "seconds": 7.4
+       },
+       {
+        "name": "integrity",
+        "status": "PASS",
+        "seconds": 3.5
+       },
+       {
+        "name": "dependencies",
+        "status": "PASS",
+        "seconds": 1.1
+       },
+       {
+        "name": "unit",
+        "status": "PASS",
+        "seconds": 68.2
+       },
+       {
+        "name": "host-start",
+        "status": "PASS",
+        "seconds": 6.1
+       },
+       {
+        "name": "t5",
+        "status": "FAIL",
+        "seconds": 90.8
+       },
+       {
+        "name": "cleanup",
+        "status": "PASS",
+        "seconds": 2.5
+       }
+      ]
+     },
+     "unitDetail": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "durationMs": 59977,
+       "checks": 14,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 2123,
+       "lossSource": "confirmation",
+       "stateBeforeLoss": "ACTIVE",
+       "gameplayHeldAtLoss": false,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 54693,
+         "table": 2,
+         "inputStatus": "uncertain",
+         "control": "fold",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 15,
+           "accepted": 14,
+           "counts": {
+            "mouseDown": 16,
+            "mouseUp": 16,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 6,
+            "actions": 14,
+            "accepted": 14,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 6,
+             "call": 6,
+             "raise": 2
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 0
+           },
+           "lastShown": {
+            "rev": 15,
+            "wt": 277578
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "complete",
+            "actor": -1,
+            "revision": 19
+           }
+          },
+          "events": 12
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5-table2-1.json",
+        "unconfirmed-T5-table2-1-before.png",
+        "unconfirmed-T5-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "durationMs": 25833,
+       "checks": 18,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 139,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "gameplayHeldAtLoss": true,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 14510,
+         "table": 2,
+         "inputStatus": "rejected-no-change",
+         "control": "call",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 3,
+           "accepted": 2,
+           "counts": {
+            "mouseDown": 3,
+            "mouseUp": 3,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 0,
+            "actions": 3,
+            "accepted": 2,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 1,
+             "call": 1
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 1
+           },
+           "lastShown": {
+            "rev": 3,
+            "wt": 291234
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "playing",
+            "actor": 5,
+            "revision": 3
+           }
+          },
+          "events": 3
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5P-table2-1.json",
+        "unconfirmed-T5P-table2-1-before.png",
+        "unconfirmed-T5P-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      }
+     ],
+     "toolCleanup": true
+    },
+    {
+     "job": 9,
+     "branch": "m32-results/45307833843-t5-9",
+     "outcome": "failure",
+     "scaleRequested": 100,
+     "display": {
+      "resolution": [
+       1920,
+       1080
+      ],
+      "monitorDpi": 96,
+      "systemDpi": 96,
+      "scalePercentMeasured": 100,
+      "achieved": {
+       "resolution": true,
+       "scaling": true
+      },
+      "scaleResult": []
+     },
+     "runner": {
+      "overall": "FAIL",
+      "exitCode": 2,
+      "counts": {
+       "PASS": 78,
+       "FAIL": 1,
+       "WARNING": 0,
+       "SKIPPED": 0,
+       "total": 79
+      },
+      "elapsedSeconds": 193.9,
+      "phases": [
+       {
+        "name": "environment",
+        "status": "PASS",
+        "seconds": 5.4
+       },
+       {
+        "name": "integrity",
+        "status": "PASS",
+        "seconds": 4.1
+       },
+       {
+        "name": "dependencies",
+        "status": "PASS",
+        "seconds": 1.4
+       },
+       {
+        "name": "unit",
+        "status": "PASS",
+        "seconds": 76.1
+       },
+       {
+        "name": "host-start",
+        "status": "PASS",
+        "seconds": 7.6
+       },
+       {
+        "name": "t5",
+        "status": "FAIL",
+        "seconds": 94.1
+       },
+       {
+        "name": "cleanup",
+        "status": "PASS",
+        "seconds": 2.6
+       }
+      ]
+     },
+     "unitDetail": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "durationMs": 61410,
+       "checks": 14,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 2088,
+       "lossSource": "confirmation",
+       "stateBeforeLoss": "ACTIVE",
+       "gameplayHeldAtLoss": false,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 55929,
+         "table": 2,
+         "inputStatus": "uncertain",
+         "control": "fold",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 15,
+           "accepted": 14,
+           "counts": {
+            "mouseDown": 16,
+            "mouseUp": 16,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 6,
+            "actions": 14,
+            "accepted": 14,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 6,
+             "call": 6,
+             "raise": 2
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 0
+           },
+           "lastShown": {
+            "rev": 15,
+            "wt": 351343
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "complete",
+            "actor": -1,
+            "revision": 19
+           }
+          },
+          "events": 12
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5-table2-1.json",
+        "unconfirmed-T5-table2-1-before.png",
+        "unconfirmed-T5-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "durationMs": 26269,
+       "checks": 18,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 897,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "gameplayHeldAtLoss": true,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 14761,
+         "table": 2,
+         "inputStatus": "rejected-no-change",
+         "control": "call",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 3,
+           "accepted": 2,
+           "counts": {
+            "mouseDown": 3,
+            "mouseUp": 3,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 0,
+            "actions": 3,
+            "accepted": 2,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 1,
+             "call": 1
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 1
+           },
+           "lastShown": {
+            "rev": 3,
+            "wt": 365328
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "playing",
+            "actor": 5,
+            "revision": 3
+           }
+          },
+          "events": 3
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5P-table2-1.json",
+        "unconfirmed-T5P-table2-1-before.png",
+        "unconfirmed-T5P-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      }
+     ],
+     "toolCleanup": true
+    },
+    {
+     "job": 10,
+     "branch": "m32-results/45307833843-t5-10",
+     "outcome": "failure",
+     "scaleRequested": 125,
+     "display": {
+      "resolution": [
+       1920,
+       1080
+      ],
+      "monitorDpi": 120,
+      "systemDpi": 96,
+      "scalePercentMeasured": 125,
+      "achieved": {
+       "resolution": true,
+       "scaling": true
+      },
+      "scaleResult": [
+       "source 0: set 125% (relative 1) returned 0; now 125% (recommended 100%)"
+      ]
+     },
+     "runner": {
+      "overall": "FAIL",
+      "exitCode": 2,
+      "counts": {
+       "PASS": 78,
+       "FAIL": 1,
+       "WARNING": 0,
+       "SKIPPED": 0,
+       "total": 79
+      },
+      "elapsedSeconds": 201.7,
+      "phases": [
+       {
+        "name": "environment",
+        "status": "PASS",
+        "seconds": 7.3
+       },
+       {
+        "name": "integrity",
+        "status": "PASS",
+        "seconds": 6.1
+       },
+       {
+        "name": "dependencies",
+        "status": "PASS",
+        "seconds": 1.6
+       },
+       {
+        "name": "unit",
+        "status": "PASS",
+        "seconds": 78.2
+       },
+       {
+        "name": "host-start",
+        "status": "PASS",
+        "seconds": 8.7
+       },
+       {
+        "name": "t5",
+        "status": "FAIL",
+        "seconds": 94.5
+       },
+       {
+        "name": "cleanup",
+        "status": "PASS",
+        "seconds": 2.7
+       }
+      ]
+     },
+     "unitDetail": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "durationMs": 61265,
+       "checks": 14,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 2085,
+       "lossSource": "confirmation",
+       "stateBeforeLoss": "ACTIVE",
+       "gameplayHeldAtLoss": false,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 55712,
+         "table": 2,
+         "inputStatus": "uncertain",
+         "control": "fold",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 15,
+           "accepted": 14,
+           "counts": {
+            "mouseDown": 16,
+            "mouseUp": 16,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 6,
+            "actions": 14,
+            "accepted": 14,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 6,
+             "call": 6,
+             "raise": 2
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 0
+           },
+           "lastShown": {
+            "rev": 15,
+            "wt": 303062
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "complete",
+            "actor": -1,
+            "revision": 19
+           }
+          },
+          "events": 12
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5-table2-1.json",
+        "unconfirmed-T5-table2-1-before.png",
+        "unconfirmed-T5-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "durationMs": 26223,
+       "checks": 18,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 909,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "gameplayHeldAtLoss": true,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 14682,
+         "table": 2,
+         "inputStatus": "rejected-no-change",
+         "control": "call",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 3,
+           "accepted": 2,
+           "counts": {
+            "mouseDown": 3,
+            "mouseUp": 3,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 0,
+            "actions": 3,
+            "accepted": 2,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 1,
+             "call": 1
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 1
+           },
+           "lastShown": {
+            "rev": 3,
+            "wt": 317046
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "playing",
+            "actor": 5,
+            "revision": 3
+           }
+          },
+          "events": 3
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5P-table2-1.json",
+        "unconfirmed-T5P-table2-1-before.png",
+        "unconfirmed-T5P-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      }
+     ],
+     "toolCleanup": true
+    }
+   ],
+   "summary": {
+    "jobs": 10,
+    "jobsPassed": 0,
+    "launcherExitCodes": [
+     2
+    ],
+    "T5": {
+     "runs": 10,
+     "passed": 10,
+     "withWarnings": 0,
+     "failed": 0,
+     "lossDetectMs": {
+      "n": 10,
+      "min": 48,
+      "median": 2082.0,
+      "p95": 2123,
+      "max": 2123,
+      "mean": 1294.9
+     },
+     "lossSources": {
+      "confirmation": 7,
+      "driver": 3
+     },
+     "stateBeforeLoss": {
+      "ACTIVE": 10
+     },
+     "inputsAfterLoss": 0,
+     "schedulerBlockedOnlyTable2": 10,
+     "table1Continued": 10,
+     "cleanupOk": 10
+    },
+    "T5P": {
+     "runs": 10,
+     "passed": 10,
+     "withWarnings": 0,
+     "failed": 0,
+     "lossDetectMs": {
+      "n": 10,
+      "min": 139,
+      "median": 382.5,
+      "p95": 909,
+      "max": 909,
+      "mean": 466.9
+     },
+     "lossSources": {
+      "health-monitor": 10
+     },
+     "stateBeforeLoss": {
+      "SAFETY_PAUSED": 10
+     },
+     "inputsAfterLoss": 0,
+     "schedulerBlockedOnlyTable2": 10,
+     "table1Continued": 10,
+     "cleanupOk": 10
+    },
+    "jobsAt125PercentMeasured": 5,
+    "jobsAt100PercentMeasured": 5,
+    "scenariosAt125Percent": {
+     "runs": 10,
+     "passed": 10
+    },
+    "standaloneRunSeconds": {
+     "n": 10,
+     "min": 160.2,
+     "median": 187.75,
+     "p95": 201.7,
+     "max": 201.7,
+     "mean": 186.7
+    },
+    "unconfirmedInputsByCause": {
+     "T5P table 2 rejected-no-change: induced by T5P (drop-next-action) [attributed from scenario/table/status; recorded before the cause field existed]": 10,
+     "T5 table 2 uncertain: the window was closed by the test [attributed from scenario/table/status; recorded before the cause field existed]": 7
+    },
+    "unconfirmedInputsNotInduced": []
+   }
+  },
+  {
+   "runId": "45308811354",
+   "url": "https://github.com/derekwtgm/PTO/actions/runs/45308811354",
+   "jobs": [
+    {
+     "job": 1,
+     "branch": "m32-results/45308811354-t5-1",
+     "outcome": "success",
+     "scaleRequested": 100,
+     "display": {
+      "resolution": [
+       1920,
+       1080
+      ],
+      "monitorDpi": 96,
+      "systemDpi": 96,
+      "scalePercentMeasured": 100,
+      "achieved": {
+       "resolution": true,
+       "scaling": true
+      },
+      "scaleResult": []
+     },
+     "runner": {
+      "overall": "PASS",
+      "exitCode": 0,
+      "counts": {
+       "PASS": 78,
+       "FAIL": 0,
+       "WARNING": 0,
+       "SKIPPED": 0,
+       "total": 78
+      },
+      "elapsedSeconds": 182.8,
+      "phases": [
+       {
+        "name": "environment",
+        "status": "PASS",
+        "seconds": 5.1
+       },
+       {
+        "name": "integrity",
+        "status": "PASS",
+        "seconds": 3.5
+       },
+       {
+        "name": "dependencies",
+        "status": "PASS",
+        "seconds": 1.3
+       },
+       {
+        "name": "unit",
+        "status": "PASS",
+        "seconds": 68.8
+       },
+       {
+        "name": "host-start",
+        "status": "PASS",
+        "seconds": 6.9
+       },
+       {
+        "name": "t5",
+        "status": "PASS",
+        "seconds": 92.2
+       },
+       {
+        "name": "cleanup",
+        "status": "PASS",
+        "seconds": 2.5
+       }
+      ]
+     },
+     "unitDetail": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "durationMs": 60901,
+       "checks": 14,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 2089,
+       "lossSource": "confirmation",
+       "stateBeforeLoss": "ACTIVE",
+       "gameplayHeldAtLoss": false,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 55499,
+         "table": 2,
+         "inputStatus": "uncertain",
+         "control": "fold",
+         "cause": "the window was closed by the test",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 15,
+           "accepted": 14,
+           "counts": {
+            "mouseDown": 16,
+            "mouseUp": 16,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 6,
+            "actions": 14,
+            "accepted": 14,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 6,
+             "call": 6,
+             "raise": 2
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 0
+           },
+           "lastShown": {
+            "rev": 15,
+            "wt": 715015
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "complete",
+            "actor": -1,
+            "revision": 19
+           }
+          },
+          "events": 12
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5-table2-1.json",
+        "unconfirmed-T5-table2-1-before.png",
+        "unconfirmed-T5-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "durationMs": 25894,
+       "checks": 18,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 244,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "gameplayHeldAtLoss": true,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 14480,
+         "table": 2,
+         "inputStatus": "rejected-no-change",
+         "control": "call",
+         "cause": "induced by T5P (drop-next-action)",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 3,
+           "accepted": 2,
+           "counts": {
+            "mouseDown": 3,
+            "mouseUp": 3,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 0,
+            "actions": 3,
+            "accepted": 2,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 1,
+             "call": 1
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 1
+           },
+           "lastShown": {
+            "rev": 3,
+            "wt": 728796
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "playing",
+            "actor": 5,
+            "revision": 3
+           }
+          },
+          "events": 3
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5P-table2-1.json",
+        "unconfirmed-T5P-table2-1-before.png",
+        "unconfirmed-T5P-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      }
+     ],
+     "toolCleanup": true
+    },
+    {
+     "job": 2,
+     "branch": "m32-results/45308811354-t5-2",
+     "outcome": "success",
+     "scaleRequested": 125,
+     "display": {
+      "resolution": [
+       1920,
+       1080
+      ],
+      "monitorDpi": 120,
+      "systemDpi": 96,
+      "scalePercentMeasured": 125,
+      "achieved": {
+       "resolution": true,
+       "scaling": true
+      },
+      "scaleResult": [
+       "source 0: set 125% (relative 1) returned 0; now 125% (recommended 100%)"
+      ]
+     },
+     "runner": {
+      "overall": "PASS",
+      "exitCode": 0,
+      "counts": {
+       "PASS": 78,
+       "FAIL": 0,
+       "WARNING": 0,
+       "SKIPPED": 0,
+       "total": 78
+      },
+      "elapsedSeconds": 158.5,
+      "phases": [
+       {
+        "name": "environment",
+        "status": "PASS",
+        "seconds": 3.8
+       },
+       {
+        "name": "integrity",
+        "status": "PASS",
+        "seconds": 2.5
+       },
+       {
+        "name": "dependencies",
+        "status": "PASS",
+        "seconds": 0.8
+       },
+       {
+        "name": "unit",
+        "status": "PASS",
+        "seconds": 55.2
+       },
+       {
+        "name": "host-start",
+        "status": "PASS",
+        "seconds": 4.6
+       },
+       {
+        "name": "t5",
+        "status": "PASS",
+        "seconds": 87.7
+       },
+       {
+        "name": "cleanup",
+        "status": "PASS",
+        "seconds": 2.3
+       }
+      ]
+     },
+     "unitDetail": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "durationMs": 59064,
+       "checks": 14,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 70,
+       "lossSource": "driver",
+       "stateBeforeLoss": "ACTIVE",
+       "gameplayHeldAtLoss": false,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [],
+       "evidenceFiles": [],
+       "cleanupCheck": true
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "durationMs": 25003,
+       "checks": 18,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 384,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "gameplayHeldAtLoss": true,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 13924,
+         "table": 2,
+         "inputStatus": "rejected-no-change",
+         "control": "call",
+         "cause": "induced by T5P (drop-next-action)",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 3,
+           "accepted": 2,
+           "counts": {
+            "mouseDown": 3,
+            "mouseUp": 3,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 0,
+            "actions": 3,
+            "accepted": 2,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 1,
+             "call": 1
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 1
+           },
+           "lastShown": {
+            "rev": 3,
+            "wt": 288750
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "playing",
+            "actor": 5,
+            "revision": 3
+           }
+          },
+          "events": 7
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5P-table2-1.json",
+        "unconfirmed-T5P-table2-1-before.png",
+        "unconfirmed-T5P-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      }
+     ],
+     "toolCleanup": true
+    },
+    {
+     "job": 3,
+     "branch": "m32-results/45308811354-t5-3",
+     "outcome": "success",
+     "scaleRequested": 100,
+     "display": {
+      "resolution": [
+       1920,
+       1080
+      ],
+      "monitorDpi": 96,
+      "systemDpi": 96,
+      "scalePercentMeasured": 100,
+      "achieved": {
+       "resolution": true,
+       "scaling": true
+      },
+      "scaleResult": []
+     },
+     "runner": {
+      "overall": "PASS",
+      "exitCode": 0,
+      "counts": {
+       "PASS": 78,
+       "FAIL": 0,
+       "WARNING": 0,
+       "SKIPPED": 0,
+       "total": 78
+      },
+      "elapsedSeconds": 211.8,
+      "phases": [
+       {
+        "name": "environment",
+        "status": "PASS",
+        "seconds": 8.9
+       },
+       {
+        "name": "integrity",
+        "status": "PASS",
+        "seconds": 6
+       },
+       {
+        "name": "dependencies",
+        "status": "PASS",
+        "seconds": 2.6
+       },
+       {
+        "name": "unit",
+        "status": "PASS",
+        "seconds": 83.8
+       },
+       {
+        "name": "host-start",
+        "status": "PASS",
+        "seconds": 9.1
+       },
+       {
+        "name": "t5",
+        "status": "PASS",
+        "seconds": 94.8
+       },
+       {
+        "name": "cleanup",
+        "status": "PASS",
+        "seconds": 2.9
+       }
+      ]
+     },
+     "unitDetail": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "durationMs": 62824,
+       "checks": 14,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 2100,
+       "lossSource": "confirmation",
+       "stateBeforeLoss": "ACTIVE",
+       "gameplayHeldAtLoss": false,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 57109,
+         "table": 2,
+         "inputStatus": "uncertain",
+         "control": "fold",
+         "cause": "the window was closed by the test",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 15,
+           "accepted": 14,
+           "counts": {
+            "mouseDown": 16,
+            "mouseUp": 16,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 6,
+            "actions": 14,
+            "accepted": 14,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 6,
+             "call": 6,
+             "raise": 2
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 0
+           },
+           "lastShown": {
+            "rev": 15,
+            "wt": 603125
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "complete",
+            "actor": -1,
+            "revision": 19
+           }
+          },
+          "events": 12
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5-table2-1.json",
+        "unconfirmed-T5-table2-1-before.png",
+        "unconfirmed-T5-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "durationMs": 24898,
+       "checks": 18,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 522,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "gameplayHeldAtLoss": true,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 14158,
+         "table": 2,
+         "inputStatus": "rejected-no-change",
+         "control": "call",
+         "cause": "induced by T5P (drop-next-action)",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 3,
+           "accepted": 2,
+           "counts": {
+            "mouseDown": 3,
+            "mouseUp": 3,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 0,
+            "actions": 3,
+            "accepted": 2,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 1,
+             "call": 1
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 1
+           },
+           "lastShown": {
+            "rev": 3,
+            "wt": 617484
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "playing",
+            "actor": 5,
+            "revision": 3
+           }
+          },
+          "events": 8
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5P-table2-1.json",
+        "unconfirmed-T5P-table2-1-before.png",
+        "unconfirmed-T5P-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      }
+     ],
+     "toolCleanup": true
+    },
+    {
+     "job": 4,
+     "branch": "m32-results/45308811354-t5-4",
+     "outcome": "success",
+     "scaleRequested": 125,
+     "display": {
+      "resolution": [
+       1920,
+       1080
+      ],
+      "monitorDpi": 120,
+      "systemDpi": 96,
+      "scalePercentMeasured": 125,
+      "achieved": {
+       "resolution": true,
+       "scaling": true
+      },
+      "scaleResult": [
+       "source 0: set 125% (relative 1) returned 0; now 125% (recommended 100%)"
+      ]
+     },
+     "runner": {
+      "overall": "PASS",
+      "exitCode": 0,
+      "counts": {
+       "PASS": 78,
+       "FAIL": 0,
+       "WARNING": 0,
+       "SKIPPED": 0,
+       "total": 78
+      },
+      "elapsedSeconds": 198.9,
+      "phases": [
+       {
+        "name": "environment",
+        "status": "PASS",
+        "seconds": 5.7
+       },
+       {
+        "name": "integrity",
+        "status": "PASS",
+        "seconds": 5.2
+       },
+       {
+        "name": "dependencies",
+        "status": "PASS",
+        "seconds": 1.6
+       },
+       {
+        "name": "unit",
+        "status": "PASS",
+        "seconds": 79
+       },
+       {
+        "name": "host-start",
+        "status": "PASS",
+        "seconds": 8.5
+       },
+       {
+        "name": "t5",
+        "status": "PASS",
+        "seconds": 93.7
+       },
+       {
+        "name": "cleanup",
+        "status": "PASS",
+        "seconds": 2.7
+       }
+      ]
+     },
+     "unitDetail": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "durationMs": 60898,
+       "checks": 14,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 2109,
+       "lossSource": "confirmation",
+       "stateBeforeLoss": "ACTIVE",
+       "gameplayHeldAtLoss": false,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 55479,
+         "table": 2,
+         "inputStatus": "uncertain",
+         "control": "fold",
+         "cause": "the window was closed by the test",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 15,
+           "accepted": 14,
+           "counts": {
+            "mouseDown": 16,
+            "mouseUp": 16,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 6,
+            "actions": 14,
+            "accepted": 14,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 6,
+             "call": 6,
+             "raise": 2
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 0
+           },
+           "lastShown": {
+            "rev": 15,
+            "wt": 321781
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "complete",
+            "actor": -1,
+            "revision": 19
+           }
+          },
+          "events": 12
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5-table2-1.json",
+        "unconfirmed-T5-table2-1-before.png",
+        "unconfirmed-T5-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "durationMs": 26138,
+       "checks": 18,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 905,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "gameplayHeldAtLoss": true,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 14667,
+         "table": 2,
+         "inputStatus": "rejected-no-change",
+         "control": "call",
+         "cause": "induced by T5P (drop-next-action)",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 3,
+           "accepted": 2,
+           "counts": {
+            "mouseDown": 3,
+            "mouseUp": 3,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 0,
+            "actions": 3,
+            "accepted": 2,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 1,
+             "call": 1
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 1
+           },
+           "lastShown": {
+            "rev": 3,
+            "wt": 335671
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "playing",
+            "actor": 5,
+            "revision": 3
+           }
+          },
+          "events": 3
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5P-table2-1.json",
+        "unconfirmed-T5P-table2-1-before.png",
+        "unconfirmed-T5P-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      }
+     ],
+     "toolCleanup": true
+    },
+    {
+     "job": 5,
+     "branch": "m32-results/45308811354-t5-5",
+     "outcome": "success",
+     "scaleRequested": 100,
+     "display": {
+      "resolution": [
+       1920,
+       1080
+      ],
+      "monitorDpi": 96,
+      "systemDpi": 96,
+      "scalePercentMeasured": 100,
+      "achieved": {
+       "resolution": true,
+       "scaling": true
+      },
+      "scaleResult": []
+     },
+     "runner": {
+      "overall": "PASS",
+      "exitCode": 0,
+      "counts": {
+       "PASS": 78,
+       "FAIL": 0,
+       "WARNING": 0,
+       "SKIPPED": 0,
+       "total": 78
+      },
+      "elapsedSeconds": 193.8,
+      "phases": [
+       {
+        "name": "environment",
+        "status": "PASS",
+        "seconds": 5.2
+       },
+       {
+        "name": "integrity",
+        "status": "PASS",
+        "seconds": 4.1
+       },
+       {
+        "name": "dependencies",
+        "status": "PASS",
+        "seconds": 1.8
+       },
+       {
+        "name": "unit",
+        "status": "PASS",
+        "seconds": 75.4
+       },
+       {
+        "name": "host-start",
+        "status": "PASS",
+        "seconds": 7.5
+       },
+       {
+        "name": "t5",
+        "status": "PASS",
+        "seconds": 94.3
+       },
+       {
+        "name": "cleanup",
+        "status": "PASS",
+        "seconds": 2.6
+       }
+      ]
+     },
+     "unitDetail": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "durationMs": 62087,
+       "checks": 14,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 28,
+       "lossSource": "driver",
+       "stateBeforeLoss": "ACTIVE",
+       "gameplayHeldAtLoss": false,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [],
+       "evidenceFiles": [],
+       "cleanupCheck": true
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "durationMs": 26146,
+       "checks": 18,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 198,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "gameplayHeldAtLoss": true,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 14684,
+         "table": 2,
+         "inputStatus": "rejected-no-change",
+         "control": "call",
+         "cause": "induced by T5P (drop-next-action)",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 3,
+           "accepted": 2,
+           "counts": {
+            "mouseDown": 3,
+            "mouseUp": 3,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 0,
+            "actions": 3,
+            "accepted": 2,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 1,
+             "call": 1
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 1
+           },
+           "lastShown": {
+            "rev": 3,
+            "wt": 276562
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "playing",
+            "actor": 5,
+            "revision": 3
+           }
+          },
+          "events": 3
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5P-table2-1.json",
+        "unconfirmed-T5P-table2-1-before.png",
+        "unconfirmed-T5P-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      }
+     ],
+     "toolCleanup": true
+    },
+    {
+     "job": 6,
+     "branch": "m32-results/45308811354-t5-6",
+     "outcome": "success",
+     "scaleRequested": 125,
+     "display": {
+      "resolution": [
+       1920,
+       1080
+      ],
+      "monitorDpi": 120,
+      "systemDpi": 96,
+      "scalePercentMeasured": 125,
+      "achieved": {
+       "resolution": true,
+       "scaling": true
+      },
+      "scaleResult": [
+       "source 0: set 125% (relative 1) returned 0; now 125% (recommended 100%)"
+      ]
+     },
+     "runner": {
+      "overall": "PASS",
+      "exitCode": 0,
+      "counts": {
+       "PASS": 78,
+       "FAIL": 0,
+       "WARNING": 0,
+       "SKIPPED": 0,
+       "total": 78
+      },
+      "elapsedSeconds": 200,
+      "phases": [
+       {
+        "name": "environment",
+        "status": "PASS",
+        "seconds": 7.1
+       },
+       {
+        "name": "integrity",
+        "status": "PASS",
+        "seconds": 5.1
+       },
+       {
+        "name": "dependencies",
+        "status": "PASS",
+        "seconds": 1.6
+       },
+       {
+        "name": "unit",
+        "status": "PASS",
+        "seconds": 78
+       },
+       {
+        "name": "host-start",
+        "status": "PASS",
+        "seconds": 8.4
+       },
+       {
+        "name": "t5",
+        "status": "PASS",
+        "seconds": 94.4
+       },
+       {
+        "name": "cleanup",
+        "status": "PASS",
+        "seconds": 2.7
+       }
+      ]
+     },
+     "unitDetail": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "durationMs": 61527,
+       "checks": 14,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 55,
+       "lossSource": "driver",
+       "stateBeforeLoss": "ACTIVE",
+       "gameplayHeldAtLoss": false,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [],
+       "evidenceFiles": [],
+       "cleanupCheck": true
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "durationMs": 26179,
+       "checks": 18,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 891,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "gameplayHeldAtLoss": true,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 14703,
+         "table": 2,
+         "inputStatus": "rejected-no-change",
+         "control": "call",
+         "cause": "induced by T5P (drop-next-action)",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 3,
+           "accepted": 2,
+           "counts": {
+            "mouseDown": 3,
+            "mouseUp": 3,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 0,
+            "actions": 3,
+            "accepted": 2,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 1,
+             "call": 1
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 1
+           },
+           "lastShown": {
+            "rev": 3,
+            "wt": 294406
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "playing",
+            "actor": 5,
+            "revision": 3
+           }
+          },
+          "events": 3
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5P-table2-1.json",
+        "unconfirmed-T5P-table2-1-before.png",
+        "unconfirmed-T5P-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      }
+     ],
+     "toolCleanup": true
+    },
+    {
+     "job": 7,
+     "branch": "m32-results/45308811354-t5-7",
+     "outcome": "success",
+     "scaleRequested": 100,
+     "display": {
+      "resolution": [
+       1920,
+       1080
+      ],
+      "monitorDpi": 96,
+      "systemDpi": 96,
+      "scalePercentMeasured": 100,
+      "achieved": {
+       "resolution": true,
+       "scaling": true
+      },
+      "scaleResult": []
+     },
+     "runner": {
+      "overall": "PASS",
+      "exitCode": 0,
+      "counts": {
+       "PASS": 78,
+       "FAIL": 0,
+       "WARNING": 0,
+       "SKIPPED": 0,
+       "total": 78
+      },
+      "elapsedSeconds": 180.5,
+      "phases": [
+       {
+        "name": "environment",
+        "status": "PASS",
+        "seconds": 4.8
+       },
+       {
+        "name": "integrity",
+        "status": "PASS",
+        "seconds": 3.4
+       },
+       {
+        "name": "dependencies",
+        "status": "PASS",
+        "seconds": 1.1
+       },
+       {
+        "name": "unit",
+        "status": "PASS",
+        "seconds": 68.7
+       },
+       {
+        "name": "host-start",
+        "status": "PASS",
+        "seconds": 6.3
+       },
+       {
+        "name": "t5",
+        "status": "PASS",
+        "seconds": 91.6
+       },
+       {
+        "name": "cleanup",
+        "status": "PASS",
+        "seconds": 2.5
+       }
+      ]
+     },
+     "unitDetail": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "durationMs": 61231,
+       "checks": 14,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 72,
+       "lossSource": "driver",
+       "stateBeforeLoss": "ACTIVE",
+       "gameplayHeldAtLoss": false,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [],
+       "evidenceFiles": [],
+       "cleanupCheck": true
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "durationMs": 25569,
+       "checks": 18,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 129,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "gameplayHeldAtLoss": true,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 14318,
+         "table": 2,
+         "inputStatus": "rejected-no-change",
+         "control": "call",
+         "cause": "induced by T5P (drop-next-action)",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 3,
+           "accepted": 2,
+           "counts": {
+            "mouseDown": 3,
+            "mouseUp": 3,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 0,
+            "actions": 3,
+            "accepted": 2,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 1,
+             "call": 1
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 1
+           },
+           "lastShown": {
+            "rev": 3,
+            "wt": 284406
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "playing",
+            "actor": 5,
+            "revision": 3
+           }
+          },
+          "events": 4
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5P-table2-1.json",
+        "unconfirmed-T5P-table2-1-before.png",
+        "unconfirmed-T5P-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      }
+     ],
+     "toolCleanup": true
+    },
+    {
+     "job": 8,
+     "branch": "m32-results/45308811354-t5-8",
+     "outcome": "success",
+     "scaleRequested": 125,
+     "display": {
+      "resolution": [
+       1920,
+       1080
+      ],
+      "monitorDpi": 120,
+      "systemDpi": 96,
+      "scalePercentMeasured": 125,
+      "achieved": {
+       "resolution": true,
+       "scaling": true
+      },
+      "scaleResult": [
+       "source 0: set 125% (relative 1) returned 0; now 125% (recommended 100%)"
+      ]
+     },
+     "runner": {
+      "overall": "PASS",
+      "exitCode": 0,
+      "counts": {
+       "PASS": 78,
+       "FAIL": 0,
+       "WARNING": 0,
+       "SKIPPED": 0,
+       "total": 78
+      },
+      "elapsedSeconds": 198.6,
+      "phases": [
+       {
+        "name": "environment",
+        "status": "PASS",
+        "seconds": 7.5
+       },
+       {
+        "name": "integrity",
+        "status": "PASS",
+        "seconds": 5
+       },
+       {
+        "name": "dependencies",
+        "status": "PASS",
+        "seconds": 1.5
+       },
+       {
+        "name": "unit",
+        "status": "PASS",
+        "seconds": 77.5
+       },
+       {
+        "name": "host-start",
+        "status": "PASS",
+        "seconds": 8.3
+       },
+       {
+        "name": "t5",
+        "status": "PASS",
+        "seconds": 93.3
+       },
+       {
+        "name": "cleanup",
+        "status": "PASS",
+        "seconds": 2.7
+       }
+      ]
+     },
+     "unitDetail": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "durationMs": 60630,
+       "checks": 14,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 2114,
+       "lossSource": "confirmation",
+       "stateBeforeLoss": "ACTIVE",
+       "gameplayHeldAtLoss": false,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 55185,
+         "table": 2,
+         "inputStatus": "uncertain",
+         "control": "fold",
+         "cause": "the window was closed by the test",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 15,
+           "accepted": 14,
+           "counts": {
+            "mouseDown": 16,
+            "mouseUp": 16,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 6,
+            "actions": 14,
+            "accepted": 14,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 6,
+             "call": 6,
+             "raise": 2
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 0
+           },
+           "lastShown": {
+            "rev": 15,
+            "wt": 279781
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "complete",
+            "actor": -1,
+            "revision": 19
+           }
+          },
+          "events": 12
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5-table2-1.json",
+        "unconfirmed-T5-table2-1-before.png",
+        "unconfirmed-T5-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "durationMs": 26025,
+       "checks": 18,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 266,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "gameplayHeldAtLoss": true,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 14522,
+         "table": 2,
+         "inputStatus": "rejected-no-change",
+         "control": "call",
+         "cause": "induced by T5P (drop-next-action)",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 3,
+           "accepted": 2,
+           "counts": {
+            "mouseDown": 3,
+            "mouseUp": 3,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 0,
+            "actions": 3,
+            "accepted": 2,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 1,
+             "call": 1
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 1
+           },
+           "lastShown": {
+            "rev": 3,
+            "wt": 293671
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "playing",
+            "actor": 5,
+            "revision": 3
+           }
+          },
+          "events": 4
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5P-table2-1.json",
+        "unconfirmed-T5P-table2-1-before.png",
+        "unconfirmed-T5P-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      }
+     ],
+     "toolCleanup": true
+    },
+    {
+     "job": 9,
+     "branch": "m32-results/45308811354-t5-9",
+     "outcome": "success",
+     "scaleRequested": 100,
+     "display": {
+      "resolution": [
+       1920,
+       1080
+      ],
+      "monitorDpi": 96,
+      "systemDpi": 96,
+      "scalePercentMeasured": 100,
+      "achieved": {
+       "resolution": true,
+       "scaling": true
+      },
+      "scaleResult": []
+     },
+     "runner": {
+      "overall": "PASS",
+      "exitCode": 0,
+      "counts": {
+       "PASS": 78,
+       "FAIL": 0,
+       "WARNING": 0,
+       "SKIPPED": 0,
+       "total": 78
+      },
+      "elapsedSeconds": 159.2,
+      "phases": [
+       {
+        "name": "environment",
+        "status": "PASS",
+        "seconds": 4.1
+       },
+       {
+        "name": "integrity",
+        "status": "PASS",
+        "seconds": 2.6
+       },
+       {
+        "name": "dependencies",
+        "status": "PASS",
+        "seconds": 0.9
+       },
+       {
+        "name": "unit",
+        "status": "PASS",
+        "seconds": 56.6
+       },
+       {
+        "name": "host-start",
+        "status": "PASS",
+        "seconds": 4.7
+       },
+       {
+        "name": "t5",
+        "status": "PASS",
+        "seconds": 86.4
+       },
+       {
+        "name": "cleanup",
+        "status": "PASS",
+        "seconds": 2.3
+       }
+      ]
+     },
+     "unitDetail": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "durationMs": 59016,
+       "checks": 14,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 2085,
+       "lossSource": "confirmation",
+       "stateBeforeLoss": "ACTIVE",
+       "gameplayHeldAtLoss": false,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 53705,
+         "table": 2,
+         "inputStatus": "uncertain",
+         "control": "fold",
+         "cause": "the window was closed by the test",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 15,
+           "accepted": 14,
+           "counts": {
+            "mouseDown": 16,
+            "mouseUp": 16,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 6,
+            "actions": 14,
+            "accepted": 14,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 6,
+             "call": 6,
+             "raise": 2
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 0
+           },
+           "lastShown": {
+            "rev": 15,
+            "wt": 477843
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "complete",
+            "actor": -1,
+            "revision": 19
+           }
+          },
+          "events": 12
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5-table2-1.json",
+        "unconfirmed-T5-table2-1-before.png",
+        "unconfirmed-T5-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "durationMs": 23670,
+       "checks": 18,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 614,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "gameplayHeldAtLoss": true,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 13094,
+         "table": 2,
+         "inputStatus": "rejected-no-change",
+         "control": "call",
+         "cause": "induced by T5P (drop-next-action)",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 3,
+           "accepted": 2,
+           "counts": {
+            "mouseDown": 3,
+            "mouseUp": 3,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 0,
+            "actions": 3,
+            "accepted": 2,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 1,
+             "call": 1
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 1
+           },
+           "lastShown": {
+            "rev": 3,
+            "wt": 490328
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "playing",
+            "actor": 5,
+            "revision": 3
+           }
+          },
+          "events": 4
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5P-table2-1.json",
+        "unconfirmed-T5P-table2-1-before.png",
+        "unconfirmed-T5P-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      }
+     ],
+     "toolCleanup": true
+    },
+    {
+     "job": 10,
+     "branch": "m32-results/45308811354-t5-10",
+     "outcome": "success",
+     "scaleRequested": 125,
+     "display": {
+      "resolution": [
+       1920,
+       1080
+      ],
+      "monitorDpi": 120,
+      "systemDpi": 96,
+      "scalePercentMeasured": 125,
+      "achieved": {
+       "resolution": true,
+       "scaling": true
+      },
+      "scaleResult": [
+       "source 0: set 125% (relative 1) returned 0; now 125% (recommended 100%)"
+      ]
+     },
+     "runner": {
+      "overall": "PASS",
+      "exitCode": 0,
+      "counts": {
+       "PASS": 78,
+       "FAIL": 0,
+       "WARNING": 0,
+       "SKIPPED": 0,
+       "total": 78
+      },
+      "elapsedSeconds": 161.3,
+      "phases": [
+       {
+        "name": "environment",
+        "status": "PASS",
+        "seconds": 4.1
+       },
+       {
+        "name": "integrity",
+        "status": "PASS",
+        "seconds": 2.5
+       },
+       {
+        "name": "dependencies",
+        "status": "PASS",
+        "seconds": 0.9
+       },
+       {
+        "name": "unit",
+        "status": "PASS",
+        "seconds": 57
+       },
+       {
+        "name": "host-start",
+        "status": "PASS",
+        "seconds": 4.7
+       },
+       {
+        "name": "t5",
+        "status": "PASS",
+        "seconds": 88
+       },
+       {
+        "name": "cleanup",
+        "status": "PASS",
+        "seconds": 2.4
+       }
+      ]
+     },
+     "unitDetail": "82 passed, 0 failed, 0 skipped",
+     "scenarios": [
+      {
+       "id": "T5",
+       "status": "pass",
+       "durationMs": 59080,
+       "checks": 14,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 71,
+       "lossSource": "driver",
+       "stateBeforeLoss": "ACTIVE",
+       "gameplayHeldAtLoss": false,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [],
+       "evidenceFiles": [],
+       "cleanupCheck": true
+      },
+      {
+       "id": "T5P",
+       "status": "pass",
+       "durationMs": 25090,
+       "checks": 18,
+       "failedChecks": [],
+       "warnings": [],
+       "lossDetectMs": 263,
+       "lossSource": "health-monitor",
+       "stateBeforeLoss": "SAFETY_PAUSED",
+       "gameplayHeldAtLoss": true,
+       "unavailableTables": [
+        2
+       ],
+       "inputsAfterLoss": 0,
+       "table1Continued": true,
+       "unconfirmedInputs": [
+        {
+         "ms": 14042,
+         "table": 2,
+         "inputStatus": "rejected-no-change",
+         "control": "call",
+         "cause": "induced by T5P (drop-next-action)",
+         "oracle": {
+          "summary": {
+           "hands": 1,
+           "rev": 3,
+           "accepted": 2,
+           "counts": {
+            "mouseDown": 3,
+            "mouseUp": 3,
+            "downOutsideControls": 0,
+            "downOnDisabled": 0,
+            "doubleClicks": 0,
+            "rightClicks": 0,
+            "keys": 0,
+            "actions": 3,
+            "accepted": 2,
+            "staleClicks": 0,
+            "illegal": 0,
+            "wagerRejected": 0,
+            "byType": {
+             "fold": 1,
+             "call": 1
+            },
+            "timeoutActions": 0,
+            "droppedByTest": 1
+           },
+           "lastShown": {
+            "rev": 3,
+            "wt": 261000
+           },
+           "dropPending": 0,
+           "state": {
+            "hand": 1,
+            "status": "playing",
+            "actor": 5,
+            "revision": 3
+           }
+          },
+          "events": 4
+         }
+        }
+       ],
+       "evidenceFiles": [
+        "unconfirmed-T5P-table2-1.json",
+        "unconfirmed-T5P-table2-1-before.png",
+        "unconfirmed-T5P-table2-1-after.png"
+       ],
+       "cleanupCheck": true
+      }
+     ],
+     "toolCleanup": true
+    }
+   ],
+   "summary": {
+    "jobs": 10,
+    "jobsPassed": 10,
+    "launcherExitCodes": [
+     0
+    ],
+    "T5": {
+     "runs": 10,
+     "passed": 10,
+     "withWarnings": 0,
+     "failed": 0,
+     "lossDetectMs": {
+      "n": 10,
+      "min": 28,
+      "median": 1078.5,
+      "p95": 2114,
+      "max": 2114,
+      "mean": 1079.3
+     },
+     "lossSources": {
+      "confirmation": 5,
+      "driver": 5
+     },
+     "stateBeforeLoss": {
+      "ACTIVE": 10
+     },
+     "inputsAfterLoss": 0,
+     "schedulerBlockedOnlyTable2": 10,
+     "table1Continued": 10,
+     "cleanupOk": 10
+    },
+    "T5P": {
+     "runs": 10,
+     "passed": 10,
+     "withWarnings": 0,
+     "failed": 0,
+     "lossDetectMs": {
+      "n": 10,
+      "min": 129,
+      "median": 325.0,
+      "p95": 905,
+      "max": 905,
+      "mean": 441.6
+     },
+     "lossSources": {
+      "health-monitor": 10
+     },
+     "stateBeforeLoss": {
+      "SAFETY_PAUSED": 10
+     },
+     "inputsAfterLoss": 0,
+     "schedulerBlockedOnlyTable2": 10,
+     "table1Continued": 10,
+     "cleanupOk": 10
+    },
+    "jobsAt125PercentMeasured": 5,
+    "jobsAt100PercentMeasured": 5,
+    "scenariosAt125Percent": {
+     "runs": 10,
+     "passed": 10
+    },
+    "standaloneRunSeconds": {
+     "n": 10,
+     "min": 158.5,
+     "median": 188.3,
+     "p95": 211.8,
+     "max": 211.8,
+     "mean": 184.5
+    },
+    "unconfirmedInputsByCause": {
+     "T5 table 2 uncertain: the window was closed by the test": 5,
+     "T5P table 2 rejected-no-change: induced by T5P (drop-next-action)": 10
+    },
+    "unconfirmedInputsNotInduced": []
+   }
+  }
+ ],
+ "allRunsSummary": {
+  "jobs": 32,
+  "jobsPassed": 22,
+  "launcherExitCodes": [
+   0,
+   2
+  ],
+  "T5": {
+   "runs": 32,
+   "passed": 32,
+   "withWarnings": 0,
+   "failed": 0,
+   "lossDetectMs": {
+    "n": 32,
+    "min": 28,
+    "median": 2074.0,
+    "p95": 2115,
+    "max": 2123,
+    "mean": 1149.3
+   },
+   "lossSources": {
+    "confirmation": 18,
+    "driver": 14
+   },
+   "stateBeforeLoss": {
+    "ACTIVE": 32
+   },
+   "inputsAfterLoss": 0,
+   "schedulerBlockedOnlyTable2": 32,
+   "table1Continued": 32,
+   "cleanupOk": 32
+  },
+  "T5P": {
+   "runs": 32,
+   "passed": 32,
+   "withWarnings": 0,
+   "failed": 0,
+   "lossDetectMs": {
+    "n": 32,
+    "min": 129,
+    "median": 448.5,
+    "p95": 905,
+    "max": 909,
+    "mean": 467.6
+   },
+   "lossSources": {
+    "health-monitor": 32
+   },
+   "stateBeforeLoss": {
+    "SAFETY_PAUSED": 32
+   },
+   "inputsAfterLoss": 0,
+   "schedulerBlockedOnlyTable2": 32,
+   "table1Continued": 32,
+   "cleanupOk": 32
+  },
+  "jobsAt125PercentMeasured": 16,
+  "jobsAt100PercentMeasured": 16,
+  "scenariosAt125Percent": {
+   "runs": 32,
+   "passed": 32
+  },
+  "standaloneRunSeconds": {
+   "n": 32,
+   "min": 156.4,
+   "median": 180.55,
+   "p95": 203.9,
+   "max": 211.8,
+   "mean": 181.1
+  },
+  "unconfirmedInputsByCause": {
+   "T5P table 2 rejected-no-change: induced by T5P (drop-next-action) [attributed from scenario/table/status; recorded before the cause field existed]": 12,
+   "T5 table 2 uncertain: the window was closed by the test [attributed from scenario/table/status; recorded before the cause field existed]": 8,
+   "T5 table 2 uncertain: the window was closed by the test": 10,
+   "T5P table 2 rejected-no-change: induced by T5P (drop-next-action)": 20
+  },
+  "unconfirmedInputsNotInduced": []
+ },
+ "notEstablished": [
+  "the operator PC has not run Milestone 3.2 (pending)",
+  "Windows CI ran at 1920x1080 (not 3840x2160); per-monitor scaling 125 % was applied at run time (the system DPI that DPI-unaware programs use stays 100 % until sign-in; the EightMax host, driver and test tables are DPI aware)",
+  "CI machines have Defender real-time protection off and no other user software"
+ ]
+}

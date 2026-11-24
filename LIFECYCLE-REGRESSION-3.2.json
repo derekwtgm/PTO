@@ -1,0 +1,452 @@
+{
+ "format": "eightmax-m32-lifecycle-regression",
+ "version": 1,
+ "release": {
+  "sha256": "740e9c1fe853d8db0a57722cabbba78a66ad20525b63a7569fe51658cabeb54d"
+ },
+ "validationKinds": {
+  "developmentEnvironment": "Linux development machine: Node 22.23.5, no PowerShell, no Windows",
+  "simulated": "production controller / scheduler / executor / driver client against the in-process fake desktop host (tests/lifecycle-host-fixture.cjs) - logic evidence only, never Windows evidence",
+  "realWindowsCI": "GitHub-hosted windows-latest (Windows Server 2025 Datacenter, Windows PowerShell 5.1, real interactive desktop 1920x1080, AMD EPYC 2 cores / 4 threads, Defender real-time protection off): real windows, real capture, real mouse input",
+  "operatorHardware": "Windows 11 Home, i7-13700F, RTX 4060 Ti, 16 GB, 3840x2160 at 125 %: PENDING - Milestone 3.2 has not run there yet"
+ },
+ "deterministicTests": {
+  "file": "tests/paused-window-0362m32.test.cjs",
+  "environment": "simulated (fake host); every scenario checks the state transitions AND the input that reached or did not reach each window",
+  "linux": [
+   {
+    "scenario": "A",
+    "name": "M3.2 A: an ACTIVE window closes -> TARGET_LOST, scheduler registration revoked, no input afterwards, the other table plays on",
+    "pass": true,
+    "durationMs": 3411
+   },
+   {
+    "scenario": "B",
+    "name": "M3.2 B: a GAMEPLAY-PAUSED window closes -> the health monitor detects it (the operator T5 failure), registration revoked, nothing resumes",
+    "pass": true,
+    "durationMs": 851
+   },
+   {
+    "scenario": "C",
+    "name": "M3.2 C: an action the table did not apply (rejected, no change) -> SAFETY_PAUSED input-rejected; then the window closes -> TARGET_LOST",
+    "pass": true,
+    "durationMs": 1551
+   },
+   {
+    "scenario": "D",
+    "name": "M3.2 D: an UNCONFIRMED (timed-out) input, then the window closes -> the uncertain input stays recorded for review and TARGET_LOST is reached",
+    "pass": true,
+    "durationMs": 1149
+   },
+   {
+    "scenario": "E",
+    "name": "M3.2 E: the window closes DURING an identity probe -> the stale \"healthy\" answer authorises nothing; a late answer after the loss is discarded",
+    "pass": true,
+    "durationMs": 1593
+   },
+   {
+    "scenario": "F",
+    "name": "M3.2 F: the handle is reused by ANOTHER process while paused -> identity-changed TARGET_LOST; the old registration can never be used again",
+    "pass": true,
+    "durationMs": 513
+   },
+   {
+    "scenario": "G",
+    "name": "M3.2 G: table 2 is lost while TABLE 1 holds the cursor lease -> table 1 is not cancelled and completes its action",
+    "pass": true,
+    "durationMs": 750
+   },
+   {
+    "scenario": "H",
+    "name": "M3.2 H: table 2 is lost while ITS OWN input is queued -> the queued action is rejected (target-lost), table 1 continues",
+    "pass": true,
+    "durationMs": 815
+   },
+   {
+    "scenario": "I",
+    "name": "M3.2 I: table 2 is lost while IT holds the cursor lease -> its input is cancelled before the press; table 1 is isolated",
+    "pass": true,
+    "durationMs": 864
+   },
+   {
+    "scenario": "J",
+    "name": "M3.2 J: emergency stop and target loss together -> TARGET_LOST wins for the closed table; nothing restarts automatically after the reset",
+    "pass": true,
+    "durationMs": 1272
+   },
+   {
+    "scenario": "K",
+    "name": "M3.2 K: a paused window that stays open is monitored, its lifecycle stays accurate, and nothing resumes gameplay",
+    "pass": true,
+    "durationMs": 2728
+   },
+   {
+    "scenario": "L",
+    "name": "M3.2 L: a completed tournament stays stopped: monitoring continues but never restarts it; a later close is still recognised",
+    "pass": true,
+    "durationMs": 4341
+   },
+   {
+    "scenario": "M",
+    "name": "M3.2 M: re-registration needs a fresh authorisation and identity; the lost registration stays refused",
+    "pass": true,
+    "durationMs": 854
+   },
+   {
+    "scenario": "N",
+    "name": "M3.2 N: a confirmation that arrives late, after the attempt was cancelled, causes no retry and no second action",
+    "pass": true,
+    "durationMs": 706
+   },
+   {
+    "scenario": "O",
+    "name": "M3.2 O: a valid fresh action is confirmed: input status confirmed, timings recorded, no evidence record",
+    "pass": true,
+    "durationMs": 566
+   },
+   {
+    "scenario": "P",
+    "name": "M3.2 P: a real \"simulator rejected the action\" outcome -> input-rejected safety pause, complete evidence, no retry, operator resume recovers",
+    "pass": true,
+    "durationMs": 1405
+   },
+   {
+    "scenario": "Q",
+    "name": "M3.2 Q: two tables under repeated faults (unapplied actions, pauses, closes and replacements) -> never any cross-table input",
+    "pass": true,
+    "durationMs": 5500
+   },
+   {
+    "scenario": "R",
+    "name": "M3.2 R: several table windows close and are re-registered one after another -> each loss isolated, each replacement plays",
+    "pass": true,
+    "durationMs": 2564
+   }
+  ],
+  "linuxUnits": [
+   {
+    "name": "M3.2 unit: the health monitor never moves a lifecycle towards ACTIVE and never resumes anything",
+    "pass": true,
+    "durationMs": 1
+   },
+   {
+    "name": "M3.2 unit: unknown answers prove nothing and back off; a loss is reported exactly once (single-flight) and the monitor stops",
+    "pass": true,
+    "durationMs": 2
+   },
+   {
+    "name": "M3.2 unit: probes made by the table count as evidence (no duplicate probe while playing); a paused table is due on the short interval",
+    "pass": true,
+    "durationMs": 0
+   },
+   {
+    "name": "M3.2 unit: scheduler registrations - revoke once, refuse the old registration for good, a replacement is available, an old pause never blocks it",
+    "pass": true,
+    "durationMs": 2
+   },
+   {
+    "name": "M3.2 unit: invalidating one registration never touches another table's queued or running job",
+    "pass": true,
+    "durationMs": 30
+   }
+  ],
+  "windows": [
+   {
+    "scenario": "A",
+    "name": "M3.2 A: an ACTIVE window closes -> TARGET_LOST, scheduler registration revoked, no input afterwards, the other table plays on",
+    "pass": true,
+    "durationMs": 3243
+   },
+   {
+    "scenario": "B",
+    "name": "M3.2 B: a GAMEPLAY-PAUSED window closes -> the health monitor detects it (the operator T5 failure), registration revoked, nothing resumes",
+    "pass": true,
+    "durationMs": 920
+   },
+   {
+    "scenario": "C",
+    "name": "M3.2 C: an action the table did not apply (rejected, no change) -> SAFETY_PAUSED input-rejected; then the window closes -> TARGET_LOST",
+    "pass": true,
+    "durationMs": 1600
+   },
+   {
+    "scenario": "D",
+    "name": "M3.2 D: an UNCONFIRMED (timed-out) input, then the window closes -> the uncertain input stays recorded for review and TARGET_LOST is reached",
+    "pass": true,
+    "durationMs": 1393
+   },
+   {
+    "scenario": "E",
+    "name": "M3.2 E: the window closes DURING an identity probe -> the stale \"healthy\" answer authorises nothing; a late answer after the loss is discarded",
+    "pass": true,
+    "durationMs": 1681
+   },
+   {
+    "scenario": "F",
+    "name": "M3.2 F: the handle is reused by ANOTHER process while paused -> identity-changed TARGET_LOST; the old registration can never be used again",
+    "pass": true,
+    "durationMs": 795
+   },
+   {
+    "scenario": "G",
+    "name": "M3.2 G: table 2 is lost while TABLE 1 holds the cursor lease -> table 1 is not cancelled and completes its action",
+    "pass": true,
+    "durationMs": 938
+   },
+   {
+    "scenario": "H",
+    "name": "M3.2 H: table 2 is lost while ITS OWN input is queued -> the queued action is rejected (target-lost), table 1 continues",
+    "pass": true,
+    "durationMs": 1149
+   },
+   {
+    "scenario": "I",
+    "name": "M3.2 I: table 2 is lost while IT holds the cursor lease -> its input is cancelled before the press; table 1 is isolated",
+    "pass": true,
+    "durationMs": 1039
+   },
+   {
+    "scenario": "J",
+    "name": "M3.2 J: emergency stop and target loss together -> TARGET_LOST wins for the closed table; nothing restarts automatically after the reset",
+    "pass": true,
+    "durationMs": 1350
+   },
+   {
+    "scenario": "K",
+    "name": "M3.2 K: a paused window that stays open is monitored, its lifecycle stays accurate, and nothing resumes gameplay",
+    "pass": true,
+    "durationMs": 2863
+   },
+   {
+    "scenario": "L",
+    "name": "M3.2 L: a completed tournament stays stopped: monitoring continues but never restarts it; a later close is still recognised",
+    "pass": true,
+    "durationMs": 4908
+   },
+   {
+    "scenario": "M",
+    "name": "M3.2 M: re-registration needs a fresh authorisation and identity; the lost registration stays refused",
+    "pass": true,
+    "durationMs": 1013
+   },
+   {
+    "scenario": "N",
+    "name": "M3.2 N: a confirmation that arrives late, after the attempt was cancelled, causes no retry and no second action",
+    "pass": true,
+    "durationMs": 814
+   },
+   {
+    "scenario": "O",
+    "name": "M3.2 O: a valid fresh action is confirmed: input status confirmed, timings recorded, no evidence record",
+    "pass": true,
+    "durationMs": 683
+   },
+   {
+    "scenario": "P",
+    "name": "M3.2 P: a real \"simulator rejected the action\" outcome -> input-rejected safety pause, complete evidence, no retry, operator resume recovers",
+    "pass": true,
+    "durationMs": 1512
+   },
+   {
+    "scenario": "Q",
+    "name": "M3.2 Q: two tables under repeated faults (unapplied actions, pauses, closes and replacements) -> never any cross-table input",
+    "pass": true,
+    "durationMs": 6389
+   },
+   {
+    "scenario": "R",
+    "name": "M3.2 R: several table windows close and are re-registered one after another -> each loss isolated, each replacement plays",
+    "pass": true,
+    "durationMs": 3336
+   }
+  ]
+ },
+ "lifecycleAK": {
+  "environment": "real Windows CI (full acceptance job)",
+  "run": "m32-results/45311974352-full",
+  "overall": "PASS",
+  "scenarios": [
+   {
+    "id": "J",
+    "name": "Scripted practice plays hand after hand (no regression)",
+    "status": "pass",
+    "durationMs": 31151,
+    "checks": 6,
+    "failed": []
+   },
+   {
+    "id": "A",
+    "name": "Window closes during capture",
+    "status": "pass",
+    "durationMs": 7696,
+    "checks": 8,
+    "failed": []
+   },
+   {
+    "id": "B",
+    "name": "Window closes during mouse movement",
+    "status": "pass",
+    "durationMs": 12575,
+    "checks": 7,
+    "failed": []
+   },
+   {
+    "id": "C",
+    "name": "Simulator restarts with a different handle",
+    "status": "pass",
+    "durationMs": 11647,
+    "checks": 10,
+    "failed": []
+   },
+   {
+    "id": "D",
+    "name": "Temporary capture failures (injected while the window stays open)",
+    "status": "pass",
+    "durationMs": 11507,
+    "checks": 6,
+    "failed": []
+   },
+   {
+    "id": "E",
+    "name": "Minimised window",
+    "status": "pass",
+    "durationMs": 10247,
+    "checks": 5,
+    "failed": []
+   },
+   {
+    "id": "F",
+    "name": "Several tables, one closes",
+    "status": "pass",
+    "durationMs": 16344,
+    "checks": 6,
+    "failed": []
+   },
+   {
+    "id": "G",
+    "name": "Emergency stop during recovery",
+    "status": "pass",
+    "durationMs": 7537,
+    "checks": 5,
+    "failed": []
+   },
+   {
+    "id": "H",
+    "name": "Repeated target-loss signals",
+    "status": "pass",
+    "durationMs": 3941,
+    "checks": 6,
+    "failed": []
+   },
+   {
+    "id": "I",
+    "name": "Identity mismatch / handle reuse: no inherited permission",
+    "status": "pass",
+    "durationMs": 3310,
+    "checks": 5,
+    "failed": []
+   },
+   {
+    "id": "K",
+    "name": "Window resized while playing (geometry / display-scaling re-check)",
+    "status": "pass",
+    "durationMs": 7806,
+    "checks": 3,
+    "failed": []
+   }
+  ],
+  "cleanup": true
+ },
+ "gameplayT1T6": {
+  "environment": "real Windows CI (full acceptance job)",
+  "overall": "PASS",
+  "scenarios": [
+   {
+    "id": "T1",
+    "name": "Hands that start with eliminated players are tracked (the Milestone 2 stall)",
+    "status": "pass",
+    "durationMs": 45605,
+    "checks": 6,
+    "failed": []
+   },
+   {
+    "id": "T2",
+    "name": "A tournament is played to its end; the end is a normal stop",
+    "status": "pass",
+    "durationMs": 39677,
+    "checks": 12,
+    "failed": []
+   },
+   {
+    "id": "T3",
+    "name": "A hand first seen after its opening: untracked, no input; recovery at the next verified hand",
+    "status": "pass",
+    "durationMs": 20054,
+    "checks": 8,
+    "failed": []
+   },
+   {
+    "id": "T4",
+    "name": "Think-time holds: one seat acting on consecutive streets with every control hidden (pre-existing defect fixed in M3)",
+    "status": "pass",
+    "durationMs": 37374,
+    "checks": 4,
+    "failed": []
+   },
+   {
+    "id": "T5",
+    "name": "Two tables: eliminations on both, one window closes; no input crosses tables",
+    "status": "pass",
+    "durationMs": 55520,
+    "checks": 14,
+    "failed": []
+   },
+   {
+    "id": "T5P",
+    "name": "Two tables: table 2 paused by an action its table did not apply, then its window closes (the operator failure, reproduced)",
+    "status": "pass",
+    "durationMs": 26190,
+    "checks": 18,
+    "failed": []
+   },
+   {
+    "id": "T6",
+    "name": "Emergency stop right after an elimination: stop wins, no input, no automatic recovery",
+    "status": "pass",
+    "durationMs": 21868,
+    "checks": 6,
+    "failed": []
+   }
+  ]
+ },
+ "suites": {
+  "baselineM31Linux": {
+   "tests": 1001,
+   "passed": 913,
+   "failed": 0,
+   "skipped": 88
+  },
+  "m32Linux": {
+   "tests": 1029,
+   "passed": 941,
+   "failed": 0,
+   "skipped": 88,
+   "failedNames": []
+  },
+  "m32WindowsFull": {
+   "tests": 1029,
+   "passed": 982,
+   "failed": 0,
+   "skipped": 47,
+   "failedNames": []
+  },
+  "m32LinuxCI": "see the linux job of each run (complete suite from the extracted ZIP; PowerShell 7 present there)"
+ },
+ "newTests": [
+  "tests/paused-window-0362m32.test.cjs (23)",
+  "tests/release-0362m32.test.cjs (5)"
+ ],
+ "modifiedTests": [
+  "tests/runner-0362m31.test.cjs: the results-folder name is built from $script:M31RunPrefix (default Milestone3.1) - the Gregorian-date assertion is kept, plus one that the default prefix is unchanged"
+ ]
+}

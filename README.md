@@ -1,9 +1,25 @@
-# EightMax Test Workbench 0.36.2 - Milestone 3.2 (in development): paused-window monitoring, target-loss recovery, multi-table isolation
+# EightMax Test Workbench 0.36.2 - Milestone 3.2 (input confirmation reliability, paused-window monitoring, target-loss recovery, multi-table isolation)
 
-Work in progress on branch `milestone-3.2-0362`. `m32-overlay/EightMax-Test-Workbench/` holds every file Milestone 3.2 adds or changes relative to
-`EightMax-Test-Workbench-0.36.2-Milestone-3.1.zip` (unchanged in this branch); `.github/workflows/windows-0362-m32.yml` packages the Milestone 3.1 ZIP +
-overlay (or, once committed, the Milestone 3.2 ZIP) and tests it on Windows: standalone T5 on separate machines, the full acceptance, the Milestone 3.1
-scenario suite and the Linux regression suite. Results: branches `m32-results/<run id>-*`.
+| File | Contents |
+|---|---|
+| `EightMax-Test-Workbench-0.36.2-Milestone-3.2.zip` | the complete release (1,464 entries); SHA-256 in `EightMax-Test-Workbench-0.36.2-Milestone-3.2.zip.sha256` |
+| `REPORT-0.36.2-Milestone-3.2.md` | the development report: root cause, changes, test results, Windows CI results, acceptance criteria, limitations, the next test |
+| `T5-ROOT-CAUSE-ANALYSIS-3.2.md` | the T5 failure of 2026-11-24: evidence, timeline, root cause, the unconfirmed Call |
+| `T5-WINDOWS-VALIDATION-3.2.json`, `INPUT-CONFIRMATION-VALIDATION-3.2.json`, `LIFECYCLE-REGRESSION-3.2.json`, `MULTITABLE-REGRESSION-3.2.json` | the validation records |
+| `READ-ME-MILESTONE3.2-TESTS.txt` | how to run the standalone T5 test on your own Windows PC (also inside the ZIP) |
+| `m32-overlay/EightMax-Test-Workbench/` | every file Milestone 3.2 adds or changes relative to `EightMax-Test-Workbench-0.36.2-Milestone-3.1.zip`, byte-identical to the same files in the ZIP; `m32-overlay/DELETED.txt` lists removed files (none) |
+| `.github/workflows/windows-0362-m32.yml` | Windows CI of the committed ZIP: package verification, Linux suite, the standalone T5 test on separate machines (100 % and 125 % display scaling), full acceptance, Milestone 3.1 scenario suite; results on the branches `m32-results/<run id>-*` |
+| `EightMax-Test-Workbench-0.36.2-Milestone-3.1.zip` and the earlier files | the baseline (unchanged) |
+
+Windows validation of this exact ZIP (SHA-256 `740e9c1fe853d8db0a57722cabbba78a66ad20525b63a7569fe51658cabeb54d`): GitHub Actions run
+[45311974352](https://github.com/derekwtgm/PTO/actions/runs/45311974352) - the standalone T5 test (`RUN-M3.2-T5-TEST.cmd`) on 10 separate Windows
+machines, 5 of them at a measured 125 % display scaling: 10/10 PASS (T5 10/10, T5P 10/10); full acceptance PASS, exit 0 (143 PASS, 0 FAIL,
+0 WARNING, 5 SKIPPED by design; complete regression suite 1029 tests: 982 passed, 0 failed, 47 skipped; lifecycle A-K 11/11; gameplay T1-T6 and
+T5P 7/7; multi-table 1/2/5/8 PASS); Milestone 3.1 scenario suite 26/26; Linux suite 1029 tests: 950 passed, 0 failed, 79 skipped.
+All 17 acceptance criteria are met on Windows CI and Linux; the three development runs are listed in the report.
+Not established: why the one Call on the operator PC was not applied (the oracle and diagnostic files of that run were not available; not marked
+as fixed). The operator's own PC has not run Milestone 3.2 yet (pending). The EightMax 5.1 native solver (`native/mwcli.exe`, build
+`7d08acc7eb4577ee`) is byte-identical; no executable was rebuilt.
 
 ---
 

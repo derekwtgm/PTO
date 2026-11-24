@@ -1,0 +1,68 @@
+EIGHTMAX TEST WORKBENCH 0.36.2 - MILESTONE 3.2 TESTS
+=====================================================
+
+Milestone 3.2 repairs the one failure of your Milestone 3.1 run on 2026-11-24 (test T5, "Two tables: eliminations on both, one
+window closes; no input crosses tables"). The EightMax 5.1 engine, the gameplay and the strategy are unchanged.
+
+WHAT WAS WRONG (T5 on your PC)
+  One click of table 2 (Call) reached the test table, but the table did not change within the 4 seconds the Workbench waits for
+  the confirmation. That is handled safely: the action is never repeated and table 2 is paused. But a paused table no longer
+  checked whether its window still existed. When the test then closed table 2's window, the Workbench did not notice: table 2
+  stayed "ACTIVE" and its input permission was not withdrawn ("the scheduler blocks only table 2 ([])").
+  Repaired: every registered table window is now checked about once a second while its table is paused (and every few seconds
+  while it plays), with the original window identity. A closed window - or a window handle that now belongs to another program -
+  is recognised in every state: playing, paused, safety-paused, stopped or finished. The table becomes TARGET_LOST, its queued and
+  running mouse input is cancelled, its input permission is withdrawn, and the other tables are not affected. These checks never
+  restart a paused table and never send any mouse input.
+  Also new: an action that reached the table but changed nothing is now shown as "Action not applied" (a safety pause that needs
+  your Resume), and for every action that could not be confirmed the Workbench saves a complete evidence record (which button,
+  where it clicked, window size and scaling, whether the window was in the foreground, what the screen showed afterwards). Why
+  the one Call on your PC was not applied could not be determined from the files available (see the report); if it happens again,
+  this evidence will show it.
+
+BEFORE YOU START
+  1. Extract the complete ZIP into a NEW, empty folder (right-click the ZIP > Extract All). Do not run anything from inside the ZIP
+     and do not copy over an older version. A short folder such as C:\EightMax-3.2 is ideal, but any folder works.
+  2. Close the EightMax Workbench, its dashboard and any "EightMax Test Table" window.
+
+THE FOCUSED TEST OF THE REPAIR (recommended): the standalone T5 test
+  Double-click   RUN-M3.2-T5-TEST.cmd
+  Press a key when asked. About 8-15 minutes:
+    - checks the release files, the bundled programs and Node.js, and runs the Milestone 3.2 regression tests (no windows);
+    - starts the desktop host and its input driver;
+    - runs T5 three times: two small "EightMax Test Table" windows play; table 2's window is closed while it plays;
+    - runs T5P three times: the same, but table 2 is first paused by a click its table ignores on purpose (exactly the situation on
+      your PC), then its window is closed;
+    - checks every time: table 2 is recognised as lost, only table 2 is blocked, no mouse input reaches the closed window, table 1
+      keeps playing normally, and everything is cleaned up (desktop host and input driver stopped, port 48713 released).
+  THE MOUSE MOVES BY ITSELF inside the test tables: do not touch the mouse or keyboard until the window says the test ended.
+  Ctrl+Alt+F12 stops all mouse input at any time. Keep the computer awake and plugged in.
+  More or fewer repetitions: open a Command Prompt in the extracted folder and type
+      set EIGHTMAX_T5_REPEAT=5
+      RUN-M3.2-T5-TEST.cmd
+
+WHAT YOU GET
+  At the end the window shows the result (PASS / WARNING / FAIL), and File Explorer opens with   milestone3-results.zip   selected.
+  The folder is  %LOCALAPPDATA%\EightMax-Test-Workbench\TestResults\Milestone3.2-T5-<date>-<time>-t5-test\
+    T5-SUMMARY.txt            what happened in each repetition, in plain language
+    milestone3-results.txt    every check with its result; failures with what to do
+    milestone3-results.zip    everything above plus all logs, the test tables' own records and any evidence  -> SEND THIS FILE
+  A WARNING on "input confirmation" means an action was sent but could not be confirmed (other than the one T5P causes on
+  purpose). The repair itself is still checked separately; the evidence of that action is in the ZIP (work-t5\unconfirmed-*).
+  Exit codes: 0 PASS (warnings allowed), 1 FAIL, 2 test-runner error, 3 this computer prevented the test (for example port 48713
+  in use or another EightMax running), 4 interrupted, 5 the launcher could not start the test.
+
+IF SOMETHING GOES WRONG
+  - The window closed or the PC restarted during the test: start RUN-0362-MILESTONE3.1-TESTS.cmd and press D. It packages the
+    unfinished run (no test is run); send the ZIP it shows.
+  - The launcher cannot start at all: it writes launcher-failure-....txt and a ZIP of it and opens File Explorer there; send that
+    ZIP.
+  - Windows asks whether to run the file: choose Run (or More info > Run anyway).
+
+THE FULL ACCEPTANCE (optional, 45-75 minutes, the same as for Milestone 3.1)
+  Double-click   RUN-0362-MILESTONE3.1-TESTS.cmd   and press C. In this release it runs the Milestone 3.2 program and also
+  includes T5P. Send the milestone3-results.zip it shows at the end.
+
+UPLOADING THE RESULTS
+  Upload the milestone3-results.zip from the Milestone3.2-T5-... folder (File Explorer shows it at the end). Nothing else is needed:
+  it contains the report, the logs and the evidence. User names and secrets are not included in the evidence records.
