@@ -1,0 +1,206 @@
+{
+ "format": "eightmax-unconfirmed-input",
+ "version": 1,
+ "seq": 1,
+ "at": "2026-11-24T14:16:11.007Z",
+ "table": 5,
+ "registrationId": "reg-mwus1kw0-10",
+ "hwnd": "0x80272",
+ "identityFingerprint": "b245ae7f",
+ "identity": {
+  "pid": 6024,
+  "processStart": "134400033327798328",
+  "className": "WindowsForms10.Window.8.app.0.34f5582_r6_ad1",
+  "exe": "EightMaxTestTable.exe",
+  "exeSha256Prefix": "3e5a76995a24d169"
+ },
+ "hand": 1,
+ "street": "flop",
+ "seat": 6,
+ "action": {
+  "type": "raise",
+  "amount": 490
+ },
+ "decisionSource": "scripted-fallback",
+ "decisionLabel": "SCRIPTED FALLBACK — not a solver decision",
+ "inputStatus": "uncertain",
+ "status": "uncertain",
+ "reason": "Click failed: emergency-stop: Emergency stop is latched (dashboard emergency stop); reset it explicitly. - review the simulator; the action is not repeated",
+ "code": "emergency-stop",
+ "control": null,
+ "expectedRegion": null,
+ "selectedPoint": null,
+ "clickedAt": null,
+ "hit": null,
+ "hitClass": null,
+ "displayScaling": 1,
+ "clientAtReading": {
+  "x": 172,
+  "y": 153,
+  "w": 800,
+  "h": 500
+ },
+ "clientAfter": {
+  "x": 172,
+  "y": 153,
+  "w": 800,
+  "h": 500
+ },
+ "windowAfter": {
+  "exists": true,
+  "matches": true,
+  "foreground": true,
+  "minimized": false,
+  "visible": true,
+  "cloaked": false,
+  "enabled": true,
+  "client": {
+   "x": 172,
+   "y": 153,
+   "w": 800,
+   "h": 500
+  },
+  "dpiScale": 1,
+  "monitor": 0
+ },
+ "driver": {
+  "reported": "refused or failed after the press may have happened"
+ },
+ "scheduler": {
+  "leaseId": 55,
+  "waitedMs": 2725,
+  "runMs": 1040
+ },
+ "confirmation": {
+  "status": null,
+  "reason": null,
+  "timeoutMs": 4000
+ },
+ "frames": {
+  "before": {
+   "frameId": 574,
+   "revision": 11,
+   "ageAtSubmitMs": 18
+  },
+  "after": null
+ },
+ "timeline": {
+  "readToSubmitMs": 18,
+  "queueWaitMs": 2725,
+  "inputRunMs": 1040,
+  "confirmMs": null,
+  "totalMs": 3767
+ },
+ "lifecycleAfter": "SAFETY_PAUSED",
+ "recordedAt": 1795529771008,
+ "windowEvents": [
+  {
+   "file": "oracle-table-05.jsonl",
+   "t": 1795529766774,
+   "table": 5,
+   "kind": "mouse-down",
+   "x": 700,
+   "y": 477,
+   "control": "call",
+   "enabled": true,
+   "rev": 10,
+   "wt": 865750,
+   "dealerRev": 10
+  },
+  {
+   "file": "oracle-table-05.jsonl",
+   "t": 1795529766845,
+   "table": 5,
+   "kind": "mouse-up",
+   "x": 700,
+   "y": 477,
+   "control": "call",
+   "enabled": true,
+   "rev": 10,
+   "wt": 865812,
+   "dealerRev": 10
+  },
+  {
+   "file": "oracle-table-05.jsonl",
+   "t": 1795529766845,
+   "table": 5,
+   "kind": "action",
+   "control": "call",
+   "wager": "",
+   "rev": 10,
+   "wt": 865812,
+   "dealerRev": 10,
+   "result": "accepted",
+   "applied": {
+    "hand": 1,
+    "seat": 4,
+    "control": "call",
+    "type": "call",
+    "amount": 250,
+    "rev": 11
+   }
+  },
+  {
+   "file": "oracle-table-05.jsonl",
+   "t": 1795529766858,
+   "table": 5,
+   "kind": "shown",
+   "rev": 11,
+   "wt": 865828,
+   "dealerRev": 11
+  },
+  {
+   "file": "oracle-table-05.jsonl",
+   "t": 1795529770580,
+   "table": 5,
+   "kind": "mouse-down",
+   "x": 396,
+   "y": 477,
+   "control": "wager",
+   "enabled": true,
+   "rev": 11,
+   "wt": 869546,
+   "dealerRev": 11
+  },
+  {
+   "file": "oracle-table-05.jsonl",
+   "t": 1795529770651,
+   "table": 5,
+   "kind": "mouse-up",
+   "x": 396,
+   "y": 477,
+   "control": "wager",
+   "enabled": true,
+   "rev": 11,
+   "wt": 869625,
+   "dealerRev": 11
+  },
+  {
+   "file": "oracle-table-05.jsonl",
+   "t": 1795529770733,
+   "table": 5,
+   "kind": "key",
+   "vk": 52,
+   "control": "wager",
+   "wt": 869703
+  },
+  {
+   "file": "oracle-table-05.jsonl",
+   "t": 1795529770792,
+   "table": 5,
+   "kind": "key",
+   "vk": 57,
+   "control": "wager",
+   "wt": 869765
+  },
+  {
+   "file": "oracle-table-05.jsonl",
+   "t": 1795529770851,
+   "table": 5,
+   "kind": "key",
+   "vk": 48,
+   "control": "wager",
+   "wt": 869828
+  }
+ ]
+}
