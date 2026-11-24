@@ -30,7 +30,7 @@ const click = (x, w, name, more = {}) => { const p = at(w, name); return x.s.cal
 test('M4.0 driver: capabilities name the per-process guard, the input drain, phase timings and the inline queries', { skip }, async () => {
   const x = await open(); try {
     const c = x.s.capabilities; assert.deepEqual(c.clickGuardScopes, ['global', 'process']); assert.equal(c.inputDrain, true); assert.equal(c.phaseTimings, true);
-    assert.deepEqual(c.inlineQueries, ['window-info', 'cursor', 'monitors']); assert.equal(c.build, '0.36.2-m40'); assert.equal(c.singleClickGuardMaxMs, 540, 'the double-click guard still uses the system double-click time + 40 ms');
+    assert.deepEqual(c.inlineQueries, ['window-info', 'cursor', 'monitors']); assert.deepEqual(c.raiseWaitModes, ['fixed-30', 'poll']); assert.equal(c.build, '0.36.2-m40'); assert.equal(c.singleClickGuardMaxMs, 540, 'the double-click guard still uses the system double-click time + 40 ms');
   } finally { await x.close(); }
 });
 
@@ -44,11 +44,20 @@ test('M4.0 driver: clickGuard "process" spaces clicks into the same process only
     // per process: a click into ANOTHER process right after a click does not wait ...
     const c1 = await click(x, w1, 'check', { clickGuard: 'process' }), c2 = await click(x, w2, 'check', { clickGuard: 'process' });
     assert.equal(c2.guardScope, 'process'); assert.equal(c2.doubleClickGuardMs, undefined, 'no wait between two different processes');
-    // ... but a second click into the SAME process within the double-click time still waits
-    const c3 = await click(x, w1, 'call', { clickGuard: 'process' }); assert.ok(c3.doubleClickGuardMs > 0, 'the same process keeps the spacing: ' + c3.doubleClickGuardMs);
+    // ... but a second click into the SAME process within the double-click time still waits. Measured back to back (one round trip
+    // apart): Windows CI run 45395967209 showed that a click into another process in between can itself take longer than the 540 ms
+    // window on a loaded 2-core runner, and the driver then rightly does not wait. The reply says how long ago the last click in scope
+    // was (guardSinceMs) and the limit (guardLimitMs): the wait must be exactly the remainder, whatever the machine's speed.
+    const consistent = (r, what) => { assert.equal(r.guardLimitMs, 540, what + ': limit = double-click time + 40 ms'); assert.ok(r.guardSinceMs >= 0, what + ': time since the last click in scope reported');
+      if (r.guardSinceMs < r.guardLimitMs) assert.ok(r.doubleClickGuardMs > 0 && r.doubleClickGuardMs <= r.guardLimitMs - r.guardSinceMs + 1, what + ' waits the remainder: ' + JSON.stringify([r.guardSinceMs, r.doubleClickGuardMs]));
+      else assert.equal(r.doubleClickGuardMs, undefined, what + ': the last click was long enough ago'); return r.guardSinceMs < r.guardLimitMs; };
+    const c3 = await click(x, w1, 'call', { clickGuard: 'process' }), c4 = await click(x, w1, 'raise', { clickGuard: 'process' });
+    assert.equal(c4.guardScope, 'process'); const waited = consistent(c4, 'the same process, back to back');
+    if (!waited) console.log('# note: this machine took ' + c4.guardSinceMs + ' ms for one click round trip; the wait itself was not exercised');
+    consistent(c3, 'the same process after a click into another one');
     // "global" requested explicitly behaves like the default
-    const g = await click(x, w2, 'call', { clickGuard: 'global' }); assert.equal(g.guardScope, 'global'); assert.ok(g.doubleClickGuardMs > 0);
-    const ev = (await x.s.call('virtual-events')).events.filter((e) => e.startsWith('click ')); assert.equal(ev.length, 6, 'every requested click happened exactly once: ' + ev.join(', '));
+    const g = await click(x, w2, 'call', { clickGuard: 'global' }); assert.equal(g.guardScope, 'global'); consistent(g, 'global, back to back');
+    const ev = (await x.s.call('virtual-events')).events.filter((e) => e.startsWith('click ')); assert.equal(ev.length, 7, 'every requested click happened exactly once: ' + ev.join(', '));
     void c1;
   } finally { await x.close(); }
 });
@@ -82,5 +91,16 @@ test('M4.0 driver: window-info is answered while another operation moves the cur
     const [m, qd] = await Promise.all([move, queued]);
     assert.equal(info.inline, true); assert.ok(infoMs < 400, 'inline answer while the cursor moves: ' + infoMs + ' ms'); assert.equal(m.r.ok, true, JSON.stringify(m.r).slice(0, 200));
     assert.ok(m.at >= 1400, 'the movement took its planned time: ' + m.at); assert.ok(qd.at >= m.at - 5, 'queued:true still waits behind the movement'); assert.equal(qd.r.inline, undefined);
+  } finally { await x.close(); }
+});
+
+test('M4.0 driver: raiseWait "poll" raises a covered target window and clicks as soon as it is on top (the default keeps the fixed 30 ms wait)', { skip }, async () => {
+  const x = await open({ tables: 2, dx: 30, dy: 20, clientW: 800 }); try {   // overlapping windows: table 2 (registered last) covers table 1
+    const [w1, w2] = x.desk.windows;
+    const polled = await click(x, w1, 'fold', { focusPolicy: 'bring-to-front', raiseWait: 'poll', clickGuard: 'process' });
+    assert.ok(polled.phases.focusMs >= 4 && polled.phases.focusMs < 30, 'raised and on top after the polled wait: ' + polled.phases.focusMs + ' ms');
+    const fixed = await click(x, w2, 'fold', { focusPolicy: 'bring-to-front', clickGuard: 'process' });
+    assert.ok(fixed.phases.focusMs >= 29, 'the default waits the fixed 30 ms: ' + fixed.phases.focusMs);
+    const ev = (await x.s.call('virtual-events')).events.filter((e) => e.startsWith('click ')); assert.deepEqual(ev, ['click fold', 'click fold'], 'each click landed on the raised window');
   } finally { await x.close(); }
 });

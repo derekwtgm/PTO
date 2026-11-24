@@ -35,7 +35,8 @@ function start(o = {}) {
   }
   async function stop() {
     if (stopped) return summary(); stopped = true; clearInterval(timer); nodeTick();
-    if (child) { try { child.kill(); } catch (e) { /* gone */ } await new Promise((r) => { if (!child || child.exitCode !== null) return r(); child.once('exit', r); setTimeout(r, 3000); }); }
+    // the guard timer is cleared as soon as the sampler process has exited (a pending timer would outlive the run: cleanup checks count it)
+    if (child) { try { child.kill(); } catch (e) { /* gone */ } await new Promise((r) => { if (!child || child.exitCode !== null) return r(); const tm = setTimeout(r, 3000); if (tm.unref) tm.unref(); child.once('exit', () => { clearTimeout(tm); r(); }); }); }
     return summary();
   }
   function summary() {

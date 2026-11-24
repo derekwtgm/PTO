@@ -86,7 +86,9 @@ function tableStats(t, orc) {
   return { attempted: t.m.attempted, confirmed: t.m.confirmed, rejected: t.m.rejected, ambiguous: t.m.ambiguous, timedOut: t.m.timedOut, uncertain: t.m.uncertain, cancelled: t.m.cancelled, deadlineMisses: t.m.deadline,
     frames: t.m.frames, refusedReadings: t.m.rejectedFrames, refusalCodes: rej, reconstructionFailures: Object.entries(rej).filter(([k]) => !['untracked-hand', 'stale-observation'].includes(k)).reduce((a, [, v]) => a + v, 0) - noDecisionRefusals,
     untrackedHands: gs.tracking.untrackedHands, untrackedHandsWithoutDecision: noDecision.size, untrackedHandsNeedingInput: Math.max(0, gs.tracking.untrackedHands - noDecision.size), recoveries: gs.tracking.recoveries, eliminationsSeen: t.m.eliminationsSeen, verifyingSteps: t.m.verifyingSteps, gameplay: gs.code, gameplayEpisodes: gs.episodes,
-    lifecycle: t.lc.state, completed: t.completed, tournamentRemaining: gs.tournament.remaining, latencyMs: r.latencyMs };
+    lifecycle: t.lc.state, completed: t.completed, tournamentRemaining: gs.tournament.remaining, latencyMs: r.latencyMs,
+    // 0.36.2 M4.0 (one hero seat per table): decisions the table's own action clock took because the Workbench had not acted in time
+    heroTimeouts: orc && orc.counts ? orc.counts.timeoutActions || 0 : 0, botActions: orc && orc.counts ? orc.counts.botActions || 0 : 0 };
 }
 
 /* ---------------- scenarios ---------------- */
@@ -354,7 +356,7 @@ function summarise(res) {
     actionsAttempted: sum((x) => x.stats.attempted), actionsConfirmed: sum((x) => x.stats.confirmed), incorrectActions: sum((x) => x.crossCheck.wrongActions + x.crossCheck.incorrectClicks), invalidWagers: sum((x) => x.crossCheck.invalidWagers),
     missedStateTransitions: sum((x) => x.crossCheck.appliedNotConfirmed), confirmedButNotApplied: sum((x) => x.crossCheck.confirmedNotApplied), refusedReadings: sum((x) => x.stats.refusedReadings), reconstructionFailures: sum((x) => x.stats.reconstructionFailures),
     untrackedHands: sum((x) => x.stats.untrackedHands), untrackedHandsWithoutDecision: sum((x) => x.stats.untrackedHandsWithoutDecision), untrackedHandsNeedingInput: sum((x) => x.stats.untrackedHandsNeedingInput), recoveryEvents: sum((x) => x.stats.recoveries), lifecycleRecoveries: tours.reduce((a, x) => a + ((x.stats.gameplayEpisodes || {}).verifying || 0), 0), eliminationsSeen: sum((x) => x.stats.eliminationsSeen),
-    uncertainOrUnconfirmed: sum((x) => x.crossCheck.uncertainOrUnconfirmed), uncertainByTestStop: res.slots.reduce((a, sl) => a + (sl.byTestStop || 0), 0), deadlineMisses: sum((x) => x.stats.deadlineMisses), cleanRefusals: sum((x) => x.stats.rejected), unexpectedPauses: res.violations.filter((v) => /stalled|safety-paused|no confirmed action/.test(v)).length,
+    uncertainOrUnconfirmed: sum((x) => x.crossCheck.uncertainOrUnconfirmed), uncertainByTestStop: res.slots.reduce((a, sl) => a + (sl.byTestStop || 0), 0), deadlineMisses: sum((x) => x.stats.deadlineMisses), heroTimeouts: sum((x) => x.stats.heroTimeouts), botActions: sum((x) => x.stats.botActions), cleanRefusals: sum((x) => x.stats.rejected), unexpectedPauses: res.violations.filter((v) => /stalled|safety-paused|no confirmed action/.test(v)).length,
     finalPlayerCounts: tours.filter((x) => x.completed).map((x) => x.finalPlayers), hands: handSummary(res.slots.flatMap((s) => s.facts.flatMap((m) => [...m.values()]))), faults: res.faults, violations: res.violations,
     // 0.36.2 M3.2: multi-table measurements (brief section 9) - observation only, nothing was tuned or sped up to produce them
     measurements: measurements(res) };
@@ -408,6 +410,7 @@ for (const n of (arg('tables', '1,2,5,8')).split(',').map(Number)) SUSTAINED['S'
   ck('no confirmed action the table did not apply', s.confirmedButNotApplied === 0, s.confirmedButNotApplied);
   ck('no stall, no unexpected pause, no violation', res.violations.length === 0, res.violations.slice(0, 5));
   ck('hands were completed', s.completedHands > 0, s.completedHands);
+  if (hero.heroSeats) warn('every hero decision was made before the table\'s action clock ran out (capacity: a decision the clock took is a missed deadline, never an unsafe input)', s.heroTimeouts === 0, { heroTimeouts: s.heroTimeouts, deadlineMisses: s.deadlineMisses, botActions: s.botActions });
   warn('every action that was sent was confirmed (an action interrupted by the harness stopping its table is uncertain by design and counted apart)', s.uncertainOrUnconfirmed - s.uncertainByTestStop <= 0, { uncertainOrUnconfirmed: s.uncertainOrUnconfirmed, causedByTheHarnessStop: s.uncertainByTestStop });
   return { checks, metrics: s };
 }];

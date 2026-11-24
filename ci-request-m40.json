@@ -1,19 +1,27 @@
 {
- "purpose": "Milestone 4.0 development run 1: Windows build of the changed executables (input driver, desktop host, capture tool) and the driver self-test; Linux suite; baseline comparison on one machine (the Milestone 3.2 stability workload with compat-3.2, then optimized); the Milestone 3.2 ZIP itself as the true baseline; short sustained runs; full acceptance with the optimized pipeline; standalone T5 at 100 % and 125 %",
+ "purpose": "Milestone 4.0 development run 2: Linux suite with failure details (and the Milestone 3.2 copy of any failing test on the same runner); baseline comparison on 3 machines with the order alternating, plus the Fast preset reported apart; the Milestone 3.2 ZIP again (a second baseline machine); the six scheduling policies at 5 and 8 tables; 30-minute sustained play at 5, 8 and 10 tables (every seat through the window, and one hero seat per table); full acceptance again (driver guard test made timing-independent, resource sampler timer fixed)",
  "linux": true,
  "ab": true,
+ "abJobs": 3,
+ "abFast": true,
  "m32": true,
- "policies": false,
- "ten": false,
+ "policies": true,
+ "policyTables": "5,8",
+ "policySeconds": 120,
+ "policyList": "edf,fifo,lst,edf-aging,fair-rr,nearest-guarded",
  "full": true,
  "scenarios": false,
  "launcher": false,
  "stabilitySeconds": 60,
  "sustained": [
-  { "tables": 5, "pipeline": "optimized", "seconds": 300 },
-  { "tables": 8, "pipeline": "optimized", "seconds": 300 },
-  { "tables": 8, "pipeline": "compat-3.2", "seconds": 300 }
+  { "tables": 5, "pipeline": "optimized", "seconds": 1800 },
+  { "tables": 8, "pipeline": "optimized", "seconds": 1800 },
+  { "tables": 8, "pipeline": "compat-3.2", "seconds": 1800 },
+  { "tables": 8, "pipeline": "optimized", "seconds": 1800, "hero": true },
+  { "tables": 10, "pipeline": "optimized", "seconds": 1800 },
+  { "tables": 10, "pipeline": "optimized", "seconds": 1800, "hero": true },
+  { "tables": 10, "pipeline": "compat-3.2", "seconds": 1800, "hero": true }
  ],
- "t5Jobs": 2,
+ "t5Jobs": 0,
  "recognitionScales": []
 }

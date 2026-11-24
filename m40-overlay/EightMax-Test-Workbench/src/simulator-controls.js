@@ -40,9 +40,9 @@
  * and every input that was sent but not confirmed leaves a complete evidence record (unconfirmedInputs; section 4.4 of the brief).
  */
 (function (root, factory) {
-  if (typeof module === 'object' && module.exports) module.exports = factory(require('./engine.js'), require('./hand-state.js'), require('./solver-service.js'), require('./test-executor.js'), require('./execution-adapters.js'), require('./vision-ocr.js'), require('./sim-display.js'), require('./image-codec.js'), require('./status-strip.js'), require('./windows-input-driver.js'), require('./input-scheduler.js'), require('./input-geometry.js'), require('./input-motion.js'), require('./full-hand.js'), require('./window-lifecycle.js'), require('./action-timeline.js'));
-  else root.WorkbenchSimulatorControls = factory(root.EightMax, root.WorkbenchHandState, root.WorkbenchSolverService, root.WorkbenchExecutor, root.WorkbenchExecutionAdapters, root.WorkbenchVisionOcr, root.WorkbenchSimDisplay, root.WorkbenchImageCodec, root.WorkbenchStatusStrip, root.WorkbenchInputDriver, root.WorkbenchInputScheduler, root.WorkbenchInputGeometry, root.WorkbenchInputMotion, root.WorkbenchFullHand, root.WorkbenchWindowLifecycle, root.WorkbenchActionTimeline);
-})(typeof globalThis !== 'undefined' ? globalThis : this, function (EM, HS, SS, EX, XA, OCR, SIM, IC, STRIP, DRV, SCH, G, M, FH, LC, TL) {
+  if (typeof module === 'object' && module.exports) module.exports = factory(require('./engine.js'), require('./hand-state.js'), require('./solver-service.js'), require('./test-executor.js'), require('./execution-adapters.js'), require('./vision-ocr.js'), require('./sim-display.js'), require('./image-codec.js'), require('./status-strip.js'), require('./windows-input-driver.js'), require('./input-scheduler.js'), require('./input-geometry.js'), require('./input-motion.js'), require('./full-hand.js'), require('./window-lifecycle.js'), require('./action-timeline.js'), require('./recognition-check.js'));
+  else root.WorkbenchSimulatorControls = factory(root.EightMax, root.WorkbenchHandState, root.WorkbenchSolverService, root.WorkbenchExecutor, root.WorkbenchExecutionAdapters, root.WorkbenchVisionOcr, root.WorkbenchSimDisplay, root.WorkbenchImageCodec, root.WorkbenchStatusStrip, root.WorkbenchInputDriver, root.WorkbenchInputScheduler, root.WorkbenchInputGeometry, root.WorkbenchInputMotion, root.WorkbenchFullHand, root.WorkbenchWindowLifecycle, root.WorkbenchActionTimeline, root.WorkbenchRecognitionCheck);
+})(typeof globalThis !== 'undefined' ? globalThis : this, function (EM, HS, SS, EX, XA, OCR, SIM, IC, STRIP, DRV, SCH, G, M, FH, LC, TL, RC) {
   'use strict';
   const mono = () => (typeof performance !== 'undefined' ? performance.now() : Date.now());
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -149,7 +149,7 @@
     pausedIdentityCheckMs: 1000, stoppedIdentityCheckMs: 5000, activeIdentitySlackMs: 2500, maxUnconfirmedEvidence: 20, evidenceProbeMs: 2500,
     // 0.36.2 M4.0: input pipeline profile ('compat-3.2' = exactly Milestone 3.2; 'optimized' = see PIPELINE below) and recognition
     // templates for the window's exact width (base widths unchanged)
-    pipeline: 'compat-3.2', exactWidthTemplates: true });
+    pipeline: 'compat-3.2', exactWidthTemplates: true, stripPollMs: 30 });
   /**
    * 0.36.2 M4.0: what each input pipeline profile does on the table side (the driver side is DRV.PIPELINE_PROFILES):
    *   revalidate   'full'  - the in-lease revalidation captures the whole window (Milestone 3.2)
@@ -487,6 +487,9 @@
       this.lc.noteSuccess(); if (this.rec && this.rec.success) this.rec.success(this.id, 'capture');
       if (this.lc.is(LS.TEMPORARILY_UNAVAILABLE)) { this.lc.transition(LS.RECOVERY_PENDING, { kind: 'capture-restored', reason: 'capture works again; verifying identity and reading a fresh state' }); this.retry.reset(); this._discardStale('capture restored'); }
       const client = { x: g.bounds.x, y: g.bounds.y, w: g.bounds.width, h: g.bounds.height }, frame = { client, at: g.at, frameId: g.frameId, title: g.title };
+      // 0.36.2 M4.0: a print-window / screen-copy frame IS the client area at physical size; anything else (a DPI-virtualised, scaled or
+      // cropped image) is refused, never stretched onto the client rectangle (the other methods return the whole window and are unchanged)
+      if ((g.method === 'print-window' || g.method === 'screen-copy') && !g.crop && (g.image.width !== client.w || g.image.height !== client.h)) { this.m.rejectedFrames++; this._diag('capture', { ok: false, code: 'scaled-capture', image: [g.image.width, g.image.height], client: [client.w, client.h] }); return { reject: 'geometry: the captured image is ' + g.image.width + 'x' + g.image.height + ' but the client area is ' + client.w + 'x' + client.h + ' physical pixels', code: 'scaled-capture' }; }
       if (this.win.title && !(g.title || '').startsWith(this.win.title)) return { reject: 'wrong window: the title no longer starts with ' + JSON.stringify(this.win.title) };
       let view = this.profile.layout.heroSeat || 0, rev; tl.mark('recognition-begin');
       if (this.strip) { const st = STRIP.read(g.image); if (!st.ok) { this.m.rejectedFrames++; this._diag('recognition', { ok: false, reasons: ['status strip: ' + st.reason] }); return { reject: 'status strip: ' + st.reason }; } if (st.table !== this.id) return { reject: 'wrong table: the window shows table ' + st.table }; view = st.viewSeat; rev = st.revision; frame.strip = st; }
@@ -511,6 +514,7 @@
       // (window rectangle unchanged, same table, same frame revision) on a fresh capture taken inside the lease, at a fraction of the cost
       const region = this.pipe.revalidate === 'strip' && this.strip && frame.strip && frame.client ? STRIP.regionPx(frame.client.w, frame.client.h) : null;
       const g = await this.capture.grab({ region, priority: this.pipelineName === 'optimized' }); if (!g.ok) { await this._checkLoss(g); return { ok: false, reason: 'capture ' + g.code }; }
+      if (this._tl && g.timing) this._tl.set('revalidationCapture', { crop: !!g.crop, slotWaitMs: g.timing.slotWaitMs, hostMs: g.timing.hostMs, decodeMs: +g.timing.decodeMs.toFixed(2) });   // 0.36.2 M4.0 (measurement)
       if (token && !this.lc.valid(token)) return { ok: false, reason: 'target is ' + this.lc.state };
       const c = { x: g.bounds.x, y: g.bounds.y, w: g.bounds.width, h: g.bounds.height }, f = frame.client;
       if (c.x !== f.x || c.y !== f.y || c.w !== f.w || c.h !== f.h) return { ok: false, reason: 'window moved or resized since the reading' };
@@ -528,10 +532,12 @@
       const lostAfterInput = (why) => done({ confirmed: false, status: 'uncertain', reason: 'the window was lost after the input was sent' + (why ? ' (' + why + ')' : '') + '; delivery cannot be confirmed', uncertain: true });
       // 0.36.2 M4.0 optimized profile: strip-only polls until the strip shows a new revision; that frame is then captured whole
       const stripRegion = this.pipe.confirmPoll === 'strip' && this.strip && startRev !== null && beforeFrame.client ? STRIP.regionPx(beforeFrame.client.w, beforeFrame.client.h) : null;
+      // strip-only polls are cheap: they poll every stripPollMs (default 30 ms); full-frame polls keep pollMs (the timeout is unchanged)
+      const pollMs = stripRegion ? Math.min(this.opt.pollMs, this.opt.stripPollMs) : this.opt.pollMs; tr.pollMs = pollMs;
       while (mono() - t0 < this.opt.postActionTimeoutMs) {
         if (this.lc.terminal) return lostAfterInput();
         if (this.stopped) return done({ confirmed: false, status: 'cancelled', reason: 'stopped' });
-        await sleep(this.opt.pollMs);
+        await sleep(pollMs);
         let g = await this.capture.grab(stripRegion ? { region: stripRegion } : {}); tr.polls++; if (tr.firstPollMs === null) tr.firstPollMs = Math.round(mono() - t0);
         if (!g.ok) { tr.failedCaptures++; tr.failureCodes[g.code] = (tr.failureCodes[g.code] || 0) + 1; const f = await this._checkLoss(g); if (f && f.kind === 'lost') return lostAfterInput(g.code); continue; }
         if (g.crop) {
@@ -711,5 +717,20 @@
       simulator: { format: 'eightmax-simulator-authorization', version: 1, operatorOwnsSimulator: true, testEnvironmentOnly: true, noRealMoney: true, expiresAtUnixMs: expires, executable: { fileName: exeFileName, sha256: exeSha256 } },
     };
   }
-  return { HostApi, hostSession, HostWindowCapture, tableReader, SimulatorTable, authorizations, DEFAULTS, GAMEPLAY, Lifecycle: LC };
+  /**
+   * 0.36.2 M4.0 VERIFY TABLE RECOGNITION (recognition-check.js): ONE fresh capture of a registered window through the same host capture
+   * path the automation uses, read with the reader (and exact-width templates) the table would use and the same status-strip check. Sends
+   * no input. o: { api, window: {hwnd, pid, title}, profile, table, decode, method, monitor, heroSeat }.
+   */
+  async function verifyRecognition(o) {
+    const win = o.window || {}, cap = new HostWindowCapture(o.api, win, { decode: o.decode, method: o.method });
+    let op; try { op = await cap.open(); } catch (e) { op = { ok: false, code: e.code || 'capture-failed', reason: e.message }; }
+    if (!op || op.ok !== true) return RC.captureFailed({ table: o.table, hwnd: win.hwnd, title: win.title, code: op && op.code, reason: op && (op.reason || op.error) });
+    const g = await cap.grab(); if (!g.ok) return RC.captureFailed({ table: o.table, hwnd: win.hwnd, title: win.title, code: g.code, reason: g.reason });
+    const width = g.bounds && Number.isInteger(g.bounds.width) ? g.bounds.width : undefined, reader = tableReader(o.table, 8, width);
+    const rep = RC.verify({ frame: { image: g.image, bounds: g.bounds, dpiScale: g.dpiScale, frameId: g.frameId, method: g.method }, reader, profile: o.profile, table: o.table, hwnd: win.hwnd, title: g.title || win.title, monitor: o.monitor, heroSeat: o.heroSeat });
+    rep.capture = { method: g.method || null, captureMs: Math.round(g.captureMs), hostMs: g.timing ? g.timing.hostMs : null }; return rep;
+  }
+
+  return { HostApi, hostSession, HostWindowCapture, tableReader, SimulatorTable, authorizations, verifyRecognition, DEFAULTS, GAMEPLAY, Lifecycle: LC };
 });

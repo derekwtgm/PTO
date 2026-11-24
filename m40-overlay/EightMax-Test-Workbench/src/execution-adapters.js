@@ -83,7 +83,9 @@
         const blocked = async () => { if (lease && lease.valid === false) return { code: 'lease-invalid', reason: 'The input lease was revoked (target unavailable)' }; if (typeof act.guard === 'function') { let g; try { g = await act.guard(); } catch (e) { g = { ok: false, reason: e.message }; } if (!g || g.ok !== true) return { code: (g && g.code) || 'lifecycle-blocked', reason: (g && g.reason) || 'target no longer eligible' }; } return null; };
         const b0 = await blocked(); if (b0) return { accepted: false, reason: b0.reason, code: b0.code, inputMayHaveHappened: false, noInputSent: true };
         if (wager) {
+          if (tl) { try { tl.mark('wager-begin'); } catch (e) { /* measurement only */ } }
           const typed = await this.driver.enterAmount(wager.text, this.amountField, act);
+          if (tl) { try { tl.mark('wager-end'); } catch (e) { /* measurement only */ } }
           // No action button was pressed yet: a failed or unverifiable wager entry sends no action (the driver cleared the field).
           if (!typed || typed.ok !== true) return { accepted: false, reason: 'Could not enter the wager: ' + (typed && typed.reason || 'driver refused'), code: typed && typed.code, inputMayHaveHappened: false, noInputSent: BEFORE_INPUT.has(typed && typed.code) || !(typed && typed.code) };
           if (lease && lease.remainingMs && lease.remainingMs() < 0) return { accepted: false, reason: 'Deadline passed while typing; not submitted', code: 'deadline', noInputSent: true };

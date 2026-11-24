@@ -32,7 +32,7 @@ const ROOT = path.join(__dirname, '..'), src = (m) => require(path.join(ROOT, 's
 const SC = src('simulator-controls.js'), SP = src('simulator-profiles.js'), SCH = src('input-scheduler.js'), XA = src('execution-adapters.js'), LC = src('window-lifecycle.js'), M = src('input-motion.js'), EM = src('engine.js'), TL = src('action-timeline.js');
 const LS = LC.STATES, arg = (k, d) => { const i = process.argv.indexOf('--' + k); return i > 0 && i + 1 < process.argv.length ? process.argv[i + 1] : d; }, has = (k) => process.argv.includes('--' + k);
 const FAKE = has('fake'), OUT = arg('out', path.join(ROOT, 'reports', '0.36.2-m2-lifecycle-acceptance' + (FAKE ? '-fake' : '') + '.json')), ONLY = (arg('only', '') || '').split(',').filter(Boolean);
-const SPEED = Number(arg('speed', '1200')), MOTION = M.profile({ maxSpeed: SPEED, arc: 0.12, maxDeviationPx: 240 }), WORK = arg('work', path.join(os.tmpdir(), 'em0362m2-' + Date.now()));
+const SPEED = Number(arg('speed', '1200')), MOTION = M.profile({ maxSpeed: SPEED, ...(arg('accel', '') ? { maxAccel: Number(arg('accel', '9000')) } : {}), arc: 0.12, maxDeviationPx: 240 }), WORK = arg('work', path.join(os.tmpdir(), 'em0362m2-' + Date.now()));
 // 0.36.2 M4.0: the input pipeline (default: the release default, 'optimized'; 'compat-3.2' = exactly Milestone 3.2) and the scheduling policy
 // of every table these tools run (--pipeline / EIGHTMAX_PIPELINE, --policy / EIGHTMAX_POLICY); one timeline aggregator for all tables
 const PIPELINE = arg('pipeline', process.env.EIGHTMAX_PIPELINE || 'optimized'), POLICY = arg('policy', process.env.EIGHTMAX_POLICY || 'edf');

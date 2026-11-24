@@ -9,11 +9,12 @@ name: EightMax 0.36.2 Milestone 4.0 - Windows build, multi-table scheduler and i
 #               fresh extraction; committed mode: the committed ZIP is verified the same way
 #   linux       the complete Node regression suite from the extracted ZIP (Mono + Xvfb installed so the driver/host tests run)
 #   ab          baseline comparison: the Milestone 3.2 stability workload (1/2/5/8 tables, 60 s, a window closed and reopened, an emergency
-#               stop; motion 1 200 px/s, 800 px tables) with the compat-3.2 pipeline and then the optimized pipeline ON THE SAME MACHINE
+#               stop; motion 1 200 px/s, 800 px tables) with the compat-3.2 and the optimized pipeline ON THE SAME MACHINE; abJobs machines,
+#               the order alternating; abFast adds the optimized pipeline with the Fast mouse preset (2 000 px/s), reported apart
 #   m32         the Milestone 3.2 release ZIP itself, the same workload (its own tools), on a fresh machine of the same type
 #   policies    the scheduling policies compared (optimized pipeline, 5 and 8 tables)
 #   sustained   uninterrupted tournament play (no injected faults), one machine per table count and pipeline
-#   ten         ten tables: every seat through the window, and one hero seat per table (the dealer plays the others)
+#               (ten tables are sustained entries with tables: 10; hero: true = one hero seat per table, the dealer plays the others)
 #   full        RUN-0362-MILESTONE3.1-TESTS.cmd C: complete regression suite, lifecycle A-K, gameplay T1-T6 + T5P, multi-table, start-up
 #   t5          RUN-M3.2-T5-TEST.cmd on separate machines, every second one at 125 % display scaling
 #   recognition tools\recognition-validation-040.cjs on real windows at each display scaling (3840 x 2160 when the virtual display offers it)
@@ -39,6 +40,7 @@ jobs:
       req: ${{ steps.p.outputs.req }}
       sustained_matrix: ${{ steps.p.outputs.sustained_matrix }}
       t5_matrix: ${{ steps.p.outputs.t5_matrix }}
+      ab_matrix: ${{ steps.p.outputs.ab_matrix }}
       recognition_matrix: ${{ steps.p.outputs.recognition_matrix }}
     steps:
       - uses: actions/checkout@v4
@@ -50,12 +52,14 @@ jobs:
           python3 -I - <<'EOF' >> "$GITHUB_OUTPUT"
           import json
           d = json.load(open('ci-request-m40.json'))
-          req = {k: d.get(k) for k in ['linux', 'ab', 'm32', 'policies', 'ten', 'full', 'scenarios', 'launcher', 'stabilitySeconds', 'tenSeconds', 'policyTables', 'policyList']}
+          req = {k: d.get(k) for k in ['linux', 'ab', 'm32', 'policies', 'full', 'scenarios', 'launcher', 'stabilitySeconds', 'policySeconds', 'policyTables', 'policyList', 'abFast']}
           print('req=' + json.dumps(req, separators=(',', ':')))
           s = d.get('sustained') or []
           print('sustained_matrix=' + json.dumps({'include': s or [{'tables': 0, 'pipeline': 'none', 'seconds': 0}]}, separators=(',', ':')))
           n = int(d.get('t5Jobs', 0))
           print('t5_matrix=' + json.dumps({'include': [{'n': i + 1, 'scale': 125 if i % 2 else 100} for i in range(n)] or [{'n': 0, 'scale': 100}]}, separators=(',', ':')))
+          a = int(d.get('abJobs', 1 if d.get('ab') else 0))
+          print('ab_matrix=' + json.dumps({'include': [{'n': i + 1, 'order': 'optimized,compat-3.2' if i % 2 else 'compat-3.2,optimized'} for i in range(a)] or [{'n': 0, 'order': 'none'}]}, separators=(',', ':')))
           r = d.get('recognitionScales') or []
           print('recognition_matrix=' + json.dumps({'include': [{'scale': x} for x in (r or [100])]}, separators=(',', ':')))
           EOF
@@ -160,6 +164,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
           name: m40-release-zip
@@ -171,28 +176,53 @@ jobs:
         shell: bash
         run: sudo apt-get update -q && sudo apt-get install -y -q mono-devel xvfb openbox > /dev/null && mono --version | head -1
       - name: Complete Node regression suite from the extracted ZIP (Linux)
+        id: suite
+        continue-on-error: true
         shell: bash
         run: |
           set -euo pipefail
+          o="$RUNNER_TEMP/m40-linux"; mkdir -p "$o"
           have=$(sha256sum "zipdir/$M40_ZIP" | cut -d' ' -f1); [ "$have" = "${{ needs.package.outputs.zip_sha256 }}" ]
           base="$RUNNER_TEMP/EightMax CI (linux)"; mkdir -p "$base"; python3 -I -c "import zipfile,sys; zipfile.ZipFile(sys.argv[1]).extractall(sys.argv[2])" "zipdir/$M40_ZIP" "$base"
           cd "$base/EightMax-Test-Workbench"; find tests/fixtures -name '*.sh' -exec chmod +x {} +
-          node --version; node --test --test-reporter=tap --test-concurrency=4 --test-timeout=600000 tests/*.test.cjs > "$RUNNER_TEMP/linux-suite.tap" 2> "$RUNNER_TEMP/linux-suite.err" || true
-          tail -9 "$RUNNER_TEMP/linux-suite.tap"; grep '^not ok' "$RUNNER_TEMP/linux-suite.tap" || true
-          grep -q '^# fail 0$' "$RUNNER_TEMP/linux-suite.tap"
-      - uses: actions/upload-artifact@v4
+          { node --version; mono --version | head -1; uname -a; nproc; } > "$o/environment.txt"
+          node --test --test-reporter=tap --test-concurrency=4 --test-timeout=600000 tests/*.test.cjs > "$o/linux-suite.tap" 2> "$o/linux-suite.err" || true
+          tail -9 "$o/linux-suite.tap"
+          # every failing test with its diagnostics block (error, expected/actual, location)
+          awk '/^ *not ok /{p=1} p{print} p && /^ *\.\.\.$/{p=0}' "$o/linux-suite.tap" | tee "$o/failures.txt" | head -300
+          grep -q '^# fail 0$' "$o/linux-suite.tap"
+      - name: "Comparison on this runner: the failing test files, from the Milestone 3.2 release ZIP and again from the 4.0 ZIP (alone)"
         if: always()
-        with:
-          name: m40-linux-suite
-          path: |
-            ${{ runner.temp }}/linux-suite.tap
-            ${{ runner.temp }}/linux-suite.err
+        shell: bash
+        run: |
+          set -u
+          o="$RUNNER_TEMP/m40-linux"; mkdir -p "$o"
+          files=$(grep -o "location: '[^']*tests/[^:']*" "$o/failures.txt" 2>/dev/null | sed "s/.*tests\//tests\//" | sort -u || true); [ -n "$files" ] || files="tests/capture-029.test.cjs"; echo "files: $files"
+          m32="$RUNNER_TEMP/m32"; mkdir -p "$m32"; python3 -I -c "import zipfile,sys; zipfile.ZipFile(sys.argv[1]).extractall(sys.argv[2])" "$M32_ZIP" "$m32"
+          (cd "$m32/EightMax-Test-Workbench" && find tests/fixtures -name '*.sh' -exec chmod +x {} + ; for f in $files; do [ -f "$f" ] || continue; echo "== M3.2 $f"; node --test --test-reporter=tap "$f" > "$o/m32-$(basename "$f").tap" 2>&1; tail -9 "$o/m32-$(basename "$f").tap"; done)
+          (cd "$RUNNER_TEMP/EightMax CI (linux)/EightMax-Test-Workbench" && for f in $files; do echo "== 4.0 $f (alone)"; node --test --test-reporter=tap "$f" > "$o/m40-alone-$(basename "$f").tap" 2>&1; tail -9 "$o/m40-alone-$(basename "$f").tap"; awk '/^ *not ok /{p=1} p{print} p && /^ *\.\.\.$/{p=0}' "$o/m40-alone-$(basename "$f").tap" | head -80; done)
+      - name: Push the results to branch m40-results/<run id>-linux
+        if: always()
+        shell: bash
+        run: |
+          set -u
+          res="$RUNNER_TEMP/m40-linux"; dest="$RUNNER_TEMP/branch"; mkdir -p "$dest/results"; [ -d "$res" ] && cp -r "$res/." "$dest/results/"
+          printf '{"run":"%s","sha":"%s","zipSha256":"%s","job":"linux","outcome":"%s"}\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" "${{ needs.package.outputs.zip_sha256 }}" "${{ steps.suite.outcome }}" > "$dest/run.json"
+          cd "$dest" && git init -q && git checkout -q -b "m40-results/$GITHUB_RUN_ID-linux" && git add -A && git -c user.name="eightmax-ci" -c user.email="eightmax-ci@users.noreply.github.com" commit -q -m "Milestone 4.0 Linux suite, run $GITHUB_RUN_ID ($GITHUB_SHA)"
+          for i in 1 2 3 4; do git push -q "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" "HEAD:refs/heads/m40-results/$GITHUB_RUN_ID-linux" && echo "pushed m40-results/$GITHUB_RUN_ID-linux" && break; sleep $((i * 5)); done
+      - name: Outcome
+        if: always()
+        shell: bash
+        run: '[ "${{ steps.suite.outcome }}" = "success" ]'
 
   ab:
     needs: [plan, package]
-    if: always() && needs.package.result == 'success' && fromJSON(needs.plan.outputs.req).ab
+    if: always() && needs.package.result == 'success' && fromJSON(needs.plan.outputs.ab_matrix).include[0].n > 0
     runs-on: windows-latest
-    timeout-minutes: 90
+    timeout-minutes: 100
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.plan.outputs.ab_matrix) }}
     steps:
       - uses: actions/download-artifact@v4
         with:
@@ -208,37 +238,40 @@ jobs:
         shell: powershell
         run: |
           & powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $env:APP 'tests\windows\M32-Display.ps1') -Width 1920 -Height 1080 -ScalePercent 100 -Out (Join-Path $env:RUNNER_TEMP 'display.json'); exit 0
-      - name: "Baseline comparison: the Milestone 3.2 stability workload with compat-3.2, then with optimized (same machine)"
+      - name: "Baseline comparison ${{ matrix.n }}: the Milestone 3.2 stability workload, ${{ matrix.order }} (same machine, same motion 1 200 px/s)${{ fromJSON(needs.plan.outputs.req).abFast && ', then optimized with the Fast preset (reported apart)' || '' }}"
         id: run
         continue-on-error: true
-        timeout-minutes: 80
+        timeout-minutes: 90
         shell: powershell
         run: |
           $o = Join-Path $env:RUNNER_TEMP 'm40-ab'; [IO.Directory]::CreateDirectory($o) | Out-Null; $node = Join-Path $env:APP 'runtime\node\node.exe'; $tool = Join-Path $env:APP 'tools\gameplay-acceptance-0362m3.cjs'
           $secs = '${{ fromJSON(needs.plan.outputs.req).stabilitySeconds }}'; if (-not $secs) { $secs = '60' }; $fail = 0
-          foreach ($pipe in 'compat-3.2','optimized') {
-            "===== $pipe"; & $node $tool --suite stability --tables 1,2,5,8 --seconds $secs --pipeline $pipe --policy edf --out (Join-Path $o ("stability-" + $pipe + ".json")) --work (Join-Path $o ("work-" + $pipe)) 2>&1 | Tee-Object -FilePath (Join-Path $o ("stability-" + $pipe + ".log"))
+          $runs = @('${{ matrix.order }}'.Split(',') | ForEach-Object { @{ name = $_; pipe = $_; extra = @() } })
+          if ('${{ fromJSON(needs.plan.outputs.req).abFast }}' -eq 'true') { $runs += @{ name = 'optimized-fast'; pipe = 'optimized'; extra = @('--speed', '2000', '--accel', '15000') } }
+          foreach ($r in $runs) {
+            $name = $r.name; $extra = $r.extra; "===== $name"
+            & $node $tool --suite stability --tables 1,2,5,8 --seconds $secs --pipeline $r.pipe --policy edf @extra --out (Join-Path $o ("stability-" + $name + ".json")) --work (Join-Path $o ("work-" + $name)) 2>&1 | Tee-Object -FilePath (Join-Path $o ("stability-" + $name + ".log"))
             if ($LASTEXITCODE -ne 0) { $fail++ }
           }
           exit $fail
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: m40-ab
+          name: m40-ab-${{ matrix.n }}
           path: |
             ${{ runner.temp }}\m40-ab
             ${{ runner.temp }}\display.json
-      - name: Push the results to branch m40-results/<run id>-ab
+      - name: Push the results to branch m40-results/<run id>-ab-<n>
         if: always()
         shell: bash
         run: |
           set -u
-          res="$RUNNER_TEMP/m40-ab"; dest="$RUNNER_TEMP/branch"; mkdir -p "$dest/results"
+          tag="ab-${{ matrix.n }}"; res="$RUNNER_TEMP/m40-ab"; dest="$RUNNER_TEMP/branch"; mkdir -p "$dest/results"
           if [ -d "$res" ]; then (cd "$res" && find . -type f -size -8M ! -name '*.zip' ! -name '*.png' -print0 | xargs -0 -I{} cp --parents {} "$dest/results/"); fi
           cp "$RUNNER_TEMP/display.json" "$dest/" 2>/dev/null || true
-          printf '{"run":"%s","sha":"%s","zipSha256":"%s","job":"ab","outcome":"%s"}\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" "${{ needs.package.outputs.zip_sha256 }}" "${{ steps.run.outcome }}" > "$dest/run.json"
-          cd "$dest" && git init -q && git config core.longpaths true && git checkout -q -b "m40-results/$GITHUB_RUN_ID-ab" && git add -A && git -c user.name="eightmax-ci" -c user.email="eightmax-ci@users.noreply.github.com" commit -q -m "Milestone 4.0 baseline comparison, run $GITHUB_RUN_ID ($GITHUB_SHA)"
-          for i in 1 2 3 4; do git push -q "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" "HEAD:refs/heads/m40-results/$GITHUB_RUN_ID-ab" && echo "pushed m40-results/$GITHUB_RUN_ID-ab" && break; sleep $((i * 5)); done
+          printf '{"run":"%s","sha":"%s","zipSha256":"%s","job":"%s","order":"%s","outcome":"%s"}\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" "${{ needs.package.outputs.zip_sha256 }}" "$tag" "${{ matrix.order }}" "${{ steps.run.outcome }}" > "$dest/run.json"
+          cd "$dest" && git init -q && git config core.longpaths true && git checkout -q -b "m40-results/$GITHUB_RUN_ID-$tag" && git add -A && git -c user.name="eightmax-ci" -c user.email="eightmax-ci@users.noreply.github.com" commit -q -m "Milestone 4.0 baseline comparison $tag, run $GITHUB_RUN_ID ($GITHUB_SHA)"
+          for i in 1 2 3 4; do git push -q "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" "HEAD:refs/heads/m40-results/$GITHUB_RUN_ID-$tag" && echo "pushed m40-results/$GITHUB_RUN_ID-$tag" && break; sleep $((i * 5)); done
       - name: Outcome
         if: always()
         shell: bash
@@ -310,7 +343,7 @@ jobs:
         shell: powershell
         run: |
           $o = Join-Path $env:RUNNER_TEMP 'm40-policies'; [IO.Directory]::CreateDirectory($o) | Out-Null; $node = Join-Path $env:APP 'runtime\node\node.exe'; $tool = Join-Path $env:APP 'tools\gameplay-acceptance-0362m3.cjs'
-          $secs = '${{ fromJSON(needs.plan.outputs.req).stabilitySeconds }}'; if (-not $secs) { $secs = '60' }; $tables = '${{ fromJSON(needs.plan.outputs.req).policyTables }}'; if (-not $tables) { $tables = '5,8' }
+          $secs = '${{ fromJSON(needs.plan.outputs.req).policySeconds || fromJSON(needs.plan.outputs.req).stabilitySeconds }}'; if (-not $secs) { $secs = '60' }; $tables = '${{ fromJSON(needs.plan.outputs.req).policyTables }}'; if (-not $tables) { $tables = '5,8' }
           $list = '${{ fromJSON(needs.plan.outputs.req).policyList }}'; if (-not $list) { $list = 'edf,fifo,lst,edf-aging,fair-rr,nearest-guarded' }; $fail = 0
           foreach ($pol in $list.Split(',')) { "===== $pol"; & $node $tool --suite stability --tables $tables --seconds $secs --pipeline optimized --policy $pol --out (Join-Path $o ("policy-" + $pol + ".json")) --work (Join-Path $o ("work-" + $pol)) 2>&1 | Tee-Object -FilePath (Join-Path $o ("policy-" + $pol + ".log")); if ($LASTEXITCODE -ne 0) { $fail++ } }
           exit $fail

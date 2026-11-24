@@ -23,6 +23,7 @@
 //                         processed by the window before the driver replies and before any other window can be raised. A drain that is
 //                         not confirmed (window busy or hung, 250 ms per round trip) is reported (drained:false) and makes the NEXT click
 //                         into any process wait the full global spacing, as in Milestone 3.2.
+//   raiseWait "poll"      after raising a covered target window, wait until it is on top at the click point (5-100 ms) instead of 30 ms
 //   phases                every move / click reply carries the operation's phase times (queue, checks, movement, pre-click wait, raise,
 //                         double-click guard, hold, drain) for performance measurement.
 //   window-info, cursor and monitors are read-only: they are answered on the reader thread, so an identity probe of one table no
@@ -197,7 +198,7 @@ public sealed class Driver {
     Dictionary<string, object> Capabilities() {
         Dictionary<string, object> c = new Dictionary<string, object>();
         c["signedCurves"] = true; c["maxDeviationPx"] = true; c["singleClickGuardMaxMs"] = os.DoubleClickMs() + 40; c["operations"] = Operations; c["sendInput"] = os.Name == "win32"; c["virtual"] = os.Name == "virtual"; c["uiAutomation"] = Uia.Available; c["rawInputOverride"] = RawInputActive;
-        c["clickGuardScopes"] = new string[] { "global", "process" }; c["inputDrain"] = true; c["phaseTimings"] = true; c["inlineQueries"] = new string[] { "window-info", "cursor", "monitors" }; c["build"] = Build;
+        c["clickGuardScopes"] = new string[] { "global", "process" }; c["inputDrain"] = true; c["raiseWaitModes"] = new string[] { "fixed-30", "poll" }; c["phaseTimings"] = true; c["inlineQueries"] = new string[] { "window-info", "cursor", "monitors" }; c["build"] = Build;
         c["hotkey"] = HotkeySpec; c["hotkeyRegistered"] = HotkeyRegistered; c["maxQueue"] = MaxQueue; c["dpiAwareness"] = Program.DpiAwareness; c["note"] = SafetyNote; return c;
     }
     Dictionary<string, object> Status(long id) {
@@ -318,7 +319,13 @@ public sealed class Driver {
         long root = os.RootAt(x, y);
         if (root != t.Hwnd) {
             string policy = Json.Get(a, "focusPolicy") as string ?? "bring-to-front";
-            if (policy == "bring-to-front") { Focus(t, true); Thread.Sleep(30); root = os.RootAt(x, y); }
+            if (policy == "bring-to-front") {
+                Focus(t, true);
+                // 0.36.2 M4.0 raiseWait "poll": wait until the raised window is really on top at the point (at least 5 ms, at most 100 ms)
+                // instead of a fixed 30 ms and one look; without the field: the Milestone 3.2 fixed wait
+                if ((Json.Get(a, "raiseWait") as string) == "poll") { Stopwatch rw = Stopwatch.StartNew(); Thread.Sleep(5); root = os.RootAt(x, y); while (root != t.Hwnd && rw.ElapsedMilliseconds < 100) { Thread.Sleep(2); root = os.RootAt(x, y); } }
+                else { Thread.Sleep(30); root = os.RootAt(x, y); }
+            }
             if (root != t.Hwnd) throw new DriverError("target-covered", "Another window (" + Json.Hex(root) + ") covers the control.");
         }
     }
@@ -399,7 +406,8 @@ public sealed class Driver {
         // processing was not confirmed (drain), whichever is later; anything else keeps the global guard.
         bool perProcess = (Json.Get(o.Args, "clickGuard") as string) == "process" && t != null;
         long last = lastClickAt; if (perProcess) { long lp; lock (lastClickByPid) { if (!lastClickByPid.TryGetValue(t.Pid, out lp)) lp = 0; } last = Math.Max(lp, undrainedAt); }
-        long wait = last <= 0 ? 0 : os.DoubleClickMs() + 40 - (os.Ticks() - last); r["guardScope"] = perProcess ? "process" : "global";
+        long limit = os.DoubleClickMs() + 40, since = last <= 0 ? -1 : os.Ticks() - last, wait = last <= 0 ? 0 : limit - since; r["guardScope"] = perProcess ? "process" : "global";
+        r["guardLimitMs"] = limit; if (since >= 0) r["guardSinceMs"] = since;   // 0.36.2 M4.0: why the click did or did not wait (diagnostics)
         if (wait > 0) { r["doubleClickGuardMs"] = wait; stats.DoubleClickGuards++; Stopwatch g = Stopwatch.StartNew(); Sleep(o, wait); o.Add("guardMs", g.Elapsed.TotalMilliseconds); } else o.Add("guardMs", 0);
     }
     /// <summary>0.36.2 M4.0: a click into target t happened now (global and per-process guard state).</summary>

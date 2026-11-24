@@ -20,7 +20,7 @@
     ['capture-queued', 'Capture request queued'], ['capture-begin', 'Capture begins'], ['capture-end', 'Capture completes'],
     ['recognition-begin', 'Screen recognition begins'], ['recognition-end', 'Recognition completes'], ['state-validated', 'Game state validated'],
     ['decision-ready', 'Strategy decision available'], ['submitted', 'Decision submitted to the scheduler'], ['enqueued', 'Decision enters the queue'],
-    ['lease-acquired', 'Input lease acquired'], ['target-verified', 'Target window verified (fresh capture inside the lease)'], ['move-begin', 'Cursor movement begins'],
+    ['lease-acquired', 'Input lease acquired'], ['target-verified', 'Target window verified (fresh capture inside the lease)'], ['wager-begin', 'Wager entry begins (raises only)'], ['wager-end', 'Wager typed and read back'], ['move-begin', 'Cursor movement begins'],
     ['move-end', 'Cursor reaches the destination'], ['click-done', 'Mouse button pressed and released'], ['driver-ack', 'Driver acknowledgement received'],
     ['lease-released', 'Input lease released'], ['confirm-begin', 'Action confirmation begins'], ['state-confirmed', 'Simulator state change confirmed'],
     ['action-released', 'Action state released']]);
@@ -36,7 +36,8 @@
     ['enqueueMs', 'submitted', 'enqueued', 'submission to queue entry'],
     ['queueWaitMs', 'enqueued', 'lease-acquired', 'waiting for the single cursor (scheduler queue)'],
     ['revalidationMs', 'lease-acquired', 'target-verified', 'fresh capture inside the lease: same frame, same window rectangle'],
-    ['preMoveMs', 'target-verified', 'move-begin', 'lifecycle guard, driver request, driver queue and identity checks'],
+    ['wagerMs', 'wager-begin', 'wager-end', 'raise only: move to the amount field, click, clear, type, read back'],
+    ['preMoveMs', 'target-verified', 'move-begin', 'lifecycle guard, driver request, driver queue and identity checks (a raise includes its wager entry: wagerMs)'],
     ['moveMs', 'move-begin', 'move-end', 'cursor movement'],
     ['clickMs', 'move-end', 'click-done', 'pre-click wait, window raise, double-click guard, button hold'],
     ['ackMs', 'click-done', 'driver-ack', 'input drain and driver reply'],

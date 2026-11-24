@@ -135,7 +135,7 @@
         if (!v || v.ok !== true) { this.running = null; this._leaseEnd(j, tm, leaseAt); this._reject(j, 'stale', 'Revalidation failed: ' + (v && v.reason || 'unknown')); continue; }
         if (this.estop) { this.running = null; this._leaseEnd(j, tm, leaseAt); this._reject(j, 'emergency-stop', 'Emergency stop: ' + this.estop); continue; }
         if (this._invalid(j) || this.paused.has(j.table) || this.allPaused) { this.running = null; this._leaseEnd(j, tm, leaseAt); this._reject(j, this._invalid(j) ? 'target-lost' : 'paused', 'Target became unavailable during revalidation'); continue; }
-        mark(j, 'target-verified');
+        mark(j, 'target-verified', this.now());
         this.m.started++; tm.started++; this.m.wait.push(t - j.at); tm.wait.push(t - j.at); this.m.slackAtStart.push(j.deadline - t - est); if (this.m.wait.length > 5000) { this.m.wait.shift(); this.m.slackAtStart.shift(); } if (tm.wait.length > 2000) tm.wait.shift();
         if (t - j.at > tm.maxWaitMs) tm.maxWaitMs = t - j.at; this.m4.queueWaitMs.push(t - j.at); if (this.m4.queueWaitMs.length > 5000) this.m4.queueWaitMs.shift();
         const lease = { table: j.table, id: j.id, deadline: j.deadline, registrationId: j.registrationId, get valid() { return this._valid !== false; }, remainingMs: () => j.deadline - this.now() }; j.lease = lease;

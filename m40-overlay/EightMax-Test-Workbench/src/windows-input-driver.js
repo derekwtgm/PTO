@@ -91,8 +91,8 @@
    *                A driver without these capabilities, or a click whose drain was not confirmed, keeps the Milestone 3.2 behaviour.
    */
   const PIPELINE_PROFILES = Object.freeze({
-    'compat-3.2': Object.freeze({ preflight: 'window-info', clickGuard: 'global', drain: false, settle: 'inside-lease' }),
-    'optimized': Object.freeze({ preflight: 'driver', clickGuard: 'process', drain: true, settle: 'after-drain' }),
+    'compat-3.2': Object.freeze({ preflight: 'window-info', clickGuard: 'global', drain: false, settle: 'inside-lease', raiseWait: null }),
+    'optimized': Object.freeze({ preflight: 'driver', clickGuard: 'process', drain: true, settle: 'after-drain', raiseWait: 'poll' }),
   });
   class WindowsUiDriver {
     constructor(o) {
@@ -141,7 +141,7 @@
       if (chosen.trace) this.trace({ kind: 'motion-plan', ...chosen.trace, target: target.point, profile: chosen.profile });
       // 0.36.2 M4.0: clickGuard / drain / phases are additional request fields; a Milestone 3.2 driver ignores them (unknown fields are not read)
       return { hwnd: this.hwnd, expectClient: client, region: target.rect, to: target.point, motion: chosen.profile, focusPolicy: this.focusPolicy, preClickMs: this.timing.preClickMs, holdMs: this.timing.holdMs, ...(deadlineMs ? { mustFinishWithinMs: deadlineMs } : {}),
-        clickGuard: this.pipeline.clickGuard, drain: this.pipeline.drain, phases: true };
+        clickGuard: this.pipeline.clickGuard, drain: this.pipeline.drain, phases: true, ...(this.pipeline.raiseWait ? { raiseWait: this.pipeline.raiseWait } : {}) };
     }
     /** 0.36.2 M4.0: run the settle inside the lease (Milestone 3.2) unless the driver confirmed that the target window processed the click. */
     async _settle(reply, detail) {
