@@ -50,6 +50,7 @@ public interface IPlatform {
     int DoubleClickMs();                       // GetDoubleClickTime
     void DoubleClickSize(out int w, out int h);// SM_CXDOUBLECLK / SM_CYDOUBLECLK
     bool DrainInput(long hwnd, int timeoutMs); // 0.36.2 M4.0: the window's GUI thread pumped its messages twice (WM_NULL); false = busy, hung or gone
+    bool ControlBox(long hwnd, out Rect box);  // 0.36.2 M4.0: screen rectangle of a window or control (GetWindowRect); false when it is gone
 }
 
 /* ------------------------------------------------------------------------------------------------------------------ */
@@ -144,6 +145,7 @@ public sealed class Win32Platform : IPlatform {
     List<IntPtr> MonitorHandles = new List<IntPtr>();
     public long RootAt(int x, int y) { POINT p; p.X = x; p.Y = y; IntPtr h = WindowFromPoint(p); return h == IntPtr.Zero ? 0 : GetAncestor(h, 2 /*GA_ROOT*/).ToInt64(); }
     public long ChildAt(int x, int y) { POINT p; p.X = x; p.Y = y; return WindowFromPoint(p).ToInt64(); }
+    public bool ControlBox(long hwnd, out Rect box) { RECT r; if (hwnd == 0 || !GetWindowRect(new IntPtr(hwnd), out r)) { box = new Rect(0, 0, 0, 0); return false; } box = R(r); return true; }
     public long Foreground() { return GetForegroundWindow().ToInt64(); }
     public bool SetForeground(long hwnd) {
         IntPtr h = H(hwnd); if (SetForegroundWindow(h) && GetForegroundWindow() == h) return true;
@@ -202,6 +204,11 @@ public sealed class VirtualPlatform : IPlatform {
     public int DoubleClickMs() { return 500; } public void DoubleClickSize(out int w, out int h) { w = 4; h = 4; }
     public int Dropped; public bool RefuseForeground;   // test knobs
     public int DrainDelayMs; public bool DrainFails;     // 0.36.2 M4.0 test knobs: a slow or unresponsive target window
+    // 0.36.2 M4.0 test knob: this window closes at the instant of the next button press (after every check, before Windows routes the
+    // press), so the press reaches the window beneath - the race seen on Windows CI run 45401450070 (a window closed by the test 12 ms
+    // before a click meant for it)
+    public long CloseOnPress;
+    readonly VControl[] pressed = new VControl[2];   // 0.36.2 M4.0: the control that received the press (mouse capture, as in Windows)
     public bool DrainInput(long hwnd, int timeoutMs) { if (DrainFails) { System.Threading.Thread.Sleep(Math.Min(timeoutMs, 20)); return false; } if (DrainDelayMs > 0) System.Threading.Thread.Sleep(Math.Min(DrainDelayMs, 2 * timeoutMs)); lock (this) return Find(RootOf(hwnd)) != null; }
     long RootOf(long h) { foreach (VWindow w in Windows) { if (w.Info.Hwnd == h) return h; foreach (VControl c in w.Controls) if (c.Hwnd == h) return w.Info.Hwnd; } return 0; }
     public Rect VirtualScreen() { return Screen; }
@@ -211,9 +218,14 @@ public sealed class VirtualPlatform : IPlatform {
     /// <summary>Test hook: a person moves the mouse.</summary>
     public void UserMove(int x, int y) { lock (this) { cx = x; cy = y; Events.Add("user-move " + x + " " + y); } }
     public void Button(int b, bool down) { lock (this) {
+        if (down && CloseOnPress != 0) { VWindow gone = Find(CloseOnPress); if (gone != null) { Windows.Remove(gone); Events.Add("closed " + CloseOnPress); } CloseOnPress = 0; }
         buttons[b] = down; Events.Add((down ? "down " : "up ") + b + " " + cx + " " + cy);
         long root = RootAt(cx, cy); if (down && root != 0) foreground = root;
-        if (!down && b == 0) { VControl c = ControlAt(cx, cy); if (c != null && c.Enabled) { c.Clicks++; VWindow w = Find(root); if (w != null) w.Focus = c.Hwnd; Events.Add("click " + c.Text); } } } }
+        if (down) { VControl c = ControlAt(cx, cy); pressed[b] = c != null && c.Enabled ? c : null; if (pressed[b] != null) Events.Add("press " + pressed[b].Text + " " + pressed[b].Hwnd); return; }
+        // a button clicks when it is released over the SAME control that received the press (mouse capture); a release elsewhere clicks nothing
+        VControl p = pressed[b]; pressed[b] = null;
+        if (b == 0) { VControl c = ControlAt(cx, cy); if (c != null && c.Enabled && c == p) { c.Clicks++; VWindow w = Find(root); if (w != null) w.Focus = c.Hwnd; Events.Add("click " + c.Text); } else if (p != null) Events.Add("released-off " + p.Text); } } }
+    public bool ControlBox(long hwnd, out Rect box) { lock (this) { foreach (VWindow w in Windows) { if (w.Info.Hwnd == hwnd) { box = w.Info.Window; return true; } foreach (VControl c in w.Controls) if (c.Hwnd == hwnd) { box = c.Box; return true; } } box = new Rect(0, 0, 0, 0); return false; } }
     public void Key(ushort vk, bool down) { lock (this) { if (down) keys.Add(vk); else keys.Remove(vk); Events.Add((down ? "kdown " : "kup ") + vk); if (down) Typed(vk, (char)0); } }
     public void Unicode(char c, bool down) { lock (this) { Events.Add((down ? "udown " : "uup ") + (int)c); if (down) Typed(0, c); } }
     void Typed(ushort vk, char c) {
@@ -241,6 +253,7 @@ public sealed class VirtualPlatform : IPlatform {
         Dictionary<string, object> d = (Dictionary<string, object>)js.DeserializeObject(File.ReadAllText(path));
         if (d.ContainsKey("screen")) v.Screen = Json.Box(d["screen"]);
         if (d.ContainsKey("drainDelayMs")) v.DrainDelayMs = Convert.ToInt32(d["drainDelayMs"]); if (d.ContainsKey("drainFails")) v.DrainFails = (bool)d["drainFails"];
+        if (d.ContainsKey("closeOnPress")) v.CloseOnPress = Convert.ToInt64(d["closeOnPress"]);
         foreach (object o in (System.Collections.IList)d["windows"]) { Dictionary<string, object> w = (Dictionary<string, object>)o; VWindow vw = new VWindow();
             vw.Info.Hwnd = Convert.ToInt64(w["hwnd"]); vw.Info.Pid = Convert.ToInt32(w["pid"]); vw.Info.ProcessStart = w.ContainsKey("start") ? Convert.ToInt64(w["start"]) : 1;
             vw.Info.Title = (string)w["title"]; vw.Info.ClassName = w.ContainsKey("class") ? (string)w["class"] : "WindowsForms10"; vw.Info.Exe = w.ContainsKey("exe") ? (string)w["exe"] : "C:\\test\\table.exe";

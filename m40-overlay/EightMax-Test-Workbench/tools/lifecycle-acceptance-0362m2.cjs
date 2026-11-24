@@ -72,7 +72,7 @@ function diagnosticsDump(scope) {
   const tables = scope.tables.concat(scope.watched).filter((t, i, a) => a.indexOf(t) === i).map((t) => { const q = (f) => { try { return f(); } catch (e) { return 'unavailable: ' + e.message; } };
     return { table: t.id, hwnd: t.win && t.win.hwnd, lifecycle: q(() => t.lc.state), cause: q(() => t.lc.cause), gameplay: q(() => t.gameplay), tracking: q(() => t.engine.trackingStatus()), tournament: q(() => t.engine.tournamentStatus()),
       lastConfirm: t._lastConfirm || null, counts: q(() => Object.fromEntries(Object.entries(t.m).filter(([, v]) => typeof v === 'number'))), rejections: q(() => t.engine.rejections.slice(-20)) }; });
-  return { scenario: scope.id, at: new Date().toISOString(), tables, recorders: scope.recorders.map((r) => ({ counts: r.counts, failureTotals: r.failureTotals, dropped: r.dropped, suppressed: r.suppressed, events: r.events.slice(-300) })) };
+  return { scenario: scope.id, at: new Date().toISOString(), tables, recorders: scope.recorders.map((r) => ({ counts: r.counts, failureTotals: r.failureTotals, dropped: r.dropped, suppressed: r.suppressed, events: r.events.slice(-1500) })) };   // 0.36.2 M4.0: 1 500 (a 30-minute run's first failure was outside the last 300)
 }
 const T = FAKE ? { ack: 800, poll: 5, idle: 5, retryBase: 40, retryMax: 320, settle: 400, scale: 0.25 } : { ack: 4000, poll: 60, idle: 120, retryBase: 250, retryMax: 4000, settle: 3000, scale: 1 };
 fs.mkdirSync(WORK, { recursive: true });

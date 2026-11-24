@@ -1,0 +1,66 @@
+EightMax Test Workbench 0.36.2 - Milestone 4.0 performance tests on your PC
+=========================================================================
+
+WHAT THIS IS
+  RUN-M4-PERFORMANCE-TEST.cmd measures the Milestone 4.0 changes ON YOUR PC: how fast the single mouse cursor serves several tables,
+  how well the tables are recognised at your display scaling, and how the input behaves during long sessions. Everything runs against
+  the bundled EightMax test tables (EightMaxTestTable.exe) on your own desktop - never against another program.
+  Nothing needs to be installed. Windows PowerShell 5.1 (part of Windows 10 and 11) runs the tests.
+
+BEFORE YOU START
+  1. Extract the whole ZIP into a new, empty folder (right-click the ZIP, Extract All). Do not run anything from inside the ZIP.
+  2. Close the EightMax Workbench, its dashboard and every EightMax test table.
+  3. Keep the PC plugged in and awake. Close programs that pop up windows (chat, updates) for the duration of the test.
+  4. In modes B, C and D the mouse moves BY ITSELF inside the test tables. Do not touch the mouse or keyboard until the window says
+     the test ended. Moving the mouse makes the input driver stop (the run then reports it); Ctrl+Alt+F12 stops all input at once.
+
+HOW TO RUN
+  Double-click RUN-M4-PERFORMANCE-TEST.cmd and press a letter:
+
+  A  Recognition verification - about 5-15 minutes, the mouse does NOT move.
+       * the deterministic recognition dataset: the test table as it is drawn at the window sizes of 800, 960, 1024, 1280, 1440 and
+         1920 px tables at 100, 125, 150, 175 and 200 % display scaling (up to 3840 px wide), clean and degraded (noise, a 1 px shift,
+         blur, dimming, a stretched DPI-unaware window, a covered card). Every value is compared with what was drawn.
+       * real test-table windows on YOUR display at your scaling (125 % on a 3840 x 2160 screen: 1000 px for an 800 px table), each
+         checked by "Verify Table Recognition" (the same check as the dashboard button) and compared with the table's own state.
+  B  Scheduler benchmark - about 15-25 minutes, the mouse moves.
+       The Milestone 3.2 multi-table workload (1, 2, 5 and 8 tables) is played twice on your PC at the SAME mouse speed (1 200 px/s):
+       first with the Milestone 3.2 input pipeline, then with the Milestone 4.0 pipeline. The report shows both, side by side.
+  C  Extended simulator test - about 70-80 minutes, the mouse moves.
+       30 minutes of uninterrupted play at 5 tables, then 30 minutes at 8 tables, then 5 minutes at 8 tables with injected faults
+       (a window closed and reopened, emergency stops) while the tables play.
+  D  Full acceptance - about 2-2.5 hours, the mouse moves.
+       Everything the Milestone 3.1 full acceptance runs (all regression tests, window lifecycle, tournament gameplay T1-T6 and T5P,
+       multi-table stability) plus A, B and 10 minutes of uninterrupted play at 5 and at 8 tables.
+  E  Package an earlier run that did not finish (a crash, a reboot, Ctrl+C). Runs no test.
+  L  Choose another folder for the results.        Q  Quit.
+
+  Options (advanced): start it from a Command Prompt after for example
+       set EIGHTMAX_M4_ARGS=-SustainedMinutes 60
+       set EIGHTMAX_M4_ARGS=-ABSeconds 120 -ABFast
+  -SustainedMinutes N (C and D), -ABSeconds N and -ABTables 1,2,5,8 (B and D), -ABFast adds a third row with the Fast mouse preset
+  (2 000 px/s) that is reported APART from the comparison, -FaultSeconds N / -FaultTables N (C), -RecognitionFrames N (A and D).
+
+WHERE THE RESULTS GO
+  %LOCALAPPDATA%\EightMax-Test-Workbench\TestResults\Milestone4.0-<date>-<time>-<mode>\    (never inside the application folder)
+  Every run - also one that fails, times out or is interrupted - ends with:
+       M4-SUMMARY.txt              plain-language summary: every number is copied from a report of this run
+       milestone3-results.txt      every check, PASS / FAIL / WARNING, in order (the Milestone 4.0 tests extend the Milestone 3.1
+       milestone3-results.json     test runner and keep its file names)
+       milestone3-results.zip      EVERYTHING - send this ZIP back
+  File Explorer opens with the ZIP selected when the run ends.
+
+HOW TO READ THE RESULT
+  PASS      every required check passed. A WARNING never hides a failure; it marks something to look at, for example
+            "Milestone 4.0 target: 20-30 % lower scheduling delay at 8 tables" when your PC measured less than 20 %: the measured
+            value is in the report, it is not replaced by an estimate.
+  FAIL      a required check failed; milestone3-results.txt names it and the evidence is in the ZIP.
+  Exit codes: 0 PASS, 1 FAIL, 2 test-runner error, 3 environment problem (for example port 48713 in use), 4 interrupted,
+  5 the launcher could not start the test, 6 nothing to package (E).
+
+SAFETY - WHAT THE TESTS NEVER DO
+  * Input goes only to the registered EightMax test-table windows; every window is checked (handle, process, executable SHA-256)
+    before every click. An action that was sent but not confirmed is NEVER repeated; the table is paused for review.
+  * The EightMax 5.1 engine (native\mwcli.exe) is used unchanged and verified by its SHA-256 before the tests.
+  * The practice decisions of the test tables are scripted and labelled non-GTO; no strategy is computed or changed by these tests.
+  * Your saved dashboard settings (mouse speed included) are not changed by the tests.

@@ -52,7 +52,7 @@ function crossCheck(t, o) {
   const unexplained = acc.length - j > uncertain ? acc.length - j - uncertain : 0;   // applied by the table, not confirmed and not flagged
   return { confirmed: conf.length, dealerAccepted: acc.length, matchedInOrder: conf.length - missing.filter((m) => !m.dealerOnly).length - wrong.length, wrongActions: wrong.length, wrong: wrong.slice(0, 5),
     confirmedNotApplied: missing.filter((m) => !m.dealerOnly).length, appliedNotConfirmed: missing.filter((m) => m.dealerOnly).length + unexplained, uncertainOrUnconfirmed: uncertain,
-    incorrectClicks: (c.downOutsideControls || 0) + (c.downOnDisabled || 0) + (c.doubleClicks || 0) + (c.staleClicks || 0) + (c.illegal || 0), invalidWagers: c.wagerRejected || 0, timeoutActions: c.timeoutActions || 0 };
+    incorrectClicks: (c.downOutsideControls || 0) + (c.downOnDisabled || 0) + (c.doubleClicks || 0) + (c.staleClicks || 0) + (c.illegal || 0), invalidWagers: c.wagerRejected || 0, timeoutActions: c.timeoutActions || 0, downOutsideControls: c.downOutsideControls || 0 };
 }
 /** Per-hand facts from the tracker's ACCEPTED states (who was dealt in, heads-up, all-ins, side pots, eliminations at settlement). */
 function observeHands(t, facts) {
@@ -88,7 +88,10 @@ function tableStats(t, orc) {
     untrackedHands: gs.tracking.untrackedHands, untrackedHandsWithoutDecision: noDecision.size, untrackedHandsNeedingInput: Math.max(0, gs.tracking.untrackedHands - noDecision.size), recoveries: gs.tracking.recoveries, eliminationsSeen: t.m.eliminationsSeen, verifyingSteps: t.m.verifyingSteps, gameplay: gs.code, gameplayEpisodes: gs.episodes,
     lifecycle: t.lc.state, completed: t.completed, tournamentRemaining: gs.tournament.remaining, latencyMs: r.latencyMs,
     // 0.36.2 M4.0 (one hero seat per table): decisions the table's own action clock took because the Workbench had not acted in time
-    heroTimeouts: orc && orc.counts ? orc.counts.timeoutActions || 0 : 0, botActions: orc && orc.counts ? orc.counts.botActions || 0 : 0 };
+    heroTimeouts: orc && orc.counts ? orc.counts.timeoutActions || 0 : 0, botActions: orc && orc.counts ? orc.counts.botActions || 0 : 0,
+    // 0.36.2 M4.0: presses the driver's press guard found on ANOTHER window (the target closed or was covered at that instant; released off
+    // the control it reached, so no click was completed there; the action is not repeated)
+    misdirectedPresses: t.log.filter((e) => /press-misdirected/.test(e.reason || '')).length };
 }
 
 /* ---------------- scenarios ---------------- */
@@ -213,6 +216,25 @@ function saveUnconfirmed(id, list) {
   }
   return files;
 }
+/** 0.36.2 M4.0: evidence of every unconfirmed input of a stability / sustained run: the table's evidence record (status, inputs, timeline,
+ *  window state) + the window's OWN events (presses, releases, keys, actions, frames shown) from 6 s before to 2 s after, and the frames
+ *  before / after as PNG. Written into the work folder as unconfirmed-<suite>-table<N>-<seq>.json (+ .png). Best effort. */
+function saveSlotEvidence(list, oracleDir) {
+  const files = [];
+  for (const u of list) {
+    const base = 'unconfirmed-' + SUITE + '-table' + u.table + '-g' + u.generation + '-' + (u.rec.seq === undefined ? files.length : u.rec.seq), events = [];
+    try {
+      if (oracleDir && fs.existsSync(oracleDir)) for (const f of fs.readdirSync(oracleDir).filter((x) => x.startsWith('oracle-table-' + String(u.table).padStart(2, '0')))) {
+        const lines = fs.readFileSync(path.join(oracleDir, f), 'utf8').split('\n').filter(Boolean).map((l) => { try { return JSON.parse(l); } catch (e) { return null; } }).filter(Boolean);
+        const mine = lines.some((e) => e.kind === 'ready' && e.hwnd && LC.normHwnd(e.hwnd) === LC.normHwnd(u.hwnd)); if (!mine) continue;
+        for (const e of lines) if (e.t >= u.at - 6000 && e.t <= u.at + 2000 && ['mouse-down', 'mouse-up', 'double-click', 'key', 'action', 'shown', 'timeout-action', 'bot-action', 'hand-start', 'hand-complete'].includes(e.kind)) events.push({ file: f, ...e, state: undefined, after: undefined });
+      }
+    } catch (e) { events.push({ error: e.message }); }
+    try { fs.writeFileSync(path.join(M2.WORK, base + '.json'), JSON.stringify({ ...JSON.parse(JSON.stringify({ ...u.rec, images: undefined })), recordedAt: u.at, windowEvents: events }, null, 1)); files.push(base + '.json'); } catch (e) { files.push(base + '.json not written: ' + e.message); }
+    for (const k of ['before', 'after']) { const img = u.rec.images && u.rec.images[k]; if (!img) continue; try { fs.writeFileSync(path.join(M2.WORK, base + '-' + k + '.png'), Buffer.from(IC.encodePng(img))); files.push(base + '-' + k + '.png'); } catch (e) { /* best effort */ } }
+  }
+  return files;
+}
 async function t5Scenario(env, o) {
   const { checks, ck } = M2.checker(), tl = t5Timeline(), unconf = [], warn = (name, pass, detail) => { const r = ck(name, pass, detail); checks[checks.length - 1].warning = true; return r; };
   const s = await M2.setup(env, 2, { stacks: TINY, ...GAP, options: tableOpts, onSchedulerEvent: tl.sched }), [t1, t2] = s.tables, [w1, w2] = s.ws;
@@ -300,7 +322,9 @@ async function playSlots(env, n, o) {
   // 0.36.2 M3.2: raw timing samples of every table generation (measurements only; the motion speed is unchanged)
   const collect = (sl, t) => { if (!t || t._collected) return; t._collected = true; const add = (k, a) => { for (const v of a || []) if (Number.isFinite(v)) sl.samples[k].push(v); }; add('cursor', t.m.cursor); add('input', t.m.input); add('confirm', t.m.confirmMs); add('e2e', t.m.e2e); add('scheduleWait', t.m.scheduleWait); for (const e of t.log) { const k = e.inputClass || e.status; sl.inputStatus[k] = (sl.inputStatus[k] || 0) + 1; } };
   let stopAll = false, completedHands = 0;
-  const start = async (sl) => { const r = await M2.register(env, sl.w); const t = M2.table(env, sl.w, r, sched, rec, { options: { ...tableOpts, ...(o.tableOptions || {}) }, timelines }); const op = await t.capture.open(); if (!op || op.ok !== true) throw new Error('capture refused'); const facts = new Map(); sl.facts.push(facts); observeHands(t, facts); sl.t = sc.table(t); if (outer) outer.watch(t); sl.run = sc.run(t.run(Infinity)); sl.startedAt = mono(); sl.lastConfirmed = 0; sl.lastProgress = mono(); };
+  // 0.36.2 M4.0: every unconfirmed input of a multi-table run keeps its evidence (the table's record + the window's own events around it)
+  const unconfirmed = [];
+  const start = async (sl) => { const r = await M2.register(env, sl.w); const t = M2.table(env, sl.w, r, sched, rec, { options: { ...tableOpts, ...(o.tableOptions || {}) }, timelines }); t.onUnconfirmed = (u) => { if (unconfirmed.length < 40) unconfirmed.push({ rec: u, at: Date.now(), hwnd: sl.w.hwnd, table: sl.w.table, generation: sl.generation }); }; const op = await t.capture.open(); if (!op || op.ok !== true) throw new Error('capture refused'); const facts = new Map(); sl.facts.push(facts); observeHands(t, facts); sl.t = sc.table(t); if (outer) outer.watch(t); sl.run = sc.run(t.run(Infinity)); sl.startedAt = mono(); sl.lastConfirmed = 0; sl.lastProgress = mono(); };
   const finish = async (sl, why) => {   // record the tournament, retire the table window, open a fresh one (new tournament, new registration)
     const t = sl.t, stopAt = Date.now(); t.stop(why); await settleWithin(sl.run, 15000); sl.byTestStop = (sl.byTestStop || 0) + stoppedByTest(t, stopAt); t.dispose(); collect(sl, t); const list = await fx.oracle(true), orc = oracleFor(list, sl.w), x = crossCheck(t, orc);
     const hands = orc ? orc.hands - (orc.state.status === 'playing' ? 1 : 0) : 0; completedHands += Math.max(0, hands);
@@ -343,23 +367,28 @@ async function playSlots(env, n, o) {
     for (const sl of slots) if (sl.t && !sl.t.lc.terminal) { const orc = oracleFor(await fx.oracle(true), sl.w), stopAt = Date.now(); sl.t.stop('end of run'); await settleWithin(sl.run, 15000); sl.byTestStop = (sl.byTestStop || 0) + stoppedByTest(sl.t, stopAt); collect(sl, sl.t); const x = crossCheck(sl.t, orc); sl.tournaments.push({ table: sl.w.table, generation: sl.generation, why: sl.t.completed ? 'tournament complete' : 'end of run', hands: orc ? orc.hands - (orc.state.status === 'playing' ? 1 : 0) : 0, completed: !!sl.t.completed, crossCheck: x, stats: tableStats(sl.t, orc) }); completedHands += Math.max(0, orc ? orc.hands - (orc.state.status === 'playing' ? 1 : 0) : 0); if (x.wrongActions || x.confirmedNotApplied || x.incorrectClicks || x.invalidWagers) violations.push('table ' + sl.w.table + ': ' + JSON.stringify(x).slice(0, 300)); }
     await env.session.request('disarm');
     const resources = await sampler.stop();
-    return { slots, faults, violations, completedHands, seconds: Math.round((mono() - t0) / 1000), scheduler: sched.metrics(), timelines: timelines.summary(), resources, hostApi: env.api && env.api.slotStats ? env.api.slotStats() : null, hostApiBefore: slot0,
+    const evidence = saveSlotEvidence(unconfirmed, fx.oracleDir);
+    return { evidence, slots, faults, violations, completedHands, seconds: Math.round((mono() - t0) / 1000), scheduler: sched.metrics(), timelines: timelines.summary(), resources, hostApi: env.api && env.api.slotStats ? env.api.slotStats() : null, hostApiBefore: slot0,
       workload: { tables: n, width: o.width || 800, layout: o.layout || (n > 4 ? 'cascade' : 'grid'), heroSeats: o.heroSeats || null, botThinkMs: o.heroSeats ? (o.botThinkMs || 800) : null, actionTimeoutMs: o.actionTimeout || null, faultEveryMs: o.faultEveryMs || null, stacks: o.stacks || null, stackChips: o.stackChips || null } };
   } finally { stopAll = true; try { await sampler.stop(); } catch (e) { /* stopped */ } await sc.cleanup('end of run'); }
 }
 /** 0.36.2 M4.0: actions whose confirmation was interrupted because the harness itself stopped the table (tournament replaced, end of the
  *  run): 'uncertain' by design (never repeated, reviewed) - caused by the test, not a confirmation problem. Entries are wall-clock stamped. */
 const stoppedByTest = (t, stopAt) => t.log.filter((e) => e.t >= stopAt && (e.inputClass === 'uncertain' || e.inputClass === 'cancelled-after-input' || e.status === 'uncertain')).length;
-function summarise(res) {
+function summarise(res) { const s = summariseRaw(res);
+  // 0.36.2 M4.0: a press the guard reported as misdirected can land on another table's felt (counted there as a press outside the controls);
+  // only such presses are excused, one per reported misdirection - every other incorrect click still fails the check
+  s.incorrectExplainedByMisdirectedPress = Math.min(s.misdirectedPresses || 0, s.strayPressesOutsideControls || 0); s.incorrectActionsUnexplained = s.incorrectActions - s.incorrectExplainedByMisdirectedPress; return s; }
+function summariseRaw(res) {
   const tours = res.slots.flatMap((s) => s.tournaments), sum = (f) => tours.reduce((a, x) => a + (f(x) || 0), 0);
   return { tables: res.slots.length, seconds: res.seconds, completedHands: res.completedHands, tournamentsStarted: tours.length, tournamentsCompleted: tours.filter((x) => x.completed).length, winnersMatchDealer: tours.filter((x) => x.completed).every((x) => x.winnerOk),
     actionsAttempted: sum((x) => x.stats.attempted), actionsConfirmed: sum((x) => x.stats.confirmed), incorrectActions: sum((x) => x.crossCheck.wrongActions + x.crossCheck.incorrectClicks), invalidWagers: sum((x) => x.crossCheck.invalidWagers),
     missedStateTransitions: sum((x) => x.crossCheck.appliedNotConfirmed), confirmedButNotApplied: sum((x) => x.crossCheck.confirmedNotApplied), refusedReadings: sum((x) => x.stats.refusedReadings), reconstructionFailures: sum((x) => x.stats.reconstructionFailures),
     untrackedHands: sum((x) => x.stats.untrackedHands), untrackedHandsWithoutDecision: sum((x) => x.stats.untrackedHandsWithoutDecision), untrackedHandsNeedingInput: sum((x) => x.stats.untrackedHandsNeedingInput), recoveryEvents: sum((x) => x.stats.recoveries), lifecycleRecoveries: tours.reduce((a, x) => a + ((x.stats.gameplayEpisodes || {}).verifying || 0), 0), eliminationsSeen: sum((x) => x.stats.eliminationsSeen),
-    uncertainOrUnconfirmed: sum((x) => x.crossCheck.uncertainOrUnconfirmed), uncertainByTestStop: res.slots.reduce((a, sl) => a + (sl.byTestStop || 0), 0), deadlineMisses: sum((x) => x.stats.deadlineMisses), heroTimeouts: sum((x) => x.stats.heroTimeouts), botActions: sum((x) => x.stats.botActions), cleanRefusals: sum((x) => x.stats.rejected), unexpectedPauses: res.violations.filter((v) => /stalled|safety-paused|no confirmed action/.test(v)).length,
+    uncertainOrUnconfirmed: sum((x) => x.crossCheck.uncertainOrUnconfirmed), uncertainByTestStop: res.slots.reduce((a, sl) => a + (sl.byTestStop || 0), 0), deadlineMisses: sum((x) => x.stats.deadlineMisses), misdirectedPresses: sum((x) => x.stats.misdirectedPresses), strayPressesOutsideControls: sum((x) => x.crossCheck.downOutsideControls), heroTimeouts: sum((x) => x.stats.heroTimeouts), botActions: sum((x) => x.stats.botActions), cleanRefusals: sum((x) => x.stats.rejected), unexpectedPauses: res.violations.filter((v) => /stalled|safety-paused|no confirmed action/.test(v)).length,
     finalPlayerCounts: tours.filter((x) => x.completed).map((x) => x.finalPlayers), hands: handSummary(res.slots.flatMap((s) => s.facts.flatMap((m) => [...m.values()]))), faults: res.faults, violations: res.violations,
     // 0.36.2 M3.2: multi-table measurements (brief section 9) - observation only, nothing was tuned or sped up to produce them
-    measurements: measurements(res) };
+    measurements: measurements(res), evidenceFiles: res.evidence || [] };
 }
 /** 0.36.2 M3.2: scheduling delay, cursor travel, input operation, confirmation, per-table action latency (all tables pooled and per table),
  *  deadline misses, rejected / uncertain actions, input status per attempt, completed hands, window-loss response latency. */
@@ -390,9 +419,10 @@ for (const n of (arg('tables', SUITE === 'campaign' ? '1' : '1,2,5,8')).split(',
   const { checks, ck } = M2.checker(), secs = Number(arg('seconds', FAKE ? '45' : '90'));
   const res = await playSlots(env, n, { stacks: n === 1 ? TINY : [600, 600, 600, 600, 600, 600, 600, 600], seconds: secs, faultEveryMs: Math.round(secs * 1000 / 3.2) }), s = summarise(res);
   ck('every table played (confirmed actions on every table)', res.slots.every((sl) => sl.tournaments.some((x) => x.stats.confirmed > 0)), res.slots.map((sl) => sl.tournaments.reduce((a, x) => a + x.stats.confirmed, 0)));
-  ck('no incorrect action, no invalid wager (oracle)', s.incorrectActions === 0 && s.invalidWagers === 0, [s.incorrectActions, s.invalidWagers]);
+  ck('no incorrect action, no invalid wager (oracle)', s.incorrectActionsUnexplained === 0 && s.invalidWagers === 0, [s.incorrectActions, s.invalidWagers, { excusedMisdirectedPresses: s.incorrectExplainedByMisdirectedPress }]);
   ck('no confirmed action the table did not apply', s.confirmedButNotApplied === 0, s.confirmedButNotApplied);
   ck('no stall, no unexpected pause, no violation', res.violations.length === 0, res.violations.slice(0, 5));
+  if (s.misdirectedPresses) { ck('a press that reached another window (its target closed at that instant) was released off that control: no action there, not repeated', true, { misdirectedPresses: s.misdirectedPresses, strayPressesOutsideControls: s.strayPressesOutsideControls }); checks[checks.length - 1].pass = false; checks[checks.length - 1].warning = true; }
   ck('faults exercised (closure + reopen' + (n > 1 ? '' : ' n/a') + ', emergency stop)', res.faults.estop >= 1 && (n === 1 || res.faults.closeReopen >= 1), res.faults);
   return { checks, metrics: s };
 }];
@@ -406,9 +436,10 @@ for (const n of (arg('tables', '1,2,5,8')).split(',').map(Number)) SUSTAINED['S'
   const res = await playSlots(env, n, { stacks: arg('stacks', '') ? arg('stacks', '').split(',').map(Number) : undefined, stackChips: hero.heroSeats ? Number(arg('stack-chips', '20000')) : Number(arg('stack-chips', '1500')), seconds: secs, ...hero, ...layoutOpts(),
     tableOptions: hero.heroSeats ? { decisionWindowMs: Math.max(1000, Number(arg('action-timeout', '8000')) - 1500) } : {} }), s = summarise(res);
   ck('every table played (confirmed actions on every table)', res.slots.every((sl) => sl.tournaments.some((x) => x.stats.confirmed > 0)), res.slots.map((sl) => sl.tournaments.reduce((a, x) => a + x.stats.confirmed, 0)));
-  ck('no incorrect action, no invalid wager (oracle)', s.incorrectActions === 0 && s.invalidWagers === 0, [s.incorrectActions, s.invalidWagers]);
+  ck('no incorrect action, no invalid wager (oracle)', s.incorrectActionsUnexplained === 0 && s.invalidWagers === 0, [s.incorrectActions, s.invalidWagers, { excusedMisdirectedPresses: s.incorrectExplainedByMisdirectedPress }]);
   ck('no confirmed action the table did not apply', s.confirmedButNotApplied === 0, s.confirmedButNotApplied);
   ck('no stall, no unexpected pause, no violation', res.violations.length === 0, res.violations.slice(0, 5));
+  if (s.misdirectedPresses) warn('a press that reached another window (its target closed at that instant) was released off that control: no action there, not repeated', false, { misdirectedPresses: s.misdirectedPresses, strayPressesOutsideControls: s.strayPressesOutsideControls });
   ck('hands were completed', s.completedHands > 0, s.completedHands);
   if (hero.heroSeats) warn('every hero decision was made before the table\'s action clock ran out (capacity: a decision the clock took is a missed deadline, never an unsafe input)', s.heroTimeouts === 0, { heroTimeouts: s.heroTimeouts, deadlineMisses: s.deadlineMisses, botActions: s.botActions });
   warn('every action that was sent was confirmed (an action interrupted by the harness stopping its table is uncertain by design and counted apart)', s.uncertainOrUnconfirmed - s.uncertainByTestStop <= 0, { uncertainOrUnconfirmed: s.uncertainOrUnconfirmed, causedByTheHarnessStop: s.uncertainByTestStop });

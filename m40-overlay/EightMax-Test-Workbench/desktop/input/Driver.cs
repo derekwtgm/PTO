@@ -99,7 +99,7 @@ public sealed class Driver {
     public int OverrideGraceMs = 1500, OverrideTolerancePx = 6;
     readonly Stats stats = new Stats();
     CursorMonitor monitor;
-    sealed class Stats { public long Ops, Moves, Clicks, Keys, Chars, Refused, Cancelled, Errors, Corrections, MaxCorrection, DoubleClickGuards; }
+    sealed class Stats { public long Ops, Moves, Clicks, Keys, Chars, Refused, Cancelled, Errors, Corrections, MaxCorrection, DoubleClickGuards, MisdirectedPresses; }
 
     public Driver(IPlatform platform, string token, TextWriter output) { os = platform; this.token = token; this.output = output; }
     public IPlatform Platform { get { return os; } }
@@ -198,7 +198,7 @@ public sealed class Driver {
     Dictionary<string, object> Capabilities() {
         Dictionary<string, object> c = new Dictionary<string, object>();
         c["signedCurves"] = true; c["maxDeviationPx"] = true; c["singleClickGuardMaxMs"] = os.DoubleClickMs() + 40; c["operations"] = Operations; c["sendInput"] = os.Name == "win32"; c["virtual"] = os.Name == "virtual"; c["uiAutomation"] = Uia.Available; c["rawInputOverride"] = RawInputActive;
-        c["clickGuardScopes"] = new string[] { "global", "process" }; c["inputDrain"] = true; c["raiseWaitModes"] = new string[] { "fixed-30", "poll" }; c["phaseTimings"] = true; c["inlineQueries"] = new string[] { "window-info", "cursor", "monitors" }; c["build"] = Build;
+        c["clickGuardScopes"] = new string[] { "global", "process" }; c["inputDrain"] = true; c["pressGuard"] = true; c["raiseWaitModes"] = new string[] { "fixed-30", "poll" }; c["phaseTimings"] = true; c["inlineQueries"] = new string[] { "window-info", "cursor", "monitors" }; c["build"] = Build;
         c["hotkey"] = HotkeySpec; c["hotkeyRegistered"] = HotkeyRegistered; c["maxQueue"] = MaxQueue; c["dpiAwareness"] = Program.DpiAwareness; c["note"] = SafetyNote; return c;
     }
     Dictionary<string, object> Status(long id) {
@@ -206,7 +206,7 @@ public sealed class Driver {
         Op c = current; r["busy"] = c != null; r["currentOp"] = c == null ? null : (object)c.Id; lock (qGate) r["queued"] = queue.Count;
         lock (heldKeys) { r["heldButtons"] = heldButtons[0] || heldButtons[1]; r["heldKeys"] = heldKeys.Count; }
         r["targets"] = targets.Count; r["capabilities"] = Capabilities();
-        Dictionary<string, object> s = new Dictionary<string, object>(); s["ops"] = stats.Ops; s["moves"] = stats.Moves; s["clicks"] = stats.Clicks; s["keys"] = stats.Keys; s["chars"] = stats.Chars; s["refused"] = stats.Refused; s["cancelled"] = stats.Cancelled; s["errors"] = stats.Errors; s["corrections"] = stats.Corrections; s["maxCorrectionPx"] = stats.MaxCorrection; s["doubleClickGuards"] = stats.DoubleClickGuards; r["stats"] = s;
+        Dictionary<string, object> s = new Dictionary<string, object>(); s["ops"] = stats.Ops; s["moves"] = stats.Moves; s["clicks"] = stats.Clicks; s["keys"] = stats.Keys; s["chars"] = stats.Chars; s["refused"] = stats.Refused; s["cancelled"] = stats.Cancelled; s["errors"] = stats.Errors; s["corrections"] = stats.Corrections; s["maxCorrectionPx"] = stats.MaxCorrection; s["doubleClickGuards"] = stats.DoubleClickGuards; s["misdirectedPresses"] = stats.MisdirectedPresses; r["stats"] = s;
         return r;
     }
 
@@ -410,6 +410,32 @@ public sealed class Driver {
         r["guardLimitMs"] = limit; if (since >= 0) r["guardSinceMs"] = since;   // 0.36.2 M4.0: why the click did or did not wait (diagnostics)
         if (wait > 0) { r["doubleClickGuardMs"] = wait; stats.DoubleClickGuards++; Stopwatch g = Stopwatch.StartNew(); Sleep(o, wait); o.Add("guardMs", g.Elapsed.TotalMilliseconds); } else o.Add("guardMs", 0);
     }
+    /// <summary>
+    /// 0.36.2 M4.0 press guard (field "pressGuard": true): once Windows has processed the press (async button state down, at most 30 ms),
+    /// the target must still be the top-level window under the cursor. A window that closed (or was covered) between the last check and
+    /// the press makes Windows deliver the press to the window beneath (Windows CI run 45401450070: a window closed by the test 12 ms before
+    /// a click meant for it; the press reached another table). The press cannot be taken back, but its CLICK can be prevented: a button
+    /// clicks only when the release is over the control that received the press, so the pointer is moved just outside that control before
+    /// the release. Reported as press-misdirected (never repeated; the workbench treats it as an input that may have happened).
+    /// The reply carries press {seen, seenMs, root, child} for every guarded press.
+    /// </summary>
+    void PressGuard(Op o, Target t, Dictionary<string, object> r, int b, int x, int y, ref bool released) {
+        Stopwatch ps = Stopwatch.StartNew(); ushort vk = (ushort)(b == 1 ? 2 : 1); bool seen = os.IsKeyDown(vk);
+        while (!seen && ps.ElapsedMilliseconds < 30) { Thread.Sleep(1); seen = os.IsKeyDown(vk); }
+        long root = os.RootAt(x, y), child = os.ChildAt(x, y);
+        Dictionary<string, object> p = new Dictionary<string, object>(); p["seen"] = seen; p["seenMs"] = Math.Round(ps.Elapsed.TotalMilliseconds, 2); p["root"] = Json.Hex(root); p["child"] = Json.Hex(child); r["press"] = p;
+        o.Add("pressCheckMs", ps.Elapsed.TotalMilliseconds);
+        if (root == t.Hwnd) return;
+        int ax = x, ay = y; Rect box;
+        if (child != 0 && child != root && os.ControlBox(child, out box) && box.W > 0 && box.H > 0) {
+            Rect vs = os.VirtualScreen(); ay = box.Y - 4; if (ay < vs.Y) ay = box.Y + box.H + 4;   // just above (or below) the control that received the press
+            os.MoveAbsolute(ax, ay);
+        }
+        Up(b); released = true; stats.MisdirectedPresses++;
+        p["misdirected"] = true; p["releasedAt"] = Pt(ax, ay);
+        Event("press-misdirected", "target=" + Json.Hex(t.Hwnd) + " reached=" + Json.Hex(root) + " control=" + Json.Hex(child) + " released=" + ax + "," + ay + " op=" + o.Id);
+        throw new DriverError("press-misdirected", "The target window was no longer under the cursor when the button went down (closed or covered at that instant): the press reached window " + Json.Hex(root) + ". It was released outside the control it reached, so no click was completed there; the action is not repeated.");
+    }
     /// <summary>0.36.2 M4.0: a click into target t happened now (global and per-process guard state).</summary>
     void NoteClick(Target t) { lastClickAt = os.Ticks(); if (t != null) lock (lastClickByPid) lastClickByPid[t.Pid] = lastClickAt; }
     /// <summary>
@@ -440,7 +466,9 @@ public sealed class Driver {
         for (int i = 0; i < count; i++) {
             Gate(o); if (o.Deadline > 0 && os.Ticks() + hold >= o.Deadline) throw new DriverError("deadline", "Insufficient time for button hold."); Down(b); stats.Clicks++; NoteClick(t); lastClickX = x; lastClickY = y;
             Event("button-down", "button=" + b + " x=" + x + " y=" + y + " op=" + o.Id);
-            try { Sleep(o, hold); } finally { Up(b); Event("button-up", "button=" + b + " op=" + o.Id); }   // the button is released even if a stop arrives during the hold
+            bool released = false;
+            try { if (Json.Get(a, "pressGuard") is bool && (bool)Json.Get(a, "pressGuard")) PressGuard(o, t, r, b, x, y, ref released); Sleep(o, hold); }
+            finally { if (!released) { Up(b); Event("button-up", "button=" + b + " op=" + o.Id); } }   // the button is released even if a stop arrives during the hold
             if (i + 1 < count) Sleep(o, gap);
         }
         NoteClick(t); lastClickX = x; lastClickY = y; o.Mark("clickDoneMs");

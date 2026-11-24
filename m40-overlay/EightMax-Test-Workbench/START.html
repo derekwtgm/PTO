@@ -15335,8 +15335,9 @@ const close=$('r33-close');if(close)close.addEventListener('click',()=>{$('r33-p
    *                A driver without these capabilities, or a click whose drain was not confirmed, keeps the Milestone 3.2 behaviour.
    */
   const PIPELINE_PROFILES = Object.freeze({
-    'compat-3.2': Object.freeze({ preflight: 'window-info', clickGuard: 'global', drain: false, settle: 'inside-lease', raiseWait: null }),
-    'optimized': Object.freeze({ preflight: 'driver', clickGuard: 'process', drain: true, settle: 'after-drain', raiseWait: 'poll' }),
+    'compat-3.2': Object.freeze({ preflight: 'window-info', clickGuard: 'global', drain: false, settle: 'inside-lease', raiseWait: null, pressGuard: false }),
+    // pressGuard: a press that reached another window (its target closed or was covered at that instant) is released off that control
+    'optimized': Object.freeze({ preflight: 'driver', clickGuard: 'process', drain: true, settle: 'after-drain', raiseWait: 'poll', pressGuard: true }),
   });
   class WindowsUiDriver {
     constructor(o) {
@@ -15385,7 +15386,7 @@ const close=$('r33-close');if(close)close.addEventListener('click',()=>{$('r33-p
       if (chosen.trace) this.trace({ kind: 'motion-plan', ...chosen.trace, target: target.point, profile: chosen.profile });
       // 0.36.2 M4.0: clickGuard / drain / phases are additional request fields; a Milestone 3.2 driver ignores them (unknown fields are not read)
       return { hwnd: this.hwnd, expectClient: client, region: target.rect, to: target.point, motion: chosen.profile, focusPolicy: this.focusPolicy, preClickMs: this.timing.preClickMs, holdMs: this.timing.holdMs, ...(deadlineMs ? { mustFinishWithinMs: deadlineMs } : {}),
-        clickGuard: this.pipeline.clickGuard, drain: this.pipeline.drain, phases: true, ...(this.pipeline.raiseWait ? { raiseWait: this.pipeline.raiseWait } : {}) };
+        clickGuard: this.pipeline.clickGuard, drain: this.pipeline.drain, phases: true, ...(this.pipeline.raiseWait ? { raiseWait: this.pipeline.raiseWait } : {}), ...(this.pipeline.pressGuard ? { pressGuard: true } : {}) };
     }
     /** 0.36.2 M4.0: run the settle inside the lease (Milestone 3.2) unless the driver confirmed that the target window processed the click. */
     async _settle(reply, detail) {
@@ -15406,7 +15407,7 @@ const close=$('r33-close');if(close)close.addEventListener('click',()=>{$('r33-p
         // 0.36.2 M3.2: also the window under the cursor at the press, the double-click guard wait, the travel and the cursor lag (evidence)
         const detail = { plannedMs: r.plannedMs, actualMs: r.actualMs, steps: r.steps, finalError: r.finalError, clickedAt: r.clickedAt, hitClass: r.hitClass, hit: r.hit, doubleClickGuardMs: r.doubleClickGuardMs, distance: r.distance, maxObservedLag: r.maxObservedLag, point: target.point, rect: target.rect,
           // 0.36.2 M4.0 (additive): request/reply times and the driver's phases (timeline), whether the target processed the click
-          timing: { sentAt, repliedAt, phases: r.phases || null }, drained: r.drained === undefined ? null : r.drained, drainMs: r.drainMs === undefined ? null : r.drainMs, guardScope: r.guardScope || null, pipeline: this.profileName };
+          timing: { sentAt, repliedAt, phases: r.phases || null }, drained: r.drained === undefined ? null : r.drained, drainMs: r.drainMs === undefined ? null : r.drainMs, guardScope: r.guardScope || null, press: r.press || null, pipeline: this.profileName };
         await this._settle(r, detail);
         return { ok: true, detail };
       } catch (e0) { const e = WindowsUiDriver.cleanCancel(e0); this.trace({ kind: 'click-refused', region: regionName, code: e.code, error: e.message }); return { ok: false, reason: (e.code ? e.code + ': ' : '') + e.message, code: e.code }; }

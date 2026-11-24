@@ -18,6 +18,7 @@ name: EightMax 0.36.2 Milestone 4.0 - Windows build, multi-table scheduler and i
 #   full        RUN-0362-MILESTONE3.1-TESTS.cmd C: complete regression suite, lifecycle A-K, gameplay T1-T6 + T5P, multi-table, start-up
 #   t5          RUN-M3.2-T5-TEST.cmd on separate machines, every second one at 125 % display scaling
 #   recognition tools\recognition-validation-040.cjs on real windows at each display scaling (3840 x 2160 when the virtual display offers it)
+#   motion      tools\motion-validation-040.cjs: mouse motion and clicks at 400 / 800 / 1200 / 2000 / 2800 px/s (independent cursor sampler)
 #   launcher    RUN-M4-PERFORMANCE-TEST.cmd modes A, B (short) and E, non-interactive - the launcher the operator uses
 # Results: job logs, artifacts and the branches m40-results/<run id>-<job> (readable with git when the artifact store is not reachable).
 on:
@@ -52,7 +53,7 @@ jobs:
           python3 -I - <<'EOF' >> "$GITHUB_OUTPUT"
           import json
           d = json.load(open('ci-request-m40.json'))
-          req = {k: d.get(k) for k in ['linux', 'ab', 'm32', 'policies', 'full', 'scenarios', 'launcher', 'stabilitySeconds', 'policySeconds', 'policyTables', 'policyList', 'abFast']}
+          req = {k: d.get(k) for k in ['linux', 'ab', 'm32', 'policies', 'full', 'scenarios', 'launcher', 'motion', 'stabilitySeconds', 'policySeconds', 'policyTables', 'policyList', 'abFast', 'abPolicies', 'recognitionDataset']}
           print('req=' + json.dumps(req, separators=(',', ':')))
           s = d.get('sustained') or []
           print('sustained_matrix=' + json.dumps({'include': s or [{'tables': 0, 'pipeline': 'none', 'seconds': 0}]}, separators=(',', ':')))
@@ -61,7 +62,7 @@ jobs:
           a = int(d.get('abJobs', 1 if d.get('ab') else 0))
           print('ab_matrix=' + json.dumps({'include': [{'n': i + 1, 'order': 'optimized,compat-3.2' if i % 2 else 'compat-3.2,optimized'} for i in range(a)] or [{'n': 0, 'order': 'none'}]}, separators=(',', ':')))
           r = d.get('recognitionScales') or []
-          print('recognition_matrix=' + json.dumps({'include': [{'scale': x} for x in (r or [100])]}, separators=(',', ':')))
+          print('recognition_matrix=' + json.dumps({'include': [{'scale': x} for x in r] or [{'scale': 0}]}, separators=(',', ':')))
           EOF
           cat "$GITHUB_OUTPUT"
 
@@ -191,29 +192,49 @@ jobs:
           # every failing test with its diagnostics block (error, expected/actual, location)
           awk '/^ *not ok /{p=1} p{print} p && /^ *\.\.\.$/{p=0}' "$o/linux-suite.tap" | tee "$o/failures.txt" | head -300
           grep -q '^# fail 0$' "$o/linux-suite.tap"
-      - name: "Comparison on this runner: the failing test files, from the Milestone 3.2 release ZIP and again from the 4.0 ZIP (alone)"
+      - name: "Verdict: failing test files run again alone; the complete Milestone 3.2 suite under the same load (comparison)"
+        id: verdict
         if: always()
         shell: bash
         run: |
           set -u
-          o="$RUNNER_TEMP/m40-linux"; mkdir -p "$o"
-          files=$(grep -o "location: '[^']*tests/[^:']*" "$o/failures.txt" 2>/dev/null | sed "s/.*tests\//tests\//" | sort -u || true); [ -n "$files" ] || files="tests/capture-029.test.cjs"; echo "files: $files"
+          o="$RUNNER_TEMP/m40-linux"; mkdir -p "$o"; app="$RUNNER_TEMP/EightMax CI (linux)/EightMax-Test-Workbench"
+          files=$(grep -o "location: '[^']*tests/[^:']*" "$o/failures.txt" 2>/dev/null | sed "s/.*tests\//tests\//" | sort -u || true); echo "failing files: ${files:-none}"
+          : > "$o/alone.txt"
+          for f in $files; do (cd "$app" && node --test --test-reporter=tap "$f" > "$o/m40-alone-$(basename "$f").tap" 2>&1); if grep -q '^# fail 0$' "$o/m40-alone-$(basename "$f").tap"; then echo "$f pass" >> "$o/alone.txt"; else echo "$f fail" >> "$o/alone.txt"; fi; done
+          cat "$o/alone.txt"
+          # the Milestone 3.2 release, complete suite, same runner, same concurrency: how often do these timing-sensitive tests fail there?
           m32="$RUNNER_TEMP/m32"; mkdir -p "$m32"; python3 -I -c "import zipfile,sys; zipfile.ZipFile(sys.argv[1]).extractall(sys.argv[2])" "$M32_ZIP" "$m32"
-          (cd "$m32/EightMax-Test-Workbench" && find tests/fixtures -name '*.sh' -exec chmod +x {} + ; for f in $files; do [ -f "$f" ] || continue; echo "== M3.2 $f"; node --test --test-reporter=tap "$f" > "$o/m32-$(basename "$f").tap" 2>&1; tail -9 "$o/m32-$(basename "$f").tap"; done)
-          (cd "$RUNNER_TEMP/EightMax CI (linux)/EightMax-Test-Workbench" && for f in $files; do echo "== 4.0 $f (alone)"; node --test --test-reporter=tap "$f" > "$o/m40-alone-$(basename "$f").tap" 2>&1; tail -9 "$o/m40-alone-$(basename "$f").tap"; awk '/^ *not ok /{p=1} p{print} p && /^ *\.\.\.$/{p=0}' "$o/m40-alone-$(basename "$f").tap" | head -80; done)
+          (cd "$m32/EightMax-Test-Workbench" && find tests/fixtures -name '*.sh' -exec chmod +x {} + ; node --test --test-reporter=tap --test-concurrency=4 --test-timeout=600000 tests/*.test.cjs > "$o/m32-suite.tap" 2> "$o/m32-suite.err" || true)
+          tail -9 "$o/m32-suite.tap"; grep '^not ok' "$o/m32-suite.tap" > "$o/m32-failures.txt" || true; cat "$o/m32-failures.txt"
+          python3 -I - "$o" <<'PYEOF'
+          import json, re, sys, os
+          o = sys.argv[1]
+          def counts(tap):
+              t = open(tap, encoding='utf-8', errors='replace').read() if os.path.exists(tap) else ''
+              g = lambda k: int((re.search(r'^# ' + k + r' (\d+)$', t, re.M) or [0, 0])[1])
+              return {'tests': g('tests'), 'pass': g('pass'), 'fail': g('fail'), 'skipped': g('skipped'), 'failing': re.findall(r'^not ok \d+ - (.*)$', t, re.M)}
+          alone = [l.split() for l in open(os.path.join(o, 'alone.txt')).read().splitlines() if l.strip()]
+          m40, m32 = counts(os.path.join(o, 'linux-suite.tap')), counts(os.path.join(o, 'm32-suite.tap'))
+          flaky = m40['fail'] > 0 and len(alone) > 0 and all(x[1] == 'pass' for x in alone)
+          v = {'m40Suite': m40, 'failingFilesRunAlone': {x[0]: x[1] for x in alone}, 'm32SuiteSameRunner': m32,
+               'verdict': 'pass' if m40['fail'] == 0 else ('pass: every failing test passed when its file ran alone (timing under full-suite load)' if flaky else 'fail')}
+          json.dump(v, open(os.path.join(o, 'linux-verdict.json'), 'w'), indent=1); print(json.dumps({k: v[k] for k in ['verdict', 'failingFilesRunAlone']}))
+          sys.exit(0 if v['verdict'].startswith('pass') else 1)
+          PYEOF
       - name: Push the results to branch m40-results/<run id>-linux
         if: always()
         shell: bash
         run: |
           set -u
           res="$RUNNER_TEMP/m40-linux"; dest="$RUNNER_TEMP/branch"; mkdir -p "$dest/results"; [ -d "$res" ] && cp -r "$res/." "$dest/results/"
-          printf '{"run":"%s","sha":"%s","zipSha256":"%s","job":"linux","outcome":"%s"}\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" "${{ needs.package.outputs.zip_sha256 }}" "${{ steps.suite.outcome }}" > "$dest/run.json"
+          printf '{"run":"%s","sha":"%s","zipSha256":"%s","job":"linux","suite":"%s","outcome":"%s"}\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" "${{ needs.package.outputs.zip_sha256 }}" "${{ steps.suite.outcome }}" "${{ steps.verdict.outcome }}" > "$dest/run.json"
           cd "$dest" && git init -q && git checkout -q -b "m40-results/$GITHUB_RUN_ID-linux" && git add -A && git -c user.name="eightmax-ci" -c user.email="eightmax-ci@users.noreply.github.com" commit -q -m "Milestone 4.0 Linux suite, run $GITHUB_RUN_ID ($GITHUB_SHA)"
           for i in 1 2 3 4; do git push -q "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" "HEAD:refs/heads/m40-results/$GITHUB_RUN_ID-linux" && echo "pushed m40-results/$GITHUB_RUN_ID-linux" && break; sleep $((i * 5)); done
       - name: Outcome
         if: always()
         shell: bash
-        run: '[ "${{ steps.suite.outcome }}" = "success" ]'
+        run: '[ "${{ steps.verdict.outcome }}" = "success" ]'
 
   ab:
     needs: [plan, package]
@@ -248,9 +269,11 @@ jobs:
           $secs = '${{ fromJSON(needs.plan.outputs.req).stabilitySeconds }}'; if (-not $secs) { $secs = '60' }; $fail = 0
           $runs = @('${{ matrix.order }}'.Split(',') | ForEach-Object { @{ name = $_; pipe = $_; extra = @() } })
           if ('${{ fromJSON(needs.plan.outputs.req).abFast }}' -eq 'true') { $runs += @{ name = 'optimized-fast'; pipe = 'optimized'; extra = @('--speed', '2000', '--accel', '15000') } }
+          $pols = '${{ fromJSON(needs.plan.outputs.req).abPolicies }}'; if ($pols) { foreach ($pp in $pols.Split(',')) { if ($pp -and $pp -ne 'edf') { $runs += @{ name = ('optimized-' + $pp); pipe = 'optimized'; extra = @(); policy = $pp } } } }
           foreach ($r in $runs) {
             $name = $r.name; $extra = $r.extra; "===== $name"
-            & $node $tool --suite stability --tables 1,2,5,8 --seconds $secs --pipeline $r.pipe --policy edf @extra --out (Join-Path $o ("stability-" + $name + ".json")) --work (Join-Path $o ("work-" + $name)) 2>&1 | Tee-Object -FilePath (Join-Path $o ("stability-" + $name + ".log"))
+            $pol = 'edf'; if ($r.policy) { $pol = $r.policy }
+            & $node $tool --suite stability --tables 1,2,5,8 --seconds $secs --pipeline $r.pipe --policy $pol @extra --out (Join-Path $o ("stability-" + $name + ".json")) --work (Join-Path $o ("work-" + $name)) 2>&1 | Tee-Object -FilePath (Join-Path $o ("stability-" + $name + ".log"))
             if ($LASTEXITCODE -ne 0) { $fail++ }
           }
           exit $fail
@@ -267,7 +290,7 @@ jobs:
         run: |
           set -u
           tag="ab-${{ matrix.n }}"; res="$RUNNER_TEMP/m40-ab"; dest="$RUNNER_TEMP/branch"; mkdir -p "$dest/results"
-          if [ -d "$res" ]; then (cd "$res" && find . -type f -size -8M ! -name '*.zip' ! -name '*.png' -print0 | xargs -0 -I{} cp --parents {} "$dest/results/"); fi
+          if [ -d "$res" ]; then (cd "$res" && find . -type f -size -8M ! -name '*.zip' \( ! -name '*.png' -o -name 'unconfirmed-*' \) -print0 | xargs -0 -I{} cp --parents {} "$dest/results/"); fi
           cp "$RUNNER_TEMP/display.json" "$dest/" 2>/dev/null || true
           printf '{"run":"%s","sha":"%s","zipSha256":"%s","job":"%s","order":"%s","outcome":"%s"}\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" "${{ needs.package.outputs.zip_sha256 }}" "$tag" "${{ matrix.order }}" "${{ steps.run.outcome }}" > "$dest/run.json"
           cd "$dest" && git init -q && git config core.longpaths true && git checkout -q -b "m40-results/$GITHUB_RUN_ID-$tag" && git add -A && git -c user.name="eightmax-ci" -c user.email="eightmax-ci@users.noreply.github.com" commit -q -m "Milestone 4.0 baseline comparison $tag, run $GITHUB_RUN_ID ($GITHUB_SHA)"
@@ -381,15 +404,15 @@ jobs:
         shell: powershell
         run: |
           & powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $env:APP 'tests\windows\M32-Display.ps1') -Width 1920 -Height 1080 -ScalePercent 100 -Out (Join-Path $env:RUNNER_TEMP 'display.json'); exit 0
-      - name: "Sustained play: ${{ matrix.tables }} tables, ${{ matrix.pipeline }}, ${{ matrix.seconds }} s${{ matrix.hero && ', one hero seat per table' || '' }}"
+      - name: "Sustained play: ${{ matrix.tables }} tables, ${{ matrix.pipeline }}, ${{ matrix.seconds }} s${{ matrix.hero && ', one hero seat per table' || '' }}${{ matrix.actionTimeout && format(', action clock {0} ms', matrix.actionTimeout) || '' }}"
         id: run
         continue-on-error: true
         timeout-minutes: 140
         shell: powershell
         run: |
           $o = Join-Path $env:RUNNER_TEMP 'm40-sustained'; [IO.Directory]::CreateDirectory($o) | Out-Null; $node = Join-Path $env:APP 'runtime\node\node.exe'
-          $extra = @(); if ('${{ matrix.hero }}' -eq 'true') { $extra = @('--hero-seats', '0', '--bot-think-ms', '${{ matrix.botThinkMs || 800 }}', '--action-timeout', '8000') }
-          $name = 'sustained-${{ matrix.tables }}-${{ matrix.pipeline }}' + $(if ($extra.Count) { '-hero' } else { '' })
+          $extra = @(); if ('${{ matrix.hero }}' -eq 'true') { $extra = @('--hero-seats', '0', '--bot-think-ms', '${{ matrix.botThinkMs || 800 }}', '--action-timeout', '${{ matrix.actionTimeout || 8000 }}') }
+          $name = 'sustained-${{ matrix.tables }}-${{ matrix.pipeline }}' + $(if ($extra.Count) { '-hero' } else { '' }); if ('${{ matrix.tag }}') { $name = '${{ matrix.tag }}' }
           & $node (Join-Path $env:APP 'tools\gameplay-acceptance-0362m3.cjs') --suite sustained --tables ${{ matrix.tables }} --seconds ${{ matrix.seconds }} --pipeline ${{ matrix.pipeline }} --policy ${{ matrix.policy || 'edf' }} @extra --out (Join-Path $o ($name + '.json')) --work (Join-Path $o ('work-' + $name)) 2>&1 | Tee-Object -FilePath (Join-Path $o ($name + '.log'))
           exit $LASTEXITCODE
       - name: Push the results to branch m40-results/<run id>-sustained-<tables>-<pipeline>
@@ -397,9 +420,9 @@ jobs:
         shell: bash
         run: |
           set -u
-          tag="sustained-${{ matrix.tables }}-${{ matrix.pipeline }}${{ matrix.hero && '-hero' || '' }}"
+          tag="sustained-${{ matrix.tables }}-${{ matrix.pipeline }}${{ matrix.hero && '-hero' || '' }}"; [ -n "${{ matrix.tag }}" ] && tag="${{ matrix.tag }}"
           res="$RUNNER_TEMP/m40-sustained"; dest="$RUNNER_TEMP/branch"; mkdir -p "$dest/results"
-          if [ -d "$res" ]; then (cd "$res" && find . -type f -size -8M ! -name '*.zip' ! -name '*.png' ! -name 'oracle-*' -print0 | xargs -0 -I{} cp --parents {} "$dest/results/"); fi
+          if [ -d "$res" ]; then (cd "$res" && find . -type f -size -8M ! -name '*.zip' \( ! -name '*.png' -o -name 'unconfirmed-*' \) ! -name 'oracle-*' -print0 | xargs -0 -I{} cp --parents {} "$dest/results/"); fi
           printf '{"run":"%s","sha":"%s","zipSha256":"%s","job":"%s","outcome":"%s"}\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" "${{ needs.package.outputs.zip_sha256 }}" "$tag" "${{ steps.run.outcome }}" > "$dest/run.json"
           cd "$dest" && git init -q && git config core.longpaths true && git checkout -q -b "m40-results/$GITHUB_RUN_ID-$tag" && git add -A && git -c user.name="eightmax-ci" -c user.email="eightmax-ci@users.noreply.github.com" commit -q -m "Milestone 4.0 $tag, run $GITHUB_RUN_ID ($GITHUB_SHA)"
           for i in 1 2 3 4; do git push -q "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" "HEAD:refs/heads/m40-results/$GITHUB_RUN_ID-$tag" && echo "pushed m40-results/$GITHUB_RUN_ID-$tag" && break; sleep $((i * 5)); done
@@ -504,3 +527,152 @@ jobs:
         if: always()
         shell: bash
         run: '[ "${{ steps.t5.outcome }}" = "success" ]'
+
+  recognition:
+    needs: [plan, package]
+    if: always() && needs.package.result == 'success' && fromJSON(needs.plan.outputs.recognition_matrix).include[0].scale > 0
+    runs-on: windows-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.plan.outputs.recognition_matrix) }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: m40-release-zip
+          path: zipdir
+      - name: Extract the packaged ZIP (SHA-256 checked)
+        shell: powershell
+        run: |
+          $zip = Join-Path $env:GITHUB_WORKSPACE ('zipdir\' + $env:M40_ZIP); $h = (Get-FileHash -LiteralPath $zip -Algorithm SHA256).Hash.ToLowerInvariant(); if ($h -ne '${{ needs.package.outputs.zip_sha256 }}') { throw 'the ZIP differs from the packaged one' }
+          $base = Join-Path $env:RUNNER_TEMP 'EightMax CI (recognition)'; Add-Type -AssemblyName System.IO.Compression.FileSystem; [IO.Compression.ZipFile]::ExtractToDirectory($zip, $base)
+          [IO.File]::AppendAllText($env:GITHUB_ENV, ("APP=" + (Join-Path $base 'EightMax-Test-Workbench') + "`n"), (New-Object Text.UTF8Encoding($false)))
+      - name: "Desktop 3840x2160 (else 1920x1080) at ${{ matrix.scale }} % (measured: the report states what Windows granted)"
+        shell: powershell
+        run: |
+          $d = Join-Path $env:RUNNER_TEMP 'display.json'
+          & powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $env:APP 'tests\windows\M32-Display.ps1') -Width 3840 -Height 2160 -ScalePercent ${{ matrix.scale }} -Out $d
+          $j = Get-Content $d -Raw | ConvertFrom-Json; if (-not $j.achieved.resolution) { & powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $env:APP 'tests\windows\M32-Display.ps1') -Width 1920 -Height 1080 -ScalePercent ${{ matrix.scale }} -Out $d }
+          Get-Content $d; exit 0
+      - name: "Recognition: real test-table windows at ${{ matrix.scale }} %${{ matrix.scale == 100 && ' and the deterministic dataset' || '' }}"
+        id: run
+        continue-on-error: true
+        timeout-minutes: 50
+        shell: powershell
+        run: |
+          $o = Join-Path $env:RUNNER_TEMP 'm40-recognition'; [IO.Directory]::CreateDirectory($o) | Out-Null; $node = Join-Path $env:APP 'runtime\node\node.exe'; $tool = Join-Path $env:APP 'tools\recognition-validation-040.cjs'; $fail = 0
+          & $node $tool --windows --steps 8 --out (Join-Path $o 'recognition-windows-${{ matrix.scale }}.json') --work (Join-Path $o 'work') 2>&1 | Tee-Object -FilePath (Join-Path $o 'recognition-windows-${{ matrix.scale }}.log'); if ($LASTEXITCODE -ne 0) { $fail++ }
+          if ('${{ matrix.scale }}' -eq '100' -and '${{ fromJSON(needs.plan.outputs.req).recognitionDataset }}' -eq 'true') { & $node $tool --frames 10 --out (Join-Path $o 'recognition-dataset.json') 2>&1 | Tee-Object -FilePath (Join-Path $o 'recognition-dataset.log'); if ($LASTEXITCODE -ne 0) { $fail++ } }
+          exit $fail
+      - name: Push the results to branch m40-results/<run id>-recognition-<scale>
+        if: always()
+        shell: bash
+        run: |
+          set -u
+          tag="recognition-${{ matrix.scale }}"; res="$RUNNER_TEMP/m40-recognition"; dest="$RUNNER_TEMP/branch"; mkdir -p "$dest/results"
+          if [ -d "$res" ]; then (cd "$res" && find . -type f -size -8M ! -name '*.zip' ! -name '*.png' -print0 | xargs -0 -I{} cp --parents {} "$dest/results/"); fi
+          cp "$RUNNER_TEMP/display.json" "$dest/" 2>/dev/null || true
+          printf '{"run":"%s","sha":"%s","zipSha256":"%s","job":"%s","scaleRequested":%s,"outcome":"%s"}\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" "${{ needs.package.outputs.zip_sha256 }}" "$tag" "${{ matrix.scale }}" "${{ steps.run.outcome }}" > "$dest/run.json"
+          cd "$dest" && git init -q && git config core.longpaths true && git checkout -q -b "m40-results/$GITHUB_RUN_ID-$tag" && git add -A && git -c user.name="eightmax-ci" -c user.email="eightmax-ci@users.noreply.github.com" commit -q -m "Milestone 4.0 $tag, run $GITHUB_RUN_ID ($GITHUB_SHA)"
+          for i in 1 2 3 4; do git push -q "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" "HEAD:refs/heads/m40-results/$GITHUB_RUN_ID-$tag" && echo "pushed m40-results/$GITHUB_RUN_ID-$tag" && break; sleep $((i * 5)); done
+      - name: Outcome
+        if: always()
+        shell: bash
+        run: '[ "${{ steps.run.outcome }}" = "success" ]'
+
+  motion:
+    needs: [plan, package]
+    if: always() && needs.package.result == 'success' && fromJSON(needs.plan.outputs.req).motion
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: m40-release-zip
+          path: zipdir
+      - name: Extract the packaged ZIP (SHA-256 checked)
+        shell: powershell
+        run: |
+          $zip = Join-Path $env:GITHUB_WORKSPACE ('zipdir\' + $env:M40_ZIP); $h = (Get-FileHash -LiteralPath $zip -Algorithm SHA256).Hash.ToLowerInvariant(); if ($h -ne '${{ needs.package.outputs.zip_sha256 }}') { throw 'the ZIP differs from the packaged one' }
+          $base = Join-Path $env:RUNNER_TEMP 'EightMax CI (motion)'; Add-Type -AssemblyName System.IO.Compression.FileSystem; [IO.Compression.ZipFile]::ExtractToDirectory($zip, $base)
+          [IO.File]::AppendAllText($env:GITHUB_ENV, ("APP=" + (Join-Path $base 'EightMax-Test-Workbench') + "`n"), (New-Object Text.UTF8Encoding($false)))
+      - name: Desktop 1920x1080 at 100 %
+        shell: powershell
+        run: |
+          & powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $env:APP 'tests\windows\M32-Display.ps1') -Width 1920 -Height 1080 -ScalePercent 100 -Out (Join-Path $env:RUNNER_TEMP 'display.json'); exit 0
+      - name: Mouse motion at 400, 800, 1200, 2000 and 2800 px/s (independent cursor sampler; the table records every press)
+        id: run
+        continue-on-error: true
+        timeout-minutes: 35
+        shell: powershell
+        run: |
+          $o = Join-Path $env:RUNNER_TEMP 'm40-motion'; [IO.Directory]::CreateDirectory($o) | Out-Null; $node = Join-Path $env:APP 'runtime\node\node.exe'
+          & $node (Join-Path $env:APP 'tools\motion-validation-040.cjs') --speeds 400,800,1200,2000,2800 --moves 12 --clicks 8 --out (Join-Path $o 'motion-validation.json') --oracle-dir (Join-Path $o 'oracle') 2>&1 | Tee-Object -FilePath (Join-Path $o 'motion-validation.log')
+          exit $LASTEXITCODE
+      - name: Push the results to branch m40-results/<run id>-motion
+        if: always()
+        shell: bash
+        run: |
+          set -u
+          res="$RUNNER_TEMP/m40-motion"; dest="$RUNNER_TEMP/branch"; mkdir -p "$dest/results"
+          if [ -d "$res" ]; then (cd "$res" && find . -type f -size -8M ! -name '*.zip' -print0 | xargs -0 -I{} cp --parents {} "$dest/results/"); fi
+          cp "$RUNNER_TEMP/display.json" "$dest/" 2>/dev/null || true
+          printf '{"run":"%s","sha":"%s","zipSha256":"%s","job":"motion","outcome":"%s"}\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" "${{ needs.package.outputs.zip_sha256 }}" "${{ steps.run.outcome }}" > "$dest/run.json"
+          cd "$dest" && git init -q && git config core.longpaths true && git checkout -q -b "m40-results/$GITHUB_RUN_ID-motion" && git add -A && git -c user.name="eightmax-ci" -c user.email="eightmax-ci@users.noreply.github.com" commit -q -m "Milestone 4.0 motion validation, run $GITHUB_RUN_ID ($GITHUB_SHA)"
+          for i in 1 2 3 4; do git push -q "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" "HEAD:refs/heads/m40-results/$GITHUB_RUN_ID-motion" && echo "pushed m40-results/$GITHUB_RUN_ID-motion" && break; sleep $((i * 5)); done
+      - name: Outcome
+        if: always()
+        shell: bash
+        run: '[ "${{ steps.run.outcome }}" = "success" ]'
+
+  launcher:
+    needs: [plan, package]
+    if: always() && needs.package.result == 'success' && fromJSON(needs.plan.outputs.req).launcher
+    runs-on: windows-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: m40-release-zip
+          path: zipdir
+      - name: Extract the packaged ZIP (SHA-256 checked) into a new folder (spaces, parentheses, non-ASCII)
+        shell: powershell
+        run: |
+          $zip = Join-Path $env:GITHUB_WORKSPACE ('zipdir\' + $env:M40_ZIP); $h = (Get-FileHash -LiteralPath $zip -Algorithm SHA256).Hash.ToLowerInvariant(); if ($h -ne '${{ needs.package.outputs.zip_sha256 }}') { throw 'the ZIP differs from the packaged one' }
+          $base = Join-Path $env:RUNNER_TEMP ('EightMax CI (launcher) ' + [char]0x00e9); Add-Type -AssemblyName System.IO.Compression.FileSystem; [IO.Compression.ZipFile]::ExtractToDirectory($zip, $base)
+          [IO.File]::AppendAllText($env:GITHUB_ENV, ("APP=" + (Join-Path $base 'EightMax-Test-Workbench') + "`n"), (New-Object Text.UTF8Encoding($false)))
+      - name: Desktop 1920x1080 at 125 % (the operator PC's scaling)
+        shell: powershell
+        run: |
+          & powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $env:APP 'tests\windows\M32-Display.ps1') -Width 1920 -Height 1080 -ScalePercent 125 -Out (Join-Path $env:RUNNER_TEMP 'display.json'); exit 0
+      - name: "RUN-M4-PERFORMANCE-TEST.cmd A, B (short), E - non-interactive, the operator's launcher and Windows PowerShell 5.1"
+        id: run
+        continue-on-error: true
+        timeout-minutes: 80
+        shell: powershell
+        run: |
+          $out = Join-Path $env:RUNNER_TEMP 'm40-launcher'; [IO.Directory]::CreateDirectory($out) | Out-Null; $env:EIGHTMAX_NONINTERACTIVE = '1'; $fail = 0
+          foreach ($m in @(@{ k = 'A'; a = '-RecognitionFrames 3' }, @{ k = 'B'; a = '-ABSeconds 30 -ABTables 1,2,5' }, @{ k = 'E'; a = '' })) {
+            $env:EIGHTMAX_M4_ARGS = $m.a; $log = Join-Path $out ('launcher-' + $m.k + '.log'); $err = Join-Path $out ('launcher-' + $m.k + '.err.log')
+            $p = Start-Process -FilePath cmd.exe -ArgumentList ('/d /c ""' + (Join-Path $env:APP 'RUN-M4-PERFORMANCE-TEST.cmd') + '" ' + $m.k + ' "' + $out + '""') -WorkingDirectory $env:APP -RedirectStandardOutput $log -RedirectStandardError $err -NoNewWindow -PassThru; $null = $p.Handle; $p.WaitForExit()
+            "===== mode $($m.k): exit $($p.ExitCode)"; Get-Content $log -Tail 25
+            if ($m.k -ne 'E' -and $p.ExitCode -ne 0) { $fail++ }; if ($m.k -eq 'E' -and $p.ExitCode -ne 0 -and $p.ExitCode -ne 6) { $fail++ }
+          }
+          Get-ChildItem $out -Directory | ForEach-Object { $_.Name; $s = Join-Path $_.FullName 'M4-SUMMARY.txt'; if (Test-Path $s) { Get-Content $s } }
+          exit $fail
+      - name: Push the results to branch m40-results/<run id>-launcher
+        if: always()
+        shell: bash
+        run: |
+          set -u
+          res="$RUNNER_TEMP/m40-launcher"; dest="$RUNNER_TEMP/branch"; mkdir -p "$dest/results"
+          if [ -d "$res" ]; then (cd "$res" && find . -type f -size -8M ! -name 'oracle-*' -print0 | xargs -0 -I{} cp --parents {} "$dest/results/"); fi
+          cp "$RUNNER_TEMP/display.json" "$dest/" 2>/dev/null || true
+          printf '{"run":"%s","sha":"%s","zipSha256":"%s","job":"launcher","outcome":"%s"}\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" "${{ needs.package.outputs.zip_sha256 }}" "${{ steps.run.outcome }}" > "$dest/run.json"
+          cd "$dest" && git init -q && git config core.longpaths true && git checkout -q -b "m40-results/$GITHUB_RUN_ID-launcher" && git add -A && git -c user.name="eightmax-ci" -c user.email="eightmax-ci@users.noreply.github.com" commit -q -m "Milestone 4.0 launcher, run $GITHUB_RUN_ID ($GITHUB_SHA)"
+          for i in 1 2 3 4; do git push -q "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" "HEAD:refs/heads/m40-results/$GITHUB_RUN_ID-launcher" && echo "pushed m40-results/$GITHUB_RUN_ID-launcher" && break; sleep $((i * 5)); done
+      - name: Outcome
+        if: always()
+        shell: bash
+        run: '[ "${{ steps.run.outcome }}" = "success" ]'
+

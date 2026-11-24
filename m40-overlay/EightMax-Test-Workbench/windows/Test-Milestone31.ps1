@@ -8,7 +8,17 @@
    -Mode T5           0.36.2 Milestone 3.2 standalone T5 test (RUN-M3.2-T5-TEST.cmd): environment, integrity, components, the Milestone 3.2
                       regression tests, desktop host + input driver, then T5 (two real test tables, table 2's window closes) and T5P (table 2
                       paused by an action its table did not apply, then closed - the operator's failure), -T5Repeat times; cleanup (8-15 min)
-   -Mode Package   D  finds an earlier (incomplete) run and packages its logs; runs NO test
+   -Mode M4Recognition  0.36.2 Milestone 4.0 RUN-M4-PERFORMANCE-TEST.cmd A: recognition verification - the deterministic recognition dataset
+                      (every table size at 100-200 % display scaling) and real test-table windows on this display, each checked by Verify
+                      Table Recognition and compared with the table's own state; no mouse input (5-15 min)
+   -Mode M4Scheduler    Milestone 4.0 B: scheduler benchmark - the Milestone 3.2 multi-table workload (1/2/5/8 tables) with the Milestone 3.2
+                      input pipeline and then with the Milestone 4.0 pipeline on THIS PC, same mouse speed; -ABFast adds the Fast preset,
+                      reported apart (about 15-25 min; the mouse moves)
+   -Mode M4Extended     Milestone 4.0 C: extended simulator test - uninterrupted play for -SustainedMinutes (default 30) at 5 and at 8 tables,
+                      then a fault-injection run (windows closed and reopened, emergency stops) (about 70-80 min; the mouse moves)
+   -Mode M4Full         Milestone 4.0 D: full acceptance - the Milestone 3.1 full acceptance (regression tests, lifecycle, gameplay T1-T6 + T5P,
+                      multi-table) plus A, B and C (sustained play -SustainedMinutes, default 10 in this mode) (about 2-2.5 h)
+   -Mode Package   D  finds an earlier (incomplete) run and packages its logs; runs NO test (RUN-M4-PERFORMANCE-TEST.cmd E)
    -Mode Detect       lists earlier runs that did not finish (used by the launcher before its menu)
 
    Results: %LOCALAPPDATA%\EightMax-Test-Workbench\TestResults\Milestone3.1-<date>-<time>-<mode>\ (never inside the application folder;
@@ -19,7 +29,8 @@
    Test-only options (CI): -InjectFault exception:<phase> | check-fail:<phase> | terminate:<phase> | node-missing, -StartScript <fixture>,
    -HostCases <ids>, -HostLaunchTimeoutSec / -HostReadyTimeoutSec. A run with an injected fault says so in every report. #>
 param(
-    [ValidateSet('Quick', 'Startup', 'Full', 'T5', 'Package', 'Detect')][string]$Mode = 'Quick', [int]$T5Repeat = 3,
+    [ValidateSet('Quick', 'Startup', 'Full', 'T5', 'M4Recognition', 'M4Scheduler', 'M4Extended', 'M4Full', 'Package', 'Detect')][string]$Mode = 'Quick', [int]$T5Repeat = 3,
+    [int]$SustainedMinutes = 30, [string]$SustainedTables = '5,8', [int]$ABSeconds = 60, [string]$ABTables = '1,2,5,8', [switch]$ABFast, [int]$FaultSeconds = 300, [int]$FaultTables = 8, [int]$RecognitionFrames = 10,
     [string]$OutRoot, [string]$OutDir, [string]$Label, [string]$RunPathFile, [string]$LauncherLog, [string]$LauncherStderr,
     [string]$PackageRun, [switch]$NonInteractive,
     [switch]$FullSuite, [switch]$SkipAcceptance, [switch]$SkipStability, [int]$StabilitySeconds = 60, [string]$StabilityTables = '1,2,5,8', [int]$CampaignHands = 0, [int]$CampaignMinutes = 30,
@@ -31,10 +42,17 @@ $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'M31-Lib.ps1')
 # 0.36.2 Milestone 3.2: the standalone T5 test has its own results folders (Milestone3.2-T5-<date>-<time>-<label>) and report title
 if ($Mode -eq 'T5') { $script:M31RunPrefix = 'Milestone3.2-T5'; $script:M31Version = '0.36.2-milestone-3.2'; $script:M31ReportTitle = 'EightMax Test Workbench 0.36.2 - Milestone 3.2 standalone T5 test results' }
+# 0.36.2 Milestone 4.0 (RUN-M4-PERFORMANCE-TEST.cmd): its own results folders (Milestone4.0-<date>-<time>-<label>) and report title
+$script:M40Mode = $Mode -like 'M4*'
+if ($script:M40Mode) { $script:M31RunPrefix = 'Milestone4.0'; $script:M31Version = '0.36.2-milestone-4.0'; $script:M31ReportTitle = 'EightMax Test Workbench 0.36.2 - Milestone 4.0 performance test results' }
+if ($Mode -eq 'M4Full' -and -not $PSBoundParameters.ContainsKey('SustainedMinutes')) { $SustainedMinutes = 10 }
+if ($Mode -eq 'M4Full') { $FullSuite = $true }   # D: the complete regression suite
+$SustainedMinutes = [math]::Max(1, [math]::Min(240, $SustainedMinutes)); $ABSeconds = [math]::Max(20, [math]::Min(1800, $ABSeconds)); $FaultSeconds = [math]::Max(60, [math]::Min(3600, $FaultSeconds)); $FaultTables = [math]::Max(1, [math]::Min(10, $FaultTables)); $RecognitionFrames = [math]::Max(2, [math]::Min(40, $RecognitionFrames))
 $T5Repeat = [math]::Max(1, [math]::Min(20, $T5Repeat))
 . (Join-Path $PSScriptRoot 'M31-Integrity.ps1')
 . (Join-Path $PSScriptRoot 'M31-HostStart.ps1')
 . (Join-Path $PSScriptRoot 'M32-T5.ps1')   # 0.36.2 M3.2: plain-language T5 summary
+. (Join-Path $PSScriptRoot 'M40-Summary.ps1')   # 0.36.2 M4.0: plain-language performance summary (M4-SUMMARY.txt)
 $root = Get-WorkbenchRoot
 $ExpectedBuild = '7d08acc7eb4577ee'; $ExpectedMwcliSha = 'b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72'
 $node = Join-Path $root 'runtime\node\node.exe'
@@ -91,6 +109,10 @@ $plan = switch ($Mode) {
     'Startup' { @('environment', 'integrity', 'dependencies', 'host-start', 'cleanup') }
     'Full' { @('environment', 'integrity', 'dependencies', 'unit', 'host-start', 'lifecycle', 'gameplay', 'multi-table') + $(if ($CampaignHands -gt 0) { @('campaign') } else { @() }) + @('cleanup') }
     'T5' { @('environment', 'integrity', 'dependencies', 'unit', 'host-start', 't5', 'cleanup') }
+    'M4Recognition' { @('environment', 'integrity', 'dependencies', 'host-start', 'recognition', 'recognition-windows', 'cleanup') }
+    'M4Scheduler' { @('environment', 'integrity', 'dependencies', 'host-start', 'scheduler', 'cleanup') }
+    'M4Extended' { @('environment', 'integrity', 'dependencies', 'host-start', 'sustained', 'faults', 'cleanup') }
+    'M4Full' { @('environment', 'integrity', 'dependencies', 'unit', 'host-start', 'recognition', 'lifecycle', 'gameplay', 'multi-table', 'scheduler', 'sustained', 'cleanup') }
 }
 # -Phases selects the test phases; the environment, integrity, dependency and cleanup checks always run (every run is self-contained:
 # a phase never relies on another invocation's results, which is what left the Milestone 3 report missing when one phase stopped)
@@ -104,11 +126,11 @@ if ($LauncherToken) { try { [IO.File]::WriteAllText((Join-Path $M.Dir 'launcher-
 $transcript = $false; try { $null = Start-Transcript -LiteralPath (Join-Path $M.Dir 'transcript.txt') -Force -ErrorAction Stop; $transcript = $true } catch {}
 $completed = $false; $final = $null
 try {
-    $modeTitle = switch ($Mode) { 'Quick' { 'A - Quick verification' } 'Startup' { 'B - Startup diagnostics (desktop host start and fallback compile)' } 'Full' { 'C - Full acceptance (real windows; the mouse moves by itself)' } 'T5' { 'standalone T5 test, ' + $T5Repeat + ' repetition(s) of T5 and T5P (real windows; the mouse moves by itself)' } }
-    Write-M31Log ('EightMax Test Workbench 0.36.2 - ' + $(if ($Mode -eq 'T5') { 'Milestone 3.2' } else { 'Milestone 3.1' }) + ' tests, mode ' + $modeTitle) 'Cyan'
+    $modeTitle = switch ($Mode) { 'M4Recognition' { 'A - Recognition verification (test-table windows open; no mouse input)' } 'M4Scheduler' { 'B - Scheduler benchmark (real windows; the mouse moves by itself)' } 'M4Extended' { 'C - Extended simulator test, ' + $SustainedMinutes + ' min per table count, then fault injection (the mouse moves by itself)' } 'M4Full' { 'D - Full acceptance (Milestone 3.1 full acceptance + A + B + sustained play; the mouse moves by itself)' } 'Quick' { 'A - Quick verification' } 'Startup' { 'B - Startup diagnostics (desktop host start and fallback compile)' } 'Full' { 'C - Full acceptance (real windows; the mouse moves by itself)' } 'T5' { 'standalone T5 test, ' + $T5Repeat + ' repetition(s) of T5 and T5P (real windows; the mouse moves by itself)' } }
+    Write-M31Log ('EightMax Test Workbench 0.36.2 - ' + $(if ($Mode -eq 'T5') { 'Milestone 3.2' } elseif ($script:M40Mode) { 'Milestone 4.0 performance' } else { 'Milestone 3.1' }) + ' tests, mode ' + $modeTitle) 'Cyan'
     Write-M31Log ('Results folder: ' + $M.Dir)
     Write-M31Log ('Application:    ' + $root)
-    if ($Mode -eq 'Full' -or $Mode -eq 'T5') { Write-M31Log 'The mouse will move by itself inside the EightMax test tables. Do not touch the mouse or keyboard until this finishes. Ctrl+Alt+F12 stops all input.' 'Yellow' }
+    if ($Mode -eq 'Full' -or $Mode -eq 'T5' -or ($script:M40Mode -and $Mode -ne 'M4Recognition')) { Write-M31Log 'The mouse will move by itself inside the EightMax test tables. Do not touch the mouse or keyboard until this finishes. Ctrl+Alt+F12 stops all input.' 'Yellow' }
     else { Write-M31Log 'This mode does not move the mouse. Progress is shown below; every step has a time limit.' }
     if ($InjectFault) { Write-M31Log ('TEST MODE: fault injected on purpose: ' + $InjectFault + ' (this run is not a real result)') 'Magenta' }
     foreach ($n in $M.OutRootNotes) { Write-M31Log ('  results location: ' + $n) 'Yellow' }
@@ -165,7 +187,7 @@ try {
         Set-M31Gate 'port-free' (-not $owners.Count) $(if ($owners.Count) { 'port 48713 occupied by ' + (Format-M31PortOwners $owners) } else { 'free' })
         $inter = [bool]$env1.session.userInteractive -and ($env1.session.sessionId -ne 0)
         Set-M31Gate 'interactive-desktop' $inter $(if ($inter) { 'interactive desktop session ' + [string]$env1.session.sessionId } else { 'no interactive desktop (service session)' })
-        if (-not $inter) { [void](Add-M31Check 'environment' 'interactive desktop' $(if ($Mode -eq 'Full') { 'FAIL' } else { 'WARNING' }) 'this PowerShell does not run on an interactive desktop: windows and mouse input cannot be tested' 'environment') }
+        if (-not $inter) { [void](Add-M31Check 'environment' 'interactive desktop' $(if ($Mode -eq 'Full' -or $script:M40Mode) { 'FAIL' } else { 'WARNING' }) 'this PowerShell does not run on an interactive desktop: windows and mouse input cannot be tested' 'environment') }
     }
 
     # ---- integrity -----------------------------------------------------------------------------------------------------------------
@@ -217,7 +239,8 @@ try {
             [void](Add-M31Check 'dependencies' 'csc.exe compiler of .NET Framework (used only by the fallback start)' $(if (Test-Path -LiteralPath $csc) { 'PASS' } else { 'WARNING' }) $csc)
         }
         $need = @('desktop\bin\EightMaxWorkbench.exe', 'desktop\bin\EightMaxInput.exe', 'windows\Start-Desktop.ps1', 'windows\Common.ps1', 'native\mwcli.exe', 'SHA256SUMS.txt', 'release-integrity-policy.json')
-        if ($Mode -eq 'Full' -or $Mode -eq 'T5') { $need += @('desktop\bin\EightMaxTestTable.exe', 'tools\gameplay-acceptance-0362m3.cjs', 'tools\lifecycle-acceptance-0362m2.cjs', 'tools\exit-audit-0362m3.cjs', 'tools\test-table-035.cjs') }
+        if ($Mode -eq 'Full' -or $Mode -eq 'T5' -or $script:M40Mode) { $need += @('desktop\bin\EightMaxTestTable.exe', 'tools\gameplay-acceptance-0362m3.cjs', 'tools\lifecycle-acceptance-0362m2.cjs', 'tools\exit-audit-0362m3.cjs', 'tools\test-table-035.cjs') }
+        if ($script:M40Mode) { $need += @('tools\recognition-validation-040.cjs', 'src\recognition-check.js', 'src\coordinate-spaces.js', 'src\input-presets.js', 'src\action-timeline.js', 'windows\M40-Summary.ps1') }
         if ($Mode -eq 'T5') { $need += @('tests\paused-window-0362m32.test.cjs', 'src\window-lifecycle.js', 'src\input-scheduler.js', 'src\simulator-controls.js') }
         $miss = @($need | Where-Object { -not (Test-Path -LiteralPath (Join-Path $root $_)) })
         [void](Add-M31Check 'dependencies' 'required release files present' $(if ($miss.Count) { 'FAIL' } else { 'PASS' }) $(if ($miss.Count) { 'missing: ' + ($miss -join ', ') + '. Extract the complete ZIP again.' } else { [string]$need.Count + ' files present' }) 'environment')
@@ -263,6 +286,7 @@ try {
     # ---- host-start ----------------------------------------------------------------------------------------------------------------
     Invoke-Selected 'host-start' $(if ($Mode -eq 'Quick') { 'Desktop host start (prebuilt host, input driver, shutdown)' } else { 'Desktop host start: prebuilt, fallback compile, cache cases' }) @('release-integrity', 'powershell-64bit', 'no-foreign-host', 'port-free') {
         $only = @(); if ($HostCases) { $only = @($HostCases -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ }) } elseif ($Mode -eq 'Quick' -or $Mode -eq 'T5') { $only = @('prebuilt') }
+        if (-not $HostCases -and $script:M40Mode -and $Mode -ne 'M4Full') { $only = @('prebuilt') }   # 0.36.2 M4.0 A-C: the prebuilt start only (D runs every start case)
         $ss = $StartScript; if ($ss) { $ss = [IO.Path]::GetFullPath($ss); Write-M31Log ('TEST MODE: start-up script replaced by ' + $ss) 'Magenta' }
         $res = @(Invoke-M31HostStartCases -AppRoot $root -WorkDir (Join-Path $M.Dir 'host-start') -Only $only -StartScript $ss -LaunchTimeoutSec (Get-M31Limit $HostLaunchTimeoutSec 120) -CompileTimeoutSec (Get-M31Limit $HostCompileTimeoutSec 300) -ReadyTimeoutSec (Get-M31Limit $HostReadyTimeoutSec 60))
         Write-M31AtomicText (Join-Path $M.Dir 'host-start\host-start-summary.json') (ConvertTo-M31Json ([ordered]@{ format = 'eightmax-m31-host-start'; version = 1; cases = $res }))
@@ -303,7 +327,7 @@ try {
         }
         return $doc
     }
-    if ($Mode -eq 'Full') {
+    if ($Mode -eq 'Full' -or $Mode -eq 'M4Full') {
         if ($SkipAcceptance) { foreach ($x in @('lifecycle', 'gameplay', 'multi-table', 'campaign')) { if ($M.Phases.Contains($x)) { Skip-M31Phase $x 'skipped by option -SkipAcceptance' } } }
         else {
             Invoke-Selected 'lifecycle' 'Milestone 2 lifecycle acceptance A-K with real windows (process-exit audit)' $mouseNeeds {
@@ -345,6 +369,72 @@ try {
             # the plain-language summary is a convenience: if it cannot be written the test results are still complete (WARNING, with the error)
             if ($doc) { try { Write-M32T5Summary $doc (Join-Path $M.Dir 'T5-SUMMARY.txt') } catch { $er = $_; [void](Add-M31Check 't5' 'T5 plain-language summary (T5-SUMMARY.txt)' 'WARNING' ('could not be written: ' + $er.Exception.GetType().FullName + ': ' + $er.Exception.Message + ' (' + [string]$er.InvocationInfo.ScriptName + ' line ' + [string]$er.InvocationInfo.ScriptLineNumber + '); every result is in milestone3-results.txt')); Write-M31ErrorLog ('T5 summary: ' + $er.Exception.ToString()) } }
         }
+    }
+
+    # ---- Milestone 4.0 performance tests (RUN-M4-PERFORMANCE-TEST.cmd A-D) -------------------------------------------------------------
+    $m40 = [ordered]@{ mode = $Mode; sustainedMinutes = $SustainedMinutes; abSeconds = $ABSeconds; abTables = $ABTables; docs = [ordered]@{} }
+    if ($script:M40Mode) {
+        Invoke-Selected 'recognition' ('Recognition dataset: every table size at 100-200 % display scaling, clean and degraded, ' + $RecognitionFrames + ' game states per size (no windows, no input)') @('node-runtime') {
+            $f = Join-Path $M.Dir 'recognition-dataset.json'
+            $tick = { param($el) $t = Get-M31Tail (Join-Path $M.Dir 'recognition-dataset.out.txt') 1 4096; if ($t.Length -gt 120) { $t = $t.Substring(0, 120) }; $t }
+            $r = Invoke-M31Tool $node ('"tools\recognition-validation-040.cjs" --frames ' + $RecognitionFrames + ' --out "' + $f + '"') (Join-Path $M.Dir 'recognition-dataset') (Get-M31Limit 0 2400) 'recognition dataset' $root $tick
+            $doc = Read-M31LargeJson $f; $m40.docs['recognition'] = $doc
+            if ($r.timedOut) { [void](Add-M31Check 'recognition' 'recognition dataset finished in time' 'FAIL' ('timed out after ' + [string]$r.seconds + ' s') 'timeout') }
+            if (-not $doc) { if (-not $r.timedOut) { [void](Add-M31Check 'recognition' 'recognition dataset produced a result' 'FAIL' ('no result; exit ' + [string]$r.exitCode + '; ' + ((Get-M31Tail $r.err 3) -replace "`n", ' | ')) 'harness') }; return }
+            $v = Get-M40Field $doc 'verdict'; $fr = Get-M40Field $doc 'frames'; $g = Get-M40Field $doc 'geometry'
+            [void](Add-M31Check 'recognition' 'no frame the automation would act on holds a wrong value (never guessed)' $(if (Get-M40Field $v 'neverGuessed') { 'PASS' } else { 'FAIL' }) ([string](Get-M40Field $fr 'accepted') + ' of ' + [string](Get-M40Field $fr 'total') + ' frames accepted; accepted with a wrong value: ' + [string](Get-M40Field $fr 'acceptedWithWrongValue')) 'application')
+            [void](Add-M31Check 'recognition' 'every clean frame is read at every size (800-3840 px)' $(if (Get-M40Field $v 'cleanFramesAllAccepted') { 'PASS' } else { 'FAIL' }) (Format-M40Degradation $doc 'clean') 'application')
+            [void](Add-M31Check 'recognition' 'a DPI-virtualised (scaled) capture is refused as safety-critical' $(if (Get-M40Field $v 'dpiVirtualisedCapturesAllRefused') { 'PASS' } else { 'FAIL' }) ([string](Get-M40Field $g 'refusedAsCritical') + ' of ' + [string](Get-M40Field $g 'dpiVirtualisedCaptures') + ' refused') 'application')
+            [void](Add-M31Check 'recognition' 'Verify Table Recognition passes on every clean frame at its display scaling' $(if (Get-M40Field $v 'verifyCleanAllPass') { 'PASS' } else { 'FAIL' }) ([string](Get-M40Field $g 'verifyCleanPass') + ' of ' + [string](Get-M40Field $g 'verifyClean')) 'application')
+            foreach ($d in @('noise', 'shift-1px', 'dim', 'dpi-stretched', 'blur', 'occluded')) { [void](Add-M31Check 'recognition' ('degraded frames: ' + $d + ' (read, or refused - never guessed)') 'PASS' (Format-M40Degradation $doc $d)) }
+        }
+        if ($Mode -eq 'M4Recognition') {
+            Invoke-Selected 'recognition-windows' 'Recognition on real EightMax test-table windows on this display (host capture, Verify Table Recognition, compared with the table''s own state; no mouse input)' $mouseNeeds {
+                if (-not (Test-M31PortBeforeTool 'recognition-windows' 'recognition-windows')) { return }
+                $f = Join-Path $M.Dir 'recognition-windows.json'
+                $tick = { param($el) $t = Get-M31Tail (Join-Path $M.Dir 'recognition-windows.out.txt') 1 4096; if ($t.Length -gt 120) { $t = $t.Substring(0, 120) }; $t }
+                $r = Invoke-M31Tool $node ('"tools\recognition-validation-040.cjs" --windows --steps 8 --out "' + $f + '" --work "' + (Join-Path $M.Dir 'work-recognition') + '"') (Join-Path $M.Dir 'recognition-windows') (Get-M31Limit 0 1800) 'recognition on real windows' $root $tick
+                $doc = Read-M31LargeJson $f; $m40.docs['recognitionWindows'] = $doc
+                if ($r.timedOut) { [void](Add-M31Check 'recognition-windows' 'recognition on real windows finished in time' 'FAIL' ('timed out after ' + [string]$r.seconds + ' s') 'timeout') }
+                if (-not $doc) { if (-not $r.timedOut) { [void](Add-M31Check 'recognition-windows' 'recognition on real windows produced a result' 'FAIL' ('no result; exit ' + [string]$r.exitCode + '; ' + ((Get-M31Tail $r.err 3) -replace "`n", ' | ')) 'harness') }; return }
+                foreach ($t in @(Get-M40Field $doc 'tables')) {
+                    $vs = @(Get-M40Field $t 'verify'); $pass = @($vs | Where-Object { [string](Get-M40Field $_ 'verdict') -ne 'fail' }).Count
+                    $crit = @($vs | Where-Object { [string](Get-M40Field $_ 'verdict') -eq 'fail' } | ForEach-Object { @(Get-M40Field $_ 'critical') -join '; ' } | Select-Object -First 2)
+                    $sc = [int](Get-M40Field $t 'stripCropChecks'); $sm = [int](Get-M40Field $t 'stripCropMatches')
+                    [void](Add-M31Check 'recognition-windows' ('Verify Table Recognition at ' + [string](Get-M40Field $t 'width') + ' px') $(if ($vs.Count -and $pass -eq $vs.Count) { 'PASS' } else { 'FAIL' }) ([string]$pass + ' of ' + [string]$vs.Count + ' checks passed' + $(if ($crit.Count) { '; ' + ($crit -join ' | ') } else { '' }) + '; strip-only capture = full frame ' + [string]$sm + '/' + [string]$sc) 'application')
+                }
+                $fe = Get-M40Field $doc 'features'; $wrong = 0; $n = 0; foreach ($k in @(Get-M40Keys $fe)) { $x = Get-M40Field $fe $k; $wrong += [int](Get-M40Field $x 'falsePositives'); $n += [int](Get-M40Field $x 'readings') }
+                [void](Add-M31Check 'recognition-windows' 'recognised values match the tables'' own state' $(if ($n -gt 0 -and $wrong -eq 0) { 'PASS' } elseif ($n -eq 0) { 'WARNING' } else { 'FAIL' }) ([string]$n + ' values compared, ' + [string]$wrong + ' different') 'application')
+            }
+        }
+        Invoke-Selected 'scheduler' ('Scheduler benchmark on this PC: the Milestone 3.2 multi-table workload (' + $ABTables + ' tables, ' + $ABSeconds + ' s each) with the Milestone 3.2 input pipeline, then with the Milestone 4.0 pipeline (same mouse speed)') $mouseNeeds {
+            $runsAB = @(@{ key = 'compat-3.2'; pipe = 'compat-3.2'; extra = '' }, @{ key = 'optimized'; pipe = 'optimized'; extra = '' })
+            if ($ABFast) { $runsAB += @(@{ key = 'optimized-fast'; pipe = 'optimized'; extra = ' --speed 2000 --accel 15000' }) }
+            foreach ($x in $runsAB) {
+                $f = Join-Path $M.Dir ('scheduler-' + $x.key + '.json')
+                $doc = Invoke-M31NodeTool ('scheduler-' + $x.key) 'scheduler' ('"tools\gameplay-acceptance-0362m3.cjs" --suite stability --tables ' + $ABTables + ' --seconds ' + $ABSeconds + ' --pipeline ' + $x.pipe + ' --policy edf' + $x.extra + ' --out "' + $f + '" --work "' + (Join-Path $M.Dir ('work-scheduler-' + $x.key)) + '"') $f (Get-M31Limit 0 (900 + 240 * @($ABTables -split ',').Count + 4 * $ABSeconds))
+                $m40.docs[('scheduler-' + $x.key)] = $doc
+            }
+            Add-M40Comparison $m40
+        }
+        if ($Mode -eq 'M4Extended' -or $Mode -eq 'M4Full') {
+            Invoke-Selected 'sustained' ('Uninterrupted play, ' + $SustainedMinutes + ' min at each of ' + $SustainedTables + ' tables (Milestone 4.0 pipeline, no injected faults)') $mouseNeeds {
+                foreach ($n in @($SustainedTables -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ -match '^\d+$' })) {
+                    $f = Join-Path $M.Dir ('sustained-' + $n + '.json')
+                    $doc = Invoke-M31NodeTool ('sustained-' + $n) 'sustained' ('"tools\gameplay-acceptance-0362m3.cjs" --suite sustained --tables ' + $n + ' --seconds ' + (60 * $SustainedMinutes) + ' --pipeline optimized --policy edf --out "' + $f + '" --work "' + (Join-Path $M.Dir ('work-sustained-' + $n)) + '"') $f (Get-M31Limit 0 (60 * $SustainedMinutes + 1200))
+                    $m40.docs[('sustained-' + $n)] = $doc
+                }
+            }
+        }
+        if ($Mode -eq 'M4Extended') {
+            Invoke-Selected 'faults' ('Fault injection: ' + $FaultTables + ' tables for ' + $FaultSeconds + ' s with windows closed and reopened and emergency stops while they play') $mouseNeeds {
+                $f = Join-Path $M.Dir 'fault-injection.json'
+                $doc = Invoke-M31NodeTool 'fault-injection' 'faults' ('"tools\gameplay-acceptance-0362m3.cjs" --suite stability --tables ' + $FaultTables + ' --seconds ' + $FaultSeconds + ' --pipeline optimized --policy edf --out "' + $f + '" --work "' + (Join-Path $M.Dir 'work-faults') + '"') $f (Get-M31Limit 0 ($FaultSeconds + 1200))
+                $m40.docs['faults'] = $doc
+            }
+        }
+        # the plain-language summary is a convenience: if it cannot be written every result is still in milestone3-results.txt (WARNING)
+        try { Write-M40Summary $m40 (Join-Path $M.Dir 'M4-SUMMARY.txt') } catch { $er = $_; [void](Add-M31Check 'summary' 'Milestone 4.0 plain-language summary (M4-SUMMARY.txt)' 'WARNING' ('could not be written: ' + $er.Exception.GetType().FullName + ': ' + $er.Exception.Message + ' (line ' + [string]$er.InvocationInfo.ScriptLineNumber + ')')); Write-M31ErrorLog ('M4 summary: ' + $er.Exception.ToString()) }
     }
 
     # ---- cleanup -------------------------------------------------------------------------------------------------------------------

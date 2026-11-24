@@ -104,3 +104,35 @@ test('M4.0 driver: raiseWait "poll" raises a covered target window and clicks as
     const ev = (await x.s.call('virtual-events')).events.filter((e) => e.startsWith('click ')); assert.deepEqual(ev, ['click fold', 'click fold'], 'each click landed on the raised window');
   } finally { await x.close(); }
 });
+
+test('M4.0 driver: pressGuard - a target window that closes at the instant of the press: the press reaches the window beneath, is released OFF its control (no click there) and is reported press-misdirected; the Milestone 3.2 sequence clicks the other table', { skip }, async () => {
+  // two tables exactly on top of each other: table 1's Call button is at the same screen point as table 2's (Windows CI run 45401450070:
+  // a window closed by the test 12 ms before the click meant for it, and the press reached the table beneath)
+  const run = async (guard) => {
+    const x = await open({ tables: 2, dx: 0, dy: 0, clientW: 800 }, { closeOnPress: 0x10000 }); try {
+      const [w1] = x.desk.windows; let reply = null, err = null;
+      try { reply = await click(x, w1, 'call', guard ? { pressGuard: true } : {}); } catch (e) { err = e; }
+      const ev = (await x.s.call('virtual-events')).events.filter((e) => /^(closed|press|click|released-off|down|up) /.test(e));
+      return { reply, err, ev, stats: (await x.s.call('status')).stats };
+    } finally { await x.close(); }
+  };
+  const g = await run(true);
+  assert.ok(g.err, 'the guarded click is refused'); assert.equal(g.err.code, 'press-misdirected', String(g.err && g.err.message));
+  assert.match(g.err.message, /no click was completed there; the action is not repeated/);
+  assert.ok(g.ev.includes('closed 65536'), 'table 1 closed at the press: ' + g.ev.join(', '));
+  assert.ok(g.ev.some((e) => e === 'press call ' + (0x20000 + 3)), 'the press reached table 2\'s Call button: ' + g.ev.join(', '));
+  assert.ok(g.ev.includes('released-off call'), 'released off that control'); assert.ok(!g.ev.some((e) => e.startsWith('click ')), 'NO click anywhere: ' + g.ev.join(', '));
+  assert.equal(g.stats.misdirectedPresses, 1);
+  const m = await run(false);
+  assert.equal(m.err, null, 'the Milestone 3.2 sequence does not notice'); assert.ok(m.reply && m.reply.ok, 'it reports the click as done');
+  assert.ok(m.ev.includes('click call'), 'and table 2\'s Call button WAS clicked (the cross-table click the guard prevents): ' + m.ev.join(', '));
+});
+
+test('M4.0 driver: pressGuard on an ordinary click changes nothing but the reply (press seen, target under the cursor)', { skip }, async () => {
+  const x = await open({ tables: 2, dx: 1000, dy: 0, clientW: 800 }); try {
+    const [w1] = x.desk.windows, r = await click(x, w1, 'fold', { pressGuard: true });
+    assert.equal(r.ok, true); assert.equal(r.press.seen, true); assert.equal(r.press.root, hex(w1)); assert.equal(r.press.misdirected, undefined);
+    assert.ok(r.phases.pressCheckMs >= 0 && r.phases.pressCheckMs < 30, 'press check ' + r.phases.pressCheckMs + ' ms');
+    const ev = (await x.s.call('virtual-events')).events.filter((e) => e.startsWith('click ')); assert.deepEqual(ev, ['click fold']);
+  } finally { await x.close(); }
+});
