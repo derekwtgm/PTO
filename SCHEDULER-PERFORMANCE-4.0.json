@@ -1,0 +1,5913 @@
+{
+ "format": "eightmax-scheduler-performance",
+ "version": 1,
+ "milestone": "0.36.2-milestone-4.0",
+ "generatedAt": "2026-11-24T18:12:44.499Z",
+ "generator": "tools/make-m40-evidence.cjs",
+ "note": "Every number is measured. A/B rows come from the SAME machine, the same workload (the Milestone 3.2 stability workload: 1/2/5/8 tables, 60 s each, a window closed and reopened and an emergency stop per table count, 800 px tables) and the same mouse speed (1 200 px/s); only the input pipeline differs. Rows with another speed or policy are listed apart.",
+ "sameMachineComparisons": [
+  {
+   "source": {
+    "run": "45441870852",
+    "job": "ab-1",
+    "file": "stability-compat-3.2.json + stability-optimized.json"
+   },
+   "order": "compat-3.2,optimized",
+   "machine": {
+    "platform": "win32",
+    "release": "10.0.26100",
+    "cpu": "AMD EPYC 7763 64-Core Processor                ",
+    "cpus": 4,
+    "ramGiB": 16,
+    "node": "v22.23.5"
+   },
+   "pairs": [
+    {
+     "tables": 1,
+     "milestone32Pipeline": {
+      "id": "M1",
+      "status": "pass",
+      "tables": 1,
+      "seconds": 60,
+      "actionsConfirmed": 46,
+      "actionsPerMinute": 46,
+      "completedHands": 4,
+      "schedulingDelayMs": {
+       "mean": 63,
+       "p50": 66,
+       "p95": 76,
+       "p99": 93,
+       "max": 93,
+       "n": 49
+      },
+      "actionLatencyMs": {
+       "mean": 965,
+       "p50": 748,
+       "p95": 2050,
+       "p99": 2150,
+       "max": 2150,
+       "n": 46
+      },
+      "deadlineMisses": 0,
+      "incorrectActions": 0,
+      "wrongActions": 0,
+      "incorrectClickKinds": {
+       "outsideControls": 0,
+       "onDisabled": 0,
+       "doubleClicks": 0,
+       "lateOnOldFrame": 0,
+       "notAvailable": 0
+      },
+      "confirmedByTableClock": 0,
+      "invalidWagers": 0,
+      "confirmedButNotApplied": 0,
+      "uncertainOrUnconfirmed": 2,
+      "uncertainByTestStop": 0,
+      "inputStatus": {
+       "confirmed": 46,
+       "uncertain": 2,
+       "rejected-before-input": 1
+      },
+      "heroEliminations": 0,
+      "heroTimeouts": 0,
+      "heroTimeoutsInTrackedHands": 0,
+      "heroTimeoutsInUntrackedHands": 0,
+      "untrackedHands": 0,
+      "refusedReadings": 0,
+      "misdirectedPresses": 0,
+      "releasesWithoutAction": 0,
+      "leaseMs": {
+       "mean": 777,
+       "p50": 599,
+       "p95": 1894,
+       "p99": 2004,
+       "max": 2004,
+       "n": 49
+      },
+      "cursorUtilization": 0.6333,
+      "fairness": 1,
+      "maxWaitMs": 1,
+      "workload": {
+       "tables": 1,
+       "width": 800,
+       "layout": "grid",
+       "heroSeats": null,
+       "botThinkMs": null,
+       "actionTimeoutMs": null,
+       "faultEveryMs": 18750,
+       "stacks": [
+        120,
+        120,
+        400,
+        120,
+        120,
+        400,
+        120,
+        120
+       ],
+       "stackChips": null
+      },
+      "resources": {
+       "cpuPercent": null,
+       "memoryMiB": null,
+       "gpu": null
+      }
+     },
+     "milestone40Pipeline": {
+      "id": "M1",
+      "status": "pass",
+      "tables": 1,
+      "seconds": 61,
+      "actionsConfirmed": 47,
+      "actionsPerMinute": 46.2,
+      "completedHands": 4,
+      "schedulingDelayMs": {
+       "mean": 40,
+       "p50": 43,
+       "p95": 55,
+       "p99": 56,
+       "max": 56,
+       "n": 50
+      },
+      "actionLatencyMs": {
+       "mean": 948,
+       "p50": 723,
+       "p95": 2032,
+       "p99": 2148,
+       "max": 2148,
+       "n": 47
+      },
+      "deadlineMisses": 0,
+      "incorrectActions": 0,
+      "wrongActions": 0,
+      "incorrectClickKinds": {
+       "outsideControls": 0,
+       "onDisabled": 0,
+       "doubleClicks": 0,
+       "lateOnOldFrame": 0,
+       "notAvailable": 0
+      },
+      "confirmedByTableClock": 0,
+      "invalidWagers": 0,
+      "confirmedButNotApplied": 0,
+      "uncertainOrUnconfirmed": 2,
+      "uncertainByTestStop": 1,
+      "inputStatus": {
+       "confirmed": 47,
+       "uncertain": 2,
+       "rejected": 1
+      },
+      "heroEliminations": 0,
+      "heroTimeouts": 0,
+      "heroTimeoutsInTrackedHands": 0,
+      "heroTimeoutsInUntrackedHands": 0,
+      "untrackedHands": 0,
+      "refusedReadings": 0,
+      "misdirectedPresses": 0,
+      "releasesWithoutAction": 0,
+      "leaseMs": {
+       "mean": 617,
+       "p50": 421,
+       "p95": 1718,
+       "p99": 1855,
+       "max": 1855,
+       "n": 50
+      },
+      "cursorUtilization": 0.5101,
+      "fairness": 1,
+      "maxWaitMs": 1,
+      "workload": {
+       "tables": 1,
+       "width": 800,
+       "layout": "grid",
+       "heroSeats": null,
+       "botThinkMs": null,
+       "actionTimeoutMs": null,
+       "faultEveryMs": 18750,
+       "stacks": [
+        120,
+        120,
+        400,
+        120,
+        120,
+        400,
+        120,
+        120
+       ],
+       "stackChips": null
+      },
+      "resources": {
+       "cpuPercent": null,
+       "memoryMiB": null,
+       "gpu": null
+      }
+     },
+     "change": {
+      "schedulingDelayMeanPercent": -36.5,
+      "schedulingDelayP95Ms": -21,
+      "schedulingDelayP99Ms": -37,
+      "actionLatencyMeanPercent": -1.8,
+      "confirmedActions": 1,
+      "deadlineMisses": 0
+     }
+    },
+    {
+     "tables": 2,
+     "milestone32Pipeline": {
+      "id": "M2",
+      "status": "pass",
+      "tables": 2,
+      "seconds": 60,
+      "actionsConfirmed": 31,
+      "actionsPerMinute": 31,
+      "completedHands": 1,
+      "schedulingDelayMs": {
+       "mean": 1361,
+       "p50": 1486,
+       "p95": 3013,
+       "p99": 3109,
+       "max": 3109,
+       "n": 35
+      },
+      "actionLatencyMs": {
+       "mean": 3222,
+       "p50": 3300,
+       "p95": 4746,
+       "p99": 4803,
+       "max": 4803,
+       "n": 31
+      },
+      "deadlineMisses": 0,
+      "incorrectActions": 0,
+      "wrongActions": 0,
+      "incorrectClickKinds": {
+       "outsideControls": 0,
+       "onDisabled": 0,
+       "doubleClicks": 0,
+       "lateOnOldFrame": 0,
+       "notAvailable": 0
+      },
+      "confirmedByTableClock": 0,
+      "invalidWagers": 0,
+      "confirmedButNotApplied": 0,
+      "uncertainOrUnconfirmed": 0,
+      "uncertainByTestStop": 0,
+      "inputStatus": {
+       "confirmed": 31,
+       "rejected-before-input": 4
+      },
+      "heroEliminations": 0,
+      "heroTimeouts": 0,
+      "heroTimeoutsInTrackedHands": 0,
+      "heroTimeoutsInUntrackedHands": 0,
+      "untrackedHands": 0,
+      "refusedReadings": 0,
+      "misdirectedPresses": 0,
+      "releasesWithoutAction": 0,
+      "leaseMs": {
+       "mean": 1677,
+       "p50": 1662,
+       "p95": 3225,
+       "p99": 3321,
+       "max": 3321,
+       "n": 34
+      },
+      "cursorUtilization": 0.9464,
+      "fairness": 0.999,
+      "maxWaitMs": 3066,
+      "workload": {
+       "tables": 2,
+       "width": 800,
+       "layout": "grid",
+       "heroSeats": null,
+       "botThinkMs": null,
+       "actionTimeoutMs": null,
+       "faultEveryMs": 18750,
+       "stacks": [
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600
+       ],
+       "stackChips": null
+      },
+      "resources": {
+       "cpuPercent": null,
+       "memoryMiB": null,
+       "gpu": null
+      }
+     },
+     "milestone40Pipeline": {
+      "id": "M2",
+      "status": "pass",
+      "tables": 2,
+      "seconds": 60,
+      "actionsConfirmed": 33,
+      "actionsPerMinute": 33,
+      "completedHands": 1,
+      "schedulingDelayMs": {
+       "mean": 1133,
+       "p50": 1137,
+       "p95": 2668,
+       "p99": 2790,
+       "max": 2790,
+       "n": 38
+      },
+      "actionLatencyMs": {
+       "mean": 3079,
+       "p50": 3208,
+       "p95": 4443,
+       "p99": 5603,
+       "max": 5603,
+       "n": 33
+      },
+      "deadlineMisses": 0,
+      "incorrectActions": 0,
+      "wrongActions": 0,
+      "incorrectClickKinds": {
+       "outsideControls": 0,
+       "onDisabled": 0,
+       "doubleClicks": 0,
+       "lateOnOldFrame": 0,
+       "notAvailable": 0
+      },
+      "confirmedByTableClock": 0,
+      "invalidWagers": 0,
+      "confirmedButNotApplied": 0,
+      "uncertainOrUnconfirmed": 2,
+      "uncertainByTestStop": 1,
+      "inputStatus": {
+       "confirmed": 33,
+       "rejected-before-input": 3,
+       "uncertain": 2
+      },
+      "heroEliminations": 0,
+      "heroTimeouts": 0,
+      "heroTimeoutsInTrackedHands": 0,
+      "heroTimeoutsInUntrackedHands": 0,
+      "untrackedHands": 0,
+      "refusedReadings": 0,
+      "misdirectedPresses": 0,
+      "releasesWithoutAction": 0,
+      "leaseMs": {
+       "mean": 1467,
+       "p50": 1497,
+       "p95": 2999,
+       "p99": 3125,
+       "max": 3125,
+       "n": 38
+      },
+      "cursorUtilization": 0.9279,
+      "fairness": 0.9918,
+      "maxWaitMs": 2749,
+      "workload": {
+       "tables": 2,
+       "width": 800,
+       "layout": "grid",
+       "heroSeats": null,
+       "botThinkMs": null,
+       "actionTimeoutMs": null,
+       "faultEveryMs": 18750,
+       "stacks": [
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600
+       ],
+       "stackChips": null
+      },
+      "resources": {
+       "cpuPercent": null,
+       "memoryMiB": null,
+       "gpu": null
+      }
+     },
+     "change": {
+      "schedulingDelayMeanPercent": -16.8,
+      "schedulingDelayP95Ms": -345,
+      "schedulingDelayP99Ms": -319,
+      "actionLatencyMeanPercent": -4.4,
+      "confirmedActions": 2,
+      "deadlineMisses": 0
+     }
+    },
+    {
+     "tables": 5,
+     "milestone32Pipeline": {
+      "id": "M5",
+      "status": "pass",
+      "tables": 5,
+      "seconds": 64,
+      "actionsConfirmed": 65,
+      "actionsPerMinute": 60.9,
+      "completedHands": 2,
+      "schedulingDelayMs": {
+       "mean": 2930,
+       "p50": 2670,
+       "p95": 4991,
+       "p99": 5263,
+       "max": 5263,
+       "n": 76
+      },
+      "actionLatencyMs": {
+       "mean": 4067,
+       "p50": 3722,
+       "p95": 6009,
+       "p99": 6369,
+       "max": 6369,
+       "n": 65
+      },
+      "deadlineMisses": 0,
+      "incorrectActions": 0,
+      "wrongActions": 0,
+      "incorrectClickKinds": {
+       "outsideControls": 0,
+       "onDisabled": 0,
+       "doubleClicks": 0,
+       "lateOnOldFrame": 0,
+       "notAvailable": 0
+      },
+      "confirmedByTableClock": 0,
+      "invalidWagers": 0,
+      "confirmedButNotApplied": 0,
+      "uncertainOrUnconfirmed": 0,
+      "uncertainByTestStop": 0,
+      "inputStatus": {
+       "confirmed": 65,
+       "rejected-before-input": 10,
+       "rejected": 1
+      },
+      "heroEliminations": 0,
+      "heroTimeouts": 0,
+      "heroTimeoutsInTrackedHands": 0,
+      "heroTimeoutsInUntrackedHands": 0,
+      "untrackedHands": 0,
+      "refusedReadings": 0,
+      "misdirectedPresses": 0,
+      "releasesWithoutAction": 0,
+      "leaseMs": {
+       "mean": 846,
+       "p50": 721,
+       "p95": 1925,
+       "p99": 2211,
+       "max": 2211,
+       "n": 72
+      },
+      "cursorUtilization": 0.9519,
+      "fairness": 0.9976,
+      "maxWaitMs": 5219,
+      "workload": {
+       "tables": 5,
+       "width": 800,
+       "layout": "cascade",
+       "heroSeats": null,
+       "botThinkMs": null,
+       "actionTimeoutMs": null,
+       "faultEveryMs": 18750,
+       "stacks": [
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600
+       ],
+       "stackChips": null
+      },
+      "resources": {
+       "cpuPercent": null,
+       "memoryMiB": null,
+       "gpu": null
+      }
+     },
+     "milestone40Pipeline": {
+      "id": "M5",
+      "status": "pass",
+      "tables": 5,
+      "seconds": 64,
+      "actionsConfirmed": 81,
+      "actionsPerMinute": 75.9,
+      "completedHands": 4,
+      "schedulingDelayMs": {
+       "mean": 2191,
+       "p50": 1737,
+       "p95": 4178,
+       "p99": 4321,
+       "max": 4321,
+       "n": 92
+      },
+      "actionLatencyMs": {
+       "mean": 3173,
+       "p50": 2832,
+       "p95": 5012,
+       "p99": 6162,
+       "max": 6162,
+       "n": 81
+      },
+      "deadlineMisses": 0,
+      "incorrectActions": 0,
+      "wrongActions": 0,
+      "incorrectClickKinds": {
+       "outsideControls": 0,
+       "onDisabled": 0,
+       "doubleClicks": 0,
+       "lateOnOldFrame": 0,
+       "notAvailable": 0
+      },
+      "confirmedByTableClock": 0,
+      "invalidWagers": 0,
+      "confirmedButNotApplied": 0,
+      "uncertainOrUnconfirmed": 3,
+      "uncertainByTestStop": 2,
+      "inputStatus": {
+       "confirmed": 81,
+       "uncertain": 3,
+       "rejected-before-input": 8
+      },
+      "heroEliminations": 0,
+      "heroTimeouts": 0,
+      "heroTimeoutsInTrackedHands": 0,
+      "heroTimeoutsInUntrackedHands": 0,
+      "untrackedHands": 0,
+      "refusedReadings": 0,
+      "misdirectedPresses": 0,
+      "releasesWithoutAction": 0,
+      "leaseMs": {
+       "mean": 681,
+       "p50": 511,
+       "p95": 1880,
+       "p99": 1967,
+       "max": 1967,
+       "n": 89
+      },
+      "cursorUtilization": 0.9512,
+      "fairness": 0.9979,
+      "maxWaitMs": 4265,
+      "workload": {
+       "tables": 5,
+       "width": 800,
+       "layout": "cascade",
+       "heroSeats": null,
+       "botThinkMs": null,
+       "actionTimeoutMs": null,
+       "faultEveryMs": 18750,
+       "stacks": [
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600
+       ],
+       "stackChips": null
+      },
+      "resources": {
+       "cpuPercent": null,
+       "memoryMiB": null,
+       "gpu": null
+      }
+     },
+     "change": {
+      "schedulingDelayMeanPercent": -25.2,
+      "schedulingDelayP95Ms": -813,
+      "schedulingDelayP99Ms": -942,
+      "actionLatencyMeanPercent": -22,
+      "confirmedActions": 16,
+      "deadlineMisses": 0
+     }
+    },
+    {
+     "tables": 8,
+     "milestone32Pipeline": {
+      "id": "M8",
+      "status": "pass",
+      "tables": 8,
+      "seconds": 73,
+      "actionsConfirmed": 79,
+      "actionsPerMinute": 64.9,
+      "completedHands": 0,
+      "schedulingDelayMs": {
+       "mean": 4662,
+       "p50": 4901,
+       "p95": 6381,
+       "p99": 7250,
+       "max": 7250,
+       "n": 96
+      },
+      "actionLatencyMs": {
+       "mean": 5740,
+       "p50": 5800,
+       "p95": 8006,
+       "p99": 8220,
+       "max": 8220,
+       "n": 79
+      },
+      "deadlineMisses": 1,
+      "incorrectActions": 0,
+      "wrongActions": 0,
+      "incorrectClickKinds": {
+       "outsideControls": 0,
+       "onDisabled": 0,
+       "doubleClicks": 0,
+       "lateOnOldFrame": 0,
+       "notAvailable": 0
+      },
+      "confirmedByTableClock": 0,
+      "invalidWagers": 0,
+      "confirmedButNotApplied": 0,
+      "uncertainOrUnconfirmed": 1,
+      "uncertainByTestStop": 0,
+      "inputStatus": {
+       "confirmed": 79,
+       "uncertain": 1,
+       "rejected-before-input": 16
+      },
+      "heroEliminations": 0,
+      "heroTimeouts": 0,
+      "heroTimeoutsInTrackedHands": 0,
+      "heroTimeoutsInUntrackedHands": 0,
+      "untrackedHands": 0,
+      "refusedReadings": 0,
+      "misdirectedPresses": 0,
+      "releasesWithoutAction": 0,
+      "leaseMs": {
+       "mean": 793,
+       "p50": 704,
+       "p95": 1848,
+       "p99": 2213,
+       "max": 2213,
+       "n": 88
+      },
+      "cursorUtilization": 0.9559,
+      "fairness": 0.9888,
+      "maxWaitMs": 7176,
+      "workload": {
+       "tables": 8,
+       "width": 800,
+       "layout": "cascade",
+       "heroSeats": null,
+       "botThinkMs": null,
+       "actionTimeoutMs": null,
+       "faultEveryMs": 18750,
+       "stacks": [
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600
+       ],
+       "stackChips": null
+      },
+      "resources": {
+       "cpuPercent": null,
+       "memoryMiB": null,
+       "gpu": null
+      }
+     },
+     "milestone40Pipeline": {
+      "id": "M8",
+      "status": "pass",
+      "tables": 8,
+      "seconds": 64,
+      "actionsConfirmed": 85,
+      "actionsPerMinute": 79.7,
+      "completedHands": 0,
+      "schedulingDelayMs": {
+       "mean": 3711,
+       "p50": 3637,
+       "p95": 6062,
+       "p99": 6794,
+       "max": 6825,
+       "n": 103
+      },
+      "actionLatencyMs": {
+       "mean": 4838,
+       "p50": 4822,
+       "p95": 7514,
+       "p99": 8028,
+       "max": 8028,
+       "n": 85
+      },
+      "deadlineMisses": 1,
+      "incorrectActions": 0,
+      "wrongActions": 0,
+      "incorrectClickKinds": {
+       "outsideControls": 0,
+       "onDisabled": 0,
+       "doubleClicks": 0,
+       "lateOnOldFrame": 0,
+       "notAvailable": 0
+      },
+      "confirmedByTableClock": 0,
+      "invalidWagers": 0,
+      "confirmedButNotApplied": 0,
+      "uncertainOrUnconfirmed": 5,
+      "uncertainByTestStop": 4,
+      "inputStatus": {
+       "confirmed": 85,
+       "rejected-before-input": 13,
+       "uncertain": 5
+      },
+      "heroEliminations": 0,
+      "heroTimeouts": 0,
+      "heroTimeoutsInTrackedHands": 0,
+      "heroTimeoutsInUntrackedHands": 0,
+      "untrackedHands": 0,
+      "refusedReadings": 0,
+      "misdirectedPresses": 0,
+      "releasesWithoutAction": 0,
+      "leaseMs": {
+       "mean": 625,
+       "p50": 513,
+       "p95": 1683,
+       "p99": 2202,
+       "max": 2202,
+       "n": 97
+      },
+      "cursorUtilization": 0.9497,
+      "fairness": 0.9957,
+      "maxWaitMs": 6784,
+      "workload": {
+       "tables": 8,
+       "width": 800,
+       "layout": "cascade",
+       "heroSeats": null,
+       "botThinkMs": null,
+       "actionTimeoutMs": null,
+       "faultEveryMs": 18750,
+       "stacks": [
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600
+       ],
+       "stackChips": null
+      },
+      "resources": {
+       "cpuPercent": null,
+       "memoryMiB": null,
+       "gpu": null
+      }
+     },
+     "change": {
+      "schedulingDelayMeanPercent": -20.4,
+      "schedulingDelayP95Ms": -319,
+      "schedulingDelayP99Ms": -456,
+      "actionLatencyMeanPercent": -15.7,
+      "confirmedActions": 6,
+      "deadlineMisses": 0
+     }
+    }
+   ]
+  },
+  {
+   "source": {
+    "run": "45441870852",
+    "job": "ab-2",
+    "file": "stability-compat-3.2.json + stability-optimized.json"
+   },
+   "order": "optimized,compat-3.2",
+   "machine": {
+    "platform": "win32",
+    "release": "10.0.26100",
+    "cpu": "AMD EPYC 7763 64-Core Processor                ",
+    "cpus": 4,
+    "ramGiB": 16,
+    "node": "v22.23.5"
+   },
+   "pairs": [
+    {
+     "tables": 1,
+     "milestone32Pipeline": {
+      "id": "M1",
+      "status": "pass",
+      "tables": 1,
+      "seconds": 60,
+      "actionsConfirmed": 47,
+      "actionsPerMinute": 47,
+      "completedHands": 4,
+      "schedulingDelayMs": {
+       "mean": 59,
+       "p50": 64,
+       "p95": 69,
+       "p99": 78,
+       "max": 78,
+       "n": 49
+      },
+      "actionLatencyMs": {
+       "mean": 959,
+       "p50": 749,
+       "p95": 2063,
+       "p99": 2166,
+       "max": 2166,
+       "n": 47
+      },
+      "deadlineMisses": 0,
+      "incorrectActions": 0,
+      "wrongActions": 0,
+      "incorrectClickKinds": {
+       "outsideControls": 0,
+       "onDisabled": 0,
+       "doubleClicks": 0,
+       "lateOnOldFrame": 0,
+       "notAvailable": 0
+      },
+      "confirmedByTableClock": 0,
+      "invalidWagers": 0,
+      "confirmedButNotApplied": 0,
+      "uncertainOrUnconfirmed": 1,
+      "uncertainByTestStop": 0,
+      "inputStatus": {
+       "confirmed": 47,
+       "uncertain": 1,
+       "rejected-before-input": 1
+      },
+      "heroEliminations": 0,
+      "heroTimeouts": 0,
+      "heroTimeoutsInTrackedHands": 0,
+      "heroTimeoutsInUntrackedHands": 0,
+      "untrackedHands": 0,
+      "refusedReadings": 0,
+      "misdirectedPresses": 0,
+      "releasesWithoutAction": 0,
+      "leaseMs": {
+       "mean": 778,
+       "p50": 597,
+       "p95": 1898,
+       "p99": 2005,
+       "max": 2005,
+       "n": 49
+      },
+      "cursorUtilization": 0.6336,
+      "fairness": 1,
+      "maxWaitMs": 1,
+      "workload": {
+       "tables": 1,
+       "width": 800,
+       "layout": "grid",
+       "heroSeats": null,
+       "botThinkMs": null,
+       "actionTimeoutMs": null,
+       "faultEveryMs": 18750,
+       "stacks": [
+        120,
+        120,
+        400,
+        120,
+        120,
+        400,
+        120,
+        120
+       ],
+       "stackChips": null
+      },
+      "resources": {
+       "cpuPercent": null,
+       "memoryMiB": null,
+       "gpu": null
+      }
+     },
+     "milestone40Pipeline": {
+      "id": "M1",
+      "status": "pass",
+      "tables": 1,
+      "seconds": 61,
+      "actionsConfirmed": 47,
+      "actionsPerMinute": 46.2,
+      "completedHands": 4,
+      "schedulingDelayMs": {
+       "mean": 37,
+       "p50": 43,
+       "p95": 55,
+       "p99": 59,
+       "max": 59,
+       "n": 50
+      },
+      "actionLatencyMs": {
+       "mean": 941,
+       "p50": 749,
+       "p95": 2044,
+       "p99": 2150,
+       "max": 2150,
+       "n": 47
+      },
+      "deadlineMisses": 0,
+      "incorrectActions": 0,
+      "wrongActions": 0,
+      "incorrectClickKinds": {
+       "outsideControls": 0,
+       "onDisabled": 0,
+       "doubleClicks": 0,
+       "lateOnOldFrame": 0,
+       "notAvailable": 0
+      },
+      "confirmedByTableClock": 0,
+      "invalidWagers": 0,
+      "confirmedButNotApplied": 0,
+      "uncertainOrUnconfirmed": 2,
+      "uncertainByTestStop": 1,
+      "inputStatus": {
+       "confirmed": 47,
+       "uncertain": 2,
+       "rejected": 1
+      },
+      "heroEliminations": 0,
+      "heroTimeouts": 0,
+      "heroTimeoutsInTrackedHands": 0,
+      "heroTimeoutsInUntrackedHands": 0,
+      "untrackedHands": 0,
+      "refusedReadings": 0,
+      "misdirectedPresses": 0,
+      "releasesWithoutAction": 0,
+      "leaseMs": {
+       "mean": 609,
+       "p50": 419,
+       "p95": 1725,
+       "p99": 1840,
+       "max": 1840,
+       "n": 50
+      },
+      "cursorUtilization": 0.5049,
+      "fairness": 1,
+      "maxWaitMs": 1,
+      "workload": {
+       "tables": 1,
+       "width": 800,
+       "layout": "grid",
+       "heroSeats": null,
+       "botThinkMs": null,
+       "actionTimeoutMs": null,
+       "faultEveryMs": 18750,
+       "stacks": [
+        120,
+        120,
+        400,
+        120,
+        120,
+        400,
+        120,
+        120
+       ],
+       "stackChips": null
+      },
+      "resources": {
+       "cpuPercent": null,
+       "memoryMiB": null,
+       "gpu": null
+      }
+     },
+     "change": {
+      "schedulingDelayMeanPercent": -37.3,
+      "schedulingDelayP95Ms": -14,
+      "schedulingDelayP99Ms": -19,
+      "actionLatencyMeanPercent": -1.9,
+      "confirmedActions": 0,
+      "deadlineMisses": 0
+     }
+    },
+    {
+     "tables": 2,
+     "milestone32Pipeline": {
+      "id": "M2",
+      "status": "pass",
+      "tables": 2,
+      "seconds": 61,
+      "actionsConfirmed": 31,
+      "actionsPerMinute": 30.5,
+      "completedHands": 1,
+      "schedulingDelayMs": {
+       "mean": 1361,
+       "p50": 1487,
+       "p95": 2980,
+       "p99": 3026,
+       "max": 3026,
+       "n": 36
+      },
+      "actionLatencyMs": {
+       "mean": 3213,
+       "p50": 3294,
+       "p95": 4692,
+       "p99": 4719,
+       "max": 4719,
+       "n": 31
+      },
+      "deadlineMisses": 0,
+      "incorrectActions": 0,
+      "wrongActions": 0,
+      "incorrectClickKinds": {
+       "outsideControls": 0,
+       "onDisabled": 0,
+       "doubleClicks": 0,
+       "lateOnOldFrame": 0,
+       "notAvailable": 0
+      },
+      "confirmedByTableClock": 0,
+      "invalidWagers": 0,
+      "confirmedButNotApplied": 0,
+      "uncertainOrUnconfirmed": 1,
+      "uncertainByTestStop": 0,
+      "inputStatus": {
+       "confirmed": 31,
+       "uncertain": 1,
+       "rejected-before-input": 4
+      },
+      "heroEliminations": 0,
+      "heroTimeouts": 0,
+      "heroTimeoutsInTrackedHands": 0,
+      "heroTimeoutsInUntrackedHands": 0,
+      "untrackedHands": 0,
+      "refusedReadings": 0,
+      "misdirectedPresses": 0,
+      "releasesWithoutAction": 0,
+      "leaseMs": {
+       "mean": 1631,
+       "p50": 1656,
+       "p95": 3190,
+       "p99": 3214,
+       "max": 3214,
+       "n": 35
+      },
+      "cursorUtilization": 0.9401,
+      "fairness": 0.999,
+      "maxWaitMs": 2969,
+      "workload": {
+       "tables": 2,
+       "width": 800,
+       "layout": "grid",
+       "heroSeats": null,
+       "botThinkMs": null,
+       "actionTimeoutMs": null,
+       "faultEveryMs": 18750,
+       "stacks": [
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600
+       ],
+       "stackChips": null
+      },
+      "resources": {
+       "cpuPercent": null,
+       "memoryMiB": null,
+       "gpu": null
+      }
+     },
+     "milestone40Pipeline": {
+      "id": "M2",
+      "status": "pass",
+      "tables": 2,
+      "seconds": 61,
+      "actionsConfirmed": 34,
+      "actionsPerMinute": 33.4,
+      "completedHands": 1,
+      "schedulingDelayMs": {
+       "mean": 1060,
+       "p50": 1149,
+       "p95": 2720,
+       "p99": 2812,
+       "max": 2812,
+       "n": 39
+      },
+      "actionLatencyMs": {
+       "mean": 2876,
+       "p50": 2920,
+       "p95": 4460,
+       "p99": 5965,
+       "max": 5965,
+       "n": 34
+      },
+      "deadlineMisses": 0,
+      "incorrectActions": 0,
+      "wrongActions": 0,
+      "incorrectClickKinds": {
+       "outsideControls": 0,
+       "onDisabled": 0,
+       "doubleClicks": 0,
+       "lateOnOldFrame": 0,
+       "notAvailable": 0
+      },
+      "confirmedByTableClock": 0,
+      "invalidWagers": 0,
+      "confirmedButNotApplied": 0,
+      "uncertainOrUnconfirmed": 1,
+      "uncertainByTestStop": 1,
+      "inputStatus": {
+       "confirmed": 34,
+       "rejected": 1,
+       "rejected-before-input": 3,
+       "uncertain": 1
+      },
+      "heroEliminations": 0,
+      "heroTimeouts": 0,
+      "heroTimeoutsInTrackedHands": 0,
+      "heroTimeoutsInUntrackedHands": 0,
+      "untrackedHands": 0,
+      "refusedReadings": 0,
+      "misdirectedPresses": 0,
+      "releasesWithoutAction": 0,
+      "leaseMs": {
+       "mean": 1492,
+       "p50": 1493,
+       "p95": 3035,
+       "p99": 3120,
+       "max": 3120,
+       "n": 38
+      },
+      "cursorUtilization": 0.9302,
+      "fairness": 0.9863,
+      "maxWaitMs": 2771,
+      "workload": {
+       "tables": 2,
+       "width": 800,
+       "layout": "grid",
+       "heroSeats": null,
+       "botThinkMs": null,
+       "actionTimeoutMs": null,
+       "faultEveryMs": 18750,
+       "stacks": [
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600
+       ],
+       "stackChips": null
+      },
+      "resources": {
+       "cpuPercent": null,
+       "memoryMiB": null,
+       "gpu": null
+      }
+     },
+     "change": {
+      "schedulingDelayMeanPercent": -22.1,
+      "schedulingDelayP95Ms": -260,
+      "schedulingDelayP99Ms": -214,
+      "actionLatencyMeanPercent": -10.5,
+      "confirmedActions": 3,
+      "deadlineMisses": 0
+     }
+    },
+    {
+     "tables": 5,
+     "milestone32Pipeline": {
+      "id": "M5",
+      "status": "pass",
+      "tables": 5,
+      "seconds": 66,
+      "actionsConfirmed": 64,
+      "actionsPerMinute": 58.2,
+      "completedHands": 2,
+      "schedulingDelayMs": {
+       "mean": 3060,
+       "p50": 2849,
+       "p95": 5112,
+       "p99": 5417,
+       "max": 5417,
+       "n": 75
+      },
+      "actionLatencyMs": {
+       "mean": 4091,
+       "p50": 3934,
+       "p95": 5949,
+       "p99": 6817,
+       "max": 6817,
+       "n": 64
+      },
+      "deadlineMisses": 0,
+      "incorrectActions": 0,
+      "wrongActions": 0,
+      "incorrectClickKinds": {
+       "outsideControls": 0,
+       "onDisabled": 0,
+       "doubleClicks": 0,
+       "lateOnOldFrame": 0,
+       "notAvailable": 0
+      },
+      "confirmedByTableClock": 0,
+      "invalidWagers": 0,
+      "confirmedButNotApplied": 0,
+      "uncertainOrUnconfirmed": 2,
+      "uncertainByTestStop": 1,
+      "inputStatus": {
+       "confirmed": 64,
+       "rejected-before-input": 9,
+       "uncertain": 2
+      },
+      "heroEliminations": 0,
+      "heroTimeouts": 0,
+      "heroTimeoutsInTrackedHands": 0,
+      "heroTimeoutsInUntrackedHands": 0,
+      "untrackedHands": 0,
+      "refusedReadings": 0,
+      "misdirectedPresses": 0,
+      "releasesWithoutAction": 0,
+      "leaseMs": {
+       "mean": 882,
+       "p50": 721,
+       "p95": 1933,
+       "p99": 2185,
+       "max": 2185,
+       "n": 71
+      },
+      "cursorUtilization": 0.9537,
+      "fairness": 0.9966,
+      "maxWaitMs": 5343,
+      "workload": {
+       "tables": 5,
+       "width": 800,
+       "layout": "cascade",
+       "heroSeats": null,
+       "botThinkMs": null,
+       "actionTimeoutMs": null,
+       "faultEveryMs": 18750,
+       "stacks": [
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600
+       ],
+       "stackChips": null
+      },
+      "resources": {
+       "cpuPercent": null,
+       "memoryMiB": null,
+       "gpu": null
+      }
+     },
+     "milestone40Pipeline": {
+      "id": "M5",
+      "status": "pass",
+      "tables": 5,
+      "seconds": 63,
+      "actionsConfirmed": 79,
+      "actionsPerMinute": 75.2,
+      "completedHands": 4,
+      "schedulingDelayMs": {
+       "mean": 2199,
+       "p50": 1913,
+       "p95": 4001,
+       "p99": 5681,
+       "max": 5681,
+       "n": 91
+      },
+      "actionLatencyMs": {
+       "mean": 3166,
+       "p50": 2686,
+       "p95": 5700,
+       "p99": 6489,
+       "max": 6489,
+       "n": 79
+      },
+      "deadlineMisses": 0,
+      "incorrectActions": 0,
+      "wrongActions": 0,
+      "incorrectClickKinds": {
+       "outsideControls": 0,
+       "onDisabled": 0,
+       "doubleClicks": 0,
+       "lateOnOldFrame": 0,
+       "notAvailable": 0
+      },
+      "confirmedByTableClock": 0,
+      "invalidWagers": 0,
+      "confirmedButNotApplied": 0,
+      "uncertainOrUnconfirmed": 1,
+      "uncertainByTestStop": 1,
+      "inputStatus": {
+       "confirmed": 79,
+       "rejected-before-input": 10,
+       "uncertain": 1,
+       "rejected": 1
+      },
+      "heroEliminations": 0,
+      "heroTimeouts": 0,
+      "heroTimeoutsInTrackedHands": 0,
+      "heroTimeoutsInUntrackedHands": 0,
+      "untrackedHands": 0,
+      "refusedReadings": 0,
+      "misdirectedPresses": 0,
+      "releasesWithoutAction": 0,
+      "leaseMs": {
+       "mean": 685,
+       "p50": 513,
+       "p95": 1794,
+       "p99": 1989,
+       "max": 1989,
+       "n": 87
+      },
+      "cursorUtilization": 0.9547,
+      "fairness": 0.9978,
+      "maxWaitMs": 5639,
+      "workload": {
+       "tables": 5,
+       "width": 800,
+       "layout": "cascade",
+       "heroSeats": null,
+       "botThinkMs": null,
+       "actionTimeoutMs": null,
+       "faultEveryMs": 18750,
+       "stacks": [
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600
+       ],
+       "stackChips": null
+      },
+      "resources": {
+       "cpuPercent": null,
+       "memoryMiB": null,
+       "gpu": null
+      }
+     },
+     "change": {
+      "schedulingDelayMeanPercent": -28.1,
+      "schedulingDelayP95Ms": -1111,
+      "schedulingDelayP99Ms": 264,
+      "actionLatencyMeanPercent": -22.6,
+      "confirmedActions": 15,
+      "deadlineMisses": 0
+     }
+    },
+    {
+     "tables": 8,
+     "milestone32Pipeline": {
+      "id": "M8",
+      "status": "pass",
+      "tables": 8,
+      "seconds": 68,
+      "actionsConfirmed": 72,
+      "actionsPerMinute": 63.5,
+      "completedHands": 0,
+      "schedulingDelayMs": {
+       "mean": 4630,
+       "p50": 4856,
+       "p95": 7112,
+       "p99": 8353,
+       "max": 8353,
+       "n": 90
+      },
+      "actionLatencyMs": {
+       "mean": 5686,
+       "p50": 5797,
+       "p95": 7813,
+       "p99": 8583,
+       "max": 8583,
+       "n": 72
+      },
+      "deadlineMisses": 2,
+      "incorrectActions": 0,
+      "wrongActions": 0,
+      "incorrectClickKinds": {
+       "outsideControls": 0,
+       "onDisabled": 0,
+       "doubleClicks": 0,
+       "lateOnOldFrame": 0,
+       "notAvailable": 0
+      },
+      "confirmedByTableClock": 0,
+      "invalidWagers": 0,
+      "confirmedButNotApplied": 0,
+      "uncertainOrUnconfirmed": 0,
+      "uncertainByTestStop": 0,
+      "inputStatus": {
+       "confirmed": 72,
+       "rejected": 1,
+       "rejected-before-input": 17
+      },
+      "heroEliminations": 0,
+      "heroTimeouts": 0,
+      "heroTimeoutsInTrackedHands": 0,
+      "heroTimeoutsInUntrackedHands": 0,
+      "untrackedHands": 0,
+      "refusedReadings": 0,
+      "misdirectedPresses": 0,
+      "releasesWithoutAction": 0,
+      "leaseMs": {
+       "mean": 797,
+       "p50": 707,
+       "p95": 1893,
+       "p99": 2221,
+       "max": 2221,
+       "n": 81
+      },
+      "cursorUtilization": 0.946,
+      "fairness": 0.9848,
+      "maxWaitMs": 7462,
+      "workload": {
+       "tables": 8,
+       "width": 800,
+       "layout": "cascade",
+       "heroSeats": null,
+       "botThinkMs": null,
+       "actionTimeoutMs": null,
+       "faultEveryMs": 18750,
+       "stacks": [
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600
+       ],
+       "stackChips": null
+      },
+      "resources": {
+       "cpuPercent": null,
+       "memoryMiB": null,
+       "gpu": null
+      }
+     },
+     "milestone40Pipeline": {
+      "id": "M8",
+      "status": "pass",
+      "tables": 8,
+      "seconds": 73,
+      "actionsConfirmed": 95,
+      "actionsPerMinute": 78.1,
+      "completedHands": 1,
+      "schedulingDelayMs": {
+       "mean": 3613,
+       "p50": 3526,
+       "p95": 6395,
+       "p99": 7068,
+       "max": 7111,
+       "n": 115
+      },
+      "actionLatencyMs": {
+       "mean": 4696,
+       "p50": 4788,
+       "p95": 7527,
+       "p99": 8005,
+       "max": 8005,
+       "n": 95
+      },
+      "deadlineMisses": 2,
+      "incorrectActions": 0,
+      "wrongActions": 0,
+      "incorrectClickKinds": {
+       "outsideControls": 0,
+       "onDisabled": 0,
+       "doubleClicks": 0,
+       "lateOnOldFrame": 0,
+       "notAvailable": 0
+      },
+      "confirmedByTableClock": 0,
+      "invalidWagers": 0,
+      "confirmedButNotApplied": 0,
+      "uncertainOrUnconfirmed": 2,
+      "uncertainByTestStop": 1,
+      "inputStatus": {
+       "confirmed": 95,
+       "rejected-before-input": 18,
+       "uncertain": 2
+      },
+      "heroEliminations": 0,
+      "heroTimeouts": 0,
+      "heroTimeoutsInTrackedHands": 0,
+      "heroTimeoutsInUntrackedHands": 0,
+      "untrackedHands": 0,
+      "refusedReadings": 0,
+      "misdirectedPresses": 0,
+      "releasesWithoutAction": 0,
+      "leaseMs": {
+       "mean": 661,
+       "p50": 545,
+       "p95": 1789,
+       "p99": 2019,
+       "max": 2175,
+       "n": 106
+      },
+      "cursorUtilization": 0.9595,
+      "fairness": 0.9922,
+      "maxWaitMs": 7071,
+      "workload": {
+       "tables": 8,
+       "width": 800,
+       "layout": "cascade",
+       "heroSeats": null,
+       "botThinkMs": null,
+       "actionTimeoutMs": null,
+       "faultEveryMs": 18750,
+       "stacks": [
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600
+       ],
+       "stackChips": null
+      },
+      "resources": {
+       "cpuPercent": null,
+       "memoryMiB": null,
+       "gpu": null
+      }
+     },
+     "change": {
+      "schedulingDelayMeanPercent": -22,
+      "schedulingDelayP95Ms": -717,
+      "schedulingDelayP99Ms": -1285,
+      "actionLatencyMeanPercent": -17.4,
+      "confirmedActions": 23,
+      "deadlineMisses": 0
+     }
+    }
+   ]
+  },
+  {
+   "source": {
+    "run": "45441870852",
+    "job": "ab-3",
+    "file": "stability-compat-3.2.json + stability-optimized.json"
+   },
+   "order": "compat-3.2,optimized",
+   "machine": {
+    "platform": "win32",
+    "release": "10.0.26100",
+    "cpu": "AMD EPYC 9V74 80-Core Processor                ",
+    "cpus": 4,
+    "ramGiB": 16,
+    "node": "v22.23.5"
+   },
+   "pairs": [
+    {
+     "tables": 1,
+     "milestone32Pipeline": {
+      "id": "M1",
+      "status": "pass",
+      "tables": 1,
+      "seconds": 60,
+      "actionsConfirmed": 47,
+      "actionsPerMinute": 47,
+      "completedHands": 4,
+      "schedulingDelayMs": {
+       "mean": 58,
+       "p50": 63,
+       "p95": 73,
+       "p99": 76,
+       "max": 76,
+       "n": 49
+      },
+      "actionLatencyMs": {
+       "mean": 955,
+       "p50": 740,
+       "p95": 2050,
+       "p99": 2167,
+       "max": 2167,
+       "n": 47
+      },
+      "deadlineMisses": 0,
+      "incorrectActions": 0,
+      "wrongActions": 0,
+      "incorrectClickKinds": {
+       "outsideControls": 0,
+       "onDisabled": 0,
+       "doubleClicks": 0,
+       "lateOnOldFrame": 0,
+       "notAvailable": 0
+      },
+      "confirmedByTableClock": 0,
+      "invalidWagers": 0,
+      "confirmedButNotApplied": 0,
+      "uncertainOrUnconfirmed": 1,
+      "uncertainByTestStop": 0,
+      "inputStatus": {
+       "confirmed": 47,
+       "uncertain": 1,
+       "rejected": 1
+      },
+      "heroEliminations": 0,
+      "heroTimeouts": 0,
+      "heroTimeoutsInTrackedHands": 0,
+      "heroTimeoutsInUntrackedHands": 0,
+      "untrackedHands": 0,
+      "refusedReadings": 0,
+      "misdirectedPresses": 0,
+      "releasesWithoutAction": 0,
+      "leaseMs": {
+       "mean": 774,
+       "p50": 584,
+       "p95": 1897,
+       "p99": 1989,
+       "max": 1989,
+       "n": 49
+      },
+      "cursorUtilization": 0.6298,
+      "fairness": 1,
+      "maxWaitMs": 1,
+      "workload": {
+       "tables": 1,
+       "width": 800,
+       "layout": "grid",
+       "heroSeats": null,
+       "botThinkMs": null,
+       "actionTimeoutMs": null,
+       "faultEveryMs": 18750,
+       "stacks": [
+        120,
+        120,
+        400,
+        120,
+        120,
+        400,
+        120,
+        120
+       ],
+       "stackChips": null
+      },
+      "resources": {
+       "cpuPercent": null,
+       "memoryMiB": null,
+       "gpu": null
+      }
+     },
+     "milestone40Pipeline": {
+      "id": "M1",
+      "status": "pass",
+      "tables": 1,
+      "seconds": 60,
+      "actionsConfirmed": 47,
+      "actionsPerMinute": 47,
+      "completedHands": 4,
+      "schedulingDelayMs": {
+       "mean": 40,
+       "p50": 43,
+       "p95": 47,
+       "p99": 60,
+       "max": 60,
+       "n": 49
+      },
+      "actionLatencyMs": {
+       "mean": 960,
+       "p50": 735,
+       "p95": 2063,
+       "p99": 2103,
+       "max": 2103,
+       "n": 47
+      },
+      "deadlineMisses": 0,
+      "incorrectActions": 0,
+      "wrongActions": 0,
+      "incorrectClickKinds": {
+       "outsideControls": 0,
+       "onDisabled": 0,
+       "doubleClicks": 0,
+       "lateOnOldFrame": 0,
+       "notAvailable": 0
+      },
+      "confirmedByTableClock": 0,
+      "invalidWagers": 0,
+      "confirmedButNotApplied": 0,
+      "uncertainOrUnconfirmed": 2,
+      "uncertainByTestStop": 1,
+      "inputStatus": {
+       "confirmed": 47,
+       "uncertain": 2
+      },
+      "heroEliminations": 0,
+      "heroTimeouts": 0,
+      "heroTimeoutsInTrackedHands": 0,
+      "heroTimeoutsInUntrackedHands": 0,
+      "untrackedHands": 0,
+      "refusedReadings": 0,
+      "misdirectedPresses": 0,
+      "releasesWithoutAction": 0,
+      "leaseMs": {
+       "mean": 643,
+       "p50": 433,
+       "p95": 1737,
+       "p99": 1803,
+       "max": 1803,
+       "n": 49
+      },
+      "cursorUtilization": 0.5228,
+      "fairness": 1,
+      "maxWaitMs": 1,
+      "workload": {
+       "tables": 1,
+       "width": 800,
+       "layout": "grid",
+       "heroSeats": null,
+       "botThinkMs": null,
+       "actionTimeoutMs": null,
+       "faultEveryMs": 18750,
+       "stacks": [
+        120,
+        120,
+        400,
+        120,
+        120,
+        400,
+        120,
+        120
+       ],
+       "stackChips": null
+      },
+      "resources": {
+       "cpuPercent": null,
+       "memoryMiB": null,
+       "gpu": null
+      }
+     },
+     "change": {
+      "schedulingDelayMeanPercent": -31,
+      "schedulingDelayP95Ms": -26,
+      "schedulingDelayP99Ms": -16,
+      "actionLatencyMeanPercent": 0.5,
+      "confirmedActions": 0,
+      "deadlineMisses": 0
+     }
+    },
+    {
+     "tables": 2,
+     "milestone32Pipeline": {
+      "id": "M2",
+      "status": "pass",
+      "tables": 2,
+      "seconds": 61,
+      "actionsConfirmed": 31,
+      "actionsPerMinute": 30.5,
+      "completedHands": 1,
+      "schedulingDelayMs": {
+       "mean": 1359,
+       "p50": 1469,
+       "p95": 3019,
+       "p99": 3082,
+       "max": 3082,
+       "n": 35
+      },
+      "actionLatencyMs": {
+       "mean": 3221,
+       "p50": 3278,
+       "p95": 4662,
+       "p99": 4740,
+       "max": 4740,
+       "n": 31
+      },
+      "deadlineMisses": 0,
+      "incorrectActions": 0,
+      "wrongActions": 0,
+      "incorrectClickKinds": {
+       "outsideControls": 0,
+       "onDisabled": 0,
+       "doubleClicks": 0,
+       "lateOnOldFrame": 0,
+       "notAvailable": 0
+      },
+      "confirmedByTableClock": 0,
+      "invalidWagers": 0,
+      "confirmedButNotApplied": 0,
+      "uncertainOrUnconfirmed": 1,
+      "uncertainByTestStop": 0,
+      "inputStatus": {
+       "confirmed": 31,
+       "uncertain": 1,
+       "rejected-before-input": 3
+      },
+      "heroEliminations": 0,
+      "heroTimeouts": 0,
+      "heroTimeoutsInTrackedHands": 0,
+      "heroTimeoutsInUntrackedHands": 0,
+      "untrackedHands": 0,
+      "refusedReadings": 0,
+      "misdirectedPresses": 0,
+      "releasesWithoutAction": 0,
+      "leaseMs": {
+       "mean": 1640,
+       "p50": 1664,
+       "p95": 3177,
+       "p99": 3281,
+       "max": 3281,
+       "n": 35
+      },
+      "cursorUtilization": 0.9511,
+      "fairness": 0.999,
+      "maxWaitMs": 3039,
+      "workload": {
+       "tables": 2,
+       "width": 800,
+       "layout": "grid",
+       "heroSeats": null,
+       "botThinkMs": null,
+       "actionTimeoutMs": null,
+       "faultEveryMs": 18750,
+       "stacks": [
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600
+       ],
+       "stackChips": null
+      },
+      "resources": {
+       "cpuPercent": null,
+       "memoryMiB": null,
+       "gpu": null
+      }
+     },
+     "milestone40Pipeline": {
+      "id": "M2",
+      "status": "pass",
+      "tables": 2,
+      "seconds": 61,
+      "actionsConfirmed": 34,
+      "actionsPerMinute": 33.4,
+      "completedHands": 1,
+      "schedulingDelayMs": {
+       "mean": 1044,
+       "p50": 1136,
+       "p95": 2667,
+       "p99": 2809,
+       "max": 2809,
+       "n": 39
+      },
+      "actionLatencyMs": {
+       "mean": 2855,
+       "p50": 2937,
+       "p95": 4484,
+       "p99": 5049,
+       "max": 5049,
+       "n": 34
+      },
+      "deadlineMisses": 0,
+      "incorrectActions": 0,
+      "wrongActions": 0,
+      "incorrectClickKinds": {
+       "outsideControls": 0,
+       "onDisabled": 0,
+       "doubleClicks": 0,
+       "lateOnOldFrame": 0,
+       "notAvailable": 0
+      },
+      "confirmedByTableClock": 0,
+      "invalidWagers": 0,
+      "confirmedButNotApplied": 0,
+      "uncertainOrUnconfirmed": 1,
+      "uncertainByTestStop": 1,
+      "inputStatus": {
+       "confirmed": 34,
+       "rejected": 1,
+       "rejected-before-input": 3,
+       "uncertain": 1
+      },
+      "heroEliminations": 0,
+      "heroTimeouts": 0,
+      "heroTimeoutsInTrackedHands": 0,
+      "heroTimeoutsInUntrackedHands": 0,
+      "untrackedHands": 0,
+      "refusedReadings": 0,
+      "misdirectedPresses": 0,
+      "releasesWithoutAction": 0,
+      "leaseMs": {
+       "mean": 1504,
+       "p50": 1498,
+       "p95": 3047,
+       "p99": 3141,
+       "max": 3141,
+       "n": 38
+      },
+      "cursorUtilization": 0.9377,
+      "fairness": 0.9863,
+      "maxWaitMs": 2768,
+      "workload": {
+       "tables": 2,
+       "width": 800,
+       "layout": "grid",
+       "heroSeats": null,
+       "botThinkMs": null,
+       "actionTimeoutMs": null,
+       "faultEveryMs": 18750,
+       "stacks": [
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600
+       ],
+       "stackChips": null
+      },
+      "resources": {
+       "cpuPercent": null,
+       "memoryMiB": null,
+       "gpu": null
+      }
+     },
+     "change": {
+      "schedulingDelayMeanPercent": -23.2,
+      "schedulingDelayP95Ms": -352,
+      "schedulingDelayP99Ms": -273,
+      "actionLatencyMeanPercent": -11.4,
+      "confirmedActions": 3,
+      "deadlineMisses": 0
+     }
+    },
+    {
+     "tables": 5,
+     "milestone32Pipeline": {
+      "id": "M5",
+      "status": "pass",
+      "tables": 5,
+      "seconds": 65,
+      "actionsConfirmed": 66,
+      "actionsPerMinute": 60.9,
+      "completedHands": 3,
+      "schedulingDelayMs": {
+       "mean": 3005,
+       "p50": 2758,
+       "p95": 5071,
+       "p99": 5310,
+       "max": 5310,
+       "n": 75
+      },
+      "actionLatencyMs": {
+       "mean": 4024,
+       "p50": 3746,
+       "p95": 5937,
+       "p99": 7043,
+       "max": 7043,
+       "n": 66
+      },
+      "deadlineMisses": 0,
+      "incorrectActions": 0,
+      "wrongActions": 0,
+      "incorrectClickKinds": {
+       "outsideControls": 0,
+       "onDisabled": 0,
+       "doubleClicks": 0,
+       "lateOnOldFrame": 0,
+       "notAvailable": 0
+      },
+      "confirmedByTableClock": 0,
+      "invalidWagers": 0,
+      "confirmedButNotApplied": 0,
+      "uncertainOrUnconfirmed": 2,
+      "uncertainByTestStop": 1,
+      "inputStatus": {
+       "confirmed": 66,
+       "uncertain": 2,
+       "rejected-before-input": 7
+      },
+      "heroEliminations": 0,
+      "heroTimeouts": 0,
+      "heroTimeoutsInTrackedHands": 0,
+      "heroTimeoutsInUntrackedHands": 0,
+      "untrackedHands": 0,
+      "refusedReadings": 0,
+      "misdirectedPresses": 0,
+      "releasesWithoutAction": 0,
+      "leaseMs": {
+       "mean": 856,
+       "p50": 688,
+       "p95": 1920,
+       "p99": 2238,
+       "max": 2238,
+       "n": 72
+      },
+      "cursorUtilization": 0.9514,
+      "fairness": 0.9923,
+      "maxWaitMs": 5266,
+      "workload": {
+       "tables": 5,
+       "width": 800,
+       "layout": "cascade",
+       "heroSeats": null,
+       "botThinkMs": null,
+       "actionTimeoutMs": null,
+       "faultEveryMs": 18750,
+       "stacks": [
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600
+       ],
+       "stackChips": null
+      },
+      "resources": {
+       "cpuPercent": null,
+       "memoryMiB": null,
+       "gpu": null
+      }
+     },
+     "milestone40Pipeline": {
+      "id": "M5",
+      "status": "pass",
+      "tables": 5,
+      "seconds": 64,
+      "actionsConfirmed": 80,
+      "actionsPerMinute": 75,
+      "completedHands": 4,
+      "schedulingDelayMs": {
+       "mean": 2191,
+       "p50": 1897,
+       "p95": 3954,
+       "p99": 5080,
+       "max": 5080,
+       "n": 92
+      },
+      "actionLatencyMs": {
+       "mean": 3198,
+       "p50": 2727,
+       "p95": 5487,
+       "p99": 6029,
+       "max": 6029,
+       "n": 80
+      },
+      "deadlineMisses": 0,
+      "incorrectActions": 0,
+      "wrongActions": 0,
+      "incorrectClickKinds": {
+       "outsideControls": 0,
+       "onDisabled": 0,
+       "doubleClicks": 0,
+       "lateOnOldFrame": 0,
+       "notAvailable": 0
+      },
+      "confirmedByTableClock": 0,
+      "invalidWagers": 0,
+      "confirmedButNotApplied": 0,
+      "uncertainOrUnconfirmed": 1,
+      "uncertainByTestStop": 1,
+      "inputStatus": {
+       "confirmed": 80,
+       "rejected-before-input": 10,
+       "rejected": 1,
+       "uncertain": 1
+      },
+      "heroEliminations": 0,
+      "heroTimeouts": 0,
+      "heroTimeoutsInTrackedHands": 0,
+      "heroTimeoutsInUntrackedHands": 0,
+      "untrackedHands": 0,
+      "refusedReadings": 0,
+      "misdirectedPresses": 0,
+      "releasesWithoutAction": 0,
+      "leaseMs": {
+       "mean": 684,
+       "p50": 514,
+       "p95": 1861,
+       "p99": 1980,
+       "max": 1980,
+       "n": 88
+      },
+      "cursorUtilization": 0.951,
+      "fairness": 0.9984,
+      "maxWaitMs": 5039,
+      "workload": {
+       "tables": 5,
+       "width": 800,
+       "layout": "cascade",
+       "heroSeats": null,
+       "botThinkMs": null,
+       "actionTimeoutMs": null,
+       "faultEveryMs": 18750,
+       "stacks": [
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600
+       ],
+       "stackChips": null
+      },
+      "resources": {
+       "cpuPercent": null,
+       "memoryMiB": null,
+       "gpu": null
+      }
+     },
+     "change": {
+      "schedulingDelayMeanPercent": -27.1,
+      "schedulingDelayP95Ms": -1117,
+      "schedulingDelayP99Ms": -230,
+      "actionLatencyMeanPercent": -20.5,
+      "confirmedActions": 14,
+      "deadlineMisses": 0
+     }
+    },
+    {
+     "tables": 8,
+     "milestone32Pipeline": {
+      "id": "M8",
+      "status": "pass",
+      "tables": 8,
+      "seconds": 67,
+      "actionsConfirmed": 70,
+      "actionsPerMinute": 62.7,
+      "completedHands": 0,
+      "schedulingDelayMs": {
+       "mean": 4771,
+       "p50": 4880,
+       "p95": 6680,
+       "p99": 7455,
+       "max": 7455,
+       "n": 88
+      },
+      "actionLatencyMs": {
+       "mean": 5771,
+       "p50": 5754,
+       "p95": 7517,
+       "p99": 8368,
+       "max": 8368,
+       "n": 70
+      },
+      "deadlineMisses": 2,
+      "incorrectActions": 0,
+      "wrongActions": 0,
+      "incorrectClickKinds": {
+       "outsideControls": 0,
+       "onDisabled": 0,
+       "doubleClicks": 0,
+       "lateOnOldFrame": 0,
+       "notAvailable": 0
+      },
+      "confirmedByTableClock": 0,
+      "invalidWagers": 0,
+      "confirmedButNotApplied": 0,
+      "uncertainOrUnconfirmed": 1,
+      "uncertainByTestStop": 0,
+      "inputStatus": {
+       "confirmed": 70,
+       "uncertain": 1,
+       "rejected-before-input": 17
+      },
+      "heroEliminations": 0,
+      "heroTimeouts": 0,
+      "heroTimeoutsInTrackedHands": 0,
+      "heroTimeoutsInUntrackedHands": 0,
+      "untrackedHands": 0,
+      "refusedReadings": 0,
+      "misdirectedPresses": 0,
+      "releasesWithoutAction": 0,
+      "leaseMs": {
+       "mean": 815,
+       "p50": 704,
+       "p95": 1864,
+       "p99": 2296,
+       "max": 2296,
+       "n": 79
+      },
+      "cursorUtilization": 0.9528,
+      "fairness": 0.9911,
+      "maxWaitMs": 6700,
+      "workload": {
+       "tables": 8,
+       "width": 800,
+       "layout": "cascade",
+       "heroSeats": null,
+       "botThinkMs": null,
+       "actionTimeoutMs": null,
+       "faultEveryMs": 18750,
+       "stacks": [
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600
+       ],
+       "stackChips": null
+      },
+      "resources": {
+       "cpuPercent": null,
+       "memoryMiB": null,
+       "gpu": null
+      }
+     },
+     "milestone40Pipeline": {
+      "id": "M8",
+      "status": "pass",
+      "tables": 8,
+      "seconds": 69,
+      "actionsConfirmed": 92,
+      "actionsPerMinute": 80,
+      "completedHands": 1,
+      "schedulingDelayMs": {
+       "mean": 3748,
+       "p50": 3809,
+       "p95": 6392,
+       "p99": 6843,
+       "max": 7018,
+       "n": 109
+      },
+      "actionLatencyMs": {
+       "mean": 4817,
+       "p50": 4909,
+       "p95": 7552,
+       "p99": 7907,
+       "max": 7907,
+       "n": 92
+      },
+      "deadlineMisses": 1,
+      "incorrectActions": 0,
+      "wrongActions": 0,
+      "incorrectClickKinds": {
+       "outsideControls": 0,
+       "onDisabled": 0,
+       "doubleClicks": 0,
+       "lateOnOldFrame": 0,
+       "notAvailable": 0
+      },
+      "confirmedByTableClock": 0,
+      "invalidWagers": 0,
+      "confirmedButNotApplied": 0,
+      "uncertainOrUnconfirmed": 2,
+      "uncertainByTestStop": 1,
+      "inputStatus": {
+       "confirmed": 92,
+       "rejected-before-input": 15,
+       "uncertain": 2
+      },
+      "heroEliminations": 0,
+      "heroTimeouts": 0,
+      "heroTimeoutsInTrackedHands": 0,
+      "heroTimeoutsInUntrackedHands": 0,
+      "untrackedHands": 0,
+      "refusedReadings": 0,
+      "misdirectedPresses": 0,
+      "releasesWithoutAction": 0,
+      "leaseMs": {
+       "mean": 643,
+       "p50": 529,
+       "p95": 1649,
+       "p99": 2188,
+       "max": 2195,
+       "n": 102
+      },
+      "cursorUtilization": 0.9554,
+      "fairness": 0.9944,
+      "maxWaitMs": 6977,
+      "workload": {
+       "tables": 8,
+       "width": 800,
+       "layout": "cascade",
+       "heroSeats": null,
+       "botThinkMs": null,
+       "actionTimeoutMs": null,
+       "faultEveryMs": 18750,
+       "stacks": [
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600,
+        600
+       ],
+       "stackChips": null
+      },
+      "resources": {
+       "cpuPercent": null,
+       "memoryMiB": null,
+       "gpu": null
+      }
+     },
+     "change": {
+      "schedulingDelayMeanPercent": -21.4,
+      "schedulingDelayP95Ms": -288,
+      "schedulingDelayP99Ms": -612,
+      "actionLatencyMeanPercent": -16.5,
+      "confirmedActions": 22,
+      "deadlineMisses": -1
+     }
+    }
+   ]
+  }
+ ],
+ "milestone32ZipBaseline": [],
+ "policyComparison": [
+  {
+   "source": {
+    "run": "45441870852",
+    "job": "ab-1",
+    "file": "stability-optimized-fair-rr.json"
+   },
+   "policy": "fair-rr",
+   "pipeline": "optimized",
+   "sameMachineAs": "the A/B rows of ab-1",
+   "rows": [
+    {
+     "id": "M1",
+     "status": "pass",
+     "tables": 1,
+     "seconds": 61,
+     "actionsConfirmed": 45,
+     "actionsPerMinute": 44.3,
+     "completedHands": 6,
+     "schedulingDelayMs": {
+      "mean": 40,
+      "p50": 43,
+      "p95": 55,
+      "p99": 57,
+      "max": 57,
+      "n": 48
+     },
+     "actionLatencyMs": {
+      "mean": 961,
+      "p50": 759,
+      "p95": 2021,
+      "p99": 2137,
+      "max": 2137,
+      "n": 45
+     },
+     "deadlineMisses": 0,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 1,
+     "uncertainByTestStop": 0,
+     "inputStatus": {
+      "confirmed": 45,
+      "uncertain": 1,
+      "rejected-before-input": 2
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 642,
+      "p50": 435,
+      "p95": 1719,
+      "p99": 1843,
+      "max": 1843,
+      "n": 48
+     },
+     "cursorUtilization": 0.5081,
+     "fairness": 1,
+     "maxWaitMs": 1,
+     "workload": {
+      "tables": 1,
+      "width": 800,
+      "layout": "grid",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       120,
+       120,
+       400,
+       120,
+       120,
+       400,
+       120,
+       120
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    },
+    {
+     "id": "M2",
+     "status": "pass",
+     "tables": 2,
+     "seconds": 62,
+     "actionsConfirmed": 34,
+     "actionsPerMinute": 32.9,
+     "completedHands": 1,
+     "schedulingDelayMs": {
+      "mean": 1089,
+      "p50": 1139,
+      "p95": 2617,
+      "p99": 2814,
+      "max": 2814,
+      "n": 40
+     },
+     "actionLatencyMs": {
+      "mean": 2867,
+      "p50": 2911,
+      "p95": 4466,
+      "p99": 5968,
+      "max": 5968,
+      "n": 34
+     },
+     "deadlineMisses": 0,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 0,
+     "uncertainByTestStop": 0,
+     "inputStatus": {
+      "confirmed": 34,
+      "rejected": 1,
+      "rejected-before-input": 5
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 1465,
+      "p50": 1497,
+      "p95": 3016,
+      "p99": 3145,
+      "max": 3145,
+      "n": 39
+     },
+     "cursorUtilization": 0.9265,
+     "fairness": 0.9966,
+     "maxWaitMs": 2773,
+     "workload": {
+      "tables": 2,
+      "width": 800,
+      "layout": "grid",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    },
+    {
+     "id": "M5",
+     "status": "pass",
+     "tables": 5,
+     "seconds": 62,
+     "actionsConfirmed": 79,
+     "actionsPerMinute": 76.5,
+     "completedHands": 4,
+     "schedulingDelayMs": {
+      "mean": 2182,
+      "p50": 1793,
+      "p95": 4394,
+      "p99": 5517,
+      "max": 5517,
+      "n": 90
+     },
+     "actionLatencyMs": {
+      "mean": 3162,
+      "p50": 2648,
+      "p95": 6251,
+      "p99": 6451,
+      "max": 6451,
+      "n": 79
+     },
+     "deadlineMisses": 0,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 3,
+     "uncertainByTestStop": 2,
+     "inputStatus": {
+      "confirmed": 79,
+      "rejected-before-input": 8,
+      "uncertain": 3
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 1,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 680,
+      "p50": 524,
+      "p95": 1782,
+      "p99": 2082,
+      "max": 2082,
+      "n": 86
+     },
+     "cursorUtilization": 0.953,
+     "fairness": 0.9994,
+     "maxWaitMs": 5476,
+     "workload": {
+      "tables": 5,
+      "width": 800,
+      "layout": "cascade",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    },
+    {
+     "id": "M8",
+     "status": "pass",
+     "tables": 8,
+     "seconds": 63,
+     "actionsConfirmed": 85,
+     "actionsPerMinute": 81,
+     "completedHands": 0,
+     "schedulingDelayMs": {
+      "mean": 3792,
+      "p50": 4149,
+      "p95": 6671,
+      "p99": 6829,
+      "max": 7819,
+      "n": 101
+     },
+     "actionLatencyMs": {
+      "mean": 4904,
+      "p50": 5018,
+      "p95": 7549,
+      "p99": 8678,
+      "max": 8678,
+      "n": 85
+     },
+     "deadlineMisses": 0,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 0,
+     "uncertainByTestStop": 0,
+     "inputStatus": {
+      "confirmed": 85,
+      "rejected-before-input": 15,
+      "rejected": 1
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 626,
+      "p50": 511,
+      "p95": 1696,
+      "p99": 2199,
+      "max": 2199,
+      "n": 95
+     },
+     "cursorUtilization": 0.9496,
+     "fairness": 0.9979,
+     "maxWaitMs": 7778,
+     "workload": {
+      "tables": 8,
+      "width": 800,
+      "layout": "cascade",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    }
+   ]
+  },
+  {
+   "source": {
+    "run": "45441870852",
+    "job": "ab-1",
+    "file": "stability-optimized-nearest-guarded.json"
+   },
+   "policy": "nearest-guarded",
+   "pipeline": "optimized",
+   "sameMachineAs": "the A/B rows of ab-1",
+   "rows": [
+    {
+     "id": "M1",
+     "status": "pass",
+     "tables": 1,
+     "seconds": 60,
+     "actionsConfirmed": 47,
+     "actionsPerMinute": 47,
+     "completedHands": 3,
+     "schedulingDelayMs": {
+      "mean": 40,
+      "p50": 43,
+      "p95": 54,
+      "p99": 56,
+      "max": 56,
+      "n": 51
+     },
+     "actionLatencyMs": {
+      "mean": 969,
+      "p50": 735,
+      "p95": 2050,
+      "p99": 2101,
+      "max": 2101,
+      "n": 47
+     },
+     "deadlineMisses": 0,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 2,
+     "uncertainByTestStop": 0,
+     "inputStatus": {
+      "confirmed": 47,
+      "uncertain": 2,
+      "rejected-before-input": 2
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 623,
+      "p50": 414,
+      "p95": 1746,
+      "p99": 1808,
+      "max": 1808,
+      "n": 51
+     },
+     "cursorUtilization": 0.5282,
+     "fairness": 1,
+     "maxWaitMs": 1,
+     "workload": {
+      "tables": 1,
+      "width": 800,
+      "layout": "grid",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       120,
+       120,
+       400,
+       120,
+       120,
+       400,
+       120,
+       120
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    },
+    {
+     "id": "M2",
+     "status": "pass",
+     "tables": 2,
+     "seconds": 61,
+     "actionsConfirmed": 33,
+     "actionsPerMinute": 32.5,
+     "completedHands": 1,
+     "schedulingDelayMs": {
+      "mean": 1067,
+      "p50": 1152,
+      "p95": 2683,
+      "p99": 2785,
+      "max": 2785,
+      "n": 39
+     },
+     "actionLatencyMs": {
+      "mean": 2912,
+      "p50": 2910,
+      "p95": 4474,
+      "p99": 5955,
+      "max": 5955,
+      "n": 33
+     },
+     "deadlineMisses": 0,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 2,
+     "uncertainByTestStop": 2,
+     "inputStatus": {
+      "confirmed": 33,
+      "rejected": 1,
+      "uncertain": 2,
+      "rejected-before-input": 3
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 1499,
+      "p50": 1497,
+      "p95": 3032,
+      "p99": 3148,
+      "max": 3148,
+      "n": 38
+     },
+     "cursorUtilization": 0.93,
+     "fairness": 0.9918,
+     "maxWaitMs": 2744,
+     "workload": {
+      "tables": 2,
+      "width": 800,
+      "layout": "grid",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    },
+    {
+     "id": "M5",
+     "status": "pass",
+     "tables": 5,
+     "seconds": 66,
+     "actionsConfirmed": 87,
+     "actionsPerMinute": 79.1,
+     "completedHands": 4,
+     "schedulingDelayMs": {
+      "mean": 2120,
+      "p50": 1799,
+      "p95": 5447,
+      "p99": 6570,
+      "max": 6570,
+      "n": 98
+     },
+     "actionLatencyMs": {
+      "mean": 2930,
+      "p50": 2308,
+      "p95": 7227,
+      "p99": 8444,
+      "max": 8444,
+      "n": 87
+     },
+     "deadlineMisses": 1,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 4,
+     "uncertainByTestStop": 3,
+     "inputStatus": {
+      "confirmed": 87,
+      "rejected-before-input": 7,
+      "uncertain": 4
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 662,
+      "p50": 461,
+      "p95": 1914,
+      "p99": 1990,
+      "max": 1990,
+      "n": 94
+     },
+     "cursorUtilization": 0.952,
+     "fairness": 0.994,
+     "maxWaitMs": 6348,
+     "workload": {
+      "tables": 5,
+      "width": 800,
+      "layout": "cascade",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    },
+    {
+     "id": "M8",
+     "status": "pass",
+     "tables": 8,
+     "seconds": 71,
+     "actionsConfirmed": 100,
+     "actionsPerMinute": 84.5,
+     "completedHands": 3,
+     "schedulingDelayMs": {
+      "mean": 3488,
+      "p50": 3388,
+      "p95": 7635,
+      "p99": 8094,
+      "max": 9043,
+      "n": 120
+     },
+     "actionLatencyMs": {
+      "mean": 4461,
+      "p50": 4148,
+      "p95": 8605,
+      "p99": 8872,
+      "max": 8901,
+      "n": 100
+     },
+     "deadlineMisses": 3,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 5,
+     "uncertainByTestStop": 4,
+     "inputStatus": {
+      "confirmed": 100,
+      "rejected-before-input": 15,
+      "uncertain": 5
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 615,
+      "p50": 464,
+      "p95": 1730,
+      "p99": 2037,
+      "max": 2112,
+      "n": 110
+     },
+     "cursorUtilization": 0.9529,
+     "fairness": 0.9705,
+     "maxWaitMs": 8052,
+     "workload": {
+      "tables": 8,
+      "width": 800,
+      "layout": "cascade",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    }
+   ]
+  },
+  {
+   "source": {
+    "run": "45441870852",
+    "job": "ab-2",
+    "file": "stability-optimized-fair-rr.json"
+   },
+   "policy": "fair-rr",
+   "pipeline": "optimized",
+   "sameMachineAs": "the A/B rows of ab-2",
+   "rows": [
+    {
+     "id": "M1",
+     "status": "pass",
+     "tables": 1,
+     "seconds": 61,
+     "actionsConfirmed": 46,
+     "actionsPerMinute": 45.2,
+     "completedHands": 6,
+     "schedulingDelayMs": {
+      "mean": 37,
+      "p50": 43,
+      "p95": 53,
+      "p99": 57,
+      "max": 57,
+      "n": 48
+     },
+     "actionLatencyMs": {
+      "mean": 953,
+      "p50": 734,
+      "p95": 2038,
+      "p99": 2136,
+      "max": 2136,
+      "n": 46
+     },
+     "deadlineMisses": 0,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 0,
+     "uncertainByTestStop": 0,
+     "inputStatus": {
+      "confirmed": 46,
+      "rejected-before-input": 2
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 640,
+      "p50": 438,
+      "p95": 1730,
+      "p99": 1808,
+      "max": 1808,
+      "n": 48
+     },
+     "cursorUtilization": 0.5054,
+     "fairness": 1,
+     "maxWaitMs": 1,
+     "workload": {
+      "tables": 1,
+      "width": 800,
+      "layout": "grid",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       120,
+       120,
+       400,
+       120,
+       120,
+       400,
+       120,
+       120
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    },
+    {
+     "id": "M2",
+     "status": "pass",
+     "tables": 2,
+     "seconds": 61,
+     "actionsConfirmed": 34,
+     "actionsPerMinute": 33.4,
+     "completedHands": 1,
+     "schedulingDelayMs": {
+      "mean": 1047,
+      "p50": 1160,
+      "p95": 2685,
+      "p99": 2778,
+      "max": 2778,
+      "n": 39
+     },
+     "actionLatencyMs": {
+      "mean": 2870,
+      "p50": 2918,
+      "p95": 4459,
+      "p99": 4994,
+      "max": 4994,
+      "n": 34
+     },
+     "deadlineMisses": 0,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 1,
+     "uncertainByTestStop": 1,
+     "inputStatus": {
+      "confirmed": 34,
+      "rejected": 1,
+      "rejected-before-input": 3,
+      "uncertain": 1
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 1503,
+      "p50": 1491,
+      "p95": 3031,
+      "p99": 3111,
+      "max": 3111,
+      "n": 38
+     },
+     "cursorUtilization": 0.9372,
+     "fairness": 0.9863,
+     "maxWaitMs": 2738,
+     "workload": {
+      "tables": 2,
+      "width": 800,
+      "layout": "grid",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    },
+    {
+     "id": "M5",
+     "status": "pass",
+     "tables": 5,
+     "seconds": 63,
+     "actionsConfirmed": 81,
+     "actionsPerMinute": 77.1,
+     "completedHands": 4,
+     "schedulingDelayMs": {
+      "mean": 2190,
+      "p50": 1918,
+      "p95": 4062,
+      "p99": 4830,
+      "max": 4830,
+      "n": 93
+     },
+     "actionLatencyMs": {
+      "mean": 3155,
+      "p50": 2762,
+      "p95": 5160,
+      "p99": 5693,
+      "max": 5693,
+      "n": 81
+     },
+     "deadlineMisses": 0,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 1,
+     "uncertainByTestStop": 1,
+     "inputStatus": {
+      "confirmed": 81,
+      "rejected-before-input": 10,
+      "rejected": 1,
+      "uncertain": 1
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 674,
+      "p50": 528,
+      "p95": 1747,
+      "p99": 1997,
+      "max": 1997,
+      "n": 89
+     },
+     "cursorUtilization": 0.9536,
+     "fairness": 0.9979,
+     "maxWaitMs": 4789,
+     "workload": {
+      "tables": 5,
+      "width": 800,
+      "layout": "cascade",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    },
+    {
+     "id": "M8",
+     "status": "pass",
+     "tables": 8,
+     "seconds": 62,
+     "actionsConfirmed": 86,
+     "actionsPerMinute": 83.2,
+     "completedHands": 0,
+     "schedulingDelayMs": {
+      "mean": 3658,
+      "p50": 3450,
+      "p95": 6652,
+      "p99": 7125,
+      "max": 7518,
+      "n": 103
+     },
+     "actionLatencyMs": {
+      "mean": 4800,
+      "p50": 4768,
+      "p95": 7596,
+      "p99": 8331,
+      "max": 8331,
+      "n": 86
+     },
+     "deadlineMisses": 1,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 1,
+     "uncertainByTestStop": 0,
+     "inputStatus": {
+      "confirmed": 86,
+      "rejected-before-input": 16,
+      "uncertain": 1
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 617,
+      "p50": 495,
+      "p95": 1786,
+      "p99": 2194,
+      "max": 2194,
+      "n": 96
+     },
+     "cursorUtilization": 0.952,
+     "fairness": 0.9984,
+     "maxWaitMs": 7477,
+     "workload": {
+      "tables": 8,
+      "width": 800,
+      "layout": "cascade",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    }
+   ]
+  },
+  {
+   "source": {
+    "run": "45441870852",
+    "job": "ab-2",
+    "file": "stability-optimized-nearest-guarded.json"
+   },
+   "policy": "nearest-guarded",
+   "pipeline": "optimized",
+   "sameMachineAs": "the A/B rows of ab-2",
+   "rows": [
+    {
+     "id": "M1",
+     "status": "pass",
+     "tables": 1,
+     "seconds": 61,
+     "actionsConfirmed": 46,
+     "actionsPerMinute": 45.2,
+     "completedHands": 6,
+     "schedulingDelayMs": {
+      "mean": 41,
+      "p50": 43,
+      "p95": 55,
+      "p99": 56,
+      "max": 56,
+      "n": 48
+     },
+     "actionLatencyMs": {
+      "mean": 955,
+      "p50": 739,
+      "p95": 2051,
+      "p99": 2164,
+      "max": 2164,
+      "n": 46
+     },
+     "deadlineMisses": 0,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 1,
+     "uncertainByTestStop": 0,
+     "inputStatus": {
+      "confirmed": 46,
+      "uncertain": 1,
+      "rejected-before-input": 1
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 645,
+      "p50": 450,
+      "p95": 1733,
+      "p99": 1824,
+      "max": 1824,
+      "n": 48
+     },
+     "cursorUtilization": 0.5097,
+     "fairness": 1,
+     "maxWaitMs": 1,
+     "workload": {
+      "tables": 1,
+      "width": 800,
+      "layout": "grid",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       120,
+       120,
+       400,
+       120,
+       120,
+       400,
+       120,
+       120
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    },
+    {
+     "id": "M2",
+     "status": "pass",
+     "tables": 2,
+     "seconds": 61,
+     "actionsConfirmed": 34,
+     "actionsPerMinute": 33.4,
+     "completedHands": 1,
+     "schedulingDelayMs": {
+      "mean": 1049,
+      "p50": 1146,
+      "p95": 2632,
+      "p99": 2825,
+      "max": 2825,
+      "n": 39
+     },
+     "actionLatencyMs": {
+      "mean": 2876,
+      "p50": 2960,
+      "p95": 4493,
+      "p99": 5034,
+      "max": 5034,
+      "n": 34
+     },
+     "deadlineMisses": 0,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 1,
+     "uncertainByTestStop": 1,
+     "inputStatus": {
+      "confirmed": 34,
+      "rejected": 1,
+      "rejected-before-input": 3,
+      "uncertain": 1
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 1498,
+      "p50": 1495,
+      "p95": 3042,
+      "p99": 3127,
+      "max": 3127,
+      "n": 38
+     },
+     "cursorUtilization": 0.9359,
+     "fairness": 0.9863,
+     "maxWaitMs": 2785,
+     "workload": {
+      "tables": 2,
+      "width": 800,
+      "layout": "grid",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    },
+    {
+     "id": "M5",
+     "status": "pass",
+     "tables": 5,
+     "seconds": 62,
+     "actionsConfirmed": 79,
+     "actionsPerMinute": 76.5,
+     "completedHands": 3,
+     "schedulingDelayMs": {
+      "mean": 2200,
+      "p50": 1928,
+      "p95": 5734,
+      "p99": 7065,
+      "max": 7065,
+      "n": 90
+     },
+     "actionLatencyMs": {
+      "mean": 3197,
+      "p50": 2721,
+      "p95": 7767,
+      "p99": 8529,
+      "max": 8529,
+      "n": 79
+     },
+     "deadlineMisses": 0,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 4,
+     "uncertainByTestStop": 4,
+     "inputStatus": {
+      "confirmed": 79,
+      "rejected-before-input": 6,
+      "uncertain": 4,
+      "rejected": 1
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 676,
+      "p50": 449,
+      "p95": 1950,
+      "p99": 1977,
+      "max": 1977,
+      "n": 87
+     },
+     "cursorUtilization": 0.9496,
+     "fairness": 0.9805,
+     "maxWaitMs": 7030,
+     "workload": {
+      "tables": 5,
+      "width": 800,
+      "layout": "cascade",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    },
+    {
+     "id": "M8",
+     "status": "pass",
+     "tables": 8,
+     "seconds": 72,
+     "actionsConfirmed": 104,
+     "actionsPerMinute": 86.7,
+     "completedHands": 2,
+     "schedulingDelayMs": {
+      "mean": 3293,
+      "p50": 3440,
+      "p95": 6680,
+      "p99": 7598,
+      "max": 7698,
+      "n": 125
+     },
+     "actionLatencyMs": {
+      "mean": 4125,
+      "p50": 3836,
+      "p95": 7955,
+      "p99": 8345,
+      "max": 8661,
+      "n": 104
+     },
+     "deadlineMisses": 5,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 4,
+     "uncertainByTestStop": 3,
+     "inputStatus": {
+      "confirmed": 104,
+      "rejected-before-input": 17,
+      "uncertain": 4
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 1,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 614,
+      "p50": 464,
+      "p95": 1846,
+      "p99": 1980,
+      "max": 2089,
+      "n": 113
+     },
+     "cursorUtilization": 0.958,
+     "fairness": 0.9912,
+     "maxWaitMs": 7657,
+     "workload": {
+      "tables": 8,
+      "width": 800,
+      "layout": "cascade",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    }
+   ]
+  },
+  {
+   "source": {
+    "run": "45441870852",
+    "job": "ab-3",
+    "file": "stability-optimized-fair-rr.json"
+   },
+   "policy": "fair-rr",
+   "pipeline": "optimized",
+   "sameMachineAs": "the A/B rows of ab-3",
+   "rows": [
+    {
+     "id": "M1",
+     "status": "pass",
+     "tables": 1,
+     "seconds": 61,
+     "actionsConfirmed": 46,
+     "actionsPerMinute": 45.2,
+     "completedHands": 6,
+     "schedulingDelayMs": {
+      "mean": 40,
+      "p50": 43,
+      "p95": 55,
+      "p99": 58,
+      "max": 58,
+      "n": 48
+     },
+     "actionLatencyMs": {
+      "mean": 956,
+      "p50": 738,
+      "p95": 2024,
+      "p99": 2120,
+      "max": 2120,
+      "n": 46
+     },
+     "deadlineMisses": 0,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 0,
+     "uncertainByTestStop": 0,
+     "inputStatus": {
+      "confirmed": 46,
+      "rejected-before-input": 2
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 644,
+      "p50": 436,
+      "p95": 1734,
+      "p99": 1823,
+      "max": 1823,
+      "n": 48
+     },
+     "cursorUtilization": 0.5099,
+     "fairness": 1,
+     "maxWaitMs": 1,
+     "workload": {
+      "tables": 1,
+      "width": 800,
+      "layout": "grid",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       120,
+       120,
+       400,
+       120,
+       120,
+       400,
+       120,
+       120
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    },
+    {
+     "id": "M2",
+     "status": "pass",
+     "tables": 2,
+     "seconds": 61,
+     "actionsConfirmed": 34,
+     "actionsPerMinute": 33.4,
+     "completedHands": 1,
+     "schedulingDelayMs": {
+      "mean": 1046,
+      "p50": 1151,
+      "p95": 2634,
+      "p99": 2741,
+      "max": 2741,
+      "n": 39
+     },
+     "actionLatencyMs": {
+      "mean": 2878,
+      "p50": 2906,
+      "p95": 4476,
+      "p99": 4970,
+      "max": 4970,
+      "n": 34
+     },
+     "deadlineMisses": 0,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 1,
+     "uncertainByTestStop": 1,
+     "inputStatus": {
+      "confirmed": 34,
+      "rejected": 1,
+      "rejected-before-input": 3,
+      "uncertain": 1
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 1505,
+      "p50": 1498,
+      "p95": 3029,
+      "p99": 3121,
+      "max": 3121,
+      "n": 38
+     },
+     "cursorUtilization": 0.9379,
+     "fairness": 0.9863,
+     "maxWaitMs": 2699,
+     "workload": {
+      "tables": 2,
+      "width": 800,
+      "layout": "grid",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    },
+    {
+     "id": "M5",
+     "status": "pass",
+     "tables": 5,
+     "seconds": 63,
+     "actionsConfirmed": 81,
+     "actionsPerMinute": 77.1,
+     "completedHands": 4,
+     "schedulingDelayMs": {
+      "mean": 2184,
+      "p50": 1905,
+      "p95": 4019,
+      "p99": 4850,
+      "max": 4850,
+      "n": 93
+     },
+     "actionLatencyMs": {
+      "mean": 3154,
+      "p50": 2791,
+      "p95": 5137,
+      "p99": 5718,
+      "max": 5718,
+      "n": 81
+     },
+     "deadlineMisses": 0,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 1,
+     "uncertainByTestStop": 1,
+     "inputStatus": {
+      "confirmed": 81,
+      "rejected-before-input": 10,
+      "rejected": 1,
+      "uncertain": 1
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 675,
+      "p50": 527,
+      "p95": 1714,
+      "p99": 2009,
+      "max": 2009,
+      "n": 89
+     },
+     "cursorUtilization": 0.9534,
+     "fairness": 0.9979,
+     "maxWaitMs": 4809,
+     "workload": {
+      "tables": 5,
+      "width": 800,
+      "layout": "cascade",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    },
+    {
+     "id": "M8",
+     "status": "pass",
+     "tables": 8,
+     "seconds": 64,
+     "actionsConfirmed": 89,
+     "actionsPerMinute": 83.4,
+     "completedHands": 1,
+     "schedulingDelayMs": {
+      "mean": 3694,
+      "p50": 3441,
+      "p95": 6622,
+      "p99": 7687,
+      "max": 8347,
+      "n": 106
+     },
+     "actionLatencyMs": {
+      "mean": 4746,
+      "p50": 4799,
+      "p95": 7504,
+      "p99": 9230,
+      "max": 9230,
+      "n": 89
+     },
+     "deadlineMisses": 2,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 0,
+     "uncertainByTestStop": 0,
+     "inputStatus": {
+      "confirmed": 89,
+      "rejected": 1,
+      "rejected-before-input": 16
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 643,
+      "p50": 521,
+      "p95": 1685,
+      "p99": 2181,
+      "max": 2181,
+      "n": 96
+     },
+     "cursorUtilization": 0.9518,
+     "fairness": 0.9951,
+     "maxWaitMs": 8307,
+     "workload": {
+      "tables": 8,
+      "width": 800,
+      "layout": "cascade",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    }
+   ]
+  },
+  {
+   "source": {
+    "run": "45441870852",
+    "job": "ab-3",
+    "file": "stability-optimized-nearest-guarded.json"
+   },
+   "policy": "nearest-guarded",
+   "pipeline": "optimized",
+   "sameMachineAs": "the A/B rows of ab-3",
+   "rows": [
+    {
+     "id": "M1",
+     "status": "pass",
+     "tables": 1,
+     "seconds": 60,
+     "actionsConfirmed": 47,
+     "actionsPerMinute": 47,
+     "completedHands": 4,
+     "schedulingDelayMs": {
+      "mean": 39,
+      "p50": 42,
+      "p95": 46,
+      "p99": 55,
+      "max": 55,
+      "n": 50
+     },
+     "actionLatencyMs": {
+      "mean": 946,
+      "p50": 736,
+      "p95": 2033,
+      "p99": 2138,
+      "max": 2138,
+      "n": 47
+     },
+     "deadlineMisses": 0,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 1,
+     "uncertainByTestStop": 0,
+     "inputStatus": {
+      "confirmed": 47,
+      "uncertain": 1,
+      "rejected": 1,
+      "rejected-before-input": 1
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 610,
+      "p50": 419,
+      "p95": 1719,
+      "p99": 1841,
+      "max": 1841,
+      "n": 50
+     },
+     "cursorUtilization": 0.5077,
+     "fairness": 1,
+     "maxWaitMs": 1,
+     "workload": {
+      "tables": 1,
+      "width": 800,
+      "layout": "grid",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       120,
+       120,
+       400,
+       120,
+       120,
+       400,
+       120,
+       120
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    },
+    {
+     "id": "M2",
+     "status": "pass",
+     "tables": 2,
+     "seconds": 61,
+     "actionsConfirmed": 34,
+     "actionsPerMinute": 33.4,
+     "completedHands": 1,
+     "schedulingDelayMs": {
+      "mean": 1058,
+      "p50": 1136,
+      "p95": 2670,
+      "p99": 2792,
+      "max": 2792,
+      "n": 39
+     },
+     "actionLatencyMs": {
+      "mean": 2877,
+      "p50": 2947,
+      "p95": 4500,
+      "p99": 5949,
+      "max": 5949,
+      "n": 34
+     },
+     "deadlineMisses": 0,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 1,
+     "uncertainByTestStop": 1,
+     "inputStatus": {
+      "confirmed": 34,
+      "rejected": 1,
+      "rejected-before-input": 3,
+      "uncertain": 1
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 1493,
+      "p50": 1497,
+      "p95": 3028,
+      "p99": 3126,
+      "max": 3126,
+      "n": 38
+     },
+     "cursorUtilization": 0.93,
+     "fairness": 0.9863,
+     "maxWaitMs": 2750,
+     "workload": {
+      "tables": 2,
+      "width": 800,
+      "layout": "grid",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    },
+    {
+     "id": "M5",
+     "status": "pass",
+     "tables": 5,
+     "seconds": 63,
+     "actionsConfirmed": 83,
+     "actionsPerMinute": 79,
+     "completedHands": 4,
+     "schedulingDelayMs": {
+      "mean": 2122,
+      "p50": 1881,
+      "p95": 5565,
+      "p99": 8943,
+      "max": 8943,
+      "n": 95
+     },
+     "actionLatencyMs": {
+      "mean": 3042,
+      "p50": 2665,
+      "p95": 7267,
+      "p99": 8230,
+      "max": 8230,
+      "n": 83
+     },
+     "deadlineMisses": 1,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 2,
+     "uncertainByTestStop": 1,
+     "inputStatus": {
+      "confirmed": 83,
+      "rejected-before-input": 10,
+      "uncertain": 2
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 658,
+      "p50": 457,
+      "p95": 1937,
+      "p99": 2042,
+      "max": 2042,
+      "n": 91
+     },
+     "cursorUtilization": 0.9522,
+     "fairness": 0.982,
+     "maxWaitMs": 5960,
+     "workload": {
+      "tables": 5,
+      "width": 800,
+      "layout": "cascade",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    },
+    {
+     "id": "M8",
+     "status": "pass",
+     "tables": 8,
+     "seconds": 73,
+     "actionsConfirmed": 105,
+     "actionsPerMinute": 86.3,
+     "completedHands": 3,
+     "schedulingDelayMs": {
+      "mean": 3218,
+      "p50": 3125,
+      "p95": 7274,
+      "p99": 8780,
+      "max": 9430,
+      "n": 127
+     },
+     "actionLatencyMs": {
+      "mean": 3966,
+      "p50": 3554,
+      "p95": 8242,
+      "p99": 8597,
+      "max": 9627,
+      "n": 105
+     },
+     "deadlineMisses": 5,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 4,
+     "uncertainByTestStop": 4,
+     "inputStatus": {
+      "confirmed": 105,
+      "rejected-before-input": 17,
+      "uncertain": 4,
+      "rejected": 1
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 605,
+      "p50": 461,
+      "p95": 1732,
+      "p99": 1926,
+      "max": 1938,
+      "n": 116
+     },
+     "cursorUtilization": 0.9581,
+     "fairness": 0.9459,
+     "maxWaitMs": 8740,
+     "workload": {
+      "tables": 8,
+      "width": 800,
+      "layout": "cascade",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    }
+   ]
+  }
+ ],
+ "fastPresetApart": [
+  {
+   "source": {
+    "run": "45441870852",
+    "job": "ab-1",
+    "file": "stability-optimized-fast.json"
+   },
+   "mouse": "2 000 px/s, acceleration 15 000 px/s^2 (the Fast preset) - NOT comparable with the 1 200 px/s rows",
+   "rows": [
+    {
+     "id": "M1",
+     "status": "pass",
+     "tables": 1,
+     "seconds": 60,
+     "actionsConfirmed": 48,
+     "actionsPerMinute": 48,
+     "completedHands": 8,
+     "schedulingDelayMs": {
+      "mean": 41,
+      "p50": 44,
+      "p95": 55,
+      "p99": 57,
+      "max": 57,
+      "n": 50
+     },
+     "actionLatencyMs": {
+      "mean": 876,
+      "p50": 684,
+      "p95": 1714,
+      "p99": 1739,
+      "max": 1739,
+      "n": 48
+     },
+     "deadlineMisses": 0,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 2,
+     "uncertainByTestStop": 1,
+     "inputStatus": {
+      "confirmed": 48,
+      "uncertain": 2
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 564,
+      "p50": 389,
+      "p95": 1396,
+      "p99": 1424,
+      "max": 1424,
+      "n": 50
+     },
+     "cursorUtilization": 0.4691,
+     "fairness": 1,
+     "maxWaitMs": 1,
+     "workload": {
+      "tables": 1,
+      "width": 800,
+      "layout": "grid",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       120,
+       120,
+       400,
+       120,
+       120,
+       400,
+       120,
+       120
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    },
+    {
+     "id": "M2",
+     "status": "pass",
+     "tables": 2,
+     "seconds": 62,
+     "actionsConfirmed": 48,
+     "actionsPerMinute": 46.5,
+     "completedHands": 2,
+     "schedulingDelayMs": {
+      "mean": 710,
+      "p50": 615,
+      "p95": 1800,
+      "p99": 1931,
+      "max": 1931,
+      "n": 53
+     },
+     "actionLatencyMs": {
+      "mean": 2097,
+      "p50": 1920,
+      "p95": 3114,
+      "p99": 3520,
+      "max": 3520,
+      "n": 48
+     },
+     "deadlineMisses": 0,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 3,
+     "uncertainByTestStop": 2,
+     "inputStatus": {
+      "confirmed": 48,
+      "rejected-before-input": 2,
+      "uncertain": 3
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 1,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 1086,
+      "p50": 977,
+      "p95": 2113,
+      "p99": 2178,
+      "max": 2178,
+      "n": 52
+     },
+     "cursorUtilization": 0.9192,
+     "fairness": 0.9931,
+     "maxWaitMs": 1890,
+     "workload": {
+      "tables": 2,
+      "width": 800,
+      "layout": "grid",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    },
+    {
+     "id": "M5",
+     "status": "pass",
+     "tables": 5,
+     "seconds": 63,
+     "actionsConfirmed": 90,
+     "actionsPerMinute": 85.7,
+     "completedHands": 4,
+     "schedulingDelayMs": {
+      "mean": 1942,
+      "p50": 1700,
+      "p95": 3482,
+      "p99": 4418,
+      "max": 4535,
+      "n": 101
+     },
+     "actionLatencyMs": {
+      "mean": 2895,
+      "p50": 2632,
+      "p95": 5006,
+      "p99": 5310,
+      "max": 5310,
+      "n": 90
+     },
+     "deadlineMisses": 0,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 3,
+     "uncertainByTestStop": 2,
+     "inputStatus": {
+      "confirmed": 90,
+      "rejected-before-input": 8,
+      "uncertain": 3
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 614,
+      "p50": 465,
+      "p95": 1424,
+      "p99": 1517,
+      "max": 1517,
+      "n": 97
+     },
+     "cursorUtilization": 0.9494,
+     "fairness": 0.9939,
+     "maxWaitMs": 4495,
+     "workload": {
+      "tables": 5,
+      "width": 800,
+      "layout": "cascade",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    },
+    {
+     "id": "M8",
+     "status": "pass",
+     "tables": 8,
+     "seconds": 68,
+     "actionsConfirmed": 103,
+     "actionsPerMinute": 90.9,
+     "completedHands": 5,
+     "schedulingDelayMs": {
+      "mean": 3320,
+      "p50": 3172,
+      "p95": 5856,
+      "p99": 6189,
+      "max": 6576,
+      "n": 119
+     },
+     "actionLatencyMs": {
+      "mean": 4259,
+      "p50": 4200,
+      "p95": 6611,
+      "p99": 7443,
+      "max": 7448,
+      "n": 103
+     },
+     "deadlineMisses": 0,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 2,
+     "uncertainByTestStop": 1,
+     "inputStatus": {
+      "confirmed": 103,
+      "rejected-before-input": 14,
+      "uncertain": 2
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 576,
+      "p50": 479,
+      "p95": 1409,
+      "p99": 1605,
+      "max": 1625,
+      "n": 113
+     },
+     "cursorUtilization": 0.9563,
+     "fairness": 0.9934,
+     "maxWaitMs": 6538,
+     "workload": {
+      "tables": 8,
+      "width": 800,
+      "layout": "cascade",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    }
+   ]
+  },
+  {
+   "source": {
+    "run": "45441870852",
+    "job": "ab-2",
+    "file": "stability-optimized-fast.json"
+   },
+   "mouse": "2 000 px/s, acceleration 15 000 px/s^2 (the Fast preset) - NOT comparable with the 1 200 px/s rows",
+   "rows": [
+    {
+     "id": "M1",
+     "status": "pass",
+     "tables": 1,
+     "seconds": 61,
+     "actionsConfirmed": 49,
+     "actionsPerMinute": 48.2,
+     "completedHands": 5,
+     "schedulingDelayMs": {
+      "mean": 39,
+      "p50": 40,
+      "p95": 56,
+      "p99": 56,
+      "max": 56,
+      "n": 52
+     },
+     "actionLatencyMs": {
+      "mean": 887,
+      "p50": 691,
+      "p95": 1740,
+      "p99": 1786,
+      "max": 1786,
+      "n": 49
+     },
+     "deadlineMisses": 0,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 2,
+     "uncertainByTestStop": 0,
+     "inputStatus": {
+      "confirmed": 49,
+      "uncertain": 2,
+      "rejected-before-input": 1
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 563,
+      "p50": 386,
+      "p95": 1426,
+      "p99": 1474,
+      "max": 1474,
+      "n": 52
+     },
+     "cursorUtilization": 0.4853,
+     "fairness": 1,
+     "maxWaitMs": 1,
+     "workload": {
+      "tables": 1,
+      "width": 800,
+      "layout": "grid",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       120,
+       120,
+       400,
+       120,
+       120,
+       400,
+       120,
+       120
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    },
+    {
+     "id": "M2",
+     "status": "pass",
+     "tables": 2,
+     "seconds": 61,
+     "actionsConfirmed": 50,
+     "actionsPerMinute": 49.2,
+     "completedHands": 2,
+     "schedulingDelayMs": {
+      "mean": 696,
+      "p50": 616,
+      "p95": 1813,
+      "p99": 1921,
+      "max": 1921,
+      "n": 54
+     },
+     "actionLatencyMs": {
+      "mean": 2058,
+      "p50": 1939,
+      "p95": 3106,
+      "p99": 3583,
+      "max": 3583,
+      "n": 50
+     },
+     "deadlineMisses": 0,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 2,
+     "uncertainByTestStop": 1,
+     "inputStatus": {
+      "confirmed": 50,
+      "uncertain": 2,
+      "rejected-before-input": 2
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 1038,
+      "p50": 977,
+      "p95": 2112,
+      "p99": 2175,
+      "max": 2175,
+      "n": 54
+     },
+     "cursorUtilization": 0.9192,
+     "fairness": 0.9936,
+     "maxWaitMs": 1881,
+     "workload": {
+      "tables": 2,
+      "width": 800,
+      "layout": "grid",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    },
+    {
+     "id": "M5",
+     "status": "pass",
+     "tables": 5,
+     "seconds": 61,
+     "actionsConfirmed": 88,
+     "actionsPerMinute": 86.6,
+     "completedHands": 4,
+     "schedulingDelayMs": {
+      "mean": 1950,
+      "p50": 1671,
+      "p95": 3483,
+      "p99": 4332,
+      "max": 4332,
+      "n": 99
+     },
+     "actionLatencyMs": {
+      "mean": 2853,
+      "p50": 2557,
+      "p95": 5000,
+      "p99": 5114,
+      "max": 5114,
+      "n": 88
+     },
+     "deadlineMisses": 0,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 2,
+     "uncertainByTestStop": 1,
+     "inputStatus": {
+      "confirmed": 88,
+      "rejected-before-input": 9,
+      "uncertain": 2
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 619,
+      "p50": 465,
+      "p95": 1426,
+      "p99": 1505,
+      "max": 1505,
+      "n": 94
+     },
+     "cursorUtilization": 0.9516,
+     "fairness": 0.9954,
+     "maxWaitMs": 4291,
+     "workload": {
+      "tables": 5,
+      "width": 800,
+      "layout": "cascade",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    },
+    {
+     "id": "M8",
+     "status": "pass",
+     "tables": 8,
+     "seconds": 67,
+     "actionsConfirmed": 100,
+     "actionsPerMinute": 89.6,
+     "completedHands": 4,
+     "schedulingDelayMs": {
+      "mean": 3326,
+      "p50": 3443,
+      "p95": 5548,
+      "p99": 5787,
+      "max": 6623,
+      "n": 117
+     },
+     "actionLatencyMs": {
+      "mean": 4322,
+      "p50": 4275,
+      "p95": 6400,
+      "p99": 7315,
+      "max": 7445,
+      "n": 100
+     },
+     "deadlineMisses": 0,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 3,
+     "uncertainByTestStop": 2,
+     "inputStatus": {
+      "confirmed": 100,
+      "rejected-before-input": 14,
+      "uncertain": 3
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 573,
+      "p50": 480,
+      "p95": 1394,
+      "p99": 1490,
+      "max": 1577,
+      "n": 111
+     },
+     "cursorUtilization": 0.9511,
+     "fairness": 0.9936,
+     "maxWaitMs": 6581,
+     "workload": {
+      "tables": 8,
+      "width": 800,
+      "layout": "cascade",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    }
+   ]
+  },
+  {
+   "source": {
+    "run": "45441870852",
+    "job": "ab-3",
+    "file": "stability-optimized-fast.json"
+   },
+   "mouse": "2 000 px/s, acceleration 15 000 px/s^2 (the Fast preset) - NOT comparable with the 1 200 px/s rows",
+   "rows": [
+    {
+     "id": "M1",
+     "status": "pass",
+     "tables": 1,
+     "seconds": 60,
+     "actionsConfirmed": 49,
+     "actionsPerMinute": 49,
+     "completedHands": 8,
+     "schedulingDelayMs": {
+      "mean": 39,
+      "p50": 42,
+      "p95": 53,
+      "p99": 55,
+      "max": 55,
+      "n": 51
+     },
+     "actionLatencyMs": {
+      "mean": 873,
+      "p50": 693,
+      "p95": 1746,
+      "p99": 1752,
+      "max": 1752,
+      "n": 49
+     },
+     "deadlineMisses": 0,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 1,
+     "uncertainByTestStop": 0,
+     "inputStatus": {
+      "confirmed": 49,
+      "uncertain": 1,
+      "rejected-before-input": 1
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 551,
+      "p50": 389,
+      "p95": 1413,
+      "p99": 1419,
+      "max": 1419,
+      "n": 51
+     },
+     "cursorUtilization": 0.4667,
+     "fairness": 1,
+     "maxWaitMs": 1,
+     "workload": {
+      "tables": 1,
+      "width": 800,
+      "layout": "grid",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       120,
+       120,
+       400,
+       120,
+       120,
+       400,
+       120,
+       120
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    },
+    {
+     "id": "M2",
+     "status": "pass",
+     "tables": 2,
+     "seconds": 62,
+     "actionsConfirmed": 48,
+     "actionsPerMinute": 46.5,
+     "completedHands": 2,
+     "schedulingDelayMs": {
+      "mean": 688,
+      "p50": 611,
+      "p95": 1811,
+      "p99": 1947,
+      "max": 1947,
+      "n": 54
+     },
+     "actionLatencyMs": {
+      "mean": 2074,
+      "p50": 1946,
+      "p95": 3301,
+      "p99": 3630,
+      "max": 3630,
+      "n": 48
+     },
+     "deadlineMisses": 0,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 4,
+     "uncertainByTestStop": 2,
+     "inputStatus": {
+      "confirmed": 48,
+      "rejected-before-input": 2,
+      "uncertain": 4
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 1071,
+      "p50": 976,
+      "p95": 2135,
+      "p99": 2181,
+      "max": 2181,
+      "n": 53
+     },
+     "cursorUtilization": 0.9197,
+     "fairness": 0.9931,
+     "maxWaitMs": 1905,
+     "workload": {
+      "tables": 2,
+      "width": 800,
+      "layout": "grid",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    },
+    {
+     "id": "M5",
+     "status": "pass",
+     "tables": 5,
+     "seconds": 62,
+     "actionsConfirmed": 89,
+     "actionsPerMinute": 86.1,
+     "completedHands": 4,
+     "schedulingDelayMs": {
+      "mean": 1936,
+      "p50": 1672,
+      "p95": 3354,
+      "p99": 3591,
+      "max": 4361,
+      "n": 100
+     },
+     "actionLatencyMs": {
+      "mean": 2902,
+      "p50": 2691,
+      "p95": 4330,
+      "p99": 5131,
+      "max": 5131,
+      "n": 89
+     },
+     "deadlineMisses": 0,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 3,
+     "uncertainByTestStop": 2,
+     "inputStatus": {
+      "confirmed": 89,
+      "uncertain": 3,
+      "rejected-before-input": 8
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 605,
+      "p50": 464,
+      "p95": 1426,
+      "p99": 1566,
+      "max": 1566,
+      "n": 97
+     },
+     "cursorUtilization": 0.9507,
+     "fairness": 0.9982,
+     "maxWaitMs": 4320,
+     "workload": {
+      "tables": 5,
+      "width": 800,
+      "layout": "cascade",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    },
+    {
+     "id": "M8",
+     "status": "pass",
+     "tables": 8,
+     "seconds": 67,
+     "actionsConfirmed": 100,
+     "actionsPerMinute": 89.6,
+     "completedHands": 4,
+     "schedulingDelayMs": {
+      "mean": 3302,
+      "p50": 3079,
+      "p95": 5607,
+      "p99": 6393,
+      "max": 6675,
+      "n": 118
+     },
+     "actionLatencyMs": {
+      "mean": 4272,
+      "p50": 4217,
+      "p95": 6326,
+      "p99": 7373,
+      "max": 7457,
+      "n": 100
+     },
+     "deadlineMisses": 0,
+     "incorrectActions": 0,
+     "wrongActions": 0,
+     "incorrectClickKinds": {
+      "outsideControls": 0,
+      "onDisabled": 0,
+      "doubleClicks": 0,
+      "lateOnOldFrame": 0,
+      "notAvailable": 0
+     },
+     "confirmedByTableClock": 0,
+     "invalidWagers": 0,
+     "confirmedButNotApplied": 0,
+     "uncertainOrUnconfirmed": 4,
+     "uncertainByTestStop": 3,
+     "inputStatus": {
+      "confirmed": 100,
+      "rejected-before-input": 14,
+      "uncertain": 4
+     },
+     "heroEliminations": 0,
+     "heroTimeouts": 0,
+     "heroTimeoutsInTrackedHands": 0,
+     "heroTimeoutsInUntrackedHands": 0,
+     "untrackedHands": 0,
+     "refusedReadings": 0,
+     "misdirectedPresses": 0,
+     "releasesWithoutAction": 0,
+     "leaseMs": {
+      "mean": 574,
+      "p50": 465,
+      "p95": 1425,
+      "p99": 1618,
+      "max": 1638,
+      "n": 111
+     },
+     "cursorUtilization": 0.9506,
+     "fairness": 0.9968,
+     "maxWaitMs": 6634,
+     "workload": {
+      "tables": 8,
+      "width": 800,
+      "layout": "cascade",
+      "heroSeats": null,
+      "botThinkMs": null,
+      "actionTimeoutMs": null,
+      "faultEveryMs": 18750,
+      "stacks": [
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600,
+       600
+      ],
+      "stackChips": null
+     },
+     "resources": {
+      "cpuPercent": null,
+      "memoryMiB": null,
+      "gpu": null
+     }
+    }
+   ]
+  }
+ ],
+ "leaseComposition": [
+  {
+   "source": {
+    "run": "45441870852",
+    "job": "sustained-8-compat-3.2",
+    "file": "sustained-8-compat-3.2.json",
+    "scenario": "S8"
+   },
+   "pipeline": "compat-3.2",
+   "tables": 8,
+   "leaseOccupancyMs": {
+    "mean": 896,
+    "p50": 723,
+    "p95": 1961
+   },
+   "queueWaitMs": {
+    "mean": 5601,
+    "p50": 5684,
+    "p95": 7330
+   },
+   "revalidationMs": {
+    "mean": 48,
+    "p50": 50,
+    "p95": 68
+   },
+   "preMoveMs": {
+    "mean": 151,
+    "p50": 4,
+    "p95": 1032
+   },
+   "moveMs": {
+    "mean": 359,
+    "p50": 334,
+    "p95": 587
+   },
+   "clickMs": {
+    "mean": 188,
+    "p50": 184,
+    "p95": 249
+   },
+   "ackMs": {
+    "mean": 2,
+    "p50": 1,
+    "p95": 6
+   },
+   "wagerMs": {
+    "mean": 970,
+    "p50": 923,
+    "p95": 1228
+   },
+   "settleOutsideMs": {
+    "mean": 0,
+    "p50": 0,
+    "p95": 1
+   },
+   "leaseTailMs": {
+    "mean": 151,
+    "p50": 151,
+    "p95": 152
+   },
+   "confirmMs": {
+    "mean": 131,
+    "p50": 129,
+    "p95": 150
+   },
+   "captureMs": {
+    "mean": 56,
+    "p50": 59,
+    "p95": 72
+   },
+   "recognitionMs": {
+    "mean": 14,
+    "p50": 13,
+    "p95": 21
+   },
+   "driver": {
+    "queueMs": {
+     "mean": 1,
+     "p50": 0,
+     "p95": 5
+    },
+    "checkMs": {
+     "mean": 0,
+     "p50": 0,
+     "p95": 0
+    },
+    "focusMs": {
+     "mean": 32,
+     "p50": 37,
+     "p95": 38
+    },
+    "guardMs": {
+     "mean": 8,
+     "p50": 0,
+     "p95": 59
+    },
+    "totalMs": {
+     "mean": 547,
+     "p50": 516,
+     "p95": 741
+    },
+    "transportMs": {
+     "mean": 3,
+     "p50": 2,
+     "p95": 12
+    }
+   }
+  },
+  {
+   "source": {
+    "run": "45441870852",
+    "job": "sustained-8-optimized",
+    "file": "sustained-8-optimized.json",
+    "scenario": "S8"
+   },
+   "pipeline": "optimized",
+   "tables": 8,
+   "leaseOccupancyMs": {
+    "mean": 756,
+    "p50": 561,
+    "p95": 1846
+   },
+   "queueWaitMs": {
+    "mean": 4689,
+    "p50": 4629,
+    "p95": 6525
+   },
+   "revalidationMs": {
+    "mean": 41,
+    "p50": 40,
+    "p95": 47
+   },
+   "preMoveMs": {
+    "mean": 173,
+    "p50": 1,
+    "p95": 1074
+   },
+   "moveMs": {
+    "mean": 377,
+    "p50": 350,
+    "p95": 588
+   },
+   "clickMs": {
+    "mean": 162,
+    "p50": 163,
+    "p95": 184
+   },
+   "ackMs": {
+    "mean": 4,
+    "p50": 3,
+    "p95": 5
+   },
+   "wagerMs": {
+    "mean": 973,
+    "p50": 912,
+    "p95": 1313
+   },
+   "settleOutsideMs": {
+    "mean": 150,
+    "p50": 151,
+    "p95": 152
+   },
+   "leaseTailMs": {
+    "mean": 1,
+    "p50": 0,
+    "p95": 0
+   },
+   "confirmMs": {
+    "mean": 135,
+    "p50": 132,
+    "p95": 165
+   },
+   "captureMs": {
+    "mean": 56,
+    "p50": 59,
+    "p95": 75
+   },
+   "recognitionMs": {
+    "mean": 15,
+    "p50": 14,
+    "p95": 22
+   },
+   "driver": {
+    "queueMs": {
+     "mean": 0,
+     "p50": 0,
+     "p95": 1
+    },
+    "checkMs": {
+     "mean": 0,
+     "p50": 0,
+     "p95": 0
+    },
+    "focusMs": {
+     "mean": 12,
+     "p50": 14,
+     "p95": 16
+    },
+    "guardMs": {
+     "mean": 0,
+     "p50": 0,
+     "p95": 0
+    },
+    "drainMs": {
+     "mean": 3,
+     "p50": 2,
+     "p95": 2
+    },
+    "totalMs": {
+     "mean": 542,
+     "p50": 518,
+     "p95": 748
+    },
+    "transportMs": {
+     "mean": 3,
+     "p50": 2,
+     "p95": 5
+    }
+   }
+  }
+ ],
+ "summary": {
+  "machines": 3,
+  "eightTables": {
+   "schedulingDelayChangePercent": [
+    -20.4,
+    -22,
+    -21.4
+   ],
+   "meanChangePercent": -21.3,
+   "latencyChangePercent": [
+    -15.7,
+    -17.4,
+    -16.5
+   ],
+   "meanLatencyChangePercent": -16.5,
+   "deadlineMissesM32": [
+    1,
+    2,
+    2
+   ],
+   "deadlineMissesM40": [
+    1,
+    2,
+    1
+   ],
+   "incorrectActionsM40": [
+    0,
+    0,
+    0
+   ]
+  },
+  "fiveTables": {
+   "schedulingDelayChangePercent": [
+    -25.2,
+    -28.1,
+    -27.1
+   ],
+   "meanChangePercent": -26.8
+  }
+ }
+}

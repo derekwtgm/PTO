@@ -1,0 +1,1397 @@
+{
+ "format": "eightmax-multitable-stress",
+ "version": 1,
+ "milestone": "0.36.2-milestone-4.0",
+ "generatedAt": "2026-11-24T18:12:44.509Z",
+ "generator": "tools/make-m40-evidence.cjs",
+ "note": "Uninterrupted play on Windows CI (GitHub-hosted windows-latest, 2 cores / 4 threads, 16 GiB, 1920x1080 at 100 %). \"all seats\" = every seat played through the window (the Milestone 3 stress workload); \"hero\" = one seat per table played through the window, the other seats by the table itself after a think time, with the table's own action clock.",
+ "runs": [
+  {
+   "source": {
+    "run": "45441870852",
+    "job": "sustained-10-optimized",
+    "file": "sustained-10-optimized.json",
+    "scenario": "S10"
+   },
+   "pipeline": "optimized",
+   "policy": "edf",
+   "outcome": "FAIL",
+   "checks": [
+    {
+     "name": "every table played (confirmed actions on every table)",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "no incorrect action, no invalid wager (oracle)",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "no confirmed action the table did not apply",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "no stall, no unexpected pause, no violation",
+     "pass": false,
+     "warning": false
+    },
+    {
+     "name": "hands were completed",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "every action that was sent was confirmed (an action interrupted by the harness stopping its table is uncertain by design and counted apart)",
+     "pass": true,
+     "warning": true
+    }
+   ],
+   "id": "S10",
+   "status": "fail",
+   "tables": 10,
+   "seconds": 1808,
+   "actionsConfirmed": 2437,
+   "actionsPerMinute": 80.9,
+   "completedHands": 227,
+   "schedulingDelayMs": {
+    "mean": 5875,
+    "p50": 5926,
+    "p95": 7402,
+    "p99": 7858,
+    "max": 8608,
+    "n": 2588
+   },
+   "actionLatencyMs": {
+    "mean": 6835,
+    "p50": 6870,
+    "p95": 8307,
+    "p99": 8659,
+    "max": 9437,
+    "n": 2437
+   },
+   "deadlineMisses": 140,
+   "incorrectActions": 0,
+   "wrongActions": 0,
+   "incorrectClickKinds": {
+    "outsideControls": 0,
+    "onDisabled": 0,
+    "doubleClicks": 0,
+    "lateOnOldFrame": 0,
+    "notAvailable": 0
+   },
+   "confirmedByTableClock": 0,
+   "invalidWagers": 0,
+   "confirmedButNotApplied": 0,
+   "uncertainOrUnconfirmed": 2,
+   "uncertainByTestStop": 2,
+   "inputStatus": {
+    "confirmed": 2437,
+    "rejected-before-input": 148,
+    "rejected-no-change": 1,
+    "uncertain": 2
+   },
+   "heroEliminations": 0,
+   "heroTimeouts": 0,
+   "heroTimeoutsInTrackedHands": 0,
+   "heroTimeoutsInUntrackedHands": 0,
+   "untrackedHands": 0,
+   "refusedReadings": 0,
+   "misdirectedPresses": 0,
+   "releasesWithoutAction": 0,
+   "leaseMs": {
+    "mean": 739,
+    "p50": 577,
+    "p95": 1770,
+    "p99": 2051,
+    "max": 2337,
+    "n": 2448
+   },
+   "cursorUtilization": 0.9998,
+   "fairness": 0.9999,
+   "maxWaitMs": 8568,
+   "workload": {
+    "tables": 10,
+    "width": 800,
+    "layout": "cascade",
+    "heroSeats": null,
+    "botThinkMs": null,
+    "actionTimeoutMs": null,
+    "faultEveryMs": null,
+    "stacks": null,
+    "stackChips": 1500
+   },
+   "resources": {
+    "cpuPercent": null,
+    "memoryMiB": null,
+    "gpu": null
+   },
+   "evidenceFiles": [
+    "unconfirmed-sustained-table4-g0-1.json",
+    "unconfirmed-sustained-table4-g0-1-before.png",
+    "unconfirmed-sustained-table4-g0-1-after.png",
+    "unconfirmed-sustained-table9-g0-1.json",
+    "unconfirmed-sustained-table9-g0-1-before.png",
+    "unconfirmed-sustained-table9-g0-1-after.png",
+    "unconfirmed-sustained-table10-g0-1.json",
+    "unconfirmed-sustained-table10-g0-1-before.png",
+    "unconfirmed-sustained-table10-g0-1-after.png"
+   ],
+   "cleanupOk": true
+  },
+  {
+   "source": {
+    "run": "45441870852",
+    "job": "sustained-10-optimized-hero-12s",
+    "file": "sustained-10-optimized-hero-12s.json",
+    "scenario": "S10"
+   },
+   "pipeline": "optimized",
+   "policy": "edf",
+   "outcome": "PASS",
+   "checks": [
+    {
+     "name": "every table played (confirmed actions on every table)",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "no incorrect action, no invalid wager (oracle)",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "no confirmed action the table did not apply",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "no stall, no unexpected pause, no violation",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "hands were completed",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "every hero decision in a tracked hand was made before the table's action clock ran out (capacity: a decision the clock took is a missed deadline, never an unsafe input; in a hand not seen from its opening the Workbench never acts, so the clock decides there by design)",
+     "pass": true,
+     "warning": true
+    },
+    {
+     "name": "every action that was sent was confirmed (an action interrupted by the harness stopping its table is uncertain by design and counted apart)",
+     "pass": true,
+     "warning": true
+    }
+   ],
+   "id": "S10",
+   "status": "pass",
+   "tables": 10,
+   "seconds": 1802,
+   "actionsConfirmed": 1501,
+   "actionsPerMinute": 50,
+   "completedHands": 437,
+   "schedulingDelayMs": {
+    "mean": 1497,
+    "p50": 1232,
+    "p95": 4102,
+    "p99": 5485,
+    "max": 7120,
+    "n": 1503
+   },
+   "actionLatencyMs": {
+    "mean": 2837,
+    "p50": 2601,
+    "p95": 5606,
+    "p99": 7110,
+    "max": 8451,
+    "n": 1501
+   },
+   "deadlineMisses": 0,
+   "incorrectActions": 0,
+   "wrongActions": 0,
+   "incorrectClickKinds": {
+    "outsideControls": 0,
+    "onDisabled": 0,
+    "doubleClicks": 0,
+    "lateOnOldFrame": 0,
+    "notAvailable": 0
+   },
+   "confirmedByTableClock": 0,
+   "invalidWagers": 0,
+   "confirmedButNotApplied": 0,
+   "uncertainOrUnconfirmed": 1,
+   "uncertainByTestStop": 1,
+   "inputStatus": {
+    "confirmed": 1501,
+    "uncertain": 1,
+    "rejected-before-input": 1
+   },
+   "heroEliminations": 0,
+   "heroTimeouts": 7,
+   "heroTimeoutsInTrackedHands": 0,
+   "heroTimeoutsInUntrackedHands": 7,
+   "untrackedHands": 7,
+   "refusedReadings": 1041,
+   "misdirectedPresses": 0,
+   "releasesWithoutAction": 0,
+   "leaseMs": {
+    "mean": 980,
+    "p50": 749,
+    "p95": 2155,
+    "p99": 2421,
+    "max": 2664,
+    "n": 1503
+   },
+   "cursorUtilization": 0.82,
+   "fairness": 0.989,
+   "maxWaitMs": 7029,
+   "workload": {
+    "tables": 10,
+    "width": 800,
+    "layout": "cascade",
+    "heroSeats": [
+     0
+    ],
+    "botThinkMs": 1500,
+    "actionTimeoutMs": 12000,
+    "faultEveryMs": null,
+    "stacks": null,
+    "stackChips": 20000
+   },
+   "resources": {
+    "cpuPercent": null,
+    "memoryMiB": null,
+    "gpu": null
+   },
+   "evidenceFiles": [
+    "unconfirmed-sustained-table2-g0-1.json",
+    "unconfirmed-sustained-table2-g0-1-before.png",
+    "unconfirmed-sustained-table2-g0-1-after.png"
+   ],
+   "cleanupOk": true
+  },
+  {
+   "source": {
+    "run": "45441870852",
+    "job": "sustained-10-optimized-hero-15s",
+    "file": "sustained-10-optimized-hero-15s.json",
+    "scenario": "S10"
+   },
+   "pipeline": "optimized",
+   "policy": "edf",
+   "outcome": "PASS",
+   "checks": [
+    {
+     "name": "every table played (confirmed actions on every table)",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "no incorrect action, no invalid wager (oracle)",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "no confirmed action the table did not apply",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "no stall, no unexpected pause, no violation",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "hands were completed",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "every hero decision in a tracked hand was made before the table's action clock ran out (capacity: a decision the clock took is a missed deadline, never an unsafe input; in a hand not seen from its opening the Workbench never acts, so the clock decides there by design)",
+     "pass": true,
+     "warning": true
+    },
+    {
+     "name": "every action that was sent was confirmed (an action interrupted by the harness stopping its table is uncertain by design and counted apart)",
+     "pass": true,
+     "warning": true
+    }
+   ],
+   "id": "S10",
+   "status": "pass",
+   "tables": 10,
+   "seconds": 1803,
+   "actionsConfirmed": 1389,
+   "actionsPerMinute": 46.2,
+   "completedHands": 413,
+   "schedulingDelayMs": {
+    "mean": 2100,
+    "p50": 1901,
+    "p95": 4917,
+    "p99": 6550,
+    "max": 7509,
+    "n": 1395
+   },
+   "actionLatencyMs": {
+    "mean": 3737,
+    "p50": 3536,
+    "p95": 6632,
+    "p99": 8144,
+    "max": 10010,
+    "n": 1389
+   },
+   "deadlineMisses": 0,
+   "incorrectActions": 0,
+   "wrongActions": 0,
+   "incorrectClickKinds": {
+    "outsideControls": 0,
+    "onDisabled": 0,
+    "doubleClicks": 0,
+    "lateOnOldFrame": 0,
+    "notAvailable": 0
+   },
+   "confirmedByTableClock": 0,
+   "invalidWagers": 0,
+   "confirmedButNotApplied": 0,
+   "uncertainOrUnconfirmed": 3,
+   "uncertainByTestStop": 3,
+   "inputStatus": {
+    "confirmed": 1389,
+    "uncertain": 3,
+    "rejected-before-input": 3
+   },
+   "heroEliminations": 0,
+   "heroTimeouts": 10,
+   "heroTimeoutsInTrackedHands": 0,
+   "heroTimeoutsInUntrackedHands": 10,
+   "untrackedHands": 10,
+   "refusedReadings": 846,
+   "misdirectedPresses": 0,
+   "releasesWithoutAction": 0,
+   "leaseMs": {
+    "mean": 1128,
+    "p50": 900,
+    "p95": 2365,
+    "p99": 2607,
+    "max": 2875,
+    "n": 1395
+   },
+   "cursorUtilization": 0.8902,
+   "fairness": 0.9919,
+   "maxWaitMs": 7312,
+   "workload": {
+    "tables": 10,
+    "width": 800,
+    "layout": "cascade",
+    "heroSeats": [
+     0
+    ],
+    "botThinkMs": 1500,
+    "actionTimeoutMs": 15000,
+    "faultEveryMs": null,
+    "stacks": null,
+    "stackChips": 20000
+   },
+   "resources": {
+    "cpuPercent": null,
+    "memoryMiB": null,
+    "gpu": null
+   },
+   "evidenceFiles": [
+    "unconfirmed-sustained-table3-g0-1.json",
+    "unconfirmed-sustained-table3-g0-1-before.png",
+    "unconfirmed-sustained-table3-g0-1-after.png",
+    "unconfirmed-sustained-table8-g0-1.json",
+    "unconfirmed-sustained-table8-g0-1-before.png",
+    "unconfirmed-sustained-table8-g0-1-after.png",
+    "unconfirmed-sustained-table10-g0-1.json",
+    "unconfirmed-sustained-table10-g0-1-before.png",
+    "unconfirmed-sustained-table10-g0-1-after.png"
+   ],
+   "cleanupOk": true
+  },
+  {
+   "source": {
+    "run": "45441870852",
+    "job": "sustained-10-optimized-hero-8s",
+    "file": "sustained-10-optimized-hero-8s.json",
+    "scenario": "S10"
+   },
+   "pipeline": "optimized",
+   "policy": "edf",
+   "outcome": "FAIL",
+   "checks": [
+    {
+     "name": "every table played (confirmed actions on every table)",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "no incorrect action, no invalid wager (oracle)",
+     "pass": false,
+     "warning": false
+    },
+    {
+     "name": "no confirmed action the table did not apply",
+     "pass": false,
+     "warning": false
+    },
+    {
+     "name": "no stall, no unexpected pause, no violation",
+     "pass": false,
+     "warning": false
+    },
+    {
+     "name": "hands were completed",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "an action the table's own clock took was seen as the intended one (the hero was too late; same action on the screen)",
+     "pass": false,
+     "warning": true
+    },
+    {
+     "name": "every hero decision in a tracked hand was made before the table's action clock ran out (capacity: a decision the clock took is a missed deadline, never an unsafe input; in a hand not seen from its opening the Workbench never acts, so the clock decides there by design)",
+     "pass": false,
+     "warning": true
+    },
+    {
+     "name": "every action that was sent was confirmed (an action interrupted by the harness stopping its table is uncertain by design and counted apart)",
+     "pass": false,
+     "warning": true
+    }
+   ],
+   "id": "S10",
+   "status": "fail",
+   "tables": 10,
+   "seconds": 1806,
+   "actionsConfirmed": 1824,
+   "actionsPerMinute": 60.6,
+   "completedHands": 574,
+   "schedulingDelayMs": {
+    "mean": 2515,
+    "p50": 2565,
+    "p95": 4321,
+    "p99": 4916,
+    "max": 5694,
+    "n": 2037
+   },
+   "actionLatencyMs": {
+    "mean": 3734,
+    "p50": 3794,
+    "p95": 5399,
+    "p99": 6028,
+    "max": 6572,
+    "n": 1824
+   },
+   "deadlineMisses": 160,
+   "incorrectActions": 21,
+   "wrongActions": 1,
+   "incorrectClickKinds": {
+    "outsideControls": 19,
+    "onDisabled": 0,
+    "doubleClicks": 0,
+    "lateOnOldFrame": 1,
+    "notAvailable": 0
+   },
+   "confirmedByTableClock": 3,
+   "invalidWagers": 0,
+   "confirmedButNotApplied": 1,
+   "uncertainOrUnconfirmed": 24,
+   "uncertainByTestStop": 3,
+   "inputStatus": {
+    "confirmed": 1824,
+    "rejected-before-input": 187,
+    "ambiguous": 20,
+    "uncertain": 3,
+    "rejected-no-change": 2,
+    "timed-out": 1
+   },
+   "heroEliminations": 0,
+   "heroTimeouts": 67,
+   "heroTimeoutsInTrackedHands": 52,
+   "heroTimeoutsInUntrackedHands": 15,
+   "untrackedHands": 15,
+   "refusedReadings": 976,
+   "misdirectedPresses": 0,
+   "releasesWithoutAction": 0,
+   "leaseMs": {
+    "mean": 930,
+    "p50": 757,
+    "p95": 2056,
+    "p99": 2398,
+    "max": 2714,
+    "n": 1877
+   },
+   "cursorUtilization": 0.9764,
+   "fairness": 0.9951,
+   "maxWaitMs": 5290,
+   "workload": {
+    "tables": 10,
+    "width": 800,
+    "layout": "cascade",
+    "heroSeats": [
+     0
+    ],
+    "botThinkMs": 800,
+    "actionTimeoutMs": 8000,
+    "faultEveryMs": null,
+    "stacks": null,
+    "stackChips": 20000
+   },
+   "resources": {
+    "cpuPercent": null,
+    "memoryMiB": null,
+    "gpu": null
+   },
+   "evidenceFiles": [
+    "unconfirmed-sustained-table4-g0-1.json",
+    "unconfirmed-sustained-table4-g0-1-before.png",
+    "unconfirmed-sustained-table4-g0-1-after.png",
+    "unconfirmed-sustained-table7-g0-1.json",
+    "unconfirmed-sustained-table7-g0-1-before.png",
+    "unconfirmed-sustained-table7-g0-1-after.png",
+    "unconfirmed-sustained-table2-g0-1.json",
+    "unconfirmed-sustained-table2-g0-1-before.png",
+    "unconfirmed-sustained-table2-g0-1-after.png",
+    "unconfirmed-sustained-table6-g0-1.json",
+    "unconfirmed-sustained-table6-g0-1-before.png",
+    "unconfirmed-sustained-table6-g0-1-after.png",
+    "unconfirmed-sustained-table1-g0-1.json",
+    "unconfirmed-sustained-table1-g0-1-before.png",
+    "unconfirmed-sustained-table1-g0-1-after.png",
+    "unconfirmed-sustained-table9-g0-1.json",
+    "unconfirmed-sustained-table9-g0-1-before.png",
+    "unconfirmed-sustained-table9-g0-1-after.png",
+    "unconfirmed-sustained-table3-g0-1.json",
+    "unconfirmed-sustained-table3-g0-1-before.png",
+    "unconfirmed-sustained-table3-g0-1-after.png",
+    "unconfirmed-sustained-table7-g1-1.json",
+    "unconfirmed-sustained-table7-g1-1-before.png",
+    "unconfirmed-sustained-table7-g1-1-after.png",
+    "unconfirmed-sustained-table10-g1-1.json",
+    "unconfirmed-sustained-table10-g1-1-before.png",
+    "unconfirmed-sustained-table10-g1-1-after.png",
+    "unconfirmed-sustained-table7-g2-1.json",
+    "unconfirmed-sustained-table7-g2-1-before.png",
+    "unconfirmed-sustained-table7-g2-1-after.png",
+    "unconfirmed-sustained-table2-g1-1.json",
+    "unconfirmed-sustained-table2-g1-1-before.png",
+    "unconfirmed-sustained-table2-g1-1-after.png",
+    "unconfirmed-sustained-table7-g3-1.json",
+    "unconfirmed-sustained-table7-g3-1-before.png",
+    "unconfirmed-sustained-table7-g3-1-after.png",
+    "unconfirmed-sustained-table4-g1-1.json",
+    "unconfirmed-sustained-table4-g1-1-before.png",
+    "unconfirmed-sustained-table4-g1-1-after.png",
+    "unconfirmed-sustained-table7-g4-1.json",
+    "unconfirmed-sustained-table7-g4-1-before.png",
+    "unconfirmed-sustained-table7-g4-1-after.png",
+    "unconfirmed-sustained-table6-g1-1.json",
+    "unconfirmed-sustained-table6-g1-1-before.png",
+    "unconfirmed-sustained-table6-g1-1-after.png",
+    "unconfirmed-sustained-table10-g2-1.json",
+    "unconfirmed-sustained-table10-g2-1-before.png",
+    "unconfirmed-sustained-table10-g2-1-after.png",
+    "unconfirmed-sustained-table7-g5-1.json",
+    "unconfirmed-sustained-table7-g5-1-before.png",
+    "unconfirmed-sustained-table7-g5-1-after.png",
+    "unconfirmed-sustained-table6-g2-1.json",
+    "unconfirmed-sustained-table6-g2-1-before.png",
+    "unconfirmed-sustained-table6-g2-1-after.png",
+    "unconfirmed-sustained-table10-g3-1.json",
+    "unconfirmed-sustained-table10-g3-1-before.png",
+    "unconfirmed-sustained-table10-g3-1-after.png",
+    "unconfirmed-sustained-table6-g3-1.json",
+    "unconfirmed-sustained-table6-g3-1-before.png",
+    "unconfirmed-sustained-table6-g3-1-after.png",
+    "unconfirmed-sustained-table10-g4-1.json",
+    "unconfirmed-sustained-table10-g4-1-before.png",
+    "unconfirmed-sustained-table10-g4-1-after.png",
+    "unconfirmed-sustained-table8-g0-1.json",
+    "unconfirmed-sustained-table8-g0-1-before.png",
+    "unconfirmed-sustained-table8-g0-1-after.png",
+    "unconfirmed-sustained-table8-g1-1.json",
+    "unconfirmed-sustained-table8-g1-1-before.png",
+    "unconfirmed-sustained-table8-g1-1-after.png",
+    "unconfirmed-sustained-table5-g0-1.json",
+    "unconfirmed-sustained-table5-g0-1-before.png",
+    "unconfirmed-sustained-table5-g0-1-after.png",
+    "unconfirmed-sustained-table7-g6-1.json",
+    "unconfirmed-sustained-table7-g6-1-before.png",
+    "unconfirmed-sustained-table7-g6-1-after.png",
+    "unconfirmed-sustained-table10-g5-1.json",
+    "unconfirmed-sustained-table10-g5-1-before.png",
+    "unconfirmed-sustained-table10-g5-1-after.png"
+   ],
+   "cleanupOk": true
+  },
+  {
+   "source": {
+    "run": "45441870852",
+    "job": "sustained-5-optimized",
+    "file": "sustained-5-optimized.json",
+    "scenario": "S5"
+   },
+   "pipeline": "optimized",
+   "policy": "edf",
+   "outcome": "FAIL",
+   "checks": [
+    {
+     "name": "scenario ran to completion",
+     "pass": false,
+     "warning": false
+    }
+   ],
+   "id": "S5",
+   "status": "fail",
+   "actionsPerMinute": null,
+   "schedulingDelayMs": null,
+   "actionLatencyMs": null,
+   "deadlineMisses": null,
+   "wrongActions": null,
+   "incorrectClickKinds": null,
+   "confirmedByTableClock": null,
+   "inputStatus": null,
+   "heroEliminations": null,
+   "heroTimeouts": null,
+   "heroTimeoutsInTrackedHands": null,
+   "heroTimeoutsInUntrackedHands": null,
+   "refusedReadings": null,
+   "misdirectedPresses": null,
+   "releasesWithoutAction": null,
+   "leaseMs": null,
+   "cursorUtilization": null,
+   "fairness": null,
+   "maxWaitMs": null,
+   "workload": null,
+   "resources": null,
+   "evidenceFiles": [],
+   "cleanupOk": true,
+   "note": "scenario aborted by the test harness after 26 minutes: the registration of a replacement table failed with a host connection error (fetch failed); no metrics were written. Repeated on the same release ZIP in run 45451149720 (the row with that run id)."
+  },
+  {
+   "source": {
+    "run": "45451149720",
+    "job": "sustained-5-optimized",
+    "file": "sustained-5-optimized.json",
+    "scenario": "S5"
+   },
+   "pipeline": "optimized",
+   "policy": "edf",
+   "outcome": "FAIL",
+   "checks": [
+    {
+     "name": "every table played (confirmed actions on every table)",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "no incorrect action, no invalid wager (oracle)",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "no confirmed action the table did not apply",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "no stall, no unexpected pause, no violation",
+     "pass": false,
+     "warning": false
+    },
+    {
+     "name": "hands were completed",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "every action that was sent was confirmed (an action interrupted by the harness stopping its table is uncertain by design and counted apart)",
+     "pass": true,
+     "warning": true
+    }
+   ],
+   "id": "S5",
+   "status": "fail",
+   "tables": 5,
+   "seconds": 1804,
+   "actionsConfirmed": 2452,
+   "actionsPerMinute": 81.6,
+   "completedHands": 307,
+   "schedulingDelayMs": {
+    "mean": 2458,
+    "p50": 2514,
+    "p95": 4285,
+    "p99": 5474,
+    "max": 6916,
+    "n": 2463
+   },
+   "actionLatencyMs": {
+    "mean": 3461,
+    "p50": 3459,
+    "p95": 5361,
+    "p99": 6389,
+    "max": 7783,
+    "n": 2452
+   },
+   "deadlineMisses": 0,
+   "incorrectActions": 0,
+   "wrongActions": 0,
+   "incorrectClickKinds": {
+    "outsideControls": 0,
+    "onDisabled": 0,
+    "doubleClicks": 0,
+    "lateOnOldFrame": 0,
+    "notAvailable": 0
+   },
+   "confirmedByTableClock": 0,
+   "invalidWagers": 0,
+   "confirmedButNotApplied": 0,
+   "uncertainOrUnconfirmed": 3,
+   "uncertainByTestStop": 3,
+   "inputStatus": {
+    "confirmed": 2452,
+    "rejected-before-input": 2,
+    "rejected-no-change": 6,
+    "uncertain": 3
+   },
+   "heroEliminations": 0,
+   "heroTimeouts": 0,
+   "heroTimeoutsInTrackedHands": 0,
+   "heroTimeoutsInUntrackedHands": 0,
+   "untrackedHands": 1,
+   "refusedReadings": 2,
+   "misdirectedPresses": 0,
+   "releasesWithoutAction": 0,
+   "leaseMs": {
+    "mean": 732,
+    "p50": 513,
+    "p95": 1793,
+    "p99": 1957,
+    "max": 2101,
+    "n": 2463
+   },
+   "cursorUtilization": 0.9998,
+   "fairness": 1,
+   "maxWaitMs": 6874,
+   "workload": {
+    "tables": 5,
+    "width": 800,
+    "layout": "cascade",
+    "heroSeats": null,
+    "botThinkMs": null,
+    "actionTimeoutMs": null,
+    "faultEveryMs": null,
+    "stacks": null,
+    "stackChips": 1500
+   },
+   "resources": {
+    "cpuPercent": null,
+    "memoryMiB": null,
+    "gpu": null
+   },
+   "evidenceFiles": [
+    "unconfirmed-sustained-table2-g0-1.json",
+    "unconfirmed-sustained-table2-g0-1-before.png",
+    "unconfirmed-sustained-table2-g0-1-after.png",
+    "unconfirmed-sustained-table5-g0-1.json",
+    "unconfirmed-sustained-table5-g0-1-before.png",
+    "unconfirmed-sustained-table5-g0-1-after.png",
+    "unconfirmed-sustained-table4-g2-1.json",
+    "unconfirmed-sustained-table4-g2-1-before.png",
+    "unconfirmed-sustained-table4-g2-1-after.png",
+    "unconfirmed-sustained-table4-g3-1.json",
+    "unconfirmed-sustained-table4-g3-1-before.png",
+    "unconfirmed-sustained-table4-g3-1-after.png",
+    "unconfirmed-sustained-table5-g1-1.json",
+    "unconfirmed-sustained-table5-g1-1-before.png",
+    "unconfirmed-sustained-table5-g1-1-after.png",
+    "unconfirmed-sustained-table3-g0-1.json",
+    "unconfirmed-sustained-table3-g0-1-before.png",
+    "unconfirmed-sustained-table3-g0-1-after.png",
+    "unconfirmed-sustained-table2-g2-1.json",
+    "unconfirmed-sustained-table2-g2-1-before.png",
+    "unconfirmed-sustained-table2-g2-1-after.png",
+    "unconfirmed-sustained-table3-g1-1.json",
+    "unconfirmed-sustained-table3-g1-1-before.png",
+    "unconfirmed-sustained-table3-g1-1-after.png",
+    "unconfirmed-sustained-table5-g2-1.json",
+    "unconfirmed-sustained-table5-g2-1-before.png",
+    "unconfirmed-sustained-table5-g2-1-after.png"
+   ],
+   "cleanupOk": true
+  },
+  {
+   "source": {
+    "run": "45441870852",
+    "job": "sustained-8-compat-3.2",
+    "file": "sustained-8-compat-3.2.json",
+    "scenario": "S8"
+   },
+   "pipeline": "compat-3.2",
+   "policy": "edf",
+   "outcome": "PASS",
+   "checks": [
+    {
+     "name": "every table played (confirmed actions on every table)",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "no incorrect action, no invalid wager (oracle)",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "no confirmed action the table did not apply",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "no stall, no unexpected pause, no violation",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "hands were completed",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "every action that was sent was confirmed (an action interrupted by the harness stopping its table is uncertain by design and counted apart)",
+     "pass": true,
+     "warning": true
+    }
+   ],
+   "id": "S8",
+   "status": "pass",
+   "tables": 8,
+   "seconds": 1807,
+   "actionsConfirmed": 2010,
+   "actionsPerMinute": 66.7,
+   "completedHands": 244,
+   "schedulingDelayMs": {
+    "mean": 5716,
+    "p50": 5792,
+    "p95": 7421,
+    "p99": 7790,
+    "max": 8499,
+    "n": 2112
+   },
+   "actionLatencyMs": {
+    "mean": 6656,
+    "p50": 6715,
+    "p95": 8284,
+    "p99": 8552,
+    "max": 9270,
+    "n": 2010
+   },
+   "deadlineMisses": 96,
+   "incorrectActions": 0,
+   "wrongActions": 0,
+   "incorrectClickKinds": {
+    "outsideControls": 0,
+    "onDisabled": 0,
+    "doubleClicks": 0,
+    "lateOnOldFrame": 0,
+    "notAvailable": 0
+   },
+   "confirmedByTableClock": 0,
+   "invalidWagers": 0,
+   "confirmedButNotApplied": 0,
+   "uncertainOrUnconfirmed": 0,
+   "uncertainByTestStop": 0,
+   "inputStatus": {
+    "confirmed": 2010,
+    "rejected-before-input": 102
+   },
+   "heroEliminations": 0,
+   "heroTimeouts": 0,
+   "heroTimeoutsInTrackedHands": 0,
+   "heroTimeoutsInUntrackedHands": 0,
+   "untrackedHands": 1,
+   "refusedReadings": 2,
+   "misdirectedPresses": 0,
+   "releasesWithoutAction": 0,
+   "leaseMs": {
+    "mean": 896,
+    "p50": 723,
+    "p95": 1961,
+    "p99": 2143,
+    "max": 2422,
+    "n": 2016
+   },
+   "cursorUtilization": 0.9999,
+   "fairness": 0.9999,
+   "maxWaitMs": 8462,
+   "workload": {
+    "tables": 8,
+    "width": 800,
+    "layout": "cascade",
+    "heroSeats": null,
+    "botThinkMs": null,
+    "actionTimeoutMs": null,
+    "faultEveryMs": null,
+    "stacks": null,
+    "stackChips": 1500
+   },
+   "resources": {
+    "cpuPercent": null,
+    "memoryMiB": null,
+    "gpu": null
+   },
+   "evidenceFiles": [],
+   "cleanupOk": true
+  },
+  {
+   "source": {
+    "run": "45441870852",
+    "job": "sustained-8-optimized",
+    "file": "sustained-8-optimized.json",
+    "scenario": "S8"
+   },
+   "pipeline": "optimized",
+   "policy": "edf",
+   "outcome": "FAIL",
+   "checks": [
+    {
+     "name": "every table played (confirmed actions on every table)",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "no incorrect action, no invalid wager (oracle)",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "no confirmed action the table did not apply",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "no stall, no unexpected pause, no violation",
+     "pass": false,
+     "warning": false
+    },
+    {
+     "name": "hands were completed",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "every action that was sent was confirmed (an action interrupted by the harness stopping its table is uncertain by design and counted apart)",
+     "pass": true,
+     "warning": true
+    }
+   ],
+   "id": "S8",
+   "status": "fail",
+   "tables": 8,
+   "seconds": 1810,
+   "actionsConfirmed": 2375,
+   "actionsPerMinute": 78.7,
+   "completedHands": 245,
+   "schedulingDelayMs": {
+    "mean": 4766,
+    "p50": 4691,
+    "p95": 6786,
+    "p99": 7355,
+    "max": 7771,
+    "n": 2434
+   },
+   "actionLatencyMs": {
+    "mean": 5750,
+    "p50": 5637,
+    "p95": 7895,
+    "p99": 8247,
+    "max": 8639,
+    "n": 2375
+   },
+   "deadlineMisses": 41,
+   "incorrectActions": 0,
+   "wrongActions": 0,
+   "incorrectClickKinds": {
+    "outsideControls": 0,
+    "onDisabled": 0,
+    "doubleClicks": 0,
+    "lateOnOldFrame": 0,
+    "notAvailable": 0
+   },
+   "confirmedByTableClock": 0,
+   "invalidWagers": 0,
+   "confirmedButNotApplied": 0,
+   "uncertainOrUnconfirmed": 2,
+   "uncertainByTestStop": 2,
+   "inputStatus": {
+    "confirmed": 2375,
+    "rejected-before-input": 48,
+    "uncertain": 2,
+    "rejected-no-change": 9
+   },
+   "heroEliminations": 0,
+   "heroTimeouts": 0,
+   "heroTimeoutsInTrackedHands": 0,
+   "heroTimeoutsInUntrackedHands": 0,
+   "untrackedHands": 1,
+   "refusedReadings": 2,
+   "misdirectedPresses": 0,
+   "releasesWithoutAction": 0,
+   "leaseMs": {
+    "mean": 756,
+    "p50": 561,
+    "p95": 1846,
+    "p99": 2084,
+    "max": 2290,
+    "n": 2393
+   },
+   "cursorUtilization": 0.9999,
+   "fairness": 0.9999,
+   "maxWaitMs": 7728,
+   "workload": {
+    "tables": 8,
+    "width": 800,
+    "layout": "cascade",
+    "heroSeats": null,
+    "botThinkMs": null,
+    "actionTimeoutMs": null,
+    "faultEveryMs": null,
+    "stacks": null,
+    "stackChips": 1500
+   },
+   "resources": {
+    "cpuPercent": null,
+    "memoryMiB": null,
+    "gpu": null
+   },
+   "evidenceFiles": [
+    "unconfirmed-sustained-table2-g0-1.json",
+    "unconfirmed-sustained-table2-g0-1-before.png",
+    "unconfirmed-sustained-table2-g0-1-after.png",
+    "unconfirmed-sustained-table7-g0-1.json",
+    "unconfirmed-sustained-table7-g0-1-before.png",
+    "unconfirmed-sustained-table7-g0-1-after.png",
+    "unconfirmed-sustained-table7-g1-1.json",
+    "unconfirmed-sustained-table7-g1-1-before.png",
+    "unconfirmed-sustained-table7-g1-1-after.png",
+    "unconfirmed-sustained-table4-g1-1.json",
+    "unconfirmed-sustained-table4-g1-1-before.png",
+    "unconfirmed-sustained-table4-g1-1-after.png",
+    "unconfirmed-sustained-table5-g0-1.json",
+    "unconfirmed-sustained-table5-g0-1-before.png",
+    "unconfirmed-sustained-table5-g0-1-after.png",
+    "unconfirmed-sustained-table8-g0-1.json",
+    "unconfirmed-sustained-table8-g0-1-before.png",
+    "unconfirmed-sustained-table8-g0-1-after.png",
+    "unconfirmed-sustained-table3-g0-1.json",
+    "unconfirmed-sustained-table3-g0-1-before.png",
+    "unconfirmed-sustained-table3-g0-1-after.png",
+    "unconfirmed-sustained-table6-g0-1.json",
+    "unconfirmed-sustained-table6-g0-1-before.png",
+    "unconfirmed-sustained-table6-g0-1-after.png",
+    "unconfirmed-sustained-table7-g2-1.json",
+    "unconfirmed-sustained-table7-g2-1-before.png",
+    "unconfirmed-sustained-table7-g2-1-after.png",
+    "unconfirmed-sustained-table1-g0-1.json",
+    "unconfirmed-sustained-table1-g0-1-before.png",
+    "unconfirmed-sustained-table1-g0-1-after.png",
+    "unconfirmed-sustained-table6-g1-1.json",
+    "unconfirmed-sustained-table6-g1-1-before.png",
+    "unconfirmed-sustained-table6-g1-1-after.png"
+   ],
+   "cleanupOk": true
+  },
+  {
+   "source": {
+    "run": "45441870852",
+    "job": "sustained-8-optimized-hero-15s",
+    "file": "sustained-8-optimized-hero-15s.json",
+    "scenario": "S8"
+   },
+   "pipeline": "optimized",
+   "policy": "edf",
+   "outcome": "FAIL",
+   "checks": [
+    {
+     "name": "every table played (confirmed actions on every table)",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "no incorrect action, no invalid wager (oracle)",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "no confirmed action the table did not apply",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "no stall, no unexpected pause, no violation",
+     "pass": false,
+     "warning": false
+    },
+    {
+     "name": "hands were completed",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "every hero decision in a tracked hand was made before the table's action clock ran out (capacity: a decision the clock took is a missed deadline, never an unsafe input; in a hand not seen from its opening the Workbench never acts, so the clock decides there by design)",
+     "pass": true,
+     "warning": true
+    },
+    {
+     "name": "every action that was sent was confirmed (an action interrupted by the harness stopping its table is uncertain by design and counted apart)",
+     "pass": true,
+     "warning": true
+    }
+   ],
+   "id": "S8",
+   "status": "fail",
+   "tables": 8,
+   "seconds": 1801,
+   "actionsConfirmed": 1288,
+   "actionsPerMinute": 42.9,
+   "completedHands": 375,
+   "schedulingDelayMs": {
+    "mean": 687,
+    "p50": 321,
+    "p95": 2271,
+    "p99": 3723,
+    "max": 4678,
+    "n": 1291
+   },
+   "actionLatencyMs": {
+    "mean": 1919,
+    "p50": 1599,
+    "p95": 3844,
+    "p99": 5208,
+    "max": 6929,
+    "n": 1288
+   },
+   "deadlineMisses": 0,
+   "incorrectActions": 0,
+   "wrongActions": 0,
+   "incorrectClickKinds": {
+    "outsideControls": 0,
+    "onDisabled": 0,
+    "doubleClicks": 0,
+    "lateOnOldFrame": 0,
+    "notAvailable": 0
+   },
+   "confirmedByTableClock": 0,
+   "invalidWagers": 0,
+   "confirmedButNotApplied": 0,
+   "uncertainOrUnconfirmed": 0,
+   "uncertainByTestStop": 0,
+   "inputStatus": {
+    "confirmed": 1288,
+    "rejected-before-input": 2,
+    "uncertain": 1
+   },
+   "heroEliminations": 0,
+   "heroTimeouts": 7,
+   "heroTimeoutsInTrackedHands": 0,
+   "heroTimeoutsInUntrackedHands": 7,
+   "untrackedHands": 7,
+   "refusedReadings": 1337,
+   "misdirectedPresses": 0,
+   "releasesWithoutAction": 0,
+   "leaseMs": {
+    "mean": 897,
+    "p50": 680,
+    "p95": 2021,
+    "p99": 2246,
+    "max": 2557,
+    "n": 1291
+   },
+   "cursorUtilization": 0.6447,
+   "fairness": 0.9897,
+   "maxWaitMs": 4611,
+   "workload": {
+    "tables": 8,
+    "width": 800,
+    "layout": "cascade",
+    "heroSeats": [
+     0
+    ],
+    "botThinkMs": 1500,
+    "actionTimeoutMs": 15000,
+    "faultEveryMs": null,
+    "stacks": null,
+    "stackChips": 20000
+   },
+   "resources": {
+    "cpuPercent": null,
+    "memoryMiB": null,
+    "gpu": null
+   },
+   "evidenceFiles": [
+    "unconfirmed-sustained-table8-g0-1.json",
+    "unconfirmed-sustained-table8-g0-1-before.png",
+    "unconfirmed-sustained-table8-g0-1-after.png"
+   ],
+   "cleanupOk": true
+  },
+  {
+   "source": {
+    "run": "45441870852",
+    "job": "sustained-8-optimized-hero-8s",
+    "file": "sustained-8-optimized-hero-8s.json",
+    "scenario": "S8"
+   },
+   "pipeline": "optimized",
+   "policy": "edf",
+   "outcome": "FAIL",
+   "checks": [
+    {
+     "name": "every table played (confirmed actions on every table)",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "no incorrect action, no invalid wager (oracle)",
+     "pass": false,
+     "warning": false
+    },
+    {
+     "name": "no confirmed action the table did not apply",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "no stall, no unexpected pause, no violation",
+     "pass": false,
+     "warning": false
+    },
+    {
+     "name": "hands were completed",
+     "pass": true,
+     "warning": false
+    },
+    {
+     "name": "an action the table's own clock took was seen as the intended one (the hero was too late; same action on the screen)",
+     "pass": false,
+     "warning": true
+    },
+    {
+     "name": "every hero decision in a tracked hand was made before the table's action clock ran out (capacity: a decision the clock took is a missed deadline, never an unsafe input; in a hand not seen from its opening the Workbench never acts, so the clock decides there by design)",
+     "pass": false,
+     "warning": true
+    },
+    {
+     "name": "every action that was sent was confirmed (an action interrupted by the harness stopping its table is uncertain by design and counted apart)",
+     "pass": false,
+     "warning": true
+    }
+   ],
+   "id": "S8",
+   "status": "fail",
+   "tables": 8,
+   "seconds": 1801,
+   "actionsConfirmed": 1786,
+   "actionsPerMinute": 59.5,
+   "completedHands": 529,
+   "schedulingDelayMs": {
+    "mean": 1561,
+    "p50": 1427,
+    "p95": 3525,
+    "p99": 4214,
+    "max": 4917,
+    "n": 1839
+   },
+   "actionLatencyMs": {
+    "mean": 2801,
+    "p50": 2703,
+    "p95": 4732,
+    "p99": 5323,
+    "max": 8061,
+    "n": 1786
+   },
+   "deadlineMisses": 45,
+   "incorrectActions": 2,
+   "wrongActions": 0,
+   "incorrectClickKinds": {
+    "outsideControls": 2,
+    "onDisabled": 0,
+    "doubleClicks": 0,
+    "lateOnOldFrame": 0,
+    "notAvailable": 0
+   },
+   "confirmedByTableClock": 1,
+   "invalidWagers": 0,
+   "confirmedButNotApplied": 0,
+   "uncertainOrUnconfirmed": 2,
+   "uncertainByTestStop": 0,
+   "inputStatus": {
+    "confirmed": 1786,
+    "rejected-before-input": 48,
+    "ambiguous": 2,
+    "rejected-no-change": 3
+   },
+   "heroEliminations": 1,
+   "heroTimeouts": 13,
+   "heroTimeoutsInTrackedHands": 5,
+   "heroTimeoutsInUntrackedHands": 8,
+   "untrackedHands": 8,
+   "refusedReadings": 575,
+   "misdirectedPresses": 0,
+   "releasesWithoutAction": 0,
+   "leaseMs": {
+    "mean": 908,
+    "p50": 706,
+    "p95": 2049,
+    "p99": 2263,
+    "max": 2451,
+    "n": 1794
+   },
+   "cursorUtilization": 0.9152,
+   "fairness": 0.9978,
+   "maxWaitMs": 4832,
+   "workload": {
+    "tables": 8,
+    "width": 800,
+    "layout": "cascade",
+    "heroSeats": [
+     0
+    ],
+    "botThinkMs": 800,
+    "actionTimeoutMs": 8000,
+    "faultEveryMs": null,
+    "stacks": null,
+    "stackChips": 20000
+   },
+   "resources": {
+    "cpuPercent": null,
+    "memoryMiB": null,
+    "gpu": null
+   },
+   "evidenceFiles": [
+    "unconfirmed-sustained-table4-g0-1.json",
+    "unconfirmed-sustained-table4-g0-1-before.png",
+    "unconfirmed-sustained-table4-g0-1-after.png",
+    "unconfirmed-sustained-table8-g0-1.json",
+    "unconfirmed-sustained-table8-g0-1-before.png",
+    "unconfirmed-sustained-table8-g0-1-after.png",
+    "unconfirmed-sustained-table7-g0-1.json",
+    "unconfirmed-sustained-table7-g0-1-before.png",
+    "unconfirmed-sustained-table7-g0-1-after.png",
+    "unconfirmed-sustained-table3-g0-1.json",
+    "unconfirmed-sustained-table3-g0-1-before.png",
+    "unconfirmed-sustained-table3-g0-1-after.png",
+    "unconfirmed-sustained-table3-g1-1.json",
+    "unconfirmed-sustained-table3-g1-1-before.png",
+    "unconfirmed-sustained-table3-g1-1-after.png"
+   ],
+   "cleanupOk": true
+  }
+ ]
+}

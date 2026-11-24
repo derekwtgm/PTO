@@ -1,0 +1,231 @@
+{
+ "format": "eightmax-regression",
+ "version": 1,
+ "milestone": "0.36.2-milestone-4.0",
+ "generatedAt": "2026-11-24T18:12:44.519Z",
+ "generator": "tools/make-m40-evidence.cjs",
+ "operatorBaselineMilestone32": {
+  "passed": 142,
+  "failed": 0,
+  "warnings": 1,
+  "skipped": 5,
+  "source": "the operator's Milestone 3.2 run (as reported in the Milestone 4.0 brief)"
+ },
+ "linux": [
+  {
+   "run": "45441870852",
+   "attempt": 1,
+   "sha": "c1867d10c02c7db2d1f45d1237cf69f0ff7bb9ee",
+   "outcome": "failure",
+   "source": "results branch m40-results/45441870852-linux (failures.txt, linux-suite.tap)",
+   "suite": {
+    "failing": [
+     "host keeps ONE helper session per window: newest frame served, unchanged content marked not fresh, sessions end and leave no process (tests/capture-029.test.cjs: a line beginning \"abort_thre\" in the Mono helper output was not JSON)",
+     "host: authenticated shutdown ends the message loop by itself (no forced kill, no watchdog) in idle, after-error and stalled-connection states (tests/windows-repairs-028.test.cjs: the host session file was not written in time)"
+    ]
+   },
+   "verdict": null,
+   "note": "capture-029 failed again when its file ran alone on this runner, and the verdict step stopped there (no verdict written); the job was run again (attempt 2)"
+  },
+  {
+   "run": "45441870852",
+   "attempt": 2,
+   "job": 138637307835,
+   "outcome": "success",
+   "source": "job log of attempt 2 (GitHub Actions job 138637307835), saved with the release evidence; its results-branch push was rejected because attempt 1 had created the branch",
+   "verdict": "pass: every failing test passed when its file ran alone (timing under full-suite load)",
+   "suite": {
+    "tests": 1091,
+    "pass": 1031,
+    "fail": 2,
+    "skipped": 58,
+    "failing": [
+     "host: authenticated shutdown ends the message loop by itself (no forced kill, no watchdog) in idle, after-error and stalled-connection states",
+     "host: work is refused with 503 host-stopping once shutdown starts; double shutdown is harmless"
+    ]
+   },
+   "failingFilesRunAlone": {
+    "tests/windows-repairs-028.test.cjs": "pass"
+   },
+   "milestone32SuiteSameRunner": {
+    "tests": 1029,
+    "pass": 968,
+    "fail": 3,
+    "skipped": 58,
+    "failing": [
+     "every corpus request gets its expected status and structured code from the real host",
+     "driver: cancel stops a movement mid-way; nothing moves afterwards; emergency stop latches until reset",
+     "host: authenticated shutdown ends the message loop by itself (no forced kill, no watchdog) in idle, after-error and stalled-connection states"
+    ]
+   }
+  }
+ ],
+ "windowsFullAcceptance": [
+  {
+   "run": "45441870852",
+   "sha": "c1867d10c02c7db2d1f45d1237cf69f0ff7bb9ee",
+   "zipSha256": "ab85ee9215daedd5ad72d9bb4e10f1924b82dd719d8e6caf76f8dcf5d6b22f0e",
+   "outcome": "success",
+   "overall": "PASS",
+   "counts": {
+    "PASS": 143,
+    "FAIL": 0,
+    "WARNING": 0,
+    "SKIPPED": 5,
+    "total": 148
+   },
+   "phases": {
+    "0": {
+     "status": "PASS",
+     "counts": {
+      "PASS": 9,
+      "FAIL": 0,
+      "WARNING": 0,
+      "SKIPPED": 0
+     }
+    },
+    "1": {
+     "status": "PASS",
+     "counts": {
+      "PASS": 10,
+      "FAIL": 0,
+      "WARNING": 0,
+      "SKIPPED": 0
+     }
+    },
+    "2": {
+     "status": "PASS",
+     "counts": {
+      "PASS": 6,
+      "FAIL": 0,
+      "WARNING": 0,
+      "SKIPPED": 0
+     }
+    },
+    "3": {
+     "status": "PASS",
+     "counts": {
+      "PASS": 1,
+      "FAIL": 0,
+      "WARNING": 0,
+      "SKIPPED": 0
+     }
+    },
+    "4": {
+     "status": "PASS",
+     "counts": {
+      "PASS": 86,
+      "FAIL": 0,
+      "WARNING": 0,
+      "SKIPPED": 5
+     }
+    },
+    "5": {
+     "status": "PASS",
+     "counts": {
+      "PASS": 13,
+      "FAIL": 0,
+      "WARNING": 0,
+      "SKIPPED": 0
+     }
+    },
+    "6": {
+     "status": "PASS",
+     "counts": {
+      "PASS": 9,
+      "FAIL": 0,
+      "WARNING": 0,
+      "SKIPPED": 0
+     }
+    },
+    "7": {
+     "status": "PASS",
+     "counts": {
+      "PASS": 6,
+      "FAIL": 0,
+      "WARNING": 0,
+      "SKIPPED": 0
+     }
+    },
+    "8": {
+     "status": "PASS",
+     "counts": {
+      "PASS": 3,
+      "FAIL": 0,
+      "WARNING": 0,
+      "SKIPPED": 0
+     }
+    }
+   }
+  }
+ ],
+ "t5": [
+  {
+   "run": "45441870852",
+   "job": "t5-1",
+   "outcome": "success",
+   "displayScaling": 100,
+   "overall": "PASS",
+   "counts": {
+    "PASS": 78,
+    "FAIL": 0,
+    "WARNING": 0,
+    "SKIPPED": 0,
+    "total": 78
+   }
+  },
+  {
+   "run": "45441870852",
+   "job": "t5-2",
+   "outcome": "success",
+   "displayScaling": 125,
+   "overall": "PASS",
+   "counts": {
+    "PASS": 78,
+    "FAIL": 0,
+    "WARNING": 0,
+    "SKIPPED": 0,
+    "total": 78
+   }
+  },
+  {
+   "run": "45441870852",
+   "job": "t5-3",
+   "outcome": "success",
+   "displayScaling": 100,
+   "overall": "PASS",
+   "counts": {
+    "PASS": 78,
+    "FAIL": 0,
+    "WARNING": 0,
+    "SKIPPED": 0,
+    "total": 78
+   }
+  },
+  {
+   "run": "45441870852",
+   "job": "t5-4",
+   "outcome": "success",
+   "displayScaling": 125,
+   "overall": "PASS",
+   "counts": {
+    "PASS": 78,
+    "FAIL": 0,
+    "WARNING": 0,
+    "SKIPPED": 0,
+    "total": 78
+   }
+  }
+ ],
+ "developmentEnvironment": {
+  "kind": "development environment (Linux, Node 22.23.5, Mono 6.x) - not Windows",
+  "zipSha256": "ab85ee9215daedd5ad72d9bb4e10f1924b82dd719d8e6caf76f8dcf5d6b22f0e",
+  "suite": {
+   "tests": 1091,
+   "pass": 1022,
+   "fail": 0,
+   "skipped": 69
+  },
+  "note": "the complete suite from a fresh extraction of the release ZIP, concurrency 4"
+ }
+}

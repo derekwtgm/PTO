@@ -1,12 +1,26 @@
-# EightMax Test Workbench 0.36.2 - Milestone 4.0 (in development: multi-table scheduler optimisation, 4K display recognition, input reliability, extended gameplay validation, ten-table feasibility)
+# EightMax Test Workbench 0.36.2 - Milestone 4.0 (multi-table input performance, mouse speed control, recognition at display scaling, input-confirmation reliability, extended tests, ten-table feasibility)
 
 | File | Contents |
 |---|---|
-| `m40-overlay/EightMax-Test-Workbench/` | every file Milestone 4.0 adds or changes relative to `EightMax-Test-Workbench-0.36.2-Milestone-3.2.zip`; `m40-overlay/DELETED.txt` lists removed files (none) |
-| `.github/workflows/windows-0362-m40.yml` | Windows CI: build of the changed executables on Windows, package, Linux suite, baseline comparison, sustained multi-table play, full acceptance, T5; results on the branches `m40-results/<run id>-*` |
-| `ci-request-m40.json` | which CI jobs the current commit requests |
+| `EightMax-Test-Workbench-0.36.2-Milestone-4.0.zip` | the complete release (1,487 entries); SHA-256 in `EightMax-Test-Workbench-0.36.2-Milestone-4.0.zip.sha256` |
+| `REPORT-0.36.2-Milestone-4.0.md` | the development report: what changed, before/after on the same machines, lease composition, policies, mouse input, recognition, input-confirmation reliability, 30-minute runs, ten tables, safety, the twenty questions, validation status, known issues, Milestone 4.1 priorities |
+| `TEN-TABLE-FEASIBILITY-4.0.md` | the ten-table question: method, measurements, criteria, model, limits |
+| `SCHEDULER-PERFORMANCE-4.0.json`, `MOUSE-INPUT-PERFORMANCE-4.0.json`, `RECOGNITION-VALIDATION-4.0.json`, `MULTITABLE-STRESS-4.0.json`, `WINDOWS-VALIDATION-4.0.json`, `REGRESSION-4.0.json` | the evidence records (every number names its CI run, job and result file) |
+| `READ-ME-MILESTONE4-TESTS.txt` | how to run `RUN-M4-PERFORMANCE-TEST.cmd` (modes A-E) on your own Windows PC (also inside the ZIP) |
+| `m40-overlay/EightMax-Test-Workbench/` | every file Milestone 4.0 adds or changes relative to `EightMax-Test-Workbench-0.36.2-Milestone-3.2.zip` (the three executables rebuilt on Windows are in the ZIP); `m40-overlay/DELETED.txt` lists removed files (none) |
+| `.github/workflows/windows-0362-m40.yml`, `ci-request-m40.json` | Windows CI of the committed ZIP; results on the branches `m40-results/<run id>-*` |
+| `m40-evidence/` | the job log of the final run's Linux job, attempt 2 (its results-branch push was rejected because attempt 1 had created the branch; `REGRESSION-4.0.json` cites it) |
 
-Development in progress - the release ZIP and the report are added when the Windows validation is complete.
+Windows validation of this exact ZIP (SHA-256 `ab85ee9215daedd5ad72d9bb4e10f1924b82dd719d8e6caf76f8dcf5d6b22f0e`): GitHub Actions run
+[45441870852](https://github.com/derekwtgm/PTO/actions/runs/45441870852) (and [45451149720](https://github.com/derekwtgm/PTO/actions/runs/45451149720) for the repeated 5-table run) -
+same-machine comparison of the Milestone 3.2 workload at 8 tables on three machines: scheduling delay **-20.4 / -22.0 / -21.4 %**, action latency -16.5 %,
+0 incorrect actions; 30 minutes at 8 tables: 66.7 → 78.7 actions/min, missed deadlines 96 → 41; **ten tables validated** with one hero seat per
+table and a 12 s or 15 s table clock (30 minutes each, every criterion met), not with an 8 s clock; recognition 0 wrong values in 1,620 dataset frames and
+3,016 / 3,016 on real windows at 100-175 % (3840 x 2160 not available on CI); mouse motion at 400-2,800 px/s exact; full acceptance PASS (143 / 0 / 0 / 5);
+T5 / T5P PASS on 5 machines (2 at 125 %); Linux suite PASS.
+Open: about 1 in 1,400 optimized-pipeline actions (0-0.4 % per 30-minute run) is "delivered, not applied" (detected, never repeated, cause not established; never with the
+Milestone 3.2 sequence on CI). Your own PC has not run Milestone 4.0 yet (`RUN-M4-PERFORMANCE-TEST.cmd`, modes A and B first). The EightMax 5.1
+native solver (`native/mwcli.exe`, build `7d08acc7eb4577ee`) is byte-identical.
 
 ---
 

@@ -1,0 +1,376 @@
+﻿2026-11-24T17:23:51.8221259Z Current runner version: '2.338.2'
+2026-11-24T17:23:51.8246700Z ##[group]Runner Image Provisioner
+2026-11-24T17:23:51.8247682Z Hosted Compute Agent
+2026-11-24T17:23:51.8248346Z Version: 20261111.635
+2026-11-24T17:23:51.8249382Z Commit: b8a594ea514ff44cadb5342986c68b1eac6e22ed
+2026-11-24T17:23:51.8250625Z Build Date: 2026-11-11T01:49:01Z
+2026-11-24T17:23:51.8251357Z Worker ID: {9ebb93e7-0f17-4ada-b489-51527fdeb854}
+2026-11-24T17:23:51.8252142Z Region: westus
+2026-11-24T17:23:51.8252794Z Cloud: Azure
+2026-11-24T17:23:51.8253319Z ##[endgroup]
+2026-11-24T17:23:51.8254970Z ##[group]Operating System
+2026-11-24T17:23:51.8255632Z Ubuntu
+2026-11-24T17:23:51.8256268Z 26.04.1
+2026-11-24T17:23:51.8256849Z LTS
+2026-11-24T17:23:51.8257375Z ##[endgroup]
+2026-11-24T17:23:51.8258001Z ##[group]Runner Image
+2026-11-24T17:23:51.8258625Z Image: ubuntu-26.04
+2026-11-24T17:23:51.8259270Z Version: 20261116.202.1
+2026-11-24T17:23:51.8260914Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261116.202/images/ubuntu/Ubuntu2604-Readme.md
+2026-11-24T17:23:51.8262537Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261116.202
+2026-11-24T17:23:51.8263516Z ##[endgroup]
+2026-11-24T17:23:51.8264777Z ##[group]GITHUB_TOKEN Permissions
+2026-11-24T17:23:51.8266796Z Contents: write
+2026-11-24T17:23:51.8267493Z Metadata: read
+2026-11-24T17:23:51.8268193Z ##[endgroup]
+2026-11-24T17:23:51.8270641Z Secret source: Actions
+2026-11-24T17:23:51.8271843Z Cache mode: write
+2026-11-24T17:23:51.8272596Z Prepare workflow directory
+2026-11-24T17:23:51.8714137Z Prepare all required actions
+2026-11-24T17:23:51.8779613Z Getting action download info
+2026-11-24T17:23:52.2845264Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-11-24T17:23:52.3799805Z Download action repository 'actions/download-artifact@v4' (SHA:d3f86a106a0bac45b974a628896c90dbdf5c8093)
+2026-11-24T17:23:52.7137917Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-11-24T17:23:52.9261754Z Complete job name: linux
+2026-11-24T17:23:53.0150683Z ##[group]Run actions/checkout@v4
+2026-11-24T17:23:53.0151643Z with:
+2026-11-24T17:23:53.0152137Z   repository: derekwtgm/PTO
+2026-11-24T17:23:53.0155733Z   token: ***
+2026-11-24T17:23:53.0156219Z   ssh-strict: true
+2026-11-24T17:23:53.0156700Z   ssh-user: git
+2026-11-24T17:23:53.0157194Z   persist-credentials: true
+2026-11-24T17:23:53.0157719Z   clean: true
+2026-11-24T17:23:53.0158213Z   sparse-checkout-cone-mode: true
+2026-11-24T17:23:53.0158765Z   fetch-depth: 1
+2026-11-24T17:23:53.0159228Z   fetch-tags: false
+2026-11-24T17:23:53.0159708Z   show-progress: true
+2026-11-24T17:23:53.0160345Z   lfs: false
+2026-11-24T17:23:53.0160799Z   submodules: false
+2026-11-24T17:23:53.0161289Z   set-safe-directory: true
+2026-11-24T17:23:53.0161825Z   allow-unsafe-pr-checkout: false
+2026-11-24T17:23:53.0162607Z env:
+2026-11-24T17:23:53.0163245Z   M40_ZIP: EightMax-Test-Workbench-0.36.2-Milestone-4.0.zip
+2026-11-24T17:23:53.0164089Z   M32_ZIP: EightMax-Test-Workbench-0.36.2-Milestone-3.2.zip
+2026-11-24T17:23:53.0165028Z   M32_SHA256: 740e9c1fe853d8db0a57722cabbba78a66ad20525b63a7569fe51658cabeb54d
+2026-11-24T17:23:53.0165822Z ##[endgroup]
+2026-11-24T17:23:53.2782251Z Syncing repository: derekwtgm/PTO
+2026-11-24T17:23:53.2784932Z ##[group]Getting Git version info
+2026-11-24T17:23:53.2785796Z Working directory is '/home/runner/work/PTO/PTO'
+2026-11-24T17:23:53.2786786Z [command]/usr/bin/git version
+2026-11-24T17:23:53.2809154Z git version 2.56.1
+2026-11-24T17:23:53.2841629Z ##[endgroup]
+2026-11-24T17:23:53.2855701Z Temporarily overriding HOME='/home/runner/work/_temp/7559bee5-0e58-41f8-ad8f-1af5adc69a22' before making global git config changes
+2026-11-24T17:23:53.2857993Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-24T17:23:53.2860989Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/PTO/PTO
+2026-11-24T17:23:53.2928782Z Deleting the contents of '/home/runner/work/PTO/PTO'
+2026-11-24T17:23:53.2933382Z ##[group]Initializing the repository
+2026-11-24T17:23:53.2936902Z [command]/usr/bin/git init /home/runner/work/PTO/PTO
+2026-11-24T17:23:53.3047797Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-24T17:23:53.3050152Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-24T17:23:53.3051474Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-24T17:23:53.3052623Z hint: call:
+2026-11-24T17:23:53.3053052Z hint:
+2026-11-24T17:23:53.3053593Z hint: 	git config --global init.defaultBranch <name>
+2026-11-24T17:23:53.3054365Z hint:
+2026-11-24T17:23:53.3055100Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-24T17:23:53.3056077Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-24T17:23:53.3057163Z hint:
+2026-11-24T17:23:53.3057913Z hint: 	git branch -m <name>
+2026-11-24T17:23:53.3058731Z hint:
+2026-11-24T17:23:53.3059990Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-24T17:23:53.3061583Z Initialized empty Git repository in /home/runner/work/PTO/PTO/.git/
+2026-11-24T17:23:53.3074162Z [command]/usr/bin/git remote add origin https://github.com/derekwtgm/PTO
+2026-11-24T17:23:53.3132712Z ##[endgroup]
+2026-11-24T17:23:53.3133576Z ##[group]Disabling automatic garbage collection
+2026-11-24T17:23:53.3137370Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-24T17:23:53.3175228Z ##[endgroup]
+2026-11-24T17:23:53.3176275Z ##[group]Setting up auth
+2026-11-24T17:23:53.3183134Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-24T17:23:53.3221307Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-24T17:23:53.3703749Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-24T17:23:53.3741783Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-24T17:23:53.4025989Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-24T17:23:53.4061939Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-24T17:23:53.4339550Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-24T17:23:53.4381631Z ##[endgroup]
+2026-11-24T17:23:53.4383032Z ##[group]Fetching the repository
+2026-11-24T17:23:53.4393403Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +c1867d10c02c7db2d1f45d1237cf69f0ff7bb9ee:refs/remotes/origin/milestone-4.0-0362
+2026-11-24T17:24:01.7471598Z From https://github.com/derekwtgm/PTO
+2026-11-24T17:24:01.7473002Z  * [new ref]         c1867d10c02c7db2d1f45d1237cf69f0ff7bb9ee -> origin/milestone-4.0-0362
+2026-11-24T17:24:01.7477304Z ##[endgroup]
+2026-11-24T17:24:01.7478353Z ##[group]Determining the checkout info
+2026-11-24T17:24:01.7479623Z ##[endgroup]
+2026-11-24T17:24:01.7486743Z [command]/usr/bin/git sparse-checkout disable
+2026-11-24T17:24:01.7542162Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-24T17:24:01.7575685Z ##[group]Checking out the ref
+2026-11-24T17:24:01.7579582Z [command]/usr/bin/git checkout --progress --force -B milestone-4.0-0362 refs/remotes/origin/milestone-4.0-0362
+2026-11-24T17:24:02.3819177Z Switched to a new branch 'milestone-4.0-0362'
+2026-11-24T17:24:02.3824432Z branch 'milestone-4.0-0362' set up to track 'origin/milestone-4.0-0362'.
+2026-11-24T17:24:02.3928159Z ##[endgroup]
+2026-11-24T17:24:02.3985971Z [command]/usr/bin/git log -1 --format=%H
+2026-11-24T17:24:02.4011626Z c1867d10c02c7db2d1f45d1237cf69f0ff7bb9ee
+2026-11-24T17:24:02.4331481Z ##[group]Run actions/download-artifact@v4
+2026-11-24T17:24:02.4331879Z with:
+2026-11-24T17:24:02.4332130Z   name: m40-release-zip
+2026-11-24T17:24:02.4332397Z   path: zipdir
+2026-11-24T17:24:02.4332654Z   merge-multiple: false
+2026-11-24T17:24:02.4332944Z   repository: derekwtgm/PTO
+2026-11-24T17:24:02.4333219Z   run-id: 45441870852
+2026-11-24T17:24:02.4333471Z env:
+2026-11-24T17:24:02.4333827Z   M40_ZIP: EightMax-Test-Workbench-0.36.2-Milestone-4.0.zip
+2026-11-24T17:24:02.4334323Z   M32_ZIP: EightMax-Test-Workbench-0.36.2-Milestone-3.2.zip
+2026-11-24T17:24:02.4334843Z   M32_SHA256: 740e9c1fe853d8db0a57722cabbba78a66ad20525b63a7569fe51658cabeb54d
+2026-11-24T17:24:02.4335285Z ##[endgroup]
+2026-11-24T17:24:02.5828753Z Downloading single artifact
+2026-11-24T17:24:02.6020713Z (node:2400) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-24T17:24:02.6021881Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-24T17:24:02.8594633Z Preparing to download the following artifacts:
+2026-11-24T17:24:02.8596048Z - m40-release-zip (ID: 14942829439, Size: 80841636, Expected Digest: sha256:0b5265649fca8a54abdbdedfb73a4f5cb8f57ac9228b8d1efd0029a2f295edfe)
+2026-11-24T17:24:03.0982316Z Redirecting to blob download url: https://productionresultssa14.blob.core.windows.net/actions-results/4a6fac4c-bc3a-8fd1-8b55-7abdf92ff5d4/workflow-job-run-2e28b03a-cd09-5801-bb6b-b5d0609fbc46/artifacts/a1e9d8b1b75ad5a1588f48ecbec2ca5d22dd3d88cc4ba774ffd17d0127390fcb.zip
+2026-11-24T17:24:03.0984997Z Starting download of artifact to: /home/runner/work/PTO/PTO/zipdir
+2026-11-24T17:24:03.4614249Z (node:2400) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-11-24T17:24:07.0679472Z SHA256 digest of downloaded artifact is 0b5265649fca8a54abdbdedfb73a4f5cb8f57ac9228b8d1efd0029a2f295edfe
+2026-11-24T17:24:07.0680660Z Artifact download completed successfully.
+2026-11-24T17:24:07.0680983Z Total of 1 artifact(s) downloaded
+2026-11-24T17:24:07.0687179Z Download artifact has finished successfully
+2026-11-24T17:24:07.0916008Z ##[group]Run actions/setup-node@v4
+2026-11-24T17:24:07.0916321Z with:
+2026-11-24T17:24:07.0916520Z   node-version: 22
+2026-11-24T17:24:07.0916734Z   always-auth: false
+2026-11-24T17:24:07.0916951Z   check-latest: false
+2026-11-24T17:24:07.0919390Z   token: ***
+2026-11-24T17:24:07.0919598Z env:
+2026-11-24T17:24:07.0920108Z   M40_ZIP: EightMax-Test-Workbench-0.36.2-Milestone-4.0.zip
+2026-11-24T17:24:07.0920561Z   M32_ZIP: EightMax-Test-Workbench-0.36.2-Milestone-3.2.zip
+2026-11-24T17:24:07.0921049Z   M32_SHA256: 740e9c1fe853d8db0a57722cabbba78a66ad20525b63a7569fe51658cabeb54d
+2026-11-24T17:24:07.0921469Z ##[endgroup]
+2026-11-24T17:24:07.2381507Z (node:2414) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-24T17:24:07.2383206Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-24T17:24:07.2391064Z Found in cache @ /opt/hostedtoolcache/node/22.23.5/x64
+2026-11-24T17:24:07.2392867Z ##[group]Environment details
+2026-11-24T17:24:07.6754572Z node: v22.23.5
+2026-11-24T17:24:07.6755229Z npm: 10.9.9
+2026-11-24T17:24:07.6755785Z yarn: 1.22.22
+2026-11-24T17:24:07.6756875Z ##[endgroup]
+2026-11-24T17:24:07.6896698Z ##[group]Run sudo apt-get update -q && sudo apt-get install -y -q mono-devel xvfb openbox > /dev/null && mono --version | head -1
+2026-11-24T17:24:07.6897684Z [36;1msudo apt-get update -q && sudo apt-get install -y -q mono-devel xvfb openbox > /dev/null && mono --version | head -1[0m
+2026-11-24T17:24:07.6943753Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-24T17:24:07.6944133Z env:
+2026-11-24T17:24:07.6944434Z   M40_ZIP: EightMax-Test-Workbench-0.36.2-Milestone-4.0.zip
+2026-11-24T17:24:07.6944919Z   M32_ZIP: EightMax-Test-Workbench-0.36.2-Milestone-3.2.zip
+2026-11-24T17:24:07.6945741Z   M32_SHA256: 740e9c1fe853d8db0a57722cabbba78a66ad20525b63a7569fe51658cabeb54d
+2026-11-24T17:24:07.6946160Z ##[endgroup]
+2026-11-24T17:24:07.7761850Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+2026-11-24T17:24:07.7975059Z Get:6 https://packages.microsoft.com/ubuntu/26.04/prod resolute InRelease [3964 B]
+2026-11-24T17:24:07.8074207Z Hit:2 http://azure.archive.ubuntu.com/ubuntu resolute InRelease
+2026-11-24T17:24:07.8125997Z Get:3 http://azure.archive.ubuntu.com/ubuntu resolute-updates InRelease [137 kB]
+2026-11-24T17:24:07.8163102Z Get:4 http://azure.archive.ubuntu.com/ubuntu resolute-backports InRelease [137 kB]
+2026-11-24T17:24:07.8212670Z Get:5 http://azure.archive.ubuntu.com/ubuntu resolute-security InRelease [137 kB]
+2026-11-24T17:24:07.8431812Z Get:7 https://packages.microsoft.com/ubuntu/26.04/prod resolute/main arm64 Packages [173 kB]
+2026-11-24T17:24:07.8700146Z Get:8 http://azure.archive.ubuntu.com/ubuntu resolute-updates/main amd64v3 Packages [916 kB]
+2026-11-24T17:24:07.8748431Z Get:14 https://packages.microsoft.com/ubuntu/26.04/prod resolute/main amd64 Packages [186 kB]
+2026-11-24T17:24:07.8789271Z Get:9 http://azure.archive.ubuntu.com/ubuntu resolute-updates/main Translation-en [202 kB]
+2026-11-24T17:24:07.8822599Z Get:10 http://azure.archive.ubuntu.com/ubuntu resolute-updates/universe amd64v3 Packages [397 kB]
+2026-11-24T17:24:07.8881041Z Get:11 http://azure.archive.ubuntu.com/ubuntu resolute-updates/universe Translation-en [126 kB]
+2026-11-24T17:24:07.8906274Z Get:12 http://azure.archive.ubuntu.com/ubuntu resolute-updates/restricted amd64v3 Packages [640 kB]
+2026-11-24T17:24:07.8940916Z Get:13 http://azure.archive.ubuntu.com/ubuntu resolute-updates/restricted Translation-en [132 kB]
+2026-11-24T17:24:07.8967099Z Get:15 http://azure.archive.ubuntu.com/ubuntu resolute-security/main amd64v3 Packages [753 kB]
+2026-11-24T17:24:07.9019539Z Get:16 http://azure.archive.ubuntu.com/ubuntu resolute-security/main Translation-en [162 kB]
+2026-11-24T17:24:07.9032899Z Get:17 http://azure.archive.ubuntu.com/ubuntu resolute-security/universe amd64v3 Packages [224 kB]
+2026-11-24T17:24:07.9059345Z Get:18 http://azure.archive.ubuntu.com/ubuntu resolute-security/universe Translation-en [73.2 kB]
+2026-11-24T17:24:07.9541457Z Get:19 http://azure.archive.ubuntu.com/ubuntu resolute-security/restricted amd64v3 Packages [618 kB]
+2026-11-24T17:24:07.9583320Z Get:20 http://azure.archive.ubuntu.com/ubuntu resolute-security/restricted Translation-en [128 kB]
+2026-11-24T17:24:10.1781601Z Fetched 5147 kB in 0s (12.1 MB/s)
+2026-11-24T17:24:10.8569177Z Reading package lists...
+2026-11-24T17:24:29.4130518Z 
+2026-11-24T17:24:29.4131352Z Running kernel seems to be up-to-date.
+2026-11-24T17:24:29.4131698Z 
+2026-11-24T17:24:29.4131863Z Restarting services...
+2026-11-24T17:24:29.4226830Z 
+2026-11-24T17:24:29.4227382Z Service restarts being deferred:
+2026-11-24T17:24:29.4230479Z  systemctl restart hosted-compute-agent.service
+2026-11-24T17:24:29.4230914Z 
+2026-11-24T17:24:29.4231660Z No containers need to be restarted.
+2026-11-24T17:24:29.4232039Z 
+2026-11-24T17:24:29.4232383Z No user sessions are running outdated binaries.
+2026-11-24T17:24:29.4232770Z 
+2026-11-24T17:24:29.4233124Z No VM guests are running outdated hypervisor (qemu) binaries on this host.
+2026-11-24T17:24:30.3041119Z Mono JIT compiler version 6.14.1 (tarball Fri Feb 20 21:04:10 UTC 2026)
+2026-11-24T17:24:30.3103684Z ##[group]Run set -euo pipefail
+2026-11-24T17:24:30.3104055Z [36;1mset -euo pipefail[0m
+2026-11-24T17:24:30.3104352Z [36;1mo="$RUNNER_TEMP/m40-linux"; mkdir -p "$o"[0m
+2026-11-24T17:24:30.3104998Z [36;1mhave=$(sha256sum "zipdir/$M40_ZIP" | cut -d' ' -f1); [ "$have" = "ab85ee9215daedd5ad72d9bb4e10f1924b82dd719d8e6caf76f8dcf5d6b22f0e" ][0m
+2026-11-24T17:24:30.3106060Z [36;1mbase="$RUNNER_TEMP/EightMax CI (linux)"; mkdir -p "$base"; python3 -I -c "import zipfile,sys; zipfile.ZipFile(sys.argv[1]).extractall(sys.argv[2])" "zipdir/$M40_ZIP" "$base"[0m
+2026-11-24T17:24:30.3106959Z [36;1mcd "$base/EightMax-Test-Workbench"; find tests/fixtures -name '*.sh' -exec chmod +x {} +[0m
+2026-11-24T17:24:30.3107780Z [36;1m{ node --version; mono --version | head -1; uname -a; nproc; } > "$o/environment.txt"[0m
+2026-11-24T17:24:30.3108623Z [36;1mnode --test --test-reporter=tap --test-concurrency=4 --test-timeout=600000 tests/*.test.cjs > "$o/linux-suite.tap" 2> "$o/linux-suite.err" || true[0m
+2026-11-24T17:24:30.3109280Z [36;1mtail -9 "$o/linux-suite.tap"[0m
+2026-11-24T17:24:30.3109711Z [36;1m# every failing test with its diagnostics block (error, expected/actual, location)[0m
+2026-11-24T17:24:30.3110626Z [36;1mawk '/^ *not ok /{p=1} p{print} p && /^ *\.\.\.$/{p=0}' "$o/linux-suite.tap" | tee "$o/failures.txt" | head -300[0m
+2026-11-24T17:24:30.3111132Z [36;1mgrep -q '^# fail 0$' "$o/linux-suite.tap"[0m
+2026-11-24T17:24:30.3145114Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-24T17:24:30.3145473Z env:
+2026-11-24T17:24:30.3145762Z   M40_ZIP: EightMax-Test-Workbench-0.36.2-Milestone-4.0.zip
+2026-11-24T17:24:30.3146223Z   M32_ZIP: EightMax-Test-Workbench-0.36.2-Milestone-3.2.zip
+2026-11-24T17:24:30.3146709Z   M32_SHA256: 740e9c1fe853d8db0a57722cabbba78a66ad20525b63a7569fe51658cabeb54d
+2026-11-24T17:24:30.3147114Z ##[endgroup]
+2026-11-24T17:31:21.1839687Z 1..1091
+2026-11-24T17:31:21.1841912Z # tests 1091
+2026-11-24T17:31:21.1842273Z # suites 0
+2026-11-24T17:31:21.1843869Z # pass 1031
+2026-11-24T17:31:21.1844206Z # fail 2
+2026-11-24T17:31:21.1844502Z # cancelled 0
+2026-11-24T17:31:21.1844824Z # skipped 58
+2026-11-24T17:31:21.1845160Z # todo 0
+2026-11-24T17:31:21.1845537Z # duration_ms 409924.497135
+2026-11-24T17:31:21.1887686Z not ok 1031 - host: authenticated shutdown ends the message loop by itself (no forced kill, no watchdog) in idle, after-error and stalled-connection states
+2026-11-24T17:31:21.1888924Z   ---
+2026-11-24T17:31:21.1889307Z   duration_ms: 12603.758533
+2026-11-24T17:31:21.1889727Z   type: 'test'
+2026-11-24T17:31:21.1890952Z   location: '/home/runner/work/_temp/EightMax CI (linux)/EightMax-Test-Workbench/tests/windows-repairs-028.test.cjs:162:1'
+2026-11-24T17:31:21.1892106Z   failureType: 'testCodeFailure'
+2026-11-24T17:31:21.1892891Z   error: "ENOENT: no such file or directory, open '/tmp/em028-OSkxbA/session.json'"
+2026-11-24T17:31:21.1893638Z   code: 'ENOENT'
+2026-11-24T17:31:21.1894085Z   stack: |-
+2026-11-24T17:31:21.1894543Z     Object.readFileSync (node:fs:440:20)
+2026-11-24T17:31:21.1895835Z     startHost (/home/runner/work/_temp/EightMax CI (linux)/EightMax-Test-Workbench/tests/windows-repairs-028.test.cjs:157:33)
+2026-11-24T17:31:21.1897723Z     async TestContext.<anonymous> (/home/runner/work/_temp/EightMax CI (linux)/EightMax-Test-Workbench/tests/windows-repairs-028.test.cjs:165:32)
+2026-11-24T17:31:21.1899217Z     async Test.run (node:internal/test_runner/test:1054:7)
+2026-11-24T17:31:21.1900392Z     async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+2026-11-24T17:31:21.1901140Z   ...
+2026-11-24T17:31:21.1902115Z not ok 1032 - host: work is refused with 503 host-stopping once shutdown starts; double shutdown is harmless
+2026-11-24T17:31:21.1903020Z   ---
+2026-11-24T17:31:21.1903374Z   duration_ms: 10419.662569
+2026-11-24T17:31:21.1903789Z   type: 'test'
+2026-11-24T17:31:21.1904822Z   location: '/home/runner/work/_temp/EightMax CI (linux)/EightMax-Test-Workbench/tests/windows-repairs-028.test.cjs:182:1'
+2026-11-24T17:31:21.1906287Z   failureType: 'testCodeFailure'
+2026-11-24T17:31:21.1907163Z   error: "ENOENT: no such file or directory, open '/tmp/em028-EbSCqk/session.json'"
+2026-11-24T17:31:21.1907931Z   code: 'ENOENT'
+2026-11-24T17:31:21.1908283Z   stack: |-
+2026-11-24T17:31:21.1908717Z     Object.readFileSync (node:fs:440:20)
+2026-11-24T17:31:21.1910158Z     startHost (/home/runner/work/_temp/EightMax CI (linux)/EightMax-Test-Workbench/tests/windows-repairs-028.test.cjs:157:33)
+2026-11-24T17:31:21.1912157Z     async TestContext.<anonymous> (/home/runner/work/_temp/EightMax CI (linux)/EightMax-Test-Workbench/tests/windows-repairs-028.test.cjs:183:30)
+2026-11-24T17:31:21.1914041Z     async Test.run (node:internal/test_runner/test:1054:7)
+2026-11-24T17:31:21.1915021Z     async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+2026-11-24T17:31:21.1915771Z   ...
+2026-11-24T17:31:21.1945646Z ##[error]Process completed with exit code 1.
+2026-11-24T17:31:21.2000823Z ##[group]Run set -u
+2026-11-24T17:31:21.2001159Z [36;1mset -u[0m
+2026-11-24T17:31:21.2001615Z [36;1mo="$RUNNER_TEMP/m40-linux"; mkdir -p "$o"; app="$RUNNER_TEMP/EightMax CI (linux)/EightMax-Test-Workbench"[0m
+2026-11-24T17:31:21.2002486Z [36;1mfiles=$(grep -o "location: '[^']*tests/[^:']*" "$o/failures.txt" 2>/dev/null | sed "s/.*tests\//tests\//" | sort -u || true); echo "failing files: ${files:-none}"[0m
+2026-11-24T17:31:21.2003107Z [36;1m: > "$o/alone.txt"[0m
+2026-11-24T17:31:21.2003991Z [36;1mfor f in $files; do (cd "$app" && node --test --test-reporter=tap "$f" > "$o/m40-alone-$(basename "$f").tap" 2>&1); if grep -q '^# fail 0$' "$o/m40-alone-$(basename "$f").tap"; then echo "$f pass" >> "$o/alone.txt"; else echo "$f fail" >> "$o/alone.txt"; fi; done[0m
+2026-11-24T17:31:21.2004931Z [36;1mcat "$o/alone.txt"[0m
+2026-11-24T17:31:21.2005531Z [36;1m# the Milestone 3.2 release, complete suite, same runner, same concurrency: how often do these timing-sensitive tests fail there?[0m
+2026-11-24T17:31:21.2006478Z [36;1mm32="$RUNNER_TEMP/m32"; mkdir -p "$m32"; python3 -I -c "import zipfile,sys; zipfile.ZipFile(sys.argv[1]).extractall(sys.argv[2])" "$M32_ZIP" "$m32"[0m
+2026-11-24T17:31:21.2007763Z [36;1m(cd "$m32/EightMax-Test-Workbench" && find tests/fixtures -name '*.sh' -exec chmod +x {} + ; node --test --test-reporter=tap --test-concurrency=4 --test-timeout=600000 tests/*.test.cjs > "$o/m32-suite.tap" 2> "$o/m32-suite.err" || true)[0m
+2026-11-24T17:31:21.2008919Z [36;1mtail -9 "$o/m32-suite.tap"; grep '^not ok' "$o/m32-suite.tap" > "$o/m32-failures.txt" || true; cat "$o/m32-failures.txt"[0m
+2026-11-24T17:31:21.2009444Z [36;1mpython3 -I - "$o" <<'PYEOF'[0m
+2026-11-24T17:31:21.2009717Z [36;1mimport json, re, sys, os[0m
+2026-11-24T17:31:21.2010243Z [36;1mo = sys.argv[1][0m
+2026-11-24T17:31:21.2010480Z [36;1mdef counts(tap):[0m
+2026-11-24T17:31:21.2010892Z [36;1m    t = open(tap, encoding='utf-8', errors='replace').read() if os.path.exists(tap) else ''[0m
+2026-11-24T17:31:21.2011462Z [36;1m    g = lambda k: int((re.search(r'^# ' + k + r' (\d+)$', t, re.M) or [0, 0])[1])[0m
+2026-11-24T17:31:21.2012158Z [36;1m    return {'tests': g('tests'), 'pass': g('pass'), 'fail': g('fail'), 'skipped': g('skipped'), 'failing': re.findall(r'^not ok \d+ - (.*)$', t, re.M)}[0m
+2026-11-24T17:31:21.2012936Z [36;1malone = [l.split() for l in open(os.path.join(o, 'alone.txt')).read().splitlines() if l.strip()][0m
+2026-11-24T17:31:21.2013585Z [36;1mm40, m32 = counts(os.path.join(o, 'linux-suite.tap')), counts(os.path.join(o, 'm32-suite.tap'))[0m
+2026-11-24T17:31:21.2014184Z [36;1mflaky = m40['fail'] > 0 and len(alone) > 0 and all(x[1] == 'pass' for x in alone)[0m
+2026-11-24T17:31:21.2014784Z [36;1mv = {'m40Suite': m40, 'failingFilesRunAlone': {x[0]: x[1] for x in alone}, 'm32SuiteSameRunner': m32,[0m
+2026-11-24T17:31:21.2015633Z [36;1m     'verdict': 'pass' if m40['fail'] == 0 else ('pass: every failing test passed when its file ran alone (timing under full-suite load)' if flaky else 'fail')}[0m
+2026-11-24T17:31:21.2016616Z [36;1mjson.dump(v, open(os.path.join(o, 'linux-verdict.json'), 'w'), indent=1); print(json.dumps({k: v[k] for k in ['verdict', 'failingFilesRunAlone']}))[0m
+2026-11-24T17:31:21.2017289Z [36;1msys.exit(0 if v['verdict'].startswith('pass') else 1)[0m
+2026-11-24T17:31:21.2017645Z [36;1mPYEOF[0m
+2026-11-24T17:31:21.2051501Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-24T17:31:21.2051839Z env:
+2026-11-24T17:31:21.2052132Z   M40_ZIP: EightMax-Test-Workbench-0.36.2-Milestone-4.0.zip
+2026-11-24T17:31:21.2052563Z   M32_ZIP: EightMax-Test-Workbench-0.36.2-Milestone-3.2.zip
+2026-11-24T17:31:21.2053045Z   M32_SHA256: 740e9c1fe853d8db0a57722cabbba78a66ad20525b63a7569fe51658cabeb54d
+2026-11-24T17:31:21.2053620Z ##[endgroup]
+2026-11-24T17:31:21.2184083Z failing files: tests/windows-repairs-028.test.cjs
+2026-11-24T17:31:46.9772106Z tests/windows-repairs-028.test.cjs pass
+2026-11-24T17:37:56.8794862Z 1..1029
+2026-11-24T17:37:56.8795684Z # tests 1029
+2026-11-24T17:37:56.8796059Z # suites 0
+2026-11-24T17:37:56.8796391Z # pass 968
+2026-11-24T17:37:56.8796722Z # fail 3
+2026-11-24T17:37:56.8797051Z # cancelled 0
+2026-11-24T17:37:56.8797406Z # skipped 58
+2026-11-24T17:37:56.8797763Z # todo 0
+2026-11-24T17:37:56.8798026Z # duration_ms 369049.708656
+2026-11-24T17:37:56.8839805Z not ok 231 - every corpus request gets its expected status and structured code from the real host
+2026-11-24T17:37:56.8840917Z not ok 273 - driver: cancel stops a movement mid-way; nothing moves afterwards; emergency stop latches until reset
+2026-11-24T17:37:56.8842022Z not ok 969 - host: authenticated shutdown ends the message loop by itself (no forced kill, no watchdog) in idle, after-error and stalled-connection states
+2026-11-24T17:37:56.9176031Z {"verdict": "pass: every failing test passed when its file ran alone (timing under full-suite load)", "failingFilesRunAlone": {"tests/windows-repairs-028.test.cjs": "pass"}}
+2026-11-24T17:37:56.9244492Z ##[group]Run set -u
+2026-11-24T17:37:56.9244770Z [36;1mset -u[0m
+2026-11-24T17:37:56.9245294Z [36;1mres="$RUNNER_TEMP/m40-linux"; dest="$RUNNER_TEMP/branch"; mkdir -p "$dest/results"; [ -d "$res" ] && cp -r "$res/." "$dest/results/"[0m
+2026-11-24T17:37:56.9246467Z [36;1mprintf '{"run":"%s","sha":"%s","zipSha256":"%s","job":"linux","suite":"%s","outcome":"%s"}\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" "ab85ee9215daedd5ad72d9bb4e10f1924b82dd719d8e6caf76f8dcf5d6b22f0e" "failure" "success" > "$dest/run.json"[0m
+2026-11-24T17:37:56.9248034Z [36;1mcd "$dest" && git init -q && git checkout -q -b "m40-results/$GITHUB_RUN_ID-linux" && git add -A && git -c user.name="eightmax-ci" -c user.email="eightmax-ci@users.noreply.github.com" commit -q -m "Milestone 4.0 Linux suite, run $GITHUB_RUN_ID ($GITHUB_SHA)"[0m
+2026-11-24T17:37:56.9252479Z [36;1mfor i in 1 2 3 4; do git push -q "***github.com/derekwtgm/PTO.git" "HEAD:refs/heads/m40-results/$GITHUB_RUN_ID-linux" && echo "pushed m40-results/$GITHUB_RUN_ID-linux" && break; sleep $((i * 5)); done[0m
+2026-11-24T17:37:56.9285739Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-24T17:37:56.9286084Z env:
+2026-11-24T17:37:56.9286382Z   M40_ZIP: EightMax-Test-Workbench-0.36.2-Milestone-4.0.zip
+2026-11-24T17:37:56.9286818Z   M32_ZIP: EightMax-Test-Workbench-0.36.2-Milestone-3.2.zip
+2026-11-24T17:37:56.9287292Z   M32_SHA256: 740e9c1fe853d8db0a57722cabbba78a66ad20525b63a7569fe51658cabeb54d
+2026-11-24T17:37:56.9287693Z ##[endgroup]
+2026-11-24T17:37:57.4338536Z To https://github.com/derekwtgm/PTO.git
+2026-11-24T17:37:57.4339151Z  ! [rejected]        HEAD -> m40-results/45441870852-linux (fetch first)
+2026-11-24T17:37:57.4340055Z error: failed to push some refs to 'https://github.com/derekwtgm/PTO.git'
+2026-11-24T17:37:57.4346911Z hint: Updates were rejected because the remote contains work that you do not
+2026-11-24T17:37:57.4347586Z hint: have locally. This is usually caused by another repository pushing to
+2026-11-24T17:37:57.4348203Z hint: the same ref. If you want to integrate the remote changes, use
+2026-11-24T17:37:57.4348661Z hint: 'git pull' before pushing again.
+2026-11-24T17:37:57.4349159Z hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+2026-11-24T17:38:02.8825386Z To https://github.com/derekwtgm/PTO.git
+2026-11-24T17:38:02.8825986Z  ! [rejected]        HEAD -> m40-results/45441870852-linux (fetch first)
+2026-11-24T17:38:02.8826636Z error: failed to push some refs to 'https://github.com/derekwtgm/PTO.git'
+2026-11-24T17:38:02.8836338Z hint: Updates were rejected because the remote contains work that you do not
+2026-11-24T17:38:02.8837499Z hint: have locally. This is usually caused by another repository pushing to
+2026-11-24T17:38:02.8838565Z hint: the same ref. If you want to integrate the remote changes, use
+2026-11-24T17:38:02.8839510Z hint: 'git pull' before pushing again.
+2026-11-24T17:38:02.8842152Z hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+2026-11-24T17:38:13.3026604Z To https://github.com/derekwtgm/PTO.git
+2026-11-24T17:38:13.3027413Z  ! [rejected]        HEAD -> m40-results/45441870852-linux (fetch first)
+2026-11-24T17:38:13.3028413Z error: failed to push some refs to 'https://github.com/derekwtgm/PTO.git'
+2026-11-24T17:38:13.3038069Z hint: Updates were rejected because the remote contains work that you do not
+2026-11-24T17:38:13.3038756Z hint: have locally. This is usually caused by another repository pushing to
+2026-11-24T17:38:13.3039387Z hint: the same ref. If you want to integrate the remote changes, use
+2026-11-24T17:38:13.3040112Z hint: 'git pull' before pushing again.
+2026-11-24T17:38:13.3040634Z hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+2026-11-24T17:38:28.7589128Z To https://github.com/derekwtgm/PTO.git
+2026-11-24T17:38:28.7590166Z  ! [rejected]        HEAD -> m40-results/45441870852-linux (fetch first)
+2026-11-24T17:38:28.7602954Z error: failed to push some refs to 'https://github.com/derekwtgm/PTO.git'
+2026-11-24T17:38:28.7604594Z hint: Updates were rejected because the remote contains work that you do not
+2026-11-24T17:38:28.7605755Z hint: have locally. This is usually caused by another repository pushing to
+2026-11-24T17:38:28.7606706Z hint: the same ref. If you want to integrate the remote changes, use
+2026-11-24T17:38:28.7607529Z hint: 'git pull' before pushing again.
+2026-11-24T17:38:28.7608718Z hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+2026-11-24T17:38:48.7692814Z ##[group]Run [ "success" = "success" ]
+2026-11-24T17:38:48.7693501Z [36;1m[ "success" = "success" ][0m
+2026-11-24T17:38:48.7742037Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-24T17:38:48.7742715Z env:
+2026-11-24T17:38:48.7743252Z   M40_ZIP: EightMax-Test-Workbench-0.36.2-Milestone-4.0.zip
+2026-11-24T17:38:48.7744104Z   M32_ZIP: EightMax-Test-Workbench-0.36.2-Milestone-3.2.zip
+2026-11-24T17:38:48.7745040Z   M32_SHA256: 740e9c1fe853d8db0a57722cabbba78a66ad20525b63a7569fe51658cabeb54d
+2026-11-24T17:38:48.7745805Z ##[endgroup]
+2026-11-24T17:38:48.7917410Z Post job cleanup.
+2026-11-24T17:38:48.9277672Z (node:8576) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-24T17:38:48.9279113Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-24T17:38:48.9445061Z Post job cleanup.
+2026-11-24T17:38:49.0511741Z [command]/usr/bin/git version
+2026-11-24T17:38:49.0559306Z git version 2.56.1
+2026-11-24T17:38:49.0604955Z Temporarily overriding HOME='/home/runner/work/_temp/b63c8e5d-cdda-41d2-b494-392d561996e1' before making global git config changes
+2026-11-24T17:38:49.0606820Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-24T17:38:49.0614606Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/PTO/PTO
+2026-11-24T17:38:49.0664871Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-24T17:38:49.0712302Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-24T17:38:49.1066207Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-24T17:38:49.1094189Z http.https://github.com/.extraheader
+2026-11-24T17:38:49.1109256Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-24T17:38:49.1152658Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-24T17:38:49.1479114Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-24T17:38:49.1523491Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-24T17:38:49.1952665Z Cleaning up orphan processes
+2026-11-24T17:38:49.2261886Z Terminate orphan process: pid (4830) (MSBuild)
+2026-11-24T17:38:49.2300499Z Terminate orphan process: pid (4895) (VBCSCompiler)
+2026-11-24T17:38:49.2438860Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/download-artifact@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
