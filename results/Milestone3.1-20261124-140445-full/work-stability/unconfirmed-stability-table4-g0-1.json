@@ -1,0 +1,193 @@
+{
+ "format": "eightmax-unconfirmed-input",
+ "version": 1,
+ "seq": 1,
+ "at": "2026-11-24T14:23:14.486Z",
+ "table": 4,
+ "registrationId": "reg-mwusa927-9",
+ "hwnd": "0x1801D6",
+ "identityFingerprint": "f17d0233",
+ "identity": {
+  "pid": 2920,
+  "processStart": "134400037373550974",
+  "className": "WindowsForms10.Window.8.app.0.34f5582_r6_ad1",
+  "exe": "EightMaxTestTable.exe",
+  "exeSha256Prefix": "3e5a76995a24d169"
+ },
+ "hand": 2,
+ "street": "preflop",
+ "seat": 6,
+ "action": {
+  "type": "call",
+  "amount": 100
+ },
+ "decisionSource": "scripted-fallback",
+ "decisionLabel": "SCRIPTED FALLBACK — not a solver decision",
+ "inputStatus": "uncertain",
+ "status": "uncertain",
+ "reason": "the window was lost after the input was sent (target-lost); delivery cannot be confirmed - review the simulator; the action is not repeated",
+ "code": null,
+ "control": "call",
+ "expectedRegion": {
+  "normalized": {
+   "x": 0.84,
+   "y": 0.93,
+   "w": 0.07,
+   "h": 0.05
+  },
+  "clickRect": {
+   "x": 819,
+   "y": 595,
+   "w": 34,
+   "h": 15
+  }
+ },
+ "selectedPoint": {
+  "x": 836,
+  "y": 602
+ },
+ "clickedAt": {
+  "x": 836,
+  "y": 602
+ },
+ "hit": "0x30254",
+ "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+ "displayScaling": 1,
+ "clientAtReading": {
+  "x": 136,
+  "y": 125,
+  "w": 800,
+  "h": 500
+ },
+ "clientAfter": null,
+ "windowAfter": {
+  "exists": false,
+  "code": "target-lost",
+  "reason": "The window no longer exists (capture: target-lost; driver: window-gone)."
+ },
+ "driver": {
+  "reported": "input completed (driver reply ok)",
+  "plannedMs": 406.94,
+  "actualMs": 415.56,
+  "steps": 26,
+  "finalError": 0,
+  "distance": 258.15,
+  "maxObservedLag": 0
+ },
+ "scheduler": {
+  "leaseId": 80,
+  "waitedMs": 1779,
+  "runMs": 735
+ },
+ "confirmation": {
+  "status": "uncertain",
+  "reason": "the window was lost after the input was sent (target-lost); delivery cannot be confirmed",
+  "timeoutMs": 4000,
+  "pollMs": 30,
+  "polls": 1,
+  "failedCaptures": 1,
+  "failureCodes": {
+   "target-lost": 1
+  },
+  "newFrames": 0,
+  "unreadableNewFrames": 0,
+  "startRevision": 16,
+  "revisionsSeen": [],
+  "firstPollMs": 33,
+  "lastFrameId": null,
+  "finalReading": null,
+  "stripPolls": 0,
+  "durationMs": 35
+ },
+ "frames": {
+  "before": {
+   "frameId": 684,
+   "revision": 16,
+   "ageAtSubmitMs": 17
+  },
+  "after": {
+   "lastFrameId": null,
+   "revisionsSeen": [],
+   "finalReading": null
+  }
+ },
+ "timeline": {
+  "readToSubmitMs": 17,
+  "queueWaitMs": 1779,
+  "inputRunMs": 735,
+  "confirmMs": 35,
+  "totalMs": 2551
+ },
+ "lifecycleAfter": "TARGET_LOST",
+ "recordedAt": 1795530194486,
+ "windowEvents": [
+  {
+   "file": "oracle-table-04.jsonl",
+   "t": 1795530191545,
+   "table": 4,
+   "kind": "mouse-down",
+   "x": 700,
+   "y": 477,
+   "control": "call",
+   "enabled": true,
+   "rev": 15,
+   "wt": 1421500,
+   "dealerRev": 15
+  },
+  {
+   "file": "oracle-table-04.jsonl",
+   "t": 1795530191616,
+   "table": 4,
+   "kind": "mouse-up",
+   "x": 700,
+   "y": 477,
+   "control": "call",
+   "enabled": true,
+   "rev": 15,
+   "wt": 1421578,
+   "dealerRev": 15
+  },
+  {
+   "file": "oracle-table-04.jsonl",
+   "t": 1795530191617,
+   "table": 4,
+   "kind": "action",
+   "control": "call",
+   "wager": "",
+   "rev": 15,
+   "wt": 1421578,
+   "dealerRev": 15,
+   "result": "accepted",
+   "applied": {
+    "hand": 2,
+    "seat": 5,
+    "control": "call",
+    "type": "call",
+    "amount": 100,
+    "rev": 16
+   }
+  },
+  {
+   "file": "oracle-table-04.jsonl",
+   "t": 1795530191630,
+   "table": 4,
+   "kind": "shown",
+   "rev": 16,
+   "wt": 1421593,
+   "dealerRev": 16
+  },
+  {
+   "file": "oracle-table-04.jsonl",
+   "t": 1795530194226,
+   "table": 4,
+   "kind": "mouse-down",
+   "x": 700,
+   "y": 477,
+   "control": "call",
+   "enabled": true,
+   "rev": 16,
+   "wt": 1424187,
+   "dealerRev": 16
+  }
+ ]
+}

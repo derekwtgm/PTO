@@ -1,0 +1,29 @@
+--- M1: 1 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced
+  [PASS] every table played (confirmed actions on every table) - [45]
+  [PASS] no incorrect action, no invalid wager (oracle) - [0,0,{"excusedMisdirectedPresses":0}]
+  [PASS] no confirmed action the table did not apply - 0
+  [PASS] no stall, no unexpected pause, no violation - []
+  [PASS] faults exercised (closure + reopen n/a, emergency stop) - {"closeReopen":0,"estop":3}
+  => PASS (62 s)
+--- M2: 2 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced
+  [PASS] every table played (confirmed actions on every table) - [19,15]
+  [PASS] no incorrect action, no invalid wager (oracle) - [0,0,{"excusedMisdirectedPresses":0}]
+  [PASS] no confirmed action the table did not apply - 0
+  [PASS] no stall, no unexpected pause, no violation - []
+  [PASS] faults exercised (closure + reopen, emergency stop) - {"closeReopen":2,"estop":1}
+  => PASS (61 s)
+--- M5: 5 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced
+  [PASS] every table played (confirmed actions on every table) - [16,16,17,15,15]
+  [PASS] no incorrect action, no invalid wager (oracle) - [0,0,{"excusedMisdirectedPresses":0}]
+  [PASS] no confirmed action the table did not apply - 0
+  [PASS] no stall, no unexpected pause, no violation - []
+  [PASS] faults exercised (closure + reopen, emergency stop) - {"closeReopen":2,"estop":1}
+  => PASS (64 s)
+--- M8: 8 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced
+  [PASS] every table played (confirmed actions on every table) - [11,10,12,11,13,12,12,11]
+  [PASS] no incorrect action, no invalid wager (oracle) - [0,0,{"excusedMisdirectedPresses":0}]
+  [PASS] no confirmed action the table did not apply - 0
+  [PASS] no stall, no unexpected pause, no violation - []
+  [PASS] faults exercised (closure + reopen, emergency stop) - {"closeReopen":2,"estop":1}
+  => PASS (69 s)
+Gameplay acceptance stability (windows): PASS - 4/4 scenarios -> D:\a\_temp\m40-full\Milestone3.1-20261124-140445-full\gameplay-stability.json
