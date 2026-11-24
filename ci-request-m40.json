@@ -1,86 +1,20 @@
 {
- "purpose": "Milestone 4.0 FINAL validation (second) of the committed release ZIP after run 45432528536: the decision deadline is the Milestone 3.2 rule everywhere (the experimental change anchor is off), the one-hero test fixture never draws action controls for a seat the dealer plays, a hero who is out of chips ends that table's tournament in the test, the motion plan rounds like the driver, the lost-click oracle record counts only the first release after a press. Linux suite (with the Milestone 3.2 suite under the same load); full acceptance; T5/T5P on 4 machines at 100 and 125 %; same-machine A/B on 3 machines (order alternating) with the policies fair-rr and nearest-guarded; 30-minute uninterrupted play at 5, 8 and 10 tables (and 8 tables with the Milestone 3.2 pipeline); one hero seat per table at 8 tables (8 and 15 s action clock) and 10 tables (8, 12 and 15 s); recognition on real windows at 100-175 % and the dataset; mouse motion at 400-2800 px/s; the operator launcher A, B and E",
- "linux": true,
- "ab": true,
- "abJobs": 3,
- "abFast": true,
- "abPolicies": "fair-rr,nearest-guarded",
+ "purpose": "Milestone 4.0: the 30-minute 5-table run of the final validation run 45441870852 again, on the same committed release ZIP (SHA-256 checked). In that run the test harness aborted this scenario after 26 minutes when the registration of a replacement table failed with a host connection error (fetch failed); every other job of that run is unchanged.",
+ "linux": false,
+ "ab": false,
+ "abJobs": 0,
+ "abFast": false,
  "m32": false,
  "policies": false,
- "full": true,
+ "full": false,
  "scenarios": false,
- "launcher": true,
- "motion": true,
+ "launcher": false,
+ "motion": false,
  "stabilitySeconds": 60,
  "sustained": [
-  {
-   "tables": 5,
-   "pipeline": "optimized",
-   "seconds": 1800
-  },
-  {
-   "tables": 8,
-   "pipeline": "optimized",
-   "seconds": 1800
-  },
-  {
-   "tables": 8,
-   "pipeline": "compat-3.2",
-   "seconds": 1800
-  },
-  {
-   "tables": 10,
-   "pipeline": "optimized",
-   "seconds": 1800
-  },
-  {
-   "tables": 8,
-   "pipeline": "optimized",
-   "seconds": 1800,
-   "hero": true,
-   "tag": "sustained-8-optimized-hero-8s"
-  },
-  {
-   "tables": 8,
-   "pipeline": "optimized",
-   "seconds": 1800,
-   "hero": true,
-   "botThinkMs": 1500,
-   "actionTimeout": 15000,
-   "tag": "sustained-8-optimized-hero-15s"
-  },
-  {
-   "tables": 10,
-   "pipeline": "optimized",
-   "seconds": 1800,
-   "hero": true,
-   "tag": "sustained-10-optimized-hero-8s"
-  },
-  {
-   "tables": 10,
-   "pipeline": "optimized",
-   "seconds": 1800,
-   "hero": true,
-   "botThinkMs": 1500,
-   "actionTimeout": 12000,
-   "tag": "sustained-10-optimized-hero-12s"
-  },
-  {
-   "tables": 10,
-   "pipeline": "optimized",
-   "seconds": 1800,
-   "hero": true,
-   "botThinkMs": 1500,
-   "actionTimeout": 15000,
-   "tag": "sustained-10-optimized-hero-15s"
-  }
+  { "tables": 5, "pipeline": "optimized", "seconds": 1800 }
  ],
- "t5Jobs": 4,
- "recognitionScales": [
-  100,
-  125,
-  150,
-  175
- ],
- "recognitionDataset": true
+ "t5Jobs": 0,
+ "recognitionScales": [],
+ "recognitionDataset": false
 }
