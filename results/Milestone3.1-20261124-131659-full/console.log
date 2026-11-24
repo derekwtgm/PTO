@@ -1,0 +1,369 @@
+2026-11-24 13:17:00.156  EightMax Test Workbench 0.36.2 - Milestone 3.1 tests, mode C - Full acceptance (real windows; the mouse moves by itself)
+2026-11-24 13:17:00.160  Results folder: D:\a\_temp\m40-full\Milestone3.1-20261124-131659-full
+2026-11-24 13:17:00.162  Application:    D:\a\_temp\EightMax CI (full) é\EightMax-Test-Workbench
+2026-11-24 13:17:00.164  The mouse will move by itself inside the EightMax test tables. Do not touch the mouse or keyboard until this finishes. Ctrl+Alt+F12 stops all input.
+2026-11-24 13:17:00.332  Session job active: every process this run starts ends with the run, however it ends.
+2026-11-24 13:17:00.628  
+2026-11-24 13:17:00.633  ==== Computer and environment [environment] (1 of 9)
+2026-11-24 13:17:05.160    [environment] PASS machine details collected: Microsoft Windows Server 2025 Datacenter build 26100; Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz (2 cores, 4 threads); 16 GiB; display scaling 100%; PowerShell 5.1.26100.33822 Desktop
+2026-11-24 13:17:05.316    [environment] PASS application folder path: application folder D:\a\_temp\EightMax CI (full) é\EightMax-Test-Workbench (55 characters, spaces, non-ASCII characters, parentheses)
+2026-11-24 13:17:05.452    [environment] PASS results folder: D:\a\_temp\m40-full\Milestone3.1-20261124-131659-full (requested)
+2026-11-24 13:17:05.594    [environment] PASS session process control: job object: every process of this run ends with the run
+2026-11-24 13:17:05.726    [environment] PASS files marked as downloaded from the internet (Mark of the Web): none of 423 program files is marked
+2026-11-24 13:17:05.873    [environment] PASS Windows security settings: SmartScreen not set (Windows default); Smart App Control unknown; antivirus none reported by Windows Security Center; Defender real-time protection False, controlled folder access 0
+2026-11-24 13:17:06.013    [environment] PASS PowerShell execution policy: MachinePolicy=Undefined, UserPolicy=Undefined, Process=Bypass, CurrentUser=Undefined, LocalMachine=Unrestricted
+2026-11-24 13:17:06.168    [environment] PASS no EightMax desktop host already running: none
+2026-11-24 13:17:06.577    [environment] PASS port 48713 free: free
+2026-11-24 13:17:07.263  ---- environment: PASS (6.3 s)
+2026-11-24 13:17:07.265  
+2026-11-24 13:17:07.267  ==== Release integrity and executable identities [integrity] (2 of 9)
+2026-11-24 13:17:10.610    [integrity] PASS release files match SHA256SUMS.txt (runtime output excluded by release-integrity-policy.json): PASS: 1475 of 1475 listed files verified; missing 0, modified 0, unexpected executables 0, other unlisted files 0; runtime output ignored: 0 file(s) in 0 folder(s); warnings 0 (3.1 s)
+2026-11-24 13:17:10.951    [identity] PASS desktop\bin\EightMaxWorkbench.exe: sha256 f2f86caf9a3c88b1... version 0.36.2.0 / 0.36.2-dev
+2026-11-24 13:17:11.121    [identity] PASS desktop\bin\EightMaxInput.exe: sha256 d469f23d73116e5c... version 0.36.2.0 / 0.36.2-dev
+2026-11-24 13:17:11.310    [identity] PASS desktop\bin\EightMaxTestTable.exe: sha256 3e5a76995a24d169... version 0.36.2.0 / 0.36.2-dev
+2026-11-24 13:17:11.475    [identity] PASS desktop\bin\EightMaxCapture.exe: sha256 c7235e135c5603b2... version 0.35.0.0 / 0.35.0
+2026-11-24 13:17:11.752    [identity] PASS desktop\bin\EightMaxWgc.exe: sha256 bc001504382306e1... version 0.35.0.0 / 0.35.0
+2026-11-24 13:17:11.922    [identity] PASS native\mwcli.exe: sha256 b3e675bfe2ae231e... version  / 
+2026-11-24 13:17:12.294    [identity] PASS runtime\node\node.exe: sha256 247e9693d316da98... version 22.23.5 / 22.23.5
+2026-11-24 13:17:12.691    [identity] PASS EightMax 5.1 binary unchanged: b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72
+2026-11-24 13:17:13.294    [identity] PASS EightMax 5.1 build id: EightMaxBuild=7d08acc7eb4577ee
+2026-11-24 13:17:13.782  ---- integrity: PASS (6.2 s)
+2026-11-24 13:17:13.786  
+2026-11-24 13:17:13.788  ==== Required components [dependencies] (3 of 9)
+2026-11-24 13:17:14.055    [dependencies] PASS 64-bit Windows and 64-bit PowerShell: yes
+2026-11-24 13:17:14.417    [dependencies] PASS .NET Framework 4.x: release 533509 (4.8 or later)
+2026-11-24 13:17:14.576    [dependencies] PASS csc.exe compiler of .NET Framework (used only by the fallback start): C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe
+2026-11-24 13:17:14.738    [dependencies] PASS required release files present: 12 files present
+2026-11-24 13:17:15.235    [dependencies] PASS bundled Node.js (runtime\node\node.exe) runs: v22.23.5
+2026-11-24 13:17:15.566    [dependencies] PASS Windows helper for diagnostics (process tree, port owner, prompt windows): compiled
+2026-11-24 13:17:15.938  ---- dependencies: PASS (1.9 s)
+2026-11-24 13:17:15.940  
+2026-11-24 13:17:15.942  ==== Regression tests (bundled Node, no windows) [unit] (4 of 9)
+2026-11-24 13:17:31.558       ... regression tests still running after 15 s (time limit 3600 s) - 18 tests finished
+2026-11-24 13:17:46.402       ... regression tests still running after 30 s (time limit 3600 s) - 18 tests finished
+2026-11-24 13:18:01.717       ... regression tests still running after 45 s (time limit 3600 s) - 18 tests finished
+2026-11-24 13:18:16.511       ... regression tests still running after 60 s (time limit 3600 s) - 165 tests finished
+2026-11-24 13:18:31.759       ... regression tests still running after 75 s (time limit 3600 s) - 165 tests finished
+2026-11-24 13:18:46.605       ... regression tests still running after 90 s (time limit 3600 s) - 165 tests finished
+2026-11-24 13:19:01.461       ... regression tests still running after 105 s (time limit 3600 s) - 165 tests finished
+2026-11-24 13:19:16.760       ... regression tests still running after 120 s (time limit 3600 s) - 165 tests finished
+2026-11-24 13:19:31.549       ... regression tests still running after 135 s (time limit 3600 s) - 165 tests finished
+2026-11-24 13:19:46.730       ... regression tests still running after 150 s (time limit 3600 s) - 165 tests finished
+2026-11-24 13:20:01.597       ... regression tests still running after 165 s (time limit 3600 s) - 165 tests finished
+2026-11-24 13:20:16.450       ... regression tests still running after 180 s (time limit 3600 s) - 170 tests finished
+2026-11-24 13:20:31.429       ... regression tests still running after 195 s (time limit 3600 s) - 170 tests finished
+2026-11-24 13:20:46.749       ... regression tests still running after 210 s (time limit 3600 s) - 330 tests finished
+2026-11-24 13:21:01.608       ... regression tests still running after 225 s (time limit 3600 s) - 330 tests finished
+2026-11-24 13:21:16.471       ... regression tests still running after 240 s (time limit 3600 s) - 330 tests finished
+2026-11-24 13:21:31.789       ... regression tests still running after 255 s (time limit 3600 s) - 449 tests finished
+2026-11-24 13:21:46.616       ... regression tests still running after 270 s (time limit 3600 s) - 454 tests finished
+2026-11-24 13:22:01.675       ... regression tests still running after 285 s (time limit 3600 s) - 478 tests finished
+2026-11-24 13:22:16.502       ... regression tests still running after 300 s (time limit 3600 s) - 503 tests finished
+2026-11-24 13:22:31.777       ... regression tests still running after 315 s (time limit 3600 s) - 503 tests finished
+2026-11-24 13:22:46.555       ... regression tests still running after 330 s (time limit 3600 s) - 503 tests finished
+2026-11-24 13:23:01.353       ... regression tests still running after 345 s (time limit 3600 s) - 503 tests finished
+2026-11-24 13:23:16.636       ... regression tests still running after 360 s (time limit 3600 s) - 503 tests finished
+2026-11-24 13:23:31.400       ... regression tests still running after 375 s (time limit 3600 s) - 520 tests finished
+2026-11-24 13:23:46.764       ... regression tests still running after 390 s (time limit 3600 s) - 535 tests finished
+2026-11-24 13:24:01.596       ... regression tests still running after 405 s (time limit 3600 s) - 535 tests finished
+2026-11-24 13:24:16.407       ... regression tests still running after 420 s (time limit 3600 s) - 535 tests finished
+2026-11-24 13:24:31.687       ... regression tests still running after 435 s (time limit 3600 s) - 589 tests finished
+2026-11-24 13:24:46.620       ... regression tests still running after 450 s (time limit 3600 s) - 592 tests finished
+2026-11-24 13:25:01.722       ... regression tests still running after 465 s (time limit 3600 s) - 594 tests finished
+2026-11-24 13:25:16.589       ... regression tests still running after 480 s (time limit 3600 s) - 594 tests finished
+2026-11-24 13:25:31.366       ... regression tests still running after 495 s (time limit 3600 s) - 594 tests finished
+2026-11-24 13:25:46.769       ... regression tests still running after 510 s (time limit 3600 s) - 767 tests finished
+2026-11-24 13:26:01.645       ... regression tests still running after 525 s (time limit 3600 s) - 767 tests finished
+2026-11-24 13:26:16.597       ... regression tests still running after 540 s (time limit 3600 s) - 767 tests finished
+2026-11-24 13:26:31.608       ... regression tests still running after 555 s (time limit 3600 s) - 767 tests finished
+2026-11-24 13:26:46.688       ... regression tests still running after 570 s (time limit 3600 s) - 767 tests finished
+2026-11-24 13:27:01.738       ... regression tests still running after 585 s (time limit 3600 s) - 767 tests finished
+2026-11-24 13:27:16.609       ... regression tests still running after 600 s (time limit 3600 s) - 767 tests finished
+2026-11-24 13:27:31.543       ... regression tests still running after 615 s (time limit 3600 s) - 767 tests finished
+2026-11-24 13:27:46.835       ... regression tests still running after 630 s (time limit 3600 s) - 903 tests finished
+2026-11-24 13:28:01.651       ... regression tests still running after 645 s (time limit 3600 s) - 903 tests finished
+2026-11-24 13:28:16.440       ... regression tests still running after 660 s (time limit 3600 s) - 903 tests finished
+2026-11-24 13:28:31.776       ... regression tests still running after 675 s (time limit 3600 s) - 905 tests finished
+2026-11-24 13:28:46.604       ... regression tests still running after 690 s (time limit 3600 s) - 905 tests finished
+2026-11-24 13:28:55.263    [unit] PASS regression tests (complete suite): 1019 passed, 0 failed, 47 skipped
+2026-11-24 13:28:55.603  ---- unit: PASS (11 min 40 s)
+2026-11-24 13:28:55.605  
+2026-11-24 13:28:55.607  ==== Desktop host start: prebuilt, fallback compile, cache cases [host-start] (5 of 9)
+2026-11-24 13:28:55.775  
+2026-11-24 13:28:55.781    -- start case 1: prebuilt host launch
+2026-11-24 13:28:55.991    [1/12] Check for EightMax programs that are already running ...
+2026-11-24 13:28:56.104    [host-start] PASS prebuilt host launch - 1/12 Check for EightMax programs that are already running: no EightMax program is running [0.1 s]
+2026-11-24 13:28:56.431    [2/12] Check that port 48713 is free ...
+2026-11-24 13:28:56.451    [host-start] PASS prebuilt host launch - 2/12 Check that port 48713 is free: free [0 s]
+2026-11-24 13:28:56.780    [3/12] Prepare the start-up folders ...
+2026-11-24 13:28:56.813    [host-start] PASS prebuilt host launch - 3/12 Prepare the start-up folders: case folder ready: D:\a\_temp\m40-full\Milestone3.1-20261124-131659-full\host-start\01-prebuilt [0 s]
+2026-11-24 13:28:57.135    [4/12] Start the start-up script (Start-Desktop.ps1) ...
+2026-11-24 13:28:57.393    [host-start] PASS prebuilt host launch - 4/12 Start the start-up script (Start-Desktop.ps1): started powershell.exe pid 4508 [0.2 s]
+2026-11-24 13:28:57.767    [5/12] Wait for the start-up script to launch the desktop host ...
+2026-11-24 13:29:00.734    [host-start] PASS prebuilt host launch - 5/12 Wait for the start-up script to launch the desktop host: host pid 5228 launched (CreateProcess, path prebuilt); start-up script finished in 2.9 s [2.9 s]
+2026-11-24 13:29:01.060    [6/12] Wait for the host to report ready (session file) ...
+2026-11-24 13:29:01.082    [host-start] PASS prebuilt host launch - 6/12 Wait for the host to report ready (session file): ready after 0 s [0 s]
+2026-11-24 13:29:01.404    [7/12] Read and validate the session file ...
+2026-11-24 13:29:01.454    [host-start] PASS prebuilt host launch - 7/12 Read and validate the session file: session of host pid 5228, app 0.36.2-dev [0 s]
+2026-11-24 13:29:01.798    [8/12] Check the health endpoint ...
+2026-11-24 13:29:01.911    [host-start] PASS prebuilt host launch - 8/12 Check the health endpoint: HTTP 200, app 0.36.2-dev, input driver installed True [0.1 s]
+2026-11-24 13:29:02.230    [9/12] Check that the input driver starts (authenticated hello, no mouse movement) ...
+2026-11-24 13:29:02.400    [host-start] PASS prebuilt host launch - 9/12 Check that the input driver starts (authenticated hello, no mouse movement): EightMaxInput.exe started and accepted the session (running, not crashed, emergency-stop hotkey Ctrl+Alt+F12) [0.1 s]
+2026-11-24 13:29:02.738    [10/12] Shut the host down (authenticated request) ...
+2026-11-24 13:29:02.760    [host-start] PASS prebuilt host launch - 10/12 Shut the host down (authenticated request): HTTP 200 (shutdown accepted) [0 s]
+2026-11-24 13:29:03.091    [11/12] Check that the host, the input driver and the start-up script have exited ...
+2026-11-24 13:29:03.152    [host-start] PASS prebuilt host launch - 11/12 Check that the host, the input driver and the start-up script have exited: host exited (exit code 0) after 0 s; no input driver left [0 s]
+2026-11-24 13:29:03.472    [12/12] Check that port 48713 is released ...
+2026-11-24 13:29:03.505    [host-start] PASS prebuilt host launch - 12/12 Check that port 48713 is released: free after 12 ms [0 s]
+2026-11-24 13:29:03.671    [host-start] PASS prebuilt host launch - expected result: path prebuilt
+2026-11-24 13:29:04.209  
+2026-11-24 13:29:04.211    -- start case 2: forced fallback compile with a fresh cache  (-ForceCompile -CacheRoot "D:\a\_temp\m40-full\Milestone3.1-20261124-131659-full\host-start\cache")
+2026-11-24 13:29:04.380    [1/12] Check for EightMax programs that are already running ...
+2026-11-24 13:29:04.406    [host-start] PASS forced fallback compile with a fresh cache - 1/12 Check for EightMax programs that are already running: no EightMax program is running [0 s]
+2026-11-24 13:29:04.742    [2/12] Check that port 48713 is free ...
+2026-11-24 13:29:04.767    [host-start] PASS forced fallback compile with a fresh cache - 2/12 Check that port 48713 is free: free [0 s]
+2026-11-24 13:29:05.097    [3/12] Prepare the start-up folders ...
+2026-11-24 13:29:05.127    [host-start] PASS forced fallback compile with a fresh cache - 3/12 Prepare the start-up folders: case folder ready: D:\a\_temp\m40-full\Milestone3.1-20261124-131659-full\host-start\02-fallback-fresh [0 s]
+2026-11-24 13:29:05.457    [4/12] Start the start-up script (Start-Desktop.ps1) ...
+2026-11-24 13:29:05.724    [host-start] PASS forced fallback compile with a fresh cache - 4/12 Start the start-up script (Start-Desktop.ps1): started powershell.exe pid 2804 [0.2 s]
+2026-11-24 13:29:06.102    [5/12] Wait for the start-up script to launch the desktop host ...
+2026-11-24 13:29:09.283    [host-start] PASS forced fallback compile with a fresh cache - 5/12 Wait for the start-up script to launch the desktop host: host pid 8952 launched (CreateProcess, path compiled); start-up script finished in 3.1 s [3.1 s]
+2026-11-24 13:29:09.617    [6/12] Wait for the host to report ready (session file) ...
+2026-11-24 13:29:09.637    [host-start] PASS forced fallback compile with a fresh cache - 6/12 Wait for the host to report ready (session file): ready after 0 s [0 s]
+2026-11-24 13:29:09.974    [7/12] Read and validate the session file ...
+2026-11-24 13:29:10.008    [host-start] PASS forced fallback compile with a fresh cache - 7/12 Read and validate the session file: session of host pid 8952, app 0.36.2-dev [0 s]
+2026-11-24 13:29:10.345    [8/12] Check the health endpoint ...
+2026-11-24 13:29:10.393    [host-start] PASS forced fallback compile with a fresh cache - 8/12 Check the health endpoint: HTTP 200, app 0.36.2-dev, input driver installed True [0 s]
+2026-11-24 13:29:10.730    [9/12] Check that the input driver starts (authenticated hello, no mouse movement) ...
+2026-11-24 13:29:10.872    [host-start] PASS forced fallback compile with a fresh cache - 9/12 Check that the input driver starts (authenticated hello, no mouse movement): EightMaxInput.exe started and accepted the session (running, not crashed, emergency-stop hotkey Ctrl+Alt+F12) [0.1 s]
+2026-11-24 13:29:11.212    [10/12] Shut the host down (authenticated request) ...
+2026-11-24 13:29:11.231    [host-start] PASS forced fallback compile with a fresh cache - 10/12 Shut the host down (authenticated request): HTTP 200 (shutdown accepted) [0 s]
+2026-11-24 13:29:11.572    [11/12] Check that the host, the input driver and the start-up script have exited ...
+2026-11-24 13:29:11.632    [host-start] PASS forced fallback compile with a fresh cache - 11/12 Check that the host, the input driver and the start-up script have exited: host exited (exit code 0) after 0 s; no input driver left [0 s]
+2026-11-24 13:29:11.964    [12/12] Check that port 48713 is released ...
+2026-11-24 13:29:11.983    [host-start] PASS forced fallback compile with a fresh cache - 12/12 Check that port 48713 is released: free after 3 ms [0 s]
+2026-11-24 13:29:12.159    [host-start] PASS forced fallback compile with a fresh cache - expected result: path compiled
+2026-11-24 13:29:12.398  
+2026-11-24 13:29:12.400    -- start case 3: repeated start reuses the valid cache  (-ForceCompile -CacheRoot "D:\a\_temp\m40-full\Milestone3.1-20261124-131659-full\host-start\cache")
+2026-11-24 13:29:12.572    [1/12] Check for EightMax programs that are already running ...
+2026-11-24 13:29:12.603    [host-start] PASS repeated start reuses the valid cache - 1/12 Check for EightMax programs that are already running: no EightMax program is running [0 s]
+2026-11-24 13:29:12.931    [2/12] Check that port 48713 is free ...
+2026-11-24 13:29:12.951    [host-start] PASS repeated start reuses the valid cache - 2/12 Check that port 48713 is free: free [0 s]
+2026-11-24 13:29:13.274    [3/12] Prepare the start-up folders ...
+2026-11-24 13:29:13.306    [host-start] PASS repeated start reuses the valid cache - 3/12 Prepare the start-up folders: case folder ready: D:\a\_temp\m40-full\Milestone3.1-20261124-131659-full\host-start\03-cache-reuse [0 s]
+2026-11-24 13:29:13.631    [4/12] Start the start-up script (Start-Desktop.ps1) ...
+2026-11-24 13:29:13.887    [host-start] PASS repeated start reuses the valid cache - 4/12 Start the start-up script (Start-Desktop.ps1): started powershell.exe pid 2600 [0.2 s]
+2026-11-24 13:29:14.262    [5/12] Wait for the start-up script to launch the desktop host ...
+2026-11-24 13:29:17.088    [host-start] PASS repeated start reuses the valid cache - 5/12 Wait for the start-up script to launch the desktop host: host pid 7516 launched (CreateProcess, path cache); start-up script finished in 2.7 s [2.8 s]
+2026-11-24 13:29:17.414    [6/12] Wait for the host to report ready (session file) ...
+2026-11-24 13:29:17.431    [host-start] PASS repeated start reuses the valid cache - 6/12 Wait for the host to report ready (session file): ready after 0 s [0 s]
+2026-11-24 13:29:17.770    [7/12] Read and validate the session file ...
+2026-11-24 13:29:17.805    [host-start] PASS repeated start reuses the valid cache - 7/12 Read and validate the session file: session of host pid 7516, app 0.36.2-dev [0 s]
+2026-11-24 13:29:18.156    [8/12] Check the health endpoint ...
+2026-11-24 13:29:18.205    [host-start] PASS repeated start reuses the valid cache - 8/12 Check the health endpoint: HTTP 200, app 0.36.2-dev, input driver installed True [0 s]
+2026-11-24 13:29:18.547    [9/12] Check that the input driver starts (authenticated hello, no mouse movement) ...
+2026-11-24 13:29:18.693    [host-start] PASS repeated start reuses the valid cache - 9/12 Check that the input driver starts (authenticated hello, no mouse movement): EightMaxInput.exe started and accepted the session (running, not crashed, emergency-stop hotkey Ctrl+Alt+F12) [0.1 s]
+2026-11-24 13:29:19.043    [10/12] Shut the host down (authenticated request) ...
+2026-11-24 13:29:19.062    [host-start] PASS repeated start reuses the valid cache - 10/12 Shut the host down (authenticated request): HTTP 200 (shutdown accepted) [0 s]
+2026-11-24 13:29:19.405    [11/12] Check that the host, the input driver and the start-up script have exited ...
+2026-11-24 13:29:19.451    [host-start] PASS repeated start reuses the valid cache - 11/12 Check that the host, the input driver and the start-up script have exited: host exited (exit code 0) after 0 s; no input driver left [0 s]
+2026-11-24 13:29:19.782    [12/12] Check that port 48713 is released ...
+2026-11-24 13:29:19.801    [host-start] PASS repeated start reuses the valid cache - 12/12 Check that port 48713 is released: free after 3 ms [0 s]
+2026-11-24 13:29:19.979    [host-start] PASS repeated start reuses the valid cache - expected result: path cache
+2026-11-24 13:29:20.213  
+2026-11-24 13:29:20.213    -- start case 4: invalid cache: corrupted executable is rebuilt  (-ForceCompile -CacheRoot "D:\a\_temp\m40-full\Milestone3.1-20261124-131659-full\host-start\cache")
+2026-11-24 13:29:20.393    [1/12] Check for EightMax programs that are already running ...
+2026-11-24 13:29:20.425    [host-start] PASS invalid cache: corrupted executable is rebuilt - 1/12 Check for EightMax programs that are already running: no EightMax program is running [0 s]
+2026-11-24 13:29:20.747    [2/12] Check that port 48713 is free ...
+2026-11-24 13:29:20.765    [host-start] PASS invalid cache: corrupted executable is rebuilt - 2/12 Check that port 48713 is free: free [0 s]
+2026-11-24 13:29:21.104    [3/12] Prepare the start-up folders ...
+2026-11-24 13:29:21.136    [host-start] PASS invalid cache: corrupted executable is rebuilt - 3/12 Prepare the start-up folders: case folder ready: D:\a\_temp\m40-full\Milestone3.1-20261124-131659-full\host-start\04-invalid-exe [0 s]
+2026-11-24 13:29:21.461    [4/12] Start the start-up script (Start-Desktop.ps1) ...
+2026-11-24 13:29:21.723    [host-start] PASS invalid cache: corrupted executable is rebuilt - 4/12 Start the start-up script (Start-Desktop.ps1): started powershell.exe pid 2656 [0.2 s]
+2026-11-24 13:29:22.120    [5/12] Wait for the start-up script to launch the desktop host ...
+2026-11-24 13:29:25.142    [host-start] PASS invalid cache: corrupted executable is rebuilt - 5/12 Wait for the start-up script to launch the desktop host: host pid 7344 launched (CreateProcess, path compiled); start-up script finished in 2.9 s [2.9 s]
+2026-11-24 13:29:25.477    [6/12] Wait for the host to report ready (session file) ...
+2026-11-24 13:29:25.499    [host-start] PASS invalid cache: corrupted executable is rebuilt - 6/12 Wait for the host to report ready (session file): ready after 0 s [0 s]
+2026-11-24 13:29:25.830    [7/12] Read and validate the session file ...
+2026-11-24 13:29:25.867    [host-start] PASS invalid cache: corrupted executable is rebuilt - 7/12 Read and validate the session file: session of host pid 7344, app 0.36.2-dev [0 s]
+2026-11-24 13:29:26.197    [8/12] Check the health endpoint ...
+2026-11-24 13:29:26.245    [host-start] PASS invalid cache: corrupted executable is rebuilt - 8/12 Check the health endpoint: HTTP 200, app 0.36.2-dev, input driver installed True [0 s]
+2026-11-24 13:29:26.581    [9/12] Check that the input driver starts (authenticated hello, no mouse movement) ...
+2026-11-24 13:29:26.729    [host-start] PASS invalid cache: corrupted executable is rebuilt - 9/12 Check that the input driver starts (authenticated hello, no mouse movement): EightMaxInput.exe started and accepted the session (running, not crashed, emergency-stop hotkey Ctrl+Alt+F12) [0.1 s]
+2026-11-24 13:29:27.072    [10/12] Shut the host down (authenticated request) ...
+2026-11-24 13:29:27.092    [host-start] PASS invalid cache: corrupted executable is rebuilt - 10/12 Shut the host down (authenticated request): HTTP 200 (shutdown accepted) [0 s]
+2026-11-24 13:29:27.431    [11/12] Check that the host, the input driver and the start-up script have exited ...
+2026-11-24 13:29:27.482    [host-start] PASS invalid cache: corrupted executable is rebuilt - 11/12 Check that the host, the input driver and the start-up script have exited: host exited (exit code 0) after 0 s; no input driver left [0 s]
+2026-11-24 13:29:27.913    [12/12] Check that port 48713 is released ...
+2026-11-24 13:29:27.933    [host-start] PASS invalid cache: corrupted executable is rebuilt - 12/12 Check that port 48713 is released: free after 4 ms [0 s]
+2026-11-24 13:29:28.111    [host-start] PASS invalid cache: corrupted executable is rebuilt - expected result: path compiled, invalid cache: cached executable does not match its recorded hash
+2026-11-24 13:29:28.346  
+2026-11-24 13:29:28.348    -- start case 5: invalid cache: manifest of other sources is rebuilt  (-ForceCompile -CacheRoot "D:\a\_temp\m40-full\Milestone3.1-20261124-131659-full\host-start\cache")
+2026-11-24 13:29:28.525    [1/12] Check for EightMax programs that are already running ...
+2026-11-24 13:29:28.555    [host-start] PASS invalid cache: manifest of other sources is rebuilt - 1/12 Check for EightMax programs that are already running: no EightMax program is running [0 s]
+2026-11-24 13:29:28.888    [2/12] Check that port 48713 is free ...
+2026-11-24 13:29:28.904    [host-start] PASS invalid cache: manifest of other sources is rebuilt - 2/12 Check that port 48713 is free: free [0 s]
+2026-11-24 13:29:29.237    [3/12] Prepare the start-up folders ...
+2026-11-24 13:29:29.269    [host-start] PASS invalid cache: manifest of other sources is rebuilt - 3/12 Prepare the start-up folders: case folder ready: D:\a\_temp\m40-full\Milestone3.1-20261124-131659-full\host-start\05-invalid-manifest [0 s]
+2026-11-24 13:29:29.597    [4/12] Start the start-up script (Start-Desktop.ps1) ...
+2026-11-24 13:29:29.856    [host-start] PASS invalid cache: manifest of other sources is rebuilt - 4/12 Start the start-up script (Start-Desktop.ps1): started powershell.exe pid 6036 [0.2 s]
+2026-11-24 13:29:30.226    [5/12] Wait for the start-up script to launch the desktop host ...
+2026-11-24 13:29:33.290    [host-start] PASS invalid cache: manifest of other sources is rebuilt - 5/12 Wait for the start-up script to launch the desktop host: host pid 2348 launched (CreateProcess, path compiled); start-up script finished in 3 s [3 s]
+2026-11-24 13:29:33.625    [6/12] Wait for the host to report ready (session file) ...
+2026-11-24 13:29:33.642    [host-start] PASS invalid cache: manifest of other sources is rebuilt - 6/12 Wait for the host to report ready (session file): ready after 0 s [0 s]
+2026-11-24 13:29:33.976    [7/12] Read and validate the session file ...
+2026-11-24 13:29:34.010    [host-start] PASS invalid cache: manifest of other sources is rebuilt - 7/12 Read and validate the session file: session of host pid 2348, app 0.36.2-dev [0 s]
+2026-11-24 13:29:34.344    [8/12] Check the health endpoint ...
+2026-11-24 13:29:34.390    [host-start] PASS invalid cache: manifest of other sources is rebuilt - 8/12 Check the health endpoint: HTTP 200, app 0.36.2-dev, input driver installed True [0 s]
+2026-11-24 13:29:34.731    [9/12] Check that the input driver starts (authenticated hello, no mouse movement) ...
+2026-11-24 13:29:34.875    [host-start] PASS invalid cache: manifest of other sources is rebuilt - 9/12 Check that the input driver starts (authenticated hello, no mouse movement): EightMaxInput.exe started and accepted the session (running, not crashed, emergency-stop hotkey Ctrl+Alt+F12) [0.1 s]
+2026-11-24 13:29:35.213    [10/12] Shut the host down (authenticated request) ...
+2026-11-24 13:29:35.233    [host-start] PASS invalid cache: manifest of other sources is rebuilt - 10/12 Shut the host down (authenticated request): HTTP 200 (shutdown accepted) [0 s]
+2026-11-24 13:29:35.563    [11/12] Check that the host, the input driver and the start-up script have exited ...
+2026-11-24 13:29:35.615    [host-start] PASS invalid cache: manifest of other sources is rebuilt - 11/12 Check that the host, the input driver and the start-up script have exited: host exited (exit code 0) after 0 s; no input driver left [0 s]
+2026-11-24 13:29:35.952    [12/12] Check that port 48713 is released ...
+2026-11-24 13:29:35.974    [host-start] PASS invalid cache: manifest of other sources is rebuilt - 12/12 Check that port 48713 is released: free after 5 ms [0 s]
+2026-11-24 13:29:36.144    [host-start] PASS invalid cache: manifest of other sources is rebuilt - expected result: path compiled, invalid cache: cache manifest sources differ
+2026-11-24 13:29:36.384  
+2026-11-24 13:29:36.386    -- start case 6: an old (Milestone 2) cache key is never reused  (-ForceCompile -CacheRoot "D:\a\_temp\m40-full\Milestone3.1-20261124-131659-full\host-start\cache")
+2026-11-24 13:29:36.623    [1/12] Check for EightMax programs that are already running ...
+2026-11-24 13:29:36.653    [host-start] PASS an old (Milestone 2) cache key is never reused - 1/12 Check for EightMax programs that are already running: no EightMax program is running [0 s]
+2026-11-24 13:29:36.990    [2/12] Check that port 48713 is free ...
+2026-11-24 13:29:37.008    [host-start] PASS an old (Milestone 2) cache key is never reused - 2/12 Check that port 48713 is free: free [0 s]
+2026-11-24 13:29:37.334    [3/12] Prepare the start-up folders ...
+2026-11-24 13:29:37.368    [host-start] PASS an old (Milestone 2) cache key is never reused - 3/12 Prepare the start-up folders: case folder ready: D:\a\_temp\m40-full\Milestone3.1-20261124-131659-full\host-start\06-old-key [0 s]
+2026-11-24 13:29:37.700    [4/12] Start the start-up script (Start-Desktop.ps1) ...
+2026-11-24 13:29:37.954    [host-start] PASS an old (Milestone 2) cache key is never reused - 4/12 Start the start-up script (Start-Desktop.ps1): started powershell.exe pid 8560 [0.2 s]
+2026-11-24 13:29:38.354    [5/12] Wait for the start-up script to launch the desktop host ...
+2026-11-24 13:29:41.168    [host-start] PASS an old (Milestone 2) cache key is never reused - 5/12 Wait for the start-up script to launch the desktop host: host pid 8908 launched (CreateProcess, path cache); start-up script finished in 2.7 s [2.7 s]
+2026-11-24 13:29:41.514    [6/12] Wait for the host to report ready (session file) ...
+2026-11-24 13:29:41.532    [host-start] PASS an old (Milestone 2) cache key is never reused - 6/12 Wait for the host to report ready (session file): ready after 0 s [0 s]
+2026-11-24 13:29:41.877    [7/12] Read and validate the session file ...
+2026-11-24 13:29:41.913    [host-start] PASS an old (Milestone 2) cache key is never reused - 7/12 Read and validate the session file: session of host pid 8908, app 0.36.2-dev [0 s]
+2026-11-24 13:29:42.246    [8/12] Check the health endpoint ...
+2026-11-24 13:29:42.294    [host-start] PASS an old (Milestone 2) cache key is never reused - 8/12 Check the health endpoint: HTTP 200, app 0.36.2-dev, input driver installed True [0 s]
+2026-11-24 13:29:42.634    [9/12] Check that the input driver starts (authenticated hello, no mouse movement) ...
+2026-11-24 13:29:42.783    [host-start] PASS an old (Milestone 2) cache key is never reused - 9/12 Check that the input driver starts (authenticated hello, no mouse movement): EightMaxInput.exe started and accepted the session (running, not crashed, emergency-stop hotkey Ctrl+Alt+F12) [0.1 s]
+2026-11-24 13:29:43.119    [10/12] Shut the host down (authenticated request) ...
+2026-11-24 13:29:43.139    [host-start] PASS an old (Milestone 2) cache key is never reused - 10/12 Shut the host down (authenticated request): HTTP 200 (shutdown accepted) [0 s]
+2026-11-24 13:29:43.475    [11/12] Check that the host, the input driver and the start-up script have exited ...
+2026-11-24 13:29:43.535    [host-start] PASS an old (Milestone 2) cache key is never reused - 11/12 Check that the host, the input driver and the start-up script have exited: host exited (exit code 0) after 0 s; no input driver left [0 s]
+2026-11-24 13:29:43.866    [12/12] Check that port 48713 is released ...
+2026-11-24 13:29:43.889    [host-start] PASS an old (Milestone 2) cache key is never reused - 12/12 Check that port 48713 is released: free after 6 ms [0 s]
+2026-11-24 13:29:44.067    [host-start] PASS an old (Milestone 2) cache key is never reused - expected result: path cache
+2026-11-24 13:29:44.310  
+2026-11-24 13:29:44.312    -- start case 7: build-only compiles or reuses without launching  (-BuildOnly -CacheRoot "D:\a\_temp\m40-full\Milestone3.1-20261124-131659-full\host-start\cache")
+2026-11-24 13:29:44.484    [1/12] Check for EightMax programs that are already running ...
+2026-11-24 13:29:44.516    [host-start] PASS build-only compiles or reuses without launching - 1/12 Check for EightMax programs that are already running: no EightMax program is running [0 s]
+2026-11-24 13:29:44.851    [2/12] Check that port 48713 is free ...
+2026-11-24 13:29:44.867    [host-start] PASS build-only compiles or reuses without launching - 2/12 Check that port 48713 is free: free [0 s]
+2026-11-24 13:29:45.199    [3/12] Prepare the start-up folders ...
+2026-11-24 13:29:45.228    [host-start] PASS build-only compiles or reuses without launching - 3/12 Prepare the start-up folders: case folder ready: D:\a\_temp\m40-full\Milestone3.1-20261124-131659-full\host-start\07-build-only [0 s]
+2026-11-24 13:29:45.558    [4/12] Start the start-up script (Start-Desktop.ps1) ...
+2026-11-24 13:29:45.819    [host-start] PASS build-only compiles or reuses without launching - 4/12 Start the start-up script (Start-Desktop.ps1): started powershell.exe pid 7672 [0.2 s]
+2026-11-24 13:29:46.180    [5/12] Wait for the start-up script to build the desktop host (no launch) ...
+2026-11-24 13:29:48.935    [host-start] PASS build-only compiles or reuses without launching - 5/12 Wait for the start-up script to build the desktop host (no launch): built without launching: path cache, launched False [2.7 s]
+2026-11-24 13:29:49.110    [host-start] PASS build-only compiles or reuses without launching - expected result: path cache, nothing launched
+2026-11-24 13:29:49.434    [6/12] Wait for the host to report ready ...
+2026-11-24 13:29:49.454    [host-start] SKIPPED build-only compiles or reuses without launching - 6/12 Wait for the host to report ready: not run: a build-only case starts no host [0 s]
+2026-11-24 13:29:49.794    [7/12] Read the session file ...
+2026-11-24 13:29:49.814    [host-start] SKIPPED build-only compiles or reuses without launching - 7/12 Read the session file: not run: a build-only case starts no host [0 s]
+2026-11-24 13:29:50.154    [8/12] Check the health endpoint ...
+2026-11-24 13:29:50.174    [host-start] SKIPPED build-only compiles or reuses without launching - 8/12 Check the health endpoint: not run: a build-only case starts no host [0 s]
+2026-11-24 13:29:50.507    [9/12] Check that the input driver starts ...
+2026-11-24 13:29:50.524    [host-start] SKIPPED build-only compiles or reuses without launching - 9/12 Check that the input driver starts: not run: a build-only case starts no host [0 s]
+2026-11-24 13:29:50.882    [10/12] Shut the host down (authenticated request) ...
+2026-11-24 13:29:50.903    [host-start] SKIPPED build-only compiles or reuses without launching - 10/12 Shut the host down (authenticated request): not run: a build-only case starts no host [0 s]
+2026-11-24 13:29:51.239    [11/12] Check that the host, the input driver and the start-up script have exited ...
+2026-11-24 13:29:51.296    [host-start] PASS build-only compiles or reuses without launching - 11/12 Check that the host, the input driver and the start-up script have exited: no input driver left [0 s]
+2026-11-24 13:29:51.624    [12/12] Check that port 48713 is released ...
+2026-11-24 13:29:51.648    [host-start] PASS build-only compiles or reuses without launching - 12/12 Check that port 48713 is released: free after 5 ms [0 s]
+2026-11-24 13:29:53.721  ---- host-start: PASS (56.8 s)
+2026-11-24 13:29:53.727  
+2026-11-24 13:29:53.730  ==== Milestone 2 lifecycle acceptance A-K with real windows (process-exit audit) [lifecycle] (6 of 9)
+2026-11-24 13:30:09.104       ... lifecycle acceptance still running after 15 s (time limit 3600 s)
+2026-11-24 13:30:24.296       ... lifecycle acceptance still running after 30 s (time limit 3600 s)
+2026-11-24 13:30:39.517       ... lifecycle acceptance still running after 45 s (time limit 3600 s)
+2026-11-24 13:30:54.209       ... lifecycle acceptance still running after 60 s (time limit 3600 s)
+2026-11-24 13:31:09.397       ... lifecycle acceptance still running after 75 s (time limit 3600 s)
+2026-11-24 13:31:24.580       ... lifecycle acceptance still running after 90 s (time limit 3600 s)
+2026-11-24 13:31:39.264       ... lifecycle acceptance still running after 105 s (time limit 3600 s)
+2026-11-24 13:31:54.449       ... lifecycle acceptance still running after 120 s (time limit 3600 s)
+2026-11-24 13:31:56.043    [lifecycle: scripted gameplay] PASS J: Scripted practice plays hand after hand (no regression): 6 checks passed in 31 s
+2026-11-24 13:31:56.216    [lifecycle: capture lifecycle] PASS A: Window closes during capture: 8 checks passed in 8 s
+2026-11-24 13:31:56.382    [lifecycle: input cancellation] PASS B: Window closes during mouse movement: 7 checks passed in 12 s
+2026-11-24 13:31:56.548    [lifecycle: capture lifecycle] PASS C: Simulator restarts with a different handle: 10 checks passed in 12 s
+2026-11-24 13:31:56.730    [lifecycle: capture lifecycle] PASS D: Temporary capture failures (injected while the window stays open): 6 checks passed in 12 s
+2026-11-24 13:31:56.893    [lifecycle: capture lifecycle] PASS E: Minimised window: 5 checks passed in 10 s
+2026-11-24 13:31:57.057    [lifecycle: input cancellation] PASS F: Several tables, one closes: 6 checks passed in 14 s
+2026-11-24 13:31:57.224    [lifecycle: safety] PASS G: Emergency stop during recovery: 5 checks passed in 8 s
+2026-11-24 13:31:57.390    [lifecycle: capture lifecycle] PASS H: Repeated target-loss signals: 6 checks passed in 4 s
+2026-11-24 13:31:57.555    [lifecycle: input cancellation] PASS I: Identity mismatch / handle reuse: no inherited permission: 5 checks passed in 3 s
+2026-11-24 13:31:57.726    [lifecycle: capture lifecycle] PASS K: Window resized while playing (geometry / display-scaling re-check): 3 checks passed in 8 s
+2026-11-24 13:31:57.890    [runner cleanup] PASS lifecycle-acceptance: process cleanup (children exited, no live timers): ok
+2026-11-24 13:31:58.063    [runner cleanup] PASS lifecycle runner exits by itself after its report; exit code matches: report -> exit 18 ms, exit 0
+2026-11-24 13:31:58.499  ---- lifecycle: PASS (2 min 4 s)
+2026-11-24 13:31:58.501  
+2026-11-24 13:31:58.503  ==== Milestone 3 gameplay acceptance T1-T6 (and the Milestone 3.2 T5P) with real windows [gameplay] (7 of 9)
+2026-11-24 13:32:13.956       ... gameplay-acceptance still running after 15 s (time limit 3600 s) - --- T1: Hands that start with eliminated players are tracked (the Milestone 2 stall)
+2026-11-24 13:32:29.158       ... gameplay-acceptance still running after 30 s (time limit 3600 s) - --- T1: Hands that start with eliminated players are tracked (the Milestone 2 stall)
+2026-11-24 13:32:44.353       ... gameplay-acceptance still running after 45 s (time limit 3600 s) - --- T1: Hands that start with eliminated players are tracked (the Milestone 2 stall)
+2026-11-24 13:32:59.043       ... gameplay-acceptance still running after 60 s (time limit 3600 s) - --- T2: A tournament is played to its end; the end is a normal stop
+2026-11-24 13:33:14.233       ... gameplay-acceptance still running after 75 s (time limit 3600 s) - --- T2: A tournament is played to its end; the end is a normal stop
+2026-11-24 13:33:29.418       ... gameplay-acceptance still running after 90 s (time limit 3600 s) - --- T3: A hand first seen after its opening: untracked, no input; recovery at the next verified hand
+2026-11-24 13:33:44.128       ... gameplay-acceptance still running after 105 s (time limit 3600 s) - --- T3: A hand first seen after its opening: untracked, no input; recovery at the next verified hand
+2026-11-24 13:33:59.316       ... gameplay-acceptance still running after 120 s (time limit 3600 s) - --- T4: Think-time holds: one seat acting on consecutive streets with every control hidden (pre-existing defect fixed in
+2026-11-24 13:34:14.001       ... gameplay-acceptance still running after 135 s (time limit 3600 s) - --- T4: Think-time holds: one seat acting on consecutive streets with every control hidden (pre-existing defect fixed in
+2026-11-24 13:34:29.211       ... gameplay-acceptance still running after 150 s (time limit 3600 s) - --- T5: Two tables: eliminations on both, one window closes; no input crosses tables
+2026-11-24 13:34:44.406       ... gameplay-acceptance still running after 165 s (time limit 3600 s) - --- T5: Two tables: eliminations on both, one window closes; no input crosses tables
+2026-11-24 13:34:59.095       ... gameplay-acceptance still running after 180 s (time limit 3600 s) - --- T5: Two tables: eliminations on both, one window closes; no input crosses tables
+2026-11-24 13:35:14.278       ... gameplay-acceptance still running after 195 s (time limit 3600 s) - --- T5P: Two tables: table 2 paused by an action its table did not apply, then its window closes (the operator failure, 
+2026-11-24 13:35:28.968       ... gameplay-acceptance still running after 210 s (time limit 3600 s) - --- T5P: Two tables: table 2 paused by an action its table did not apply, then its window closes (the operator failure, 
+2026-11-24 13:35:44.160       ... gameplay-acceptance still running after 225 s (time limit 3600 s) - --- T6: Emergency stop right after an elimination: stop wins, no input, no automatic recovery
+2026-11-24 13:35:58.831    [gameplay] PASS T1: Hands that start with eliminated players are tracked (the Milestone 2 stall): 6 checks passed in 46 s
+2026-11-24 13:35:59.001    [gameplay] PASS T2: A tournament is played to its end; the end is a normal stop: 12 checks passed in 40 s
+2026-11-24 13:35:59.166    [gameplay] PASS T3: A hand first seen after its opening: untracked, no input; recovery at the next verified hand: 8 checks passed in 20 s
+2026-11-24 13:35:59.335    [gameplay] PASS T4: Think-time holds: one seat acting on consecutive streets with every control hidden (pre-existing defect fixed in M3): 4 checks passed in 38 s
+2026-11-24 13:35:59.504    [gameplay] PASS T5: Two tables: eliminations on both, one window closes; no input crosses tables: 14 checks passed in 50 s
+2026-11-24 13:35:59.673    [gameplay] PASS T5P: Two tables: table 2 paused by an action its table did not apply, then its window closes (the operator failure, reproduced): 18 checks passed in 24 s
+2026-11-24 13:35:59.842    [gameplay] PASS T6: Emergency stop right after an elimination: stop wins, no input, no automatic recovery: 6 checks passed in 22 s
+2026-11-24 13:36:00.056    [gameplay] PASS gameplay-acceptance: process cleanup (children exited, no live timers): ok
+2026-11-24 13:36:00.228    [gameplay] PASS gameplay-acceptance: exit code matches the result: overall PASS, exit 0
+2026-11-24 13:36:00.619  ---- gameplay: PASS (4 min 2 s)
+2026-11-24 13:36:00.621  
+2026-11-24 13:36:00.624  ==== Multi-table stability (1, 2, 5, 8 tables) with real windows [multi-table] (8 of 9)
+2026-11-24 13:36:16.070       ... gameplay-stability still running after 15 s (time limit 7200 s) - --- M1: 1 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished t
+2026-11-24 13:36:31.257       ... gameplay-stability still running after 30 s (time limit 7200 s) - --- M1: 1 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished t
+2026-11-24 13:36:46.455       ... gameplay-stability still running after 45 s (time limit 7200 s) - --- M1: 1 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished t
+2026-11-24 13:37:01.149       ... gameplay-stability still running after 60 s (time limit 7200 s) - --- M1: 1 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished t
+2026-11-24 13:37:16.342       ... gameplay-stability still running after 75 s (time limit 7200 s) - --- M2: 2 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished t
+2026-11-24 13:37:31.535       ... gameplay-stability still running after 90 s (time limit 7200 s) - --- M2: 2 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished t
+2026-11-24 13:37:46.221       ... gameplay-stability still running after 105 s (time limit 7200 s) - --- M2: 2 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished t
+2026-11-24 13:38:01.432       ... gameplay-stability still running after 120 s (time limit 7200 s) - --- M2: 2 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished t
+2026-11-24 13:38:16.119       ... gameplay-stability still running after 135 s (time limit 7200 s) - --- M5: 5 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished t
+2026-11-24 13:38:31.336       ... gameplay-stability still running after 150 s (time limit 7200 s) - --- M5: 5 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished t
+2026-11-24 13:38:46.067       ... gameplay-stability still running after 165 s (time limit 7200 s) - --- M5: 5 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished t
+2026-11-24 13:39:01.252       ... gameplay-stability still running after 180 s (time limit 7200 s) - --- M5: 5 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished t
+2026-11-24 13:39:16.498       ... gameplay-stability still running after 195 s (time limit 7200 s) - --- M8: 8 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished t
+2026-11-24 13:39:31.181       ... gameplay-stability still running after 210 s (time limit 7200 s) - --- M8: 8 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished t
+2026-11-24 13:39:46.381       ... gameplay-stability still running after 225 s (time limit 7200 s) - --- M8: 8 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished t
+2026-11-24 13:40:01.087       ... gameplay-stability still running after 240 s (time limit 7200 s) - --- M8: 8 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished t
+2026-11-24 13:40:16.288       ... gameplay-stability still running after 255 s (time limit 7200 s) - --- M8: 8 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished t
+2026-11-24 13:40:24.081    [multi-table] PASS M1: 1 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced: 5 checks passed in 64 s
+2026-11-24 13:40:24.257    [multi-table] PASS M2: 2 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced: 5 checks passed in 62 s
+2026-11-24 13:40:24.424    [multi-table] PASS M5: 5 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced: 5 checks passed in 64 s
+2026-11-24 13:40:24.594    [multi-table] PASS M8: 8 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced: 5 checks passed in 73 s
+2026-11-24 13:40:24.787    [multi-table] PASS gameplay-stability: process cleanup (children exited, no live timers): ok
+2026-11-24 13:40:24.956    [multi-table] PASS gameplay-stability: exit code matches the result: overall PASS, exit 0
+2026-11-24 13:40:25.334  ---- multi-table: PASS (4 min 24 s)
+2026-11-24 13:40:25.337  
+2026-11-24 13:40:25.338  ==== Cleanup: nothing left running, port released [cleanup] (9 of 9)
+2026-11-24 13:40:27.527    [cleanup] PASS no leftover EightMax processes started by these tests: none
+2026-11-24 13:40:27.721    [cleanup] PASS no other process of this test session left: none
+2026-11-24 13:40:27.970    [cleanup] PASS port 48713 released: free
+2026-11-24 13:40:28.318  ---- cleanup: PASS (2.8 s)
+2026-11-24 13:40:30.887  
+2026-11-24 13:40:30.891  Checks: 143 passed, 0 failed, 0 warnings, 5 skipped
+2026-11-24 13:40:30.893  OVERALL: PASS  (exit code 0: PASS: every required check passed (warnings, if any, are listed))
+2026-11-24 13:40:30.894  Results folder: D:\a\_temp\m40-full\Milestone3.1-20261124-131659-full
+2026-11-24 13:40:30.897  Results ZIP to send back: D:\a\_temp\m40-full\Milestone3.1-20261124-131659-full\milestone3-results.zip
