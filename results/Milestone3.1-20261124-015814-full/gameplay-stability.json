@@ -1,0 +1,1146 @@
+{
+  "format": "eightmax-m3-gameplay-acceptance",
+  "version": 1,
+  "suite": "stability",
+  "app": "0.36.2-dev",
+  "milestone": "0.36.2-milestone-3",
+  "environment": "windows",
+  "at": "2026-11-24T02:13:15.721Z",
+  "machine": {
+    "platform": "win32",
+    "release": "10.0.26100",
+    "node": "v22.23.5",
+    "cpus": 4,
+    "cpu": "AMD EPYC 9V74 80-Core Processor                ",
+    "ramGiB": 16
+  },
+  "host": {
+    "appVersion": "0.36.2-dev",
+    "build": "7d08acc7eb4577ee",
+    "driver": {
+      "dpiAwareness": "per-monitor-v2",
+      "hotkeyRegistered": true,
+      "signedCurves": true
+    },
+    "monitors": [
+      {
+        "id": 0,
+        "name": "\\\\.\\DISPLAY1",
+        "bounds": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1080
+        },
+        "work": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1032
+        },
+        "dpiScale": 1,
+        "primary": true
+      }
+    ]
+  },
+  "scenarios": [
+    {
+      "id": "M1",
+      "name": "1 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+      "status": "pass",
+      "durationMs": 62296,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "every table played (confirmed actions on every table)",
+          "pass": true,
+          "detail": [
+            47
+          ]
+        },
+        {
+          "name": "no incorrect action, no invalid wager (oracle)",
+          "pass": true,
+          "detail": [
+            0,
+            0
+          ]
+        },
+        {
+          "name": "no confirmed action the table did not apply",
+          "pass": true,
+          "detail": 0
+        },
+        {
+          "name": "no stall, no unexpected pause, no violation",
+          "pass": true,
+          "detail": []
+        },
+        {
+          "name": "faults exercised (closure + reopen n/a, emergency stop)",
+          "pass": true,
+          "detail": {
+            "closeReopen": 0,
+            "estop": 3
+          }
+        }
+      ],
+      "metrics": {
+        "tables": 1,
+        "seconds": 60,
+        "completedHands": 5,
+        "tournamentsStarted": 1,
+        "tournamentsCompleted": 0,
+        "winnersMatchDealer": true,
+        "actionsAttempted": 49,
+        "actionsConfirmed": 47,
+        "incorrectActions": 0,
+        "invalidWagers": 0,
+        "missedStateTransitions": 0,
+        "confirmedButNotApplied": 0,
+        "refusedReadings": 0,
+        "reconstructionFailures": 0,
+        "untrackedHands": 0,
+        "untrackedHandsWithoutDecision": 0,
+        "untrackedHandsNeedingInput": 0,
+        "recoveryEvents": 0,
+        "lifecycleRecoveries": 3,
+        "eliminationsSeen": 5,
+        "uncertainOrUnconfirmed": 2,
+        "deadlineMisses": 0,
+        "cleanRefusals": 1,
+        "unexpectedPauses": 0,
+        "finalPlayerCounts": [],
+        "hands": {
+          "handsObserved": 5,
+          "allEightDealtIn": 1,
+          "withEliminatedSeats": 4,
+          "headsUp": 0,
+          "allIn": 5,
+          "sidePots": 5,
+          "endingWithElimination": 3,
+          "endingWithTwoOrMoreEliminations": 2,
+          "dealtInHistogram": {
+            "3": 1,
+            "4": 2,
+            "6": 1,
+            "8": 1
+          }
+        },
+        "faults": {
+          "closeReopen": 0,
+          "estop": 3
+        },
+        "violations": [],
+        "measurements": {
+          "tables": 1,
+          "seconds": 60,
+          "completedHands": 5,
+          "motion": {
+            "maxSpeedPxPerS": 1200,
+            "note": "configured motion speed unchanged"
+          },
+          "schedulingDelayMs": {
+            "n": 49,
+            "mean": 53.32,
+            "p50": 52.87,
+            "p95": 67.82,
+            "p99": 68.4,
+            "max": 68.4
+          },
+          "cursorTravelMs": {
+            "n": 47,
+            "mean": 257.89,
+            "p50": 237.74,
+            "p95": 585.67,
+            "p99": 586.28,
+            "max": 586.28
+          },
+          "inputOperationMs": {
+            "n": 47,
+            "mean": 950.82,
+            "p50": 706.28,
+            "p95": 2010.32,
+            "p99": 2098.12,
+            "max": 2098.12
+          },
+          "confirmationMs": {
+            "n": 47,
+            "mean": 124.42,
+            "p50": 127.61,
+            "p95": 135.94,
+            "p99": 149.78,
+            "max": 149.78
+          },
+          "actionLatencyMs": {
+            "n": 47,
+            "mean": 964.84,
+            "p50": 718.56,
+            "p95": 2027.66,
+            "p99": 2115.66,
+            "max": 2115.66
+          },
+          "perTable": [
+            {
+              "table": 1,
+              "confirmed": 47,
+              "actionLatencyMs": {
+                "n": 47,
+                "mean": 964.84,
+                "p50": 718.56,
+                "p95": 2027.66,
+                "p99": 2115.66,
+                "max": 2115.66
+              },
+              "schedulingDelayMs": {
+                "n": 49,
+                "mean": 53.32,
+                "p50": 52.87,
+                "p95": 67.82,
+                "p99": 68.4,
+                "max": 68.4
+              },
+              "inputStatus": {
+                "confirmed": 47,
+                "uncertain": 2
+              }
+            }
+          ],
+          "deadlineMisses": {
+            "byTables": 0,
+            "byScheduler": 0
+          },
+          "rejectedActions": 1,
+          "uncertainActions": 2,
+          "inputStatus": {
+            "confirmed": 47,
+            "uncertain": 2
+          },
+          "schedulerRejections": {},
+          "peakQueue": 1,
+          "windowLossResponseMs": {
+            "n": 0
+          }
+        }
+      }
+    },
+    {
+      "id": "M2",
+      "name": "2 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+      "status": "pass",
+      "durationMs": 61510,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "every table played (confirmed actions on every table)",
+          "pass": true,
+          "detail": [
+            15,
+            14
+          ]
+        },
+        {
+          "name": "no incorrect action, no invalid wager (oracle)",
+          "pass": true,
+          "detail": [
+            0,
+            0
+          ]
+        },
+        {
+          "name": "no confirmed action the table did not apply",
+          "pass": true,
+          "detail": 0
+        },
+        {
+          "name": "no stall, no unexpected pause, no violation",
+          "pass": true,
+          "detail": []
+        },
+        {
+          "name": "faults exercised (closure + reopen, emergency stop)",
+          "pass": true,
+          "detail": {
+            "closeReopen": 2,
+            "estop": 1
+          }
+        }
+      ],
+      "metrics": {
+        "tables": 2,
+        "seconds": 61,
+        "completedHands": 1,
+        "tournamentsStarted": 4,
+        "tournamentsCompleted": 0,
+        "winnersMatchDealer": true,
+        "actionsAttempted": 35,
+        "actionsConfirmed": 29,
+        "incorrectActions": 0,
+        "invalidWagers": 0,
+        "missedStateTransitions": 0,
+        "confirmedButNotApplied": 0,
+        "refusedReadings": 0,
+        "reconstructionFailures": 0,
+        "untrackedHands": 0,
+        "untrackedHandsWithoutDecision": 0,
+        "untrackedHandsNeedingInput": 0,
+        "recoveryEvents": 0,
+        "lifecycleRecoveries": 2,
+        "eliminationsSeen": 3,
+        "uncertainOrUnconfirmed": 2,
+        "deadlineMisses": 0,
+        "cleanRefusals": 5,
+        "unexpectedPauses": 0,
+        "finalPlayerCounts": [],
+        "hands": {
+          "handsObserved": 5,
+          "allEightDealtIn": 4,
+          "withEliminatedSeats": 1,
+          "headsUp": 0,
+          "allIn": 1,
+          "sidePots": 1,
+          "endingWithElimination": 1,
+          "endingWithTwoOrMoreEliminations": 1,
+          "dealtInHistogram": {
+            "5": 1,
+            "8": 4
+          }
+        },
+        "faults": {
+          "closeReopen": 2,
+          "estop": 1
+        },
+        "violations": [],
+        "measurements": {
+          "tables": 2,
+          "seconds": 61,
+          "completedHands": 1,
+          "motion": {
+            "maxSpeedPxPerS": 1200,
+            "note": "configured motion speed unchanged"
+          },
+          "schedulingDelayMs": {
+            "n": 35,
+            "mean": 942.1,
+            "p50": 1077.53,
+            "p95": 2703.58,
+            "p99": 2755.24,
+            "max": 2755.24
+          },
+          "cursorTravelMs": {
+            "n": 29,
+            "mean": 1140.25,
+            "p50": 1266.09,
+            "p95": 1579.74,
+            "p99": 1581.24,
+            "max": 1581.24
+          },
+          "inputOperationMs": {
+            "n": 29,
+            "mean": 2803.6,
+            "p50": 2700.14,
+            "p95": 4402.28,
+            "p99": 4659.58,
+            "max": 4659.58
+          },
+          "confirmationMs": {
+            "n": 29,
+            "mean": 133.86,
+            "p50": 133.05,
+            "p95": 148.49,
+            "p99": 151.58,
+            "max": 151.58
+          },
+          "actionLatencyMs": {
+            "n": 29,
+            "mean": 2871.05,
+            "p50": 2716.86,
+            "p95": 4417.65,
+            "p99": 4679.92,
+            "max": 4679.92
+          },
+          "perTable": [
+            {
+              "table": 1,
+              "confirmed": 15,
+              "actionLatencyMs": {
+                "n": 15,
+                "mean": 3080.34,
+                "p50": 3197.07,
+                "p95": 4679.92,
+                "p99": 4679.92,
+                "max": 4679.92
+              },
+              "schedulingDelayMs": {
+                "n": 17,
+                "mean": 911.25,
+                "p50": 1194.97,
+                "p95": 2350.5,
+                "p99": 2350.5,
+                "max": 2350.5
+              },
+              "inputStatus": {
+                "confirmed": 15,
+                "uncertain": 2
+              }
+            },
+            {
+              "table": 2,
+              "confirmed": 14,
+              "actionLatencyMs": {
+                "n": 14,
+                "mean": 2646.8,
+                "p50": 2248.46,
+                "p95": 4417.65,
+                "p99": 4417.65,
+                "max": 4417.65
+              },
+              "schedulingDelayMs": {
+                "n": 18,
+                "mean": 971.24,
+                "p50": 863.4,
+                "p95": 2755.24,
+                "p99": 2755.24,
+                "max": 2755.24
+              },
+              "inputStatus": {
+                "confirmed": 14,
+                "rejected-before-input": 4
+              }
+            }
+          ],
+          "deadlineMisses": {
+            "byTables": 0,
+            "byScheduler": 0
+          },
+          "rejectedActions": 5,
+          "uncertainActions": 2,
+          "inputStatus": {
+            "confirmed": 29,
+            "uncertain": 2,
+            "rejected-before-input": 4
+          },
+          "schedulerRejections": {
+            "emergency-stop": 1,
+            "stale": 1
+          },
+          "peakQueue": 1,
+          "windowLossResponseMs": {
+            "n": 2,
+            "mean": 43,
+            "p50": 40,
+            "p95": 46,
+            "p99": 46,
+            "max": 46
+          }
+        }
+      }
+    },
+    {
+      "id": "M5",
+      "name": "5 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+      "status": "pass",
+      "durationMs": 61631,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "every table played (confirmed actions on every table)",
+          "pass": true,
+          "detail": [
+            13,
+            13,
+            15,
+            12,
+            14
+          ]
+        },
+        {
+          "name": "no incorrect action, no invalid wager (oracle)",
+          "pass": true,
+          "detail": [
+            0,
+            0
+          ]
+        },
+        {
+          "name": "no confirmed action the table did not apply",
+          "pass": true,
+          "detail": 0
+        },
+        {
+          "name": "no stall, no unexpected pause, no violation",
+          "pass": true,
+          "detail": []
+        },
+        {
+          "name": "faults exercised (closure + reopen, emergency stop)",
+          "pass": true,
+          "detail": {
+            "closeReopen": 2,
+            "estop": 1
+          }
+        }
+      ],
+      "metrics": {
+        "tables": 5,
+        "seconds": 61,
+        "completedHands": 4,
+        "tournamentsStarted": 7,
+        "tournamentsCompleted": 0,
+        "winnersMatchDealer": true,
+        "actionsAttempted": 77,
+        "actionsConfirmed": 67,
+        "incorrectActions": 0,
+        "invalidWagers": 0,
+        "missedStateTransitions": 0,
+        "confirmedButNotApplied": 0,
+        "refusedReadings": 0,
+        "reconstructionFailures": 0,
+        "untrackedHands": 0,
+        "untrackedHandsWithoutDecision": 0,
+        "untrackedHandsNeedingInput": 0,
+        "recoveryEvents": 0,
+        "lifecycleRecoveries": 5,
+        "eliminationsSeen": 7,
+        "uncertainOrUnconfirmed": 0,
+        "deadlineMisses": 0,
+        "cleanRefusals": 10,
+        "unexpectedPauses": 0,
+        "finalPlayerCounts": [],
+        "hands": {
+          "handsObserved": 11,
+          "allEightDealtIn": 7,
+          "withEliminatedSeats": 4,
+          "headsUp": 0,
+          "allIn": 4,
+          "sidePots": 4,
+          "endingWithElimination": 4,
+          "endingWithTwoOrMoreEliminations": 3,
+          "dealtInHistogram": {
+            "6": 3,
+            "7": 1,
+            "8": 7
+          }
+        },
+        "faults": {
+          "closeReopen": 2,
+          "estop": 1
+        },
+        "violations": [],
+        "measurements": {
+          "tables": 5,
+          "seconds": 61,
+          "completedHands": 4,
+          "motion": {
+            "maxSpeedPxPerS": 1200,
+            "note": "configured motion speed unchanged"
+          },
+          "schedulingDelayMs": {
+            "n": 77,
+            "mean": 2590.81,
+            "p50": 2548.47,
+            "p95": 4822.65,
+            "p99": 4969.03,
+            "max": 4969.03
+          },
+          "cursorTravelMs": {
+            "n": 67,
+            "mean": 316.74,
+            "p50": 291.7,
+            "p95": 585.65,
+            "p99": 590.33,
+            "max": 590.33
+          },
+          "inputOperationMs": {
+            "n": 67,
+            "mean": 3597.15,
+            "p50": 3396.11,
+            "p95": 5648.65,
+            "p99": 5784.89,
+            "max": 5784.89
+          },
+          "confirmationMs": {
+            "n": 67,
+            "mean": 134.7,
+            "p50": 132.75,
+            "p95": 150.73,
+            "p99": 154.18,
+            "max": 154.18
+          },
+          "actionLatencyMs": {
+            "n": 67,
+            "mean": 3634.97,
+            "p50": 3421.62,
+            "p95": 5738.61,
+            "p99": 5841.59,
+            "max": 5841.59
+          },
+          "perTable": [
+            {
+              "table": 1,
+              "confirmed": 13,
+              "actionLatencyMs": {
+                "n": 13,
+                "mean": 3695.91,
+                "p50": 3317.54,
+                "p95": 5800.44,
+                "p99": 5800.44,
+                "max": 5800.44
+              },
+              "schedulingDelayMs": {
+                "n": 15,
+                "mean": 2642.71,
+                "p50": 2437.12,
+                "p95": 4893.89,
+                "p99": 4893.89,
+                "max": 4893.89
+              },
+              "inputStatus": {
+                "confirmed": 13,
+                "rejected-before-input": 2
+              }
+            },
+            {
+              "table": 2,
+              "confirmed": 13,
+              "actionLatencyMs": {
+                "n": 13,
+                "mean": 3503.05,
+                "p50": 3374.24,
+                "p95": 5738.61,
+                "p99": 5738.61,
+                "max": 5738.61
+              },
+              "schedulingDelayMs": {
+                "n": 16,
+                "mean": 2628.31,
+                "p50": 2548.47,
+                "p95": 4969.03,
+                "p99": 4969.03,
+                "max": 4969.03
+              },
+              "inputStatus": {
+                "confirmed": 13,
+                "rejected-before-input": 3
+              }
+            },
+            {
+              "table": 3,
+              "confirmed": 15,
+              "actionLatencyMs": {
+                "n": 15,
+                "mean": 3558.58,
+                "p50": 3421.62,
+                "p95": 5637.61,
+                "p99": 5637.61,
+                "max": 5637.61
+              },
+              "schedulingDelayMs": {
+                "n": 16,
+                "mean": 2477.39,
+                "p50": 2385.87,
+                "p95": 4899.71,
+                "p99": 4899.71,
+                "max": 4899.71
+              },
+              "inputStatus": {
+                "confirmed": 15,
+                "rejected-before-input": 1
+              }
+            },
+            {
+              "table": 4,
+              "confirmed": 12,
+              "actionLatencyMs": {
+                "n": 12,
+                "mean": 3697.49,
+                "p50": 3413.54,
+                "p95": 5841.59,
+                "p99": 5841.59,
+                "max": 5841.59
+              },
+              "schedulingDelayMs": {
+                "n": 15,
+                "mean": 2595.05,
+                "p50": 2676.64,
+                "p95": 4239.7,
+                "p99": 4239.7,
+                "max": 4239.7
+              },
+              "inputStatus": {
+                "confirmed": 12,
+                "rejected-before-input": 3
+              }
+            },
+            {
+              "table": 5,
+              "confirmed": 14,
+              "actionLatencyMs": {
+                "n": 14,
+                "mean": 3729.16,
+                "p50": 3485.74,
+                "p95": 5495.65,
+                "p99": 5495.65,
+                "max": 5495.65
+              },
+              "schedulingDelayMs": {
+                "n": 15,
+                "mean": 2615.63,
+                "p50": 2576.78,
+                "p95": 4054.6,
+                "p99": 4054.6,
+                "max": 4054.6
+              },
+              "inputStatus": {
+                "confirmed": 14,
+                "rejected-before-input": 1
+              }
+            }
+          ],
+          "deadlineMisses": {
+            "byTables": 0,
+            "byScheduler": 0
+          },
+          "rejectedActions": 10,
+          "uncertainActions": 0,
+          "inputStatus": {
+            "confirmed": 67,
+            "rejected-before-input": 10
+          },
+          "schedulerRejections": {
+            "stale": 6,
+            "emergency-stop": 4
+          },
+          "peakQueue": 4,
+          "windowLossResponseMs": {
+            "n": 2,
+            "mean": 2335,
+            "p50": 2190,
+            "p95": 2480,
+            "p99": 2480,
+            "max": 2480
+          }
+        }
+      }
+    },
+    {
+      "id": "M8",
+      "name": "8 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+      "status": "pass",
+      "durationMs": 70336,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "every table played (confirmed actions on every table)",
+          "pass": true,
+          "detail": [
+            7,
+            8,
+            10,
+            8,
+            9,
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "name": "no incorrect action, no invalid wager (oracle)",
+          "pass": true,
+          "detail": [
+            0,
+            0
+          ]
+        },
+        {
+          "name": "no confirmed action the table did not apply",
+          "pass": true,
+          "detail": 0
+        },
+        {
+          "name": "no stall, no unexpected pause, no violation",
+          "pass": true,
+          "detail": []
+        },
+        {
+          "name": "faults exercised (closure + reopen, emergency stop)",
+          "pass": true,
+          "detail": {
+            "closeReopen": 2,
+            "estop": 1
+          }
+        }
+      ],
+      "metrics": {
+        "tables": 8,
+        "seconds": 69,
+        "completedHands": 0,
+        "tournamentsStarted": 10,
+        "tournamentsCompleted": 0,
+        "winnersMatchDealer": true,
+        "actionsAttempted": 90,
+        "actionsConfirmed": 72,
+        "incorrectActions": 0,
+        "invalidWagers": 0,
+        "missedStateTransitions": 0,
+        "confirmedButNotApplied": 0,
+        "refusedReadings": 0,
+        "reconstructionFailures": 0,
+        "untrackedHands": 0,
+        "untrackedHandsWithoutDecision": 0,
+        "untrackedHandsNeedingInput": 0,
+        "recoveryEvents": 0,
+        "lifecycleRecoveries": 8,
+        "eliminationsSeen": 0,
+        "uncertainOrUnconfirmed": 2,
+        "deadlineMisses": 2,
+        "cleanRefusals": 17,
+        "unexpectedPauses": 0,
+        "finalPlayerCounts": [],
+        "hands": {
+          "handsObserved": 10,
+          "allEightDealtIn": 10,
+          "withEliminatedSeats": 0,
+          "headsUp": 0,
+          "allIn": 4,
+          "sidePots": 4,
+          "endingWithElimination": 0,
+          "endingWithTwoOrMoreEliminations": 0,
+          "dealtInHistogram": {
+            "8": 10
+          }
+        },
+        "faults": {
+          "closeReopen": 2,
+          "estop": 1
+        },
+        "violations": [],
+        "measurements": {
+          "tables": 8,
+          "seconds": 69,
+          "completedHands": 0,
+          "motion": {
+            "maxSpeedPxPerS": 1200,
+            "note": "configured motion speed unchanged"
+          },
+          "schedulingDelayMs": {
+            "n": 90,
+            "mean": 4385.56,
+            "p50": 4568.4,
+            "p95": 6987.75,
+            "p99": 7863.7,
+            "max": 7863.7
+          },
+          "cursorTravelMs": {
+            "n": 72,
+            "mean": 338.27,
+            "p50": 313.84,
+            "p95": 587.12,
+            "p99": 753.5,
+            "max": 753.5
+          },
+          "inputOperationMs": {
+            "n": 72,
+            "mean": 5380.45,
+            "p50": 5407.69,
+            "p95": 7670.66,
+            "p99": 8575.51,
+            "max": 8575.51
+          },
+          "confirmationMs": {
+            "n": 72,
+            "mean": 131.47,
+            "p50": 132.54,
+            "p95": 149.59,
+            "p99": 165.64,
+            "max": 165.64
+          },
+          "actionLatencyMs": {
+            "n": 72,
+            "mean": 5429.82,
+            "p50": 5428.8,
+            "p95": 7691.09,
+            "p99": 8594.98,
+            "max": 8594.98
+          },
+          "perTable": [
+            {
+              "table": 1,
+              "confirmed": 7,
+              "actionLatencyMs": {
+                "n": 7,
+                "mean": 5160.65,
+                "p50": 5306.34,
+                "p95": 6873.98,
+                "p99": 6873.98,
+                "max": 6873.98
+              },
+              "schedulingDelayMs": {
+                "n": 10,
+                "mean": 4530.07,
+                "p50": 4335.08,
+                "p95": 6987.75,
+                "p99": 6987.75,
+                "max": 6987.75
+              },
+              "inputStatus": {
+                "confirmed": 7,
+                "uncertain": 2,
+                "rejected-before-input": 1
+              }
+            },
+            {
+              "table": 2,
+              "confirmed": 8,
+              "actionLatencyMs": {
+                "n": 8,
+                "mean": 5225.01,
+                "p50": 5460.56,
+                "p95": 8586.94,
+                "p99": 8586.94,
+                "max": 8586.94
+              },
+              "schedulingDelayMs": {
+                "n": 11,
+                "mean": 4477.52,
+                "p50": 4595.82,
+                "p95": 7845.07,
+                "p99": 7845.07,
+                "max": 7845.07
+              },
+              "inputStatus": {
+                "confirmed": 8,
+                "rejected-before-input": 3
+              }
+            },
+            {
+              "table": 3,
+              "confirmed": 10,
+              "actionLatencyMs": {
+                "n": 10,
+                "mean": 5151.12,
+                "p50": 5112.45,
+                "p95": 8533.43,
+                "p99": 8533.43,
+                "max": 8533.43
+              },
+              "schedulingDelayMs": {
+                "n": 11,
+                "mean": 4155.1,
+                "p50": 4669.54,
+                "p95": 6128.96,
+                "p99": 6128.96,
+                "max": 6128.96
+              },
+              "inputStatus": {
+                "confirmed": 10,
+                "rejected-before-input": 1
+              }
+            },
+            {
+              "table": 4,
+              "confirmed": 8,
+              "actionLatencyMs": {
+                "n": 8,
+                "mean": 5195.58,
+                "p50": 5259.56,
+                "p95": 8594.98,
+                "p99": 8594.98,
+                "max": 8594.98
+              },
+              "schedulingDelayMs": {
+                "n": 11,
+                "mean": 4826.76,
+                "p50": 4959.89,
+                "p95": 7863.7,
+                "p99": 7863.7,
+                "max": 7863.7
+              },
+              "inputStatus": {
+                "confirmed": 8,
+                "rejected-before-input": 3
+              }
+            },
+            {
+              "table": 5,
+              "confirmed": 9,
+              "actionLatencyMs": {
+                "n": 9,
+                "mean": 5291.62,
+                "p50": 5417.46,
+                "p95": 7691.09,
+                "p99": 7691.09,
+                "max": 7691.09
+              },
+              "schedulingDelayMs": {
+                "n": 12,
+                "mean": 4497.31,
+                "p50": 4332.18,
+                "p95": 7659.94,
+                "p99": 7659.94,
+                "max": 7659.94
+              },
+              "inputStatus": {
+                "confirmed": 9,
+                "rejected-before-input": 3
+              }
+            },
+            {
+              "table": 6,
+              "confirmed": 10,
+              "actionLatencyMs": {
+                "n": 10,
+                "mean": 5644.44,
+                "p50": 5407.04,
+                "p95": 6980.75,
+                "p99": 6980.75,
+                "max": 6980.75
+              },
+              "schedulingDelayMs": {
+                "n": 12,
+                "mean": 4251.43,
+                "p50": 4410.41,
+                "p95": 6218.82,
+                "p99": 6218.82,
+                "max": 6218.82
+              },
+              "inputStatus": {
+                "confirmed": 10,
+                "rejected-before-input": 2
+              }
+            },
+            {
+              "table": 7,
+              "confirmed": 10,
+              "actionLatencyMs": {
+                "n": 10,
+                "mean": 5758.63,
+                "p50": 5574.96,
+                "p95": 6877.71,
+                "p99": 6877.71,
+                "max": 6877.71
+              },
+              "schedulingDelayMs": {
+                "n": 12,
+                "mean": 4063.12,
+                "p50": 4410.1,
+                "p95": 5331.92,
+                "p99": 5331.92,
+                "max": 5331.92
+              },
+              "inputStatus": {
+                "confirmed": 10,
+                "rejected-before-input": 2
+              }
+            },
+            {
+              "table": 8,
+              "confirmed": 10,
+              "actionLatencyMs": {
+                "n": 10,
+                "mean": 5829.15,
+                "p50": 5428.8,
+                "p95": 7217.77,
+                "p99": 7217.77,
+                "max": 7217.77
+              },
+              "schedulingDelayMs": {
+                "n": 11,
+                "mean": 4327.69,
+                "p50": 4352.45,
+                "p95": 5912.63,
+                "p99": 5912.63,
+                "max": 5912.63
+              },
+              "inputStatus": {
+                "confirmed": 10,
+                "rejected-before-input": 1
+              }
+            }
+          ],
+          "deadlineMisses": {
+            "byTables": 2,
+            "byScheduler": 2
+          },
+          "rejectedActions": 17,
+          "uncertainActions": 2,
+          "inputStatus": {
+            "confirmed": 72,
+            "uncertain": 2,
+            "rejected-before-input": 16
+          },
+          "schedulerRejections": {
+            "stale": 7,
+            "emergency-stop": 7,
+            "deadline": 2
+          },
+          "peakQueue": 7,
+          "windowLossResponseMs": {
+            "n": 2,
+            "mean": 1691,
+            "p50": 909,
+            "p95": 2473,
+            "p99": 2473,
+            "max": 2473
+          }
+        }
+      }
+    }
+  ],
+  "cleanup": {
+    "childProcesses": [
+      {
+        "name": "desktop host",
+        "pid": 6016,
+        "exited": true,
+        "code": 0,
+        "signal": null
+      },
+      {
+        "name": "test-table fixture 1",
+        "pid": 9448,
+        "exited": true,
+        "code": 0,
+        "signal": null
+      },
+      {
+        "name": "test-table fixture 2",
+        "pid": 5116,
+        "exited": true,
+        "code": 0,
+        "signal": null
+      },
+      {
+        "name": "test-table fixture 3",
+        "pid": 7048,
+        "exited": true,
+        "code": 0,
+        "signal": null
+      },
+      {
+        "name": "test-table fixture 4",
+        "pid": 1148,
+        "exited": true,
+        "code": 0,
+        "signal": null
+      }
+    ],
+    "allChildrenExited": true,
+    "activeResources": {},
+    "unexpected": [],
+    "ok": true
+  },
+  "summary": {
+    "scenarios": 4,
+    "passed": 4,
+    "failed": 0,
+    "withWarnings": 0,
+    "checks": 20,
+    "failedChecks": 0,
+    "warningChecks": 0,
+    "cleanupOk": true
+  },
+  "overall": "PASS",
+  "durationMs": 255860,
+  "exitCode": 0
+}
