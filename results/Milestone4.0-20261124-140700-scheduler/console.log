@@ -1,0 +1,109 @@
+2026-11-24 14:07:01.120  EightMax Test Workbench 0.36.2 - Milestone 4.0 performance tests, mode B - Scheduler benchmark (real windows; the mouse moves by itself)
+2026-11-24 14:07:01.122  Results folder: D:\a\_temp\m40-launcher\Milestone4.0-20261124-140700-scheduler
+2026-11-24 14:07:01.124  Application:    D:\a\_temp\EightMax CI (launcher) é\EightMax-Test-Workbench
+2026-11-24 14:07:01.126  The mouse will move by itself inside the EightMax test tables. Do not touch the mouse or keyboard until this finishes. Ctrl+Alt+F12 stops all input.
+2026-11-24 14:07:01.227  Session job active: every process this run starts ends with the run, however it ends.
+2026-11-24 14:07:01.427  
+2026-11-24 14:07:01.431  ==== Computer and environment [environment] (1 of 6)
+2026-11-24 14:07:04.595    [environment] PASS machine details collected: Microsoft Windows Server 2025 Datacenter build 26100; AMD EPYC 7763 64-Core Processor (2 cores, 4 threads); 16 GiB; display scaling 100%; PowerShell 5.1.26100.33822 Desktop
+2026-11-24 14:07:04.722    [environment] PASS application folder path: application folder D:\a\_temp\EightMax CI (launcher) é\EightMax-Test-Workbench (59 characters, spaces, non-ASCII characters, parentheses)
+2026-11-24 14:07:04.827    [environment] PASS results folder: D:\a\_temp\m40-launcher\Milestone4.0-20261124-140700-scheduler (requested)
+2026-11-24 14:07:04.930    [environment] PASS session process control: job object: every process of this run ends with the run
+2026-11-24 14:07:05.040    [environment] PASS files marked as downloaded from the internet (Mark of the Web): none of 431 program files is marked
+2026-11-24 14:07:05.163    [environment] PASS Windows security settings: SmartScreen not set (Windows default); Smart App Control unknown; antivirus none reported by Windows Security Center; Defender real-time protection False, controlled folder access 0
+2026-11-24 14:07:05.275    [environment] PASS PowerShell execution policy: MachinePolicy=Undefined, UserPolicy=Undefined, Process=Bypass, CurrentUser=Undefined, LocalMachine=Unrestricted
+2026-11-24 14:07:05.394    [environment] PASS no EightMax desktop host already running: none
+2026-11-24 14:07:05.740    [environment] PASS port 48713 free: free
+2026-11-24 14:07:06.283  ---- environment: PASS (4.6 s)
+2026-11-24 14:07:06.285  
+2026-11-24 14:07:06.287  ==== Release integrity and executable identities [integrity] (2 of 6)
+2026-11-24 14:07:09.250    [integrity] PASS release files match SHA256SUMS.txt (runtime output excluded by release-integrity-policy.json): PASS: 1484 of 1484 listed files verified; missing 0, modified 0, unexpected executables 0, other unlisted files 0; runtime output ignored: 0 file(s) in 0 folder(s); warnings 0 (2.8 s)
+2026-11-24 14:07:09.497    [identity] PASS desktop\bin\EightMaxWorkbench.exe: sha256 540aeb8f0a9c34c5... version 0.36.2.0 / 0.36.2-dev
+2026-11-24 14:07:09.620    [identity] PASS desktop\bin\EightMaxInput.exe: sha256 e588ee0bef94dc72... version 0.36.2.0 / 0.36.2-dev
+2026-11-24 14:07:09.746    [identity] PASS desktop\bin\EightMaxTestTable.exe: sha256 3e5a76995a24d169... version 0.36.2.0 / 0.36.2-dev
+2026-11-24 14:07:09.865    [identity] PASS desktop\bin\EightMaxCapture.exe: sha256 7986fa3a3d04159e... version 0.35.0.0 / 0.35.0
+2026-11-24 14:07:10.039    [identity] PASS desktop\bin\EightMaxWgc.exe: sha256 bc001504382306e1... version 0.35.0.0 / 0.35.0
+2026-11-24 14:07:10.167    [identity] PASS native\mwcli.exe: sha256 b3e675bfe2ae231e... version  / 
+2026-11-24 14:07:10.403    [identity] PASS runtime\node\node.exe: sha256 247e9693d316da98... version 22.23.5 / 22.23.5
+2026-11-24 14:07:10.640    [identity] PASS EightMax 5.1 binary unchanged: b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72
+2026-11-24 14:07:11.076    [identity] PASS EightMax 5.1 build id: EightMaxBuild=7d08acc7eb4577ee
+2026-11-24 14:07:11.404  ---- integrity: PASS (4.9 s)
+2026-11-24 14:07:11.406  
+2026-11-24 14:07:11.406  ==== Required components [dependencies] (3 of 6)
+2026-11-24 14:07:11.556    [dependencies] PASS 64-bit Windows and 64-bit PowerShell: yes
+2026-11-24 14:07:11.803    [dependencies] PASS .NET Framework 4.x: release 533509 (4.8 or later)
+2026-11-24 14:07:11.934    [dependencies] PASS csc.exe compiler of .NET Framework (used only by the fallback start): C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe
+2026-11-24 14:07:12.069    [dependencies] PASS required release files present: 18 files present
+2026-11-24 14:07:12.472    [dependencies] PASS bundled Node.js (runtime\node\node.exe) runs: v22.23.5
+2026-11-24 14:07:12.721    [dependencies] PASS Windows helper for diagnostics (process tree, port owner, prompt windows): compiled
+2026-11-24 14:07:13.032  ---- dependencies: PASS (1.4 s)
+2026-11-24 14:07:13.034  
+2026-11-24 14:07:13.036  ==== Desktop host start: prebuilt, fallback compile, cache cases [host-start] (4 of 6)
+2026-11-24 14:07:13.180  
+2026-11-24 14:07:13.184    -- start case 1: prebuilt host launch
+2026-11-24 14:07:13.365    [1/12] Check for EightMax programs that are already running ...
+2026-11-24 14:07:13.428    [host-start] PASS prebuilt host launch - 1/12 Check for EightMax programs that are already running: no EightMax program is running [0 s]
+2026-11-24 14:07:13.704    [2/12] Check that port 48713 is free ...
+2026-11-24 14:07:13.732    [host-start] PASS prebuilt host launch - 2/12 Check that port 48713 is free: free [0 s]
+2026-11-24 14:07:14.001    [3/12] Prepare the start-up folders ...
+2026-11-24 14:07:14.038    [host-start] PASS prebuilt host launch - 3/12 Prepare the start-up folders: case folder ready: D:\a\_temp\m40-launcher\Milestone4.0-20261124-140700-scheduler\host-start\01-prebuilt [0 s]
+2026-11-24 14:07:14.312    [4/12] Start the start-up script (Start-Desktop.ps1) ...
+2026-11-24 14:07:14.539    [host-start] PASS prebuilt host launch - 4/12 Start the start-up script (Start-Desktop.ps1): started powershell.exe pid 1308 [0.2 s]
+2026-11-24 14:07:14.854    [5/12] Wait for the start-up script to launch the desktop host ...
+2026-11-24 14:07:17.793    [host-start] PASS prebuilt host launch - 5/12 Wait for the start-up script to launch the desktop host: host pid 8984 launched (CreateProcess, path prebuilt); start-up script finished in 2.8 s [2.9 s]
+2026-11-24 14:07:18.075    [6/12] Wait for the host to report ready (session file) ...
+2026-11-24 14:07:18.097    [host-start] PASS prebuilt host launch - 6/12 Wait for the host to report ready (session file): ready after 0 s [0 s]
+2026-11-24 14:07:18.370    [7/12] Read and validate the session file ...
+2026-11-24 14:07:18.417    [host-start] PASS prebuilt host launch - 7/12 Read and validate the session file: session of host pid 8984, app 0.36.2-dev [0 s]
+2026-11-24 14:07:18.687    [8/12] Check the health endpoint ...
+2026-11-24 14:07:18.785    [host-start] PASS prebuilt host launch - 8/12 Check the health endpoint: HTTP 200, app 0.36.2-dev, input driver installed True [0.1 s]
+2026-11-24 14:07:19.077    [9/12] Check that the input driver starts (authenticated hello, no mouse movement) ...
+2026-11-24 14:07:19.227    [host-start] PASS prebuilt host launch - 9/12 Check that the input driver starts (authenticated hello, no mouse movement): EightMaxInput.exe started and accepted the session (running, not crashed, emergency-stop hotkey Ctrl+Alt+F12) [0.1 s]
+2026-11-24 14:07:19.502    [10/12] Shut the host down (authenticated request) ...
+2026-11-24 14:07:19.524    [host-start] PASS prebuilt host launch - 10/12 Shut the host down (authenticated request): HTTP 200 (shutdown accepted) [0 s]
+2026-11-24 14:07:19.794    [11/12] Check that the host, the input driver and the start-up script have exited ...
+2026-11-24 14:07:19.849    [host-start] PASS prebuilt host launch - 11/12 Check that the host, the input driver and the start-up script have exited: host exited (exit code 0) after 0 s; no input driver left [0 s]
+2026-11-24 14:07:20.167    [12/12] Check that port 48713 is released ...
+2026-11-24 14:07:20.202    [host-start] PASS prebuilt host launch - 12/12 Check that port 48713 is released: free after 16 ms [0 s]
+2026-11-24 14:07:20.345    [host-start] PASS prebuilt host launch - expected result: path prebuilt
+2026-11-24 14:07:21.210  ---- host-start: PASS (7.9 s)
+2026-11-24 14:07:21.213  
+2026-11-24 14:07:21.214  ==== Scheduler benchmark on this PC: the Milestone 3.2 multi-table workload (1,2,5 tables, 30 s each) with the Milestone 3.2 input pipeline, then with the Milestone 4.0 pipeline (same mouse speed) [scheduler] (5 of 6)
+2026-11-24 14:07:36.569       ... scheduler-compat-3.2 still running after 15 s (time limit 1740 s) - --- M1: 1 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished t
+2026-11-24 14:07:51.737       ... scheduler-compat-3.2 still running after 30 s (time limit 1740 s) - --- M1: 1 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished t
+2026-11-24 14:08:06.899       ... scheduler-compat-3.2 still running after 45 s (time limit 1740 s) - --- M2: 2 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished t
+2026-11-24 14:08:21.554       ... scheduler-compat-3.2 still running after 60 s (time limit 1740 s) - --- M2: 2 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished t
+2026-11-24 14:08:36.717       ... scheduler-compat-3.2 still running after 75 s (time limit 1740 s) - --- M5: 5 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished t
+2026-11-24 14:08:51.877       ... scheduler-compat-3.2 still running after 90 s (time limit 1740 s) - --- M5: 5 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished t
+2026-11-24 14:09:00.944    [scheduler] PASS M1: 1 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced: 5 checks passed in 34 s
+2026-11-24 14:09:01.082    [scheduler] PASS M2: 2 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced: 5 checks passed in 31 s
+2026-11-24 14:09:01.224    [scheduler] PASS M5: 5 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced: 5 checks passed in 34 s
+2026-11-24 14:09:01.392    [scheduler] PASS scheduler-compat-3.2: process cleanup (children exited, no live timers): ok
+2026-11-24 14:09:01.530    [scheduler] PASS scheduler-compat-3.2: exit code matches the result: overall PASS, exit 0
+2026-11-24 14:09:16.960       ... scheduler-optimized still running after 15 s (time limit 1740 s) - --- M1: 1 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished t
+2026-11-24 14:09:32.122       ... scheduler-optimized still running after 30 s (time limit 1740 s) - --- M1: 1 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished t
+2026-11-24 14:09:47.292       ... scheduler-optimized still running after 45 s (time limit 1740 s) - --- M2: 2 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished t
+2026-11-24 14:10:01.966       ... scheduler-optimized still running after 60 s (time limit 1740 s) - --- M2: 2 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished t
+2026-11-24 14:10:17.134       ... scheduler-optimized still running after 75 s (time limit 1740 s) - --- M5: 5 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished t
+2026-11-24 14:10:32.307       ... scheduler-optimized still running after 90 s (time limit 1740 s) - --- M5: 5 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished t
+2026-11-24 14:10:42.810    [scheduler] PASS M1: 1 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced: 5 checks passed in 34 s
+2026-11-24 14:10:42.948    [scheduler] PASS M2: 2 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced: 5 checks passed in 31 s
+2026-11-24 14:10:43.096    [scheduler] PASS M5: 5 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced: 5 checks passed in 35 s
+2026-11-24 14:10:43.251    [scheduler] PASS scheduler-optimized: process cleanup (children exited, no live timers): ok
+2026-11-24 14:10:43.388    [scheduler] PASS scheduler-optimized: exit code matches the result: overall PASS, exit 0
+2026-11-24 14:10:43.573    [scheduler] PASS comparison at 1 table(s): Milestone 3.2 pipeline -> Milestone 4.0 pipeline: 1 table(s): scheduling delay 58 -> 38 ms (-34.4 %), p95 67 -> 54 ms; action latency 1040 -> 990 ms; confirmed actions 19 -> 20; deadline misses 0 -> 0; incorrect actions 0 -> 0
+2026-11-24 14:10:43.724    [scheduler] PASS comparison at 2 table(s): Milestone 3.2 pipeline -> Milestone 4.0 pipeline: 2 table(s): scheduling delay 1004 -> 957 ms (-4.8 %), p95 1802 -> 2414 ms; action latency 2562 -> 2514 ms; confirmed actions 16 -> 18; deadline misses 0 -> 0; incorrect actions 0 -> 0
+2026-11-24 14:10:43.875    [scheduler] PASS comparison at 5 table(s): Milestone 3.2 pipeline -> Milestone 4.0 pipeline: 5 table(s): scheduling delay 2236 -> 1764 ms (-21.1 %), p95 3958 -> 4008 ms; action latency 3229 -> 2612 ms; confirmed actions 36 -> 46; deadline misses 0 -> 0; incorrect actions 0 -> 0
+2026-11-24 14:10:44.017    [scheduler] PASS Milestone 4.0 target: 20-30 % lower scheduling delay at 5 tables (same PC, same mouse speed): measured 21.1 % lower (2236 -> 1764 ms)
+2026-11-24 14:10:44.387  ---- scheduler: PASS (3 min 23 s)
+2026-11-24 14:10:44.407  
+2026-11-24 14:10:44.409  ==== Cleanup: nothing left running, port released [cleanup] (6 of 6)
+2026-11-24 14:10:46.564    [cleanup] PASS no leftover EightMax processes started by these tests: none
+2026-11-24 14:10:46.722    [cleanup] PASS no other process of this test session left: none
+2026-11-24 14:10:46.935    [cleanup] PASS port 48713 released: free
+2026-11-24 14:10:47.225  ---- cleanup: PASS (2.7 s)
+2026-11-24 14:10:48.406  
+2026-11-24 14:10:48.408  Checks: 55 passed, 0 failed, 0 warnings, 0 skipped
+2026-11-24 14:10:48.410  OVERALL: PASS  (exit code 0: PASS: every required check passed (warnings, if any, are listed))
+2026-11-24 14:10:48.412  Results folder: D:\a\_temp\m40-launcher\Milestone4.0-20261124-140700-scheduler
+2026-11-24 14:10:48.414  Results ZIP to send back: D:\a\_temp\m40-launcher\Milestone4.0-20261124-140700-scheduler\milestone3-results.zip

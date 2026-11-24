@@ -1,0 +1,12 @@
+EightMax Test Workbench 0.36.2 - Milestone 4.0 performance test on this PC: what was measured, in plain language
+===========================================================================================================
+Every number below comes from a report in this folder (measured on this PC during this run). Nothing is estimated.
+
+SCHEDULER BENCHMARK (the Milestone 3.2 multi-table workload, 30 s per table count; same PC, same mouse speed 1 200 px/s)
+  tables  scheduling delay ms (M3.2 -> M4.0, change)   p95 ms           action latency ms     confirmed  misses  incorrect
+       1        58 -> 38          -34.4 %         67 -> 54        1040 -> 990       19 -> 20    0 -> 0    0 -> 0
+       2      1004 -> 957          -4.8 %       1802 -> 2414      2562 -> 2514      16 -> 18    0 -> 0    0 -> 0
+       5      2236 -> 1764        -21.1 %       3958 -> 4008      3229 -> 2612      36 -> 46    0 -> 0    0 -> 0
+
+Everything (the full report, every check, logs and the test tables' own records) is in milestone3-results.zip in this folder
+(the Milestone 4.0 tests extend the Milestone 3.1 test runner and keep its file names). Send that ZIP back.
