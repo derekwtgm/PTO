@@ -1,0 +1,8589 @@
+{
+ "scenario": "M2",
+ "at": "2026-11-24T16:05:48.423Z",
+ "tables": [
+  {
+   "table": 1,
+   "hwnd": "0x301E2",
+   "lifecycle": "SAFETY_PAUSED",
+   "cause": {
+    "kind": "unconfirmed-input",
+    "reason": "action not confirmed: stopped - review the simulator; the action is not repeated; manual review required"
+   },
+   "gameplay": {
+    "code": "input-confirmation-failure",
+    "since": 1795536347181,
+    "detail": "action not confirmed: stopped - review the simulator; the action is not repeated; manual review required",
+    "counts": {
+     "playing": 25,
+     "emergency-stop": 11,
+     "verifying": 1,
+     "input-confirmation-failure": 1
+    },
+    "episodes": {
+     "starting": 1,
+     "playing": 2,
+     "emergency-stop": 1,
+     "verifying": 1,
+     "input-confirmation-failure": 1
+    },
+    "lastEvent": null
+   },
+   "tracking": {
+    "lastValidHand": 1,
+    "recoveries": 0,
+    "untrackedHands": 0,
+    "lastRecovery": null,
+    "accepted": 48,
+    "rejected": 0,
+    "paused": false,
+    "status": "tracking",
+    "reasonCode": null,
+    "reason": null,
+    "observedHand": 1,
+    "expectedRecovery": null
+   },
+   "tournament": {
+    "mode": "strict",
+    "handsOpened": 1,
+    "handsSettled": 0,
+    "remaining": 8,
+    "dealtInLastHand": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7
+    ],
+    "eliminated": [],
+    "seats": [
+     "in-play",
+     "in-play",
+     "in-play",
+     "in-play",
+     "in-play",
+     "in-play",
+     "in-play",
+     "in-play"
+    ],
+    "headsUp": false,
+    "headsUpSince": null,
+    "complete": null,
+    "lastSettledHand": null,
+    "lastButton": 0,
+    "continuity": "not-applicable",
+    "stackResets": 0,
+    "events": [],
+    "eliminations": []
+   },
+   "lastConfirm": null,
+   "counts": {
+    "frames": 28,
+    "rejectedFrames": 0,
+    "decisions": 27,
+    "scripted": 27,
+    "solver": 0,
+    "unavailable": 27,
+    "attempted": 27,
+    "confirmed": 20,
+    "rejected": 6,
+    "ambiguous": 0,
+    "timedOut": 0,
+    "cancelled": 1,
+    "blocked": 0,
+    "deadline": 5,
+    "errors": 0,
+    "focusErrors": 0,
+    "driverErrors": 0,
+    "transientFailures": 0,
+    "lossSignals": 0,
+    "uncertain": 1,
+    "cancelledByLoss": 0,
+    "staleDiscarded": 1,
+    "recoveries": 1,
+    "backoffWaits": 0,
+    "probes": 15,
+    "manualOverrides": 0,
+    "emergencyStops": 2,
+    "strategyUnavailable": 27,
+    "verifyingSteps": 0,
+    "handRecoveries": 0,
+    "eliminationsSeen": 0,
+    "inputRejectedNoChange": 0,
+    "unconfirmedEvidence": 1
+   },
+   "rejections": []
+  },
+  {
+   "table": 2,
+   "hwnd": "0x30192",
+   "lifecycle": "TARGET_LOST",
+   "cause": {
+    "kind": "window-closed",
+    "code": "target-lost",
+    "reason": "The window no longer exists (capture: target-lost; driver: window-gone).",
+    "source": "confirmation"
+   },
+   "gameplay": {
+    "code": "target-lost",
+    "since": 1795536305870,
+    "detail": "The window no longer exists (capture: target-lost; driver: window-gone).",
+    "counts": {
+     "playing": 6,
+     "target-lost": 1
+    },
+    "episodes": {
+     "starting": 1,
+     "playing": 1,
+     "target-lost": 1
+    },
+    "lastEvent": null
+   },
+   "tracking": {
+    "lastValidHand": null,
+    "recoveries": 0,
+    "untrackedHands": 0,
+    "lastRecovery": null,
+    "accepted": 0,
+    "rejected": 0,
+    "paused": false,
+    "status": "waiting-for-first-reading",
+    "reasonCode": null,
+    "reason": "No reading accepted yet",
+    "observedHand": null,
+    "expectedRecovery": null
+   },
+   "tournament": {
+    "mode": "strict",
+    "handsOpened": 0,
+    "handsSettled": 0,
+    "remaining": null,
+    "dealtInLastHand": null,
+    "eliminated": [],
+    "seats": [
+     "unknown",
+     "unknown",
+     "unknown",
+     "unknown",
+     "unknown",
+     "unknown",
+     "unknown",
+     "unknown"
+    ],
+    "headsUp": false,
+    "headsUpSince": null,
+    "complete": null,
+    "lastSettledHand": null,
+    "lastButton": null,
+    "continuity": null,
+    "stackResets": 0,
+    "events": [],
+    "eliminations": []
+   },
+   "lastConfirm": null,
+   "counts": {
+    "frames": 7,
+    "rejectedFrames": 0,
+    "decisions": 7,
+    "scripted": 7,
+    "solver": 0,
+    "unavailable": 7,
+    "attempted": 7,
+    "confirmed": 6,
+    "rejected": 1,
+    "ambiguous": 0,
+    "timedOut": 0,
+    "cancelled": 1,
+    "blocked": 0,
+    "deadline": 0,
+    "errors": 0,
+    "focusErrors": 0,
+    "driverErrors": 0,
+    "transientFailures": 0,
+    "lossSignals": 1,
+    "uncertain": 0,
+    "cancelledByLoss": 1,
+    "staleDiscarded": 1,
+    "recoveries": 0,
+    "backoffWaits": 0,
+    "probes": 6,
+    "manualOverrides": 0,
+    "emergencyStops": 0,
+    "strategyUnavailable": 7,
+    "verifyingSteps": 0,
+    "handRecoveries": 0,
+    "eliminationsSeen": 0,
+    "inputRejectedNoChange": 0,
+    "unconfirmedEvidence": 0
+   },
+   "rejections": []
+  },
+  {
+   "table": 2,
+   "hwnd": "0x30204",
+   "lifecycle": "TARGET_LOST",
+   "cause": {
+    "kind": "window-closed",
+    "code": "target-lost",
+    "reason": "The window was closed while an action was prepared.",
+    "source": "driver"
+   },
+   "gameplay": {
+    "code": "target-lost",
+    "since": 1795536343523,
+    "detail": "The window was closed while an action was prepared.",
+    "counts": {
+     "playing": 10,
+     "emergency-stop": 11,
+     "verifying": 1,
+     "target-lost": 1
+    },
+    "episodes": {
+     "starting": 1,
+     "playing": 2,
+     "emergency-stop": 1,
+     "verifying": 1,
+     "target-lost": 1
+    },
+    "lastEvent": null
+   },
+   "tracking": {
+    "lastValidHand": null,
+    "recoveries": 0,
+    "untrackedHands": 0,
+    "lastRecovery": null,
+    "accepted": 0,
+    "rejected": 0,
+    "paused": false,
+    "status": "waiting-for-first-reading",
+    "reasonCode": null,
+    "reason": "No reading accepted yet",
+    "observedHand": null,
+    "expectedRecovery": null
+   },
+   "tournament": {
+    "mode": "strict",
+    "handsOpened": 0,
+    "handsSettled": 0,
+    "remaining": null,
+    "dealtInLastHand": null,
+    "eliminated": [],
+    "seats": [
+     "unknown",
+     "unknown",
+     "unknown",
+     "unknown",
+     "unknown",
+     "unknown",
+     "unknown",
+     "unknown"
+    ],
+    "headsUp": false,
+    "headsUpSince": null,
+    "complete": null,
+    "lastSettledHand": null,
+    "lastButton": null,
+    "continuity": null,
+    "stackResets": 0,
+    "events": [],
+    "eliminations": []
+   },
+   "lastConfirm": null,
+   "counts": {
+    "frames": 13,
+    "rejectedFrames": 0,
+    "decisions": 12,
+    "scripted": 12,
+    "solver": 0,
+    "unavailable": 12,
+    "attempted": 12,
+    "confirmed": 9,
+    "rejected": 3,
+    "ambiguous": 0,
+    "timedOut": 0,
+    "cancelled": 0,
+    "blocked": 0,
+    "deadline": 1,
+    "errors": 0,
+    "focusErrors": 0,
+    "driverErrors": 0,
+    "transientFailures": 0,
+    "lossSignals": 1,
+    "uncertain": 1,
+    "cancelledByLoss": 0,
+    "staleDiscarded": 2,
+    "recoveries": 1,
+    "backoffWaits": 0,
+    "probes": 12,
+    "manualOverrides": 0,
+    "emergencyStops": 2,
+    "strategyUnavailable": 12,
+    "verifyingSteps": 0,
+    "handRecoveries": 0,
+    "eliminationsSeen": 0,
+    "inputRejectedNoChange": 0,
+    "unconfirmedEvidence": 1
+   },
+   "rejections": []
+  },
+  {
+   "table": 2,
+   "hwnd": "0x501CE",
+   "lifecycle": "SAFETY_PAUSED",
+   "cause": {
+    "kind": "unconfirmed-input",
+    "reason": "action not confirmed: stopped - review the simulator; the action is not repeated; manual review required"
+   },
+   "gameplay": {
+    "code": "input-confirmation-failure",
+    "since": 1795536348287,
+    "detail": "action not confirmed: stopped - review the simulator; the action is not repeated; manual review required",
+    "counts": {
+     "input-confirmation-failure": 1
+    },
+    "episodes": {
+     "starting": 1,
+     "input-confirmation-failure": 1
+    },
+    "lastEvent": null
+   },
+   "tracking": {
+    "lastValidHand": 1,
+    "recoveries": 0,
+    "untrackedHands": 0,
+    "lastRecovery": null,
+    "accepted": 1,
+    "rejected": 0,
+    "paused": false,
+    "status": "tracking",
+    "reasonCode": null,
+    "reason": null,
+    "observedHand": 1,
+    "expectedRecovery": null
+   },
+   "tournament": {
+    "mode": "strict",
+    "handsOpened": 1,
+    "handsSettled": 0,
+    "remaining": 8,
+    "dealtInLastHand": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7
+    ],
+    "eliminated": [],
+    "seats": [
+     "in-play",
+     "in-play",
+     "in-play",
+     "in-play",
+     "in-play",
+     "in-play",
+     "in-play",
+     "in-play"
+    ],
+    "headsUp": false,
+    "headsUpSince": null,
+    "complete": null,
+    "lastSettledHand": null,
+    "lastButton": 0,
+    "continuity": "not-applicable",
+    "stackResets": 0,
+    "events": [],
+    "eliminations": []
+   },
+   "lastConfirm": null,
+   "counts": {
+    "frames": 1,
+    "rejectedFrames": 0,
+    "decisions": 1,
+    "scripted": 1,
+    "solver": 0,
+    "unavailable": 1,
+    "attempted": 1,
+    "confirmed": 0,
+    "rejected": 0,
+    "ambiguous": 0,
+    "timedOut": 0,
+    "cancelled": 1,
+    "blocked": 0,
+    "deadline": 0,
+    "errors": 0,
+    "focusErrors": 0,
+    "driverErrors": 0,
+    "transientFailures": 0,
+    "lossSignals": 0,
+    "uncertain": 1,
+    "cancelledByLoss": 0,
+    "staleDiscarded": 0,
+    "recoveries": 0,
+    "backoffWaits": 0,
+    "probes": 3,
+    "manualOverrides": 0,
+    "emergencyStops": 0,
+    "strategyUnavailable": 1,
+    "verifyingSteps": 0,
+    "handRecoveries": 0,
+    "eliminationsSeen": 0,
+    "inputRejectedNoChange": 0,
+    "unconfirmedEvidence": 1
+   },
+   "rejections": []
+  }
+ ],
+ "recorders": [
+  {
+   "counts": {
+    "lifecycle": 30,
+    "state": 49,
+    "decision": 94,
+    "execution": 82,
+    "ack": 40,
+    "gameplay": 13,
+    "system": 4
+   },
+   "failureTotals": {
+    "1": {
+     "decision:strategy-unavailable": 27
+    },
+    "2": {
+     "decision:strategy-unavailable": 20
+    }
+   },
+   "dropped": 0,
+   "suppressed": 0,
+   "events": [
+    {
+     "seq": 1,
+     "t": 64598.5187,
+     "table": 1,
+     "stage": "lifecycle",
+     "hwnd": "0x301E2",
+     "hand": null,
+     "revision": 0,
+     "kind": "health-started",
+     "pausedIntervalMs": 1000,
+     "activeIntervalMs": 5000
+    },
+    {
+     "seq": 2,
+     "t": 64609.2225,
+     "table": 2,
+     "stage": "lifecycle",
+     "hwnd": "0x30192",
+     "hand": null,
+     "revision": 0,
+     "kind": "health-started",
+     "pausedIntervalMs": 1000,
+     "activeIntervalMs": 5000
+    },
+    {
+     "seq": 3,
+     "t": 64687.0918,
+     "table": 1,
+     "stage": "state",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 1,
+     "ok": true,
+     "frameId": 218,
+     "actor": 3,
+     "status": "playing",
+     "captureMs": 58.385300000001735
+    },
+    {
+     "seq": 4,
+     "t": 64742.3374,
+     "table": 2,
+     "stage": "state",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 1,
+     "ok": true,
+     "frameId": 219,
+     "actor": 3,
+     "status": "playing",
+     "captureMs": 106.88579999999638
+    },
+    {
+     "seq": 5,
+     "t": 64744.9843,
+     "table": 1,
+     "stage": "lifecycle",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 1,
+     "kind": "transition",
+     "from": "REGISTERED",
+     "to": "ACTIVE",
+     "generation": 2,
+     "cause": "first-reading",
+     "reason": "identity verified and first reading accepted",
+     "operator": false
+    },
+    {
+     "seq": 6,
+     "t": 64745.1023,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 1,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 7,
+     "t": 64745.1683,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 1,
+     "source": "scripted-fallback",
+     "recommended": "fold",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 218
+    },
+    {
+     "seq": 8,
+     "t": 64748.299,
+     "table": 2,
+     "stage": "lifecycle",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 1,
+     "kind": "transition",
+     "from": "REGISTERED",
+     "to": "ACTIVE",
+     "generation": 2,
+     "cause": "first-reading",
+     "reason": "identity verified and first reading accepted",
+     "operator": false
+    },
+    {
+     "seq": 9,
+     "t": 64748.3266,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 1,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 10,
+     "t": 64748.3421,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 1,
+     "source": "scripted-fallback",
+     "recommended": "fold",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 219
+    },
+    {
+     "seq": 11,
+     "t": 64759.733,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 1,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 0,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 536,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 12,
+     "t": 65215.74,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 1,
+     "kind": "click",
+     "region": "fold",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 511,
+       "y": 509,
+       "w": 50,
+       "h": 15
+      },
+      "point": {
+       "x": 536,
+       "y": 516
+      },
+      "full": {
+       "x": 496,
+       "y": 504,
+       "w": 80,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 102,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 412,
+       "y": 516
+      },
+      "to": {
+       "x": 536,
+       "y": 516
+      },
+      "distance": 124,
+      "plannedMs": 282.04,
+      "actualMs": 290.85,
+      "steps": 18,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 64164,
+      "hit": "0x30166",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "press": {
+       "seen": true,
+       "seenMs": 0.77,
+       "root": "0x301E2",
+       "child": "0x30166",
+       "capturedByControl": true,
+       "captureMs": 16.88
+      },
+      "clickedAt": {
+       "x": 536,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.6,
+      "drained": true,
+      "drainMs": 1.8,
+      "phases": {
+       "checkMs": 0.26,
+       "moveStartMs": 0.36,
+       "moveEndMs": 291.21,
+       "clickStartMs": 291.22,
+       "preClickEndMs": 352.24,
+       "focusMs": 0.14,
+       "guardMs": 0,
+       "pressMs": 352.46,
+       "pressCheckMs": 0.77,
+       "clickDoneMs": 447.07,
+       "captureReleaseMs": 1.6,
+       "drainMs": 1.8,
+       "queueMs": 1.1287999999999556,
+       "totalMs": 448.87
+      },
+      "sampleCount": 18
+     }
+    },
+    {
+     "seq": 13,
+     "t": 65257.525,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 1,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 0,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 1352,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 14,
+     "t": 65493.2078,
+     "table": 1,
+     "stage": "ack",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 2,
+     "status": "confirmed"
+    },
+    {
+     "seq": 15,
+     "t": 65493.3192,
+     "table": 1,
+     "stage": "gameplay",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 2,
+     "kind": "condition",
+     "from": "starting",
+     "to": "playing",
+     "title": "Playing",
+     "message": "Automated gameplay is running: every reading is verified and every action confirmed.",
+     "detail": null
+    },
+    {
+     "seq": 16,
+     "t": 65561.5967,
+     "table": 1,
+     "stage": "state",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 2,
+     "ok": true,
+     "frameId": 224,
+     "actor": 4,
+     "status": "playing",
+     "captureMs": 49.90020000000368
+    },
+    {
+     "seq": 17,
+     "t": 65561.6133,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 2,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 18,
+     "t": 65561.6409,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 2,
+     "source": "scripted-fallback",
+     "recommended": "fold",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 224
+    },
+    {
+     "seq": 19,
+     "t": 66711.9556,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 1,
+     "kind": "click",
+     "region": "fold",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 1327,
+       "y": 509,
+       "w": 50,
+       "h": 15
+      },
+      "point": {
+       "x": 1352,
+       "y": 516
+      },
+      "full": {
+       "x": 1312,
+       "y": 504,
+       "w": 80,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 103,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 536,
+       "y": 516
+      },
+      "to": {
+       "x": 1352,
+       "y": 516
+      },
+      "distance": 816,
+      "plannedMs": 1275,
+      "actualMs": 1298.78,
+      "steps": 80,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 64657,
+      "hit": "0x501E4",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "press": {
+       "seen": true,
+       "seenMs": 0.77,
+       "root": "0x30192",
+       "child": "0x501E4",
+       "capturedByControl": true,
+       "captureMs": 12.09
+      },
+      "clickedAt": {
+       "x": 1352,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.68,
+      "drained": true,
+      "drainMs": 1.85,
+      "phases": {
+       "checkMs": 0.16,
+       "moveStartMs": 0.22,
+       "moveEndMs": 1298.99,
+       "clickStartMs": 1299,
+       "preClickEndMs": 1359.95,
+       "focusMs": 0.12,
+       "guardMs": 0,
+       "pressMs": 1360.14,
+       "pressCheckMs": 0.78,
+       "clickDoneMs": 1449.31,
+       "captureReleaseMs": 1.68,
+       "drainMs": 1.85,
+       "queueMs": 0,
+       "totalMs": 1451.17
+      },
+      "sampleCount": 80
+     }
+    },
+    {
+     "seq": 20,
+     "t": 66751.3732,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 2,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 1,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 536,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 21,
+     "t": 67015.9593,
+     "table": 2,
+     "stage": "ack",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 2,
+     "status": "confirmed"
+    },
+    {
+     "seq": 22,
+     "t": 67016.0364,
+     "table": 2,
+     "stage": "gameplay",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 2,
+     "kind": "condition",
+     "from": "starting",
+     "to": "playing",
+     "title": "Playing",
+     "message": "Automated gameplay is running: every reading is verified and every action confirmed.",
+     "detail": null
+    },
+    {
+     "seq": 23,
+     "t": 67094.9394,
+     "table": 2,
+     "stage": "state",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 2,
+     "ok": true,
+     "frameId": 228,
+     "actor": 4,
+     "status": "playing",
+     "captureMs": 61.5511000000115
+    },
+    {
+     "seq": 24,
+     "t": 67094.9773,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 2,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 25,
+     "t": 67095.0158,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 2,
+     "source": "scripted-fallback",
+     "recommended": "call",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 228
+    },
+    {
+     "seq": 26,
+     "t": 68206.8394,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 2,
+     "kind": "click",
+     "region": "fold",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 511,
+       "y": 509,
+       "w": 50,
+       "h": 15
+      },
+      "point": {
+       "x": 536,
+       "y": 516
+      },
+      "full": {
+       "x": 496,
+       "y": 504,
+       "w": 80,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 104,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 1352,
+       "y": 516
+      },
+      "to": {
+       "x": 536,
+       "y": 516
+      },
+      "distance": 816,
+      "plannedMs": 1275,
+      "actualMs": 1300.45,
+      "steps": 80,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 66151,
+      "hit": "0x30166",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 2902,
+      "press": {
+       "seen": true,
+       "seenMs": 0.79,
+       "root": "0x301E2",
+       "child": "0x30166",
+       "capturedByControl": true,
+       "captureMs": 9.11
+      },
+      "clickedAt": {
+       "x": 536,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.7,
+      "drained": true,
+      "drainMs": 1.83,
+      "phases": {
+       "checkMs": 0.16,
+       "moveStartMs": 0.24,
+       "moveEndMs": 1300.69,
+       "clickStartMs": 1300.69,
+       "preClickEndMs": 1361.15,
+       "focusMs": 0.14,
+       "guardMs": 0,
+       "pressMs": 1361.36,
+       "pressCheckMs": 0.82,
+       "clickDoneMs": 1450,
+       "captureReleaseMs": 1.7,
+       "drainMs": 1.83,
+       "queueMs": 0.16219999999998436,
+       "totalMs": 1451.84
+      },
+      "sampleCount": 80
+     }
+    },
+    {
+     "seq": 27,
+     "t": 68247.6337,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 2,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 1,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 1532,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 28,
+     "t": 68479.0202,
+     "table": 1,
+     "stage": "ack",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 3,
+     "status": "confirmed"
+    },
+    {
+     "seq": 29,
+     "t": 68557.763,
+     "table": 1,
+     "stage": "state",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 3,
+     "ok": true,
+     "frameId": 232,
+     "actor": 5,
+     "status": "playing",
+     "captureMs": 61.40110000000277
+    },
+    {
+     "seq": 30,
+     "t": 68557.7801,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 3,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 31,
+     "t": 68557.7992,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 3,
+     "source": "scripted-fallback",
+     "recommended": "call",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 232
+    },
+    {
+     "seq": 32,
+     "t": 69986.6219,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 2,
+     "kind": "click",
+     "region": "call",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 1515,
+       "y": 509,
+       "w": 34,
+       "h": 15
+      },
+      "point": {
+       "x": 1532,
+       "y": 516
+      },
+      "full": {
+       "x": 1504,
+       "y": 504,
+       "w": 56,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 105,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 536,
+       "y": 516
+      },
+      "to": {
+       "x": 1532,
+       "y": 516
+      },
+      "distance": 996,
+      "plannedMs": 1556.25,
+      "actualMs": 1582.53,
+      "steps": 98,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 67647,
+      "hit": "0x201CE",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 3185,
+      "press": {
+       "seen": true,
+       "seenMs": 0.87,
+       "root": "0x30192",
+       "child": "0x201CE",
+       "capturedByControl": true,
+       "captureMs": 11.31
+      },
+      "clickedAt": {
+       "x": 1532,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.8,
+      "drained": true,
+      "drainMs": 1.94,
+      "phases": {
+       "checkMs": 0.16,
+       "moveStartMs": 0.22,
+       "moveEndMs": 1582.74,
+       "clickStartMs": 1582.75,
+       "preClickEndMs": 1643.92,
+       "focusMs": 0.13,
+       "guardMs": 0,
+       "pressMs": 1644.12,
+       "pressCheckMs": 0.87,
+       "clickDoneMs": 1733.13,
+       "captureReleaseMs": 1.8,
+       "drainMs": 1.94,
+       "queueMs": 0,
+       "totalMs": 1735.08
+      },
+      "sampleCount": 98
+     }
+    },
+    {
+     "seq": 33,
+     "t": 70025.5888,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 3,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 2,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 716,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 34,
+     "t": 70275.3274,
+     "table": 2,
+     "stage": "ack",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 3,
+     "status": "confirmed"
+    },
+    {
+     "seq": 35,
+     "t": 70352.9654,
+     "table": 2,
+     "stage": "state",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 3,
+     "ok": true,
+     "frameId": 236,
+     "actor": 5,
+     "status": "playing",
+     "captureMs": 56.2213999999949
+    },
+    {
+     "seq": 36,
+     "t": 70352.993,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 3,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 37,
+     "t": 70353.0163,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 3,
+     "source": "scripted-fallback",
+     "recommended": "call",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 236
+    },
+    {
+     "seq": 38,
+     "t": 71481.0269,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 3,
+     "kind": "click",
+     "region": "call",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 699,
+       "y": 509,
+       "w": 34,
+       "h": 15
+      },
+      "point": {
+       "x": 716,
+       "y": 516
+      },
+      "full": {
+       "x": 688,
+       "y": 504,
+       "w": 56,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 106,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 1532,
+       "y": 516
+      },
+      "to": {
+       "x": 716,
+       "y": 516
+      },
+      "distance": 816,
+      "plannedMs": 1275,
+      "actualMs": 1299.31,
+      "steps": 80,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 69425,
+      "hit": "0x4008A",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 3185,
+      "press": {
+       "seen": true,
+       "seenMs": 0.91,
+       "root": "0x301E2",
+       "child": "0x4008A",
+       "capturedByControl": true,
+       "captureMs": 12.19
+      },
+      "clickedAt": {
+       "x": 716,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.69,
+      "drained": true,
+      "drainMs": 1.84,
+      "phases": {
+       "checkMs": 0.14,
+       "moveStartMs": 0.2,
+       "moveEndMs": 1299.5,
+       "clickStartMs": 1299.51,
+       "preClickEndMs": 1360.49,
+       "focusMs": 0.14,
+       "guardMs": 0,
+       "pressMs": 1360.71,
+       "pressCheckMs": 0.91,
+       "clickDoneMs": 1448.93,
+       "captureReleaseMs": 1.69,
+       "drainMs": 1.84,
+       "queueMs": 0.21679999999992106,
+       "totalMs": 1450.78
+      },
+      "sampleCount": 80
+     }
+    },
+    {
+     "seq": 39,
+     "t": 71521.7245,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 3,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 2,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 1532,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 40,
+     "t": 71752.2211,
+     "table": 1,
+     "stage": "ack",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 4,
+     "status": "confirmed"
+    },
+    {
+     "seq": 41,
+     "t": 71832.0374,
+     "table": 1,
+     "stage": "state",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 4,
+     "ok": true,
+     "frameId": 240,
+     "actor": 6,
+     "status": "playing",
+     "captureMs": 58.95470000000205
+    },
+    {
+     "seq": 42,
+     "t": 71832.064,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 4,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 43,
+     "t": 71832.0866,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 4,
+     "source": "scripted-fallback",
+     "recommended": "call",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 240
+    },
+    {
+     "seq": 44,
+     "t": 72975.4681,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 3,
+     "kind": "click",
+     "region": "call",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 1515,
+       "y": 509,
+       "w": 34,
+       "h": 15
+      },
+      "point": {
+       "x": 1532,
+       "y": 516
+      },
+      "full": {
+       "x": 1504,
+       "y": 504,
+       "w": 56,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 108,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 716,
+       "y": 516
+      },
+      "to": {
+       "x": 1532,
+       "y": 516
+      },
+      "distance": 816,
+      "plannedMs": 1275,
+      "actualMs": 1298.73,
+      "steps": 80,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 70922,
+      "hit": "0x201CE",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 2901,
+      "press": {
+       "seen": true,
+       "seenMs": 0.89,
+       "root": "0x30192",
+       "child": "0x201CE",
+       "capturedByControl": true,
+       "captureMs": 10.35
+      },
+      "clickedAt": {
+       "x": 1532,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.66,
+      "drained": true,
+      "drainMs": 1.8,
+      "phases": {
+       "checkMs": 0.13,
+       "moveStartMs": 0.19,
+       "moveEndMs": 1298.92,
+       "clickStartMs": 1298.92,
+       "preClickEndMs": 1359.43,
+       "focusMs": 0.12,
+       "guardMs": 0,
+       "pressMs": 1359.62,
+       "pressCheckMs": 0.89,
+       "clickDoneMs": 1448.28,
+       "captureReleaseMs": 1.66,
+       "drainMs": 1.8,
+       "queueMs": 0.9067999999999756,
+       "totalMs": 1450.09
+      },
+      "sampleCount": 80
+     }
+    },
+    {
+     "seq": 45,
+     "t": 73015.8073,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 4,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 3,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 716,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 46,
+     "t": 73283.7226,
+     "table": 2,
+     "stage": "ack",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 4,
+     "status": "confirmed"
+    },
+    {
+     "seq": 47,
+     "t": 73366.1351,
+     "table": 2,
+     "stage": "state",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 4,
+     "ok": true,
+     "frameId": 244,
+     "actor": 6,
+     "status": "playing",
+     "captureMs": 62.790300000007846
+    },
+    {
+     "seq": 48,
+     "t": 73366.1617,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 4,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 49,
+     "t": 73366.1989,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 4,
+     "source": "scripted-fallback",
+     "recommended": "fold",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 244
+    },
+    {
+     "seq": 50,
+     "t": 74471.4087,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 4,
+     "kind": "click",
+     "region": "call",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 699,
+       "y": 509,
+       "w": 34,
+       "h": 15
+      },
+      "point": {
+       "x": 716,
+       "y": 516
+      },
+      "full": {
+       "x": 688,
+       "y": 504,
+       "w": 56,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 110,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 1532,
+       "y": 516
+      },
+      "to": {
+       "x": 716,
+       "y": 516
+      },
+      "distance": 816,
+      "plannedMs": 1275,
+      "actualMs": 1299.49,
+      "steps": 80,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 72416,
+      "hit": "0x4008A",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 2902,
+      "press": {
+       "seen": true,
+       "seenMs": 0.88,
+       "root": "0x301E2",
+       "child": "0x4008A",
+       "capturedByControl": true,
+       "captureMs": 8.24
+      },
+      "clickedAt": {
+       "x": 716,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.68,
+      "drained": true,
+      "drainMs": 1.88,
+      "phases": {
+       "checkMs": 0.14,
+       "moveStartMs": 0.2,
+       "moveEndMs": 1299.69,
+       "clickStartMs": 1299.69,
+       "preClickEndMs": 1360.36,
+       "focusMs": 0.11,
+       "guardMs": 0,
+       "pressMs": 1360.54,
+       "pressCheckMs": 0.88,
+       "clickDoneMs": 1449.68,
+       "captureReleaseMs": 1.68,
+       "drainMs": 1.88,
+       "queueMs": 0,
+       "totalMs": 1451.58
+      },
+      "sampleCount": 80
+     }
+    },
+    {
+     "seq": 51,
+     "t": 74510.9337,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 4,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 3,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 1352,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 52,
+     "t": 74746.0008,
+     "table": 1,
+     "stage": "ack",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 5,
+     "status": "confirmed"
+    },
+    {
+     "seq": 53,
+     "t": 74809.3652,
+     "table": 1,
+     "stage": "state",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 5,
+     "ok": true,
+     "frameId": 248,
+     "actor": 7,
+     "status": "playing",
+     "captureMs": 43.69230000000971
+    },
+    {
+     "seq": 54,
+     "t": 74809.3935,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 5,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 55,
+     "t": 74809.4176,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 5,
+     "source": "scripted-fallback",
+     "recommended": "fold",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 248
+    },
+    {
+     "seq": 56,
+     "t": 75678.5417,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 4,
+     "kind": "click",
+     "region": "fold",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 1327,
+       "y": 509,
+       "w": 50,
+       "h": 15
+      },
+      "point": {
+       "x": 1352,
+       "y": 516
+      },
+      "full": {
+       "x": 1312,
+       "y": 504,
+       "w": 80,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 111,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 716,
+       "y": 516
+      },
+      "to": {
+       "x": 1352,
+       "y": 516
+      },
+      "distance": 636,
+      "plannedMs": 993.75,
+      "actualMs": 1012.05,
+      "steps": 63,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 73911,
+      "hit": "0x501E4",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 2614,
+      "press": {
+       "seen": true,
+       "seenMs": 0.75,
+       "root": "0x30192",
+       "child": "0x501E4",
+       "capturedByControl": true,
+       "captureMs": 13.51
+      },
+      "clickedAt": {
+       "x": 1352,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.69,
+      "drained": true,
+      "drainMs": 1.87,
+      "phases": {
+       "checkMs": 0.15,
+       "moveStartMs": 0.2,
+       "moveEndMs": 1012.25,
+       "clickStartMs": 1012.26,
+       "preClickEndMs": 1073.26,
+       "focusMs": 0.16,
+       "guardMs": 0,
+       "pressMs": 1073.49,
+       "pressCheckMs": 0.75,
+       "clickDoneMs": 1162.57,
+       "captureReleaseMs": 1.69,
+       "drainMs": 1.87,
+       "queueMs": 0.5515000000000327,
+       "totalMs": 1164.45
+      },
+      "sampleCount": 63
+     }
+    },
+    {
+     "seq": 57,
+     "t": 75718.9972,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 5,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 4,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 536,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 58,
+     "t": 76001.8558,
+     "table": 2,
+     "stage": "ack",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 5,
+     "status": "confirmed"
+    },
+    {
+     "seq": 59,
+     "t": 76079.6543,
+     "table": 2,
+     "stage": "state",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 5,
+     "ok": true,
+     "frameId": 252,
+     "actor": 7,
+     "status": "playing",
+     "captureMs": 55.61049999999523
+    },
+    {
+     "seq": 60,
+     "t": 76079.6834,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 5,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 61,
+     "t": 76079.7077,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 5,
+     "source": "scripted-fallback",
+     "recommended": "call",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 252
+    },
+    {
+     "seq": 62,
+     "t": 77171.3063,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 5,
+     "kind": "click",
+     "region": "fold",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 511,
+       "y": 509,
+       "w": 50,
+       "h": 15
+      },
+      "point": {
+       "x": 536,
+       "y": 516
+      },
+      "full": {
+       "x": 496,
+       "y": 504,
+       "w": 80,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 112,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 1352,
+       "y": 516
+      },
+      "to": {
+       "x": 536,
+       "y": 516
+      },
+      "distance": 816,
+      "plannedMs": 1275,
+      "actualMs": 1297.22,
+      "steps": 80,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 75119,
+      "hit": "0x30166",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 2612,
+      "press": {
+       "seen": true,
+       "seenMs": 0.72,
+       "root": "0x301E2",
+       "child": "0x30166",
+       "capturedByControl": true,
+       "captureMs": 12.64
+      },
+      "clickedAt": {
+       "x": 536,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.71,
+      "drained": true,
+      "drainMs": 1.86,
+      "phases": {
+       "checkMs": 0.2,
+       "moveStartMs": 0.26,
+       "moveEndMs": 1297.49,
+       "clickStartMs": 1297.49,
+       "preClickEndMs": 1358.04,
+       "focusMs": 0.13,
+       "guardMs": 0,
+       "pressMs": 1358.24,
+       "pressCheckMs": 0.73,
+       "clickDoneMs": 1446.77,
+       "captureReleaseMs": 1.71,
+       "drainMs": 1.86,
+       "queueMs": 0,
+       "totalMs": 1448.65
+      },
+      "sampleCount": 80
+     }
+    },
+    {
+     "seq": 63,
+     "t": 77211.3707,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 5,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 4,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 1532,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 64,
+     "t": 77446.0886,
+     "table": 1,
+     "stage": "ack",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 6,
+     "status": "confirmed"
+    },
+    {
+     "seq": 65,
+     "t": 77528.2891,
+     "table": 1,
+     "stage": "state",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 6,
+     "ok": true,
+     "frameId": 256,
+     "actor": 0,
+     "status": "playing",
+     "captureMs": 58.253699999986566
+    },
+    {
+     "seq": 66,
+     "t": 77528.316,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 6,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 67,
+     "t": 77528.3402,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 6,
+     "source": "scripted-fallback",
+     "recommended": "call",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 256
+    },
+    {
+     "seq": 68,
+     "t": 78951.3242,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 5,
+     "kind": "click",
+     "region": "call",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 1515,
+       "y": 509,
+       "w": 34,
+       "h": 15
+      },
+      "point": {
+       "x": 1532,
+       "y": 516
+      },
+      "full": {
+       "x": 1504,
+       "y": 504,
+       "w": 56,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 114,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 536,
+       "y": 516
+      },
+      "to": {
+       "x": 1532,
+       "y": 516
+      },
+      "distance": 996,
+      "plannedMs": 1556.25,
+      "actualMs": 1585.32,
+      "steps": 98,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 76611,
+      "hit": "0x201CE",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 3183,
+      "press": {
+       "seen": true,
+       "seenMs": 0.92,
+       "root": "0x30192",
+       "child": "0x201CE",
+       "capturedByControl": true,
+       "captureMs": 12.33
+      },
+      "clickedAt": {
+       "x": 1532,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.68,
+      "drained": true,
+      "drainMs": 1.86,
+      "phases": {
+       "checkMs": 0.14,
+       "moveStartMs": 0.19,
+       "moveEndMs": 1585.51,
+       "clickStartMs": 1585.52,
+       "preClickEndMs": 1645.52,
+       "focusMs": 0.11,
+       "guardMs": 0,
+       "pressMs": 1645.69,
+       "pressCheckMs": 0.93,
+       "clickDoneMs": 1734.63,
+       "captureReleaseMs": 1.68,
+       "drainMs": 1.86,
+       "queueMs": 0,
+       "totalMs": 1736.5
+      },
+      "sampleCount": 98
+     }
+    },
+    {
+     "seq": 69,
+     "t": 78992.433,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 6,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 5,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 716,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 70,
+     "t": 79228.224,
+     "table": 2,
+     "stage": "ack",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 6,
+     "status": "confirmed"
+    },
+    {
+     "seq": 71,
+     "t": 79306.0784,
+     "table": 2,
+     "stage": "state",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 6,
+     "ok": true,
+     "frameId": 260,
+     "actor": 0,
+     "status": "playing",
+     "captureMs": 57.1024999999936
+    },
+    {
+     "seq": 72,
+     "t": 79306.1067,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 6,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 73,
+     "t": 79306.1315,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 6,
+     "source": "scripted-fallback",
+     "recommended": "call",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 260
+    },
+    {
+     "seq": 74,
+     "t": 80449.5895,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 6,
+     "kind": "click",
+     "region": "call",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 699,
+       "y": 509,
+       "w": 34,
+       "h": 15
+      },
+      "point": {
+       "x": 716,
+       "y": 516
+      },
+      "full": {
+       "x": 688,
+       "y": 504,
+       "w": 56,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 116,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 1532,
+       "y": 516
+      },
+      "to": {
+       "x": 716,
+       "y": 516
+      },
+      "distance": 816,
+      "plannedMs": 1275,
+      "actualMs": 1301.01,
+      "steps": 80,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 78392,
+      "hit": "0x4008A",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 3190,
+      "press": {
+       "seen": true,
+       "seenMs": 0.72,
+       "root": "0x301E2",
+       "child": "0x4008A",
+       "capturedByControl": true,
+       "captureMs": 11.25
+      },
+      "clickedAt": {
+       "x": 716,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.67,
+      "drained": true,
+      "drainMs": 1.84,
+      "phases": {
+       "checkMs": 0.16,
+       "moveStartMs": 0.22,
+       "moveEndMs": 1301.23,
+       "clickStartMs": 1301.24,
+       "preClickEndMs": 1362.2,
+       "focusMs": 0.18,
+       "guardMs": 0,
+       "pressMs": 1362.46,
+       "pressCheckMs": 0.72,
+       "clickDoneMs": 1451.54,
+       "captureReleaseMs": 1.67,
+       "drainMs": 1.84,
+       "queueMs": 0.6110999999998512,
+       "totalMs": 1453.39
+      },
+      "sampleCount": 80
+     }
+    },
+    {
+     "seq": 75,
+     "t": 80490.5789,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 6,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 5,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 1532,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 76,
+     "t": 80723.6425,
+     "table": 1,
+     "stage": "ack",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 7,
+     "status": "confirmed"
+    },
+    {
+     "seq": 77,
+     "t": 80803.4042,
+     "table": 1,
+     "stage": "state",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 7,
+     "ok": true,
+     "frameId": 264,
+     "actor": 1,
+     "status": "playing",
+     "captureMs": 59.42150000001129
+    },
+    {
+     "seq": 78,
+     "t": 80803.4304,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 7,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 79,
+     "t": 80803.4546,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 7,
+     "source": "scripted-fallback",
+     "recommended": "raise",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 264
+    },
+    {
+     "seq": 80,
+     "t": 81943.1165,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 6,
+     "kind": "click",
+     "region": "call",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 1515,
+       "y": 509,
+       "w": 34,
+       "h": 15
+      },
+      "point": {
+       "x": 1532,
+       "y": 516
+      },
+      "full": {
+       "x": 1504,
+       "y": 504,
+       "w": 56,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 117,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 716,
+       "y": 516
+      },
+      "to": {
+       "x": 1532,
+       "y": 516
+      },
+      "distance": 816,
+      "plannedMs": 1275,
+      "actualMs": 1297.63,
+      "steps": 80,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 79890,
+      "hit": "0x201CE",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 2904,
+      "press": {
+       "seen": true,
+       "seenMs": 0.77,
+       "root": "0x30192",
+       "child": "0x201CE",
+       "capturedByControl": true,
+       "captureMs": 9.18
+      },
+      "clickedAt": {
+       "x": 1532,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.63,
+      "drained": true,
+      "drainMs": 1.78,
+      "phases": {
+       "checkMs": 0.16,
+       "moveStartMs": 0.22,
+       "moveEndMs": 1297.84,
+       "clickStartMs": 1297.85,
+       "preClickEndMs": 1358.21,
+       "focusMs": 0.21,
+       "guardMs": 0,
+       "pressMs": 1358.5,
+       "pressCheckMs": 0.77,
+       "clickDoneMs": 1446.22,
+       "captureReleaseMs": 1.63,
+       "drainMs": 1.78,
+       "queueMs": 0,
+       "totalMs": 1448.01
+      },
+      "sampleCount": 80
+     }
+    },
+    {
+     "seq": 81,
+     "t": 82024.9492,
+     "table": 1,
+     "stage": "state",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 7,
+     "ok": true,
+     "frameId": 265,
+     "actor": 1,
+     "status": "playing",
+     "captureMs": 60.945999999996275
+    },
+    {
+     "seq": 82,
+     "t": 82024.9733,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 7,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 83,
+     "t": 82024.9984,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 7,
+     "source": "scripted-fallback",
+     "recommended": "raise",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 265
+    },
+    {
+     "seq": 84,
+     "t": 82089.9452,
+     "table": 1,
+     "stage": "state",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 7,
+     "ok": true,
+     "frameId": 266,
+     "actor": 1,
+     "status": "playing",
+     "captureMs": 44.05419999999867
+    },
+    {
+     "seq": 85,
+     "t": 82089.9651,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 7,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 86,
+     "t": 82089.9851,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 7,
+     "source": "scripted-fallback",
+     "recommended": "call",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 266
+    },
+    {
+     "seq": 87,
+     "t": 82142.4695,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 7,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 6,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 716,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 88,
+     "t": 82235.48,
+     "table": 2,
+     "stage": "ack",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 7,
+     "status": "confirmed"
+    },
+    {
+     "seq": 89,
+     "t": 82331.1906,
+     "table": 2,
+     "stage": "state",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 7,
+     "ok": true,
+     "frameId": 270,
+     "actor": 1,
+     "status": "playing",
+     "captureMs": 71.53320000000531
+    },
+    {
+     "seq": 90,
+     "t": 82331.2378,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 7,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 91,
+     "t": 82331.2842,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 7,
+     "source": "scripted-fallback",
+     "recommended": "raise",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 270
+    },
+    {
+     "seq": 92,
+     "t": 83594.6027,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 7,
+     "kind": "click",
+     "region": "call",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 699,
+       "y": 509,
+       "w": 34,
+       "h": 15
+      },
+      "point": {
+       "x": 716,
+       "y": 516
+      },
+      "full": {
+       "x": 688,
+       "y": 504,
+       "w": 56,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 118,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 1532,
+       "y": 516
+      },
+      "to": {
+       "x": 716,
+       "y": 516
+      },
+      "distance": 816,
+      "plannedMs": 1275,
+      "actualMs": 1302.79,
+      "steps": 80,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 81542,
+      "hit": "0x4008A",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 3062,
+      "press": {
+       "seen": true,
+       "seenMs": 0.15,
+       "root": "0x301E2",
+       "child": "0x4008A",
+       "capturedByControl": true,
+       "captureMs": 2.23
+      },
+      "clickedAt": {
+       "x": 716,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.75,
+      "drained": true,
+      "drainMs": 1.89,
+      "phases": {
+       "checkMs": 0.17,
+       "moveStartMs": 0.23,
+       "moveEndMs": 1303.02,
+       "clickStartMs": 1303.03,
+       "preClickEndMs": 1363.57,
+       "focusMs": 0.15,
+       "guardMs": 0,
+       "pressMs": 1363.79,
+       "pressCheckMs": 0.15,
+       "clickDoneMs": 1446.82,
+       "captureReleaseMs": 1.75,
+       "drainMs": 1.89,
+       "queueMs": 0.2818999999999505,
+       "totalMs": 1448.72
+      },
+      "sampleCount": 80
+     }
+    },
+    {
+     "seq": 93,
+     "t": 83600.1933,
+     "table": 2,
+     "stage": "lifecycle",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 7,
+     "kind": "transition",
+     "from": "ACTIVE",
+     "to": "TARGET_LOST",
+     "generation": 3,
+     "cause": "window-closed",
+     "code": "target-lost",
+     "reason": "The window no longer exists (capture: target-lost; driver: window-gone).",
+     "operator": false
+    },
+    {
+     "seq": 94,
+     "t": 83600.625,
+     "table": 2,
+     "stage": "lifecycle",
+     "hwnd": "0x30192",
+     "hand": 1,
+     "revision": 7,
+     "kind": "health-stopped",
+     "reason": "target lost"
+    },
+    {
+     "seq": 95,
+     "t": 83600.975,
+     "table": 2,
+     "stage": "lifecycle",
+     "hwnd": "0x30192",
+     "hand": null,
+     "revision": 0,
+     "kind": "stale-state-discarded",
+     "reason": "target lost"
+    },
+    {
+     "seq": 96,
+     "t": 83601.3039,
+     "table": 2,
+     "stage": "lifecycle",
+     "hwnd": "0x30192",
+     "hand": null,
+     "revision": 0,
+     "kind": "target-lost",
+     "code": "target-lost",
+     "reason": "The window no longer exists (capture: target-lost; driver: window-gone).",
+     "cancellation": {
+      "table": 2,
+      "registrationId": "reg-mwuvy1sp-3",
+      "reason": "The window no longer exists (capture: target-lost; driver: window-gone).",
+      "dropped": 0,
+      "cancelledRunning": true,
+      "at": 83601.1225,
+      "runningTable": 2
+     },
+     "msSinceLastSuccessfulCapture": 1292,
+     "identity": {
+      "hwnd": "0x30192",
+      "pid": 4060,
+      "processStart": "134400098866408060",
+      "className": "WindowsForms10.Window.8.app.0.34f5582_r6_ad1",
+      "exe": "D:\\a\\_temp\\EightMax CI (ab) é\\EightMax-Test-Workbench\\desktop\\bin\\EightMaxTestTable.exe",
+      "exeSha256": "3e5a76995a24d169336179e7e3805ddeb57271d951029226b43653c217464348",
+      "title": "EightMax Test Table 02",
+      "client": {
+       "x": 832,
+       "y": 39,
+       "w": 800,
+       "h": 500
+      },
+      "dpiScale": 1
+     }
+    },
+    {
+     "seq": 97,
+     "t": 83602.3875,
+     "table": 2,
+     "stage": "gameplay",
+     "hwnd": "0x30192",
+     "hand": null,
+     "revision": 0,
+     "kind": "condition",
+     "from": "playing",
+     "to": "target-lost",
+     "title": "Target lost",
+     "message": "The registered simulator window is gone. Automation for this table has stopped.",
+     "detail": "The window no longer exists (capture: target-lost; driver: window-gone)."
+    },
+    {
+     "seq": 98,
+     "t": 83870.0579,
+     "table": 1,
+     "stage": "ack",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 8,
+     "status": "confirmed"
+    },
+    {
+     "seq": 99,
+     "t": 83964.4862,
+     "table": 1,
+     "stage": "state",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 8,
+     "ok": true,
+     "frameId": 273,
+     "actor": 2,
+     "status": "playing",
+     "captureMs": 72.25720000000729
+    },
+    {
+     "seq": 100,
+     "t": 83964.5128,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 8,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 101,
+     "t": 83964.5372,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 8,
+     "source": "scripted-fallback",
+     "recommended": "check",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 273
+    },
+    {
+     "seq": 102,
+     "t": 84019.6131,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 8,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 7,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 632,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 103,
+     "t": 84410.4729,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 8,
+     "kind": "click",
+     "region": "check",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 607,
+       "y": 509,
+       "w": 50,
+       "h": 15
+      },
+      "point": {
+       "x": 632,
+       "y": 516
+      },
+      "full": {
+       "x": 592,
+       "y": 504,
+       "w": 80,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 124,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 716,
+       "y": 516
+      },
+      "to": {
+       "x": 632,
+       "y": 516
+      },
+      "distance": 84,
+      "plannedMs": 232.13,
+      "actualMs": 238.26,
+      "steps": 15,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 83419,
+      "hit": "0x40176",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 730,
+      "press": {
+       "seen": true,
+       "seenMs": 0.13,
+       "root": "0x301E2",
+       "child": "0x40176",
+       "capturedByControl": true,
+       "captureMs": 2.36
+      },
+      "clickedAt": {
+       "x": 632,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.73,
+      "drained": true,
+      "drainMs": 1.91,
+      "phases": {
+       "checkMs": 0.14,
+       "moveStartMs": 0.19,
+       "moveEndMs": 238.45,
+       "clickStartMs": 238.46,
+       "preClickEndMs": 299.45,
+       "focusMs": 0.1,
+       "guardMs": 0,
+       "pressMs": 299.62,
+       "pressCheckMs": 0.13,
+       "clickDoneMs": 385.72,
+       "captureReleaseMs": 1.73,
+       "drainMs": 1.91,
+       "queueMs": 0.3624999999999545,
+       "totalMs": 387.64
+      },
+      "sampleCount": 15
+     }
+    },
+    {
+     "seq": 104,
+     "t": 84731.7497,
+     "table": 1,
+     "stage": "ack",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 9,
+     "status": "confirmed"
+    },
+    {
+     "seq": 105,
+     "t": 84834.135,
+     "table": 1,
+     "stage": "state",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 9,
+     "ok": true,
+     "frameId": 277,
+     "actor": 1,
+     "status": "playing",
+     "captureMs": 81.31230000000505
+    },
+    {
+     "seq": 106,
+     "t": 84834.1621,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 9,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 107,
+     "t": 84834.1865,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 9,
+     "source": "scripted-fallback",
+     "recommended": "check",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 277
+    },
+    {
+     "seq": 108,
+     "t": 84852.7988,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 9,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 8,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 632,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 109,
+     "t": 85034.6559,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 9,
+     "kind": "click",
+     "region": "check",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 607,
+       "y": 509,
+       "w": 50,
+       "h": 15
+      },
+      "point": {
+       "x": 632,
+       "y": 516
+      },
+      "full": {
+       "x": 592,
+       "y": 504,
+       "w": 80,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 125,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 632,
+       "y": 516
+      },
+      "to": {
+       "x": 632,
+       "y": 516
+      },
+      "distance": 0,
+      "plannedMs": 0,
+      "actualMs": 2.86,
+      "steps": 0,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 84253,
+      "hit": "0x40176",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 511,
+      "doubleClickGuardMs": 29,
+      "press": {
+       "seen": true,
+       "seenMs": 0.15,
+       "root": "0x301E2",
+       "child": "0x40176",
+       "capturedByControl": true,
+       "captureMs": 2.74
+      },
+      "clickedAt": {
+       "x": 632,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.72,
+      "drained": true,
+      "drainMs": 1.9,
+      "phases": {
+       "checkMs": 0.15,
+       "moveStartMs": 0.21,
+       "moveEndMs": 3.07,
+       "clickStartMs": 3.07,
+       "preClickEndMs": 63.48,
+       "focusMs": 0.12,
+       "guardMs": 29.86,
+       "pressMs": 93.56,
+       "pressCheckMs": 0.15,
+       "clickDoneMs": 176.88,
+       "captureReleaseMs": 1.72,
+       "drainMs": 1.9,
+       "queueMs": 0.2021000000000015,
+       "totalMs": 178.8
+      },
+      "sampleCount": 0
+     }
+    },
+    {
+     "seq": 110,
+     "t": 85259.7313,
+     "table": 2,
+     "stage": "lifecycle",
+     "hwnd": "0x30204",
+     "hand": null,
+     "revision": 0,
+     "kind": "health-started",
+     "pausedIntervalMs": 1000,
+     "activeIntervalMs": 5000
+    },
+    {
+     "seq": 111,
+     "t": 85356.3621,
+     "table": 1,
+     "stage": "ack",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 10,
+     "status": "confirmed"
+    },
+    {
+     "seq": 112,
+     "t": 85389.4576,
+     "table": 2,
+     "stage": "state",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 1,
+     "ok": true,
+     "frameId": 281,
+     "actor": 3,
+     "status": "playing",
+     "captureMs": 112.1649000000034
+    },
+    {
+     "seq": 113,
+     "t": 85392.6889,
+     "table": 2,
+     "stage": "lifecycle",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 1,
+     "kind": "transition",
+     "from": "REGISTERED",
+     "to": "ACTIVE",
+     "generation": 2,
+     "cause": "first-reading",
+     "reason": "identity verified and first reading accepted",
+     "operator": false
+    },
+    {
+     "seq": 114,
+     "t": 85392.7614,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 1,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 115,
+     "t": 85392.8053,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 1,
+     "source": "scripted-fallback",
+     "recommended": "fold",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 281
+    },
+    {
+     "seq": 116,
+     "t": 85469.9342,
+     "table": 1,
+     "stage": "state",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 10,
+     "ok": true,
+     "frameId": 282,
+     "actor": 2,
+     "status": "playing",
+     "captureMs": 94.80240000000049
+    },
+    {
+     "seq": 117,
+     "t": 85469.9575,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 10,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 118,
+     "t": 85469.9813,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 10,
+     "source": "scripted-fallback",
+     "recommended": "check",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 282
+    },
+    {
+     "seq": 119,
+     "t": 85471.3357,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 1,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 0,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 1352,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 120,
+     "t": 86770.2456,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 1,
+     "kind": "click",
+     "region": "fold",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 1327,
+       "y": 509,
+       "w": 50,
+       "h": 15
+      },
+      "point": {
+       "x": 1352,
+       "y": 516
+      },
+      "full": {
+       "x": 1312,
+       "y": 504,
+       "w": 80,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 129,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 632,
+       "y": 516
+      },
+      "to": {
+       "x": 1352,
+       "y": 516
+      },
+      "distance": 720,
+      "plannedMs": 1125,
+      "actualMs": 1144.35,
+      "steps": 71,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 84871,
+      "hit": "0x50186",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "press": {
+       "seen": true,
+       "seenMs": 0.07,
+       "root": "0x30204",
+       "child": "0x50186",
+       "capturedByControl": true,
+       "captureMs": 2.72
+      },
+      "clickedAt": {
+       "x": 1352,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.71,
+      "drained": true,
+      "drainMs": 1.89,
+      "phases": {
+       "checkMs": 0.18,
+       "moveStartMs": 0.25,
+       "moveEndMs": 1144.59,
+       "clickStartMs": 1144.6,
+       "preClickEndMs": 1205.01,
+       "focusMs": 0.09,
+       "guardMs": 0,
+       "pressMs": 1205.19,
+       "pressCheckMs": 0.08,
+       "clickDoneMs": 1293.89,
+       "captureReleaseMs": 1.71,
+       "drainMs": 1.89,
+       "queueMs": 0.21169999999983702,
+       "totalMs": 1295.79
+      },
+      "sampleCount": 71
+     }
+    },
+    {
+     "seq": 121,
+     "t": 86810.5225,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 10,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 9,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 632,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 122,
+     "t": 87074.9961,
+     "table": 2,
+     "stage": "ack",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 2,
+     "status": "confirmed"
+    },
+    {
+     "seq": 123,
+     "t": 87075.0775,
+     "table": 2,
+     "stage": "gameplay",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 2,
+     "kind": "condition",
+     "from": "starting",
+     "to": "playing",
+     "title": "Playing",
+     "message": "Automated gameplay is running: every reading is verified and every action confirmed.",
+     "detail": null
+    },
+    {
+     "seq": 124,
+     "t": 87153.9795,
+     "table": 2,
+     "stage": "state",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 2,
+     "ok": true,
+     "frameId": 287,
+     "actor": 4,
+     "status": "playing",
+     "captureMs": 61.91689999999653
+    },
+    {
+     "seq": 125,
+     "t": 87153.9968,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 2,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 126,
+     "t": 87154.0142,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 2,
+     "source": "scripted-fallback",
+     "recommended": "call",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 287
+    },
+    {
+     "seq": 127,
+     "t": 88110.696,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 10,
+     "kind": "click",
+     "region": "check",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 607,
+       "y": 509,
+       "w": 50,
+       "h": 15
+      },
+      "point": {
+       "x": 632,
+       "y": 516
+      },
+      "full": {
+       "x": 592,
+       "y": 504,
+       "w": 80,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 130,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 1352,
+       "y": 516
+      },
+      "to": {
+       "x": 632,
+       "y": 516
+      },
+      "distance": 720,
+      "plannedMs": 1125,
+      "actualMs": 1144.52,
+      "steps": 71,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 86210,
+      "hit": "0x40176",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 2986,
+      "press": {
+       "seen": true,
+       "seenMs": 0.83,
+       "root": "0x301E2",
+       "child": "0x40176",
+       "capturedByControl": true,
+       "captureMs": 10.46
+      },
+      "clickedAt": {
+       "x": 632,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.66,
+      "drained": true,
+      "drainMs": 1.83,
+      "phases": {
+       "checkMs": 0.14,
+       "moveStartMs": 0.2,
+       "moveEndMs": 1144.72,
+       "clickStartMs": 1144.73,
+       "preClickEndMs": 1205.16,
+       "focusMs": 0.13,
+       "guardMs": 0,
+       "pressMs": 1205.36,
+       "pressCheckMs": 0.84,
+       "clickDoneMs": 1295.11,
+       "captureReleaseMs": 1.66,
+       "drainMs": 1.83,
+       "queueMs": 0.05629999999996471,
+       "totalMs": 1296.94
+      },
+      "sampleCount": 71
+     }
+    },
+    {
+     "seq": 128,
+     "t": 88149.6131,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 2,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 1,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 1532,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 129,
+     "t": 88382.7435,
+     "table": 1,
+     "stage": "ack",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 11,
+     "status": "confirmed"
+    },
+    {
+     "seq": 130,
+     "t": 88454.1135,
+     "table": 1,
+     "stage": "state",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 11,
+     "ok": true,
+     "frameId": 291,
+     "actor": 5,
+     "status": "playing",
+     "captureMs": 52.742499999993015
+    },
+    {
+     "seq": 131,
+     "t": 88454.1306,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 11,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 132,
+     "t": 88454.151,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 11,
+     "source": "scripted-fallback",
+     "recommended": "bet",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 291
+    },
+    {
+     "seq": 133,
+     "t": 89735.7704,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 2,
+     "kind": "click",
+     "region": "call",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 1515,
+       "y": 509,
+       "w": 34,
+       "h": 15
+      },
+      "point": {
+       "x": 1532,
+       "y": 516
+      },
+      "full": {
+       "x": 1504,
+       "y": 504,
+       "w": 56,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 131,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 632,
+       "y": 516
+      },
+      "to": {
+       "x": 1532,
+       "y": 516
+      },
+      "distance": 900,
+      "plannedMs": 1406.25,
+      "actualMs": 1430.16,
+      "steps": 88,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 87549,
+      "hit": "0x40192",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 2876,
+      "press": {
+       "seen": true,
+       "seenMs": 0.91,
+       "root": "0x30204",
+       "child": "0x40192",
+       "capturedByControl": true,
+       "captureMs": 11.26
+      },
+      "clickedAt": {
+       "x": 1532,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.69,
+      "drained": true,
+      "drainMs": 1.89,
+      "phases": {
+       "checkMs": 0.17,
+       "moveStartMs": 0.23,
+       "moveEndMs": 1430.38,
+       "clickStartMs": 1430.39,
+       "preClickEndMs": 1491.39,
+       "focusMs": 0.15,
+       "guardMs": 0,
+       "pressMs": 1491.63,
+       "pressCheckMs": 0.91,
+       "clickDoneMs": 1580.73,
+       "captureReleaseMs": 1.69,
+       "drainMs": 1.89,
+       "queueMs": 0.36989999999991596,
+       "totalMs": 1582.63
+      },
+      "sampleCount": 88
+     }
+    },
+    {
+     "seq": 134,
+     "t": 89814.7994,
+     "table": 1,
+     "stage": "state",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 11,
+     "ok": true,
+     "frameId": 292,
+     "actor": 5,
+     "status": "playing",
+     "captureMs": 59.687000000005355
+    },
+    {
+     "seq": 135,
+     "t": 89814.8155,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 11,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 136,
+     "t": 89814.8347,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 11,
+     "source": "scripted-fallback",
+     "recommended": "bet",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 292
+    },
+    {
+     "seq": 137,
+     "t": 89879.6836,
+     "table": 1,
+     "stage": "state",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 11,
+     "ok": true,
+     "frameId": 293,
+     "actor": 5,
+     "status": "playing",
+     "captureMs": 47.93439999999828
+    },
+    {
+     "seq": 138,
+     "t": 89879.7002,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 11,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 139,
+     "t": 89879.7198,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 11,
+     "source": "scripted-fallback",
+     "recommended": "bet",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 293
+    },
+    {
+     "seq": 140,
+     "t": 89943.194,
+     "table": 1,
+     "stage": "state",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 11,
+     "ok": true,
+     "frameId": 294,
+     "actor": 5,
+     "status": "playing",
+     "captureMs": 46.752799999987474
+    },
+    {
+     "seq": 141,
+     "t": 89943.2181,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 11,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 142,
+     "t": 89943.2412,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 11,
+     "source": "scripted-fallback",
+     "recommended": "check",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 294
+    },
+    {
+     "seq": 143,
+     "t": 89998.2422,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 11,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 10,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 632,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 144,
+     "t": 90057.2787,
+     "table": 2,
+     "stage": "ack",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 3,
+     "status": "confirmed"
+    },
+    {
+     "seq": 145,
+     "t": 90135.7058,
+     "table": 2,
+     "stage": "state",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 3,
+     "ok": true,
+     "frameId": 298,
+     "actor": 5,
+     "status": "playing",
+     "captureMs": 60.16400000000431
+    },
+    {
+     "seq": 146,
+     "t": 90135.7236,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 3,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 147,
+     "t": 90135.7411,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 3,
+     "source": "scripted-fallback",
+     "recommended": "call",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 298
+    },
+    {
+     "seq": 148,
+     "t": 91585.0318,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 11,
+     "kind": "click",
+     "region": "check",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 607,
+       "y": 509,
+       "w": 50,
+       "h": 15
+      },
+      "point": {
+       "x": 632,
+       "y": 516
+      },
+      "full": {
+       "x": 592,
+       "y": 504,
+       "w": 80,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 133,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 1532,
+       "y": 516
+      },
+      "to": {
+       "x": 632,
+       "y": 516
+      },
+      "distance": 900,
+      "plannedMs": 1406.25,
+      "actualMs": 1430.93,
+      "steps": 88,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 89398,
+      "hit": "0x40176",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 3385,
+      "press": {
+       "seen": true,
+       "seenMs": 0.72,
+       "root": "0x301E2",
+       "child": "0x40176",
+       "capturedByControl": true,
+       "captureMs": 9.08
+      },
+      "clickedAt": {
+       "x": 632,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.65,
+      "drained": true,
+      "drainMs": 1.83,
+      "phases": {
+       "checkMs": 0.14,
+       "moveStartMs": 0.19,
+       "moveEndMs": 1431.12,
+       "clickStartMs": 1431.13,
+       "preClickEndMs": 1492.21,
+       "focusMs": 0.11,
+       "guardMs": 0,
+       "pressMs": 1492.39,
+       "pressCheckMs": 0.72,
+       "clickDoneMs": 1581.51,
+       "captureReleaseMs": 1.66,
+       "drainMs": 1.83,
+       "queueMs": 0,
+       "totalMs": 1583.35
+      },
+      "sampleCount": 88
+     }
+    },
+    {
+     "seq": 149,
+     "t": 91624.2794,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 3,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 2,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 1532,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 150,
+     "t": 91887.2561,
+     "table": 1,
+     "stage": "ack",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 12,
+     "status": "confirmed"
+    },
+    {
+     "seq": 151,
+     "t": 91967.0974,
+     "table": 1,
+     "stage": "state",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 12,
+     "ok": true,
+     "frameId": 302,
+     "actor": 6,
+     "status": "playing",
+     "captureMs": 63.39900000000489
+    },
+    {
+     "seq": 152,
+     "t": 91967.1139,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 12,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 153,
+     "t": 91967.1314,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 12,
+     "source": "scripted-fallback",
+     "recommended": "check",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 302
+    },
+    {
+     "seq": 154,
+     "t": 93209.3949,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 3,
+     "kind": "click",
+     "region": "call",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 1515,
+       "y": 509,
+       "w": 34,
+       "h": 15
+      },
+      "point": {
+       "x": 1532,
+       "y": 516
+      },
+      "full": {
+       "x": 1504,
+       "y": 504,
+       "w": 56,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 134,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 632,
+       "y": 516
+      },
+      "to": {
+       "x": 1532,
+       "y": 516
+      },
+      "distance": 900,
+      "plannedMs": 1406.25,
+      "actualMs": 1430.62,
+      "steps": 88,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 91024,
+      "hit": "0x40192",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 3386,
+      "press": {
+       "seen": true,
+       "seenMs": 0.86,
+       "root": "0x30204",
+       "child": "0x40192",
+       "capturedByControl": true,
+       "captureMs": 8.3
+      },
+      "clickedAt": {
+       "x": 1532,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.66,
+      "drained": true,
+      "drainMs": 1.83,
+      "phases": {
+       "checkMs": 0.13,
+       "moveStartMs": 0.23,
+       "moveEndMs": 1430.85,
+       "clickStartMs": 1430.86,
+       "preClickEndMs": 1491.8,
+       "focusMs": 0.14,
+       "guardMs": 0,
+       "pressMs": 1492,
+       "pressCheckMs": 0.86,
+       "clickDoneMs": 1580.16,
+       "captureReleaseMs": 1.66,
+       "drainMs": 1.83,
+       "queueMs": 0.0027999999999792635,
+       "totalMs": 1582
+      },
+      "sampleCount": 88
+     }
+    },
+    {
+     "seq": 155,
+     "t": 93249.8329,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 12,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 11,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 632,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 156,
+     "t": 93533.3221,
+     "table": 2,
+     "stage": "ack",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 4,
+     "status": "confirmed"
+    },
+    {
+     "seq": 157,
+     "t": 93601.6377,
+     "table": 2,
+     "stage": "state",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 4,
+     "ok": true,
+     "frameId": 306,
+     "actor": 6,
+     "status": "playing",
+     "captureMs": 40.537899999995716
+    },
+    {
+     "seq": 158,
+     "t": 93601.6634,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 4,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 159,
+     "t": 93601.6895,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 4,
+     "source": "scripted-fallback",
+     "recommended": "fold",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 306
+    },
+    {
+     "seq": 160,
+     "t": 94838.3445,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 12,
+     "kind": "click",
+     "region": "check",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 607,
+       "y": 509,
+       "w": 50,
+       "h": 15
+      },
+      "point": {
+       "x": 632,
+       "y": 516
+      },
+      "full": {
+       "x": 592,
+       "y": 504,
+       "w": 80,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 136,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 1532,
+       "y": 516
+      },
+      "to": {
+       "x": 632,
+       "y": 516
+      },
+      "distance": 900,
+      "plannedMs": 1406.25,
+      "actualMs": 1432.39,
+      "steps": 88,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 92649,
+      "hit": "0x40176",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 3164,
+      "press": {
+       "seen": true,
+       "seenMs": 0.75,
+       "root": "0x301E2",
+       "child": "0x40176",
+       "capturedByControl": true,
+       "captureMs": 10.44
+      },
+      "clickedAt": {
+       "x": 632,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.62,
+      "drained": true,
+      "drainMs": 1.78,
+      "phases": {
+       "checkMs": 0.14,
+       "moveStartMs": 0.2,
+       "moveEndMs": 1432.58,
+       "clickStartMs": 1432.59,
+       "preClickEndMs": 1493.58,
+       "focusMs": 0.19,
+       "guardMs": 0,
+       "pressMs": 1493.84,
+       "pressCheckMs": 0.75,
+       "clickDoneMs": 1583.54,
+       "captureReleaseMs": 1.62,
+       "drainMs": 1.78,
+       "queueMs": 0.665599999999813,
+       "totalMs": 1585.33
+      },
+      "sampleCount": 88
+     }
+    },
+    {
+     "seq": 161,
+     "t": 94877.9158,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 4,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 3,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 1352,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 162,
+     "t": 95140.9645,
+     "table": 1,
+     "stage": "ack",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 13,
+     "status": "confirmed"
+    },
+    {
+     "seq": 163,
+     "t": 95221.149,
+     "table": 1,
+     "stage": "state",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 13,
+     "ok": true,
+     "frameId": 310,
+     "actor": 0,
+     "status": "playing",
+     "captureMs": 59.77279999999155
+    },
+    {
+     "seq": 164,
+     "t": 95221.177,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 13,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 165,
+     "t": 95221.203,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 13,
+     "source": "scripted-fallback",
+     "recommended": "check",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 310
+    },
+    {
+     "seq": 166,
+     "t": 96181.3613,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 4,
+     "kind": "click",
+     "region": "fold",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 1327,
+       "y": 509,
+       "w": 50,
+       "h": 15
+      },
+      "point": {
+       "x": 1352,
+       "y": 516
+      },
+      "full": {
+       "x": 1312,
+       "y": 504,
+       "w": 80,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 138,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 632,
+       "y": 516
+      },
+      "to": {
+       "x": 1352,
+       "y": 516
+      },
+      "distance": 720,
+      "plannedMs": 1125,
+      "actualMs": 1147.59,
+      "steps": 71,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 94278,
+      "hit": "0x50186",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 2883,
+      "press": {
+       "seen": true,
+       "seenMs": 0.77,
+       "root": "0x30204",
+       "child": "0x50186",
+       "capturedByControl": true,
+       "captureMs": 11.98
+      },
+      "clickedAt": {
+       "x": 1352,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.59,
+      "drained": true,
+      "drainMs": 1.76,
+      "phases": {
+       "checkMs": 0.17,
+       "moveStartMs": 0.25,
+       "moveEndMs": 1147.84,
+       "clickStartMs": 1147.85,
+       "preClickEndMs": 1208.8,
+       "focusMs": 0.19,
+       "guardMs": 0,
+       "pressMs": 1209.08,
+       "pressCheckMs": 0.78,
+       "clickDoneMs": 1298.24,
+       "captureReleaseMs": 1.59,
+       "drainMs": 1.76,
+       "queueMs": 0.9891000000000076,
+       "totalMs": 1300.01
+      },
+      "sampleCount": 71
+     }
+    },
+    {
+     "seq": 167,
+     "t": 96220.5793,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 13,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 12,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 632,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 168,
+     "t": 96486.5459,
+     "table": 2,
+     "stage": "ack",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 5,
+     "status": "confirmed"
+    },
+    {
+     "seq": 169,
+     "t": 96555.0609,
+     "table": 2,
+     "stage": "state",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 5,
+     "ok": true,
+     "frameId": 314,
+     "actor": 7,
+     "status": "playing",
+     "captureMs": 48.59880000000703
+    },
+    {
+     "seq": 170,
+     "t": 96555.086,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 5,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 171,
+     "t": 96555.1092,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 5,
+     "source": "scripted-fallback",
+     "recommended": "call",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 314
+    },
+    {
+     "seq": 172,
+     "t": 97525.0532,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 13,
+     "kind": "click",
+     "region": "check",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 607,
+       "y": 509,
+       "w": 50,
+       "h": 15
+      },
+      "point": {
+       "x": 632,
+       "y": 516
+      },
+      "full": {
+       "x": 592,
+       "y": 504,
+       "w": 80,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 140,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 1352,
+       "y": 516
+      },
+      "to": {
+       "x": 632,
+       "y": 516
+      },
+      "distance": 720,
+      "plannedMs": 1125,
+      "actualMs": 1149.71,
+      "steps": 71,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 95620,
+      "hit": "0x40176",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 2598,
+      "press": {
+       "seen": true,
+       "seenMs": 0.74,
+       "root": "0x301E2",
+       "child": "0x40176",
+       "capturedByControl": true,
+       "captureMs": 9.1
+      },
+      "clickedAt": {
+       "x": 632,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.65,
+      "drained": true,
+      "drainMs": 1.85,
+      "phases": {
+       "checkMs": 0.14,
+       "moveStartMs": 0.19,
+       "moveEndMs": 1149.9,
+       "clickStartMs": 1149.91,
+       "preClickEndMs": 1210.56,
+       "focusMs": 0.18,
+       "guardMs": 0,
+       "pressMs": 1210.88,
+       "pressCheckMs": 0.75,
+       "clickDoneMs": 1299.46,
+       "captureReleaseMs": 1.65,
+       "drainMs": 1.85,
+       "queueMs": 0,
+       "totalMs": 1301.32
+      },
+      "sampleCount": 71
+     }
+    },
+    {
+     "seq": 173,
+     "t": 97564.9744,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 5,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 4,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 1532,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 174,
+     "t": 97844.5699,
+     "table": 1,
+     "stage": "ack",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 14,
+     "status": "confirmed"
+    },
+    {
+     "seq": 175,
+     "t": 97924.5688,
+     "table": 1,
+     "stage": "state",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 14,
+     "ok": true,
+     "frameId": 318,
+     "actor": 1,
+     "status": "playing",
+     "captureMs": 62.461000000010245
+    },
+    {
+     "seq": 176,
+     "t": 97924.5989,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 14,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 177,
+     "t": 97924.6258,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 14,
+     "source": "scripted-fallback",
+     "recommended": "check",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 318
+    },
+    {
+     "seq": 178,
+     "t": 99153.084,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 5,
+     "kind": "click",
+     "region": "call",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 1515,
+       "y": 509,
+       "w": 34,
+       "h": 15
+      },
+      "point": {
+       "x": 1532,
+       "y": 516
+      },
+      "full": {
+       "x": 1504,
+       "y": 504,
+       "w": 56,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 141,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 632,
+       "y": 516
+      },
+      "to": {
+       "x": 1532,
+       "y": 516
+      },
+      "distance": 900,
+      "plannedMs": 1406.25,
+      "actualMs": 1432.09,
+      "steps": 88,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 96965,
+      "hit": "0x40192",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 2882,
+      "press": {
+       "seen": true,
+       "seenMs": 0.7,
+       "root": "0x30204",
+       "child": "0x40192",
+       "capturedByControl": true,
+       "captureMs": 11.19
+      },
+      "clickedAt": {
+       "x": 1532,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.65,
+      "drained": true,
+      "drainMs": 1.8,
+      "phases": {
+       "checkMs": 0.14,
+       "moveStartMs": 0.23,
+       "moveEndMs": 1432.32,
+       "clickStartMs": 1432.33,
+       "preClickEndMs": 1493.76,
+       "focusMs": 0.15,
+       "guardMs": 0,
+       "pressMs": 1494.02,
+       "pressCheckMs": 0.7,
+       "clickDoneMs": 1583.1,
+       "captureReleaseMs": 1.65,
+       "drainMs": 1.8,
+       "queueMs": 0.08799999999996544,
+       "totalMs": 1584.91
+      },
+      "sampleCount": 88
+     }
+    },
+    {
+     "seq": 179,
+     "t": 99192.6446,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 14,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 13,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 632,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 180,
+     "t": 99425.8559,
+     "table": 2,
+     "stage": "ack",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 6,
+     "status": "confirmed"
+    },
+    {
+     "seq": 181,
+     "t": 99492.5863,
+     "table": 2,
+     "stage": "state",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 6,
+     "ok": true,
+     "frameId": 322,
+     "actor": 0,
+     "status": "playing",
+     "captureMs": 41.87049999998999
+    },
+    {
+     "seq": 182,
+     "t": 99492.6147,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 6,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 183,
+     "t": 99492.643,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 6,
+     "source": "scripted-fallback",
+     "recommended": "call",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 322
+    },
+    {
+     "seq": 184,
+     "t": 100778.7923,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 14,
+     "kind": "click",
+     "region": "check",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 607,
+       "y": 509,
+       "w": 50,
+       "h": 15
+      },
+      "point": {
+       "x": 632,
+       "y": 516
+      },
+      "full": {
+       "x": 592,
+       "y": 504,
+       "w": 80,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 142,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 1532,
+       "y": 516
+      },
+      "to": {
+       "x": 632,
+       "y": 516
+      },
+      "distance": 900,
+      "plannedMs": 1406.25,
+      "actualMs": 1429.51,
+      "steps": 88,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 98592,
+      "hit": "0x40176",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 3163,
+      "press": {
+       "seen": true,
+       "seenMs": 0.83,
+       "root": "0x301E2",
+       "child": "0x40176",
+       "capturedByControl": true,
+       "captureMs": 8.48
+      },
+      "clickedAt": {
+       "x": 632,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.63,
+      "drained": true,
+      "drainMs": 1.83,
+      "phases": {
+       "checkMs": 0.17,
+       "moveStartMs": 0.23,
+       "moveEndMs": 1429.73,
+       "clickStartMs": 1429.74,
+       "preClickEndMs": 1490.79,
+       "focusMs": 0.14,
+       "guardMs": 0,
+       "pressMs": 1491.01,
+       "pressCheckMs": 0.83,
+       "clickDoneMs": 1580.68,
+       "captureReleaseMs": 1.63,
+       "drainMs": 1.83,
+       "queueMs": 0.4782000000000153,
+       "totalMs": 1582.52
+      },
+      "sampleCount": 88
+     }
+    },
+    {
+     "seq": 185,
+     "t": 100819.0597,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 6,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 5,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 1532,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 186,
+     "t": 101048.141,
+     "table": 1,
+     "stage": "ack",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 15,
+     "status": "confirmed"
+    },
+    {
+     "seq": 187,
+     "t": 101114.8723,
+     "table": 1,
+     "stage": "state",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 15,
+     "ok": true,
+     "frameId": 326,
+     "actor": 2,
+     "status": "playing",
+     "captureMs": 45.68549999999232
+    },
+    {
+     "seq": 188,
+     "t": 101114.8899,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 15,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 189,
+     "t": 101114.91,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 15,
+     "source": "scripted-fallback",
+     "recommended": "bet",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 326
+    },
+    {
+     "seq": 190,
+     "t": 102334.5518,
+     "table": 1,
+     "stage": "lifecycle",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 15,
+     "kind": "transition",
+     "from": "ACTIVE",
+     "to": "SAFETY_PAUSED",
+     "generation": 3,
+     "cause": "emergency-stop",
+     "reason": "emergency stop (stability test)",
+     "operator": false
+    },
+    {
+     "seq": 191,
+     "t": 102334.8397,
+     "table": 1,
+     "stage": "system",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 15,
+     "kind": "pause",
+     "reason": "emergency stop (stability test)"
+    },
+    {
+     "seq": 192,
+     "t": 102334.907,
+     "table": 2,
+     "stage": "lifecycle",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 6,
+     "kind": "transition",
+     "from": "ACTIVE",
+     "to": "SAFETY_PAUSED",
+     "generation": 3,
+     "cause": "emergency-stop",
+     "reason": "emergency stop (stability test)",
+     "operator": false
+    },
+    {
+     "seq": 193,
+     "t": 102334.9318,
+     "table": 2,
+     "stage": "system",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 6,
+     "kind": "pause",
+     "reason": "emergency stop (stability test)"
+    },
+    {
+     "seq": 194,
+     "t": 102335.7385,
+     "table": 1,
+     "stage": "gameplay",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 15,
+     "kind": "condition",
+     "from": "playing",
+     "to": "emergency-stop",
+     "title": "Emergency stop",
+     "message": "The emergency stop is latched. Nothing resumes by itself.",
+     "detail": "emergency stop: Input scheduler: Emergency stop: stability test"
+    },
+    {
+     "seq": 195,
+     "t": 102337.4507,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 6,
+     "kind": "click-refused",
+     "region": "call",
+     "code": "emergency-stop",
+     "error": "Emergency stop is latched (dashboard emergency stop); reset it explicitly."
+    },
+    {
+     "seq": 1,
+     "t": 102343.1009,
+     "table": 2,
+     "stage": "ack",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 6,
+     "kind": "unconfirmed-input",
+     "format": "eightmax-unconfirmed-input",
+     "version": 1,
+     "at": "2026-11-24T16:05:24.609Z",
+     "registrationId": "reg-mwuvyhqb-4",
+     "identityFingerprint": "9eea1a25",
+     "identity": {
+      "pid": 8312,
+      "processStart": "134400099073842511",
+      "className": "WindowsForms10.Window.8.app.0.34f5582_r6_ad1",
+      "exe": "EightMaxTestTable.exe",
+      "exeSha256Prefix": "3e5a76995a24d169"
+     },
+     "street": "preflop",
+     "seat": 0,
+     "action": {
+      "type": "call"
+     },
+     "decisionSource": "scripted-fallback",
+     "decisionLabel": "SCRIPTED FALLBACK — not a solver decision",
+     "inputStatus": "uncertain",
+     "status": "uncertain",
+     "reason": "Click failed: emergency-stop: Emergency stop is latched (dashboard emergency stop); reset it explicitly. - review the simulator; the action is not repeated",
+     "code": "emergency-stop",
+     "control": null,
+     "expectedRegion": null,
+     "selectedPoint": null,
+     "clickedAt": null,
+     "hit": null,
+     "hitClass": null,
+     "displayScaling": 1,
+     "clientAtReading": {
+      "x": 832,
+      "y": 39,
+      "w": 800,
+      "h": 500
+     },
+     "clientAfter": {
+      "x": 832,
+      "y": 39,
+      "w": 800,
+      "h": 500
+     },
+     "windowAfter": {
+      "exists": true,
+      "matches": true,
+      "foreground": true,
+      "minimized": false,
+      "visible": true,
+      "cloaked": false,
+      "enabled": true,
+      "client": {
+       "x": 832,
+       "y": 39,
+       "w": 800,
+       "h": 500
+      },
+      "dpiScale": 1,
+      "monitor": 0
+     },
+     "driver": {
+      "reported": "refused or failed after the press may have happened",
+      "pipeline": null,
+      "guardScope": null,
+      "press": null,
+      "captureReleased": null,
+      "captureReleaseMs": null,
+      "drained": null,
+      "drainMs": null,
+      "repliedAtWallMs": null
+     },
+     "scheduler": {
+      "leaseId": 32,
+      "waitedMs": 1326,
+      "runMs": 1518
+     },
+     "confirmation": {
+      "status": null,
+      "reason": null,
+      "timeoutMs": 4000
+     },
+     "frames": {
+      "before": {
+       "frameId": 322,
+       "revision": 6,
+       "ageAtSubmitMs": 21
+      },
+      "after": null
+     },
+     "timeline": {
+      "readToSubmitMs": 21,
+      "queueWaitMs": 1326,
+      "inputRunMs": 1518,
+      "confirmMs": null,
+      "totalMs": 2850
+     },
+     "lifecycleAfter": "SAFETY_PAUSED"
+    },
+    {
+     "seq": 197,
+     "t": 102343.5425,
+     "table": 2,
+     "stage": "gameplay",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 6,
+     "kind": "condition",
+     "from": "playing",
+     "to": "emergency-stop",
+     "title": "Emergency stop",
+     "message": "The emergency stop is latched. Nothing resumes by itself.",
+     "detail": "emergency stop: Click failed: emergency-stop: Emergency stop is latched (dashboard emergency stop); reset it explicitly."
+    },
+    {
+     "seq": 198,
+     "t": 104839.9117,
+     "table": 1,
+     "stage": "lifecycle",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 15,
+     "kind": "transition",
+     "from": "SAFETY_PAUSED",
+     "to": "RECOVERY_PENDING",
+     "generation": 4,
+     "cause": "operator-resume",
+     "reason": "operator resumed the table",
+     "operator": true
+    },
+    {
+     "seq": 199,
+     "t": 104839.9841,
+     "table": 1,
+     "stage": "lifecycle",
+     "hwnd": "0x301E2",
+     "hand": null,
+     "revision": 15,
+     "kind": "stale-state-discarded",
+     "reason": "operator resume"
+    },
+    {
+     "seq": 200,
+     "t": 104840.0063,
+     "table": 1,
+     "stage": "system",
+     "hwnd": "0x301E2",
+     "hand": null,
+     "revision": 15,
+     "kind": "resume"
+    },
+    {
+     "seq": 201,
+     "t": 104840.0757,
+     "table": 2,
+     "stage": "lifecycle",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 6,
+     "kind": "transition",
+     "from": "SAFETY_PAUSED",
+     "to": "RECOVERY_PENDING",
+     "generation": 4,
+     "cause": "operator-resume",
+     "reason": "operator resumed the table",
+     "operator": true
+    },
+    {
+     "seq": 202,
+     "t": 104840.0917,
+     "table": 2,
+     "stage": "lifecycle",
+     "hwnd": "0x30204",
+     "hand": null,
+     "revision": 6,
+     "kind": "stale-state-discarded",
+     "reason": "operator resume"
+    },
+    {
+     "seq": 203,
+     "t": 104840.0946,
+     "table": 2,
+     "stage": "system",
+     "hwnd": "0x30204",
+     "hand": null,
+     "revision": 6,
+     "kind": "resume"
+    },
+    {
+     "seq": 204,
+     "t": 104935.7073,
+     "table": 1,
+     "stage": "state",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 16,
+     "ok": true,
+     "frameId": 327,
+     "actor": 2,
+     "status": "playing",
+     "captureMs": 76.41449999999895
+    },
+    {
+     "seq": 205,
+     "t": 104935.7398,
+     "table": 1,
+     "stage": "gameplay",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 16,
+     "kind": "condition",
+     "from": "emergency-stop",
+     "to": "verifying",
+     "title": "Verifying fresh readings",
+     "message": "The hand is recognised again; automated input waits until consecutive fresh readings agree.",
+     "detail": "verifying the window before input (RECOVERY_PENDING)"
+    },
+    {
+     "seq": 206,
+     "t": 104971.1561,
+     "table": 2,
+     "stage": "state",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 7,
+     "ok": true,
+     "frameId": 328,
+     "actor": 1,
+     "status": "playing",
+     "captureMs": 103.18289999999979
+    },
+    {
+     "seq": 207,
+     "t": 104971.1841,
+     "table": 2,
+     "stage": "gameplay",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 7,
+     "kind": "condition",
+     "from": "emergency-stop",
+     "to": "verifying",
+     "title": "Verifying fresh readings",
+     "message": "The hand is recognised again; automated input waits until consecutive fresh readings agree.",
+     "detail": "verifying the window before input (RECOVERY_PENDING)"
+    },
+    {
+     "seq": 208,
+     "t": 105112.2096,
+     "table": 1,
+     "stage": "state",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 16,
+     "ok": true,
+     "frameId": 329,
+     "actor": 2,
+     "status": "playing",
+     "captureMs": 38.93260000000009
+    },
+    {
+     "seq": 209,
+     "t": 105115.6025,
+     "table": 1,
+     "stage": "lifecycle",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 16,
+     "kind": "transition",
+     "from": "RECOVERY_PENDING",
+     "to": "ACTIVE",
+     "generation": 5,
+     "cause": "recovered",
+     "reason": "identity verified and 2 fresh readings accepted",
+     "operator": false
+    },
+    {
+     "seq": 210,
+     "t": 105115.7781,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 16,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 211,
+     "t": 105115.8036,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 16,
+     "source": "scripted-fallback",
+     "recommended": "check",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 329
+    },
+    {
+     "seq": 212,
+     "t": 105181.247,
+     "table": 2,
+     "stage": "state",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 7,
+     "ok": true,
+     "frameId": 330,
+     "actor": 1,
+     "status": "playing",
+     "captureMs": 46.325700000001234
+    },
+    {
+     "seq": 213,
+     "t": 105183.1908,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 16,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 14,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 632,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 214,
+     "t": 105185.5164,
+     "table": 2,
+     "stage": "lifecycle",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 7,
+     "kind": "transition",
+     "from": "RECOVERY_PENDING",
+     "to": "ACTIVE",
+     "generation": 5,
+     "cause": "recovered",
+     "reason": "identity verified and 2 fresh readings accepted",
+     "operator": false
+    },
+    {
+     "seq": 215,
+     "t": 105185.5489,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 7,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 216,
+     "t": 105185.5664,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 7,
+     "source": "scripted-fallback",
+     "recommended": "raise",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 330
+    },
+    {
+     "seq": 217,
+     "t": 106768.4459,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 16,
+     "kind": "click",
+     "region": "check",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 607,
+       "y": 509,
+       "w": 50,
+       "h": 15
+      },
+      "point": {
+       "x": 632,
+       "y": 516
+      },
+      "full": {
+       "x": 592,
+       "y": 504,
+       "w": 80,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 157,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 1532,
+       "y": 516
+      },
+      "to": {
+       "x": 632,
+       "y": 516
+      },
+      "distance": 900,
+      "plannedMs": 1406.25,
+      "actualMs": 1429.47,
+      "steps": 88,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 104583,
+      "hit": "0x40176",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 5901,
+      "press": {
+       "seen": true,
+       "seenMs": 0.74,
+       "root": "0x301E2",
+       "child": "0x40176",
+       "capturedByControl": true,
+       "captureMs": 8.29
+      },
+      "clickedAt": {
+       "x": 632,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.5,
+      "drained": true,
+      "drainMs": 1.69,
+      "phases": {
+       "checkMs": 0.1,
+       "moveStartMs": 0.15,
+       "moveEndMs": 1429.62,
+       "clickStartMs": 1429.63,
+       "preClickEndMs": 1490.55,
+       "focusMs": 0.13,
+       "guardMs": 0,
+       "pressMs": 1490.75,
+       "pressCheckMs": 0.74,
+       "clickDoneMs": 1580.1,
+       "captureReleaseMs": 1.5,
+       "drainMs": 1.69,
+       "queueMs": 0.20239999999989777,
+       "totalMs": 1581.8
+      },
+      "sampleCount": 88
+     }
+    },
+    {
+     "seq": 218,
+     "t": 106768.7327,
+     "table": 2,
+     "stage": "gameplay",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 7,
+     "kind": "condition",
+     "from": "verifying",
+     "to": "playing",
+     "title": "Playing",
+     "message": "Automated gameplay is running: every reading is verified and every action confirmed.",
+     "detail": "Input scheduler: Cannot finish by the deadline at the configured speed (needs 5185 ms, 2661 ms left); not rushed"
+    },
+    {
+     "seq": 219,
+     "t": 106850.5801,
+     "table": 2,
+     "stage": "state",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 7,
+     "ok": true,
+     "frameId": 332,
+     "actor": 1,
+     "status": "playing",
+     "captureMs": 60.81489999999758
+    },
+    {
+     "seq": 220,
+     "t": 106850.5972,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 7,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 221,
+     "t": 106850.6146,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 7,
+     "source": "scripted-fallback",
+     "recommended": "call",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 332
+    },
+    {
+     "seq": 222,
+     "t": 106887.1539,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 7,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 6,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 1532,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 223,
+     "t": 107072.9412,
+     "table": 1,
+     "stage": "ack",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 17,
+     "status": "confirmed"
+    },
+    {
+     "seq": 224,
+     "t": 107073.0254,
+     "table": 1,
+     "stage": "gameplay",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 17,
+     "kind": "condition",
+     "from": "verifying",
+     "to": "playing",
+     "title": "Playing",
+     "message": "Automated gameplay is running: every reading is verified and every action confirmed.",
+     "detail": null
+    },
+    {
+     "seq": 225,
+     "t": 107151.0155,
+     "table": 1,
+     "stage": "state",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 17,
+     "ok": true,
+     "frameId": 336,
+     "actor": 5,
+     "status": "playing",
+     "captureMs": 60.79910000000382
+    },
+    {
+     "seq": 226,
+     "t": 107151.031,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 17,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 227,
+     "t": 107151.0479,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 17,
+     "source": "scripted-fallback",
+     "recommended": "check",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 336
+    },
+    {
+     "seq": 228,
+     "t": 108474.8123,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 7,
+     "kind": "click",
+     "region": "call",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 1515,
+       "y": 509,
+       "w": 34,
+       "h": 15
+      },
+      "point": {
+       "x": 1532,
+       "y": 516
+      },
+      "full": {
+       "x": 1504,
+       "y": 504,
+       "w": 56,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 158,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 632,
+       "y": 516
+      },
+      "to": {
+       "x": 1532,
+       "y": 516
+      },
+      "distance": 900,
+      "plannedMs": 1406.25,
+      "actualMs": 1431.73,
+      "steps": 88,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 106287,
+      "hit": "0x40192",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 6053,
+      "press": {
+       "seen": true,
+       "seenMs": 0.72,
+       "root": "0x30204",
+       "child": "0x40192",
+       "capturedByControl": true,
+       "captureMs": 7.52
+      },
+      "clickedAt": {
+       "x": 1532,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.65,
+      "drained": true,
+      "drainMs": 1.82,
+      "phases": {
+       "checkMs": 0.13,
+       "moveStartMs": 0.19,
+       "moveEndMs": 1431.91,
+       "clickStartMs": 1431.92,
+       "preClickEndMs": 1493.06,
+       "focusMs": 0.13,
+       "guardMs": 0,
+       "pressMs": 1493.27,
+       "pressCheckMs": 0.73,
+       "clickDoneMs": 1582.54,
+       "captureReleaseMs": 1.65,
+       "drainMs": 1.82,
+       "queueMs": 0,
+       "totalMs": 1584.37
+      },
+      "sampleCount": 88
+     }
+    },
+    {
+     "seq": 229,
+     "t": 108514.7484,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 17,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 15,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 632,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 230,
+     "t": 108782.4852,
+     "table": 2,
+     "stage": "ack",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 8,
+     "status": "confirmed"
+    },
+    {
+     "seq": 231,
+     "t": 108887.7266,
+     "table": 2,
+     "stage": "state",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 8,
+     "ok": true,
+     "frameId": 340,
+     "actor": 2,
+     "status": "playing",
+     "captureMs": 81.90320000000065
+    },
+    {
+     "seq": 232,
+     "t": 108887.7409,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 8,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 233,
+     "t": 108887.7589,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 8,
+     "source": "scripted-fallback",
+     "recommended": "check",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 340
+    },
+    {
+     "seq": 234,
+     "t": 110102.1091,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 17,
+     "kind": "click",
+     "region": "check",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 607,
+       "y": 509,
+       "w": 50,
+       "h": 15
+      },
+      "point": {
+       "x": 632,
+       "y": 516
+      },
+      "full": {
+       "x": 592,
+       "y": 504,
+       "w": 80,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 159,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 1532,
+       "y": 516
+      },
+      "to": {
+       "x": 632,
+       "y": 516
+      },
+      "distance": 900,
+      "plannedMs": 1406.25,
+      "actualMs": 1431.33,
+      "steps": 88,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 107914,
+      "hit": "0x40176",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 3244,
+      "press": {
+       "seen": true,
+       "seenMs": 0.8,
+       "root": "0x301E2",
+       "child": "0x40176",
+       "capturedByControl": true,
+       "captureMs": 8.85
+      },
+      "clickedAt": {
+       "x": 632,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.63,
+      "drained": true,
+      "drainMs": 1.8,
+      "phases": {
+       "checkMs": 0.14,
+       "moveStartMs": 0.2,
+       "moveEndMs": 1431.52,
+       "clickStartMs": 1431.53,
+       "preClickEndMs": 1492.55,
+       "focusMs": 0.17,
+       "guardMs": 0,
+       "pressMs": 1492.83,
+       "pressCheckMs": 0.81,
+       "clickDoneMs": 1582.02,
+       "captureReleaseMs": 1.63,
+       "drainMs": 1.8,
+       "queueMs": 0.16699999999991633,
+       "totalMs": 1583.83
+      },
+      "sampleCount": 88
+     }
+    },
+    {
+     "seq": 235,
+     "t": 110141.1317,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 8,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 7,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 1448,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 236,
+     "t": 110404.4891,
+     "table": 1,
+     "stage": "ack",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 18,
+     "status": "confirmed"
+    },
+    {
+     "seq": 237,
+     "t": 110499.903,
+     "table": 1,
+     "stage": "state",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 18,
+     "ok": true,
+     "frameId": 344,
+     "actor": 6,
+     "status": "playing",
+     "captureMs": 75.17280000000028
+    },
+    {
+     "seq": 238,
+     "t": 110499.9185,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 18,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 239,
+     "t": 110499.9363,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 18,
+     "source": "scripted-fallback",
+     "recommended": "check",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 344
+    },
+    {
+     "seq": 240,
+     "t": 111593.5556,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 8,
+     "kind": "click",
+     "region": "check",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 1423,
+       "y": 509,
+       "w": 50,
+       "h": 15
+      },
+      "point": {
+       "x": 1448,
+       "y": 516
+      },
+      "full": {
+       "x": 1408,
+       "y": 504,
+       "w": 80,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 160,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 632,
+       "y": 516
+      },
+      "to": {
+       "x": 1448,
+       "y": 516
+      },
+      "distance": 816,
+      "plannedMs": 1275,
+      "actualMs": 1297.32,
+      "steps": 80,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 109541,
+      "hit": "0x401D8",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 3030,
+      "press": {
+       "seen": true,
+       "seenMs": 0.9,
+       "root": "0x30204",
+       "child": "0x401D8",
+       "capturedByControl": true,
+       "captureMs": 12.15
+      },
+      "clickedAt": {
+       "x": 1448,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.7,
+      "drained": true,
+      "drainMs": 1.86,
+      "phases": {
+       "checkMs": 0.15,
+       "moveStartMs": 0.21,
+       "moveEndMs": 1297.53,
+       "clickStartMs": 1297.54,
+       "preClickEndMs": 1357.75,
+       "focusMs": 0.13,
+       "guardMs": 0,
+       "pressMs": 1357.95,
+       "pressCheckMs": 0.91,
+       "clickDoneMs": 1447.09,
+       "captureReleaseMs": 1.7,
+       "drainMs": 1.86,
+       "queueMs": 0.040899999999965075,
+       "totalMs": 1448.96
+      },
+      "sampleCount": 80
+     }
+    },
+    {
+     "seq": 241,
+     "t": 111632.9822,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 18,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 16,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 632,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 242,
+     "t": 111862.3117,
+     "table": 2,
+     "stage": "ack",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 9,
+     "status": "confirmed"
+    },
+    {
+     "seq": 243,
+     "t": 111941.9157,
+     "table": 2,
+     "stage": "state",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 9,
+     "ok": true,
+     "frameId": 348,
+     "actor": 1,
+     "status": "playing",
+     "captureMs": 60.641299999988405
+    },
+    {
+     "seq": 244,
+     "t": 111941.9414,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 9,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 245,
+     "t": 111941.9641,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 9,
+     "source": "scripted-fallback",
+     "recommended": "check",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 348
+    },
+    {
+     "seq": 246,
+     "t": 113086.6074,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 18,
+     "kind": "click",
+     "region": "check",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 607,
+       "y": 509,
+       "w": 50,
+       "h": 15
+      },
+      "point": {
+       "x": 632,
+       "y": 516
+      },
+      "full": {
+       "x": 592,
+       "y": 504,
+       "w": 80,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 162,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 1448,
+       "y": 516
+      },
+      "to": {
+       "x": 632,
+       "y": 516
+      },
+      "distance": 816,
+      "plannedMs": 1275,
+      "actualMs": 1298.6,
+      "steps": 80,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 111033,
+      "hit": "0x40176",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 2897,
+      "press": {
+       "seen": true,
+       "seenMs": 0.86,
+       "root": "0x301E2",
+       "child": "0x40176",
+       "capturedByControl": true,
+       "captureMs": 7.82
+      },
+      "clickedAt": {
+       "x": 632,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.59,
+      "drained": true,
+      "drainMs": 1.79,
+      "phases": {
+       "checkMs": 0.14,
+       "moveStartMs": 0.2,
+       "moveEndMs": 1298.79,
+       "clickStartMs": 1298.81,
+       "preClickEndMs": 1359.83,
+       "focusMs": 0.18,
+       "guardMs": 0,
+       "pressMs": 1360.09,
+       "pressCheckMs": 0.86,
+       "clickDoneMs": 1448.23,
+       "captureReleaseMs": 1.59,
+       "drainMs": 1.79,
+       "queueMs": 0,
+       "totalMs": 1450.03
+      },
+      "sampleCount": 80
+     }
+    },
+    {
+     "seq": 247,
+     "t": 113127.4685,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 9,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 8,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 1448,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 248,
+     "t": 113375.6176,
+     "table": 1,
+     "stage": "ack",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 19,
+     "status": "confirmed"
+    },
+    {
+     "seq": 249,
+     "t": 113454.0679,
+     "table": 1,
+     "stage": "state",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 19,
+     "ok": true,
+     "frameId": 352,
+     "actor": 0,
+     "status": "playing",
+     "captureMs": 61.11269999999786
+    },
+    {
+     "seq": 250,
+     "t": 113454.0927,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 19,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 251,
+     "t": 113454.1187,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 19,
+     "source": "scripted-fallback",
+     "recommended": "bet",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 352
+    },
+    {
+     "seq": 252,
+     "t": 114586.7879,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 9,
+     "kind": "click",
+     "region": "check",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 1423,
+       "y": 509,
+       "w": 50,
+       "h": 15
+      },
+      "point": {
+       "x": 1448,
+       "y": 516
+      },
+      "full": {
+       "x": 1408,
+       "y": 504,
+       "w": 80,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 164,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 632,
+       "y": 516
+      },
+      "to": {
+       "x": 1448,
+       "y": 516
+      },
+      "distance": 816,
+      "plannedMs": 1275,
+      "actualMs": 1297.91,
+      "steps": 80,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 112527,
+      "hit": "0x401D8",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 2898,
+      "press": {
+       "seen": true,
+       "seenMs": 0.74,
+       "root": "0x30204",
+       "child": "0x401D8",
+       "capturedByControl": true,
+       "captureMs": 9.33
+      },
+      "clickedAt": {
+       "x": 1448,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.48,
+      "drained": true,
+      "drainMs": 1.66,
+      "phases": {
+       "checkMs": 0.15,
+       "moveStartMs": 0.21,
+       "moveEndMs": 1298.12,
+       "clickStartMs": 1298.13,
+       "preClickEndMs": 1359.16,
+       "focusMs": 0.13,
+       "guardMs": 0,
+       "pressMs": 1359.36,
+       "pressCheckMs": 0.74,
+       "clickDoneMs": 1452.22,
+       "captureReleaseMs": 1.48,
+       "drainMs": 1.66,
+       "queueMs": 0.10649999999986903,
+       "totalMs": 1453.89
+      },
+      "sampleCount": 80
+     }
+    },
+    {
+     "seq": 253,
+     "t": 114621.2266,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 19,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 17,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 412,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 254,
+     "t": 114883.9493,
+     "table": 2,
+     "stage": "ack",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 10,
+     "status": "confirmed"
+    },
+    {
+     "seq": 255,
+     "t": 114962.3821,
+     "table": 2,
+     "stage": "state",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 10,
+     "ok": true,
+     "frameId": 356,
+     "actor": 2,
+     "status": "playing",
+     "captureMs": 61.998099999997066
+    },
+    {
+     "seq": 256,
+     "t": 114962.4092,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 10,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 257,
+     "t": 114962.4324,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 10,
+     "source": "scripted-fallback",
+     "recommended": "check",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 356
+    },
+    {
+     "seq": 258,
+     "t": 116734.3396,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 19,
+     "kind": "wager",
+     "text": "275",
+     "read": "275",
+     "verified": true,
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 376,
+       "y": 509,
+       "w": 72,
+       "h": 15
+      },
+      "point": {
+       "x": 412,
+       "y": 516
+      },
+      "full": {
+       "x": 352,
+       "y": 504,
+       "w": 120,
+       "h": 25
+      }
+     }
+    },
+    {
+     "seq": 259,
+     "t": 116734.5778,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 19,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 18,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 780,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 260,
+     "t": 117481.9834,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 19,
+     "kind": "click",
+     "region": "raise",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 763,
+       "y": 509,
+       "w": 34,
+       "h": 15
+      },
+      "point": {
+       "x": 780,
+       "y": 516
+      },
+      "full": {
+       "x": 752,
+       "y": 504,
+       "w": 56,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 166,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 412,
+       "y": 516
+      },
+      "to": {
+       "x": 780,
+       "y": 516
+      },
+      "distance": 368,
+      "plannedMs": 575,
+      "actualMs": 585.58,
+      "steps": 36,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 116135,
+      "hit": "0x2010C",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 961,
+      "press": {
+       "seen": true,
+       "seenMs": 0.14,
+       "root": "0x301E2",
+       "child": "0x2010C",
+       "capturedByControl": true,
+       "captureMs": 2.34
+      },
+      "clickedAt": {
+       "x": 780,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.71,
+      "drained": true,
+      "drainMs": 1.9,
+      "phases": {
+       "checkMs": 0.16,
+       "moveStartMs": 0.23,
+       "moveEndMs": 585.81,
+       "clickStartMs": 585.81,
+       "preClickEndMs": 647.35,
+       "focusMs": 0.11,
+       "guardMs": 0,
+       "pressMs": 647.55,
+       "pressCheckMs": 0.15,
+       "clickDoneMs": 741.71,
+       "captureReleaseMs": 1.71,
+       "drainMs": 1.91,
+       "queueMs": 0,
+       "totalMs": 743.62
+      },
+      "sampleCount": 36
+     }
+    },
+    {
+     "seq": 261,
+     "t": 117524.2557,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 10,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 9,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 1448,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 262,
+     "t": 117758.7079,
+     "table": 1,
+     "stage": "ack",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 20,
+     "status": "confirmed"
+    },
+    {
+     "seq": 263,
+     "t": 117822.5767,
+     "table": 1,
+     "stage": "state",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 20,
+     "ok": true,
+     "frameId": 360,
+     "actor": 1,
+     "status": "playing",
+     "captureMs": 41.424199999994016
+    },
+    {
+     "seq": 264,
+     "t": 117822.6129,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 20,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 265,
+     "t": 117822.6391,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 20,
+     "source": "scripted-fallback",
+     "recommended": "call",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 360
+    },
+    {
+     "seq": 266,
+     "t": 118741.9669,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 10,
+     "kind": "click",
+     "region": "check",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 1423,
+       "y": 509,
+       "w": 50,
+       "h": 15
+      },
+      "point": {
+       "x": 1448,
+       "y": 516
+      },
+      "full": {
+       "x": 1408,
+       "y": 504,
+       "w": 80,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 167,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 780,
+       "y": 516
+      },
+      "to": {
+       "x": 1448,
+       "y": 516
+      },
+      "distance": 668,
+      "plannedMs": 1043.75,
+      "actualMs": 1062.98,
+      "steps": 66,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 116924,
+      "hit": "0x401D8",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 4069,
+      "press": {
+       "seen": true,
+       "seenMs": 0.82,
+       "root": "0x30204",
+       "child": "0x401D8",
+       "capturedByControl": true,
+       "captureMs": 8.18
+      },
+      "clickedAt": {
+       "x": 1448,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.75,
+      "drained": true,
+      "drainMs": 1.93,
+      "phases": {
+       "checkMs": 0.14,
+       "moveStartMs": 0.19,
+       "moveEndMs": 1063.17,
+       "clickStartMs": 1063.18,
+       "preClickEndMs": 1123.74,
+       "focusMs": 0.18,
+       "guardMs": 0,
+       "pressMs": 1124,
+       "pressCheckMs": 0.82,
+       "clickDoneMs": 1212.13,
+       "captureReleaseMs": 1.75,
+       "drainMs": 1.93,
+       "queueMs": 0,
+       "totalMs": 1214.07
+      },
+      "sampleCount": 66
+     }
+    },
+    {
+     "seq": 267,
+     "t": 118781.4765,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 20,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 19,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 716,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 268,
+     "t": 119045.3022,
+     "table": 2,
+     "stage": "ack",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 11,
+     "status": "confirmed"
+    },
+    {
+     "seq": 269,
+     "t": 119109.701,
+     "table": 2,
+     "stage": "state",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 11,
+     "ok": true,
+     "frameId": 364,
+     "actor": 4,
+     "status": "playing",
+     "captureMs": 45.19079999999667
+    },
+    {
+     "seq": 270,
+     "t": 119109.7289,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 11,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 271,
+     "t": 119109.7537,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 11,
+     "source": "scripted-fallback",
+     "recommended": "check",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 364
+    },
+    {
+     "seq": 272,
+     "t": 120105.9639,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 20,
+     "kind": "click",
+     "region": "call",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 699,
+       "y": 509,
+       "w": 34,
+       "h": 15
+      },
+      "point": {
+       "x": 716,
+       "y": 516
+      },
+      "full": {
+       "x": 688,
+       "y": 504,
+       "w": 56,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 169,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 1448,
+       "y": 516
+      },
+      "to": {
+       "x": 716,
+       "y": 516
+      },
+      "distance": 732,
+      "plannedMs": 1143.75,
+      "actualMs": 1166.57,
+      "steps": 72,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 118181,
+      "hit": "0x4008A",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 2534,
+      "press": {
+       "seen": true,
+       "seenMs": 0.87,
+       "root": "0x301E2",
+       "child": "0x4008A",
+       "capturedByControl": true,
+       "captureMs": 12.18
+      },
+      "clickedAt": {
+       "x": 716,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.6,
+      "drained": true,
+      "drainMs": 1.77,
+      "phases": {
+       "checkMs": 0.15,
+       "moveStartMs": 0.21,
+       "moveEndMs": 1166.78,
+       "clickStartMs": 1166.79,
+       "preClickEndMs": 1228.61,
+       "focusMs": 0.16,
+       "guardMs": 0,
+       "pressMs": 1228.84,
+       "pressCheckMs": 0.87,
+       "clickDoneMs": 1319.05,
+       "captureReleaseMs": 1.6,
+       "drainMs": 1.77,
+       "queueMs": 0.17020000000002256,
+       "totalMs": 1320.83
+      },
+      "sampleCount": 72
+     }
+    },
+    {
+     "seq": 273,
+     "t": 120143.9355,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 11,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 10,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 1448,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 274,
+     "t": 120394.6857,
+     "table": 1,
+     "stage": "ack",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 21,
+     "status": "confirmed"
+    },
+    {
+     "seq": 275,
+     "t": 120473.9665,
+     "table": 1,
+     "stage": "state",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 21,
+     "ok": true,
+     "frameId": 368,
+     "actor": 2,
+     "status": "playing",
+     "captureMs": 58.11410000000615
+    },
+    {
+     "seq": 276,
+     "t": 120473.9928,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 21,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 277,
+     "t": 120474.0161,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 21,
+     "source": "scripted-fallback",
+     "recommended": "call",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 368
+    },
+    {
+     "seq": 278,
+     "t": 121248.1836,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 11,
+     "kind": "click-refused",
+     "region": "check",
+     "code": "window-gone",
+     "error": "The simulator window was closed."
+    },
+    {
+     "seq": 279,
+     "t": 121253.8883,
+     "table": 2,
+     "stage": "lifecycle",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 11,
+     "kind": "transition",
+     "from": "ACTIVE",
+     "to": "TARGET_LOST",
+     "generation": 6,
+     "cause": "window-closed",
+     "code": "target-lost",
+     "reason": "The window was closed while an action was prepared.",
+     "operator": false
+    },
+    {
+     "seq": 280,
+     "t": 121254.1478,
+     "table": 2,
+     "stage": "lifecycle",
+     "hwnd": "0x30204",
+     "hand": 1,
+     "revision": 11,
+     "kind": "health-stopped",
+     "reason": "target lost"
+    },
+    {
+     "seq": 281,
+     "t": 121254.5488,
+     "table": 2,
+     "stage": "lifecycle",
+     "hwnd": "0x30204",
+     "hand": null,
+     "revision": 0,
+     "kind": "stale-state-discarded",
+     "reason": "target lost"
+    },
+    {
+     "seq": 282,
+     "t": 121254.9964,
+     "table": 2,
+     "stage": "lifecycle",
+     "hwnd": "0x30204",
+     "hand": null,
+     "revision": 0,
+     "kind": "target-lost",
+     "code": "target-lost",
+     "reason": "The window was closed while an action was prepared.",
+     "cancellation": {
+      "table": 2,
+      "registrationId": "reg-mwuvyhqb-4",
+      "reason": "The window was closed while an action was prepared.",
+      "dropped": 0,
+      "cancelledRunning": false,
+      "at": 121254.78,
+      "runningTable": 1
+     },
+     "msSinceLastSuccessfulCapture": 2162,
+     "identity": {
+      "hwnd": "0x30204",
+      "pid": 8312,
+      "processStart": "134400099073842511",
+      "className": "WindowsForms10.Window.8.app.0.34f5582_r6_ad1",
+      "exe": "D:\\a\\_temp\\EightMax CI (ab) é\\EightMax-Test-Workbench\\desktop\\bin\\EightMaxTestTable.exe",
+      "exeSha256": "3e5a76995a24d169336179e7e3805ddeb57271d951029226b43653c217464348",
+      "title": "EightMax Test Table 02",
+      "client": {
+       "x": 832,
+       "y": 39,
+       "w": 800,
+       "h": 500
+      },
+      "dpiScale": 1
+     }
+    },
+    {
+     "seq": 283,
+     "t": 121255.5615,
+     "table": 2,
+     "stage": "gameplay",
+     "hwnd": "0x30204",
+     "hand": null,
+     "revision": 0,
+     "kind": "condition",
+     "from": "playing",
+     "to": "target-lost",
+     "title": "Target lost",
+     "message": "The registered simulator window is gone. Automation for this table has stopped.",
+     "detail": "The window was closed while an action was prepared."
+    },
+    {
+     "seq": 284,
+     "t": 121293.2714,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 21,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 20,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 716,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 285,
+     "t": 122617.1582,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 21,
+     "kind": "click",
+     "region": "call",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 699,
+       "y": 509,
+       "w": 34,
+       "h": 15
+      },
+      "point": {
+       "x": 716,
+       "y": 516
+      },
+      "full": {
+       "x": 688,
+       "y": 504,
+       "w": 56,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 174,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 1446,
+       "y": 516
+      },
+      "to": {
+       "x": 716,
+       "y": 516
+      },
+      "distance": 730,
+      "plannedMs": 1140.62,
+      "actualMs": 1163.11,
+      "steps": 72,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 120693,
+      "hit": "0x4008A",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 2417,
+      "press": {
+       "seen": true,
+       "seenMs": 0.14,
+       "root": "0x301E2",
+       "child": "0x4008A",
+       "capturedByControl": true,
+       "captureMs": 2.12
+      },
+      "clickedAt": {
+       "x": 716,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.65,
+      "drained": true,
+      "drainMs": 1.79,
+      "phases": {
+       "checkMs": 0.15,
+       "moveStartMs": 0.2,
+       "moveEndMs": 1163.31,
+       "clickStartMs": 1163.32,
+       "preClickEndMs": 1224.41,
+       "focusMs": 0.17,
+       "guardMs": 0,
+       "pressMs": 1224.66,
+       "pressCheckMs": 0.15,
+       "clickDoneMs": 1318.78,
+       "captureReleaseMs": 1.65,
+       "drainMs": 1.79,
+       "queueMs": 0,
+       "totalMs": 1320.57
+      },
+      "sampleCount": 72
+     }
+    },
+    {
+     "seq": 286,
+     "t": 122907.4843,
+     "table": 2,
+     "stage": "lifecycle",
+     "hwnd": "0x501CE",
+     "hand": null,
+     "revision": 0,
+     "kind": "health-started",
+     "pausedIntervalMs": 1000,
+     "activeIntervalMs": 5000
+    },
+    {
+     "seq": 287,
+     "t": 122960.51,
+     "table": 1,
+     "stage": "ack",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 22,
+     "status": "confirmed"
+    },
+    {
+     "seq": 288,
+     "t": 123002.2767,
+     "table": 2,
+     "stage": "state",
+     "hwnd": "0x501CE",
+     "hand": 1,
+     "revision": 1,
+     "ok": true,
+     "frameId": 372,
+     "actor": 3,
+     "status": "playing",
+     "captureMs": 76.67889999999898
+    },
+    {
+     "seq": 289,
+     "t": 123043.2491,
+     "table": 1,
+     "stage": "state",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 22,
+     "ok": true,
+     "frameId": 373,
+     "actor": 5,
+     "status": "playing",
+     "captureMs": 54.60319999999774
+    },
+    {
+     "seq": 290,
+     "t": 123043.2906,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 22,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 291,
+     "t": 123043.3169,
+     "table": 1,
+     "stage": "decision",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 22,
+     "source": "scripted-fallback",
+     "recommended": "raise",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 373
+    },
+    {
+     "seq": 292,
+     "t": 123046.2509,
+     "table": 2,
+     "stage": "lifecycle",
+     "hwnd": "0x501CE",
+     "hand": 1,
+     "revision": 1,
+     "kind": "transition",
+     "from": "REGISTERED",
+     "to": "ACTIVE",
+     "generation": 2,
+     "cause": "first-reading",
+     "reason": "identity verified and first reading accepted",
+     "operator": false
+    },
+    {
+     "seq": 293,
+     "t": 123046.2932,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x501CE",
+     "hand": 1,
+     "revision": 1,
+     "ok": false,
+     "category": "strategy-unavailable",
+     "reason": "No compatible decision",
+     "scriptedAllowed": true
+    },
+    {
+     "seq": 294,
+     "t": 123046.3181,
+     "table": 2,
+     "stage": "decision",
+     "hwnd": "0x501CE",
+     "hand": 1,
+     "revision": 1,
+     "source": "scripted-fallback",
+     "recommended": "fold",
+     "label": "SCRIPTED FALLBACK — not a solver decision",
+     "frameId": 372
+    },
+    {
+     "seq": 295,
+     "t": 123073.2341,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 22,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 21,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 412,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 296,
+     "t": 124008.213,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 22,
+     "kind": "wager",
+     "text": "490",
+     "read": "490",
+     "verified": true,
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 376,
+       "y": 509,
+       "w": 72,
+       "h": 15
+      },
+      "point": {
+       "x": 412,
+       "y": 516
+      },
+      "full": {
+       "x": 352,
+       "y": 504,
+       "w": 120,
+       "h": 25
+      }
+     }
+    },
+    {
+     "seq": 297,
+     "t": 124008.2774,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 22,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 22,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 780,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 298,
+     "t": 124664.3335,
+     "table": 1,
+     "stage": "lifecycle",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 22,
+     "kind": "transition",
+     "from": "ACTIVE",
+     "to": "STOPPED",
+     "generation": 6,
+     "cause": "stopped",
+     "reason": "end of run",
+     "operator": true
+    },
+    {
+     "seq": 299,
+     "t": 124759.6679,
+     "table": 1,
+     "stage": "execution",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 22,
+     "kind": "click",
+     "region": "raise",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 763,
+       "y": 509,
+       "w": 34,
+       "h": 15
+      },
+      "point": {
+       "x": 780,
+       "y": 516
+      },
+      "full": {
+       "x": 752,
+       "y": 504,
+       "w": 56,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 180,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 412,
+       "y": 516
+      },
+      "to": {
+       "x": 780,
+       "y": 516
+      },
+      "distance": 368,
+      "plannedMs": 575,
+      "actualMs": 593.89,
+      "steps": 36,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 123408,
+      "hit": "0x2010C",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "guardSinceMs": 962,
+      "press": {
+       "seen": true,
+       "seenMs": 0.12,
+       "root": "0x301E2",
+       "child": "0x2010C",
+       "capturedByControl": true,
+       "captureMs": 3.14
+      },
+      "clickedAt": {
+       "x": 780,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.7,
+      "drained": true,
+      "drainMs": 1.87,
+      "phases": {
+       "checkMs": 0.13,
+       "moveStartMs": 0.19,
+       "moveEndMs": 594.07,
+       "clickStartMs": 594.09,
+       "preClickEndMs": 655.55,
+       "focusMs": 0.17,
+       "guardMs": 0,
+       "pressMs": 655.81,
+       "pressCheckMs": 0.12,
+       "clickDoneMs": 746.35,
+       "captureReleaseMs": 1.71,
+       "drainMs": 1.87,
+       "queueMs": 0,
+       "totalMs": 748.22
+      },
+      "sampleCount": 36
+     }
+    },
+    {
+     "seq": 300,
+     "t": 124800.3544,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x501CE",
+     "hand": 1,
+     "revision": 1,
+     "kind": "motion-plan",
+     "pattern": "straight",
+     "seed": 1,
+     "index": 0,
+     "stateBefore": 1,
+     "stateAfter": 1,
+     "arc": 0,
+     "target": {
+      "x": 1352,
+      "y": 516
+     },
+     "profile": {
+      "maxSpeed": 1200,
+      "maxAccel": 9000,
+      "minDurationMs": 140,
+      "intervalMs": 16,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "maxDurationMs": 4000
+     }
+    },
+    {
+     "seq": 301,
+     "t": 124910.6122,
+     "table": 1,
+     "stage": "ack",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 22,
+     "status": "cancelled",
+     "reason": "stopped"
+    },
+    {
+     "seq": 1,
+     "t": 124913.9681,
+     "table": 1,
+     "stage": "ack",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 22,
+     "kind": "unconfirmed-input",
+     "format": "eightmax-unconfirmed-input",
+     "version": 1,
+     "at": "2026-11-24T16:05:47.181Z",
+     "registrationId": "reg-mwuvy1sb-2",
+     "identityFingerprint": "7496b98d",
+     "identity": {
+      "pid": 8024,
+      "processStart": "134400098866345220",
+      "className": "WindowsForms10.Window.8.app.0.34f5582_r6_ad1",
+      "exe": "EightMaxTestTable.exe",
+      "exeSha256Prefix": "3e5a76995a24d169"
+     },
+     "street": "turn",
+     "seat": 5,
+     "action": {
+      "type": "raise",
+      "amount": 490
+     },
+     "decisionSource": "scripted-fallback",
+     "decisionLabel": "SCRIPTED FALLBACK — not a solver decision",
+     "inputStatus": "uncertain",
+     "status": "uncertain",
+     "reason": "stopped - review the simulator; the action is not repeated",
+     "code": null,
+     "control": "raise",
+     "expectedRegion": {
+      "normalized": {
+       "x": 0.92,
+       "y": 0.93,
+       "w": 0.07,
+       "h": 0.05
+      },
+      "clickRect": {
+       "x": 763,
+       "y": 509,
+       "w": 34,
+       "h": 15
+      }
+     },
+     "selectedPoint": {
+      "x": 780,
+      "y": 516
+     },
+     "clickedAt": {
+      "x": 780,
+      "y": 516
+     },
+     "hit": "0x2010C",
+     "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+     "displayScaling": 1,
+     "clientAtReading": {
+      "x": 16,
+      "y": 39,
+      "w": 800,
+      "h": 500
+     },
+     "clientAfter": {
+      "x": 16,
+      "y": 39,
+      "w": 800,
+      "h": 500
+     },
+     "windowAfter": {
+      "exists": true,
+      "matches": true,
+      "foreground": true,
+      "minimized": false,
+      "visible": true,
+      "cloaked": false,
+      "enabled": true,
+      "client": {
+       "x": 16,
+       "y": 39,
+       "w": 800,
+       "h": 500
+      },
+      "dpiScale": 1,
+      "monitor": 0
+     },
+     "driver": {
+      "reported": "input completed (driver reply ok)",
+      "plannedMs": 575,
+      "actualMs": 593.89,
+      "steps": 36,
+      "finalError": 0,
+      "distance": 368,
+      "maxObservedLag": 0,
+      "pipeline": "optimized",
+      "guardScope": "process",
+      "press": {
+       "seen": true,
+       "seenMs": 0.12,
+       "root": "0x301E2",
+       "child": "0x2010C",
+       "capturedByControl": true,
+       "captureMs": 3.14
+      },
+      "captureReleased": true,
+      "captureReleaseMs": 1.7,
+      "drained": true,
+      "drainMs": 1.87,
+      "repliedAtWallMs": 1795536347027
+     },
+     "scheduler": {
+      "leaseId": 46,
+      "waitedMs": 30,
+      "runMs": 1687
+     },
+     "confirmation": {
+      "status": "cancelled",
+      "reason": "stopped",
+      "timeoutMs": 4000,
+      "pollMs": 30,
+      "polls": 0,
+      "failedCaptures": 0,
+      "failureCodes": {},
+      "newFrames": 0,
+      "unreadableNewFrames": 0,
+      "startRevision": 21,
+      "revisionsSeen": [],
+      "firstPollMs": null,
+      "lastFrameId": null,
+      "finalReading": null,
+      "stripPolls": 0,
+      "durationMs": 0
+     },
+     "frames": {
+      "before": {
+       "frameId": 373,
+       "revision": 21,
+       "ageAtSubmitMs": 25
+      },
+      "after": {
+       "lastFrameId": null,
+       "revisionsSeen": [],
+       "finalReading": null
+      }
+     },
+     "timeline": {
+      "readToSubmitMs": 25,
+      "queueWaitMs": 30,
+      "inputRunMs": 1687,
+      "confirmMs": 0,
+      "totalMs": 1870
+     },
+     "lifecycleAfter": "STOPPED"
+    },
+    {
+     "seq": 303,
+     "t": 124914.175,
+     "table": 1,
+     "stage": "lifecycle",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 22,
+     "kind": "transition",
+     "from": "STOPPED",
+     "to": "SAFETY_PAUSED",
+     "generation": 7,
+     "cause": "unconfirmed-input",
+     "reason": "action not confirmed: stopped - review the simulator; the action is not repeated; manual review required",
+     "operator": false
+    },
+    {
+     "seq": 304,
+     "t": 124914.2176,
+     "table": 1,
+     "stage": "gameplay",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 22,
+     "kind": "condition",
+     "from": "playing",
+     "to": "input-confirmation-failure",
+     "title": "Input confirmation failure",
+     "message": "An action could not be confirmed on the screen. It is not repeated; the table is paused for review.",
+     "detail": "action not confirmed: stopped - review the simulator; the action is not repeated; manual review required"
+    },
+    {
+     "seq": 305,
+     "t": 124915.788,
+     "table": 2,
+     "stage": "lifecycle",
+     "hwnd": "0x501CE",
+     "hand": 1,
+     "revision": 1,
+     "kind": "transition",
+     "from": "ACTIVE",
+     "to": "STOPPED",
+     "generation": 3,
+     "cause": "stopped",
+     "reason": "end of run",
+     "operator": true
+    },
+    {
+     "seq": 306,
+     "t": 125866.0927,
+     "table": 2,
+     "stage": "execution",
+     "hwnd": "0x501CE",
+     "hand": 1,
+     "revision": 1,
+     "kind": "click",
+     "region": "fold",
+     "target": {
+      "ok": true,
+      "rect": {
+       "x": 1327,
+       "y": 509,
+       "w": 50,
+       "h": 15
+      },
+      "point": {
+       "x": 1352,
+       "y": 516
+      },
+      "full": {
+       "x": 1312,
+       "y": 504,
+       "w": 80,
+       "h": 25
+      }
+     },
+     "reply": {
+      "id": 181,
+      "ok": true,
+      "arc": 0,
+      "maxDeviationPx": 240,
+      "from": {
+       "x": 780,
+       "y": 516
+      },
+      "to": {
+       "x": 1352,
+       "y": 516
+      },
+      "distance": 572,
+      "plannedMs": 893.75,
+      "actualMs": 910.13,
+      "steps": 56,
+      "finalError": 0,
+      "maxObservedLag": 0,
+      "startedAt": 124200,
+      "hit": "0x70068",
+      "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+      "guardScope": "process",
+      "guardLimitMs": 540,
+      "press": {
+       "seen": true,
+       "seenMs": 0.88,
+       "root": "0x501CE",
+       "child": "0x70068",
+       "capturedByControl": true,
+       "captureMs": 14.79
+      },
+      "clickedAt": {
+       "x": 1352,
+       "y": 516
+      },
+      "clicks": 1,
+      "holdMs": 70,
+      "captureBarrier": true,
+      "captureReleased": true,
+      "captureSeen": true,
+      "captureReleaseMs": 1.69,
+      "drained": true,
+      "drainMs": 1.85,
+      "phases": {
+       "checkMs": 0.14,
+       "moveStartMs": 0.2,
+       "moveEndMs": 910.33,
+       "clickStartMs": 910.34,
+       "preClickEndMs": 971.28,
+       "focusMs": 0.13,
+       "guardMs": 0,
+       "pressMs": 971.5,
+       "pressCheckMs": 0.89,
+       "clickDoneMs": 1060.65,
+       "captureReleaseMs": 1.69,
+       "drainMs": 1.85,
+       "queueMs": 0,
+       "totalMs": 1062.51
+      },
+      "sampleCount": 56
+     }
+    },
+    {
+     "seq": 307,
+     "t": 126017.2616,
+     "table": 2,
+     "stage": "ack",
+     "hwnd": "0x501CE",
+     "hand": 1,
+     "revision": 1,
+     "status": "cancelled",
+     "reason": "stopped"
+    },
+    {
+     "seq": 1,
+     "t": 126020.1892,
+     "table": 2,
+     "stage": "ack",
+     "hwnd": "0x501CE",
+     "hand": 1,
+     "revision": 1,
+     "kind": "unconfirmed-input",
+     "format": "eightmax-unconfirmed-input",
+     "version": 1,
+     "at": "2026-11-24T16:05:48.287Z",
+     "registrationId": "reg-mwuvzas2-5",
+     "identityFingerprint": "8c2fd2ba",
+     "identity": {
+      "pid": 6268,
+      "processStart": "134400099450322140",
+      "className": "WindowsForms10.Window.8.app.0.34f5582_r6_ad1",
+      "exe": "EightMaxTestTable.exe",
+      "exeSha256Prefix": "3e5a76995a24d169"
+     },
+     "street": "preflop",
+     "seat": 3,
+     "action": {
+      "type": "fold",
+      "amount": 0
+     },
+     "decisionSource": "scripted-fallback",
+     "decisionLabel": "SCRIPTED FALLBACK — not a solver decision",
+     "inputStatus": "uncertain",
+     "status": "uncertain",
+     "reason": "stopped - review the simulator; the action is not repeated",
+     "code": null,
+     "control": "fold",
+     "expectedRegion": {
+      "normalized": {
+       "x": 0.6,
+       "y": 0.93,
+       "w": 0.1,
+       "h": 0.05
+      },
+      "clickRect": {
+       "x": 1327,
+       "y": 509,
+       "w": 50,
+       "h": 15
+      }
+     },
+     "selectedPoint": {
+      "x": 1352,
+      "y": 516
+     },
+     "clickedAt": {
+      "x": 1352,
+      "y": 516
+     },
+     "hit": "0x70068",
+     "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+     "displayScaling": 1,
+     "clientAtReading": {
+      "x": 832,
+      "y": 39,
+      "w": 800,
+      "h": 500
+     },
+     "clientAfter": {
+      "x": 832,
+      "y": 39,
+      "w": 800,
+      "h": 500
+     },
+     "windowAfter": {
+      "exists": true,
+      "matches": true,
+      "foreground": true,
+      "minimized": false,
+      "visible": true,
+      "cloaked": false,
+      "enabled": true,
+      "client": {
+       "x": 832,
+       "y": 39,
+       "w": 800,
+       "h": 500
+      },
+      "dpiScale": 1,
+      "monitor": 0
+     },
+     "driver": {
+      "reported": "input completed (driver reply ok)",
+      "plannedMs": 893.75,
+      "actualMs": 910.13,
+      "steps": 56,
+      "finalError": 0,
+      "distance": 572,
+      "maxObservedLag": 0,
+      "pipeline": "optimized",
+      "guardScope": "process",
+      "press": {
+       "seen": true,
+       "seenMs": 0.88,
+       "root": "0x501CE",
+       "child": "0x70068",
+       "capturedByControl": true,
+       "captureMs": 14.79
+      },
+      "captureReleased": true,
+      "captureReleaseMs": 1.69,
+      "drained": true,
+      "drainMs": 1.85,
+      "repliedAtWallMs": 1795536348133
+     },
+     "scheduler": {
+      "leaseId": 47,
+      "waitedMs": 1754,
+      "runMs": 1066
+     },
+     "confirmation": {
+      "status": "cancelled",
+      "reason": "stopped",
+      "timeoutMs": 4000,
+      "pollMs": 30,
+      "polls": 0,
+      "failedCaptures": 0,
+      "failureCodes": {},
+      "newFrames": 0,
+      "unreadableNewFrames": 0,
+      "startRevision": 1,
+      "revisionsSeen": [],
+      "firstPollMs": null,
+      "lastFrameId": null,
+      "finalReading": null,
+      "stripPolls": 0,
+      "durationMs": 0
+     },
+     "frames": {
+      "before": {
+       "frameId": 372,
+       "revision": 1,
+       "ageAtSubmitMs": 62
+      },
+      "after": {
+       "lastFrameId": null,
+       "revisionsSeen": [],
+       "finalReading": null
+      }
+     },
+     "timeline": {
+      "readToSubmitMs": 62,
+      "queueWaitMs": 1754,
+      "inputRunMs": 1066,
+      "confirmMs": 0,
+      "totalMs": 2974
+     },
+     "lifecycleAfter": "STOPPED"
+    },
+    {
+     "seq": 309,
+     "t": 126020.2883,
+     "table": 2,
+     "stage": "lifecycle",
+     "hwnd": "0x501CE",
+     "hand": 1,
+     "revision": 1,
+     "kind": "transition",
+     "from": "STOPPED",
+     "to": "SAFETY_PAUSED",
+     "generation": 4,
+     "cause": "unconfirmed-input",
+     "reason": "action not confirmed: stopped - review the simulator; the action is not repeated; manual review required",
+     "operator": false
+    },
+    {
+     "seq": 310,
+     "t": 126020.3377,
+     "table": 2,
+     "stage": "gameplay",
+     "hwnd": "0x501CE",
+     "hand": 1,
+     "revision": 1,
+     "kind": "condition",
+     "from": "starting",
+     "to": "input-confirmation-failure",
+     "title": "Input confirmation failure",
+     "message": "An action could not be confirmed on the screen. It is not repeated; the table is paused for review.",
+     "detail": "action not confirmed: stopped - review the simulator; the action is not repeated; manual review required"
+    },
+    {
+     "seq": 311,
+     "t": 126091.8255,
+     "table": 1,
+     "stage": "lifecycle",
+     "hwnd": "0x301E2",
+     "hand": 1,
+     "revision": 22,
+     "kind": "health-stopped",
+     "reason": "disposed"
+    },
+    {
+     "seq": 312,
+     "t": 126091.8469,
+     "table": 2,
+     "stage": "lifecycle",
+     "hwnd": "0x501CE",
+     "hand": 1,
+     "revision": 1,
+     "kind": "health-stopped",
+     "reason": "disposed"
+    }
+   ]
+  }
+ ]
+}
