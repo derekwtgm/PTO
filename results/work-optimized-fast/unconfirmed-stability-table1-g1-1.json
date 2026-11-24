@@ -1,0 +1,228 @@
+{
+ "format": "eightmax-unconfirmed-input",
+ "version": 1,
+ "seq": 1,
+ "at": "2026-11-24T16:13:11.614Z",
+ "table": 1,
+ "registrationId": "reg-mwuw8upa-2",
+ "hwnd": "0x70314",
+ "identityFingerprint": "373cbb72",
+ "identity": {
+  "pid": 4276,
+  "processStart": "134400103907646829",
+  "className": "WindowsForms10.Window.8.app.0.34f5582_r6_ad1",
+  "exe": "EightMaxTestTable.exe",
+  "exeSha256Prefix": "3e5a76995a24d169"
+ },
+ "hand": 1,
+ "street": "preflop",
+ "seat": 3,
+ "action": {
+  "type": "fold",
+  "amount": 0
+ },
+ "decisionSource": "scripted-fallback",
+ "decisionLabel": "SCRIPTED FALLBACK — not a solver decision",
+ "inputStatus": "uncertain",
+ "status": "uncertain",
+ "reason": "stopped - review the simulator; the action is not repeated",
+ "code": null,
+ "control": "fold",
+ "expectedRegion": {
+  "normalized": {
+   "x": 0.6,
+   "y": 0.93,
+   "w": 0.1,
+   "h": 0.05
+  },
+  "clickRect": {
+   "x": 511,
+   "y": 509,
+   "w": 50,
+   "h": 15
+  }
+ },
+ "selectedPoint": {
+  "x": 536,
+  "y": 516
+ },
+ "clickedAt": {
+  "x": 536,
+  "y": 516
+ },
+ "hit": "0x40220",
+ "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+ "displayScaling": 1,
+ "clientAtReading": {
+  "x": 16,
+  "y": 39,
+  "w": 800,
+  "h": 500
+ },
+ "clientAfter": {
+  "x": 16,
+  "y": 39,
+  "w": 800,
+  "h": 500
+ },
+ "windowAfter": {
+  "exists": true,
+  "matches": true,
+  "foreground": true,
+  "minimized": false,
+  "visible": true,
+  "cloaked": false,
+  "enabled": true,
+  "client": {
+   "x": 16,
+   "y": 39,
+   "w": 800,
+   "h": 500
+  },
+  "dpiScale": 1,
+  "monitor": 0
+ },
+ "driver": {
+  "reported": "input completed (driver reply ok)",
+  "plannedMs": 263.21,
+  "actualMs": 270.3,
+  "steps": 17,
+  "finalError": 0,
+  "distance": 180,
+  "maxObservedLag": 0,
+  "pipeline": "optimized",
+  "guardScope": "process",
+  "press": {
+   "seen": true,
+   "seenMs": 0.23,
+   "root": "0x70314",
+   "child": "0x40220",
+   "capturedByControl": true,
+   "captureMs": 3.16
+  },
+  "captureReleased": true,
+  "captureReleaseMs": 1.68,
+  "drained": true,
+  "drainMs": 1.85,
+  "repliedAtWallMs": 1795536791459
+ },
+ "scheduler": {
+  "leaseId": 51,
+  "waitedMs": 44,
+  "runMs": 425
+ },
+ "confirmation": {
+  "status": "cancelled",
+  "reason": "stopped",
+  "timeoutMs": 4000,
+  "pollMs": 30,
+  "polls": 0,
+  "failedCaptures": 0,
+  "failureCodes": {},
+  "newFrames": 0,
+  "unreadableNewFrames": 0,
+  "startRevision": 1,
+  "revisionsSeen": [],
+  "firstPollMs": null,
+  "lastFrameId": null,
+  "finalReading": null,
+  "stripPolls": 0,
+  "durationMs": 0
+ },
+ "frames": {
+  "before": {
+   "frameId": 237,
+   "revision": 1,
+   "ageAtSubmitMs": 21
+  },
+  "after": {
+   "lastFrameId": null,
+   "revisionsSeen": [],
+   "finalReading": null
+  }
+ },
+ "timeline": {
+  "readToSubmitMs": 21,
+  "queueWaitMs": 44,
+  "inputRunMs": 425,
+  "confirmMs": 0,
+  "totalMs": 624
+ },
+ "lifecycleAfter": "STOPPED",
+ "recordedAt": 1795536791614,
+ "windowEvents": [
+  {
+   "file": "oracle-table-01-g1.jsonl",
+   "t": 1795536790884,
+   "table": 1,
+   "kind": "hand-start",
+   "rev": 1
+  },
+  {
+   "file": "oracle-table-01-g1.jsonl",
+   "t": 1795536790912,
+   "table": 1,
+   "kind": "shown",
+   "rev": 1,
+   "wt": 694750,
+   "dealerRev": 1
+  },
+  {
+   "file": "oracle-table-01-g1.jsonl",
+   "t": 1795536791384,
+   "table": 1,
+   "kind": "mouse-down",
+   "x": 520,
+   "y": 477,
+   "control": "fold",
+   "enabled": true,
+   "rev": 1,
+   "wt": 695234,
+   "dealerRev": 1
+  },
+  {
+   "file": "oracle-table-01-g1.jsonl",
+   "t": 1795536791455,
+   "table": 1,
+   "kind": "mouse-up",
+   "x": 520,
+   "y": 477,
+   "control": "fold",
+   "enabled": true,
+   "rev": 1,
+   "wt": 695296,
+   "dealerRev": 1
+  },
+  {
+   "file": "oracle-table-01-g1.jsonl",
+   "t": 1795536791456,
+   "table": 1,
+   "kind": "action",
+   "control": "fold",
+   "wager": "",
+   "rev": 1,
+   "wt": 695296,
+   "dealerRev": 1,
+   "result": "accepted",
+   "applied": {
+    "hand": 1,
+    "seat": 3,
+    "street": "preflop",
+    "control": "fold",
+    "type": "fold",
+    "amount": 0,
+    "rev": 2
+   }
+  },
+  {
+   "file": "oracle-table-01-g1.jsonl",
+   "t": 1795536791470,
+   "table": 1,
+   "kind": "shown",
+   "rev": 2,
+   "wt": 695312,
+   "dealerRev": 2
+  }
+ ],
+ "otherWindowEvents": []
+}
