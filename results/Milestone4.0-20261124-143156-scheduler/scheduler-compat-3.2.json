@@ -1,0 +1,5688 @@
+{
+  "format": "eightmax-m3-gameplay-acceptance",
+  "version": 1,
+  "suite": "stability",
+  "app": "0.36.2-dev",
+  "milestone": "0.36.2-milestone-3",
+  "environment": "windows",
+  "at": "2026-11-24T14:32:12.822Z",
+  "pipeline": "compat-3.2",
+  "policy": "edf",
+  "motion": {
+    "maxSpeed": 1200,
+    "maxAccel": 9000,
+    "minDurationMs": 140,
+    "intervalMs": 16,
+    "arc": 0.12,
+    "maxDeviationPx": 240,
+    "maxDurationMs": 4000
+  },
+  "machine": {
+    "platform": "win32",
+    "release": "10.0.26100",
+    "node": "v22.23.5",
+    "cpus": 4,
+    "cpu": "AMD EPYC 9V74 80-Core Processor                ",
+    "ramGiB": 16
+  },
+  "host": {
+    "appVersion": "0.36.2-dev",
+    "build": "7d08acc7eb4577ee",
+    "driver": {
+      "dpiAwareness": "per-monitor-v2",
+      "hotkeyRegistered": true,
+      "signedCurves": true
+    },
+    "monitors": [
+      {
+        "id": 0,
+        "name": "\\\\.\\DISPLAY1",
+        "bounds": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1080
+        },
+        "work": {
+          "x": 0,
+          "y": 0,
+          "w": 1920,
+          "h": 1020
+        },
+        "dpiScale": 1.25,
+        "primary": true
+      }
+    ]
+  },
+  "scenarios": [
+    {
+      "id": "M1",
+      "name": "1 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+      "status": "pass",
+      "durationMs": 33409,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "every table played (confirmed actions on every table)",
+          "pass": true,
+          "detail": [
+            21
+          ]
+        },
+        {
+          "name": "no incorrect action, no invalid wager (oracle)",
+          "pass": true,
+          "detail": [
+            0,
+            0,
+            {
+              "excusedMisdirectedPresses": 0
+            }
+          ]
+        },
+        {
+          "name": "no confirmed action the table did not apply",
+          "pass": true,
+          "detail": 0
+        },
+        {
+          "name": "no stall, no unexpected pause, no violation",
+          "pass": true,
+          "detail": []
+        },
+        {
+          "name": "faults exercised (closure + reopen n/a, emergency stop)",
+          "pass": true,
+          "detail": {
+            "closeReopen": 0,
+            "estop": 3
+          }
+        }
+      ],
+      "metrics": {
+        "tables": 1,
+        "seconds": 31,
+        "completedHands": 1,
+        "tournamentsStarted": 1,
+        "tournamentsCompleted": 0,
+        "winnersMatchDealer": true,
+        "actionsAttempted": 23,
+        "actionsConfirmed": 21,
+        "incorrectActions": 0,
+        "invalidWagers": 0,
+        "missedStateTransitions": 0,
+        "confirmedButNotApplied": 0,
+        "confirmedByTableClock": 0,
+        "wrongActions": 0,
+        "incorrectClickKinds": {
+          "outsideControls": 0,
+          "onDisabled": 0,
+          "doubleClicks": 0,
+          "lateOnOldFrame": 0,
+          "notAvailable": 0
+        },
+        "refusedReadings": 0,
+        "reconstructionFailures": 0,
+        "untrackedHands": 0,
+        "untrackedHandsWithoutDecision": 0,
+        "untrackedHandsNeedingInput": 0,
+        "recoveryEvents": 0,
+        "lifecycleRecoveries": 2,
+        "eliminationsSeen": 2,
+        "uncertainOrUnconfirmed": 1,
+        "uncertainByTestStop": 0,
+        "deadlineMisses": 0,
+        "misdirectedPresses": 0,
+        "strayPressesOutsideControls": 0,
+        "heroTimeouts": 0,
+        "botActions": 0,
+        "cleanRefusals": 2,
+        "unexpectedPauses": 0,
+        "finalPlayerCounts": [],
+        "hands": {
+          "handsObserved": 2,
+          "allEightDealtIn": 1,
+          "withEliminatedSeats": 1,
+          "headsUp": 0,
+          "allIn": 2,
+          "sidePots": 2,
+          "endingWithElimination": 1,
+          "endingWithTwoOrMoreEliminations": 1,
+          "dealtInHistogram": {
+            "6": 1,
+            "8": 1
+          }
+        },
+        "faults": {
+          "closeReopen": 0,
+          "estop": 3
+        },
+        "violations": [],
+        "measurements": {
+          "tables": 1,
+          "seconds": 31,
+          "completedHands": 1,
+          "motion": {
+            "maxSpeedPxPerS": 1200,
+            "note": "configured motion speed unchanged"
+          },
+          "schedulingDelayMs": {
+            "n": 23,
+            "mean": 48.22,
+            "p50": 47.98,
+            "p95": 67.37,
+            "p99": 67.81,
+            "max": 67.81
+          },
+          "cursorTravelMs": {
+            "n": 21,
+            "mean": 303.5,
+            "p50": 346.73,
+            "p95": 585.53,
+            "p99": 677.08,
+            "max": 677.08
+          },
+          "inputOperationMs": {
+            "n": 21,
+            "mean": 976.17,
+            "p50": 785.63,
+            "p95": 1990.82,
+            "p99": 2127.83,
+            "max": 2127.83
+          },
+          "confirmationMs": {
+            "n": 21,
+            "mean": 124.2,
+            "p50": 128.34,
+            "p95": 134.81,
+            "p99": 145.03,
+            "max": 145.03
+          },
+          "actionLatencyMs": {
+            "n": 21,
+            "mean": 992.91,
+            "p50": 801.28,
+            "p95": 2008.28,
+            "p99": 2145.05,
+            "max": 2145.05
+          },
+          "perTable": [
+            {
+              "table": 1,
+              "confirmed": 21,
+              "actionLatencyMs": {
+                "n": 21,
+                "mean": 992.91,
+                "p50": 801.28,
+                "p95": 2008.28,
+                "p99": 2145.05,
+                "max": 2145.05
+              },
+              "schedulingDelayMs": {
+                "n": 23,
+                "mean": 48.22,
+                "p50": 47.98,
+                "p95": 67.37,
+                "p99": 67.81,
+                "max": 67.81
+              },
+              "inputStatus": {
+                "confirmed": 21,
+                "rejected": 1,
+                "uncertain": 1
+              }
+            }
+          ],
+          "deadlineMisses": {
+            "byTables": 0,
+            "byScheduler": 0
+          },
+          "rejectedActions": 2,
+          "uncertainActions": 1,
+          "inputStatus": {
+            "confirmed": 21,
+            "rejected": 1,
+            "uncertain": 1
+          },
+          "schedulerRejections": {},
+          "peakQueue": 1,
+          "windowLossResponseMs": {
+            "n": 0
+          },
+          "m40": {
+            "pipeline": "compat-3.2",
+            "policy": "edf",
+            "workload": {
+              "tables": 1,
+              "width": 800,
+              "layout": "grid",
+              "heroSeats": null,
+              "botThinkMs": null,
+              "actionTimeoutMs": null,
+              "faultEveryMs": 9375,
+              "stacks": [
+                120,
+                120,
+                400,
+                120,
+                120,
+                400,
+                120,
+                120
+              ],
+              "stackChips": null
+            },
+            "actionsConfirmed": 21,
+            "actionsPerMinute": 40.65,
+            "handsPerMinute": 1.935,
+            "completedHands": 1,
+            "scheduler": {
+              "policy": "edf",
+              "leaseMs": {
+                "n": 23,
+                "mean": 793.33,
+                "p50": 600.38,
+                "p95": 1873.18,
+                "p99": 1993.82,
+                "max": 1993.82
+              },
+              "cursorUtilization": 0.5877,
+              "meanQueueDepth": 0,
+              "peakQueue": 1,
+              "fairness": {
+                "jainCompleted": 1,
+                "maxBypass": 0,
+                "forcedPicks": 0,
+                "urgentPicks": 0,
+                "maxWaitMs": 0.4478999999996631
+              },
+              "queueWaitMs": {
+                "n": 23,
+                "mean": 0.04,
+                "p50": 0.02,
+                "p95": 0.03,
+                "p99": 0.45,
+                "max": 0.45
+              },
+              "deadlineMisses": 0
+            },
+            "fairness": {
+              "jainActionsPerTable": 1,
+              "maxWaitMs": 0.45,
+              "perTable": [
+                {
+                  "table": 1,
+                  "confirmed": 21,
+                  "actionsPerMinute": 40.65,
+                  "maxWaitMs": 0.45,
+                  "bypassed": 0,
+                  "maxBypass": 0,
+                  "deadlineMisses": 0,
+                  "leaseMs": {
+                    "n": 23,
+                    "mean": 793.33,
+                    "p50": 600.38,
+                    "p95": 1873.18,
+                    "p99": 1993.82,
+                    "max": 1993.82
+                  },
+                  "queueWaitMs": {
+                    "n": 23,
+                    "mean": 0.04,
+                    "p50": 0.02,
+                    "p95": 0.03,
+                    "p99": 0.45,
+                    "max": 0.45
+                  }
+                }
+              ]
+            },
+            "inputStatus": {
+              "confirmed": 21,
+              "rejected": 1,
+              "uncertain": 1
+            },
+            "timeline": {
+              "format": "eightmax-action-timeline-summary",
+              "version": 1,
+              "stages": [
+                {
+                  "id": "capture-queued",
+                  "label": "Capture request queued"
+                },
+                {
+                  "id": "capture-begin",
+                  "label": "Capture begins"
+                },
+                {
+                  "id": "capture-end",
+                  "label": "Capture completes"
+                },
+                {
+                  "id": "recognition-begin",
+                  "label": "Screen recognition begins"
+                },
+                {
+                  "id": "recognition-end",
+                  "label": "Recognition completes"
+                },
+                {
+                  "id": "state-validated",
+                  "label": "Game state validated"
+                },
+                {
+                  "id": "decision-ready",
+                  "label": "Strategy decision available"
+                },
+                {
+                  "id": "submitted",
+                  "label": "Decision submitted to the scheduler"
+                },
+                {
+                  "id": "enqueued",
+                  "label": "Decision enters the queue"
+                },
+                {
+                  "id": "lease-acquired",
+                  "label": "Input lease acquired"
+                },
+                {
+                  "id": "target-verified",
+                  "label": "Target window verified (fresh capture inside the lease)"
+                },
+                {
+                  "id": "wager-begin",
+                  "label": "Wager entry begins (raises only)"
+                },
+                {
+                  "id": "wager-end",
+                  "label": "Wager typed and read back"
+                },
+                {
+                  "id": "move-begin",
+                  "label": "Cursor movement begins"
+                },
+                {
+                  "id": "move-end",
+                  "label": "Cursor reaches the destination"
+                },
+                {
+                  "id": "click-done",
+                  "label": "Mouse button pressed and released"
+                },
+                {
+                  "id": "driver-ack",
+                  "label": "Driver acknowledgement received"
+                },
+                {
+                  "id": "lease-released",
+                  "label": "Input lease released"
+                },
+                {
+                  "id": "confirm-begin",
+                  "label": "Action confirmation begins"
+                },
+                {
+                  "id": "state-confirmed",
+                  "label": "Simulator state change confirmed"
+                },
+                {
+                  "id": "action-released",
+                  "label": "Action state released"
+                }
+              ],
+              "intervals": [
+                {
+                  "id": "captureQueueMs",
+                  "from": "capture-queued",
+                  "to": "capture-begin",
+                  "meaning": "waiting for a host request slot before the capture"
+                },
+                {
+                  "id": "captureMs",
+                  "from": "capture-begin",
+                  "to": "capture-end",
+                  "meaning": "capture request, transfer and image decoding"
+                },
+                {
+                  "id": "recognitionMs",
+                  "from": "recognition-begin",
+                  "to": "recognition-end",
+                  "meaning": "screen recognition of the frame"
+                },
+                {
+                  "id": "validationMs",
+                  "from": "recognition-end",
+                  "to": "state-validated",
+                  "meaning": "hand-state reconstruction and validation"
+                },
+                {
+                  "id": "decisionMs",
+                  "from": "state-validated",
+                  "to": "decision-ready",
+                  "meaning": "strategy decision"
+                },
+                {
+                  "id": "submitMs",
+                  "from": "decision-ready",
+                  "to": "submitted",
+                  "meaning": "executor checks before submission"
+                },
+                {
+                  "id": "enqueueMs",
+                  "from": "submitted",
+                  "to": "enqueued",
+                  "meaning": "submission to queue entry"
+                },
+                {
+                  "id": "queueWaitMs",
+                  "from": "enqueued",
+                  "to": "lease-acquired",
+                  "meaning": "waiting for the single cursor (scheduler queue)"
+                },
+                {
+                  "id": "revalidationMs",
+                  "from": "lease-acquired",
+                  "to": "target-verified",
+                  "meaning": "fresh capture inside the lease: same frame, same window rectangle"
+                },
+                {
+                  "id": "wagerMs",
+                  "from": "wager-begin",
+                  "to": "wager-end",
+                  "meaning": "raise only: move to the amount field, click, clear, type, read back"
+                },
+                {
+                  "id": "preMoveMs",
+                  "from": "target-verified",
+                  "to": "move-begin",
+                  "meaning": "lifecycle guard, driver request, driver queue and identity checks (a raise includes its wager entry: wagerMs)"
+                },
+                {
+                  "id": "moveMs",
+                  "from": "move-begin",
+                  "to": "move-end",
+                  "meaning": "cursor movement"
+                },
+                {
+                  "id": "clickMs",
+                  "from": "move-end",
+                  "to": "click-done",
+                  "meaning": "pre-click wait, window raise, double-click guard, button hold"
+                },
+                {
+                  "id": "ackMs",
+                  "from": "click-done",
+                  "to": "driver-ack",
+                  "meaning": "input drain and driver reply"
+                },
+                {
+                  "id": "leaseTailMs",
+                  "from": "driver-ack",
+                  "to": "lease-released",
+                  "meaning": "work after the reply that still holds the lease (settle in the lease)"
+                },
+                {
+                  "id": "settleOutsideMs",
+                  "from": "lease-released",
+                  "to": "confirm-begin",
+                  "meaning": "settle after the lease was released (cursor free for other tables)"
+                },
+                {
+                  "id": "confirmMs",
+                  "from": "confirm-begin",
+                  "to": "state-confirmed",
+                  "meaning": "confirmation: captures until the simulator shows the action"
+                },
+                {
+                  "id": "releaseMs",
+                  "from": "state-confirmed",
+                  "to": "action-released",
+                  "meaning": "bookkeeping after the confirmation"
+                },
+                {
+                  "id": "leaseOccupancyMs",
+                  "from": "lease-acquired",
+                  "to": "lease-released",
+                  "meaning": "exclusive cursor time used by this action"
+                },
+                {
+                  "id": "inputServiceMs",
+                  "from": "lease-acquired",
+                  "to": "driver-ack",
+                  "meaning": "lease start to driver acknowledgement"
+                },
+                {
+                  "id": "schedulingDelayM32Ms",
+                  "from": "enqueued",
+                  "to": "target-verified",
+                  "meaning": "Milestone 3.2 \"scheduling delay\" definition (queue wait + in-lease revalidation)"
+                },
+                {
+                  "id": "actionLatencyMs",
+                  "from": "capture-end",
+                  "to": "state-confirmed",
+                  "meaning": "frame captured to action confirmed (Milestone 3.2 \"action latency\")"
+                },
+                {
+                  "id": "endToEndMs",
+                  "from": "capture-queued",
+                  "to": "action-released",
+                  "meaning": "whole action from the capture request"
+                }
+              ],
+              "overall": {
+                "actions": 23,
+                "captureQueueMs": {
+                  "n": 23,
+                  "mean": 0.02,
+                  "p50": 0.01,
+                  "p90": 0.02,
+                  "p95": 0.02,
+                  "p99": 0.23,
+                  "max": 0.23,
+                  "min": 0.01
+                },
+                "captureMs": {
+                  "n": 23,
+                  "mean": 46.75,
+                  "p50": 46.06,
+                  "p90": 61.72,
+                  "p95": 66.07,
+                  "p99": 89.34,
+                  "max": 89.34,
+                  "min": 25.96
+                },
+                "recognitionMs": {
+                  "n": 23,
+                  "mean": 15.26,
+                  "p50": 14.35,
+                  "p90": 16.95,
+                  "p95": 17.02,
+                  "p99": 42.01,
+                  "max": 42.01,
+                  "min": 10.93
+                },
+                "validationMs": {
+                  "n": 23,
+                  "mean": 0.51,
+                  "p50": 0.22,
+                  "p90": 0.73,
+                  "p95": 1.4,
+                  "p99": 5.08,
+                  "max": 5.08,
+                  "min": 0.16
+                },
+                "decisionMs": {
+                  "n": 23,
+                  "mean": 0.53,
+                  "p50": 0.08,
+                  "p90": 2.91,
+                  "p95": 2.98,
+                  "p99": 4.66,
+                  "max": 4.66,
+                  "min": 0.05
+                },
+                "submitMs": {
+                  "n": 23,
+                  "mean": 0.15,
+                  "p50": 0.1,
+                  "p90": 0.18,
+                  "p95": 0.38,
+                  "p99": 0.87,
+                  "max": 0.87,
+                  "min": 0.07
+                },
+                "enqueueMs": {
+                  "n": 23,
+                  "mean": 0.05,
+                  "p50": 0.03,
+                  "p90": 0.08,
+                  "p95": 0.12,
+                  "p99": 0.33,
+                  "max": 0.33,
+                  "min": 0.02
+                },
+                "queueWaitMs": {
+                  "n": 23,
+                  "mean": 0.04,
+                  "p50": 0.02,
+                  "p90": 0.03,
+                  "p95": 0.03,
+                  "p99": 0.45,
+                  "max": 0.45,
+                  "min": 0.01
+                },
+                "revalidationMs": {
+                  "n": 23,
+                  "mean": 48.15,
+                  "p50": 47.93,
+                  "p90": 66.87,
+                  "p95": 67.04,
+                  "p99": 67.79,
+                  "max": 67.79,
+                  "min": 29.25
+                },
+                "wagerMs": {
+                  "n": 5,
+                  "mean": 752.97,
+                  "p50": 937.73,
+                  "p90": 1047.29,
+                  "p95": 1047.29,
+                  "p99": 1047.29,
+                  "max": 1047.29,
+                  "min": 117.41
+                },
+                "preMoveMs": {
+                  "n": 21,
+                  "mean": 182.73,
+                  "p50": 5.17,
+                  "p90": 941.16,
+                  "p95": 946.19,
+                  "p99": 1050.74,
+                  "max": 1050.74,
+                  "min": 3.21
+                },
+                "moveMs": {
+                  "n": 21,
+                  "mean": 303.49,
+                  "p50": 346.73,
+                  "p90": 585.21,
+                  "p95": 585.52,
+                  "p99": 676.89,
+                  "max": 676.89,
+                  "min": 2.11
+                },
+                "clickMs": {
+                  "n": 21,
+                  "mean": 166.8,
+                  "p50": 149.38,
+                  "p90": 254.16,
+                  "p95": 267.29,
+                  "p99": 268.25,
+                  "max": 268.25,
+                  "min": 131.36
+                },
+                "ackMs": {
+                  "n": 21,
+                  "mean": 1.3,
+                  "p50": 1.17,
+                  "p90": 1.82,
+                  "p95": 1.93,
+                  "p99": 2.07,
+                  "max": 2.07,
+                  "min": 0.81
+                },
+                "leaseTailMs": {
+                  "n": 21,
+                  "mean": 150.89,
+                  "p50": 150.8,
+                  "p90": 151.73,
+                  "p95": 151.8,
+                  "p99": 152.37,
+                  "max": 152.37,
+                  "min": 149.65
+                },
+                "settleOutsideMs": {
+                  "n": 21,
+                  "mean": 0.08,
+                  "p50": 0.04,
+                  "p90": 0.17,
+                  "p95": 0.31,
+                  "p99": 0.36,
+                  "max": 0.36,
+                  "min": 0.03
+                },
+                "confirmMs": {
+                  "n": 21,
+                  "mean": 124.22,
+                  "p50": 128.35,
+                  "p90": 133.65,
+                  "p95": 134.84,
+                  "p99": 145.08,
+                  "max": 145.08,
+                  "min": 100.36
+                },
+                "releaseMs": {
+                  "n": 21,
+                  "mean": 0.1,
+                  "p50": 0.09,
+                  "p90": 0.2,
+                  "p95": 0.2,
+                  "p99": 0.32,
+                  "max": 0.32,
+                  "min": 0.03
+                },
+                "leaseOccupancyMs": {
+                  "n": 23,
+                  "mean": 793.33,
+                  "p50": 600.38,
+                  "p90": 1857.59,
+                  "p95": 1873.18,
+                  "p99": 1993.82,
+                  "max": 1993.82,
+                  "min": 179.11
+                },
+                "inputServiceMs": {
+                  "n": 21,
+                  "mean": 700.68,
+                  "p50": 519.04,
+                  "p90": 1707.36,
+                  "p95": 1721.69,
+                  "p99": 1843.55,
+                  "max": 1843.55,
+                  "min": 274.71
+                },
+                "schedulingDelayM32Ms": {
+                  "n": 23,
+                  "mean": 48.18,
+                  "p50": 47.95,
+                  "p90": 67.06,
+                  "p95": 67.32,
+                  "p99": 67.8,
+                  "max": 67.8,
+                  "min": 29.27
+                },
+                "actionLatencyMs": {
+                  "n": 21,
+                  "mean": 992.81,
+                  "p50": 801.14,
+                  "p90": 1984.33,
+                  "p95": 2008.16,
+                  "p99": 2144.91,
+                  "max": 2144.91,
+                  "min": 571.83
+                },
+                "endToEndMs": {
+                  "n": 23,
+                  "mean": 970.3,
+                  "p50": 799.27,
+                  "p90": 2020.53,
+                  "p95": 2066.31,
+                  "p99": 2205.7,
+                  "max": 2205.7,
+                  "min": 228.33
+                },
+                "driver": {
+                  "queueMs": {
+                    "n": 21,
+                    "mean": 0.37,
+                    "p50": 0.21,
+                    "p90": 0.79,
+                    "p95": 0.82,
+                    "p99": 2.91,
+                    "max": 2.91,
+                    "min": 0
+                  },
+                  "checkMs": {
+                    "n": 21,
+                    "mean": 0.28,
+                    "p50": 0.1,
+                    "p90": 0.14,
+                    "p95": 0.16,
+                    "p99": 3.82,
+                    "max": 3.82,
+                    "min": 0.07
+                  },
+                  "focusMs": {
+                    "n": 21,
+                    "mean": 0.28,
+                    "p50": 0.18,
+                    "p90": 0.22,
+                    "p95": 0.23,
+                    "p99": 2.2,
+                    "max": 2.2,
+                    "min": 0.13
+                  },
+                  "guardMs": {
+                    "n": 21,
+                    "mean": 20.23,
+                    "p50": 0,
+                    "p90": 108.5,
+                    "p95": 109.77,
+                    "p99": 112.78,
+                    "max": 112.78,
+                    "min": 0
+                  },
+                  "totalMs": {
+                    "n": 21,
+                    "mean": 475.08,
+                    "p50": 479.22,
+                    "p90": 730.6,
+                    "p95": 747.23,
+                    "p99": 933.79,
+                    "max": 933.79,
+                    "min": 236.63
+                  },
+                  "transportMs": {
+                    "n": 21,
+                    "mean": 2.58,
+                    "p50": 2.31,
+                    "p90": 3.65,
+                    "p95": 3.84,
+                    "p99": 4.11,
+                    "max": 4.11,
+                    "min": 1.6
+                  }
+                }
+              },
+              "perTable": {
+                "1": {
+                  "actions": 23,
+                  "captureQueueMs": {
+                    "n": 23,
+                    "mean": 0.02,
+                    "p50": 0.01,
+                    "p90": 0.02,
+                    "p95": 0.02,
+                    "p99": 0.23,
+                    "max": 0.23,
+                    "min": 0.01
+                  },
+                  "captureMs": {
+                    "n": 23,
+                    "mean": 46.75,
+                    "p50": 46.06,
+                    "p90": 61.72,
+                    "p95": 66.07,
+                    "p99": 89.34,
+                    "max": 89.34,
+                    "min": 25.96
+                  },
+                  "recognitionMs": {
+                    "n": 23,
+                    "mean": 15.26,
+                    "p50": 14.35,
+                    "p90": 16.95,
+                    "p95": 17.02,
+                    "p99": 42.01,
+                    "max": 42.01,
+                    "min": 10.93
+                  },
+                  "validationMs": {
+                    "n": 23,
+                    "mean": 0.51,
+                    "p50": 0.22,
+                    "p90": 0.73,
+                    "p95": 1.4,
+                    "p99": 5.08,
+                    "max": 5.08,
+                    "min": 0.16
+                  },
+                  "decisionMs": {
+                    "n": 23,
+                    "mean": 0.53,
+                    "p50": 0.08,
+                    "p90": 2.91,
+                    "p95": 2.98,
+                    "p99": 4.66,
+                    "max": 4.66,
+                    "min": 0.05
+                  },
+                  "submitMs": {
+                    "n": 23,
+                    "mean": 0.15,
+                    "p50": 0.1,
+                    "p90": 0.18,
+                    "p95": 0.38,
+                    "p99": 0.87,
+                    "max": 0.87,
+                    "min": 0.07
+                  },
+                  "enqueueMs": {
+                    "n": 23,
+                    "mean": 0.05,
+                    "p50": 0.03,
+                    "p90": 0.08,
+                    "p95": 0.12,
+                    "p99": 0.33,
+                    "max": 0.33,
+                    "min": 0.02
+                  },
+                  "queueWaitMs": {
+                    "n": 23,
+                    "mean": 0.04,
+                    "p50": 0.02,
+                    "p90": 0.03,
+                    "p95": 0.03,
+                    "p99": 0.45,
+                    "max": 0.45,
+                    "min": 0.01
+                  },
+                  "revalidationMs": {
+                    "n": 23,
+                    "mean": 48.15,
+                    "p50": 47.93,
+                    "p90": 66.87,
+                    "p95": 67.04,
+                    "p99": 67.79,
+                    "max": 67.79,
+                    "min": 29.25
+                  },
+                  "wagerMs": {
+                    "n": 5,
+                    "mean": 752.97,
+                    "p50": 937.73,
+                    "p90": 1047.29,
+                    "p95": 1047.29,
+                    "p99": 1047.29,
+                    "max": 1047.29,
+                    "min": 117.41
+                  },
+                  "preMoveMs": {
+                    "n": 21,
+                    "mean": 182.73,
+                    "p50": 5.17,
+                    "p90": 941.16,
+                    "p95": 946.19,
+                    "p99": 1050.74,
+                    "max": 1050.74,
+                    "min": 3.21
+                  },
+                  "moveMs": {
+                    "n": 21,
+                    "mean": 303.49,
+                    "p50": 346.73,
+                    "p90": 585.21,
+                    "p95": 585.52,
+                    "p99": 676.89,
+                    "max": 676.89,
+                    "min": 2.11
+                  },
+                  "clickMs": {
+                    "n": 21,
+                    "mean": 166.8,
+                    "p50": 149.38,
+                    "p90": 254.16,
+                    "p95": 267.29,
+                    "p99": 268.25,
+                    "max": 268.25,
+                    "min": 131.36
+                  },
+                  "ackMs": {
+                    "n": 21,
+                    "mean": 1.3,
+                    "p50": 1.17,
+                    "p90": 1.82,
+                    "p95": 1.93,
+                    "p99": 2.07,
+                    "max": 2.07,
+                    "min": 0.81
+                  },
+                  "leaseTailMs": {
+                    "n": 21,
+                    "mean": 150.89,
+                    "p50": 150.8,
+                    "p90": 151.73,
+                    "p95": 151.8,
+                    "p99": 152.37,
+                    "max": 152.37,
+                    "min": 149.65
+                  },
+                  "settleOutsideMs": {
+                    "n": 21,
+                    "mean": 0.08,
+                    "p50": 0.04,
+                    "p90": 0.17,
+                    "p95": 0.31,
+                    "p99": 0.36,
+                    "max": 0.36,
+                    "min": 0.03
+                  },
+                  "confirmMs": {
+                    "n": 21,
+                    "mean": 124.22,
+                    "p50": 128.35,
+                    "p90": 133.65,
+                    "p95": 134.84,
+                    "p99": 145.08,
+                    "max": 145.08,
+                    "min": 100.36
+                  },
+                  "releaseMs": {
+                    "n": 21,
+                    "mean": 0.1,
+                    "p50": 0.09,
+                    "p90": 0.2,
+                    "p95": 0.2,
+                    "p99": 0.32,
+                    "max": 0.32,
+                    "min": 0.03
+                  },
+                  "leaseOccupancyMs": {
+                    "n": 23,
+                    "mean": 793.33,
+                    "p50": 600.38,
+                    "p90": 1857.59,
+                    "p95": 1873.18,
+                    "p99": 1993.82,
+                    "max": 1993.82,
+                    "min": 179.11
+                  },
+                  "inputServiceMs": {
+                    "n": 21,
+                    "mean": 700.68,
+                    "p50": 519.04,
+                    "p90": 1707.36,
+                    "p95": 1721.69,
+                    "p99": 1843.55,
+                    "max": 1843.55,
+                    "min": 274.71
+                  },
+                  "schedulingDelayM32Ms": {
+                    "n": 23,
+                    "mean": 48.18,
+                    "p50": 47.95,
+                    "p90": 67.06,
+                    "p95": 67.32,
+                    "p99": 67.8,
+                    "max": 67.8,
+                    "min": 29.27
+                  },
+                  "actionLatencyMs": {
+                    "n": 21,
+                    "mean": 992.81,
+                    "p50": 801.14,
+                    "p90": 1984.33,
+                    "p95": 2008.16,
+                    "p99": 2144.91,
+                    "max": 2144.91,
+                    "min": 571.83
+                  },
+                  "endToEndMs": {
+                    "n": 23,
+                    "mean": 970.3,
+                    "p50": 799.27,
+                    "p90": 2020.53,
+                    "p95": 2066.31,
+                    "p99": 2205.7,
+                    "max": 2205.7,
+                    "min": 228.33
+                  },
+                  "driver": {
+                    "queueMs": {
+                      "n": 21,
+                      "mean": 0.37,
+                      "p50": 0.21,
+                      "p90": 0.79,
+                      "p95": 0.82,
+                      "p99": 2.91,
+                      "max": 2.91,
+                      "min": 0
+                    },
+                    "checkMs": {
+                      "n": 21,
+                      "mean": 0.28,
+                      "p50": 0.1,
+                      "p90": 0.14,
+                      "p95": 0.16,
+                      "p99": 3.82,
+                      "max": 3.82,
+                      "min": 0.07
+                    },
+                    "focusMs": {
+                      "n": 21,
+                      "mean": 0.28,
+                      "p50": 0.18,
+                      "p90": 0.22,
+                      "p95": 0.23,
+                      "p99": 2.2,
+                      "max": 2.2,
+                      "min": 0.13
+                    },
+                    "guardMs": {
+                      "n": 21,
+                      "mean": 20.23,
+                      "p50": 0,
+                      "p90": 108.5,
+                      "p95": 109.77,
+                      "p99": 112.78,
+                      "max": 112.78,
+                      "min": 0
+                    },
+                    "totalMs": {
+                      "n": 21,
+                      "mean": 475.08,
+                      "p50": 479.22,
+                      "p90": 730.6,
+                      "p95": 747.23,
+                      "p99": 933.79,
+                      "max": 933.79,
+                      "min": 236.63
+                    },
+                    "transportMs": {
+                      "n": 21,
+                      "mean": 2.58,
+                      "p50": 2.31,
+                      "p90": 3.65,
+                      "p95": 3.84,
+                      "p99": 4.11,
+                      "max": 4.11,
+                      "min": 1.6
+                    }
+                  }
+                }
+              },
+              "droppedOldest": 0
+            },
+            "hostApi": {
+              "normal": {
+                "n": 161,
+                "mean": 0.01,
+                "p50": 0,
+                "p95": 0.03,
+                "p99": 0.41,
+                "max": 0.42
+              },
+              "priority": {
+                "n": 0
+              },
+              "counts": {
+                "normal": 161,
+                "priority": 0,
+                "reservedUsed": 0
+              }
+            },
+            "resources": {
+              "format": "eightmax-resource-samples",
+              "version": 1,
+              "intervalMs": 5000,
+              "platform": "win32",
+              "cores": 4,
+              "ramGiB": 16,
+              "systemSamples": 5,
+              "machineCpuPct": {
+                "n": 5,
+                "mean": 3.4,
+                "p50": 0,
+                "p95": 11,
+                "max": 11
+              },
+              "machineUsedMemoryMB": {
+                "n": 5,
+                "mean": 3083.6,
+                "p50": 3086,
+                "p95": 3094,
+                "max": 3094
+              },
+              "gpu3dPct": {
+                "n": 5,
+                "mean": 12.18,
+                "p50": 14.09,
+                "p95": 15.69,
+                "max": 15.69
+              },
+              "gpuNote": "GPU Engine 3D utilisation (sum over engines)",
+              "processes": {
+                "EightMaxInput": {
+                  "cpuPctOfOneCore": {
+                    "n": 4,
+                    "mean": 2.97,
+                    "p50": 1.24,
+                    "p95": 6.42,
+                    "max": 6.42
+                  },
+                  "workingSetMB": {
+                    "n": 4,
+                    "mean": 31.07,
+                    "p50": 30.59,
+                    "p95": 32.41,
+                    "max": 32.41
+                  },
+                  "processes": {
+                    "n": 4,
+                    "mean": 1,
+                    "p50": 1,
+                    "p95": 1,
+                    "max": 1
+                  }
+                },
+                "EightMaxTestTable": {
+                  "cpuPctOfOneCore": {
+                    "n": 4,
+                    "mean": 1.67,
+                    "p50": 1.98,
+                    "p95": 2.24,
+                    "max": 2.24
+                  },
+                  "workingSetMB": {
+                    "n": 4,
+                    "mean": 41.46,
+                    "p50": 41.07,
+                    "p95": 42.39,
+                    "max": 42.39
+                  },
+                  "processes": {
+                    "n": 4,
+                    "mean": 1,
+                    "p50": 1,
+                    "p95": 1,
+                    "max": 1
+                  }
+                },
+                "EightMaxWorkbench": {
+                  "cpuPctOfOneCore": {
+                    "n": 4,
+                    "mean": 2.17,
+                    "p50": 1.73,
+                    "p95": 2.97,
+                    "max": 2.97
+                  },
+                  "workingSetMB": {
+                    "n": 4,
+                    "mean": 38.34,
+                    "p50": 38.09,
+                    "p95": 38.59,
+                    "max": 38.59
+                  },
+                  "processes": {
+                    "n": 4,
+                    "mean": 1,
+                    "p50": 1,
+                    "p95": 1,
+                    "max": 1
+                  }
+                },
+                "node": {
+                  "cpuPctOfOneCore": {
+                    "n": 4,
+                    "mean": 20.36,
+                    "p50": 8.69,
+                    "p95": 51.93,
+                    "max": 51.93
+                  },
+                  "workingSetMB": {
+                    "n": 4,
+                    "mean": 146.22,
+                    "p50": 142.79,
+                    "p95": 153.9,
+                    "max": 153.9
+                  },
+                  "processes": {
+                    "n": 4,
+                    "mean": 2,
+                    "p50": 2,
+                    "p95": 2,
+                    "max": 2
+                  }
+                }
+              },
+              "node": {
+                "cpuPctOfOneCore": {
+                  "n": 7,
+                  "mean": 15.94,
+                  "p50": 11.22,
+                  "p95": 60.31,
+                  "max": 60.31
+                },
+                "rssMB": {
+                  "n": 7,
+                  "mean": 101.34,
+                  "p50": 100.6,
+                  "p95": 119.4,
+                  "max": 119.4
+                },
+                "heapMB": {
+                  "n": 7,
+                  "mean": 18.93,
+                  "p50": 18.6,
+                  "p95": 22.5,
+                  "max": 22.5
+                }
+              }
+            }
+          }
+        },
+        "evidenceFiles": [
+          "unconfirmed-stability-table1-g0-1.json",
+          "unconfirmed-stability-table1-g0-1-before.png",
+          "unconfirmed-stability-table1-g0-1-after.png"
+        ],
+        "incorrectExplainedByMisdirectedPress": 0,
+        "incorrectActionsUnexplained": 0
+      }
+    },
+    {
+      "id": "M2",
+      "name": "2 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+      "status": "pass",
+      "durationMs": 31006,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "every table played (confirmed actions on every table)",
+          "pass": true,
+          "detail": [
+            9,
+            7
+          ]
+        },
+        {
+          "name": "no incorrect action, no invalid wager (oracle)",
+          "pass": true,
+          "detail": [
+            0,
+            0,
+            {
+              "excusedMisdirectedPresses": 0
+            }
+          ]
+        },
+        {
+          "name": "no confirmed action the table did not apply",
+          "pass": true,
+          "detail": 0
+        },
+        {
+          "name": "no stall, no unexpected pause, no violation",
+          "pass": true,
+          "detail": []
+        },
+        {
+          "name": "faults exercised (closure + reopen, emergency stop)",
+          "pass": true,
+          "detail": {
+            "closeReopen": 2,
+            "estop": 1
+          }
+        }
+      ],
+      "metrics": {
+        "tables": 2,
+        "seconds": 31,
+        "completedHands": 0,
+        "tournamentsStarted": 4,
+        "tournamentsCompleted": 0,
+        "winnersMatchDealer": true,
+        "actionsAttempted": 22,
+        "actionsConfirmed": 16,
+        "incorrectActions": 0,
+        "invalidWagers": 0,
+        "missedStateTransitions": 0,
+        "confirmedButNotApplied": 0,
+        "confirmedByTableClock": 0,
+        "wrongActions": 0,
+        "incorrectClickKinds": {
+          "outsideControls": 0,
+          "onDisabled": 0,
+          "doubleClicks": 0,
+          "lateOnOldFrame": 0,
+          "notAvailable": 0
+        },
+        "refusedReadings": 0,
+        "reconstructionFailures": 0,
+        "untrackedHands": 0,
+        "untrackedHandsWithoutDecision": 0,
+        "untrackedHandsNeedingInput": 0,
+        "recoveryEvents": 0,
+        "lifecycleRecoveries": 2,
+        "eliminationsSeen": 0,
+        "uncertainOrUnconfirmed": 2,
+        "uncertainByTestStop": 1,
+        "deadlineMisses": 0,
+        "misdirectedPresses": 0,
+        "strayPressesOutsideControls": 0,
+        "heroTimeouts": 0,
+        "botActions": 0,
+        "cleanRefusals": 4,
+        "unexpectedPauses": 0,
+        "finalPlayerCounts": [],
+        "hands": {
+          "handsObserved": 4,
+          "allEightDealtIn": 4,
+          "withEliminatedSeats": 0,
+          "headsUp": 0,
+          "allIn": 0,
+          "sidePots": 0,
+          "endingWithElimination": 0,
+          "endingWithTwoOrMoreEliminations": 0,
+          "dealtInHistogram": {
+            "8": 4
+          }
+        },
+        "faults": {
+          "closeReopen": 2,
+          "estop": 1
+        },
+        "violations": [],
+        "measurements": {
+          "tables": 2,
+          "seconds": 31,
+          "completedHands": 0,
+          "motion": {
+            "maxSpeedPxPerS": 1200,
+            "note": "configured motion speed unchanged"
+          },
+          "schedulingDelayMs": {
+            "n": 22,
+            "mean": 1008.58,
+            "p50": 1206.21,
+            "p95": 1776.44,
+            "p99": 2707.46,
+            "max": 2707.46
+          },
+          "cursorTravelMs": {
+            "n": 16,
+            "mean": 980.89,
+            "p50": 1193.62,
+            "p95": 1579.2,
+            "p99": 1579.2,
+            "max": 1579.2
+          },
+          "inputOperationMs": {
+            "n": 16,
+            "mean": 2538.19,
+            "p50": 2913.86,
+            "p95": 4322.28,
+            "p99": 4322.28,
+            "max": 4322.28
+          },
+          "confirmationMs": {
+            "n": 16,
+            "mean": 129.17,
+            "p50": 131.24,
+            "p95": 134.99,
+            "p99": 134.99,
+            "max": 134.99
+          },
+          "actionLatencyMs": {
+            "n": 16,
+            "mean": 2561.56,
+            "p50": 2930.09,
+            "p95": 4339.02,
+            "p99": 4339.02,
+            "max": 4339.02
+          },
+          "perTable": [
+            {
+              "table": 1,
+              "confirmed": 9,
+              "actionLatencyMs": {
+                "n": 9,
+                "mean": 2455.98,
+                "p50": 3215.93,
+                "p95": 4193.63,
+                "p99": 4193.63,
+                "max": 4193.63
+              },
+              "schedulingDelayMs": {
+                "n": 11,
+                "mean": 1013.18,
+                "p50": 1373.75,
+                "p95": 1776.44,
+                "p99": 1776.44,
+                "max": 1776.44
+              },
+              "inputStatus": {
+                "confirmed": 9,
+                "rejected": 1,
+                "uncertain": 1
+              }
+            },
+            {
+              "table": 2,
+              "confirmed": 7,
+              "actionLatencyMs": {
+                "n": 7,
+                "mean": 2697.31,
+                "p50": 2930.09,
+                "p95": 4339.02,
+                "p99": 4339.02,
+                "max": 4339.02
+              },
+              "schedulingDelayMs": {
+                "n": 11,
+                "mean": 1003.99,
+                "p50": 1178.52,
+                "p95": 2707.46,
+                "p99": 2707.46,
+                "max": 2707.46
+              },
+              "inputStatus": {
+                "confirmed": 7,
+                "rejected-before-input": 3,
+                "uncertain": 1
+              }
+            }
+          ],
+          "deadlineMisses": {
+            "byTables": 0,
+            "byScheduler": 0
+          },
+          "rejectedActions": 4,
+          "uncertainActions": 2,
+          "inputStatus": {
+            "confirmed": 16,
+            "rejected": 1,
+            "uncertain": 2,
+            "rejected-before-input": 3
+          },
+          "schedulerRejections": {
+            "stale": 2,
+            "emergency-stop": 1
+          },
+          "peakQueue": 1,
+          "windowLossResponseMs": {
+            "n": 2,
+            "mean": 847.5,
+            "p50": 264,
+            "p95": 1431,
+            "p99": 1431,
+            "max": 1431
+          },
+          "m40": {
+            "pipeline": "compat-3.2",
+            "policy": "edf",
+            "workload": {
+              "tables": 2,
+              "width": 800,
+              "layout": "grid",
+              "heroSeats": null,
+              "botThinkMs": null,
+              "actionTimeoutMs": null,
+              "faultEveryMs": 9375,
+              "stacks": [
+                600,
+                600,
+                600,
+                600,
+                600,
+                600,
+                600,
+                600
+              ],
+              "stackChips": null
+            },
+            "actionsConfirmed": 16,
+            "actionsPerMinute": 30.97,
+            "handsPerMinute": 0,
+            "completedHands": 0,
+            "scheduler": {
+              "policy": "edf",
+              "leaseMs": {
+                "n": 21,
+                "mean": 1302.08,
+                "p50": 1635,
+                "p95": 1953.81,
+                "p99": 2886.84,
+                "max": 2886.84
+              },
+              "cursorUtilization": 0.8945,
+              "meanQueueDepth": 0.691,
+              "peakQueue": 1,
+              "fairness": {
+                "jainCompleted": 0.9757,
+                "maxBypass": 0,
+                "forcedPicks": 0,
+                "urgentPicks": 0,
+                "maxWaitMs": 2671.1226000000024
+              },
+              "queueWaitMs": {
+                "n": 19,
+                "mean": 1025.13,
+                "p50": 1337.7,
+                "p95": 2671.12,
+                "p99": 2671.12,
+                "max": 2671.12
+              },
+              "deadlineMisses": 0
+            },
+            "fairness": {
+              "jainActionsPerTable": 0.9846,
+              "maxWaitMs": 2671.12,
+              "perTable": [
+                {
+                  "table": 1,
+                  "confirmed": 9,
+                  "actionsPerMinute": 17.42,
+                  "maxWaitMs": 1724.07,
+                  "bypassed": 0,
+                  "maxBypass": 0,
+                  "deadlineMisses": 0,
+                  "leaseMs": {
+                    "n": 11,
+                    "mean": 1385.05,
+                    "p50": 1638.23,
+                    "p95": 2886.84,
+                    "p99": 2886.84,
+                    "max": 2886.84
+                  },
+                  "queueWaitMs": {
+                    "n": 11,
+                    "mean": 961.69,
+                    "p50": 1337.7,
+                    "p95": 1724.07,
+                    "p99": 1724.07,
+                    "max": 1724.07
+                  }
+                },
+                {
+                  "table": 2,
+                  "confirmed": 7,
+                  "actionsPerMinute": 13.55,
+                  "maxWaitMs": 2671.12,
+                  "bypassed": 0,
+                  "maxBypass": 0,
+                  "deadlineMisses": 0,
+                  "leaseMs": {
+                    "n": 10,
+                    "mean": 1210.82,
+                    "p50": 1534.9,
+                    "p95": 1933.64,
+                    "p99": 1933.64,
+                    "max": 1933.64
+                  },
+                  "queueWaitMs": {
+                    "n": 8,
+                    "mean": 1112.36,
+                    "p50": 1141.82,
+                    "p95": 2671.12,
+                    "p99": 2671.12,
+                    "max": 2671.12
+                  }
+                }
+              ]
+            },
+            "inputStatus": {
+              "confirmed": 16,
+              "rejected": 1,
+              "uncertain": 2,
+              "rejected-before-input": 3
+            },
+            "timeline": {
+              "format": "eightmax-action-timeline-summary",
+              "version": 1,
+              "stages": [
+                {
+                  "id": "capture-queued",
+                  "label": "Capture request queued"
+                },
+                {
+                  "id": "capture-begin",
+                  "label": "Capture begins"
+                },
+                {
+                  "id": "capture-end",
+                  "label": "Capture completes"
+                },
+                {
+                  "id": "recognition-begin",
+                  "label": "Screen recognition begins"
+                },
+                {
+                  "id": "recognition-end",
+                  "label": "Recognition completes"
+                },
+                {
+                  "id": "state-validated",
+                  "label": "Game state validated"
+                },
+                {
+                  "id": "decision-ready",
+                  "label": "Strategy decision available"
+                },
+                {
+                  "id": "submitted",
+                  "label": "Decision submitted to the scheduler"
+                },
+                {
+                  "id": "enqueued",
+                  "label": "Decision enters the queue"
+                },
+                {
+                  "id": "lease-acquired",
+                  "label": "Input lease acquired"
+                },
+                {
+                  "id": "target-verified",
+                  "label": "Target window verified (fresh capture inside the lease)"
+                },
+                {
+                  "id": "wager-begin",
+                  "label": "Wager entry begins (raises only)"
+                },
+                {
+                  "id": "wager-end",
+                  "label": "Wager typed and read back"
+                },
+                {
+                  "id": "move-begin",
+                  "label": "Cursor movement begins"
+                },
+                {
+                  "id": "move-end",
+                  "label": "Cursor reaches the destination"
+                },
+                {
+                  "id": "click-done",
+                  "label": "Mouse button pressed and released"
+                },
+                {
+                  "id": "driver-ack",
+                  "label": "Driver acknowledgement received"
+                },
+                {
+                  "id": "lease-released",
+                  "label": "Input lease released"
+                },
+                {
+                  "id": "confirm-begin",
+                  "label": "Action confirmation begins"
+                },
+                {
+                  "id": "state-confirmed",
+                  "label": "Simulator state change confirmed"
+                },
+                {
+                  "id": "action-released",
+                  "label": "Action state released"
+                }
+              ],
+              "intervals": [
+                {
+                  "id": "captureQueueMs",
+                  "from": "capture-queued",
+                  "to": "capture-begin",
+                  "meaning": "waiting for a host request slot before the capture"
+                },
+                {
+                  "id": "captureMs",
+                  "from": "capture-begin",
+                  "to": "capture-end",
+                  "meaning": "capture request, transfer and image decoding"
+                },
+                {
+                  "id": "recognitionMs",
+                  "from": "recognition-begin",
+                  "to": "recognition-end",
+                  "meaning": "screen recognition of the frame"
+                },
+                {
+                  "id": "validationMs",
+                  "from": "recognition-end",
+                  "to": "state-validated",
+                  "meaning": "hand-state reconstruction and validation"
+                },
+                {
+                  "id": "decisionMs",
+                  "from": "state-validated",
+                  "to": "decision-ready",
+                  "meaning": "strategy decision"
+                },
+                {
+                  "id": "submitMs",
+                  "from": "decision-ready",
+                  "to": "submitted",
+                  "meaning": "executor checks before submission"
+                },
+                {
+                  "id": "enqueueMs",
+                  "from": "submitted",
+                  "to": "enqueued",
+                  "meaning": "submission to queue entry"
+                },
+                {
+                  "id": "queueWaitMs",
+                  "from": "enqueued",
+                  "to": "lease-acquired",
+                  "meaning": "waiting for the single cursor (scheduler queue)"
+                },
+                {
+                  "id": "revalidationMs",
+                  "from": "lease-acquired",
+                  "to": "target-verified",
+                  "meaning": "fresh capture inside the lease: same frame, same window rectangle"
+                },
+                {
+                  "id": "wagerMs",
+                  "from": "wager-begin",
+                  "to": "wager-end",
+                  "meaning": "raise only: move to the amount field, click, clear, type, read back"
+                },
+                {
+                  "id": "preMoveMs",
+                  "from": "target-verified",
+                  "to": "move-begin",
+                  "meaning": "lifecycle guard, driver request, driver queue and identity checks (a raise includes its wager entry: wagerMs)"
+                },
+                {
+                  "id": "moveMs",
+                  "from": "move-begin",
+                  "to": "move-end",
+                  "meaning": "cursor movement"
+                },
+                {
+                  "id": "clickMs",
+                  "from": "move-end",
+                  "to": "click-done",
+                  "meaning": "pre-click wait, window raise, double-click guard, button hold"
+                },
+                {
+                  "id": "ackMs",
+                  "from": "click-done",
+                  "to": "driver-ack",
+                  "meaning": "input drain and driver reply"
+                },
+                {
+                  "id": "leaseTailMs",
+                  "from": "driver-ack",
+                  "to": "lease-released",
+                  "meaning": "work after the reply that still holds the lease (settle in the lease)"
+                },
+                {
+                  "id": "settleOutsideMs",
+                  "from": "lease-released",
+                  "to": "confirm-begin",
+                  "meaning": "settle after the lease was released (cursor free for other tables)"
+                },
+                {
+                  "id": "confirmMs",
+                  "from": "confirm-begin",
+                  "to": "state-confirmed",
+                  "meaning": "confirmation: captures until the simulator shows the action"
+                },
+                {
+                  "id": "releaseMs",
+                  "from": "state-confirmed",
+                  "to": "action-released",
+                  "meaning": "bookkeeping after the confirmation"
+                },
+                {
+                  "id": "leaseOccupancyMs",
+                  "from": "lease-acquired",
+                  "to": "lease-released",
+                  "meaning": "exclusive cursor time used by this action"
+                },
+                {
+                  "id": "inputServiceMs",
+                  "from": "lease-acquired",
+                  "to": "driver-ack",
+                  "meaning": "lease start to driver acknowledgement"
+                },
+                {
+                  "id": "schedulingDelayM32Ms",
+                  "from": "enqueued",
+                  "to": "target-verified",
+                  "meaning": "Milestone 3.2 \"scheduling delay\" definition (queue wait + in-lease revalidation)"
+                },
+                {
+                  "id": "actionLatencyMs",
+                  "from": "capture-end",
+                  "to": "state-confirmed",
+                  "meaning": "frame captured to action confirmed (Milestone 3.2 \"action latency\")"
+                },
+                {
+                  "id": "endToEndMs",
+                  "from": "capture-queued",
+                  "to": "action-released",
+                  "meaning": "whole action from the capture request"
+                }
+              ],
+              "overall": {
+                "actions": 22,
+                "captureQueueMs": {
+                  "n": 22,
+                  "mean": 0.01,
+                  "p50": 0.01,
+                  "p90": 0.03,
+                  "p95": 0.03,
+                  "p99": 0.04,
+                  "max": 0.04,
+                  "min": 0.01
+                },
+                "captureMs": {
+                  "n": 22,
+                  "mean": 57.04,
+                  "p50": 59.17,
+                  "p90": 69.93,
+                  "p95": 81.06,
+                  "p99": 112.68,
+                  "max": 112.68,
+                  "min": 28.92
+                },
+                "recognitionMs": {
+                  "n": 22,
+                  "mean": 17.55,
+                  "p50": 16.95,
+                  "p90": 20.54,
+                  "p95": 21.79,
+                  "p99": 22.63,
+                  "max": 22.63,
+                  "min": 14.82
+                },
+                "validationMs": {
+                  "n": 22,
+                  "mean": 0.37,
+                  "p50": 0.2,
+                  "p90": 1.18,
+                  "p95": 1.18,
+                  "p99": 2.06,
+                  "max": 2.06,
+                  "min": 0.16
+                },
+                "decisionMs": {
+                  "n": 22,
+                  "mean": 4.29,
+                  "p50": 0.06,
+                  "p90": 7.45,
+                  "p95": 36.99,
+                  "p99": 38.25,
+                  "max": 38.25,
+                  "min": 0.04
+                },
+                "submitMs": {
+                  "n": 22,
+                  "mean": 0.08,
+                  "p50": 0.07,
+                  "p90": 0.09,
+                  "p95": 0.1,
+                  "p99": 0.26,
+                  "max": 0.26,
+                  "min": 0.04
+                },
+                "enqueueMs": {
+                  "n": 22,
+                  "mean": 0.02,
+                  "p50": 0.02,
+                  "p90": 0.03,
+                  "p95": 0.03,
+                  "p99": 0.05,
+                  "max": 0.05,
+                  "min": 0.01
+                },
+                "queueWaitMs": {
+                  "n": 21,
+                  "mean": 1001.88,
+                  "p50": 1337.7,
+                  "p90": 1502.98,
+                  "p95": 1724.07,
+                  "p99": 2671.12,
+                  "max": 2671.12,
+                  "min": 0.01
+                },
+                "revalidationMs": {
+                  "n": 19,
+                  "mean": 47.05,
+                  "p50": 42.86,
+                  "p90": 66.3,
+                  "p95": 67.12,
+                  "p99": 67.12,
+                  "max": 67.12,
+                  "min": 34.62
+                },
+                "wagerMs": {
+                  "n": 2,
+                  "mean": 1147.87,
+                  "p50": 344.07,
+                  "p90": 1951.67,
+                  "p95": 1951.67,
+                  "p99": 1951.67,
+                  "max": 1951.67,
+                  "min": 344.07
+                },
+                "preMoveMs": {
+                  "n": 18,
+                  "mean": 113.21,
+                  "p50": 3.94,
+                  "p90": 8.69,
+                  "p95": 1955.39,
+                  "p99": 1955.39,
+                  "max": 1955.39,
+                  "min": 3.34
+                },
+                "moveMs": {
+                  "n": 18,
+                  "mean": 1032.44,
+                  "p50": 1293.96,
+                  "p90": 1579.19,
+                  "p95": 1589.94,
+                  "p99": 1589.94,
+                  "max": 1589.94,
+                  "min": 254.34
+                },
+                "clickMs": {
+                  "n": 18,
+                  "mean": 148.58,
+                  "p50": 148.92,
+                  "p90": 153.28,
+                  "p95": 156.32,
+                  "p99": 156.32,
+                  "max": 156.32,
+                  "min": 133.33
+                },
+                "ackMs": {
+                  "n": 18,
+                  "mean": 1.36,
+                  "p50": 1.21,
+                  "p90": 1.64,
+                  "p95": 2.81,
+                  "p99": 2.81,
+                  "max": 2.81,
+                  "min": 0.94
+                },
+                "leaseTailMs": {
+                  "n": 18,
+                  "mean": 150.8,
+                  "p50": 150.61,
+                  "p90": 151.49,
+                  "p95": 151.58,
+                  "p99": 151.58,
+                  "max": 151.58,
+                  "min": 150.25
+                },
+                "settleOutsideMs": {
+                  "n": 18,
+                  "mean": 0.53,
+                  "p50": 0.55,
+                  "p90": 0.67,
+                  "p95": 0.7,
+                  "p99": 0.7,
+                  "max": 0.7,
+                  "min": 0.04
+                },
+                "confirmMs": {
+                  "n": 16,
+                  "mean": 129.19,
+                  "p50": 131.26,
+                  "p90": 134.58,
+                  "p95": 135,
+                  "p99": 135,
+                  "max": 135,
+                  "min": 114.27
+                },
+                "releaseMs": {
+                  "n": 16,
+                  "mean": 0.04,
+                  "p50": 0.04,
+                  "p90": 0.04,
+                  "p95": 0.07,
+                  "p99": 0.07,
+                  "max": 0.07,
+                  "min": 0.03
+                },
+                "leaseOccupancyMs": {
+                  "n": 21,
+                  "mean": 1302.08,
+                  "p50": 1635,
+                  "p90": 1933.64,
+                  "p95": 1953.81,
+                  "p99": 2886.84,
+                  "max": 2886.84,
+                  "min": 6.11
+                },
+                "inputServiceMs": {
+                  "n": 18,
+                  "mean": 1343.24,
+                  "p50": 1487.74,
+                  "p90": 1802.43,
+                  "p95": 2735.25,
+                  "p99": 2735.25,
+                  "max": 2735.25,
+                  "min": 460.62
+                },
+                "schedulingDelayM32Ms": {
+                  "n": 19,
+                  "mean": 1072.18,
+                  "p50": 1373.74,
+                  "p90": 1776.42,
+                  "p95": 2707.44,
+                  "p99": 2707.44,
+                  "max": 2707.44,
+                  "min": 38.52
+                },
+                "actionLatencyMs": {
+                  "n": 16,
+                  "mean": 2561.53,
+                  "p50": 2930.06,
+                  "p90": 4193.59,
+                  "p95": 4338.98,
+                  "p99": 4338.98,
+                  "max": 4338.98,
+                  "min": 806.46
+                },
+                "endToEndMs": {
+                  "n": 22,
+                  "mean": 2384.49,
+                  "p50": 2510.73,
+                  "p90": 3616.39,
+                  "p95": 4222.56,
+                  "p99": 4408.19,
+                  "max": 4408.19,
+                  "min": 209.94
+                },
+                "driver": {
+                  "queueMs": {
+                    "n": 18,
+                    "mean": 0.9,
+                    "p50": 0,
+                    "p90": 4.12,
+                    "p95": 4.5,
+                    "p99": 4.5,
+                    "max": 4.5,
+                    "min": 0
+                  },
+                  "checkMs": {
+                    "n": 18,
+                    "mean": 0.1,
+                    "p50": 0.09,
+                    "p90": 0.14,
+                    "p95": 0.19,
+                    "p99": 0.19,
+                    "max": 0.19,
+                    "min": 0.07
+                  },
+                  "focusMs": {
+                    "n": 18,
+                    "mean": 0.16,
+                    "p50": 0.16,
+                    "p90": 0.2,
+                    "p95": 0.24,
+                    "p99": 0.24,
+                    "max": 0.24,
+                    "min": 0.13
+                  },
+                  "guardMs": {
+                    "n": 18,
+                    "mean": 0,
+                    "p50": 0,
+                    "p90": 0,
+                    "p95": 0,
+                    "p99": 0,
+                    "max": 0,
+                    "min": 0
+                  },
+                  "totalMs": {
+                    "n": 18,
+                    "mean": 1181.18,
+                    "p50": 1443.52,
+                    "p90": 1727.66,
+                    "p95": 1743.38,
+                    "p99": 1743.38,
+                    "max": 1743.38,
+                    "min": 400.4
+                  },
+                  "transportMs": {
+                    "n": 18,
+                    "mean": 2.69,
+                    "p50": 2.4,
+                    "p90": 3.26,
+                    "p95": 5.59,
+                    "p99": 5.59,
+                    "max": 5.59,
+                    "min": 1.86
+                  }
+                }
+              },
+              "perTable": {
+                "1": {
+                  "actions": 11,
+                  "captureQueueMs": {
+                    "n": 11,
+                    "mean": 0.01,
+                    "p50": 0.01,
+                    "p90": 0.02,
+                    "p95": 0.03,
+                    "p99": 0.03,
+                    "max": 0.03,
+                    "min": 0.01
+                  },
+                  "captureMs": {
+                    "n": 11,
+                    "mean": 57.57,
+                    "p50": 60.83,
+                    "p90": 69.93,
+                    "p95": 81.06,
+                    "p99": 81.06,
+                    "max": 81.06,
+                    "min": 28.92
+                  },
+                  "recognitionMs": {
+                    "n": 11,
+                    "mean": 18.47,
+                    "p50": 18.38,
+                    "p90": 21.79,
+                    "p95": 22.63,
+                    "p99": 22.63,
+                    "max": 22.63,
+                    "min": 14.82
+                  },
+                  "validationMs": {
+                    "n": 11,
+                    "mean": 0.37,
+                    "p50": 0.21,
+                    "p90": 0.23,
+                    "p95": 2.06,
+                    "p99": 2.06,
+                    "max": 2.06,
+                    "min": 0.16
+                  },
+                  "decisionMs": {
+                    "n": 11,
+                    "mean": 3.89,
+                    "p50": 0.06,
+                    "p90": 3.93,
+                    "p95": 38.25,
+                    "p99": 38.25,
+                    "max": 38.25,
+                    "min": 0.04
+                  },
+                  "submitMs": {
+                    "n": 11,
+                    "mean": 0.09,
+                    "p50": 0.07,
+                    "p90": 0.1,
+                    "p95": 0.26,
+                    "p99": 0.26,
+                    "max": 0.26,
+                    "min": 0.04
+                  },
+                  "enqueueMs": {
+                    "n": 11,
+                    "mean": 0.02,
+                    "p50": 0.02,
+                    "p90": 0.03,
+                    "p95": 0.05,
+                    "p99": 0.05,
+                    "max": 0.05,
+                    "min": 0.01
+                  },
+                  "queueWaitMs": {
+                    "n": 11,
+                    "mean": 961.69,
+                    "p50": 1337.7,
+                    "p90": 1433.95,
+                    "p95": 1724.07,
+                    "p99": 1724.07,
+                    "max": 1724.07,
+                    "min": 0.01
+                  },
+                  "revalidationMs": {
+                    "n": 11,
+                    "mean": 51.47,
+                    "p50": 53.68,
+                    "p90": 66.3,
+                    "p95": 67.12,
+                    "p99": 67.12,
+                    "max": 67.12,
+                    "min": 36.03
+                  },
+                  "wagerMs": {
+                    "n": 2,
+                    "mean": 1147.87,
+                    "p50": 344.07,
+                    "p90": 1951.67,
+                    "p95": 1951.67,
+                    "p99": 1951.67,
+                    "max": 1951.67,
+                    "min": 344.07
+                  },
+                  "preMoveMs": {
+                    "n": 10,
+                    "mean": 200.17,
+                    "p50": 4.17,
+                    "p90": 8.5,
+                    "p95": 1955.39,
+                    "p99": 1955.39,
+                    "max": 1955.39,
+                    "min": 3.34
+                  },
+                  "moveMs": {
+                    "n": 10,
+                    "mean": 931.71,
+                    "p50": 1011.27,
+                    "p90": 1297.88,
+                    "p95": 1589.94,
+                    "p99": 1589.94,
+                    "max": 1589.94,
+                    "min": 254.34
+                  },
+                  "clickMs": {
+                    "n": 10,
+                    "mean": 148.33,
+                    "p50": 148.88,
+                    "p90": 153.28,
+                    "p95": 156.32,
+                    "p99": 156.32,
+                    "max": 156.32,
+                    "min": 133.33
+                  },
+                  "ackMs": {
+                    "n": 10,
+                    "mean": 1.33,
+                    "p50": 1.24,
+                    "p90": 1.6,
+                    "p95": 1.64,
+                    "p99": 1.64,
+                    "max": 1.64,
+                    "min": 0.94
+                  },
+                  "leaseTailMs": {
+                    "n": 10,
+                    "mean": 150.99,
+                    "p50": 150.75,
+                    "p90": 151.38,
+                    "p95": 151.58,
+                    "p99": 151.58,
+                    "max": 151.58,
+                    "min": 150.44
+                  },
+                  "settleOutsideMs": {
+                    "n": 10,
+                    "mean": 0.48,
+                    "p50": 0.54,
+                    "p90": 0.6,
+                    "p95": 0.61,
+                    "p99": 0.61,
+                    "max": 0.61,
+                    "min": 0.04
+                  },
+                  "confirmMs": {
+                    "n": 9,
+                    "mean": 131.12,
+                    "p50": 132.21,
+                    "p90": 135,
+                    "p95": 135,
+                    "p99": 135,
+                    "max": 135,
+                    "min": 118.54
+                  },
+                  "releaseMs": {
+                    "n": 9,
+                    "mean": 0.04,
+                    "p50": 0.03,
+                    "p90": 0.07,
+                    "p95": 0.07,
+                    "p99": 0.07,
+                    "max": 0.07,
+                    "min": 0.03
+                  },
+                  "leaseOccupancyMs": {
+                    "n": 11,
+                    "mean": 1385.05,
+                    "p50": 1638.23,
+                    "p90": 1953.81,
+                    "p95": 2886.84,
+                    "p99": 2886.84,
+                    "max": 2886.84,
+                    "min": 380.15
+                  },
+                  "inputServiceMs": {
+                    "n": 10,
+                    "mean": 1334.55,
+                    "p50": 1487.74,
+                    "p90": 1802.43,
+                    "p95": 2735.25,
+                    "p99": 2735.25,
+                    "max": 2735.25,
+                    "min": 460.62
+                  },
+                  "schedulingDelayM32Ms": {
+                    "n": 11,
+                    "mean": 1013.16,
+                    "p50": 1373.74,
+                    "p90": 1491.34,
+                    "p95": 1776.42,
+                    "p99": 1776.42,
+                    "max": 1776.42,
+                    "min": 54.9
+                  },
+                  "actionLatencyMs": {
+                    "n": 9,
+                    "mean": 2455.95,
+                    "p50": 3215.9,
+                    "p90": 4193.59,
+                    "p95": 4193.59,
+                    "p99": 4193.59,
+                    "max": 4193.59,
+                    "min": 806.46
+                  },
+                  "endToEndMs": {
+                    "n": 11,
+                    "mean": 2534.95,
+                    "p50": 3276.88,
+                    "p90": 3584.16,
+                    "p95": 4222.56,
+                    "p99": 4222.56,
+                    "max": 4222.56,
+                    "min": 881.02
+                  },
+                  "driver": {
+                    "queueMs": {
+                      "n": 10,
+                      "mean": 1.13,
+                      "p50": 0,
+                      "p90": 3.29,
+                      "p95": 4.12,
+                      "p99": 4.12,
+                      "max": 4.12,
+                      "min": 0
+                    },
+                    "checkMs": {
+                      "n": 10,
+                      "mean": 0.11,
+                      "p50": 0.11,
+                      "p90": 0.13,
+                      "p95": 0.14,
+                      "p99": 0.14,
+                      "max": 0.14,
+                      "min": 0.07
+                    },
+                    "focusMs": {
+                      "n": 10,
+                      "mean": 0.16,
+                      "p50": 0.16,
+                      "p90": 0.19,
+                      "p95": 0.2,
+                      "p99": 0.2,
+                      "max": 0.2,
+                      "min": 0.13
+                    },
+                    "guardMs": {
+                      "n": 10,
+                      "mean": 0,
+                      "p50": 0,
+                      "p90": 0,
+                      "p95": 0,
+                      "p99": 0,
+                      "max": 0,
+                      "min": 0
+                    },
+                    "totalMs": {
+                      "n": 10,
+                      "mean": 1080.21,
+                      "p50": 1160.27,
+                      "p90": 1446.88,
+                      "p95": 1743.38,
+                      "p99": 1743.38,
+                      "max": 1743.38,
+                      "min": 400.4
+                    },
+                    "transportMs": {
+                      "n": 10,
+                      "mean": 2.63,
+                      "p50": 2.45,
+                      "p90": 3.18,
+                      "p95": 3.26,
+                      "p99": 3.26,
+                      "max": 3.26,
+                      "min": 1.86
+                    }
+                  }
+                },
+                "2": {
+                  "actions": 11,
+                  "captureQueueMs": {
+                    "n": 11,
+                    "mean": 0.02,
+                    "p50": 0.01,
+                    "p90": 0.03,
+                    "p95": 0.04,
+                    "p99": 0.04,
+                    "max": 0.04,
+                    "min": 0.01
+                  },
+                  "captureMs": {
+                    "n": 11,
+                    "mean": 56.51,
+                    "p50": 56.13,
+                    "p90": 69.15,
+                    "p95": 112.68,
+                    "p99": 112.68,
+                    "max": 112.68,
+                    "min": 29.83
+                  },
+                  "recognitionMs": {
+                    "n": 11,
+                    "mean": 16.63,
+                    "p50": 15.96,
+                    "p90": 18.35,
+                    "p95": 20.2,
+                    "p99": 20.2,
+                    "max": 20.2,
+                    "min": 15.03
+                  },
+                  "validationMs": {
+                    "n": 11,
+                    "mean": 0.37,
+                    "p50": 0.18,
+                    "p90": 1.18,
+                    "p95": 1.18,
+                    "p99": 1.18,
+                    "max": 1.18,
+                    "min": 0.16
+                  },
+                  "decisionMs": {
+                    "n": 11,
+                    "mean": 4.7,
+                    "p50": 0.07,
+                    "p90": 7.45,
+                    "p95": 36.99,
+                    "p99": 36.99,
+                    "max": 36.99,
+                    "min": 0.04
+                  },
+                  "submitMs": {
+                    "n": 11,
+                    "mean": 0.07,
+                    "p50": 0.07,
+                    "p90": 0.08,
+                    "p95": 0.08,
+                    "p99": 0.08,
+                    "max": 0.08,
+                    "min": 0.04
+                  },
+                  "enqueueMs": {
+                    "n": 11,
+                    "mean": 0.02,
+                    "p50": 0.02,
+                    "p90": 0.02,
+                    "p95": 0.02,
+                    "p99": 0.02,
+                    "max": 0.02,
+                    "min": 0.01
+                  },
+                  "queueWaitMs": {
+                    "n": 10,
+                    "mean": 1046.09,
+                    "p50": 1141.82,
+                    "p90": 1502.98,
+                    "p95": 2671.12,
+                    "p99": 2671.12,
+                    "max": 2671.12,
+                    "min": 0.06
+                  },
+                  "revalidationMs": {
+                    "n": 8,
+                    "mean": 40.98,
+                    "p50": 36.68,
+                    "p90": 51.31,
+                    "p95": 51.31,
+                    "p99": 51.31,
+                    "max": 51.31,
+                    "min": 34.62
+                  },
+                  "preMoveMs": {
+                    "n": 8,
+                    "mean": 4.5,
+                    "p50": 3.59,
+                    "p90": 8.69,
+                    "p95": 8.69,
+                    "p99": 8.69,
+                    "max": 8.69,
+                    "min": 3.34
+                  },
+                  "moveMs": {
+                    "n": 8,
+                    "mean": 1158.36,
+                    "p50": 1293.96,
+                    "p90": 1579.19,
+                    "p95": 1579.19,
+                    "p99": 1579.19,
+                    "max": 1579.19,
+                    "min": 294.93
+                  },
+                  "clickMs": {
+                    "n": 8,
+                    "mean": 148.88,
+                    "p50": 148.92,
+                    "p90": 150.3,
+                    "p95": 150.3,
+                    "p99": 150.3,
+                    "max": 150.3,
+                    "min": 147.32
+                  },
+                  "ackMs": {
+                    "n": 8,
+                    "mean": 1.39,
+                    "p50": 1.19,
+                    "p90": 2.81,
+                    "p95": 2.81,
+                    "p99": 2.81,
+                    "max": 2.81,
+                    "min": 1.12
+                  },
+                  "leaseTailMs": {
+                    "n": 8,
+                    "mean": 150.56,
+                    "p50": 150.39,
+                    "p90": 151.49,
+                    "p95": 151.49,
+                    "p99": 151.49,
+                    "max": 151.49,
+                    "min": 150.25
+                  },
+                  "settleOutsideMs": {
+                    "n": 8,
+                    "mean": 0.6,
+                    "p50": 0.56,
+                    "p90": 0.7,
+                    "p95": 0.7,
+                    "p99": 0.7,
+                    "max": 0.7,
+                    "min": 0.53
+                  },
+                  "confirmMs": {
+                    "n": 7,
+                    "mean": 126.69,
+                    "p50": 130.65,
+                    "p90": 133.37,
+                    "p95": 133.37,
+                    "p99": 133.37,
+                    "max": 133.37,
+                    "min": 114.27
+                  },
+                  "releaseMs": {
+                    "n": 7,
+                    "mean": 0.04,
+                    "p50": 0.04,
+                    "p90": 0.04,
+                    "p95": 0.04,
+                    "p99": 0.04,
+                    "max": 0.04,
+                    "min": 0.03
+                  },
+                  "leaseOccupancyMs": {
+                    "n": 10,
+                    "mean": 1210.82,
+                    "p50": 1534.9,
+                    "p90": 1655.27,
+                    "p95": 1933.64,
+                    "p99": 1933.64,
+                    "max": 1933.64,
+                    "min": 6.11
+                  },
+                  "inputServiceMs": {
+                    "n": 8,
+                    "mean": 1354.12,
+                    "p50": 1484.59,
+                    "p90": 1783.37,
+                    "p95": 1783.37,
+                    "p99": 1783.37,
+                    "max": 1783.37,
+                    "min": 490.68
+                  },
+                  "schedulingDelayM32Ms": {
+                    "n": 8,
+                    "mean": 1153.34,
+                    "p50": 1178.5,
+                    "p90": 2707.44,
+                    "p95": 2707.44,
+                    "p99": 2707.44,
+                    "max": 2707.44,
+                    "min": 38.52
+                  },
+                  "actionLatencyMs": {
+                    "n": 7,
+                    "mean": 2697.28,
+                    "p50": 2930.06,
+                    "p90": 4338.98,
+                    "p95": 4338.98,
+                    "p99": 4338.98,
+                    "max": 4338.98,
+                    "min": 828.17
+                  },
+                  "endToEndMs": {
+                    "n": 11,
+                    "mean": 2234.03,
+                    "p50": 2510.73,
+                    "p90": 3616.39,
+                    "p95": 4408.19,
+                    "p99": 4408.19,
+                    "max": 4408.19,
+                    "min": 209.94
+                  },
+                  "driver": {
+                    "queueMs": {
+                      "n": 8,
+                      "mean": 0.61,
+                      "p50": 0,
+                      "p90": 4.5,
+                      "p95": 4.5,
+                      "p99": 4.5,
+                      "max": 4.5,
+                      "min": 0
+                    },
+                    "checkMs": {
+                      "n": 8,
+                      "mean": 0.1,
+                      "p50": 0.08,
+                      "p90": 0.19,
+                      "p95": 0.19,
+                      "p99": 0.19,
+                      "max": 0.19,
+                      "min": 0.07
+                    },
+                    "focusMs": {
+                      "n": 8,
+                      "mean": 0.17,
+                      "p50": 0.15,
+                      "p90": 0.24,
+                      "p95": 0.24,
+                      "p99": 0.24,
+                      "max": 0.24,
+                      "min": 0.14
+                    },
+                    "guardMs": {
+                      "n": 8,
+                      "mean": 0,
+                      "p50": 0,
+                      "p90": 0,
+                      "p95": 0,
+                      "p99": 0,
+                      "max": 0,
+                      "min": 0
+                    },
+                    "totalMs": {
+                      "n": 8,
+                      "mean": 1307.4,
+                      "p50": 1443.52,
+                      "p90": 1727.66,
+                      "p95": 1727.66,
+                      "p99": 1727.66,
+                      "max": 1727.66,
+                      "min": 442.5
+                    },
+                    "transportMs": {
+                      "n": 8,
+                      "mean": 2.76,
+                      "p50": 2.36,
+                      "p90": 5.59,
+                      "p95": 5.59,
+                      "p99": 5.59,
+                      "max": 5.59,
+                      "min": 2.21
+                    }
+                  }
+                }
+              },
+              "droppedOldest": 0
+            },
+            "hostApi": {
+              "normal": {
+                "n": 306,
+                "mean": 0.01,
+                "p50": 0,
+                "p95": 0.03,
+                "p99": 0.25,
+                "max": 0.42
+              },
+              "priority": {
+                "n": 0
+              },
+              "counts": {
+                "normal": 306,
+                "priority": 0,
+                "reservedUsed": 0
+              }
+            },
+            "resources": {
+              "format": "eightmax-resource-samples",
+              "version": 1,
+              "intervalMs": 5000,
+              "platform": "win32",
+              "cores": 4,
+              "ramGiB": 16,
+              "systemSamples": 5,
+              "machineCpuPct": {
+                "n": 5,
+                "mean": 4.2,
+                "p50": 3,
+                "p95": 9,
+                "max": 9
+              },
+              "machineUsedMemoryMB": {
+                "n": 5,
+                "mean": 3099.6,
+                "p50": 3100,
+                "p95": 3122,
+                "max": 3122
+              },
+              "gpu3dPct": {
+                "n": 5,
+                "mean": 11.25,
+                "p50": 14.07,
+                "p95": 15.65,
+                "max": 15.65
+              },
+              "gpuNote": "GPU Engine 3D utilisation (sum over engines)",
+              "processes": {
+                "EightMaxInput": {
+                  "cpuPctOfOneCore": {
+                    "n": 4,
+                    "mean": 9.34,
+                    "p50": 8.45,
+                    "p95": 14.52,
+                    "max": 14.52
+                  },
+                  "workingSetMB": {
+                    "n": 4,
+                    "mean": 34.35,
+                    "p50": 34.35,
+                    "p95": 34.35,
+                    "max": 34.35
+                  },
+                  "processes": {
+                    "n": 4,
+                    "mean": 1,
+                    "p50": 1,
+                    "p95": 1,
+                    "max": 1
+                  }
+                },
+                "EightMaxTestTable": {
+                  "cpuPctOfOneCore": {
+                    "n": 4,
+                    "mean": 1.18,
+                    "p50": 0.76,
+                    "p95": 2.22,
+                    "max": 2.22
+                  },
+                  "workingSetMB": {
+                    "n": 4,
+                    "mean": 79.5,
+                    "p50": 79.23,
+                    "p95": 80.88,
+                    "max": 80.88
+                  },
+                  "processes": {
+                    "n": 4,
+                    "mean": 2,
+                    "p50": 2,
+                    "p95": 2,
+                    "max": 2
+                  }
+                },
+                "EightMaxWorkbench": {
+                  "cpuPctOfOneCore": {
+                    "n": 4,
+                    "mean": 1.73,
+                    "p50": 1.49,
+                    "p95": 2.22,
+                    "max": 2.22
+                  },
+                  "workingSetMB": {
+                    "n": 4,
+                    "mean": 38.81,
+                    "p50": 38.76,
+                    "p95": 38.88,
+                    "max": 38.88
+                  },
+                  "processes": {
+                    "n": 4,
+                    "mean": 1,
+                    "p50": 1,
+                    "p95": 1,
+                    "max": 1
+                  }
+                },
+                "node": {
+                  "cpuPctOfOneCore": {
+                    "n": 4,
+                    "mean": 8.6,
+                    "p50": 8.37,
+                    "p95": 9.44,
+                    "max": 9.44
+                  },
+                  "workingSetMB": {
+                    "n": 4,
+                    "mean": 161.52,
+                    "p50": 155.41,
+                    "p95": 172.06,
+                    "max": 172.06
+                  },
+                  "processes": {
+                    "n": 4,
+                    "mean": 2,
+                    "p50": 2,
+                    "p95": 2,
+                    "max": 2
+                  }
+                }
+              },
+              "node": {
+                "cpuPctOfOneCore": {
+                  "n": 7,
+                  "mean": 8.64,
+                  "p50": 8.14,
+                  "p95": 13.57,
+                  "max": 13.57
+                },
+                "rssMB": {
+                  "n": 7,
+                  "mean": 106.81,
+                  "p50": 106.2,
+                  "p95": 110.6,
+                  "max": 110.6
+                },
+                "heapMB": {
+                  "n": 7,
+                  "mean": 18.91,
+                  "p50": 18.6,
+                  "p95": 20.2,
+                  "max": 20.2
+                }
+              }
+            }
+          }
+        },
+        "evidenceFiles": [
+          "unconfirmed-stability-table2-g1-1.json",
+          "unconfirmed-stability-table2-g1-1-before.png",
+          "unconfirmed-stability-table2-g1-1-after.png",
+          "unconfirmed-stability-table1-g0-1.json",
+          "unconfirmed-stability-table1-g0-1-before.png",
+          "unconfirmed-stability-table1-g0-1-after.png"
+        ],
+        "incorrectExplainedByMisdirectedPress": 0,
+        "incorrectActionsUnexplained": 0
+      }
+    },
+    {
+      "id": "M5",
+      "name": "5 table(s): short-stack tournaments with eliminations, a window closed and reopened, emergency stops, finished tournaments replaced",
+      "status": "pass",
+      "durationMs": 35723,
+      "timedOut": false,
+      "checks": [
+        {
+          "name": "every table played (confirmed actions on every table)",
+          "pass": true,
+          "detail": [
+            8,
+            6,
+            9,
+            7,
+            8
+          ]
+        },
+        {
+          "name": "no incorrect action, no invalid wager (oracle)",
+          "pass": true,
+          "detail": [
+            0,
+            0,
+            {
+              "excusedMisdirectedPresses": 0
+            }
+          ]
+        },
+        {
+          "name": "no confirmed action the table did not apply",
+          "pass": true,
+          "detail": 0
+        },
+        {
+          "name": "no stall, no unexpected pause, no violation",
+          "pass": true,
+          "detail": []
+        },
+        {
+          "name": "faults exercised (closure + reopen, emergency stop)",
+          "pass": true,
+          "detail": {
+            "closeReopen": 2,
+            "estop": 1
+          }
+        }
+      ],
+      "metrics": {
+        "tables": 5,
+        "seconds": 35,
+        "completedHands": 0,
+        "tournamentsStarted": 7,
+        "tournamentsCompleted": 0,
+        "winnersMatchDealer": true,
+        "actionsAttempted": 49,
+        "actionsConfirmed": 38,
+        "incorrectActions": 0,
+        "invalidWagers": 0,
+        "missedStateTransitions": 0,
+        "confirmedButNotApplied": 0,
+        "confirmedByTableClock": 0,
+        "wrongActions": 0,
+        "incorrectClickKinds": {
+          "outsideControls": 0,
+          "onDisabled": 0,
+          "doubleClicks": 0,
+          "lateOnOldFrame": 0,
+          "notAvailable": 0
+        },
+        "refusedReadings": 0,
+        "reconstructionFailures": 0,
+        "untrackedHands": 0,
+        "untrackedHandsWithoutDecision": 0,
+        "untrackedHandsNeedingInput": 0,
+        "recoveryEvents": 0,
+        "lifecycleRecoveries": 5,
+        "eliminationsSeen": 0,
+        "uncertainOrUnconfirmed": 2,
+        "uncertainByTestStop": 1,
+        "deadlineMisses": 0,
+        "misdirectedPresses": 0,
+        "strayPressesOutsideControls": 0,
+        "heroTimeouts": 0,
+        "botActions": 0,
+        "cleanRefusals": 10,
+        "unexpectedPauses": 0,
+        "finalPlayerCounts": [],
+        "hands": {
+          "handsObserved": 7,
+          "allEightDealtIn": 7,
+          "withEliminatedSeats": 0,
+          "headsUp": 0,
+          "allIn": 1,
+          "sidePots": 1,
+          "endingWithElimination": 0,
+          "endingWithTwoOrMoreEliminations": 0,
+          "dealtInHistogram": {
+            "8": 7
+          }
+        },
+        "faults": {
+          "closeReopen": 2,
+          "estop": 1
+        },
+        "violations": [],
+        "measurements": {
+          "tables": 5,
+          "seconds": 35,
+          "completedHands": 0,
+          "motion": {
+            "maxSpeedPxPerS": 1200,
+            "note": "configured motion speed unchanged"
+          },
+          "schedulingDelayMs": {
+            "n": 49,
+            "mean": 2354.7,
+            "p50": 2466.49,
+            "p95": 3732.2,
+            "p99": 4982.89,
+            "max": 4982.89
+          },
+          "cursorTravelMs": {
+            "n": 38,
+            "mean": 302.4,
+            "p50": 282.4,
+            "p95": 586.41,
+            "p99": 586.58,
+            "max": 586.58
+          },
+          "inputOperationMs": {
+            "n": 38,
+            "mean": 3182.37,
+            "p50": 3183.26,
+            "p95": 5163.73,
+            "p99": 5719.76,
+            "max": 5719.76
+          },
+          "confirmationMs": {
+            "n": 38,
+            "mean": 135.66,
+            "p50": 132.6,
+            "p95": 151.47,
+            "p99": 154.75,
+            "max": 154.75
+          },
+          "actionLatencyMs": {
+            "n": 38,
+            "mean": 3215.04,
+            "p50": 3199.28,
+            "p95": 5182.98,
+            "p99": 5738.43,
+            "max": 5738.43
+          },
+          "perTable": [
+            {
+              "table": 1,
+              "confirmed": 8,
+              "actionLatencyMs": {
+                "n": 8,
+                "mean": 3126.33,
+                "p50": 3199.28,
+                "p95": 4038.31,
+                "p99": 4038.31,
+                "max": 4038.31
+              },
+              "schedulingDelayMs": {
+                "n": 10,
+                "mean": 2307.31,
+                "p50": 2334.18,
+                "p95": 4289.67,
+                "p99": 4289.67,
+                "max": 4289.67
+              },
+              "inputStatus": {
+                "confirmed": 8,
+                "rejected-before-input": 2
+              }
+            },
+            {
+              "table": 2,
+              "confirmed": 6,
+              "actionLatencyMs": {
+                "n": 6,
+                "mean": 3314.19,
+                "p50": 3319.2,
+                "p95": 4497.58,
+                "p99": 4497.58,
+                "max": 4497.58
+              },
+              "schedulingDelayMs": {
+                "n": 9,
+                "mean": 2646.95,
+                "p50": 2566.4,
+                "p95": 3732.2,
+                "p99": 3732.2,
+                "max": 3732.2
+              },
+              "inputStatus": {
+                "confirmed": 6,
+                "rejected-before-input": 2,
+                "uncertain": 1
+              }
+            },
+            {
+              "table": 3,
+              "confirmed": 9,
+              "actionLatencyMs": {
+                "n": 9,
+                "mean": 3350.48,
+                "p50": 3190.1,
+                "p95": 5738.43,
+                "p99": 5738.43,
+                "max": 5738.43
+              },
+              "schedulingDelayMs": {
+                "n": 10,
+                "mean": 2109.65,
+                "p50": 2260.68,
+                "p95": 3563.18,
+                "p99": 3563.18,
+                "max": 3563.18
+              },
+              "inputStatus": {
+                "confirmed": 9,
+                "rejected-before-input": 1
+              }
+            },
+            {
+              "table": 4,
+              "confirmed": 7,
+              "actionLatencyMs": {
+                "n": 7,
+                "mean": 2921.63,
+                "p50": 3158.93,
+                "p95": 3367.43,
+                "p99": 3367.43,
+                "max": 3367.43
+              },
+              "schedulingDelayMs": {
+                "n": 10,
+                "mean": 2313.47,
+                "p50": 2351.74,
+                "p95": 4982.89,
+                "p99": 4982.89,
+                "max": 4982.89
+              },
+              "inputStatus": {
+                "confirmed": 7,
+                "rejected-before-input": 2,
+                "uncertain": 1
+              }
+            },
+            {
+              "table": 5,
+              "confirmed": 8,
+              "actionLatencyMs": {
+                "n": 8,
+                "mean": 3333.73,
+                "p50": 3254.75,
+                "p95": 5071.55,
+                "p99": 5071.55,
+                "max": 5071.55
+              },
+              "schedulingDelayMs": {
+                "n": 10,
+                "mean": 2425.35,
+                "p50": 2427.56,
+                "p95": 3523.45,
+                "p99": 3523.45,
+                "max": 3523.45
+              },
+              "inputStatus": {
+                "confirmed": 8,
+                "rejected-before-input": 2
+              }
+            }
+          ],
+          "deadlineMisses": {
+            "byTables": 0,
+            "byScheduler": 0
+          },
+          "rejectedActions": 10,
+          "uncertainActions": 2,
+          "inputStatus": {
+            "confirmed": 38,
+            "rejected-before-input": 9,
+            "uncertain": 2
+          },
+          "schedulerRejections": {
+            "stale": 5,
+            "emergency-stop": 4
+          },
+          "peakQueue": 4,
+          "windowLossResponseMs": {
+            "n": 2,
+            "mean": 813,
+            "p50": 529,
+            "p95": 1097,
+            "p99": 1097,
+            "max": 1097
+          },
+          "m40": {
+            "pipeline": "compat-3.2",
+            "policy": "edf",
+            "workload": {
+              "tables": 5,
+              "width": 800,
+              "layout": "cascade",
+              "heroSeats": null,
+              "botThinkMs": null,
+              "actionTimeoutMs": null,
+              "faultEveryMs": 9375,
+              "stacks": [
+                600,
+                600,
+                600,
+                600,
+                600,
+                600,
+                600,
+                600
+              ],
+              "stackChips": null
+            },
+            "actionsConfirmed": 38,
+            "actionsPerMinute": 65.14,
+            "handsPerMinute": 0,
+            "completedHands": 0,
+            "scheduler": {
+              "policy": "edf",
+              "leaseMs": {
+                "n": 45,
+                "mean": 716.88,
+                "p50": 672.85,
+                "p95": 1812.41,
+                "p99": 2146.54,
+                "max": 2146.54
+              },
+              "cursorUtilization": 0.918,
+              "meanQueueDepth": 3.206,
+              "peakQueue": 4,
+              "fairness": {
+                "jainCompleted": 0.9938,
+                "maxBypass": 0,
+                "forcedPicks": 0,
+                "urgentPicks": 0,
+                "maxWaitMs": 3706.2339000000065
+              },
+              "queueWaitMs": {
+                "n": 40,
+                "mean": 2257.52,
+                "p50": 2401,
+                "p95": 3485.13,
+                "p99": 3706.23,
+                "max": 3706.23
+              },
+              "deadlineMisses": 0
+            },
+            "fairness": {
+              "jainActionsPerTable": 0.9823,
+              "maxWaitMs": 3706.23,
+              "perTable": [
+                {
+                  "table": 1,
+                  "confirmed": 8,
+                  "actionsPerMinute": 13.71,
+                  "maxWaitMs": 3170.07,
+                  "bypassed": 0,
+                  "maxBypass": 0,
+                  "deadlineMisses": 0,
+                  "leaseMs": {
+                    "n": 9,
+                    "mean": 775.32,
+                    "p50": 713.8,
+                    "p95": 1812.41,
+                    "p99": 1812.41,
+                    "max": 1812.41
+                  },
+                  "queueWaitMs": {
+                    "n": 8,
+                    "mean": 2090.96,
+                    "p50": 2282.85,
+                    "p95": 3170.07,
+                    "p99": 3170.07,
+                    "max": 3170.07
+                  }
+                },
+                {
+                  "table": 2,
+                  "confirmed": 6,
+                  "actionsPerMinute": 10.29,
+                  "maxWaitMs": 3706.23,
+                  "bypassed": 0,
+                  "maxBypass": 0,
+                  "deadlineMisses": 0,
+                  "leaseMs": {
+                    "n": 9,
+                    "mean": 488.07,
+                    "p50": 623.65,
+                    "p95": 791.84,
+                    "p99": 791.84,
+                    "max": 791.84
+                  },
+                  "queueWaitMs": {
+                    "n": 7,
+                    "mean": 2484.02,
+                    "p50": 2529.65,
+                    "p95": 3706.23,
+                    "p99": 3706.23,
+                    "max": 3706.23
+                  }
+                },
+                {
+                  "table": 3,
+                  "confirmed": 9,
+                  "actionsPerMinute": 15.43,
+                  "maxWaitMs": 3526.02,
+                  "bypassed": 0,
+                  "maxBypass": 0,
+                  "deadlineMisses": 0,
+                  "leaseMs": {
+                    "n": 9,
+                    "mean": 982.01,
+                    "p50": 656.05,
+                    "p95": 2146.54,
+                    "p99": 2146.54,
+                    "max": 2146.54
+                  },
+                  "queueWaitMs": {
+                    "n": 9,
+                    "mean": 2195.97,
+                    "p50": 2399.04,
+                    "p95": 3526.02,
+                    "p99": 3526.02,
+                    "max": 3526.02
+                  }
+                },
+                {
+                  "table": 4,
+                  "confirmed": 7,
+                  "actionsPerMinute": 12,
+                  "maxWaitMs": 3014.14,
+                  "bypassed": 0,
+                  "maxBypass": 0,
+                  "deadlineMisses": 0,
+                  "leaseMs": {
+                    "n": 9,
+                    "mean": 608.89,
+                    "p50": 625.23,
+                    "p95": 778.09,
+                    "p99": 778.09,
+                    "max": 778.09
+                  },
+                  "queueWaitMs": {
+                    "n": 8,
+                    "mean": 2199.52,
+                    "p50": 2297.33,
+                    "p95": 3014.14,
+                    "p99": 3014.14,
+                    "max": 3014.14
+                  }
+                },
+                {
+                  "table": 5,
+                  "confirmed": 8,
+                  "actionsPerMinute": 13.71,
+                  "maxWaitMs": 3485.13,
+                  "bypassed": 0,
+                  "maxBypass": 0,
+                  "deadlineMisses": 0,
+                  "leaseMs": {
+                    "n": 9,
+                    "mean": 730.11,
+                    "p50": 689.11,
+                    "p95": 1656.69,
+                    "p99": 1656.69,
+                    "max": 1656.69
+                  },
+                  "queueWaitMs": {
+                    "n": 8,
+                    "mean": 2353.16,
+                    "p50": 2401.72,
+                    "p95": 3485.13,
+                    "p99": 3485.13,
+                    "max": 3485.13
+                  }
+                }
+              ]
+            },
+            "inputStatus": {
+              "confirmed": 38,
+              "rejected-before-input": 9,
+              "uncertain": 2
+            },
+            "timeline": {
+              "format": "eightmax-action-timeline-summary",
+              "version": 1,
+              "stages": [
+                {
+                  "id": "capture-queued",
+                  "label": "Capture request queued"
+                },
+                {
+                  "id": "capture-begin",
+                  "label": "Capture begins"
+                },
+                {
+                  "id": "capture-end",
+                  "label": "Capture completes"
+                },
+                {
+                  "id": "recognition-begin",
+                  "label": "Screen recognition begins"
+                },
+                {
+                  "id": "recognition-end",
+                  "label": "Recognition completes"
+                },
+                {
+                  "id": "state-validated",
+                  "label": "Game state validated"
+                },
+                {
+                  "id": "decision-ready",
+                  "label": "Strategy decision available"
+                },
+                {
+                  "id": "submitted",
+                  "label": "Decision submitted to the scheduler"
+                },
+                {
+                  "id": "enqueued",
+                  "label": "Decision enters the queue"
+                },
+                {
+                  "id": "lease-acquired",
+                  "label": "Input lease acquired"
+                },
+                {
+                  "id": "target-verified",
+                  "label": "Target window verified (fresh capture inside the lease)"
+                },
+                {
+                  "id": "wager-begin",
+                  "label": "Wager entry begins (raises only)"
+                },
+                {
+                  "id": "wager-end",
+                  "label": "Wager typed and read back"
+                },
+                {
+                  "id": "move-begin",
+                  "label": "Cursor movement begins"
+                },
+                {
+                  "id": "move-end",
+                  "label": "Cursor reaches the destination"
+                },
+                {
+                  "id": "click-done",
+                  "label": "Mouse button pressed and released"
+                },
+                {
+                  "id": "driver-ack",
+                  "label": "Driver acknowledgement received"
+                },
+                {
+                  "id": "lease-released",
+                  "label": "Input lease released"
+                },
+                {
+                  "id": "confirm-begin",
+                  "label": "Action confirmation begins"
+                },
+                {
+                  "id": "state-confirmed",
+                  "label": "Simulator state change confirmed"
+                },
+                {
+                  "id": "action-released",
+                  "label": "Action state released"
+                }
+              ],
+              "intervals": [
+                {
+                  "id": "captureQueueMs",
+                  "from": "capture-queued",
+                  "to": "capture-begin",
+                  "meaning": "waiting for a host request slot before the capture"
+                },
+                {
+                  "id": "captureMs",
+                  "from": "capture-begin",
+                  "to": "capture-end",
+                  "meaning": "capture request, transfer and image decoding"
+                },
+                {
+                  "id": "recognitionMs",
+                  "from": "recognition-begin",
+                  "to": "recognition-end",
+                  "meaning": "screen recognition of the frame"
+                },
+                {
+                  "id": "validationMs",
+                  "from": "recognition-end",
+                  "to": "state-validated",
+                  "meaning": "hand-state reconstruction and validation"
+                },
+                {
+                  "id": "decisionMs",
+                  "from": "state-validated",
+                  "to": "decision-ready",
+                  "meaning": "strategy decision"
+                },
+                {
+                  "id": "submitMs",
+                  "from": "decision-ready",
+                  "to": "submitted",
+                  "meaning": "executor checks before submission"
+                },
+                {
+                  "id": "enqueueMs",
+                  "from": "submitted",
+                  "to": "enqueued",
+                  "meaning": "submission to queue entry"
+                },
+                {
+                  "id": "queueWaitMs",
+                  "from": "enqueued",
+                  "to": "lease-acquired",
+                  "meaning": "waiting for the single cursor (scheduler queue)"
+                },
+                {
+                  "id": "revalidationMs",
+                  "from": "lease-acquired",
+                  "to": "target-verified",
+                  "meaning": "fresh capture inside the lease: same frame, same window rectangle"
+                },
+                {
+                  "id": "wagerMs",
+                  "from": "wager-begin",
+                  "to": "wager-end",
+                  "meaning": "raise only: move to the amount field, click, clear, type, read back"
+                },
+                {
+                  "id": "preMoveMs",
+                  "from": "target-verified",
+                  "to": "move-begin",
+                  "meaning": "lifecycle guard, driver request, driver queue and identity checks (a raise includes its wager entry: wagerMs)"
+                },
+                {
+                  "id": "moveMs",
+                  "from": "move-begin",
+                  "to": "move-end",
+                  "meaning": "cursor movement"
+                },
+                {
+                  "id": "clickMs",
+                  "from": "move-end",
+                  "to": "click-done",
+                  "meaning": "pre-click wait, window raise, double-click guard, button hold"
+                },
+                {
+                  "id": "ackMs",
+                  "from": "click-done",
+                  "to": "driver-ack",
+                  "meaning": "input drain and driver reply"
+                },
+                {
+                  "id": "leaseTailMs",
+                  "from": "driver-ack",
+                  "to": "lease-released",
+                  "meaning": "work after the reply that still holds the lease (settle in the lease)"
+                },
+                {
+                  "id": "settleOutsideMs",
+                  "from": "lease-released",
+                  "to": "confirm-begin",
+                  "meaning": "settle after the lease was released (cursor free for other tables)"
+                },
+                {
+                  "id": "confirmMs",
+                  "from": "confirm-begin",
+                  "to": "state-confirmed",
+                  "meaning": "confirmation: captures until the simulator shows the action"
+                },
+                {
+                  "id": "releaseMs",
+                  "from": "state-confirmed",
+                  "to": "action-released",
+                  "meaning": "bookkeeping after the confirmation"
+                },
+                {
+                  "id": "leaseOccupancyMs",
+                  "from": "lease-acquired",
+                  "to": "lease-released",
+                  "meaning": "exclusive cursor time used by this action"
+                },
+                {
+                  "id": "inputServiceMs",
+                  "from": "lease-acquired",
+                  "to": "driver-ack",
+                  "meaning": "lease start to driver acknowledgement"
+                },
+                {
+                  "id": "schedulingDelayM32Ms",
+                  "from": "enqueued",
+                  "to": "target-verified",
+                  "meaning": "Milestone 3.2 \"scheduling delay\" definition (queue wait + in-lease revalidation)"
+                },
+                {
+                  "id": "actionLatencyMs",
+                  "from": "capture-end",
+                  "to": "state-confirmed",
+                  "meaning": "frame captured to action confirmed (Milestone 3.2 \"action latency\")"
+                },
+                {
+                  "id": "endToEndMs",
+                  "from": "capture-queued",
+                  "to": "action-released",
+                  "meaning": "whole action from the capture request"
+                }
+              ],
+              "overall": {
+                "actions": 49,
+                "captureQueueMs": {
+                  "n": 49,
+                  "mean": 0.01,
+                  "p50": 0.01,
+                  "p90": 0.02,
+                  "p95": 0.02,
+                  "p99": 0.03,
+                  "max": 0.03,
+                  "min": 0.01
+                },
+                "captureMs": {
+                  "n": 49,
+                  "mean": 69.18,
+                  "p50": 60.86,
+                  "p90": 116.36,
+                  "p95": 147.75,
+                  "p99": 220.17,
+                  "max": 220.17,
+                  "min": 33.07
+                },
+                "recognitionMs": {
+                  "n": 49,
+                  "mean": 17.95,
+                  "p50": 17.43,
+                  "p90": 21.06,
+                  "p95": 22.44,
+                  "p99": 27.55,
+                  "max": 27.55,
+                  "min": 15.11
+                },
+                "validationMs": {
+                  "n": 49,
+                  "mean": 0.27,
+                  "p50": 0.23,
+                  "p90": 0.53,
+                  "p95": 0.58,
+                  "p99": 0.94,
+                  "max": 0.94,
+                  "min": 0.17
+                },
+                "decisionMs": {
+                  "n": 49,
+                  "mean": 11.22,
+                  "p50": 0.08,
+                  "p90": 52.7,
+                  "p95": 64.64,
+                  "p99": 147.87,
+                  "max": 147.87,
+                  "min": 0.04
+                },
+                "submitMs": {
+                  "n": 49,
+                  "mean": 0.08,
+                  "p50": 0.08,
+                  "p90": 0.11,
+                  "p95": 0.11,
+                  "p99": 0.29,
+                  "max": 0.29,
+                  "min": 0.03
+                },
+                "enqueueMs": {
+                  "n": 49,
+                  "mean": 0.02,
+                  "p50": 0.02,
+                  "p90": 0.03,
+                  "p95": 0.03,
+                  "p99": 0.06,
+                  "max": 0.06,
+                  "min": 0.01
+                },
+                "queueWaitMs": {
+                  "n": 45,
+                  "mean": 2407.2,
+                  "p50": 2427.83,
+                  "p90": 3526.02,
+                  "p95": 3706.23,
+                  "p99": 4978.06,
+                  "max": 4978.06,
+                  "min": 0.03
+                },
+                "revalidationMs": {
+                  "n": 40,
+                  "mean": 55.71,
+                  "p50": 52.78,
+                  "p90": 68.4,
+                  "p95": 68.79,
+                  "p99": 183.42,
+                  "max": 183.42,
+                  "min": 25.06
+                },
+                "wagerMs": {
+                  "n": 4,
+                  "mean": 985.54,
+                  "p50": 900.48,
+                  "p90": 1195.83,
+                  "p95": 1195.83,
+                  "p99": 1195.83,
+                  "max": 1195.83,
+                  "min": 740.43
+                },
+                "preMoveMs": {
+                  "n": 39,
+                  "mean": 106.08,
+                  "p50": 4.14,
+                  "p90": 748.25,
+                  "p95": 1110.9,
+                  "p99": 1199.46,
+                  "max": 1199.46,
+                  "min": 3.34
+                },
+                "moveMs": {
+                  "n": 39,
+                  "mean": 304.26,
+                  "p50": 286.88,
+                  "p90": 585.44,
+                  "p95": 586.4,
+                  "p99": 586.58,
+                  "max": 586.58,
+                  "min": 144.84
+                },
+                "clickMs": {
+                  "n": 39,
+                  "mean": 198.54,
+                  "p50": 190.07,
+                  "p90": 251.73,
+                  "p95": 252.9,
+                  "p99": 274.32,
+                  "max": 274.32,
+                  "min": 133.32
+                },
+                "ackMs": {
+                  "n": 39,
+                  "mean": 1.31,
+                  "p50": 1.16,
+                  "p90": 2.18,
+                  "p95": 2.39,
+                  "p99": 3.79,
+                  "max": 3.79,
+                  "min": 0.84
+                },
+                "leaseTailMs": {
+                  "n": 39,
+                  "mean": 150.61,
+                  "p50": 150.56,
+                  "p90": 151.67,
+                  "p95": 151.68,
+                  "p99": 151.72,
+                  "max": 151.72,
+                  "min": 149.6
+                },
+                "settleOutsideMs": {
+                  "n": 39,
+                  "mean": 0.59,
+                  "p50": 0.6,
+                  "p90": 0.66,
+                  "p95": 0.67,
+                  "p99": 0.77,
+                  "max": 0.77,
+                  "min": 0.47
+                },
+                "confirmMs": {
+                  "n": 38,
+                  "mean": 135.68,
+                  "p50": 132.62,
+                  "p90": 149.67,
+                  "p95": 151.48,
+                  "p99": 154.75,
+                  "max": 154.75,
+                  "min": 116.4
+                },
+                "releaseMs": {
+                  "n": 38,
+                  "mean": 0.04,
+                  "p50": 0.04,
+                  "p90": 0.05,
+                  "p95": 0.06,
+                  "p99": 0.06,
+                  "max": 0.06,
+                  "min": 0.03
+                },
+                "leaseOccupancyMs": {
+                  "n": 45,
+                  "mean": 716.88,
+                  "p50": 672.85,
+                  "p90": 939.53,
+                  "p95": 1812.41,
+                  "p99": 2146.54,
+                  "max": 2146.54,
+                  "min": 0.04
+                },
+                "inputServiceMs": {
+                  "n": 39,
+                  "mean": 665.58,
+                  "p50": 537.61,
+                  "p90": 1506.49,
+                  "p95": 1891.88,
+                  "p99": 1994.86,
+                  "max": 1994.86,
+                  "min": 471.71
+                },
+                "schedulingDelayM32Ms": {
+                  "n": 40,
+                  "mean": 2313.24,
+                  "p50": 2466.47,
+                  "p90": 3291.43,
+                  "p95": 3523.44,
+                  "p99": 3732.18,
+                  "max": 3732.18,
+                  "min": 146.79
+                },
+                "actionLatencyMs": {
+                  "n": 38,
+                  "mean": 3215,
+                  "p50": 3199.24,
+                  "p90": 4497.53,
+                  "p95": 5182.95,
+                  "p99": 5738.38,
+                  "max": 5738.38,
+                  "min": 845.49
+                },
+                "endToEndMs": {
+                  "n": 49,
+                  "mean": 3170.15,
+                  "p50": 3257.89,
+                  "p90": 4616.88,
+                  "p95": 5132.07,
+                  "p99": 5800.12,
+                  "max": 5800.12,
+                  "min": 175.15
+                },
+                "driver": {
+                  "queueMs": {
+                    "n": 39,
+                    "mean": 0.47,
+                    "p50": 0.05,
+                    "p90": 0.68,
+                    "p95": 3.93,
+                    "p99": 5.2,
+                    "max": 5.2,
+                    "min": 0
+                  },
+                  "checkMs": {
+                    "n": 39,
+                    "mean": 0.11,
+                    "p50": 0.1,
+                    "p90": 0.15,
+                    "p95": 0.17,
+                    "p99": 0.22,
+                    "max": 0.22,
+                    "min": 0.08
+                  },
+                  "focusMs": {
+                    "n": 39,
+                    "mean": 33.44,
+                    "p50": 37.02,
+                    "p90": 37.84,
+                    "p95": 38.41,
+                    "p99": 40.02,
+                    "max": 40.02,
+                    "min": 0.17
+                  },
+                  "guardMs": {
+                    "n": 39,
+                    "mean": 17.66,
+                    "p50": 0,
+                    "p90": 68.93,
+                    "p95": 71.94,
+                    "p99": 94.27,
+                    "max": 94.27,
+                    "min": 0
+                  },
+                  "totalMs": {
+                    "n": 39,
+                    "mean": 502.97,
+                    "p50": 480.46,
+                    "p90": 730.82,
+                    "p95": 741.73,
+                    "p99": 746.83,
+                    "max": 746.83,
+                    "min": 327.32
+                  },
+                  "transportMs": {
+                    "n": 39,
+                    "mean": 2.6,
+                    "p50": 2.3,
+                    "p90": 4.34,
+                    "p95": 4.75,
+                    "p99": 7.55,
+                    "max": 7.55,
+                    "min": 1.66
+                  }
+                }
+              },
+              "perTable": {
+                "1": {
+                  "actions": 10,
+                  "captureQueueMs": {
+                    "n": 10,
+                    "mean": 0.01,
+                    "p50": 0.01,
+                    "p90": 0.01,
+                    "p95": 0.02,
+                    "p99": 0.02,
+                    "max": 0.02,
+                    "min": 0.01
+                  },
+                  "captureMs": {
+                    "n": 10,
+                    "mean": 60.75,
+                    "p50": 60.48,
+                    "p90": 79.54,
+                    "p95": 89.36,
+                    "p99": 89.36,
+                    "max": 89.36,
+                    "min": 34.1
+                  },
+                  "recognitionMs": {
+                    "n": 10,
+                    "mean": 17.9,
+                    "p50": 17.53,
+                    "p90": 18.91,
+                    "p95": 22.44,
+                    "p99": 22.44,
+                    "max": 22.44,
+                    "min": 15.68
+                  },
+                  "validationMs": {
+                    "n": 10,
+                    "mean": 0.26,
+                    "p50": 0.22,
+                    "p90": 0.3,
+                    "p95": 0.53,
+                    "p99": 0.53,
+                    "max": 0.53,
+                    "min": 0.18
+                  },
+                  "decisionMs": {
+                    "n": 10,
+                    "mean": 5.26,
+                    "p50": 0.06,
+                    "p90": 3.67,
+                    "p95": 48.39,
+                    "p99": 48.39,
+                    "max": 48.39,
+                    "min": 0.05
+                  },
+                  "submitMs": {
+                    "n": 10,
+                    "mean": 0.1,
+                    "p50": 0.08,
+                    "p90": 0.1,
+                    "p95": 0.29,
+                    "p99": 0.29,
+                    "max": 0.29,
+                    "min": 0.07
+                  },
+                  "enqueueMs": {
+                    "n": 10,
+                    "mean": 0.03,
+                    "p50": 0.02,
+                    "p90": 0.03,
+                    "p95": 0.06,
+                    "p99": 0.06,
+                    "max": 0.06,
+                    "min": 0.02
+                  },
+                  "queueWaitMs": {
+                    "n": 9,
+                    "mean": 2335.25,
+                    "p50": 2318.25,
+                    "p90": 4289.6,
+                    "p95": 4289.6,
+                    "p99": 4289.6,
+                    "max": 4289.6,
+                    "min": 0.03
+                  },
+                  "revalidationMs": {
+                    "n": 8,
+                    "mean": 64.46,
+                    "p50": 50.91,
+                    "p90": 183.42,
+                    "p95": 183.42,
+                    "p99": 183.42,
+                    "max": 183.42,
+                    "min": 25.06
+                  },
+                  "wagerMs": {
+                    "n": 1,
+                    "mean": 900.48,
+                    "p50": 900.48,
+                    "p90": 900.48,
+                    "p95": 900.48,
+                    "p99": 900.48,
+                    "max": 900.48,
+                    "min": 900.48
+                  },
+                  "preMoveMs": {
+                    "n": 8,
+                    "mean": 118.31,
+                    "p50": 4.23,
+                    "p90": 903.97,
+                    "p95": 903.97,
+                    "p99": 903.97,
+                    "max": 903.97,
+                    "min": 3.6
+                  },
+                  "moveMs": {
+                    "n": 8,
+                    "mean": 357.53,
+                    "p50": 313.96,
+                    "p90": 586.4,
+                    "p95": 586.4,
+                    "p99": 586.4,
+                    "max": 586.4,
+                    "min": 144.84
+                  },
+                  "clickMs": {
+                    "n": 8,
+                    "mean": 180.11,
+                    "p50": 182.24,
+                    "p90": 199.86,
+                    "p95": 199.86,
+                    "p99": 199.86,
+                    "max": 199.86,
+                    "min": 144.29
+                  },
+                  "ackMs": {
+                    "n": 8,
+                    "mean": 1.14,
+                    "p50": 1.13,
+                    "p90": 1.51,
+                    "p95": 1.51,
+                    "p99": 1.51,
+                    "max": 1.51,
+                    "min": 0.84
+                  },
+                  "leaseTailMs": {
+                    "n": 8,
+                    "mean": 150.67,
+                    "p50": 150.35,
+                    "p90": 151.72,
+                    "p95": 151.72,
+                    "p99": 151.72,
+                    "max": 151.72,
+                    "min": 149.67
+                  },
+                  "settleOutsideMs": {
+                    "n": 8,
+                    "mean": 0.6,
+                    "p50": 0.57,
+                    "p90": 0.77,
+                    "p95": 0.77,
+                    "p99": 0.77,
+                    "max": 0.77,
+                    "min": 0.51
+                  },
+                  "confirmMs": {
+                    "n": 8,
+                    "mean": 137.86,
+                    "p50": 134.91,
+                    "p90": 154.75,
+                    "p95": 154.75,
+                    "p99": 154.75,
+                    "max": 154.75,
+                    "min": 117.73
+                  },
+                  "releaseMs": {
+                    "n": 8,
+                    "mean": 0.04,
+                    "p50": 0.04,
+                    "p90": 0.06,
+                    "p95": 0.06,
+                    "p99": 0.06,
+                    "max": 0.06,
+                    "min": 0.03
+                  },
+                  "leaseOccupancyMs": {
+                    "n": 9,
+                    "mean": 775.32,
+                    "p50": 713.8,
+                    "p90": 1812.41,
+                    "p95": 1812.41,
+                    "p99": 1812.41,
+                    "max": 1812.41,
+                    "min": 0.04
+                  },
+                  "inputServiceMs": {
+                    "n": 8,
+                    "mean": 721.55,
+                    "p50": 563.62,
+                    "p90": 1660.72,
+                    "p95": 1660.72,
+                    "p99": 1660.72,
+                    "max": 1660.72,
+                    "min": 505.65
+                  },
+                  "schedulingDelayM32Ms": {
+                    "n": 8,
+                    "mean": 2155.41,
+                    "p50": 2334.16,
+                    "p90": 3232.23,
+                    "p95": 3232.23,
+                    "p99": 3232.23,
+                    "max": 3232.23,
+                    "min": 183.45
+                  },
+                  "actionLatencyMs": {
+                    "n": 8,
+                    "mean": 3126.3,
+                    "p50": 3199.24,
+                    "p90": 4038.27,
+                    "p95": 4038.27,
+                    "p99": 4038.27,
+                    "max": 4038.27,
+                    "min": 845.49
+                  },
+                  "endToEndMs": {
+                    "n": 10,
+                    "mean": 3148.78,
+                    "p50": 3257.89,
+                    "p90": 4098.8,
+                    "p95": 4369.85,
+                    "p99": 4369.85,
+                    "max": 4369.85,
+                    "min": 925.1
+                  },
+                  "driver": {
+                    "queueMs": {
+                      "n": 8,
+                      "mean": 0.69,
+                      "p50": 0.18,
+                      "p90": 3.93,
+                      "p95": 3.93,
+                      "p99": 3.93,
+                      "max": 3.93,
+                      "min": 0
+                    },
+                    "checkMs": {
+                      "n": 8,
+                      "mean": 0.1,
+                      "p50": 0.09,
+                      "p90": 0.16,
+                      "p95": 0.16,
+                      "p99": 0.16,
+                      "max": 0.16,
+                      "min": 0.08
+                    },
+                    "focusMs": {
+                      "n": 8,
+                      "mean": 32.78,
+                      "p50": 37.15,
+                      "p90": 38.41,
+                      "p95": 38.41,
+                      "p99": 38.41,
+                      "max": 38.41,
+                      "min": 0.19
+                    },
+                    "guardMs": {
+                      "n": 8,
+                      "mean": 0,
+                      "p50": 0,
+                      "p90": 0,
+                      "p95": 0,
+                      "p99": 0,
+                      "max": 0,
+                      "min": 0
+                    },
+                    "totalMs": {
+                      "n": 8,
+                      "mean": 537.83,
+                      "p50": 496.5,
+                      "p90": 746.83,
+                      "p95": 746.83,
+                      "p99": 746.83,
+                      "max": 746.83,
+                      "min": 327.32
+                    },
+                    "transportMs": {
+                      "n": 8,
+                      "mean": 2.26,
+                      "p50": 2.23,
+                      "p90": 2.99,
+                      "p95": 2.99,
+                      "p99": 2.99,
+                      "max": 2.99,
+                      "min": 1.66
+                    }
+                  }
+                },
+                "2": {
+                  "actions": 9,
+                  "captureQueueMs": {
+                    "n": 9,
+                    "mean": 0.01,
+                    "p50": 0.01,
+                    "p90": 0.03,
+                    "p95": 0.03,
+                    "p99": 0.03,
+                    "max": 0.03,
+                    "min": 0.01
+                  },
+                  "captureMs": {
+                    "n": 9,
+                    "mean": 66.73,
+                    "p50": 60.86,
+                    "p90": 119.29,
+                    "p95": 119.29,
+                    "p99": 119.29,
+                    "max": 119.29,
+                    "min": 33.07
+                  },
+                  "recognitionMs": {
+                    "n": 9,
+                    "mean": 16.97,
+                    "p50": 15.97,
+                    "p90": 22.32,
+                    "p95": 22.32,
+                    "p99": 22.32,
+                    "max": 22.32,
+                    "min": 15.11
+                  },
+                  "validationMs": {
+                    "n": 9,
+                    "mean": 0.29,
+                    "p50": 0.19,
+                    "p90": 0.58,
+                    "p95": 0.58,
+                    "p99": 0.58,
+                    "max": 0.58,
+                    "min": 0.18
+                  },
+                  "decisionMs": {
+                    "n": 9,
+                    "mean": 19,
+                    "p50": 0.1,
+                    "p90": 147.87,
+                    "p95": 147.87,
+                    "p99": 147.87,
+                    "max": 147.87,
+                    "min": 0.04
+                  },
+                  "submitMs": {
+                    "n": 9,
+                    "mean": 0.08,
+                    "p50": 0.08,
+                    "p90": 0.13,
+                    "p95": 0.13,
+                    "p99": 0.13,
+                    "max": 0.13,
+                    "min": 0.04
+                  },
+                  "enqueueMs": {
+                    "n": 9,
+                    "mean": 0.02,
+                    "p50": 0.02,
+                    "p90": 0.03,
+                    "p95": 0.03,
+                    "p99": 0.03,
+                    "max": 0.03,
+                    "min": 0.01
+                  },
+                  "queueWaitMs": {
+                    "n": 9,
+                    "mean": 2599.05,
+                    "p50": 2529.65,
+                    "p90": 3706.23,
+                    "p95": 3706.23,
+                    "p99": 3706.23,
+                    "max": 3706.23,
+                    "min": 486.23
+                  },
+                  "revalidationMs": {
+                    "n": 7,
+                    "mean": 53.53,
+                    "p50": 53.45,
+                    "p90": 68.69,
+                    "p95": 68.69,
+                    "p99": 68.69,
+                    "max": 68.69,
+                    "min": 25.95
+                  },
+                  "preMoveMs": {
+                    "n": 6,
+                    "mean": 3.84,
+                    "p50": 3.7,
+                    "p90": 4.48,
+                    "p95": 4.48,
+                    "p99": 4.48,
+                    "max": 4.48,
+                    "min": 3.55
+                  },
+                  "moveMs": {
+                    "n": 6,
+                    "mean": 245.19,
+                    "p50": 177.36,
+                    "p90": 387.33,
+                    "p95": 387.33,
+                    "p99": 387.33,
+                    "max": 387.33,
+                    "min": 166.62
+                  },
+                  "clickMs": {
+                    "n": 6,
+                    "mean": 216.46,
+                    "p50": 198.35,
+                    "p90": 274.32,
+                    "p95": 274.32,
+                    "p99": 274.32,
+                    "max": 274.32,
+                    "min": 180.33
+                  },
+                  "ackMs": {
+                    "n": 6,
+                    "mean": 1.14,
+                    "p50": 1.11,
+                    "p90": 1.24,
+                    "p95": 1.24,
+                    "p99": 1.24,
+                    "max": 1.24,
+                    "min": 1.08
+                  },
+                  "leaseTailMs": {
+                    "n": 6,
+                    "mean": 150.16,
+                    "p50": 150.1,
+                    "p90": 150.63,
+                    "p95": 150.63,
+                    "p99": 150.63,
+                    "max": 150.63,
+                    "min": 149.77
+                  },
+                  "settleOutsideMs": {
+                    "n": 6,
+                    "mean": 0.6,
+                    "p50": 0.63,
+                    "p90": 0.65,
+                    "p95": 0.65,
+                    "p99": 0.65,
+                    "max": 0.65,
+                    "min": 0.49
+                  },
+                  "confirmMs": {
+                    "n": 6,
+                    "mean": 134.53,
+                    "p50": 132.79,
+                    "p90": 146.9,
+                    "p95": 146.9,
+                    "p99": 146.9,
+                    "max": 146.9,
+                    "min": 126.68
+                  },
+                  "releaseMs": {
+                    "n": 6,
+                    "mean": 0.05,
+                    "p50": 0.05,
+                    "p90": 0.06,
+                    "p95": 0.06,
+                    "p99": 0.06,
+                    "max": 0.06,
+                    "min": 0.04
+                  },
+                  "leaseOccupancyMs": {
+                    "n": 9,
+                    "mean": 488.07,
+                    "p50": 623.65,
+                    "p90": 791.84,
+                    "p95": 791.84,
+                    "p99": 791.84,
+                    "max": 791.84,
+                    "min": 5.13
+                  },
+                  "inputServiceMs": {
+                    "n": 6,
+                    "mean": 517.7,
+                    "p50": 476.35,
+                    "p90": 641.74,
+                    "p95": 641.74,
+                    "p99": 641.74,
+                    "max": 641.74,
+                    "min": 471.71
+                  },
+                  "schedulingDelayM32Ms": {
+                    "n": 7,
+                    "mean": 2537.55,
+                    "p50": 2566.38,
+                    "p90": 3732.18,
+                    "p95": 3732.18,
+                    "p99": 3732.18,
+                    "max": 3732.18,
+                    "min": 539.68
+                  },
+                  "actionLatencyMs": {
+                    "n": 6,
+                    "mean": 3314.15,
+                    "p50": 3319.16,
+                    "p90": 4497.53,
+                    "p95": 4497.53,
+                    "p99": 4497.53,
+                    "max": 4497.53,
+                    "min": 1427.99
+                  },
+                  "endToEndMs": {
+                    "n": 9,
+                    "mean": 3280.48,
+                    "p50": 3371.46,
+                    "p90": 4616.88,
+                    "p95": 4616.88,
+                    "p99": 4616.88,
+                    "max": 4616.88,
+                    "min": 1544.42
+                  },
+                  "driver": {
+                    "queueMs": {
+                      "n": 6,
+                      "mean": 0,
+                      "p50": 0,
+                      "p90": 0,
+                      "p95": 0,
+                      "p99": 0,
+                      "max": 0,
+                      "min": 0
+                    },
+                    "checkMs": {
+                      "n": 6,
+                      "mean": 0.1,
+                      "p50": 0.09,
+                      "p90": 0.14,
+                      "p95": 0.14,
+                      "p99": 0.14,
+                      "max": 0.14,
+                      "min": 0.08
+                    },
+                    "focusMs": {
+                      "n": 6,
+                      "mean": 37.08,
+                      "p50": 37.01,
+                      "p90": 37.84,
+                      "p95": 37.84,
+                      "p99": 37.84,
+                      "max": 37.84,
+                      "min": 36.07
+                    },
+                    "guardMs": {
+                      "n": 6,
+                      "mean": 32.84,
+                      "p50": 1.95,
+                      "p90": 94.27,
+                      "p95": 94.27,
+                      "p99": 94.27,
+                      "max": 94.27,
+                      "min": 0
+                    },
+                    "totalMs": {
+                      "n": 6,
+                      "mean": 461.8,
+                      "p50": 441.08,
+                      "p90": 567.87,
+                      "p95": 567.87,
+                      "p99": 567.87,
+                      "max": 567.87,
+                      "min": 400.5
+                    },
+                    "transportMs": {
+                      "n": 6,
+                      "mean": 2.26,
+                      "p50": 2.2,
+                      "p90": 2.45,
+                      "p95": 2.45,
+                      "p99": 2.45,
+                      "max": 2.45,
+                      "min": 2.15
+                    }
+                  }
+                },
+                "3": {
+                  "actions": 10,
+                  "captureQueueMs": {
+                    "n": 10,
+                    "mean": 0.01,
+                    "p50": 0.01,
+                    "p90": 0.01,
+                    "p95": 0.02,
+                    "p99": 0.02,
+                    "max": 0.02,
+                    "min": 0.01
+                  },
+                  "captureMs": {
+                    "n": 10,
+                    "mean": 66.74,
+                    "p50": 58.36,
+                    "p90": 74.02,
+                    "p95": 147.75,
+                    "p99": 147.75,
+                    "max": 147.75,
+                    "min": 42.78
+                  },
+                  "recognitionMs": {
+                    "n": 10,
+                    "mean": 19.67,
+                    "p50": 18.79,
+                    "p90": 23.22,
+                    "p95": 27.55,
+                    "p99": 27.55,
+                    "max": 27.55,
+                    "min": 16.22
+                  },
+                  "validationMs": {
+                    "n": 10,
+                    "mean": 0.3,
+                    "p50": 0.23,
+                    "p90": 0.3,
+                    "p95": 0.94,
+                    "p99": 0.94,
+                    "max": 0.94,
+                    "min": 0.17
+                  },
+                  "decisionMs": {
+                    "n": 10,
+                    "mean": 11.58,
+                    "p50": 0.08,
+                    "p90": 11.42,
+                    "p95": 103.78,
+                    "p99": 103.78,
+                    "max": 103.78,
+                    "min": 0.05
+                  },
+                  "submitMs": {
+                    "n": 10,
+                    "mean": 0.08,
+                    "p50": 0.08,
+                    "p90": 0.1,
+                    "p95": 0.11,
+                    "p99": 0.11,
+                    "max": 0.11,
+                    "min": 0.04
+                  },
+                  "enqueueMs": {
+                    "n": 10,
+                    "mean": 0.02,
+                    "p50": 0.02,
+                    "p90": 0.03,
+                    "p95": 0.03,
+                    "p99": 0.03,
+                    "max": 0.03,
+                    "min": 0.01
+                  },
+                  "queueWaitMs": {
+                    "n": 9,
+                    "mean": 2195.97,
+                    "p50": 2399.04,
+                    "p90": 3526.02,
+                    "p95": 3526.02,
+                    "p99": 3526.02,
+                    "max": 3526.02,
+                    "min": 764.13
+                  },
+                  "revalidationMs": {
+                    "n": 9,
+                    "mean": 49.77,
+                    "p50": 39.25,
+                    "p90": 68.79,
+                    "p95": 68.79,
+                    "p99": 68.79,
+                    "max": 68.79,
+                    "min": 36.54
+                  },
+                  "wagerMs": {
+                    "n": 2,
+                    "mean": 1150.63,
+                    "p50": 1105.43,
+                    "p90": 1195.83,
+                    "p95": 1195.83,
+                    "p99": 1195.83,
+                    "max": 1195.83,
+                    "min": 1105.43
+                  },
+                  "preMoveMs": {
+                    "n": 9,
+                    "mean": 260.17,
+                    "p50": 4.05,
+                    "p90": 1199.46,
+                    "p95": 1199.46,
+                    "p99": 1199.46,
+                    "max": 1199.46,
+                    "min": 3.71
+                  },
+                  "moveMs": {
+                    "n": 9,
+                    "mean": 323,
+                    "p50": 249.42,
+                    "p90": 586.58,
+                    "p95": 586.58,
+                    "p99": 586.58,
+                    "max": 586.58,
+                    "min": 176.2
+                  },
+                  "clickMs": {
+                    "n": 9,
+                    "mean": 196.83,
+                    "p50": 184.31,
+                    "p90": 252.11,
+                    "p95": 252.11,
+                    "p99": 252.11,
+                    "max": 252.11,
+                    "min": 147.38
+                  },
+                  "ackMs": {
+                    "n": 9,
+                    "mean": 1.28,
+                    "p50": 1.2,
+                    "p90": 2.26,
+                    "p95": 2.26,
+                    "p99": 2.26,
+                    "max": 2.26,
+                    "min": 0.97
+                  },
+                  "leaseTailMs": {
+                    "n": 9,
+                    "mean": 150.96,
+                    "p50": 151.09,
+                    "p90": 151.68,
+                    "p95": 151.68,
+                    "p99": 151.68,
+                    "max": 151.68,
+                    "min": 149.6
+                  },
+                  "settleOutsideMs": {
+                    "n": 9,
+                    "mean": 0.57,
+                    "p50": 0.54,
+                    "p90": 0.66,
+                    "p95": 0.66,
+                    "p99": 0.66,
+                    "max": 0.66,
+                    "min": 0.47
+                  },
+                  "confirmMs": {
+                    "n": 9,
+                    "mean": 138.83,
+                    "p50": 146.26,
+                    "p90": 151.48,
+                    "p95": 151.48,
+                    "p99": 151.48,
+                    "max": 151.48,
+                    "min": 118.73
+                  },
+                  "releaseMs": {
+                    "n": 9,
+                    "mean": 0.04,
+                    "p50": 0.04,
+                    "p90": 0.05,
+                    "p95": 0.05,
+                    "p99": 0.05,
+                    "max": 0.05,
+                    "min": 0.03
+                  },
+                  "leaseOccupancyMs": {
+                    "n": 9,
+                    "mean": 982.01,
+                    "p50": 656.05,
+                    "p90": 2146.54,
+                    "p95": 2146.54,
+                    "p99": 2146.54,
+                    "max": 2146.54,
+                    "min": 622.93
+                  },
+                  "inputServiceMs": {
+                    "n": 9,
+                    "mean": 831.05,
+                    "p50": 505.53,
+                    "p90": 1994.86,
+                    "p95": 1994.86,
+                    "p99": 1994.86,
+                    "max": 1994.86,
+                    "min": 473.33
+                  },
+                  "schedulingDelayM32Ms": {
+                    "n": 9,
+                    "mean": 2245.74,
+                    "p50": 2437.43,
+                    "p90": 3563.17,
+                    "p95": 3563.17,
+                    "p99": 3563.17,
+                    "max": 3563.17,
+                    "min": 831.14
+                  },
+                  "actionLatencyMs": {
+                    "n": 9,
+                    "mean": 3350.44,
+                    "p50": 3190.06,
+                    "p90": 5738.38,
+                    "p95": 5738.38,
+                    "p99": 5738.38,
+                    "max": 5738.38,
+                    "min": 1605.48
+                  },
+                  "endToEndMs": {
+                    "n": 10,
+                    "mean": 3172.66,
+                    "p50": 3205.07,
+                    "p90": 5225.76,
+                    "p95": 5800.12,
+                    "p99": 5800.12,
+                    "max": 5800.12,
+                    "min": 960.44
+                  },
+                  "driver": {
+                    "queueMs": {
+                      "n": 9,
+                      "mean": 0.56,
+                      "p50": 0.22,
+                      "p90": 3.82,
+                      "p95": 3.82,
+                      "p99": 3.82,
+                      "max": 3.82,
+                      "min": 0
+                    },
+                    "checkMs": {
+                      "n": 9,
+                      "mean": 0.1,
+                      "p50": 0.11,
+                      "p90": 0.12,
+                      "p95": 0.12,
+                      "p99": 0.12,
+                      "max": 0.12,
+                      "min": 0.09
+                    },
+                    "focusMs": {
+                      "n": 9,
+                      "mean": 29.14,
+                      "p50": 37.01,
+                      "p90": 40.02,
+                      "p95": 40.02,
+                      "p99": 40.02,
+                      "max": 40.02,
+                      "min": 0.17
+                    },
+                    "guardMs": {
+                      "n": 9,
+                      "mean": 19.77,
+                      "p50": 0,
+                      "p90": 70.07,
+                      "p95": 70.07,
+                      "p99": 70.07,
+                      "max": 70.07,
+                      "min": 0
+                    },
+                    "totalMs": {
+                      "n": 9,
+                      "mean": 520,
+                      "p50": 433.63,
+                      "p90": 741.73,
+                      "p95": 741.73,
+                      "p99": 741.73,
+                      "max": 741.73,
+                      "min": 399.74
+                    },
+                    "transportMs": {
+                      "n": 9,
+                      "mean": 2.54,
+                      "p50": 2.38,
+                      "p90": 4.51,
+                      "p95": 4.51,
+                      "p99": 4.51,
+                      "max": 4.51,
+                      "min": 1.91
+                    }
+                  }
+                },
+                "4": {
+                  "actions": 10,
+                  "captureQueueMs": {
+                    "n": 10,
+                    "mean": 0.01,
+                    "p50": 0.01,
+                    "p90": 0.01,
+                    "p95": 0.02,
+                    "p99": 0.02,
+                    "max": 0.02,
+                    "min": 0.01
+                  },
+                  "captureMs": {
+                    "n": 10,
+                    "mean": 74.22,
+                    "p50": 61.29,
+                    "p90": 106.57,
+                    "p95": 187.86,
+                    "p99": 187.86,
+                    "max": 187.86,
+                    "min": 38.49
+                  },
+                  "recognitionMs": {
+                    "n": 10,
+                    "mean": 17.45,
+                    "p50": 17.16,
+                    "p90": 19.14,
+                    "p95": 21.06,
+                    "p99": 21.06,
+                    "max": 21.06,
+                    "min": 15.27
+                  },
+                  "validationMs": {
+                    "n": 10,
+                    "mean": 0.29,
+                    "p50": 0.23,
+                    "p90": 0.37,
+                    "p95": 0.62,
+                    "p99": 0.62,
+                    "max": 0.62,
+                    "min": 0.18
+                  },
+                  "decisionMs": {
+                    "n": 10,
+                    "mean": 12.98,
+                    "p50": 0.08,
+                    "p90": 62.28,
+                    "p95": 64.64,
+                    "p99": 64.64,
+                    "max": 64.64,
+                    "min": 0.05
+                  },
+                  "submitMs": {
+                    "n": 10,
+                    "mean": 0.07,
+                    "p50": 0.08,
+                    "p90": 0.1,
+                    "p95": 0.11,
+                    "p99": 0.11,
+                    "max": 0.11,
+                    "min": 0.03
+                  },
+                  "enqueueMs": {
+                    "n": 10,
+                    "mean": 0.02,
+                    "p50": 0.02,
+                    "p90": 0.03,
+                    "p95": 0.03,
+                    "p99": 0.03,
+                    "max": 0.03,
+                    "min": 0.01
+                  },
+                  "queueWaitMs": {
+                    "n": 9,
+                    "mean": 2508.25,
+                    "p50": 2401,
+                    "p90": 4978.06,
+                    "p95": 4978.06,
+                    "p99": 4978.06,
+                    "max": 4978.06,
+                    "min": 1287.59
+                  },
+                  "revalidationMs": {
+                    "n": 8,
+                    "mean": 55.52,
+                    "p50": 54.39,
+                    "p90": 66.87,
+                    "p95": 66.87,
+                    "p99": 66.87,
+                    "max": 66.87,
+                    "min": 35.37
+                  },
+                  "preMoveMs": {
+                    "n": 8,
+                    "mean": 5.01,
+                    "p50": 4.19,
+                    "p90": 8.98,
+                    "p95": 8.98,
+                    "p99": 8.98,
+                    "max": 8.98,
+                    "min": 3.34
+                  },
+                  "moveMs": {
+                    "n": 8,
+                    "mean": 262.45,
+                    "p50": 181.73,
+                    "p90": 382.32,
+                    "p95": 382.32,
+                    "p99": 382.32,
+                    "max": 382.32,
+                    "min": 176.05
+                  },
+                  "clickMs": {
+                    "n": 8,
+                    "mean": 209.35,
+                    "p50": 196.34,
+                    "p90": 252.9,
+                    "p95": 252.9,
+                    "p99": 252.9,
+                    "max": 252.9,
+                    "min": 181.79
+                  },
+                  "ackMs": {
+                    "n": 8,
+                    "mean": 1.45,
+                    "p50": 1.13,
+                    "p90": 3.79,
+                    "p95": 3.79,
+                    "p99": 3.79,
+                    "max": 3.79,
+                    "min": 0.87
+                  },
+                  "leaseTailMs": {
+                    "n": 8,
+                    "mean": 150.63,
+                    "p50": 150.49,
+                    "p90": 151.37,
+                    "p95": 151.37,
+                    "p99": 151.37,
+                    "max": 151.37,
+                    "min": 150.33
+                  },
+                  "settleOutsideMs": {
+                    "n": 8,
+                    "mean": 0.62,
+                    "p50": 0.6,
+                    "p90": 0.67,
+                    "p95": 0.67,
+                    "p99": 0.67,
+                    "max": 0.67,
+                    "min": 0.57
+                  },
+                  "confirmMs": {
+                    "n": 7,
+                    "mean": 130.52,
+                    "p50": 132.08,
+                    "p90": 149.81,
+                    "p95": 149.81,
+                    "p99": 149.81,
+                    "max": 149.81,
+                    "min": 116.83
+                  },
+                  "releaseMs": {
+                    "n": 7,
+                    "mean": 0.04,
+                    "p50": 0.04,
+                    "p90": 0.04,
+                    "p95": 0.04,
+                    "p99": 0.04,
+                    "max": 0.04,
+                    "min": 0.04
+                  },
+                  "leaseOccupancyMs": {
+                    "n": 9,
+                    "mean": 608.89,
+                    "p50": 625.23,
+                    "p90": 778.09,
+                    "p95": 778.09,
+                    "p99": 778.09,
+                    "max": 778.09,
+                    "min": 4.76
+                  },
+                  "inputServiceMs": {
+                    "n": 8,
+                    "mean": 533.78,
+                    "p50": 474.67,
+                    "p90": 627.75,
+                    "p95": 627.75,
+                    "p99": 627.75,
+                    "max": 627.75,
+                    "min": 472.79
+                  },
+                  "schedulingDelayM32Ms": {
+                    "n": 8,
+                    "mean": 2255.04,
+                    "p50": 2351.72,
+                    "p90": 3078.97,
+                    "p95": 3078.97,
+                    "p99": 3078.97,
+                    "max": 3078.97,
+                    "min": 1354.46
+                  },
+                  "actionLatencyMs": {
+                    "n": 7,
+                    "mean": 2921.59,
+                    "p50": 3158.9,
+                    "p90": 3367.39,
+                    "p95": 3367.39,
+                    "p99": 3367.39,
+                    "max": 3367.39,
+                    "min": 2111.9
+                  },
+                  "endToEndMs": {
+                    "n": 10,
+                    "mean": 3013.67,
+                    "p50": 3220.24,
+                    "p90": 3850.1,
+                    "p95": 5061.35,
+                    "p99": 5061.35,
+                    "max": 5061.35,
+                    "min": 175.15
+                  },
+                  "driver": {
+                    "queueMs": {
+                      "n": 8,
+                      "mean": 0.78,
+                      "p50": 0,
+                      "p90": 5.2,
+                      "p95": 5.2,
+                      "p99": 5.2,
+                      "max": 5.2,
+                      "min": 0
+                    },
+                    "checkMs": {
+                      "n": 8,
+                      "mean": 0.11,
+                      "p50": 0.1,
+                      "p90": 0.17,
+                      "p95": 0.17,
+                      "p99": 0.17,
+                      "max": 0.17,
+                      "min": 0.08
+                    },
+                    "focusMs": {
+                      "n": 8,
+                      "mean": 37.17,
+                      "p50": 37.01,
+                      "p90": 38.03,
+                      "p95": 38.03,
+                      "p99": 38.03,
+                      "max": 38.03,
+                      "min": 36.53
+                    },
+                    "guardMs": {
+                      "n": 8,
+                      "mean": 25.96,
+                      "p50": 0,
+                      "p90": 71.94,
+                      "p95": 71.94,
+                      "p99": 71.94,
+                      "max": 71.94,
+                      "min": 0
+                    },
+                    "totalMs": {
+                      "n": 8,
+                      "mean": 471.98,
+                      "p50": 430.35,
+                      "p90": 564.25,
+                      "p95": 564.25,
+                      "p99": 564.25,
+                      "max": 564.25,
+                      "min": 395.75
+                    },
+                    "transportMs": {
+                      "n": 8,
+                      "mean": 2.88,
+                      "p50": 2.24,
+                      "p90": 7.55,
+                      "p95": 7.55,
+                      "p99": 7.55,
+                      "max": 7.55,
+                      "min": 1.73
+                    }
+                  }
+                },
+                "5": {
+                  "actions": 10,
+                  "captureQueueMs": {
+                    "n": 10,
+                    "mean": 0.01,
+                    "p50": 0.01,
+                    "p90": 0.01,
+                    "p95": 0.02,
+                    "p99": 0.02,
+                    "max": 0.02,
+                    "min": 0.01
+                  },
+                  "captureMs": {
+                    "n": 10,
+                    "mean": 77.23,
+                    "p50": 61.6,
+                    "p90": 67.71,
+                    "p95": 220.17,
+                    "p99": 220.17,
+                    "max": 220.17,
+                    "min": 48.92
+                  },
+                  "recognitionMs": {
+                    "n": 10,
+                    "mean": 17.67,
+                    "p50": 17.28,
+                    "p90": 20,
+                    "p95": 20.89,
+                    "p99": 20.89,
+                    "max": 20.89,
+                    "min": 15.3
+                  },
+                  "validationMs": {
+                    "n": 10,
+                    "mean": 0.22,
+                    "p50": 0.2,
+                    "p90": 0.25,
+                    "p95": 0.37,
+                    "p99": 0.37,
+                    "max": 0.37,
+                    "min": 0.18
+                  },
+                  "decisionMs": {
+                    "n": 10,
+                    "mean": 8.04,
+                    "p50": 0.07,
+                    "p90": 27.2,
+                    "p95": 52.7,
+                    "p99": 52.7,
+                    "max": 52.7,
+                    "min": 0.04
+                  },
+                  "submitMs": {
+                    "n": 10,
+                    "mean": 0.07,
+                    "p50": 0.08,
+                    "p90": 0.09,
+                    "p95": 0.1,
+                    "p99": 0.1,
+                    "max": 0.1,
+                    "min": 0.03
+                  },
+                  "enqueueMs": {
+                    "n": 10,
+                    "mean": 0.02,
+                    "p50": 0.02,
+                    "p90": 0.03,
+                    "p95": 0.03,
+                    "p99": 0.03,
+                    "max": 0.03,
+                    "min": 0.01
+                  },
+                  "queueWaitMs": {
+                    "n": 9,
+                    "mean": 2397.5,
+                    "p50": 2597.26,
+                    "p90": 3485.13,
+                    "p95": 3485.13,
+                    "p99": 3485.13,
+                    "max": 3485.13,
+                    "min": 0.03
+                  },
+                  "revalidationMs": {
+                    "n": 8,
+                    "mean": 55.76,
+                    "p50": 38.3,
+                    "p90": 146.76,
+                    "p95": 146.76,
+                    "p99": 146.76,
+                    "max": 146.76,
+                    "min": 25.82
+                  },
+                  "wagerMs": {
+                    "n": 1,
+                    "mean": 740.43,
+                    "p50": 740.43,
+                    "p90": 740.43,
+                    "p95": 740.43,
+                    "p99": 740.43,
+                    "max": 740.43,
+                    "min": 740.43
+                  },
+                  "preMoveMs": {
+                    "n": 8,
+                    "mean": 98.25,
+                    "p50": 3.76,
+                    "p90": 748.25,
+                    "p95": 748.25,
+                    "p99": 748.25,
+                    "max": 748.25,
+                    "min": 3.52
+                  },
+                  "moveMs": {
+                    "n": 8,
+                    "mean": 316,
+                    "p50": 303.64,
+                    "p90": 585.48,
+                    "p95": 585.48,
+                    "p99": 585.48,
+                    "max": 585.48,
+                    "min": 177.17
+                  },
+                  "clickMs": {
+                    "n": 8,
+                    "mean": 194.65,
+                    "p50": 190.27,
+                    "p90": 236.32,
+                    "p95": 236.32,
+                    "p99": 236.32,
+                    "max": 236.32,
+                    "min": 133.32
+                  },
+                  "ackMs": {
+                    "n": 8,
+                    "mean": 1.51,
+                    "p50": 1.23,
+                    "p90": 2.39,
+                    "p95": 2.39,
+                    "p99": 2.39,
+                    "max": 2.39,
+                    "min": 1
+                  },
+                  "leaseTailMs": {
+                    "n": 8,
+                    "mean": 150.49,
+                    "p50": 150.56,
+                    "p90": 150.88,
+                    "p95": 150.88,
+                    "p99": 150.88,
+                    "max": 150.88,
+                    "min": 149.64
+                  },
+                  "settleOutsideMs": {
+                    "n": 8,
+                    "mean": 0.55,
+                    "p50": 0.53,
+                    "p90": 0.64,
+                    "p95": 0.64,
+                    "p99": 0.64,
+                    "max": 0.64,
+                    "min": 0.51
+                  },
+                  "confirmMs": {
+                    "n": 8,
+                    "mean": 135.33,
+                    "p50": 132.26,
+                    "p90": 147.5,
+                    "p95": 147.5,
+                    "p99": 147.5,
+                    "max": 147.5,
+                    "min": 116.4
+                  },
+                  "releaseMs": {
+                    "n": 8,
+                    "mean": 0.04,
+                    "p50": 0.04,
+                    "p90": 0.04,
+                    "p95": 0.04,
+                    "p99": 0.04,
+                    "max": 0.04,
+                    "min": 0.03
+                  },
+                  "leaseOccupancyMs": {
+                    "n": 9,
+                    "mean": 730.11,
+                    "p50": 689.11,
+                    "p90": 1656.69,
+                    "p95": 1656.69,
+                    "p99": 1656.69,
+                    "max": 1656.69,
+                    "min": 37.77
+                  },
+                  "inputServiceMs": {
+                    "n": 8,
+                    "mean": 666.16,
+                    "p50": 538.55,
+                    "p90": 1506.49,
+                    "p95": 1506.49,
+                    "p99": 1506.49,
+                    "max": 1506.49,
+                    "min": 474.02
+                  },
+                  "schedulingDelayM32Ms": {
+                    "n": 8,
+                    "mean": 2408.92,
+                    "p50": 2427.54,
+                    "p90": 3523.44,
+                    "p95": 3523.44,
+                    "p99": 3523.44,
+                    "max": 3523.44,
+                    "min": 146.79
+                  },
+                  "actionLatencyMs": {
+                    "n": 8,
+                    "mean": 3333.69,
+                    "p50": 3254.7,
+                    "p90": 5071.51,
+                    "p95": 5071.51,
+                    "p99": 5071.51,
+                    "max": 5071.51,
+                    "min": 987.8
+                  },
+                  "endToEndMs": {
+                    "n": 10,
+                    "mean": 3246.18,
+                    "p50": 3316.35,
+                    "p90": 4397.51,
+                    "p95": 5132.07,
+                    "p99": 5132.07,
+                    "max": 5132.07,
+                    "min": 1053.99
+                  },
+                  "driver": {
+                    "queueMs": {
+                      "n": 8,
+                      "mean": 0.19,
+                      "p50": 0.02,
+                      "p90": 0.63,
+                      "p95": 0.63,
+                      "p99": 0.63,
+                      "max": 0.63,
+                      "min": 0
+                    },
+                    "checkMs": {
+                      "n": 8,
+                      "mean": 0.11,
+                      "p50": 0.08,
+                      "p90": 0.22,
+                      "p95": 0.22,
+                      "p99": 0.22,
+                      "max": 0.22,
+                      "min": 0.08
+                    },
+                    "focusMs": {
+                      "n": 8,
+                      "mean": 32.48,
+                      "p50": 37.02,
+                      "p90": 37.26,
+                      "p95": 37.26,
+                      "p99": 37.26,
+                      "max": 37.26,
+                      "min": 0.2
+                    },
+                    "guardMs": {
+                      "n": 8,
+                      "mean": 13.23,
+                      "p50": 0,
+                      "p90": 53.91,
+                      "p95": 53.91,
+                      "p99": 53.91,
+                      "max": 53.91,
+                      "min": 0
+                    },
+                    "totalMs": {
+                      "n": 8,
+                      "mean": 510.82,
+                      "p50": 495.83,
+                      "p90": 718.98,
+                      "p95": 718.98,
+                      "p99": 718.98,
+                      "max": 718.98,
+                      "min": 411.37
+                    },
+                    "transportMs": {
+                      "n": 8,
+                      "mean": 3,
+                      "p50": 2.44,
+                      "p90": 4.75,
+                      "p95": 4.75,
+                      "p99": 4.75,
+                      "max": 4.75,
+                      "min": 1.99
+                    }
+                  }
+                }
+              },
+              "droppedOldest": 0
+            },
+            "hostApi": {
+              "normal": {
+                "n": 612,
+                "mean": 0.01,
+                "p50": 0,
+                "p95": 0.04,
+                "p99": 0.19,
+                "max": 0.42
+              },
+              "priority": {
+                "n": 0
+              },
+              "counts": {
+                "normal": 612,
+                "priority": 0,
+                "reservedUsed": 0
+              }
+            },
+            "resources": {
+              "format": "eightmax-resource-samples",
+              "version": 1,
+              "intervalMs": 5000,
+              "platform": "win32",
+              "cores": 4,
+              "ramGiB": 16,
+              "systemSamples": 6,
+              "machineCpuPct": {
+                "n": 6,
+                "mean": 5.33,
+                "p50": 5,
+                "p95": 9,
+                "max": 9
+              },
+              "machineUsedMemoryMB": {
+                "n": 6,
+                "mean": 3142.5,
+                "p50": 3138,
+                "p95": 3165,
+                "max": 3165
+              },
+              "gpu3dPct": {
+                "n": 6,
+                "mean": 13.92,
+                "p50": 15.28,
+                "p95": 18.69,
+                "max": 18.69
+              },
+              "gpuNote": "GPU Engine 3D utilisation (sum over engines)",
+              "processes": {
+                "EightMaxInput": {
+                  "cpuPctOfOneCore": {
+                    "n": 5,
+                    "mean": 6.09,
+                    "p50": 5.7,
+                    "p95": 9.41,
+                    "max": 9.41
+                  },
+                  "workingSetMB": {
+                    "n": 5,
+                    "mean": 34.77,
+                    "p50": 34.76,
+                    "p95": 34.81,
+                    "max": 34.81
+                  },
+                  "processes": {
+                    "n": 5,
+                    "mean": 1,
+                    "p50": 1,
+                    "p95": 1,
+                    "max": 1
+                  }
+                },
+                "EightMaxTestTable": {
+                  "cpuPctOfOneCore": {
+                    "n": 5,
+                    "mean": 2.87,
+                    "p50": 2.72,
+                    "p95": 4.22,
+                    "max": 4.22
+                  },
+                  "workingSetMB": {
+                    "n": 5,
+                    "mean": 200.35,
+                    "p50": 200.67,
+                    "p95": 202.26,
+                    "max": 202.26
+                  },
+                  "processes": {
+                    "n": 5,
+                    "mean": 5,
+                    "p50": 5,
+                    "p95": 5,
+                    "max": 5
+                  }
+                },
+                "EightMaxWorkbench": {
+                  "cpuPctOfOneCore": {
+                    "n": 5,
+                    "mean": 3.66,
+                    "p50": 3.48,
+                    "p95": 7.13,
+                    "max": 7.13
+                  },
+                  "workingSetMB": {
+                    "n": 5,
+                    "mean": 39.19,
+                    "p50": 39.15,
+                    "p95": 39.27,
+                    "max": 39.27
+                  },
+                  "processes": {
+                    "n": 5,
+                    "mean": 1,
+                    "p50": 1,
+                    "p95": 1,
+                    "max": 1
+                  }
+                },
+                "node": {
+                  "cpuPctOfOneCore": {
+                    "n": 5,
+                    "mean": 15.99,
+                    "p50": 16.09,
+                    "p95": 18.37,
+                    "max": 18.37
+                  },
+                  "workingSetMB": {
+                    "n": 5,
+                    "mean": 182.36,
+                    "p50": 188.57,
+                    "p95": 190.26,
+                    "max": 190.26
+                  },
+                  "processes": {
+                    "n": 5,
+                    "mean": 2,
+                    "p50": 2,
+                    "p95": 2,
+                    "max": 2
+                  }
+                }
+              },
+              "node": {
+                "cpuPctOfOneCore": {
+                  "n": 8,
+                  "mean": 12.61,
+                  "p50": 11.88,
+                  "p95": 18.43,
+                  "max": 18.43
+                },
+                "rssMB": {
+                  "n": 8,
+                  "mean": 123.1,
+                  "p50": 124.6,
+                  "p95": 129.7,
+                  "max": 129.7
+                },
+                "heapMB": {
+                  "n": 8,
+                  "mean": 19.82,
+                  "p50": 18.9,
+                  "p95": 22.7,
+                  "max": 22.7
+                }
+              }
+            }
+          }
+        },
+        "evidenceFiles": [
+          "unconfirmed-stability-table2-g1-1.json",
+          "unconfirmed-stability-table2-g1-1-before.png",
+          "unconfirmed-stability-table2-g1-1-after.png",
+          "unconfirmed-stability-table4-g1-1.json",
+          "unconfirmed-stability-table4-g1-1-before.png",
+          "unconfirmed-stability-table4-g1-1-after.png"
+        ],
+        "incorrectExplainedByMisdirectedPress": 0,
+        "incorrectActionsUnexplained": 0
+      }
+    }
+  ],
+  "cleanup": {
+    "childProcesses": [
+      {
+        "name": "desktop host",
+        "pid": 1704,
+        "exited": true,
+        "code": 0,
+        "signal": null
+      },
+      {
+        "name": "test-table fixture 1",
+        "pid": 8624,
+        "exited": true,
+        "code": 0,
+        "signal": null
+      },
+      {
+        "name": "test-table fixture 2",
+        "pid": 1256,
+        "exited": true,
+        "code": 0,
+        "signal": null
+      },
+      {
+        "name": "test-table fixture 3",
+        "pid": 5396,
+        "exited": true,
+        "code": 0,
+        "signal": null
+      }
+    ],
+    "allChildrenExited": true,
+    "activeResources": {},
+    "unexpected": [],
+    "ok": true
+  },
+  "summary": {
+    "scenarios": 3,
+    "passed": 3,
+    "failed": 0,
+    "withWarnings": 0,
+    "checks": 15,
+    "failedChecks": 0,
+    "warningChecks": 0,
+    "cleanupOk": true
+  },
+  "overall": "PASS",
+  "durationMs": 100229,
+  "exitCode": 0
+}

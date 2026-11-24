@@ -1,0 +1,123 @@
+
+ EightMax Test Workbench 0.36.2 - Milestone 4.0 performance tests
+ ===================================================================
+ Nothing needs to be installed. Every run saves its progress continuously and ends with a report and a ZIP,
+ also when a test fails or stops responding.
+
+
+14:30:02  EightMax Test Workbench 0.36.2 - Milestone 4.0 performance tests, mode A - Recognition verification (test-table windows open; no mouse input)
+14:30:02  Results folder: D:\a\_temp\m40-launcher\Milestone4.0-20261124-143002-recognition
+14:30:02  Application:    D:\a\_temp\EightMax CI (launcher) é\EightMax-Test-Workbench
+14:30:02  This mode does not move the mouse. Progress is shown below; every step has a time limit.
+14:30:02  Session job active: every process this run starts ends with the run, however it ends.
+14:30:02  
+14:30:02  ==== Computer and environment [environment] (1 of 7)
+14:30:06    [environment] PASS machine details collected: Microsoft Windows Server 2025 Datacenter build 26100; AMD EPYC 9V74 80-Core Processor (2 cores, 4 threads); 16 GiB; display scaling 100%; PowerShell 5.1.26100.33822 Desktop
+14:30:06    [environment] PASS application folder path: application folder D:\a\_temp\EightMax CI (launcher) é\EightMax-Test-Workbench (59 characters, spaces, non-ASCII characters, parentheses)
+14:30:06    [environment] PASS results folder: D:\a\_temp\m40-launcher\Milestone4.0-20261124-143002-recognition (requested)
+14:30:06    [environment] PASS session process control: job object: every process of this run ends with the run
+14:30:06    [environment] PASS files marked as downloaded from the internet (Mark of the Web): none of 431 program files is marked
+14:30:06    [environment] PASS Windows security settings: SmartScreen not set (Windows default); Smart App Control unknown; antivirus none reported by Windows Security Center; Defender real-time protection False, controlled folder access 0
+14:30:06    [environment] PASS PowerShell execution policy: MachinePolicy=Undefined, UserPolicy=Undefined, Process=Bypass, CurrentUser=Undefined, LocalMachine=Unrestricted
+14:30:07    [environment] PASS no EightMax desktop host already running: none
+14:30:07    [environment] PASS port 48713 free: free
+14:30:07  ---- environment: PASS (4.6 s)
+14:30:07  
+14:30:07  ==== Release integrity and executable identities [integrity] (2 of 7)
+14:30:10    [integrity] PASS release files match SHA256SUMS.txt (runtime output excluded by release-integrity-policy.json): PASS: 1484 of 1484 listed files verified; missing 0, modified 0, unexpected executables 0, other unlisted files 0; runtime output ignored: 0 file(s) in 0 folder(s); warnings 0 (2.9 s)
+14:30:11    [identity] PASS desktop\bin\EightMaxWorkbench.exe: sha256 c84a0f68530c3048... version 0.36.2.0 / 0.36.2-dev
+14:30:11    [identity] PASS desktop\bin\EightMaxInput.exe: sha256 2460e41ef51afdbe... version 0.36.2.0 / 0.36.2-dev
+14:30:11    [identity] PASS desktop\bin\EightMaxTestTable.exe: sha256 3e5a76995a24d169... version 0.36.2.0 / 0.36.2-dev
+14:30:11    [identity] PASS desktop\bin\EightMaxCapture.exe: sha256 6b758678c7cff0e4... version 0.35.0.0 / 0.35.0
+14:30:11    [identity] PASS desktop\bin\EightMaxWgc.exe: sha256 bc001504382306e1... version 0.35.0.0 / 0.35.0
+14:30:11    [identity] PASS native\mwcli.exe: sha256 b3e675bfe2ae231e... version  / 
+14:30:11    [identity] PASS runtime\node\node.exe: sha256 247e9693d316da98... version 22.23.5 / 22.23.5
+14:30:12    [identity] PASS EightMax 5.1 binary unchanged: b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72
+14:30:12    [identity] PASS EightMax 5.1 build id: EightMaxBuild=7d08acc7eb4577ee
+14:30:12  ---- integrity: PASS (4.6 s)
+14:30:12  
+14:30:12  ==== Required components [dependencies] (3 of 7)
+14:30:12    [dependencies] PASS 64-bit Windows and 64-bit PowerShell: yes
+14:30:12    [dependencies] PASS .NET Framework 4.x: release 533509 (4.8 or later)
+14:30:13    [dependencies] PASS csc.exe compiler of .NET Framework (used only by the fallback start): C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe
+14:30:13    [dependencies] PASS required release files present: 18 files present
+14:30:13    [dependencies] PASS bundled Node.js (runtime\node\node.exe) runs: v22.23.5
+14:30:13    [dependencies] PASS Windows helper for diagnostics (process tree, port owner, prompt windows): compiled
+14:30:13  ---- dependencies: PASS (1.1 s)
+14:30:13  
+14:30:13  ==== Desktop host start: prebuilt, fallback compile, cache cases [host-start] (4 of 7)
+14:30:13  
+14:30:13    -- start case 1: prebuilt host launch
+14:30:14    [1/12] Check for EightMax programs that are already running ...
+14:30:14    [host-start] PASS prebuilt host launch - 1/12 Check for EightMax programs that are already running: no EightMax program is running [0.2 s]
+14:30:14    [2/12] Check that port 48713 is free ...
+14:30:14    [host-start] PASS prebuilt host launch - 2/12 Check that port 48713 is free: free [0 s]
+14:30:14    [3/12] Prepare the start-up folders ...
+14:30:14    [host-start] PASS prebuilt host launch - 3/12 Prepare the start-up folders: case folder ready: D:\a\_temp\m40-launcher\Milestone4.0-20261124-143002-recognition\host-start\01-prebuilt [0 s]
+14:30:14    [4/12] Start the start-up script (Start-Desktop.ps1) ...
+14:30:15    [host-start] PASS prebuilt host launch - 4/12 Start the start-up script (Start-Desktop.ps1): started powershell.exe pid 7328 [0.1 s]
+14:30:15    [5/12] Wait for the start-up script to launch the desktop host ...
+14:30:17    [host-start] PASS prebuilt host launch - 5/12 Wait for the start-up script to launch the desktop host: host pid 10020 launched (CreateProcess, path prebuilt); start-up script finished in 2.2 s [2.2 s]
+14:30:17    [6/12] Wait for the host to report ready (session file) ...
+14:30:17    [host-start] PASS prebuilt host launch - 6/12 Wait for the host to report ready (session file): ready after 0 s [0 s]
+14:30:18    [7/12] Read and validate the session file ...
+14:30:18    [host-start] PASS prebuilt host launch - 7/12 Read and validate the session file: session of host pid 10020, app 0.36.2-dev [0 s]
+14:30:18    [8/12] Check the health endpoint ...
+14:30:18    [host-start] PASS prebuilt host launch - 8/12 Check the health endpoint: HTTP 200, app 0.36.2-dev, input driver installed True [0.1 s]
+14:30:18    [9/12] Check that the input driver starts (authenticated hello, no mouse movement) ...
+14:30:18    [host-start] PASS prebuilt host launch - 9/12 Check that the input driver starts (authenticated hello, no mouse movement): EightMaxInput.exe started and accepted the session (running, not crashed, emergency-stop hotkey Ctrl+Alt+F12) [0.1 s]
+14:30:18    [10/12] Shut the host down (authenticated request) ...
+14:30:18    [host-start] PASS prebuilt host launch - 10/12 Shut the host down (authenticated request): HTTP 200 (shutdown accepted) [0 s]
+14:30:19    [11/12] Check that the host, the input driver and the start-up script have exited ...
+14:30:19    [host-start] PASS prebuilt host launch - 11/12 Check that the host, the input driver and the start-up script have exited: host exited (exit code 0) after 0 s; no input driver left [0 s]
+14:30:19    [12/12] Check that port 48713 is released ...
+14:30:19    [host-start] PASS prebuilt host launch - 12/12 Check that port 48713 is released: free after 9 ms [0 s]
+14:30:19    [host-start] PASS prebuilt host launch - expected result: path prebuilt
+14:30:20  ---- host-start: PASS (6.2 s)
+14:30:20  
+14:30:20  ==== Recognition dataset: every table size at 100-200 % display scaling, clean and degraded, 3 game states per size (no windows, no input) [recognition] (5 of 7)
+14:30:35       ... recognition dataset still running after 15 s (time limit 2400 s) -   1536x960: 21 frames, 15 accepted, wrong in accepted 0, recognition 26.156 ms (clean)
+14:30:50       ... recognition dataset still running after 30 s (time limit 2400 s) -   2160x1350: 21 frames, 15 accepted, wrong in accepted 0, recognition 24.503 ms (clean)
+14:31:05       ... recognition dataset still running after 45 s (time limit 2400 s) -   2880x1800: 24 frames, 18 accepted, wrong in accepted 0, recognition 35.536 ms (clean)
+14:31:17    [recognition] PASS no frame the automation would act on holds a wrong value (never guessed): 343 of 486 frames accepted; accepted with a wrong value: 0
+14:31:17    [recognition] PASS every clean frame is read at every size (800-3840 px): 69 frames, 69 read (100 %), 0 refused, accepted with a wrong value: 0
+14:31:17    [recognition] PASS a DPI-virtualised (scaled) capture is refused as safety-critical: 72 of 72 refused
+14:31:17    [recognition] PASS Verify Table Recognition passes on every clean frame at its display scaling: 90 of 90
+14:31:17    [recognition] PASS degraded frames: noise (read, or refused - never guessed): 69 frames, 69 read (100 %), 0 refused, accepted with a wrong value: 0
+14:31:17    [recognition] PASS degraded frames: shift-1px (read, or refused - never guessed): 69 frames, 69 read (100 %), 0 refused, accepted with a wrong value: 0
+14:31:17    [recognition] PASS degraded frames: dim (read, or refused - never guessed): 69 frames, 69 read (100 %), 0 refused, accepted with a wrong value: 0
+14:31:18    [recognition] PASS degraded frames: dpi-stretched (read, or refused - never guessed): 72 frames, 67 read (93.1 %), 5 refused, accepted with a wrong value: 0
+14:31:18    [recognition] PASS degraded frames: blur (read, or refused - never guessed): 69 frames, 0 read (0 %), 69 refused, accepted with a wrong value: 0
+14:31:18    [recognition] PASS degraded frames: occluded (read, or refused - never guessed): 69 frames, 0 read (0 %), 69 refused, accepted with a wrong value: 0
+14:31:18  ---- recognition: PASS (58.1 s)
+14:31:18  
+14:31:18  ==== Recognition on real EightMax test-table windows on this display (host capture, Verify Table Recognition, compared with the table's own state; no mouse input) [recognition-windows] (6 of 7)
+14:31:33       ... recognition on real windows still running after 15 s (time limit 1800 s) -   1000 px: 8/8 checks PASS, strip crop = full frame 8/8
+14:31:48       ... recognition on real windows still running after 30 s (time limit 1800 s) -   1280 px: 8/8 checks PASS, strip crop = full frame 8/8
+14:31:52    [recognition-windows] PASS Verify Table Recognition at 1000 px: 8 of 8 checks passed; strip-only capture = full frame 8/8
+14:31:52    [recognition-windows] PASS Verify Table Recognition at 1200 px: 8 of 8 checks passed; strip-only capture = full frame 8/8
+14:31:52    [recognition-windows] PASS Verify Table Recognition at 1280 px: 8 of 8 checks passed; strip-only capture = full frame 8/8
+14:31:52    [recognition-windows] PASS Verify Table Recognition at 1600 px: 8 of 8 checks passed; strip-only capture = full frame 8/8
+14:31:52    [recognition-windows] PASS recognised values match the tables' own state: 928 values compared, 0 different
+14:31:52  ---- recognition-windows: PASS (34.1 s)
+14:31:52  
+14:31:52  ==== Cleanup: nothing left running, port released [cleanup] (7 of 7)
+14:31:54    [cleanup] PASS no leftover EightMax processes started by these tests: none
+14:31:54    [cleanup] PASS no other process of this test session left: none
+14:31:55    [cleanup] PASS port 48713 released: free
+14:31:55  ---- cleanup: PASS (2.5 s)
+14:31:56  
+14:31:56  Checks: 56 passed, 0 failed, 0 warnings, 0 skipped
+14:31:56  OVERALL: PASS  (exit code 0: PASS: every required check passed (warnings, if any, are listed))
+14:31:56  Results folder: D:\a\_temp\m40-launcher\Milestone4.0-20261124-143002-recognition
+14:31:56  Results ZIP to send back: D:\a\_temp\m40-launcher\Milestone4.0-20261124-143002-recognition\milestone3-results.zip
+
+ --------------------------------------------------------------------------
+RESULT:   PASS   (exit code 0: PASS: every required check passed (warnings, if any, are listed))
+ Plain-language summary: "D:\a\_temp\m40-launcher\Milestone4.0-20261124-143002-recognition\M4-SUMMARY.txt"
+ The tests PASSED (exit code 0). Warnings, if any, are listed in the report (a missed performance target is a warning).
+ Results folder:
+   "D:\a\_temp\m40-launcher\Milestone4.0-20261124-143002-recognition"
+ ZIP to send back:
+   "D:\a\_temp\m40-launcher\Milestone4.0-20261124-143002-recognition\milestone3-results.zip"
+
