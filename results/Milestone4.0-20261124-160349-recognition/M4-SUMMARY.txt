@@ -1,0 +1,23 @@
+EightMax Test Workbench 0.36.2 - Milestone 4.0 performance test on this PC: what was measured, in plain language
+===========================================================================================================
+Every number below comes from a report in this folder (measured on this PC during this run). Nothing is estimated.
+
+RECOGNITION (deterministic dataset: the test table as it is drawn at every size, 100-200 % display scaling)
+  frames read: 343 of 486; frames the automation would act on that held a wrong value: 0 (never guessed)
+  clean          69 frames, 69 read (100 %), 0 refused, accepted with a wrong value: 0
+  noise          69 frames, 69 read (100 %), 0 refused, accepted with a wrong value: 0
+  shift-1px      69 frames, 69 read (100 %), 0 refused, accepted with a wrong value: 0
+  dim            69 frames, 69 read (100 %), 0 refused, accepted with a wrong value: 0
+  dpi-stretched  72 frames, 67 read (93.1 %), 5 refused, accepted with a wrong value: 0
+  blur           69 frames, 0 read (0 %), 69 refused, accepted with a wrong value: 0
+  occluded       69 frames, 0 read (0 %), 69 refused, accepted with a wrong value: 0
+  scaled (DPI-virtualised) captures refused as safety-critical: 72 of 72
+
+RECOGNITION ON REAL WINDOWS (this display, scaling 125 %)
+  1000 px: Verify Table Recognition 8/8, strip-only capture = full frame 8/8
+  1200 px: Verify Table Recognition 8/8, strip-only capture = full frame 8/8
+  1280 px: Verify Table Recognition 8/8, strip-only capture = full frame 8/8
+  1600 px: Verify Table Recognition 8/8, strip-only capture = full frame 8/8
+
+Everything (the full report, every check, logs and the test tables' own records) is in milestone3-results.zip in this folder
+(the Milestone 4.0 tests extend the Milestone 3.1 test runner and keep its file names). Send that ZIP back.
