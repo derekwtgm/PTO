@@ -1,0 +1,60 @@
+01:49:45  EightMax Test Workbench 0.36.2 - Milestone 3.1 tests, mode A - Quick verification
+01:49:45  Results folder: D:\a\_temp\m32-scenarios\runs\S18\Milestone3.1-20261124-014945-quick
+01:49:45  Application:    D:\a\_temp\EightMax CI (scenarios) Å\EightMax-Test-Workbench
+01:49:45  This mode does not move the mouse. Progress is shown below; every step has a time limit.
+01:49:45  Session job active: every process this run starts ends with the run, however it ends.
+01:49:45  
+01:49:45  ==== Computer and environment [environment] (1 of 5)
+01:49:47    [environment] PASS machine details collected: Microsoft Windows Server 2025 Datacenter build 26100; AMD EPYC 9V45 96-Core Processor (2 cores, 4 threads); 16 GiB; display scaling 100%; PowerShell 5.1.26100.33822 Desktop
+01:49:47    [environment] PASS application folder path: application folder D:\a\_temp\EightMax CI (scenarios) Å\EightMax-Test-Workbench (60 characters, spaces, non-ASCII characters, parentheses)
+01:49:48    [environment] PASS results folder: D:\a\_temp\m32-scenarios\runs\S18\Milestone3.1-20261124-014945-quick (requested)
+01:49:48    [environment] PASS session process control: job object: every process of this run ends with the run
+01:49:48    [environment] PASS files marked as downloaded from the internet (Mark of the Web): none of 414 program files is marked
+01:49:48    [environment] PASS Windows security settings: SmartScreen not set (Windows default); Smart App Control unknown; antivirus none reported by Windows Security Center; Defender real-time protection False, controlled folder access 0
+01:49:48    [environment] PASS PowerShell execution policy: MachinePolicy=Undefined, UserPolicy=Undefined, Process=Bypass, CurrentUser=Undefined, LocalMachine=Unrestricted
+01:49:48    [environment] PASS no EightMax desktop host already running: none
+01:49:48    [environment] PASS port 48713 free: free
+01:49:48  ---- environment: PASS (2.9 s)
+01:49:48  
+01:49:48  ==== Release integrity and executable identities [integrity] (2 of 5)
+01:49:50    [integrity] PASS release files match SHA256SUMS.txt (runtime output excluded by release-integrity-policy.json): PASS: 1461 of 1461 listed files verified; missing 0, modified 0, unexpected executables 0, other unlisted files 0; runtime output ignored: 23 file(s) in 3 folder(s); warnings 0 (1.1 s)
+01:49:50    [identity] PASS desktop\bin\EightMaxWorkbench.exe: sha256 845578b9a6596009... version 0.36.2.0 / 0.36.2-dev
+01:49:50    [identity] PASS desktop\bin\EightMaxInput.exe: sha256 2c4d7b739ceb6179... version 0.36.2.0 / 0.36.2-dev
+01:49:50    [identity] PASS desktop\bin\EightMaxTestTable.exe: sha256 3e5a76995a24d169... version 0.36.2.0 / 0.36.2-dev
+01:49:50    [identity] PASS desktop\bin\EightMaxCapture.exe: sha256 8180c32910bfd1d5... version 0.35.0.0 / 0.35.0
+01:49:50    [identity] PASS desktop\bin\EightMaxWgc.exe: sha256 bc001504382306e1... version 0.35.0.0 / 0.35.0
+01:49:50    [identity] PASS native\mwcli.exe: sha256 b3e675bfe2ae231e... version  / 
+01:49:50    [identity] PASS runtime\node\node.exe: sha256 247e9693d316da98... version 22.23.5 / 22.23.5
+01:49:50    [identity] PASS EightMax 5.1 binary unchanged: b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72
+01:49:51    [identity] PASS EightMax 5.1 build id: EightMaxBuild=7d08acc7eb4577ee
+01:49:51  ---- integrity: PASS (2.3 s)
+01:49:51  
+01:49:51  ==== Required components [dependencies] (3 of 5)
+01:49:51    [dependencies] PASS 64-bit Windows and 64-bit PowerShell: yes
+01:49:51    [dependencies] PASS .NET Framework 4.x: release 533509 (4.8 or later)
+01:49:51    [dependencies] PASS csc.exe compiler of .NET Framework (used only by the fallback start): C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe
+01:49:51    [dependencies] PASS required release files present: 7 files present
+01:49:51    [dependencies] PASS bundled Node.js (runtime\node\node.exe) runs: v22.23.5
+01:49:51    [dependencies] PASS Windows helper for diagnostics (process tree, port owner, prompt windows): compiled
+01:49:52  ---- dependencies: PASS (0.7 s)
+01:49:52  
+01:49:52  ==== Desktop host start (prebuilt host, input driver, shutdown) [host-start] (4 of 5)
+01:49:52  TEST MODE: start-up script replaced by D:\a\_temp\EightMax CI (scenarios) Å\EightMax-Test-Workbench\tests\fixtures\m31\Start-FakeDesktop.ps1
+01:49:52  
+01:49:52    -- start case 1: prebuilt host launch
+01:49:52    [1/12] Check for EightMax programs that are already running ...
+01:49:52    [host-start] PASS prebuilt host launch - 1/12 Check for EightMax programs that are already running: no EightMax program is running [0 s]
+01:49:52    [2/12] Check that port 48713 is free ...
+01:49:52    [host-start] PASS prebuilt host launch - 2/12 Check that port 48713 is free: free [0 s]
+01:49:52    [3/12] Prepare the start-up folders ...
+01:49:52    [host-start] PASS prebuilt host launch - 3/12 Prepare the start-up folders: case folder ready: D:\a\_temp\m32-scenarios\runs\S18\Milestone3.1-20261124-014945-quick\host-start\01-prebuilt [0 s]
+01:49:52    [4/12] Start the start-up script (Start-FakeDesktop.ps1) ...
+01:49:52    [host-start] PASS prebuilt host launch - 4/12 Start the start-up script (Start-FakeDesktop.ps1): started powershell.exe pid 2796 [0.1 s]
+01:49:52    [5/12] Wait for the start-up script to launch the desktop host ...
+01:49:55  The run was stopped before it finished (Ctrl+C or the runner was stopped). Saving what was done ...
+01:49:55    stopped session processes (run stopped): powershell pid 2796
+01:49:56  
+01:49:56  Checks: 29 passed, 0 failed, 0 warnings, 0 skipped
+01:49:56  OVERALL: INTERRUPTED  (exit code 4: INTERRUPTED: the run did not finish)
+01:49:56  Results folder: D:\a\_temp\m32-scenarios\runs\S18\Milestone3.1-20261124-014945-quick
+01:49:56  Results ZIP to send back: D:\a\_temp\m32-scenarios\runs\S18\Milestone3.1-20261124-014945-quick\milestone3-results.zip

@@ -1,0 +1,345 @@
+{
+    "format":  "eightmax-m31-windows-scenarios",
+    "version":  1,
+    "startedAt":  "2026-11-24T01:42:40.6730429Z",
+    "updatedAt":  "2026-11-24T01:50:16.6539154Z",
+    "app":  "D:\\a\\_temp\\EightMax CI (scenarios) ü\\EightMax-Test-Workbench",
+    "powershell":  "5.1.26100.33822",
+    "os":  "Microsoft Windows NT 10.0.26100.0",
+    "counts":  {
+                   "passed":  26,
+                   "failed":  0,
+                   "total":  26
+               },
+    "scenarios":  [
+                      {
+                          "id":  "S01",
+                          "spec":  "A",
+                          "title":  "clean installation: quick verification through the main launcher",
+                          "ok":  true,
+                          "expected":  "exit 0, PASS/WARNING, host-start PASS, input driver initialised, complete report and ZIP",
+                          "observed":  "exit 0, overall PASS, host-start PASS, input driver True, report True, 16 s",
+                          "facts":  {
+                                        "dir":  "D:\\a\\_temp\\m32-scenarios\\runs\\S01\\Milestone3.1-20261124-014243-quick",
+                                        "counts":  {
+                                                       "PASS":  41,
+                                                       "FAIL":  0,
+                                                       "WARNING":  0,
+                                                       "SKIPPED":  0,
+                                                       "total":  41
+                                                   },
+                                        "warnings":  [
+
+                                                     ]
+                                    },
+                          "at":  "2026-11-24T01:42:59.1754381Z"
+                      },
+                      {
+                          "id":  "S02",
+                          "spec":  "D,N",
+                          "title":  "standalone start-up diagnostic: complete report for every case without the main suite",
+                          "ok":  true,
+                          "expected":  "exit 0; 7 start cases PASS; own complete report and ZIP; folder ...-host-diagnostic",
+                          "observed":  "exit 0, overall PASS, cases prebuilt=PASS fallback-fresh=PASS cache-reuse=PASS invalid-exe=PASS invalid-manifest=PASS old-key=PASS build-only=PASS, report True, 41 s",
+                          "facts":  {
+                                        "dir":  "D:\\a\\_temp\\m32-scenarios\\runs\\S02 diag (spaces)\\Milestone3.1-20261124-014259-host-diagnostic",
+                                        "counts":  {
+                                                       "PASS":  114,
+                                                       "FAIL":  0,
+                                                       "WARNING":  0,
+                                                       "SKIPPED":  5,
+                                                       "total":  119
+                                                   }
+                                    },
+                          "at":  "2026-11-24T01:43:39.9008185Z"
+                      },
+                      {
+                          "id":  "S03",
+                          "spec":  "B",
+                          "title":  "previous results folders do not fail the release checks (Node tests and the runner)",
+                          "ok":  true,
+                          "expected":  "Node release tests pass; integrity PASS with the result folders counted as runtime output",
+                          "observed":  "node tests exit 0 (failed: ); runner integrity ok True, runtime output files ignored 12",
+                          "facts":  {
+                                        "dir":  "D:\\a\\_temp\\m32-scenarios\\runs\\S03\\Milestone3.1-20261124-014341-quick"
+                                    },
+                          "at":  "2026-11-24T01:43:51.0737636Z"
+                      },
+                      {
+                          "id":  "S03r",
+                          "spec":  "B",
+                          "title":  "reproduction: the ORIGINAL Milestone 3 release test fails on the same folders (operator failure)",
+                          "ok":  true,
+                          "expected":  "the Milestone 3 test fails exactly as on the operator PC",
+                          "observed":  "M3 test exit 1, message: listed in SHA256SUMS.txt: test-results/Milestone3-20261123-122544/host-prebuilt host launch.err.txt",
+                          "facts":  null,
+                          "at":  "2026-11-24T01:43:52.7758987Z"
+                      },
+                      {
+                          "id":  "S04a",
+                          "spec":  "C",
+                          "title":  "a modified executable is detected; the host is not started from a damaged release",
+                          "ok":  true,
+                          "expected":  "exit 3 (environment), the file named, host-start SKIPPED",
+                          "observed":  "exit 3; FAIL: 1460 of 1461 listed files verified; missing 0, modified 1, unexpected executables 0, other unlisted files 0; runtime output ignored: 0 file(s) in 0 folder(s); warnings 0: desktop/bin/EightMaxWorkbench.exe differs f; host-start SKIPPED",
+                          "facts":  null,
+                          "at":  "2026-11-24T01:44:03.3462648Z"
+                      },
+                      {
+                          "id":  "S04b",
+                          "spec":  "C",
+                          "title":  "an unexpected executable inside the protected payload is detected",
+                          "ok":  true,
+                          "expected":  "exit 3, the planted file named",
+                          "observed":  "exit 3; FAIL: 1461 of 1461 listed files verified; missing 0, modified 0, unexpected executables 1, other unlisted files 0; runtime output ignored: 0 file(s) in 0 folder(s); warnings 0: executable or script not in the release man",
+                          "facts":  null,
+                          "at":  "2026-11-24T01:44:13.5849880Z"
+                      },
+                      {
+                          "id":  "S04c",
+                          "spec":  "C,J",
+                          "title":  "a missing manifest-listed file and a missing dependency (node.exe) give a clear environment failure and a full report",
+                          "ok":  true,
+                          "expected":  "exit 3; missing file and missing dependency named; report and ZIP",
+                          "observed":  "exit 3; report True; environment: FAIL: 1460 of 1461 listed files verified; missing 1, modified 0, unexpected executables 0, other unlisted files 0; runtime output ignored: 0 file(s) in 0 folder(s); warnings 0: runtime/node/node.exe is listed in SHA256SUMS.txt but missing. Extract the complete ZIP again into a new, empt",
+                          "facts":  null,
+                          "at":  "2026-11-24T01:44:23.6155844Z"
+                      },
+                      {
+                          "id":  "S05",
+                          "spec":  "E",
+                          "title":  "host start failure: the step and the host error are named; report and ZIP produced",
+                          "ok":  true,
+                          "expected":  "exit 1; failure at 6/12 with exit code 3 and the host stderr text",
+                          "observed":  "exit 1; report True; prebuilt host launch - 6/12 Wait for the host to report ready (session file): the desktop host exited before it was ready; host stderr: The desktop host could not start: simulated start-up failure (test fixture, mode exit). [0 s]",
+                          "facts":  null,
+                          "at":  "2026-11-24T01:44:36.4327357Z"
+                      },
+                      {
+                          "id":  "S06",
+                          "spec":  "E,K",
+                          "title":  "existing EightMax instance: environment failure naming it; it was NOT stopped by the test",
+                          "ok":  true,
+                          "expected":  "exit 3; host named with its pid; still running afterwards",
+                          "observed":  "exit 3; foreign host pid 1928 still alive after the run: True; environment: already running (not started by this test, left running): EightMaxWorkbench pid 1928 (started 01:44:38) D:\\a\\_temp\\EightMax CI (scenarios) ü\\EightMax-Test-Workbench\\desktop\\bin\\EightMaxWorkbench.exe. Close the EightMax Workbench and its ",
+                          "facts":  null,
+                          "at":  "2026-11-24T01:44:53.7013081Z"
+                      },
+                      {
+                          "id":  "S07",
+                          "spec":  "F",
+                          "title":  "start-up time-out: recorded with the step, process tree saved, processes stopped, report produced",
+                          "ok":  true,
+                          "expected":  "exit 1 (timeout) within the limit; last step named; tree recorded; nothing left running",
+                          "observed":  "exit 1 after 33 s; timeout: the start-up script did not finish within 20 s; its last recorded step: \"launch-host\" start (CreateProcess: fake host, mode script-hang). The script and its child processes were stopped; see hang-diagnostics.json. [20.4 s]; tree 2 process(es), alive afterwards 0",
+                          "facts":  null,
+                          "at":  "2026-11-24T01:45:26.9373904Z"
+                      },
+                      {
+                          "id":  "S08",
+                          "spec":  "G",
+                          "title":  "an exception keeps type, message, script, line, stack and phase; dependants SKIPPED",
+                          "ok":  true,
+                          "expected":  "exit 2; errors.log with type, script line, stack, phase",
+                          "observed":  "exit 2; host-start SKIPPED; errors.log 2756 characters",
+                          "facts":  null,
+                          "at":  "2026-11-24T01:45:34.9504513Z"
+                      },
+                      {
+                          "id":  "S09",
+                          "spec":  "H",
+                          "title":  "midway failure: earlier checks saved, the failed one identified, the next phase still ran",
+                          "ok":  true,
+                          "expected":  "exit 1; checks before the failure on disk; host-start PASS",
+                          "observed":  "exit 1; failed check number 26 of 42 in phase dependencies; host-start PASS",
+                          "facts":  null,
+                          "at":  "2026-11-24T01:45:49.6546719Z"
+                      },
+                      {
+                          "id":  "S10",
+                          "spec":  "I",
+                          "title":  "killed runner: its hung child processes end with it (job object); checkpoint packaged INTERRUPTED by option D",
+                          "ok":  true,
+                          "expected":  "no orphaned process; checkpoint state running/host-start; D packages it as INTERRUPTED",
+                          "observed":  "hung processes alive before kill 1, after 0; checkpoint state running/host-start; package exit 0, overall INTERRUPTED, host-start INTERRUPTED",
+                          "facts":  null,
+                          "at":  "2026-11-24T01:46:05.3940479Z"
+                      },
+                      {
+                          "id":  "S11",
+                          "spec":  "J",
+                          "title":  "missing dependency: clear message, environment class, exit 3",
+                          "ok":  true,
+                          "expected":  "exit 3; \"missing dependency: ...\"",
+                          "observed":  "exit 3; missing dependency: D:\\a\\_temp\\EightMax CI (scenarios) ü\\EightMax-Test-Workbench\\runtime\\node\\node-missing-by-fault-injection.exe does not exist. The regression and real-window tests need it. Extract the complete ZIP again.",
+                          "facts":  null,
+                          "at":  "2026-11-24T01:46:20.8643718Z"
+                      },
+                      {
+                          "id":  "S12",
+                          "spec":  "K",
+                          "title":  "occupied port: the owner is named (process and pid); the owner is left running; exit 3",
+                          "ok":  true,
+                          "expected":  "exit 3; \"Port 48713 is already occupied by powershell (pid N, LISTEN)\"; owner still running",
+                          "observed":  "exit 3; owner alive after the run True; environment: Port 48713 is already occupied by powershell (pid 6524, LISTEN). The desktop host needs this port; the program was left running. Close it or restart Windows, then run the test again.",
+                          "facts":  null,
+                          "at":  "2026-11-24T01:46:35.0986166Z"
+                      },
+                      {
+                          "id":  "S13",
+                          "spec":  "L",
+                          "title":  "three sequential quick runs: three folders, three reports, all exit 0",
+                          "ok":  true,
+                          "expected":  "0,0,0; 3 folders; 3 ZIPs",
+                          "observed":  "exit codes 0,0,0; folders 3; ZIPs 3",
+                          "facts":  null,
+                          "at":  "2026-11-24T01:47:18.1827078Z"
+                      },
+                      {
+                          "id":  "S14",
+                          "spec":  "M",
+                          "title":  "long path (284 characters) and spaces: the ZIP is created; the file is included or listed as skipped",
+                          "ok":  true,
+                          "expected":  "exit 0; ZIP exists; the long-path file is in it or named in zip-skipped-files.txt",
+                          "observed":  "package exit 0; long file created True (284 chars); in ZIP True; skipped list False; entries 5",
+                          "facts":  null,
+                          "at":  "2026-11-24T01:47:18.8757583Z"
+                      },
+                      {
+                          "id":  "S15",
+                          "spec":  "O",
+                          "title":  "existing incomplete run packaged (D): the log another process holds open is included",
+                          "ok":  true,
+                          "expected":  "exit 0; ZIP includes the open log and the recovery summary",
+                          "observed":  "package exit 0; ZIP milestone3-results.zip with 9 entries; locked log included True",
+                          "facts":  null,
+                          "at":  "2026-11-24T01:47:19.6622335Z"
+                      },
+                      {
+                          "id":  "S16a",
+                          "spec":  "launcher",
+                          "title":  "launcher outside the application folder: exit 5, missing files named, diagnostic file and ZIP",
+                          "ok":  true,
+                          "expected":  "exit 5; launcher-failure-*.txt (+ .zip) naming the missing files",
+                          "observed":  "exit 5; failure file 1; EightMax Test Workbench 0.36.2 - Milestone 3.1 - the launcher could not run the test (host-diagnostic)\r Time: Tue 11/24/2026  1:47:19.72\r Problem: \"This file must be run from the extracted EightMax-Test-Workbench folder (next to START-EIGHTMAX.cmd), but files are missing: windows\\Test-Milestone31.ps1, windows\\M31-Lib.ps1, windows\\M31-Integrity.ps1, windows\\M31-HostStart.ps1, windows\\Start-Desktop.ps1, windows\\Common.ps1, desktop\\bin\\EightMaxWorkbench.exe, desktop\\bin\\EightMaxInput.exe, SHA256SUMS.txt, release-integrity-policy.json. Extract the complete ZIP into a new folder and run it from there.\"\r",
+                          "facts":  null,
+                          "at":  "2026-11-24T01:47:19.7982728Z"
+                      },
+                      {
+                          "id":  "S16b",
+                          "spec":  "launcher",
+                          "title":  "launcher started from inside a ZIP: the message says to extract first; exit 5",
+                          "ok":  true,
+                          "expected":  "exit 5; \"This file was started from inside the ZIP ...\"",
+                          "observed":  "exit 5; message found True",
+                          "facts":  null,
+                          "at":  "2026-11-24T01:47:19.8789691Z"
+                      },
+                      {
+                          "id":  "S16c",
+                          "spec":  "launcher",
+                          "title":  "the runner cannot run in PowerShell (script damaged): exit 5, the PowerShell error text saved",
+                          "ok":  true,
+                          "expected":  "exit 5; the parse error of PowerShell in the failure file",
+                          "observed":  "exit 5; failure file 1; PowerShell text saved True",
+                          "facts":  null,
+                          "at":  "2026-11-24T01:47:20.6214730Z"
+                      },
+                      {
+                          "id":  "S17c",
+                          "spec":  "host-start root cause",
+                          "title":  "control: the Milestone 3 start-up script on the SAME files WITHOUT the download mark",
+                          "ok":  true,
+                          "expected":  "finishes in seconds and the host becomes ready",
+                          "observed":  "Start-Desktop.ps1 finished: True after 1.6 s, exit 0, host ready True",
+                          "facts":  {
+                                        "startDesktopExited":  true,
+                                        "seconds":  1.6,
+                                        "exitCode":  0,
+                                        "readyWritten":  true,
+                                        "status":  "{\"format\":\"eightmax-desktop-start\",\"version\":1,\"at\":\"2026-11-24T01:47:21.9997792Z\",\"path\":\"prebuilt\",\"cacheFolder\":\"C:\\\\Users\\\\runneradmin\\\\AppData\\\\Local\\\\EightMax-Test-Workbench\\\\DesktopCache\\\\5b7895ddc7f8ba1cec36b1b844a9b80bda178b371bf3e6dbba83a75eee8888ab\",\"fingerprint\":\"5b7895ddc7f8ba1cec36b1b844a9b80bda178b371bf3e6dbba83a75eee8888ab\",\"sources\":[{\"path\":\"desktop/DesktopHost.cs\",\"sha256\":\"9ddd7c5098078574127dc199230e60a3596af2249dc51dba6ad064526a00e57a\"},{\"path\":\"desktop/CaptureService.cs\",\"sha256\":\"a1b018b05ea44c8abc4f3f2affad369ee5c376a4766afd3d2cf15c83e63faa2c\"},{\"path\":\"desktop/InputBroker.cs\",\"sha256\":\"97f1e7227c60f3a5fbbcf41b985ff3648f0aeff3b529b59e9c71e9b5709ba017\"}],\"compiled\":false,\"reusedCache\":false,\"invalidCache\":null,\"exe\":\"D:\\\\a\\\\_temp\\\\m32-work\\\\m3 control (spaces)\\\\EightMax-Test-Workbench\\\\desktop\\\\bin\\\\EightMaxWorkbench.exe\",\"exeSha256\":\"845578b9a6596009e68ce6f182d47ae20ddd511f58b9c37a3d4b12e1c7f32290\",\"launched\":true,\"pid\":6668,\"error\":null}",
+                                        "stderr":  null
+                                    },
+                          "at":  "2026-11-24T01:47:25.6912165Z"
+                      },
+                      {
+                          "id":  "S17a",
+                          "spec":  "host-start root cause",
+                          "title":  "reproduction: the Milestone 3 start-up script on files marked as downloaded (the operator condition)",
+                          "ok":  true,
+                          "expected":  "does not finish (the operator symptom), while the unmarked control does",
+                          "observed":  "Start-Desktop.ps1 did NOT finish within 120 s - the operator symptom; windows of the stopped script: #32770 | Open File - Security Warning | visible 0 | pid 7316 ; ConsoleWindowClass | Administrator: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe | visible 0 | pid 7316 ; MSCTFIME UI | MSCTFIME UI | visible 0 | pid 7316 ; IME | Default IME | visible 0 | pid 7316 ; IME | Default IME | visible 0 | pid 8400; finding: a Windows security dialog is waiting for an answer: Open File - Security Warning (powershell pid 7316; the dialog is INVISIBLE because its process was started hidden, so nobody can answer it); new processes: conhost 8400, MoUsoCoreWorker 8204, powershell 7316, smartscreen 7444, svchost 2780, svchost 8008, VSSVC 7412, WmiPrvSE 8952",
+                          "facts":  {
+                                        "startDesktopExited":  false,
+                                        "seconds":  120,
+                                        "exitCode":  null,
+                                        "readyWritten":  false,
+                                        "status":  null,
+                                        "stderr":  null,
+                                        "windowsOfTheHungScript":  [
+                                                                       "#32770 | Open File - Security Warning | visible 0 | pid 7316",
+                                                                       "ConsoleWindowClass | Administrator: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe | visible 0 | pid 7316",
+                                                                       "MSCTFIME UI | MSCTFIME UI | visible 0 | pid 7316",
+                                                                       "IME | Default IME | visible 0 | pid 7316",
+                                                                       "IME | Default IME | visible 0 | pid 8400"
+                                                                   ],
+                                        "newProcesses":  [
+                                                             "conhost 8400",
+                                                             "MoUsoCoreWorker 8204",
+                                                             "powershell 7316",
+                                                             "smartscreen 7444",
+                                                             "svchost 2780",
+                                                             "svchost 8008",
+                                                             "VSSVC 7412",
+                                                             "WmiPrvSE 8952"
+                                                         ],
+                                        "finding":  "a Windows security dialog is waiting for an answer: Open File - Security Warning (powershell pid 7316; the dialog is INVISIBLE because its process was started hidden, so nobody can answer it)",
+                                        "screenshot":  "S17-desktop-during-the-stop.png"
+                                    },
+                          "at":  "2026-11-24T01:49:29.5840224Z"
+                      },
+                      {
+                          "id":  "S17b",
+                          "spec":  "host-start root cause",
+                          "title":  "Milestone 3.1 on the same marked files: the host starts (CreateProcess) and the mark is reported",
+                          "ok":  true,
+                          "expected":  "exit 0; host-start PASS; Mark of the Web WARNING",
+                          "observed":  "exit 0; host-start PASS; WARNING 414 of 414 program files carry the internet zone mark (e.g. BUILD-WGC.cmd, CANCEL-TRAINING.cmd, COLLECT-TEST-RESULTS.cmd, CONTINUE-TRAINING.cmd, EXPORT-STRATEGIES.cmd). Windows may ask for confirmation (SmartScreen / security warning) when the Workbench is started by double-click; the tests start programs directly and are not blocked by it. See READ-ME-MILESTONE-3.1.txt.",
+                          "facts":  null,
+                          "at":  "2026-11-24T01:49:44.8540649Z"
+                      },
+                      {
+                          "id":  "S18",
+                          "spec":  "cancel",
+                          "title":  "Ctrl+C: the run ends by itself with an INTERRUPTED report and ZIP; its child processes are stopped",
+                          "ok":  true,
+                          "expected":  "exit 4; state interrupted, overall INTERRUPTED, report + ZIP, nothing left running",
+                          "observed":  "Ctrl+C sent; runner exited True (code 4); state interrupted; overall INTERRUPTED; host-start INTERRUPTED, cleanup NOT RUN; hung processes left 0",
+                          "facts":  null,
+                          "at":  "2026-11-24T01:50:00.3706058Z"
+                      },
+                      {
+                          "id":  "S19",
+                          "spec":  "M",
+                          "title":  "default results folder under a user folder with spaces and non-ASCII characters (%LOCALAPPDATA%)",
+                          "ok":  true,
+                          "expected":  "exit 0, report and ZIP in the default folder",
+                          "observed":  "exit 0, run folder found under %LOCALAPPDATA%\\EightMax-Test-Workbench\\TestResults, overall PASS, report True, 14 s",
+                          "facts":  {
+                                        "exitCode":  0,
+                                        "runFolder":  "D:\\a\\_temp\\m32-scenarios\\runs\\Users\\José Müller (x)\\AppData\\Local\\EightMax-Test-Workbench\\TestResults\\Milestone3.1-20261124-015000-quick",
+                                        "report":  {
+                                                       "ok":  true,
+                                                       "missing":  [
+
+                                                                   ],
+                                                       "notInZip":  [
+
+                                                                    ],
+                                                       "zipEntries":  29
+                                                   }
+                                    },
+                          "at":  "2026-11-24T01:50:14.6506519Z"
+                      }
+                  ]
+}

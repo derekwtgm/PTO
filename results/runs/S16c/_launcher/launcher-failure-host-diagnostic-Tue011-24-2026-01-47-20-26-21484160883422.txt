@@ -1,0 +1,26 @@
+EightMax Test Workbench 0.36.2 - Milestone 3.1 - the launcher could not run the test (host-diagnostic)
+Time: Tue 11/24/2026  1:47:20.60
+Problem: "The test runner did not create its results folder (PowerShell exit code 1). The PowerShell error output is included below."
+Launcher: "D:\a\_temp\m32-work\S16 broken runner\RUN-M3-HOST-DIAGNOSTIC-3.1.cmd"
+Application folder: "D:\a\_temp\m32-work\S16 broken runner"
+PowerShell: "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe"
+Results folder: "D:\a\_temp\m32-scenarios\runs\S16c"
+
+Microsoft Windows [Version 10.0.26100.33828]
+PROCESSOR_ARCHITECTURE=AMD64 PROCESSOR_ARCHITEW6432=
+--- launcher log ---
+EightMax Milestone 3.1 launcher log (host-diagnostic) - Tue 11/24/2026  1:47:20.30
+[ 1:47:20.30] launcher "D:\a\_temp\m32-work\S16 broken runner\RUN-M3-HOST-DIAGNOSTIC-3.1.cmd"
+[ 1:47:20.30] results folder "D:\a\_temp\m32-scenarios\runs\S16c"
+[ 1:47:20.30] application folder "D:\a\_temp\m32-work\S16 broken runner", missing: ""
+[ 1:47:20.41] PowerShell check: "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" returned 7 (expected 7)
+[ 1:47:20.41] starting the test runner: mode Startup, label host-diagnostic
+[ 1:47:20.58] test runner exit code 1
+--- PowerShell error output ---
+At D:\a\_temp\m32-work\S16 broken runner\windows\Test-Milestone31.ps1:390 char:17
++ function Broken {
++                 ~
+Missing closing '}' in statement block or type definition.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : MissingEndCurlyBrace
+ 
