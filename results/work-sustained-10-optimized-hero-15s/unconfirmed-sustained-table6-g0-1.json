@@ -1,0 +1,159 @@
+{
+ "format": "eightmax-unconfirmed-input",
+ "version": 1,
+ "seq": 1,
+ "at": "2026-11-24T14:27:52.500Z",
+ "table": 6,
+ "registrationId": "reg-mwurntzs-6",
+ "hwnd": "0x10282",
+ "identityFingerprint": "038d2290",
+ "identity": {
+  "pid": 7840,
+  "processStart": "134400026881589525",
+  "className": "WindowsForms10.Window.8.app.0.34f5582_r6_ad1",
+  "exe": "EightMaxTestTable.exe",
+  "exeSha256Prefix": "3e5a76995a24d169"
+ },
+ "hand": 31,
+ "street": "flop",
+ "seat": 0,
+ "action": {
+  "type": "call",
+  "amount": 100
+ },
+ "decisionSource": "scripted-fallback",
+ "decisionLabel": "SCRIPTED FALLBACK — not a solver decision",
+ "inputStatus": "rejected-no-change",
+ "status": "rejected",
+ "reason": "no change within 4000 ms; same actor still to act - the simulator did not apply the action; it is not repeated",
+ "code": null,
+ "control": "call",
+ "expectedRegion": {
+  "normalized": {
+   "x": 0.84,
+   "y": 0.93,
+   "w": 0.07,
+   "h": 0.05
+  },
+  "clickRect": {
+   "x": 891,
+   "y": 651,
+   "w": 34,
+   "h": 15
+  }
+ },
+ "selectedPoint": {
+  "x": 908,
+  "y": 658
+ },
+ "clickedAt": {
+  "x": 908,
+  "y": 658
+ },
+ "hit": "0x102D4",
+ "hitClass": "WindowsForms10.BUTTON.app.0.34f5582_r6_ad1",
+ "displayScaling": 1,
+ "clientAtReading": {
+  "x": 208,
+  "y": 181,
+  "w": 800,
+  "h": 500
+ },
+ "clientAfter": {
+  "x": 208,
+  "y": 181,
+  "w": 800,
+  "h": 500
+ },
+ "windowAfter": {
+  "exists": true,
+  "matches": true,
+  "foreground": false,
+  "minimized": false,
+  "visible": true,
+  "cloaked": false,
+  "enabled": true,
+  "client": {
+   "x": 208,
+   "y": 181,
+   "w": 800,
+   "h": 500
+  },
+  "dpiScale": 1,
+  "monitor": 0
+ },
+ "driver": {
+  "reported": "input completed (driver reply ok)",
+  "plannedMs": 281.15,
+  "actualMs": 290.58,
+  "steps": 18,
+  "finalError": 0,
+  "distance": 123.22,
+  "maxObservedLag": 0
+ },
+ "scheduler": {
+  "leaseId": 1038,
+  "waitedMs": 4108,
+  "runMs": 566
+ },
+ "confirmation": {
+  "status": "rejected",
+  "reason": "no change within 4000 ms; same actor still to act",
+  "timeoutMs": 4000,
+  "pollMs": 30,
+  "polls": 22,
+  "failedCaptures": 0,
+  "failureCodes": {},
+  "newFrames": 0,
+  "unreadableNewFrames": 0,
+  "startRevision": 780,
+  "revisionsSeen": [
+   780
+  ],
+  "firstPollMs": 182,
+  "lastFrameId": null,
+  "finalReading": {
+   "hand": 31,
+   "actor": 0,
+   "status": "playing",
+   "actions": 12,
+   "frameId": 28156,
+   "revision": 780,
+   "freshLook": true
+  },
+  "stripPolls": 22,
+  "durationMs": 4308
+ },
+ "frames": {
+  "before": {
+   "frameId": 27962,
+   "revision": 780,
+   "ageAtSubmitMs": 29
+  },
+  "after": {
+   "lastFrameId": null,
+   "revisionsSeen": [
+    780
+   ],
+   "finalReading": {
+    "hand": 31,
+    "actor": 0,
+    "status": "playing",
+    "actions": 12,
+    "frameId": 28156,
+    "revision": 780,
+    "freshLook": true
+   }
+  }
+ },
+ "timeline": {
+  "readToSubmitMs": 29,
+  "queueWaitMs": 4108,
+  "inputRunMs": 566,
+  "confirmMs": 4308,
+  "totalMs": 9225
+ },
+ "lifecycleAfter": "ACTIVE",
+ "recordedAt": 1795530472501,
+ "windowEvents": []
+}
