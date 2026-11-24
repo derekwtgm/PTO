@@ -1,0 +1,412 @@
+{
+ "format": "eightmax-unconfirmed-input",
+ "version": 1,
+ "seq": 1,
+ "at": "2026-11-24T17:03:33.814Z",
+ "table": 10,
+ "registrationId": "reg-mwuxsgrg-13",
+ "hwnd": "0x20244",
+ "identityFingerprint": "bba30ea0",
+ "identity": {
+  "pid": 5380,
+  "processStart": "134400129847469975",
+  "className": "WindowsForms10.Window.8.app.0.34f5582_r6_ad1",
+  "exe": "EightMaxTestTable.exe",
+  "exeSha256Prefix": "3e5a76995a24d169"
+ },
+ "hand": 14,
+ "street": "turn",
+ "seat": 0,
+ "action": {
+  "type": "raise",
+  "amount": 1500
+ },
+ "decisionSource": "scripted-fallback",
+ "decisionLabel": "SCRIPTED FALLBACK — not a solver decision",
+ "inputStatus": "ambiguous",
+ "status": "unconfirmed",
+ "reason": "2 new actions observed after one submission",
+ "code": null,
+ "control": "raise",
+ "expectedRegion": {
+  "normalized": {
+   "x": 0.92,
+   "y": 0.93,
+   "w": 0.07,
+   "h": 0.05
+  },
+  "clickRect": {
+   "x": 1099,
+   "y": 763,
+   "w": 34,
+   "h": 15
+  }
+ },
+ "selectedPoint": {
+  "x": 1116,
+  "y": 770
+ },
+ "clickedAt": {
+  "x": 1116,
+  "y": 770
+ },
+ "hit": "0x20244",
+ "hitClass": "WindowsForms10.Window.8.app.0.34f5582_r6_ad1",
+ "displayScaling": 1,
+ "clientAtReading": {
+  "x": 352,
+  "y": 293,
+  "w": 800,
+  "h": 500
+ },
+ "clientAfter": {
+  "x": 352,
+  "y": 293,
+  "w": 800,
+  "h": 500
+ },
+ "windowAfter": {
+  "exists": true,
+  "matches": true,
+  "foreground": true,
+  "minimized": false,
+  "visible": true,
+  "cloaked": false,
+  "enabled": true,
+  "client": {
+   "x": 352,
+   "y": 293,
+   "w": 800,
+   "h": 500
+  },
+  "dpiScale": 1,
+  "monitor": 0
+ },
+ "driver": {
+  "reported": "input completed (driver reply ok)",
+  "plannedMs": 575,
+  "actualMs": 598.89,
+  "steps": 36,
+  "finalError": 0,
+  "distance": 368,
+  "maxObservedLag": 0,
+  "pipeline": "optimized",
+  "guardScope": "process",
+  "press": {
+   "seen": true,
+   "seenMs": 0.06,
+   "root": "0x20244",
+   "child": "0x20244",
+   "capturedByControl": true,
+   "captureMs": 0.01
+  },
+  "captureReleased": true,
+  "captureReleaseMs": 1.8,
+  "drained": true,
+  "drainMs": 1.91,
+  "repliedAtWallMs": 1795539813434
+ },
+ "scheduler": {
+  "leaseId": 755,
+  "waitedMs": 2439,
+  "runMs": 1843
+ },
+ "confirmation": {
+  "status": "ambiguous",
+  "reason": "2 new actions observed after one submission",
+  "timeoutMs": 4000,
+  "pollMs": 30,
+  "polls": 1,
+  "failedCaptures": 0,
+  "failureCodes": {},
+  "newFrames": 1,
+  "unreadableNewFrames": 0,
+  "startRevision": 369,
+  "revisionsSeen": [
+   371
+  ],
+  "firstPollMs": 69,
+  "lastFrameId": 16663,
+  "finalReading": {
+   "hand": 14,
+   "actor": 3,
+   "status": "playing",
+   "actions": 20,
+   "frameId": 16663
+  },
+  "stripPolls": 1,
+  "durationMs": 183
+ },
+ "frames": {
+  "before": {
+   "frameId": 16555,
+   "revision": 369,
+   "ageAtSubmitMs": 23
+  },
+  "after": {
+   "lastFrameId": 16663,
+   "revisionsSeen": [
+    371
+   ],
+   "finalReading": {
+    "hand": 14,
+    "actor": 3,
+    "status": "playing",
+    "actions": 20,
+    "frameId": 16663
+   }
+  }
+ },
+ "timeline": {
+  "readToSubmitMs": 23,
+  "queueWaitMs": 2439,
+  "inputRunMs": 1843,
+  "confirmMs": 183,
+  "totalMs": 4662
+ },
+ "lifecycleAfter": "ACTIVE",
+ "recordedAt": 1795539813814,
+ "windowEvents": [
+  {
+   "file": "oracle-table-10-g1.jsonl",
+   "t": 1795539803909,
+   "table": 10,
+   "kind": "bot-action",
+   "hand": 14,
+   "seat": 7,
+   "type": "call",
+   "amount": 375,
+   "result": "applied",
+   "rev": 368
+  },
+  {
+   "file": "oracle-table-10-g1.jsonl",
+   "t": 1795539803924,
+   "table": 10,
+   "kind": "shown",
+   "rev": 368,
+   "wt": 890531,
+   "dealerRev": 368
+  },
+  {
+   "file": "oracle-table-10-g1.jsonl",
+   "t": 1795539804716,
+   "table": 10,
+   "kind": "bot-action",
+   "hand": 14,
+   "seat": 7,
+   "type": "check",
+   "amount": 0,
+   "result": "applied",
+   "rev": 369
+  },
+  {
+   "file": "oracle-table-10-g1.jsonl",
+   "t": 1795539804735,
+   "table": 10,
+   "kind": "shown",
+   "rev": 369,
+   "wt": 891343,
+   "dealerRev": 369
+  },
+  {
+   "file": "oracle-table-10-g1.jsonl",
+   "t": 1795539812251,
+   "table": 10,
+   "kind": "mouse-down",
+   "x": 396,
+   "y": 477,
+   "control": "wager",
+   "enabled": true,
+   "rev": 369,
+   "wt": 898859,
+   "dealerRev": 369
+  },
+  {
+   "file": "oracle-table-10-g1.jsonl",
+   "t": 1795539812322,
+   "table": 10,
+   "kind": "mouse-up",
+   "x": 396,
+   "y": 477,
+   "control": "wager",
+   "enabled": true,
+   "rev": 369,
+   "wt": 898937,
+   "dealerRev": 369
+  },
+  {
+   "file": "oracle-table-10-g1.jsonl",
+   "t": 1795539812412,
+   "table": 10,
+   "kind": "key",
+   "vk": 49,
+   "control": "wager",
+   "wt": 899015
+  },
+  {
+   "file": "oracle-table-10-g1.jsonl",
+   "t": 1795539812466,
+   "table": 10,
+   "kind": "key",
+   "vk": 53,
+   "control": "wager",
+   "wt": 899078
+  },
+  {
+   "file": "oracle-table-10-g1.jsonl",
+   "t": 1795539812524,
+   "table": 10,
+   "kind": "key",
+   "vk": 48,
+   "control": "wager",
+   "wt": 899140
+  },
+  {
+   "file": "oracle-table-10-g1.jsonl",
+   "t": 1795539812585,
+   "table": 10,
+   "kind": "key",
+   "vk": 48,
+   "control": "wager",
+   "wt": 899203
+  },
+  {
+   "file": "oracle-table-10-g1.jsonl",
+   "t": 1795539812725,
+   "table": 10,
+   "kind": "timeout-action",
+   "hand": 14,
+   "seat": 0,
+   "type": "check",
+   "result": "applied",
+   "rev": 370
+  },
+  {
+   "file": "oracle-table-10-g1.jsonl",
+   "t": 1795539812740,
+   "table": 10,
+   "kind": "shown",
+   "rev": 370,
+   "wt": 899359,
+   "dealerRev": 370
+  },
+  {
+   "file": "oracle-table-10-g1.jsonl",
+   "t": 1795539813360,
+   "table": 10,
+   "kind": "mouse-down",
+   "x": 764,
+   "y": 477,
+   "control": "table",
+   "enabled": true,
+   "rev": 370,
+   "wt": 899968,
+   "dealerRev": 370
+  },
+  {
+   "file": "oracle-table-10-g1.jsonl",
+   "t": 1795539813431,
+   "table": 10,
+   "kind": "mouse-up",
+   "x": 764,
+   "y": 477,
+   "control": "table",
+   "enabled": true,
+   "rev": 370,
+   "wt": 900046,
+   "dealerRev": 370
+  },
+  {
+   "file": "oracle-table-10-g1.jsonl",
+   "t": 1795539813533,
+   "table": 10,
+   "kind": "bot-action",
+   "hand": 14,
+   "seat": 1,
+   "type": "check",
+   "amount": 0,
+   "result": "applied",
+   "rev": 371
+  },
+  {
+   "file": "oracle-table-10-g1.jsonl",
+   "t": 1795539813550,
+   "table": 10,
+   "kind": "shown",
+   "rev": 371,
+   "wt": 900171,
+   "dealerRev": 371
+  },
+  {
+   "file": "oracle-table-10-g1.jsonl",
+   "t": 1795539814344,
+   "table": 10,
+   "kind": "bot-action",
+   "hand": 14,
+   "seat": 3,
+   "type": "check",
+   "amount": 0,
+   "result": "applied",
+   "rev": 372
+  },
+  {
+   "file": "oracle-table-10-g1.jsonl",
+   "t": 1795539814357,
+   "table": 10,
+   "kind": "shown",
+   "rev": 372,
+   "wt": 900968,
+   "dealerRev": 372
+  }
+ ],
+ "otherWindowEvents": [
+  {
+   "file": "oracle-table-02-g1.jsonl",
+   "t": 1795539814287,
+   "table": 2,
+   "kind": "mouse-down",
+   "x": 700,
+   "y": 477,
+   "control": "call",
+   "enabled": true,
+   "rev": 257,
+   "wt": 900906,
+   "dealerRev": 257
+  },
+  {
+   "file": "oracle-table-02-g1.jsonl",
+   "t": 1795539814358,
+   "table": 2,
+   "kind": "mouse-up",
+   "x": 700,
+   "y": 477,
+   "control": "call",
+   "enabled": true,
+   "rev": 257,
+   "wt": 900968,
+   "dealerRev": 257
+  },
+  {
+   "file": "oracle-table-02-g1.jsonl",
+   "t": 1795539814359,
+   "table": 2,
+   "kind": "action",
+   "control": "call",
+   "wager": "",
+   "rev": 257,
+   "wt": 900968,
+   "dealerRev": 257,
+   "result": "accepted",
+   "applied": {
+    "hand": 12,
+    "seat": 0,
+    "street": "preflop",
+    "control": "call",
+    "type": "call",
+    "amount": 100,
+    "rev": 258
+   }
+  }
+ ]
+}
