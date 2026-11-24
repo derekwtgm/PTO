@@ -1,0 +1,28 @@
+EightMax Test Workbench 0.36.2 - Milestone 3.2 standalone T5 test: what happened, in plain language
+====================================================================================================
+Real-window result: PASS - 2 of 2 scenarios passed; process cleanup OK
+
+What is tested: two EightMax test tables play at the same time; then the window of table 2 is closed.
+  T5   table 2 is playing when its window closes.
+  T5P  table 2 is first PAUSED because one of its clicks reached the table but was not applied (made to happen on purpose: the
+       situation on your PC on 2026-11-24), then its window closes. Milestone 3.1 never noticed a close in this state.
+A scenario passes when table 2 is recognised as lost (TARGET_LOST), its input permission is withdrawn (scheduler), no further
+mouse input goes to it, and table 1 keeps playing normally with every action matching its own table.
+A WARNING on "input confirmation" means an action was sent but could not be confirmed (other than the one T5P causes on purpose).
+The safety handling is still checked by the other assertions; the evidence of that action is saved for investigation.
+
+T5      PASS     Two tables: eliminations on both, one window closes; no input crosses tables
+        window closed -> TARGET_LOST after n/a ms (found by n/a, state before: n/a)
+        scheduler: only table 2 blocked, its registration revoked
+        input to the closed window after the loss: n/a
+        table 1 afterwards: kept playing [5,false]
+
+T5P     PASS     Two tables: table 2 paused by an action its table did not apply, then its window closes (the operator failure, reproduced)
+        pause caused on purpose: yes - safety pause "input-rejected", the click was not repeated
+        window closed -> TARGET_LOST after n/a ms (found by n/a, state before: n/a)
+        scheduler: only table 2 blocked, its registration revoked
+        input to the closed window after the loss: n/a
+        table 1 afterwards: kept playing [5,false]
+
+Everything (the full report, every check, logs, the test tables' own records and any evidence) is in milestone3-results.zip
+in this folder. Send that ZIP back.
