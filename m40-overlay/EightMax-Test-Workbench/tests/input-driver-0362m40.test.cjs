@@ -30,7 +30,7 @@ const click = (x, w, name, more = {}) => { const p = at(w, name); return x.s.cal
 test('M4.0 driver: capabilities name the per-process guard, the input drain, phase timings and the inline queries', { skip }, async () => {
   const x = await open(); try {
     const c = x.s.capabilities; assert.deepEqual(c.clickGuardScopes, ['global', 'process']); assert.equal(c.inputDrain, true); assert.equal(c.phaseTimings, true);
-    assert.deepEqual(c.inlineQueries, ['window-info', 'cursor', 'monitors']); assert.deepEqual(c.raiseWaitModes, ['fixed-30', 'poll']); assert.equal(c.build, '0.36.2-m40'); assert.equal(c.singleClickGuardMaxMs, 540, 'the double-click guard still uses the system double-click time + 40 ms');
+    assert.deepEqual(c.inlineQueries, ['window-info', 'cursor', 'monitors']); assert.deepEqual(c.raiseWaitModes, ['fixed-30', 'poll']); assert.equal(c.pressGuard, true); assert.equal(c.captureBarrier, true); assert.equal(c.build, '0.36.2-m40'); assert.equal(c.singleClickGuardMaxMs, 540, 'the double-click guard still uses the system double-click time + 40 ms');
   } finally { await x.close(); }
 });
 
@@ -135,4 +135,21 @@ test('M4.0 driver: pressGuard on an ordinary click changes nothing but the reply
     assert.ok(r.phases.pressCheckMs >= 0 && r.phases.pressCheckMs < 30, 'press check ' + r.phases.pressCheckMs + ' ms');
     const ev = (await x.s.call('virtual-events')).events.filter((e) => e.startsWith('click ')); assert.deepEqual(ev, ['click fold']);
   } finally { await x.close(); }
+});
+
+test('M4.0 driver: capture barrier - the reply waits until the clicked control released the mouse capture (its thread processed the release; a busy table), bounded at 600 ms', { skip }, async () => {
+  for (const [lag, expectReleased] of [[0, true], [200, true], [900, false]]) {
+    const x = await open({ tables: 1, clientW: 800 }, lag ? { releaseLagMs: lag } : {}); try {
+      const [w1] = x.desk.windows, r = await click(x, w1, 'fold', { drain: true, pressGuard: true, clickGuard: 'process' });
+      assert.equal(r.ok, true); assert.equal(r.press.capturedByControl, true, 'the control captured the mouse when it processed the press (lag ' + lag + ')');
+      assert.equal(r.captureBarrier, true); assert.equal(r.captureReleased, expectReleased, 'lag ' + lag + ': ' + JSON.stringify([r.captureReleaseMs, r.drained]));
+      if (lag === 0) assert.ok(r.captureReleaseMs === undefined || r.captureReleaseMs < 40, 'a responsive table: no wait (' + r.captureReleaseMs + ' ms)');
+      if (lag === 200) assert.ok(r.captureReleaseMs >= 150 && r.captureReleaseMs < 600, 'waited for the busy table: ' + r.captureReleaseMs + ' ms');
+      if (lag === 900) { assert.ok(r.captureReleaseMs >= 590, 'bounded at 600 ms: ' + r.captureReleaseMs); assert.equal(r.drained, false, 'not drained: the next click keeps the global spacing'); }
+      else assert.equal(r.drained, true);
+      const ev = (await x.s.call('virtual-events')).events.filter((e) => e.startsWith('click ')); assert.deepEqual(ev, ['click fold'], 'exactly one click, never repeated');
+    } finally { await x.close(); }
+  }
+  // the Milestone 3.2 sequence (no drain field) is unchanged: no barrier, no extra reply fields
+  const y = await open({ tables: 1, clientW: 800 }); try { const r = await click(y, y.desk.windows[0], 'check'); assert.equal(r.captureBarrier, undefined); assert.equal(r.press, undefined); } finally { await y.close(); }
 });

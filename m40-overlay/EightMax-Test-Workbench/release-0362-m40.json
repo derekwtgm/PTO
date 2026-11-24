@@ -16,7 +16,7 @@
   "changed": false
  },
  "windowsBinariesRebuilt": null,
- "windowsBinariesReason": "Milestone 4.0 changes three C# sources: desktop/input/Driver.cs and Platform.cs (per-process double-click guard, input drain, phase timings, read-only queries on the reader thread - all requested per command, Milestone 3.2 behaviour without the new fields) and desktop/CaptureService.cs + DesktopHost.cs (optional region of the client area in /api/capture/frame). EightMaxInput.exe, EightMaxWorkbench.exe and EightMaxCapture.exe are rebuilt ON WINDOWS with the .NET Framework 4.x compiler (windows/Build-Executables.ps1); the test table, the WGC helper, Node.js and the EightMax 5.1 engine are byte-identical to Milestone 3.2.",
+ "windowsBinariesReason": "Milestone 4.0 changes four C# sources. desktop/input/Driver.cs and Platform.cs: per-process double-click guard, input drain with a button barrier (BM_GETSTATE: the lease is held until the clicked button has processed the release), press guard (a press that reached another window because its target closed or was covered at that instant is released off that control and reported), polled raise wait, phase timings, read-only queries answered while another operation runs - every one requested per command; without the new fields the driver does exactly what Milestone 3.2 did. desktop/CaptureService.cs + DesktopHost.cs: an optional region of the client area in /api/capture/frame. EightMaxInput.exe, EightMaxWorkbench.exe and EightMaxCapture.exe are rebuilt ON WINDOWS with the .NET Framework 4.x compiler (windows/Build-Executables.ps1); the test table, the WGC helper, Node.js and the EightMax 5.1 engine are byte-identical to Milestone 3.2.",
  "executables": {},
  "defaults": {
   "inputPipeline": "optimized (dashboard and the Milestone 4.0 test tools); compat-3.2 reproduces Milestone 3.2 exactly",
@@ -25,6 +25,6 @@
  },
  "windowsTestRunner": "RUN-M4-PERFORMANCE-TEST.cmd",
  "instructions": "READ-ME-MILESTONE4-TESTS.txt",
- "resultsLocation": "%LOCALAPPDATA%\\EightMax-Test-Workbench\\TestResults\\Milestone4.0-<mode>-<date>-<time>",
+ "resultsLocation": "%LOCALAPPDATA%\\EightMax-Test-Workbench\\TestResults\\Milestone4.0-<date>-<time>-<mode>",
  "integrityPolicy": "release-integrity-policy.json"
 }

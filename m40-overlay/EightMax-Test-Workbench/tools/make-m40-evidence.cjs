@@ -32,7 +32,7 @@ function row(s) {
   const m = s.metrics || {}, ms = m.measurements || {}, m40 = ms.m40 || {}, sc = m40.scheduler || {}, tl = (m40.timeline || {}).overall || {}, st = (x) => (x ? { mean: r1(x.mean), p50: r1(x.p50), p95: r1(x.p95), p99: r1(x.p99), max: r1(x.max), n: x.n } : null);
   return { id: s.id, status: s.status, tables: m.tables, seconds: m.seconds, actionsConfirmed: m.actionsConfirmed, actionsPerMinute: m.seconds ? r1(60 * m.actionsConfirmed / m.seconds, 1) : null, completedHands: m.completedHands,
     schedulingDelayMs: st(ms.schedulingDelayMs), actionLatencyMs: st(ms.actionLatencyMs), deadlineMisses: (ms.deadlineMisses || {}).byTables === undefined ? null : ms.deadlineMisses.byTables,
-    incorrectActions: m.incorrectActions, invalidWagers: m.invalidWagers, confirmedButNotApplied: m.confirmedButNotApplied, uncertainOrUnconfirmed: m.uncertainOrUnconfirmed, uncertainByTestStop: m.uncertainByTestStop, inputStatus: ms.inputStatus || null,
+    incorrectActions: m.incorrectActions, wrongActions: m.wrongActions === undefined ? null : m.wrongActions, incorrectClickKinds: m.incorrectClickKinds || null, confirmedByTableClock: m.confirmedByTableClock === undefined ? null : m.confirmedByTableClock, invalidWagers: m.invalidWagers, confirmedButNotApplied: m.confirmedButNotApplied, uncertainOrUnconfirmed: m.uncertainOrUnconfirmed, uncertainByTestStop: m.uncertainByTestStop, inputStatus: ms.inputStatus || null,
     heroTimeouts: m.heroTimeouts === undefined ? null : m.heroTimeouts, untrackedHands: m.untrackedHands, misdirectedPresses: m.misdirectedPresses === undefined ? null : m.misdirectedPresses,
     leaseMs: st(sc.leaseMs || tl.leaseOccupancyMs), cursorUtilization: sc.cursorUtilization === undefined ? null : r1(sc.cursorUtilization, 4), fairness: (m40.fairness || {}).jainActionsPerTable === undefined ? null : r1(m40.fairness.jainActionsPerTable, 4), maxWaitMs: (m40.fairness || {}).maxWaitMs === undefined ? null : r1(m40.fairness.maxWaitMs),
     workload: m40.workload || null, resources: m40.resources ? { cpuPercent: m40.resources.cpuPercent || m40.resources.cpu || null, memoryMiB: m40.resources.memoryMiB || m40.resources.rssMiB || null, gpu: m40.resources.gpu || null } : null };
@@ -74,10 +74,15 @@ function stress(B) {
   for (const b of B.filter((x) => /^sustained-/.test(x.job))) for (const f of b.files) for (const s of f.doc.scenarios || []) out.runs.push({ source: src(b, f.name, s.id), pipeline: f.doc.pipeline, policy: f.doc.policy, outcome: f.doc.overall, checks: (s.checks || []).map((c) => ({ name: c.name, pass: c.pass, warning: !!c.warning })), ...row(s), evidenceFiles: (s.metrics || {}).evidenceFiles || [], cleanupOk: f.doc.cleanup ? f.doc.cleanup.ok : null });
   return out;
 }
+/** The Windows test runner's own reports inside a results branch (Milestone3.1-*, Milestone3.2-T5-*, Milestone4.0-* run folders). */
+function runnerReports(b) {
+  const res = path.join(b.path, 'results'); if (!fs.existsSync(res)) return [];
+  return fs.readdirSync(res).filter((d) => /^Milestone(3\.1|3\.2-T5|4\.0)-/.test(d)).map((d) => { const j = readJson(path.join(res, d, 'milestone3-results.json')); return j ? { file: d + '/milestone3-results.json', mode: j.mode, overall: j.overall, exitCode: j.exitCode, counts: j.counts, recovered: !!j.recovered } : { file: d, overall: null }; });
+}
 function windowsValidation(B) {
   return { format: 'eightmax-windows-validation', version: 1, milestone: '0.36.2-milestone-4.0', generatedAt: new Date().toISOString(), generator: 'tools/make-m40-evidence.cjs', repository: 'derekwtgm/PTO', workflow: '.github/workflows/windows-0362-m40.yml',
     jobs: B.map((b) => ({ run: b.run, job: b.job, sha: b.sha, zipSha256: b.zipSha256, outcome: b.outcome, display: b.display ? { requested: b.display.requested || null, after: b.display.after || null, achieved: b.display.achieved || null } : null,
-      reports: b.files.map((f) => ({ file: f.name, overall: f.doc.overall || (f.doc.verdict ? JSON.stringify(f.doc.verdict) : null), summary: f.doc.summary || null })) })) };
+      reports: b.files.map((f) => ({ file: f.name, overall: f.doc.overall || (f.doc.verdict ? JSON.stringify(f.doc.verdict) : null), summary: f.doc.summary || null })).concat(runnerReports(b)) })) };
 }
 function regression(B) {
   const out = { format: 'eightmax-regression', version: 1, milestone: '0.36.2-milestone-4.0', generatedAt: new Date().toISOString(), generator: 'tools/make-m40-evidence.cjs', operatorBaselineMilestone32: { passed: 142, failed: 0, warnings: 1, skipped: 5, source: 'the operator\'s Milestone 3.2 run (as reported in the Milestone 4.0 brief)' }, linux: [], windowsFullAcceptance: [], t5: [] };

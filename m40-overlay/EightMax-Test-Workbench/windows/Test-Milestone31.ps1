@@ -93,6 +93,17 @@ if ($Mode -eq 'Package') {
         }
         $pick = $show[$choice]
     }
+    # 0.36.2 M4.0: a run that FINISHED is never rewritten as a recovered one (Windows CI run 45409782425: option E after a completed run
+    # replaced its report with "rebuilt from the saved progress of a run that did not finish"): its ZIP is shown, or made again from its
+    # files, and its report stays exactly as it was written
+    if ($pick.complete) {
+        if ($LauncherToken) { try { [IO.File]::WriteAllText((Join-Path $pick.path 'launcher-token.txt'), $LauncherToken + "`r`n") } catch {} }
+        $zp = Join-Path $pick.path 'milestone3-results.zip'
+        if (Test-Path -LiteralPath $zp) { Write-Plain ('This run finished normally; its report is unchanged and its results ZIP already exists: ' + $zp) 'Green'; exit 0 }
+        $z = New-M31Zip $pick.path $zp
+        if ($z.ok) { Write-Plain ('This run finished normally; its report is unchanged. Results ZIP made again from its files: ' + $zp) 'Green'; exit 0 }
+        Write-Plain ('The ZIP could not be created: ' + [string]$z.error) 'Red'; exit 2
+    }
     Write-Plain ('Packaging ' + $pick.path + ' ...')
     $res = Complete-M31RecoveredRun $pick.path 'Packaged on request (mode D); no test was run.'
     if ($LauncherToken) { try { [IO.File]::WriteAllText((Join-Path $pick.path 'launcher-token.txt'), $LauncherToken + "`r`n") } catch {} }

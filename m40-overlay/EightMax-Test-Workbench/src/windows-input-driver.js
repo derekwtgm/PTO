@@ -163,7 +163,7 @@
         // 0.36.2 M3.2: also the window under the cursor at the press, the double-click guard wait, the travel and the cursor lag (evidence)
         const detail = { plannedMs: r.plannedMs, actualMs: r.actualMs, steps: r.steps, finalError: r.finalError, clickedAt: r.clickedAt, hitClass: r.hitClass, hit: r.hit, doubleClickGuardMs: r.doubleClickGuardMs, distance: r.distance, maxObservedLag: r.maxObservedLag, point: target.point, rect: target.rect,
           // 0.36.2 M4.0 (additive): request/reply times and the driver's phases (timeline), whether the target processed the click
-          timing: { sentAt, repliedAt, phases: r.phases || null }, drained: r.drained === undefined ? null : r.drained, drainMs: r.drainMs === undefined ? null : r.drainMs, guardScope: r.guardScope || null, press: r.press || null, pipeline: this.profileName };
+          timing: { sentAt, repliedAt, phases: r.phases || null }, drained: r.drained === undefined ? null : r.drained, drainMs: r.drainMs === undefined ? null : r.drainMs, guardScope: r.guardScope || null, press: r.press || null, captureReleased: r.captureReleased === undefined ? null : r.captureReleased, captureReleaseMs: r.captureReleaseMs === undefined ? null : r.captureReleaseMs, pipeline: this.profileName };
         await this._settle(r, detail);
         return { ok: true, detail };
       } catch (e0) { const e = WindowsUiDriver.cleanCancel(e0); this.trace({ kind: 'click-refused', region: regionName, code: e.code, error: e.message }); return { ok: false, reason: (e.code ? e.code + ': ' : '') + e.message, code: e.code }; }

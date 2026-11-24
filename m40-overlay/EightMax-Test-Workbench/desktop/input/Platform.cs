@@ -51,6 +51,7 @@ public interface IPlatform {
     void DoubleClickSize(out int w, out int h);// SM_CXDOUBLECLK / SM_CYDOUBLECLK
     bool DrainInput(long hwnd, int timeoutMs); // 0.36.2 M4.0: the window's GUI thread pumped its messages twice (WM_NULL); false = busy, hung or gone
     bool ControlBox(long hwnd, out Rect box);  // 0.36.2 M4.0: screen rectangle of a window or control (GetWindowRect); false when it is gone
+    long CaptureOf(long hwnd);                 // 0.36.2 M4.0: the window holding the mouse capture in hwnd's GUI thread (GetGUIThreadInfo); 0 none, -1 unknown
 }
 
 /* ------------------------------------------------------------------------------------------------------------------ */
@@ -166,6 +167,13 @@ public sealed class Win32Platform : IPlatform {
         if (SendMessageTimeout(h, WM_GETTEXT, new IntPtr(n + 1), s, SMTO_ABORTIFHUNG, 500, out res) == IntPtr.Zero) return null; return s.ToString();
     }
     public string ControlClass(long ctrl) { return ctrl == 0 ? "" : Cls(H(ctrl)); }
+    /// <summary>0.36.2 M4.0: the window that holds the mouse capture in the GUI thread of hwnd (GetGUIThreadInfo - read from the thread's
+    /// input state, no message is sent). A WinForms control sets the capture while it PROCESSES the press and releases it at the end of
+    /// processing the release (Control.WmMouseDown / WmMouseUp); native buttons do the same. 0 = no capture, -1 = window gone / unknown.</summary>
+    public long CaptureOf(long hwnd) {
+        IntPtr h = H(hwnd); if (hwnd == 0 || !IsWindow(h)) return -1; int pid; uint thread = GetWindowThreadProcessId(h, out pid); if (thread == 0) return -1;
+        GUITHREADINFO g = new GUITHREADINFO(); g.cbSize = Marshal.SizeOf(typeof(GUITHREADINFO)); if (!GetGUIThreadInfo(thread, ref g)) return -1; return g.hwndCapture.ToInt64();
+    }
     /// <summary>0.36.2 M4.0: two WM_NULL round trips to the window's GUI thread (each at most timeoutMs; aborts when the thread is hung).</summary>
     public bool DrainInput(long hwnd, int timeoutMs) {
         IntPtr h = H(hwnd), res; if (hwnd == 0 || !IsWindow(h)) return false;
@@ -208,6 +216,8 @@ public sealed class VirtualPlatform : IPlatform {
     // press), so the press reaches the window beneath - the race seen on Windows CI run 45401450070 (a window closed by the test 12 ms
     // before a click meant for it)
     public long CloseOnPress;
+    // 0.36.2 M4.0 test knob: the window's GUI thread processes a release ReleaseLagMs late (a busy table): its button stays pushed that long
+    public int ReleaseLagMs; long releasedAt = -1; VControl lastPressed;
     readonly VControl[] pressed = new VControl[2];   // 0.36.2 M4.0: the control that received the press (mouse capture, as in Windows)
     public bool DrainInput(long hwnd, int timeoutMs) { if (DrainFails) { System.Threading.Thread.Sleep(Math.Min(timeoutMs, 20)); return false; } if (DrainDelayMs > 0) System.Threading.Thread.Sleep(Math.Min(DrainDelayMs, 2 * timeoutMs)); lock (this) return Find(RootOf(hwnd)) != null; }
     long RootOf(long h) { foreach (VWindow w in Windows) { if (w.Info.Hwnd == h) return h; foreach (VControl c in w.Controls) if (c.Hwnd == h) return w.Info.Hwnd; } return 0; }
@@ -221,10 +231,15 @@ public sealed class VirtualPlatform : IPlatform {
         if (down && CloseOnPress != 0) { VWindow gone = Find(CloseOnPress); if (gone != null) { Windows.Remove(gone); Events.Add("closed " + CloseOnPress); } CloseOnPress = 0; }
         buttons[b] = down; Events.Add((down ? "down " : "up ") + b + " " + cx + " " + cy);
         long root = RootAt(cx, cy); if (down && root != 0) foreground = root;
-        if (down) { VControl c = ControlAt(cx, cy); pressed[b] = c != null && c.Enabled ? c : null; if (pressed[b] != null) Events.Add("press " + pressed[b].Text + " " + pressed[b].Hwnd); return; }
+        if (down) { VControl c = ControlAt(cx, cy); pressed[b] = c != null && c.Enabled ? c : null; if (pressed[b] != null) { Events.Add("press " + pressed[b].Text + " " + pressed[b].Hwnd); lastPressed = pressed[b]; releasedAt = -1; } return; }
+        if (b == 0 && lastPressed != null) releasedAt = Ticks();
         // a button clicks when it is released over the SAME control that received the press (mouse capture); a release elsewhere clicks nothing
         VControl p = pressed[b]; pressed[b] = null;
         if (b == 0) { VControl c = ControlAt(cx, cy); if (c != null && c.Enabled && c == p) { c.Clicks++; VWindow w = Find(root); if (w != null) w.Focus = c.Hwnd; Events.Add("click " + c.Text); } else if (p != null) Events.Add("released-off " + p.Text); } } }
+    public long CaptureOf(long hwnd) { lock (this) {
+        long root = RootOf(hwnd); if (root == 0) return -1; VWindow w = Find(root); if (w == null) return -1;
+        VControl held = pressed[0] != null && w.Controls.Contains(pressed[0]) ? pressed[0] : (lastPressed != null && w.Controls.Contains(lastPressed) && releasedAt >= 0 && Ticks() - releasedAt < ReleaseLagMs ? lastPressed : null);
+        return held != null ? held.Hwnd : 0; } }
     public bool ControlBox(long hwnd, out Rect box) { lock (this) { foreach (VWindow w in Windows) { if (w.Info.Hwnd == hwnd) { box = w.Info.Window; return true; } foreach (VControl c in w.Controls) if (c.Hwnd == hwnd) { box = c.Box; return true; } } box = new Rect(0, 0, 0, 0); return false; } }
     public void Key(ushort vk, bool down) { lock (this) { if (down) keys.Add(vk); else keys.Remove(vk); Events.Add((down ? "kdown " : "kup ") + vk); if (down) Typed(vk, (char)0); } }
     public void Unicode(char c, bool down) { lock (this) { Events.Add((down ? "udown " : "uup ") + (int)c); if (down) Typed(0, c); } }
@@ -253,7 +268,7 @@ public sealed class VirtualPlatform : IPlatform {
         Dictionary<string, object> d = (Dictionary<string, object>)js.DeserializeObject(File.ReadAllText(path));
         if (d.ContainsKey("screen")) v.Screen = Json.Box(d["screen"]);
         if (d.ContainsKey("drainDelayMs")) v.DrainDelayMs = Convert.ToInt32(d["drainDelayMs"]); if (d.ContainsKey("drainFails")) v.DrainFails = (bool)d["drainFails"];
-        if (d.ContainsKey("closeOnPress")) v.CloseOnPress = Convert.ToInt64(d["closeOnPress"]);
+        if (d.ContainsKey("closeOnPress")) v.CloseOnPress = Convert.ToInt64(d["closeOnPress"]); if (d.ContainsKey("releaseLagMs")) v.ReleaseLagMs = Convert.ToInt32(d["releaseLagMs"]);
         foreach (object o in (System.Collections.IList)d["windows"]) { Dictionary<string, object> w = (Dictionary<string, object>)o; VWindow vw = new VWindow();
             vw.Info.Hwnd = Convert.ToInt64(w["hwnd"]); vw.Info.Pid = Convert.ToInt32(w["pid"]); vw.Info.ProcessStart = w.ContainsKey("start") ? Convert.ToInt64(w["start"]) : 1;
             vw.Info.Title = (string)w["title"]; vw.Info.ClassName = w.ContainsKey("class") ? (string)w["class"] : "WindowsForms10"; vw.Info.Exe = w.ContainsKey("exe") ? (string)w["exe"] : "C:\\test\\table.exe";

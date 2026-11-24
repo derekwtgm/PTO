@@ -92,9 +92,9 @@
     clockExpired(hand, revision, actor) {
       const t = this.t; this.actTimer = null;
       if (this.closed || t.status !== 'playing' || t.hand !== hand || t.revision !== revision || t.actor !== actor) return;
-      const lg = t.legal(); if (!lg) return; const type = lg.canCheck ? 'check' : 'fold';
+      const lg = t.legal(); if (!lg) return; const type = lg.canCheck ? 'check' : 'fold', street = t.street;
       try { t.execute(t.request(type, 0, this.now()), this.now()); } catch (e) { this.record({ kind: 'timeout-action', hand, seat: actor, type, result: 'engine-refused', reason: e.message }); return; }
-      this.counts.timeoutActions++; this.rev++; this.record({ kind: 'timeout-action', hand, seat: actor, type, result: 'applied', rev: this.rev, after: this.snapshot() });
+      this.counts.timeoutActions++; (this.timeouts || (this.timeouts = [])).push({ hand, seat: actor, street, type, rev: this.rev + 1 }); if (this.timeouts.length > 2000) this.timeouts.shift();   // 0.36.2 M4.0 this.rev++; this.record({ kind: 'timeout-action', hand, seat: actor, type, result: 'applied', rev: this.rev, after: this.snapshot() });
       this.push(); this.scheduleNextHand(); this.armClock(); this.armBot();
     }
     /** Messages from the window. */
@@ -128,10 +128,10 @@
         const n = Number(text); amount = this.convention === 'raise-by' ? t.currentBet + n : n;
         if (!(amount > t.currentBet && amount <= lg.maxRaiseTo && (amount >= lg.minRaiseTo || amount === lg.maxRaiseTo))) { this.counts.wagerRejected++; ev.result = 'wager-rejected'; ev.reason = 'outside ' + lg.minRaiseTo + '..' + lg.maxRaiseTo; ev.amount = amount; this.record(ev); this.push({ status: 'Wager outside limits' }); return; }
       } else if (m.control === 'allin') { if (lg.canRaise) { type = 'raise'; amount = lg.maxRaiseTo; } else { type = 'call'; } }
-      const actor = t.actor;
+      const actor = t.actor, street = t.street;   // 0.36.2 M4.0: the street the action was taken on (recorded with it)
       try { t.execute(t.request(type, amount, this.now()), this.now()); } catch (e) { this.counts.illegal++; ev.result = 'engine-refused'; ev.reason = e.message; this.record(ev); return; }
       this.counts.accepted++; this.counts.byType[m.control] = (this.counts.byType[m.control] || 0) + 1; this.rev++;
-      const rec = { hand: t.hand, seat: actor, control: m.control, type, amount: type === 'call' ? lg.callAmount : amount, rev: this.rev }; this.accepted.push(rec); if (this.accepted.length > 5000) this.accepted.shift();
+      const rec = { hand: t.hand, seat: actor, street, control: m.control, type, amount: type === 'call' ? lg.callAmount : amount, rev: this.rev }; this.accepted.push(rec); if (this.accepted.length > 5000) this.accepted.shift();
       ev.result = 'accepted'; ev.applied = rec; ev.after = this.snapshot(); this.record(ev);
       if (this.turnDelay > 0 && t.status === 'playing') { this.holdUntil = this.now() + this.turnDelay; clearTimeout(this.holdTimer); this.holdTimer = setTimeout(() => { if (this.closed) return; this.rev++; this.push(); }, this.turnDelay + 5); }
       this.push({ clearWager: m.control === 'raise' });
@@ -142,7 +142,7 @@
       this.record({kind:'hand-complete',hand:this.t.hand,state:this.snapshot()});
       if(this.hands<this.maxHands){clearTimeout(this.timer);this.timer=setTimeout(()=>{if(this.closed)return;this.start();this.push();},this.gap);}
     }
-    summary(full) { return { table: this.id, hands: this.hands, rev: this.rev, convention: this.convention, tournament:this.t.persistentStacks, actionTimeoutMs: this.actionTimeout, state:this.snapshot(), counts: JSON.parse(JSON.stringify(this.counts)), accepted: full ? this.accepted.slice() : this.accepted.slice(-200), lastShown: this.lastShown, dropPending: this.dropNext }; }
+    summary(full) { return { table: this.id, hands: this.hands, rev: this.rev, convention: this.convention, tournament:this.t.persistentStacks, actionTimeoutMs: this.actionTimeout, state:this.snapshot(), counts: JSON.parse(JSON.stringify(this.counts)), accepted: full ? this.accepted.slice() : this.accepted.slice(-200), timeouts: (this.timeouts || []).slice(full ? 0 : -200), lastShown: this.lastShown, dropPending: this.dropNext }; }
     /** 0.36.2 M3.2 test control: the next n button actions are recorded but not applied. */
     dropNextAction(n = 1) { this.dropNext = Math.max(0, Math.min(10, Number(n) || 0)); this.record({ kind: 'test-control', control: 'drop-next-action', count: this.dropNext }); return { ok: true, pending: this.dropNext }; }
     /** 0.36.2 M3: stop every timer of this dealer (test harnesses call it when they finish, so no timer outlives the run). */

@@ -38,11 +38,15 @@ const norm = (h) => LC.normHwnd(h);
 function oracleFor(list, w) { const m = list.filter((o) => o.hwnd && norm(o.hwnd) === norm(w.hwnd)); return m.length ? m[m.length - 1] : list.find((o) => o.table === w.table && !o.closed) || null; }
 /** In-order match of the table's confirmed actions against what the dealer accepted (hand, seat, type, wager). */
 function crossCheck(t, o) {
-  const conf = t.log.filter((e) => e.status === 'confirmed'), acc = (o && o.accepted) || [], c = (o && o.counts) || {};
+  const conf = t.log.filter((e) => e.status === 'confirmed'), acc = (o && o.accepted) || [], c = (o && o.counts) || {}, clock = (o && o.timeouts) || [];
+  // 0.36.2 M4.0: actions are matched on hand, seat AND street when the table records the street (a hand in which the table's own clock
+  // acted for the seat shifted the in-order match across streets); an entry whose action the table's CLOCK took (same hand, seat, street,
+  // same type - the screen showed exactly the intended action) is counted apart, never as an action the table did not apply by mistake
+  const sameStreet = (a, e) => a.street === undefined || e.street === undefined || a.street === e.street, byClock = [];
   let j = 0; const wrong = [], missing = [];
   for (const e of conf) {
-    const k = acc.findIndex((a, i) => i >= j && a.hand === e.hand && a.seat === e.seat);
-    if (k < 0) { missing.push({ hand: e.hand, seat: e.seat, action: e.action }); continue; }
+    const k = acc.findIndex((a, i) => i >= j && a.hand === e.hand && a.seat === e.seat && sameStreet(a, e));
+    if (k < 0) { const ck = clock.find((x) => x.hand === e.hand && x.seat === e.seat && sameStreet(x, e) && e.action && (x.type === e.action.type)); if (ck) byClock.push({ hand: e.hand, seat: e.seat, street: e.street, type: ck.type }); else missing.push({ hand: e.hand, seat: e.seat, action: e.action }); continue; }
     const a = acc[k], ty = e.action && e.action.type, want = ty === 'bet' ? 'raise' : ty === 'allin' ? a.type : ty;
     if (want !== a.type || ((a.type === 'raise') && e.action && e.action.amount !== undefined && e.action.amount !== a.amount && ty !== 'allin')) wrong.push({ hand: e.hand, seat: e.seat, workbench: e.action, dealer: { type: a.type, amount: a.amount, control: a.control } });
     for (let i = j; i < k; i++) missing.push({ hand: acc[i].hand, seat: acc[i].seat, dealerOnly: acc[i].type });
@@ -51,8 +55,10 @@ function crossCheck(t, o) {
   const uncertain = t.log.filter((e) => e.status === 'uncertain' || e.status === 'unconfirmed').length;
   const unexplained = acc.length - j > uncertain ? acc.length - j - uncertain : 0;   // applied by the table, not confirmed and not flagged
   return { confirmed: conf.length, dealerAccepted: acc.length, matchedInOrder: conf.length - missing.filter((m) => !m.dealerOnly).length - wrong.length, wrongActions: wrong.length, wrong: wrong.slice(0, 5),
-    confirmedNotApplied: missing.filter((m) => !m.dealerOnly).length, appliedNotConfirmed: missing.filter((m) => m.dealerOnly).length + unexplained, uncertainOrUnconfirmed: uncertain,
-    incorrectClicks: (c.downOutsideControls || 0) + (c.downOnDisabled || 0) + (c.doubleClicks || 0) + (c.staleClicks || 0) + (c.illegal || 0), invalidWagers: c.wagerRejected || 0, timeoutActions: c.timeoutActions || 0, downOutsideControls: c.downOutsideControls || 0 };
+    confirmedByTableClock: byClock.length, confirmedNotApplied: missing.filter((m) => !m.dealerOnly).length, appliedNotConfirmed: missing.filter((m) => m.dealerOnly).length + unexplained, uncertainOrUnconfirmed: uncertain,
+    incorrectClicks: (c.downOutsideControls || 0) + (c.downOnDisabled || 0) + (c.doubleClicks || 0) + (c.staleClicks || 0) + (c.illegal || 0), invalidWagers: c.wagerRejected || 0, timeoutActions: c.timeoutActions || 0, downOutsideControls: c.downOutsideControls || 0,
+    // 0.36.2 M4.0: what the incorrect clicks were (each kind is still an incorrect click for the checks)
+    clickKinds: { outsideControls: c.downOutsideControls || 0, onDisabled: c.downOnDisabled || 0, doubleClicks: c.doubleClicks || 0, lateOnOldFrame: c.staleClicks || 0, notAvailable: c.illegal || 0 } };
 }
 /** Per-hand facts from the tracker's ACCEPTED states (who was dealt in, heads-up, all-ins, side pots, eliminations at settlement). */
 function observeHands(t, facts) {
@@ -383,7 +389,7 @@ function summariseRaw(res) {
   const tours = res.slots.flatMap((s) => s.tournaments), sum = (f) => tours.reduce((a, x) => a + (f(x) || 0), 0);
   return { tables: res.slots.length, seconds: res.seconds, completedHands: res.completedHands, tournamentsStarted: tours.length, tournamentsCompleted: tours.filter((x) => x.completed).length, winnersMatchDealer: tours.filter((x) => x.completed).every((x) => x.winnerOk),
     actionsAttempted: sum((x) => x.stats.attempted), actionsConfirmed: sum((x) => x.stats.confirmed), incorrectActions: sum((x) => x.crossCheck.wrongActions + x.crossCheck.incorrectClicks), invalidWagers: sum((x) => x.crossCheck.invalidWagers),
-    missedStateTransitions: sum((x) => x.crossCheck.appliedNotConfirmed), confirmedButNotApplied: sum((x) => x.crossCheck.confirmedNotApplied), refusedReadings: sum((x) => x.stats.refusedReadings), reconstructionFailures: sum((x) => x.stats.reconstructionFailures),
+    missedStateTransitions: sum((x) => x.crossCheck.appliedNotConfirmed), confirmedButNotApplied: sum((x) => x.crossCheck.confirmedNotApplied), confirmedByTableClock: sum((x) => x.crossCheck.confirmedByTableClock), wrongActions: sum((x) => x.crossCheck.wrongActions), incorrectClickKinds: ['outsideControls', 'onDisabled', 'doubleClicks', 'lateOnOldFrame', 'notAvailable'].reduce((o, k) => { o[k] = sum((x) => (x.crossCheck.clickKinds || {})[k]); return o; }, {}), refusedReadings: sum((x) => x.stats.refusedReadings), reconstructionFailures: sum((x) => x.stats.reconstructionFailures),
     untrackedHands: sum((x) => x.stats.untrackedHands), untrackedHandsWithoutDecision: sum((x) => x.stats.untrackedHandsWithoutDecision), untrackedHandsNeedingInput: sum((x) => x.stats.untrackedHandsNeedingInput), recoveryEvents: sum((x) => x.stats.recoveries), lifecycleRecoveries: tours.reduce((a, x) => a + ((x.stats.gameplayEpisodes || {}).verifying || 0), 0), eliminationsSeen: sum((x) => x.stats.eliminationsSeen),
     uncertainOrUnconfirmed: sum((x) => x.crossCheck.uncertainOrUnconfirmed), uncertainByTestStop: res.slots.reduce((a, sl) => a + (sl.byTestStop || 0), 0), deadlineMisses: sum((x) => x.stats.deadlineMisses), misdirectedPresses: sum((x) => x.stats.misdirectedPresses), strayPressesOutsideControls: sum((x) => x.crossCheck.downOutsideControls), heroTimeouts: sum((x) => x.stats.heroTimeouts), botActions: sum((x) => x.stats.botActions), cleanRefusals: sum((x) => x.stats.rejected), unexpectedPauses: res.violations.filter((v) => /stalled|safety-paused|no confirmed action/.test(v)).length,
     finalPlayerCounts: tours.filter((x) => x.completed).map((x) => x.finalPlayers), hands: handSummary(res.slots.flatMap((s) => s.facts.flatMap((m) => [...m.values()]))), faults: res.faults, violations: res.violations,
@@ -441,6 +447,7 @@ for (const n of (arg('tables', '1,2,5,8')).split(',').map(Number)) SUSTAINED['S'
   ck('no stall, no unexpected pause, no violation', res.violations.length === 0, res.violations.slice(0, 5));
   if (s.misdirectedPresses) warn('a press that reached another window (its target closed at that instant) was released off that control: no action there, not repeated', false, { misdirectedPresses: s.misdirectedPresses, strayPressesOutsideControls: s.strayPressesOutsideControls });
   ck('hands were completed', s.completedHands > 0, s.completedHands);
+  if (hero.heroSeats && s.confirmedByTableClock) warn('an action the table\'s own clock took was seen as the intended one (the hero was too late; same action on the screen)', false, { confirmedByTableClock: s.confirmedByTableClock });
   if (hero.heroSeats) warn('every hero decision was made before the table\'s action clock ran out (capacity: a decision the clock took is a missed deadline, never an unsafe input)', s.heroTimeouts === 0, { heroTimeouts: s.heroTimeouts, deadlineMisses: s.deadlineMisses, botActions: s.botActions });
   warn('every action that was sent was confirmed (an action interrupted by the harness stopping its table is uncertain by design and counted apart)', s.uncertainOrUnconfirmed - s.uncertainByTestStop <= 0, { uncertainOrUnconfirmed: s.uncertainOrUnconfirmed, causedByTheHarnessStop: s.uncertainByTestStop });
   return { checks, metrics: s };

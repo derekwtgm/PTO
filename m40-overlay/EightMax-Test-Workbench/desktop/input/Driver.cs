@@ -198,7 +198,7 @@ public sealed class Driver {
     Dictionary<string, object> Capabilities() {
         Dictionary<string, object> c = new Dictionary<string, object>();
         c["signedCurves"] = true; c["maxDeviationPx"] = true; c["singleClickGuardMaxMs"] = os.DoubleClickMs() + 40; c["operations"] = Operations; c["sendInput"] = os.Name == "win32"; c["virtual"] = os.Name == "virtual"; c["uiAutomation"] = Uia.Available; c["rawInputOverride"] = RawInputActive;
-        c["clickGuardScopes"] = new string[] { "global", "process" }; c["inputDrain"] = true; c["pressGuard"] = true; c["raiseWaitModes"] = new string[] { "fixed-30", "poll" }; c["phaseTimings"] = true; c["inlineQueries"] = new string[] { "window-info", "cursor", "monitors" }; c["build"] = Build;
+        c["clickGuardScopes"] = new string[] { "global", "process" }; c["inputDrain"] = true; c["pressGuard"] = true; c["captureBarrier"] = true; c["raiseWaitModes"] = new string[] { "fixed-30", "poll" }; c["phaseTimings"] = true; c["inlineQueries"] = new string[] { "window-info", "cursor", "monitors" }; c["build"] = Build;
         c["hotkey"] = HotkeySpec; c["hotkeyRegistered"] = HotkeyRegistered; c["maxQueue"] = MaxQueue; c["dpiAwareness"] = Program.DpiAwareness; c["note"] = SafetyNote; return c;
     }
     Dictionary<string, object> Status(long id) {
@@ -425,7 +425,9 @@ public sealed class Driver {
         long root = os.RootAt(x, y), child = os.ChildAt(x, y);
         Dictionary<string, object> p = new Dictionary<string, object>(); p["seen"] = seen; p["seenMs"] = Math.Round(ps.Elapsed.TotalMilliseconds, 2); p["root"] = Json.Hex(root); p["child"] = Json.Hex(child); r["press"] = p;
         o.Add("pressCheckMs", ps.Elapsed.TotalMilliseconds);
-        if (root == t.Hwnd) return;
+        if (root == t.Hwnd) {
+            return;
+        }
         int ax = x, ay = y; Rect box;
         if (child != 0 && child != root && os.ControlBox(child, out box) && box.W > 0 && box.H > 0) {
             Rect vs = os.VirtualScreen(); ay = box.Y - 4; if (ay < vs.Y) ay = box.Y + box.H + 4;   // just above (or below) the control that received the press
@@ -435,6 +437,17 @@ public sealed class Driver {
         p["misdirected"] = true; p["releasedAt"] = Pt(ax, ay);
         Event("press-misdirected", "target=" + Json.Hex(t.Hwnd) + " reached=" + Json.Hex(root) + " control=" + Json.Hex(child) + " released=" + ax + "," + ay + " op=" + o.Id);
         throw new DriverError("press-misdirected", "The target window was no longer under the cursor when the button went down (closed or covered at that instant): the press reached window " + Json.Hex(root) + ". It was released outside the control it reached, so no click was completed there; the action is not repeated.");
+    }
+    /// <summary>0.36.2 M4.0: the button hold (same duration, still cancellable) while watching whether the control under the cursor took the
+    /// mouse capture - i.e. its GUI thread has processed the press (evidence; and the capture barrier of the drain relies on it).</summary>
+    void HoldWatchingCapture(Op o, double hold, long child, Dictionary<string, object> r) {
+        Stopwatch hs = Stopwatch.StartNew(); long end = os.Ticks() + (long)Math.Ceiling(hold); double seenAt = -1; long cap = 0;
+        while (true) {
+            Gate(o); if (seenAt < 0 && child != 0) { cap = os.CaptureOf(child); if (cap == child) seenAt = hs.Elapsed.TotalMilliseconds; }
+            long left = end - os.Ticks(); if (left <= 0) break; Thread.Sleep((int)Math.Min(left, 2));
+        }
+        Dictionary<string, object> p = r.ContainsKey("press") ? r["press"] as Dictionary<string, object> : null; if (p == null) { p = new Dictionary<string, object>(); r["press"] = p; }
+        p["capturedByControl"] = seenAt >= 0; if (seenAt >= 0) p["captureMs"] = Math.Round(seenAt, 2); else p["capture"] = Json.Hex(cap);
     }
     /// <summary>0.36.2 M4.0: a click into target t happened now (global and per-process guard state).</summary>
     void NoteClick(Target t) { lastClickAt = os.Ticks(); if (t != null) lock (lastClickByPid) lastClickByPid[t.Pid] = lastClickAt; }
@@ -447,7 +460,26 @@ public sealed class Driver {
     bool Drain(Op o, Target t, long hit, int b, Dictionary<string, object> r) {
         Stopwatch d = Stopwatch.StartNew(); ushort vk = (ushort)(b == 1 ? 2 : 1);
         while (os.IsKeyDown(vk) && d.ElapsedMilliseconds < 50) Thread.Sleep(1);
-        bool ok = os.DrainInput(hit != 0 ? hit : t.Hwnd, 250);
+        // 0.36.2 M4.0 capture barrier: the control that processed the press keeps the mouse capture until its window procedure has processed
+        // the release (WinForms Control.WmMouseUp releases it at the very end). A WinForms button raises Click only if, WHEN IT PROCESSES the
+        // release, the window under the cursor is still the button - so another table's window raised over that spot before a busy table
+        // thread got to its queued release silently swallows the click ("delivered, no state change"). Two WM_NULL round trips do not
+        // prove the release was processed: Windows dispatches sent messages before queued mouse input. The reply (and with it the cursor
+        // lease) waits until the capture is released, at most 600 ms; a capture still held after that is reported (not drained).
+        // A press whose capture was never seen (a busy thread that had not processed it yet, or a control without capture) waits up to 300 ms
+        // for the capture to appear and be released; if it never appears the click is NOT reported as processed: the settle stays inside
+        // the lease and the next click keeps the global spacing (the Milestone 3.2 behaviour).
+        Dictionary<string, object> pr = r.ContainsKey("press") ? r["press"] as Dictionary<string, object> : null;
+        bool seen = pr != null && pr.ContainsKey("capturedByControl") && (bool)pr["capturedByControl"];
+        long cap = hit != 0 ? os.CaptureOf(hit) : -1; Stopwatch bw = Stopwatch.StartNew();
+        while (hit != 0 && cap != -1) {
+            if (cap == hit) seen = true; else if (seen) break;
+            if (bw.ElapsedMilliseconds >= (seen ? 600 : 300)) break;
+            Thread.Sleep(1); cap = os.CaptureOf(hit);
+        }
+        bool released = seen && cap != hit && cap != -1;
+        r["captureBarrier"] = true; r["captureReleased"] = released; r["captureSeen"] = seen; r["captureReleaseMs"] = Math.Round(bw.Elapsed.TotalMilliseconds, 2); o.Add("captureReleaseMs", bw.Elapsed.TotalMilliseconds);
+        bool ok = released && os.DrainInput(hit != 0 ? hit : t.Hwnd, 250);
         r["drained"] = ok; r["drainMs"] = Math.Round(d.Elapsed.TotalMilliseconds, 2); o.Add("drainMs", d.Elapsed.TotalMilliseconds);
         if (!ok) { undrainedAt = os.Ticks(); Event("drain-unconfirmed", "hwnd=" + Json.Hex(hit != 0 ? hit : t.Hwnd) + " op=" + o.Id + " ms=" + d.ElapsedMilliseconds); }
         return ok;
@@ -467,7 +499,8 @@ public sealed class Driver {
             Gate(o); if (o.Deadline > 0 && os.Ticks() + hold >= o.Deadline) throw new DriverError("deadline", "Insufficient time for button hold."); Down(b); stats.Clicks++; NoteClick(t); lastClickX = x; lastClickY = y;
             Event("button-down", "button=" + b + " x=" + x + " y=" + y + " op=" + o.Id);
             bool released = false;
-            try { if (Json.Get(a, "pressGuard") is bool && (bool)Json.Get(a, "pressGuard")) PressGuard(o, t, r, b, x, y, ref released); Sleep(o, hold); }
+            bool guard = Json.Get(a, "pressGuard") is bool && (bool)Json.Get(a, "pressGuard"), drain = Json.Get(a, "drain") is bool && (bool)Json.Get(a, "drain");
+            try { if (guard) PressGuard(o, t, r, b, x, y, ref released); if (guard || drain) HoldWatchingCapture(o, hold, child, r); else Sleep(o, hold); }
             finally { if (!released) { Up(b); Event("button-up", "button=" + b + " op=" + o.Id); } }   // the button is released even if a stop arrives during the hold
             if (i + 1 < count) Sleep(o, gap);
         }

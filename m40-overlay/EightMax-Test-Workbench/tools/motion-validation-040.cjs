@@ -24,6 +24,7 @@ const ACCEL = { 400: 3000, 800: 6000, 1200: 9000, 2000: 15000, 2800: 21000 };
 const BIN = path.join(ROOT, 'desktop', 'bin'), sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const sha256File = (f) => crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex');
 const inside = (p, r) => p.x >= r.x && p.y >= r.y && p.x < r.x + r.w && p.y < r.y + r.h;
+const cursorAt = async (s, c) => { const r = await s.call('cursor'); return Number.isFinite(r.x) ? { x: r.x, y: r.y } : { x: c.x, y: c.y }; };
 const stat = (xs) => { const v = xs.filter(Number.isFinite).sort((a, b) => a - b); if (!v.length) return null; const q = (p) => v[Math.min(v.length - 1, Math.ceil(p * v.length) - 1)]; return { n: v.length, mean: +(v.reduce((a, b) => a + b, 0) / v.length).toFixed(2), p50: +q(0.5).toFixed(2), p95: +q(0.95).toFixed(2), max: +v[v.length - 1].toFixed(2) }; };
 function rng(seed) { let s = seed >>> 0 || 1; return () => { s ^= s << 13; s >>>= 0; s ^= s >>> 17; s ^= s << 5; s >>>= 0; return s / 4294967296; }; }
 
@@ -56,9 +57,16 @@ async function main() {
       const profile = M.profile({ maxSpeed: speed, maxAccel: ACCEL[speed] || Math.round(speed * 7.5), arc: 0, maxDeviationPx: 240 }), r0 = rng(speed), w = await info(), c = w.client;
       const rec = { speed, maxAccel: profile.maxAccel, move800Ms: Math.round(M.durationMs(800, profile)), moves: [], clicks: [] };
       // ---- moves: random points inside the client area (away from the edges), sampled independently ----
+      // the longest movement this speed can make within the driver's movement limit (a longer one is refused, never sped up)
+      let reach = 50; while (reach < 4000 && M.durationMs(reach + 10, profile) <= profile.maxDurationMs - 100) reach += 10; rec.maxDistanceWithinLimitPx = reach;
+      rec.refusedLongMove = null;
+      { const cur = await cursorAt(s, c), far = { x: cur.x > c.x + c.w / 2 ? c.x + 20 : c.x + c.w - 20, y: cur.y > c.y + c.h / 2 ? c.y + 20 : c.y + c.h - 60 };
+        if (Math.hypot(far.x - cur.x, far.y - cur.y) > reach) { const q = await s.request('move', { hwnd: T.hwnd, to: far, expectClient: c, motion: profile }, 20000); rec.refusedLongMove = { distance: Math.round(Math.hypot(far.x - cur.x, far.y - cur.y)), ok: q.ok === true, code: q.code || null, error: q.ok ? null : String(q.error || '').slice(0, 160) }; } }
       for (let i = 0; i < MOVES; i++) {
-        const to = { x: Math.round(c.x + 40 + r0() * (c.w - 80)), y: Math.round(c.y + 40 + r0() * (c.h - 120)) };
-        await s.call('monitor-start', { intervalMs: 1 }); const r = await s.call('move', { hwnd: T.hwnd, to, expectClient: c, motion: profile }, 20000); await sleep(25); const mr = await s.call('monitor-stop');
+        const cur = await cursorAt(s, c); let to, k = 0;
+        do { to = { x: Math.round(c.x + 40 + r0() * (c.w - 80)), y: Math.round(c.y + 40 + r0() * (c.h - 120)) }; } while (Math.hypot(to.x - cur.x, to.y - cur.y) > reach && ++k < 50);
+        await s.call('monitor-start', { intervalMs: 1 }); const r = await s.request('move', { hwnd: T.hwnd, to, expectClient: c, motion: profile }, 20000); await sleep(25); const mr = await s.call('monitor-stop');
+        if (!r.ok) { rec.moves.push({ ok: false, refused: true, code: r.code, error: String(r.error || '').slice(0, 160), distance: Math.round(Math.hypot(to.x - cur.x, to.y - cur.y)) }); continue; }
         const an = M.analyse(M.fromMonitor(mr.samples), { profile, target: to, expectNoButton: true, dedupe: true, checkLimits: true });
         rec.moves.push({ distance: r.distance, plannedMs: r.plannedMs, actualMs: r.actualMs, ok: an.ok, problems: an.problems.slice(0, 3), targetError: an.targetError, peakSpeed: an.peakSpeed, peakAccel: an.peakAccel, maxStepPx: an.maxStepPx, stepLimitPx: an.stepLimitPx, intervalMedianMs: an.intervalMs && an.intervalMs.median, samples: an.samples });
       }
@@ -75,8 +83,8 @@ async function main() {
         await sleep(300);
       }
       const mv = rec.moves, ck = rec.clicks;
-      rec.summary = { moves: mv.length, movesOk: mv.filter((m) => m.ok).length, targetErrorMaxPx: Math.max(0, ...mv.map((m) => m.targetError || 0)), plannedMs: stat(mv.map((m) => m.plannedMs)), actualMs: stat(mv.map((m) => m.actualMs)),
-        timingRatio: stat(mv.map((m) => (m.plannedMs > 0 ? m.actualMs / m.plannedMs : NaN))), peakSpeedObserved: stat(mv.map((m) => m.peakSpeed)), maxStepPx: Math.max(0, ...mv.map((m) => m.maxStepPx || 0)),
+      rec.summary = { moves: mv.length, movesOk: mv.filter((m) => m.ok).length, movesRefused: mv.filter((m) => m.refused).length, maxDistanceWithinLimitPx: rec.maxDistanceWithinLimitPx, longerMoveRefused: rec.refusedLongMove ? rec.refusedLongMove.ok === false : null, targetErrorMaxPx: Math.max(0, ...mv.map((m) => m.targetError || 0)), plannedMs: stat(mv.map((m) => m.plannedMs)), actualMs: stat(mv.map((m) => m.actualMs)),
+        timingRatio: stat(mv.filter((m) => !m.refused).map((m) => (m.plannedMs > 0 ? m.actualMs / m.plannedMs : NaN))), peakSpeedObserved: stat(mv.map((m) => m.peakSpeed)), maxStepPx: Math.max(0, ...mv.map((m) => m.maxStepPx || 0)),
         clicks: ck.length, clicksOnTarget: ck.filter((x) => x.presses === 1 && x.pressOn === x.control && x.insideRegion).length, clicksWithExtraPress: ck.filter((x) => x.presses > 1).length, pressesOutsideRegion: ck.filter((x) => x.insideRegion === false).length,
         disabledControlPresses: ck.filter((x) => x.pressEnabled === false).length, actionsApplied: ck.filter((x) => x.actions === 1 && x.applied === 'accepted').length, driverRefusals: ck.filter((x) => !x.driverOk).length };
       rec.ok = rec.summary.movesOk === rec.summary.moves && rec.summary.clicksWithExtraPress === 0 && rec.summary.pressesOutsideRegion === 0 && rec.summary.clicksOnTarget === ck.filter((x) => x.presses > 0).length;
