@@ -100,7 +100,7 @@
     // 0.36.2 M2 lifecycle: bounded backoff for temporary capture failures, fresh readings needed after an interruption, periodic identity check
     retryBaseMs: 250, retryMaxMs: 4000, maxRetryAttempts: 120, maxUnavailableMs: 300000, recoveryReadings: 2, identityCheckMs: 5000,
     // 0.36.2 M3.2: window-health monitor - identity probe interval while gameplay is paused / stopped / not ACTIVE; evidence per unconfirmed input
-    pausedIdentityCheckMs: 1000, activeIdentitySlackMs: 2500, maxUnconfirmedEvidence: 20, evidenceProbeMs: 2500 });
+    pausedIdentityCheckMs: 1000, stoppedIdentityCheckMs: 5000, activeIdentitySlackMs: 2500, maxUnconfirmedEvidence: 20, evidenceProbeMs: 2500 });
   const LS = LC.STATES;
   /** 0.36.2 M3: gameplay conditions (title, plain-language explanation). One condition per table at a time. */
   const GAMEPLAY = Object.freeze({
@@ -153,7 +153,7 @@
       // 0.36.2 M3.2: the window-health monitor verifies the REGISTERED identity in every non-terminal state, also while gameplay is paused;
       // it reports a confirmed loss to targetLost() and nothing else - it never resumes gameplay and never authorises input
       this.health = new LC.WindowHealthMonitor({ lifecycle: this.lc, probe: () => this._probe('health-monitor'), onLoss: (cause) => { this.targetLost(cause); },
-        gameplayHeld: () => !!this.paused || this.stopped || !!this.completed, activeIntervalMs: this.opt.identityCheckMs, activeSlackMs: this.opt.activeIdentitySlackMs, pausedIntervalMs: this.opt.pausedIdentityCheckMs,
+        gameplayHeld: () => (this.stopped || this.completed ? 'stopped' : !!this.paused), activeIntervalMs: this.opt.identityCheckMs, activeSlackMs: this.opt.activeIdentitySlackMs, pausedIntervalMs: this.opt.pausedIdentityCheckMs, stoppedIntervalMs: this.opt.stoppedIdentityCheckMs,
         onEvent: (kind, d) => { if (kind !== 'unknown' || (this.health && this.health.unknownInRow === 1)) this._diag('lifecycle', { kind: 'health-' + kind, ...(d || {}) }); } });
       this.unconfirmed = []; this._lastImage = null; this.onUnconfirmed = o.onUnconfirmed || null;
       // 0.36.2 M3.2: the scheduler knows this table's CURRENT registration (a replacement window is a new registration; a lost one stays refused)

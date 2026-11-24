@@ -16001,27 +16001,29 @@ const close=$('r33-close');if(close)close.addEventListener('click',()=>{$('r33-p
    *     only records when the window was last seen (with the time the probe STARTED, so an answer taken just before a close proves nothing
    *     about the time after it).
    *   * One probe at a time, shared with every other identity probe of the table (noteProbe); a table that is playing already probes on
-   *     its own, so the monitor only probes when nothing else has for activeIntervalMs + activeSlackMs; a paused table is probed every
-   *     pausedIntervalMs.
+   *     its own, so the monitor only probes when nothing else has for activeIntervalMs + activeSlackMs; a paused table (gameplay paused,
+   *     safety-paused, recovering) is probed every pausedIntervalMs; a STOPPED one (operator stop, finished tournament) - which nothing
+   *     can resume without the operator - every stoppedIntervalMs.
    *   * "unknown" (driver busy, timed out, stopped, incomplete reply) proves nothing - neither a loss nor health - and backs off.
    *   * A result that arrives after the registration became TARGET_LOST is discarded; at TARGET_LOST the monitor stops for good.
    */
   class WindowHealthMonitor {
-    /** o: lifecycle, probe() -> probeIdentity result, onLoss(cause), gameplayHeld() -> bool, activeIntervalMs, activeSlackMs, pausedIntervalMs,
-     *  maxBackoffMs, clock, setTimer(fn, ms), clearTimer(handle), onEvent(kind, detail) */
+    /** o: lifecycle, probe() -> probeIdentity result, onLoss(cause), gameplayHeld() -> false | true (paused) | 'stopped', activeIntervalMs,
+     *  activeSlackMs, pausedIntervalMs, stoppedIntervalMs, maxBackoffMs, clock, setTimer(fn, ms), clearTimer(handle), onEvent(kind, detail) */
     constructor(o = {}) {
       if (!o.lifecycle || typeof o.probe !== 'function' || typeof o.onLoss !== 'function') throw new Error('WindowHealthMonitor needs a lifecycle, probe() and onLoss()');
       this.lc = o.lifecycle; this.probe = o.probe; this.onLoss = o.onLoss; this.gameplayHeld = o.gameplayHeld || (() => false); this.onEvent = o.onEvent || (() => {});
-      this.activeIntervalMs = o.activeIntervalMs || 5000; this.activeSlackMs = o.activeSlackMs === undefined ? 2500 : o.activeSlackMs; this.pausedIntervalMs = o.pausedIntervalMs || 1000; this.maxBackoffMs = o.maxBackoffMs || 8000;
+      this.activeIntervalMs = o.activeIntervalMs || 5000; this.activeSlackMs = o.activeSlackMs === undefined ? 2500 : o.activeSlackMs; this.pausedIntervalMs = o.pausedIntervalMs || 1000; this.stoppedIntervalMs = o.stoppedIntervalMs || this.activeIntervalMs; this.maxBackoffMs = o.maxBackoffMs || 8000;
       this.clock = o.clock || mono; this.wall = o.wall || (() => Date.now());
       this.setTimer = o.setTimer || ((f, ms) => setTimeout(f, ms)); this.clearTimer = o.clearTimer || ((h) => clearTimeout(h));
       this.running = false; this.stoppedReason = null; this.timer = null; this.inflight = null; this.lastProbeAt = null; this.lastHealthyAt = null; this.lastHealthyWall = null; this.lastResult = null; this.unknownInRow = 0;
       this.counts = { checks: 0, ownProbes: 0, sharedProbes: 0, healthy: 0, unknown: 0, lost: 0, staleDiscarded: 0 };
       this.lossReportedAt = null; this.registrationId = this.lc.registrationId;
     }
-    /** The gameplay loop is not stepping through its own periodic check (paused, stopped, not ACTIVE): probe on the short interval. */
-    _held() { try { return !this.lc.is(S.ACTIVE) || !!this.gameplayHeld(); } catch (e) { return true; } }
-    intervalMs() { const base = this._held() ? this.pausedIntervalMs : this.activeIntervalMs + this.activeSlackMs; return this.unknownInRow ? Math.min(this.maxBackoffMs, base * Math.pow(2, Math.min(4, this.unknownInRow))) : base; }
+    /** null: playing (the table probes on its own); 'paused': not stepping through its own check; 'stopped': stopped / finished (operator only). */
+    _hold() { try { const h = this.gameplayHeld(); if (this.lc.is(S.STOPPED) || h === 'stopped') return 'stopped'; return !this.lc.is(S.ACTIVE) || h ? 'paused' : null; } catch (e) { return 'paused'; } }
+    _held() { return this._hold() !== null; }
+    intervalMs() { const h = this._hold(), base = h === 'stopped' ? this.stoppedIntervalMs : h ? this.pausedIntervalMs : this.activeIntervalMs + this.activeSlackMs; return this.unknownInRow ? Math.min(this.maxBackoffMs, base * Math.pow(2, Math.min(4, this.unknownInRow))) : base; }
     due(now = this.clock()) { return !this.lc.terminal && !this.inflight && (this.lastProbeAt === null || now - this.lastProbeAt >= this.intervalMs()); }
     /** Every identity probe of the table (whoever started it) is evidence that the window was checked at `startedAt`. */
     noteProbe(startedAt, result, own) {
@@ -16207,7 +16209,7 @@ const close=$('r33-close');if(close)close.addEventListener('click',()=>{$('r33-p
     // 0.36.2 M2 lifecycle: bounded backoff for temporary capture failures, fresh readings needed after an interruption, periodic identity check
     retryBaseMs: 250, retryMaxMs: 4000, maxRetryAttempts: 120, maxUnavailableMs: 300000, recoveryReadings: 2, identityCheckMs: 5000,
     // 0.36.2 M3.2: window-health monitor - identity probe interval while gameplay is paused / stopped / not ACTIVE; evidence per unconfirmed input
-    pausedIdentityCheckMs: 1000, activeIdentitySlackMs: 2500, maxUnconfirmedEvidence: 20, evidenceProbeMs: 2500 });
+    pausedIdentityCheckMs: 1000, stoppedIdentityCheckMs: 5000, activeIdentitySlackMs: 2500, maxUnconfirmedEvidence: 20, evidenceProbeMs: 2500 });
   const LS = LC.STATES;
   /** 0.36.2 M3: gameplay conditions (title, plain-language explanation). One condition per table at a time. */
   const GAMEPLAY = Object.freeze({
@@ -16260,7 +16262,7 @@ const close=$('r33-close');if(close)close.addEventListener('click',()=>{$('r33-p
       // 0.36.2 M3.2: the window-health monitor verifies the REGISTERED identity in every non-terminal state, also while gameplay is paused;
       // it reports a confirmed loss to targetLost() and nothing else - it never resumes gameplay and never authorises input
       this.health = new LC.WindowHealthMonitor({ lifecycle: this.lc, probe: () => this._probe('health-monitor'), onLoss: (cause) => { this.targetLost(cause); },
-        gameplayHeld: () => !!this.paused || this.stopped || !!this.completed, activeIntervalMs: this.opt.identityCheckMs, activeSlackMs: this.opt.activeIdentitySlackMs, pausedIntervalMs: this.opt.pausedIdentityCheckMs,
+        gameplayHeld: () => (this.stopped || this.completed ? 'stopped' : !!this.paused), activeIntervalMs: this.opt.identityCheckMs, activeSlackMs: this.opt.activeIdentitySlackMs, pausedIntervalMs: this.opt.pausedIdentityCheckMs, stoppedIntervalMs: this.opt.stoppedIdentityCheckMs,
         onEvent: (kind, d) => { if (kind !== 'unknown' || (this.health && this.health.unknownInRow === 1)) this._diag('lifecycle', { kind: 'health-' + kind, ...(d || {}) }); } });
       this.unconfirmed = []; this._lastImage = null; this.onUnconfirmed = o.onUnconfirmed || null;
       // 0.36.2 M3.2: the scheduler knows this table's CURRENT registration (a replacement window is a new registration; a lost one stays refused)

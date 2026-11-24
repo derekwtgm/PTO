@@ -25,7 +25,7 @@ function rig(n, o = {}) {
   const make = (w, extra = {}) => new SC.SimulatorTable({ id: w.id, window: { hwnd: w.hwnd, pid: w.pid, title: 'EightMax Test Table ' + String(w.id).padStart(2, '0'), client: w.client },
     identity: LC.identityOf({ hwnd: w.hwnd, pid: w.pid, processStart: w.processStart, className: w.className, exe: w.exe, client: w.client, dpiScale: 1 }, { exeSha256: SHA }),
     profile, api, session, scheduler: sched, qaAuthorization: auth.qa, recorder: rec, allowScripted: true, seed: w.id, timing: { postClickSettleMs: 0 },
-    options: { decisionWindowMs: 10000, postActionTimeoutMs: o.ackMs || 300, pollMs: 5, idlePollMs: 5, stopOnPause: false, retryBaseMs: 40, retryMaxMs: 320, identityCheckMs: o.identityCheckMs || 5000, pausedIdentityCheckMs: o.pausedMs || 100, activeIdentitySlackMs: o.slackMs === undefined ? 2500 : o.slackMs, evidenceProbeMs: 500, ...(o.options || {}) }, ...extra });
+    options: { decisionWindowMs: 10000, postActionTimeoutMs: o.ackMs || 300, pollMs: 5, idlePollMs: 5, stopOnPause: false, retryBaseMs: 40, retryMaxMs: 320, identityCheckMs: o.identityCheckMs || 5000, pausedIdentityCheckMs: o.pausedMs || 100, stoppedIdentityCheckMs: o.stoppedMs || 150, activeIdentitySlackMs: o.slackMs === undefined ? 2500 : o.slackMs, evidenceProbeMs: 500, ...(o.options || {}) }, ...extra });
   const R = { host, api, session, sched, events, rec, auth, profile, make, runs: [], tables: [...host.tables.values()].map((w) => make(w)) };
   R.win = (id) => host.byId(id);
   R.start = async (ts = R.tables) => { for (const t of ts) await t.capture.open(); await session.request('arm'); for (const t of ts) R.runs.push(t.run(Infinity)); };
@@ -366,6 +366,7 @@ test('M3.2 unit: probes made by the table count as evidence (no duplicate probe 
   let held = false; const f = fakeMonitor(LS.ACTIVE, [], { held: () => held });
   assert.equal(f.m.due(), true, 'never probed: due'); f.m.noteProbe(0, { exists: true, matches: true }, false); f.tick(5000); assert.equal(f.m.due(), false, 'a table probe 5 s ago is recent enough while playing');
   f.tick(2600); assert.equal(f.m.due(), true); held = true; f.m.noteProbe(f.m.clock(), { exists: true, matches: true }, false); f.tick(999); assert.equal(f.m.due(), false); f.tick(2); assert.equal(f.m.due(), true, 'paused: every second');
+  held = 'stopped'; f.m.noteProbe(f.m.clock(), { exists: true, matches: true }, false); f.tick(4999); assert.equal(f.m.due(), false, 'stopped / finished: the slower interval'); f.tick(2); assert.equal(f.m.due(), true);
 });
 test('M3.2 unit: scheduler registrations - revoke once, refuse the old registration for good, a replacement is available, an old pause never blocks it', async () => {
   let now = 0; const ev = [], s = new SCH.InputScheduler({ now: () => now, onEvent: (k, d) => ev.push(k) }), ok = async (reg) => (await s.submit({ table: 2, registrationId: reg, kind: 'call', deadline: now + 5000, run: async () => 'ran' }));

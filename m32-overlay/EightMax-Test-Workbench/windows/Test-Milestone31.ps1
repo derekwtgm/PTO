@@ -339,7 +339,8 @@ try {
         Invoke-Selected 't5' ('T5 and T5P with real windows (' + $T5Repeat + ' repetition(s)): one of two tables closes - while active and while paused') $mouseNeeds {
             $f = Join-Path $M.Dir 't5-acceptance.json'
             $doc = Invoke-M31NodeTool 't5-acceptance' 't5' ('"tools\gameplay-acceptance-0362m3.cjs" --suite t5 --repeat ' + $T5Repeat + ' --out "' + $f + '" --work "' + (Join-Path $M.Dir 'work-t5') + '"') $f (Get-M31Limit 0 (600 + 900 * 2 * $T5Repeat)) -PerCheck
-            if ($doc) { try { Write-M32T5Summary $doc (Join-Path $M.Dir 'T5-SUMMARY.txt') } catch { [void](Add-M31Exception $_ 'harness' 'T5 plain-language summary') } }
+            # the plain-language summary is a convenience: if it cannot be written the test results are still complete (WARNING, with the error)
+            if ($doc) { try { Write-M32T5Summary $doc (Join-Path $M.Dir 'T5-SUMMARY.txt') } catch { $er = $_; [void](Add-M31Check 't5' 'T5 plain-language summary (T5-SUMMARY.txt)' 'WARNING' ('could not be written: ' + $er.Exception.GetType().FullName + ': ' + $er.Exception.Message + ' (' + [string]$er.InvocationInfo.ScriptName + ' line ' + [string]$er.InvocationInfo.ScriptLineNumber + '); every result is in milestone3-results.txt')); Write-M31ErrorLog ('T5 summary: ' + $er.Exception.ToString()) } }
         }
     }
 

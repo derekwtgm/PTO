@@ -4,7 +4,12 @@
 
 function Get-M32Check($Scenario, [string]$Prefix) { foreach ($c in @($Scenario.checks)) { if ([string]$c.name -like ($Prefix + '*')) { return $c } }; return $null }
 # Read-M31LargeJson returns dictionaries on Windows PowerShell 5.1 (JavaScriptSerializer) and objects on PowerShell 7: read both
-function Get-M32Field($Object, [string]$Name) { if ($null -eq $Object) { return $null }; if ($Object -is [Collections.IDictionary]) { if ($Object.Contains($Name)) { return $Object[$Name] }; return $null }; $p = $Object.PSObject.Properties[$Name]; if ($p) { return $p.Value }; return $null }
+# (a generic Dictionary does not expose IDictionary.Contains to PowerShell: the keys are compared one by one, which works for every kind)
+function Get-M32Field($Object, [string]$Name) {
+    if ($null -eq $Object) { return $null }
+    if ($Object -is [Collections.IDictionary]) { foreach ($k in @($Object.Keys)) { if ([string]$k -ceq $Name) { return $Object[$k] } }; return $null }
+    $p = $Object.PSObject.Properties[$Name]; if ($p) { return $p.Value }; return $null
+}
 function Format-M32Value($Value) { if ($null -eq $Value) { return 'n/a' }; if ($Value -is [string] -or $Value -is [ValueType]) { return [string]$Value }; return [string](ConvertTo-M31Json $Value) }
 
 function Write-M32T5Summary($Doc, [string]$Path) {
