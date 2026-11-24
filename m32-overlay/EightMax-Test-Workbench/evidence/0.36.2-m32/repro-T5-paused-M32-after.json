@@ -1,0 +1,218 @@
+{
+  "format": "eightmax-m32-repro-paused-target-lost",
+  "version": 1,
+  "app": "0.36.2-dev",
+  "root": "/home/user/work/dev/EightMax-Test-Workbench",
+  "environment": "fake host (logic reproduction, not Windows evidence)",
+  "at": "2026-11-24T01:35:14.583Z",
+  "beforeClose": {
+    "t2Lifecycle": "SAFETY_PAUSED",
+    "t2Paused": "Action visibly rejected by the simulator: no change within 400 ms; same actor still to act",
+    "t2LastAction": {
+      "status": "rejected",
+      "reason": "no change within 400 ms; same actor still to act - the simulator did not apply the action; it is not repeated",
+      "intended": {
+        "type": "fold"
+      }
+    },
+    "droppedClick": {
+      "ms": 2421,
+      "control": "fold",
+      "rev": 4
+    }
+  },
+  "afterClose": {
+    "waitedMs": 15000,
+    "t2Lifecycle": "TARGET_LOST",
+    "t2Terminal": true,
+    "detectMs": 1022,
+    "t2LostReason": "The window no longer exists (detected while gameplay was paused; driver: window-gone).",
+    "t2LostSource": "health-monitor",
+    "schedulerUnavailableTables": [
+      2
+    ],
+    "schedulerInvalidations": [
+      {
+        "ms": 3875,
+        "kind": "invalidated",
+        "table": 2,
+        "registrationId": "reg-mwu0vtec-2"
+      }
+    ],
+    "requestsForTable2AfterClose": {
+      "captures": 0,
+      "identityProbes": 1
+    },
+    "inputsToTable2AfterClose": 0,
+    "table1": {
+      "lifecycle": "ACTIVE",
+      "confirmedAfterClose": 10,
+      "completed": false
+    }
+  },
+  "t5Checks": [
+    {
+      "name": "table 2 TARGET_LOST after its window closed",
+      "pass": true,
+      "detail": "TARGET_LOST"
+    },
+    {
+      "name": "the scheduler blocks only table 2",
+      "pass": true,
+      "detail": [
+        2
+      ]
+    },
+    {
+      "name": "no input to the closed window",
+      "pass": true,
+      "detail": 0
+    },
+    {
+      "name": "table 1 keeps playing (or finished its tournament)",
+      "pass": true,
+      "detail": {
+        "lifecycle": "ACTIVE",
+        "confirmedAfterClose": 10,
+        "completed": false
+      }
+    }
+  ],
+  "reproduced": false,
+  "verdict": "REPAIRED: the paused table detected the closed window and its scheduler registration was invalidated",
+  "events": [
+    {
+      "ms": 1901,
+      "kind": "lifecycle",
+      "table": 1,
+      "from": "REGISTERED",
+      "to": "ACTIVE",
+      "cause": "first-reading"
+    },
+    {
+      "ms": 1927,
+      "kind": "lifecycle",
+      "table": 2,
+      "from": "REGISTERED",
+      "to": "ACTIVE",
+      "cause": "first-reading"
+    },
+    {
+      "ms": 2332,
+      "kind": "both-tables-playing",
+      "t1": 3,
+      "t2": 3
+    },
+    {
+      "ms": 2421,
+      "kind": "dealer-dropped-click",
+      "table": 2,
+      "control": "fold"
+    },
+    {
+      "ms": 2874,
+      "kind": "lifecycle",
+      "table": 2,
+      "from": "ACTIVE",
+      "to": "SAFETY_PAUSED",
+      "cause": "input-rejected"
+    },
+    {
+      "ms": 2874,
+      "kind": "table-2-paused",
+      "paused": "Action visibly rejected by the simulator: no change within 400 ms; same actor still to act",
+      "lifecycle": "SAFETY_PAUSED",
+      "lastAction": "rejected",
+      "reason": "no change within 400 ms; same actor still to act - the simulator did not apply the action; it is not repeated"
+    },
+    {
+      "ms": 2874,
+      "kind": "table-2-window-closed"
+    },
+    {
+      "ms": 3874,
+      "kind": "lifecycle",
+      "table": 2,
+      "from": "SAFETY_PAUSED",
+      "to": "TARGET_LOST",
+      "cause": "window-closed"
+    },
+    {
+      "ms": 3896,
+      "kind": "table-2-target-lost",
+      "waitedMs": 1022
+    },
+    {
+      "ms": 3897,
+      "kind": "lifecycle",
+      "table": 1,
+      "from": "ACTIVE",
+      "to": "STOPPED",
+      "cause": "stopped"
+    }
+  ],
+  "schedulerEvents": [
+    {
+      "ms": 2650,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline",
+      "registrationId": "reg-mwu0vtec-1"
+    },
+    {
+      "ms": 2689,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline",
+      "registrationId": "reg-mwu0vtec-1"
+    },
+    {
+      "ms": 3121,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline",
+      "registrationId": "reg-mwu0vtec-1"
+    },
+    {
+      "ms": 3148,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline",
+      "registrationId": "reg-mwu0vtec-1"
+    },
+    {
+      "ms": 3173,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline",
+      "registrationId": "reg-mwu0vtec-1"
+    },
+    {
+      "ms": 3569,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline",
+      "registrationId": "reg-mwu0vtec-1"
+    },
+    {
+      "ms": 3871,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline",
+      "registrationId": "reg-mwu0vtec-1"
+    },
+    {
+      "ms": 3875,
+      "kind": "invalidated",
+      "table": 2,
+      "registrationId": "reg-mwu0vtec-2"
+    },
+    {
+      "ms": 3907,
+      "kind": "rejected",
+      "table": 1,
+      "code": "stale",
+      "registrationId": "reg-mwu0vtec-1"
+    }
+  ]
+}

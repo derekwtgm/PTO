@@ -1,0 +1,67 @@
+EIGHTMAX 0.36.2-dev (MILESTONE 3.2) - WINDOW LOSS WHILE PAUSED REPAIRED, STANDALONE T5 TEST
+
+Milestone 3.2 repairs the T5 failure of the 2026-11-24 run: a table whose gameplay was paused (an action its table did
+not apply) did not notice that its window was closed. Every registered window is now verified in every state; a lost
+window is withdrawn from automation while the other tables continue. EightMax 5.1 and the strategy are unchanged.
+Test the repair on your computer: RUN-M3.2-T5-TEST.cmd (8-15 minutes; the mouse moves inside two test tables).
+Instructions: READ-ME-MILESTONE3.2-TESTS.txt. The full acceptance is still RUN-0362-MILESTONE3.1-TESTS.cmd (C).
+
+--------------------------------------------------------------------------------------------
+EIGHTMAX 0.36.2-dev (MILESTONE 3.1) - WINDOWS TEST-RUNNER REPAIR
+
+Milestone 3.1 repairs the Windows tests; the program, its gameplay and EightMax 5.1 are unchanged.
+Tests on your computer: RUN-M3-HOST-DIAGNOSTIC-3.1.cmd (desktop host start, no mouse movement) and
+RUN-0362-MILESTONE3.1-TESTS.cmd (A quick, B startup, C full acceptance, D package an earlier run).
+Instructions: READ-ME-MILESTONE-3.1.txt. Results go to %LOCALAPPDATA%\EightMax-Test-Workbench\TestResults\
+(never into this folder); every run ends with milestone3-results.zip, also when a test fails.
+
+--------------------------------------------------------------------------------------------
+EIGHTMAX 0.36.2-dev (MILESTONE 2) - DEVELOPMENT BUILD, ACCEPTANCE INCOMPLETE
+
+Milestone 2 makes the simulator controls handle closed, minimised, restarted and changed simulator
+windows safely: a lost window is detected, never captured again, its pending input is cancelled,
+and a replacement window must be reviewed and registered again by you before anything is sent.
+Read REPORT-0.36.2-Milestone-2.md first. The Windows executables and EightMax 5.1 (build
+7d08acc7eb4577ee) are unchanged from Milestone 1.
+
+Milestone 2 tests on your computer: RUN-0362-MILESTONE2-TESTS.cmd  (instructions:
+READ-ME-MILESTONE2-TESTS.txt; results go to test-results\Milestone2-<date-time>\ and a .zip).
+
+If a simulator window closes while automation runs, its row in Simulator controls says
+"Simulator window closed". Reopen the simulator, press "Refresh registered windows", review the
+offered replacement, tick the three confirmations and register it. Automation for it stays OFF
+until you enable it ("Enable automation for this table" or Start).
+
+--------------------------------------------------------------------------------------------
+EIGHTMAX 0.36.2-dev (MILESTONE 1) — DEVELOPMENT BUILD, ACCEPTANCE INCOMPLETE
+
+Milestone 1 rebuilds the 0.36.1 host, input-driver and test-table sources
+into new Windows x64 executables (file version 0.36.2.0) and runs focused
+Windows startup, communication and shutdown checks. Read
+REPORT-0.36.2-Milestone-1.md first: it lists exactly what was built, tested
+and what remains unverified. Passing Milestone 1 does NOT make the complete
+application operational. EightMax 5.1 (build 7d08acc7eb4577ee) is unchanged.
+The dashboard refuses automation with a driver lacking required capabilities.
+Do not try to bypass that check.
+
+Focused Milestone 1 checks: RUN-0362-MILESTONE1-TESTS.cmd
+
+Earlier notes (0.36.1-dev): Read REPORT-0.36.1.md for the source changes
+that these executables now contain.
+
+After a validated Windows rebuild:
+1. Extract the complete ZIP into a new folder.
+2. Open START-EIGHTMAX.cmd, then START-POKER-SIMULATOR.cmd.
+3. Open Simulator controls and follow the guided setup checklist.
+4. Register only your bundled controlled table, verify capture/calibration,
+   choose mouse settings, and Save settings.
+5. Select SCRIPTED SIMULATOR PRACTICE — NON-GTO for practice; Strict EightMax
+   requires an exact compatible quality-validated strategy and otherwise pauses.
+6. Preview movement without clicks, then explicitly start automation.
+7. Pause/stop in the dashboard; Ctrl+Alt+F12 is emergency stop.
+   Resuming requires explicit operator action.
+
+The dealer now preserves chip stacks and eliminates zero-stack players across
+hands. Windows execution and the full tournament UI are not yet verified.
+Normal operation uses the included runtime; source rebuilding is developer work.
+RUN-0361-ACCEPTANCE.cmd records missing checks as unverified, never PASS.

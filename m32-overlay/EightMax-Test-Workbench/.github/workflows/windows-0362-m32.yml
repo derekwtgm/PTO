@@ -1,0 +1,309 @@
+name: EightMax 0.36.2 Milestone 3.2 - paused-window monitoring, standalone T5 on real Windows and full acceptance of the release ZIP
+# Tests the EXACT release ZIP on real Windows (GitHub-hosted windows-latest, Windows PowerShell 5.1, real interactive desktop):
+#   package    the committed EightMax-Test-Workbench-0.36.2-Milestone-3.2.zip (SHA-256 checked against its .sha256), or for development
+#              runs the Milestone 3.1 ZIP of this branch (SHA-256 checked) with m32-overlay/ applied and packaged by
+#              tools/make-release-0362m32.py; the ZIP is extracted into a NEW folder and verified (CRCs, every manifest entry, no unlisted
+#              entry, release integrity, every executable byte-identical to the release record, EightMax 5.1 unchanged)
+#   linux      the complete Node regression suite from the extracted ZIP (Linux, no windows)
+#   t5         RUN-M3.2-T5-TEST.cmd exactly as on the operator PC, once per job on SEPARATE fresh Windows machines (default 10 jobs:
+#              T5 + T5P each), half of them with the desktop at 125 % display scaling when the virtual display allows it (measured,
+#              never assumed); every job's results are kept separately
+#   full       RUN-0362-MILESTONE3.1-TESTS.cmd option C (complete regression suite, lifecycle A-K, gameplay T1-T6 and T5P, multi-table
+#              1/2/5/8 short runs, startup and cleanup checks)
+#   scenarios  the Milestone 3.1 Windows scenario suite (launchers, startup diagnostics, reporting, interrupted runs) - no regression
+# The ZIP is extracted into a folder whose path has spaces, parentheses and a non-ASCII character. Results: job logs, artifacts and the
+# branches m32-results/<run id>-t5-<n>, -full, -scenarios (readable with git when the artifact store is not reachable).
+on:
+  workflow_dispatch:
+    inputs:
+      t5_jobs: { description: 'number of separate Windows machines running the standalone T5 test', required: false, default: '10' }
+      run_full: { description: 'run the full acceptance job (yes/no)', required: false, default: 'yes' }
+      run_scenarios: { description: 'run the Milestone 3.1 scenario suite (yes/no)', required: false, default: 'yes' }
+  push:
+    branches: [milestone-3.2-0362]
+    paths: ['ci-request-m32.json', 'EightMax-Test-Workbench-0.36.2-Milestone-3.2.zip', 'EightMax-Test-Workbench-0.36.2-Milestone-3.2.zip.sha256']
+permissions:
+  contents: write
+env:
+  M32_ZIP: EightMax-Test-Workbench-0.36.2-Milestone-3.2.zip
+  M31_ZIP: EightMax-Test-Workbench-0.36.2-Milestone-3.1.zip
+  M31_SHA256: 49d0d7a4cf3c4e1e130b5d0a2d08f9dc9fe97419cd3651deae9460aa642bdf1f
+  M3_ZIP: EightMax-Test-Workbench-0.36.2-Milestone-3.zip
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      zip_sha256: ${{ steps.pkg.outputs.sha }}
+      mode: ${{ steps.pkg.outputs.mode }}
+      run_full: ${{ steps.pkg.outputs.run_full }}
+      run_scenarios: ${{ steps.pkg.outputs.run_scenarios }}
+      stability: ${{ steps.pkg.outputs.stability }}
+      t5_matrix: ${{ steps.pkg.outputs.t5_matrix }}
+      t5_repeat: ${{ steps.pkg.outputs.t5_repeat }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Assemble or verify the release ZIP, then verify it from a fresh extraction
+        id: pkg
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          have=$(sha256sum "$M31_ZIP" | cut -d' ' -f1); echo "Milestone 3.1 ZIP sha256 $have (expected $M31_SHA256)"; [ "$have" = "$M31_SHA256" ]
+          if [ -f "$M32_ZIP" ]; then
+            echo "mode=committed" >> "$GITHUB_OUTPUT"; echo "mode: the committed Milestone 3.2 ZIP"
+            want=$(cut -d' ' -f1 "$M32_ZIP.sha256"); have=$(sha256sum "$M32_ZIP" | cut -d' ' -f1); echo "zip sha256 $have (expected $want)"; [ "$have" = "$want" ]
+            cp "$M32_ZIP" out/
+            mkdir -p tree && python3 -I -c "import zipfile,sys; zipfile.ZipFile(sys.argv[1]).extractall(sys.argv[2])" "$M32_ZIP" tree
+          else
+            echo "mode=overlay" >> "$GITHUB_OUTPUT"; echo "mode: development run - Milestone 3.1 ZIP + m32-overlay"
+            mkdir -p tree && python3 -I -c "import zipfile,sys; z=zipfile.ZipFile(sys.argv[1]); assert z.testzip() is None; z.extractall(sys.argv[2])" "$M31_ZIP" tree
+            cp -a m32-overlay/EightMax-Test-Workbench/. tree/EightMax-Test-Workbench/
+            if [ -f m32-overlay/DELETED.txt ]; then while IFS= read -r f; do [ -n "$f" ] && rm -f "tree/EightMax-Test-Workbench/$f"; done < m32-overlay/DELETED.txt; fi
+            (cd tree/EightMax-Test-Workbench && python3 -I tools/make-release-0362m32.py package "$GITHUB_WORKSPACE/out/$M32_ZIP")
+          fi
+          EIGHTMAX_NODE=node python3 -I tree/EightMax-Test-Workbench/tools/make-release-0362m32.py verify "out/$M32_ZIP" out/zip-verification.json
+          sha=$(sha256sum "out/$M32_ZIP" | cut -d' ' -f1); echo "sha=$sha" >> "$GITHUB_OUTPUT"; echo "$sha  $M32_ZIP" | tee out/zip.sha256
+          full='${{ github.event.inputs.run_full }}'; scen='${{ github.event.inputs.run_scenarios }}'; jobs='${{ github.event.inputs.t5_jobs }}'; rep=1; secs=60
+          if [ -f ci-request-m32.json ]; then
+            eval "$(python3 -I -c "import json; d=json.load(open('ci-request-m32.json')); print('full=' + ('no' if d.get('runFull', True) is False else 'yes')); print('scen=' + ('no' if d.get('runScenarios', True) is False else 'yes')); print('jobs=' + str(d.get('t5Jobs', 10))); print('rep=' + str(d.get('t5Repeat', 1))); print('secs=' + str(d.get('stabilitySeconds', 60)))")"
+          fi
+          jobs=${jobs:-10}; [ "$jobs" -ge 1 ] && [ "$jobs" -le 20 ] || jobs=10
+          matrix=$(python3 -I -c "import json,sys; n=int(sys.argv[1]); print(json.dumps({'include':[{'n': i+1, 'scale': (125 if (i % 2) else 100)} for i in range(n)]}))" "$jobs")
+          echo "t5_matrix=$matrix" >> "$GITHUB_OUTPUT"; echo "t5_repeat=$rep" >> "$GITHUB_OUTPUT"; echo "T5 jobs: $matrix, repetitions per job: $rep"
+          echo "run_full=${full:-yes}" >> "$GITHUB_OUTPUT"; echo "run_scenarios=${scen:-yes}" >> "$GITHUB_OUTPUT"; echo "stability=${secs:-60}" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: m32-release-zip
+          path: out/
+          retention-days: 14
+
+  linux:
+    needs: package
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: m32-release-zip
+          path: zipdir
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Complete Node regression suite from the extracted ZIP (Linux)
+        shell: bash
+        run: |
+          set -euo pipefail
+          have=$(sha256sum "zipdir/$M32_ZIP" | cut -d' ' -f1); [ "$have" = "${{ needs.package.outputs.zip_sha256 }}" ]
+          base="$RUNNER_TEMP/EightMax CI (linux)"; mkdir -p "$base"; python3 -I -c "import zipfile,sys; zipfile.ZipFile(sys.argv[1]).extractall(sys.argv[2])" "zipdir/$M32_ZIP" "$base"
+          cd "$base/EightMax-Test-Workbench"; find tests/fixtures -name '*.sh' -exec chmod +x {} +
+          node --version; node --test --test-reporter=tap --test-concurrency=4 --test-timeout=600000 tests/*.test.cjs > "$RUNNER_TEMP/linux-suite.tap" 2> "$RUNNER_TEMP/linux-suite.err" || true
+          tail -9 "$RUNNER_TEMP/linux-suite.tap"; grep '^not ok' "$RUNNER_TEMP/linux-suite.tap" || true
+          grep -q '^# fail 0$' "$RUNNER_TEMP/linux-suite.tap"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: m32-linux-suite
+          path: |
+            ${{ runner.temp }}/linux-suite.tap
+            ${{ runner.temp }}/linux-suite.err
+
+  t5:
+    needs: package
+    runs-on: windows-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.package.outputs.t5_matrix) }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: m32-release-zip
+          path: zipdir
+      - name: Check the ZIP is the packaged one; extract it into a new folder (spaces, parentheses, non-ASCII)
+        shell: powershell
+        run: |
+          $zip = Join-Path $env:GITHUB_WORKSPACE ('zipdir\' + $env:M32_ZIP)
+          $h = (Get-FileHash -LiteralPath $zip -Algorithm SHA256).Hash.ToLowerInvariant(); "zip sha256 $h (package job: ${{ needs.package.outputs.zip_sha256 }}, mode ${{ needs.package.outputs.mode }})"
+          if ($h -ne '${{ needs.package.outputs.zip_sha256 }}') { throw 'the ZIP differs from the packaged one' }
+          $base = Join-Path $env:RUNNER_TEMP ('EightMax CI (t5 ${{ matrix.n }}) ' + [char]0x00fc); Add-Type -AssemblyName System.IO.Compression.FileSystem
+          [IO.Compression.ZipFile]::ExtractToDirectory($zip, $base)
+          [IO.File]::AppendAllText($env:GITHUB_ENV, ("APP=" + (Join-Path $base 'EightMax-Test-Workbench') + "`n"), (New-Object Text.UTF8Encoding($false)))
+      - name: Desktop 1920x1080 at ${{ matrix.scale }} % display scaling (measured; test environment only)
+        shell: powershell
+        run: |
+          & powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $env:APP 'tests\windows\M32-Display.ps1') -Width 1920 -Height 1080 -ScalePercent ${{ matrix.scale }} -Out (Join-Path $env:RUNNER_TEMP 'display.json')
+          exit 0
+      - name: "Standalone T5 test: RUN-M3.2-T5-TEST.cmd (job ${{ matrix.n }}, ${{ needs.package.outputs.t5_repeat }} repetition(s) of T5 and T5P)"
+        id: t5
+        continue-on-error: true
+        timeout-minutes: 50
+        shell: powershell
+        run: |
+          $out = Join-Path $env:RUNNER_TEMP 'm32-t5'; $log = Join-Path $env:RUNNER_TEMP 'm32-t5.log'; $err = Join-Path $env:RUNNER_TEMP 'm32-t5.err.log'
+          $env:EIGHTMAX_NONINTERACTIVE = '1'; $env:EIGHTMAX_T5_REPEAT = '${{ needs.package.outputs.t5_repeat }}'
+          $p = Start-Process -FilePath cmd.exe -ArgumentList ('/d /c ""' + (Join-Path $env:APP 'RUN-M3.2-T5-TEST.cmd') + '" "' + $out + '""') -WorkingDirectory $env:APP -RedirectStandardOutput $log -RedirectStandardError $err -NoNewWindow -PassThru; $null = $p.Handle; $p.WaitForExit()
+          Get-Content $log; if ((Get-Item $err).Length -gt 0) { '--- stderr ---'; Get-Content $err }
+          $d = @(Get-ChildItem $out -Directory | Where-Object { $_.Name -like 'Milestone3.2-T5-*' } | Sort-Object LastWriteTime -Descending)[0]
+          if ($d) { '===== T5-SUMMARY.txt'; Get-Content (Join-Path $d.FullName 'T5-SUMMARY.txt') -ErrorAction SilentlyContinue; '===== milestone3-results.txt'; Get-Content (Join-Path $d.FullName 'milestone3-results.txt') }
+          "launcher exit $($p.ExitCode)"; exit $p.ExitCode
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: m32-t5-${{ matrix.n }}
+          path: |
+            ${{ runner.temp }}\m32-t5
+            ${{ runner.temp }}\m32-t5.log
+            ${{ runner.temp }}\m32-t5.err.log
+            ${{ runner.temp }}\display.json
+      - name: Push the results to branch m32-results/<run id>-t5-<n>
+        if: always()
+        shell: bash
+        run: |
+          set -u
+          res="$RUNNER_TEMP/m32-t5"; dest="$RUNNER_TEMP/branch"; mkdir -p "$dest/results"
+          if [ -d "$res" ]; then (cd "$res" && find . -type f -size -8M ! -name '*.zip' -print0 | xargs -0 -I{} cp --parents {} "$dest/results/"; find . -type f -name 'milestone3-results.zip' -size -6M -print0 | xargs -0 -I{} cp --parents {} "$dest/results/"); fi
+          cp "$RUNNER_TEMP/m32-t5.log" "$RUNNER_TEMP/m32-t5.err.log" "$RUNNER_TEMP/display.json" "$dest/" 2>/dev/null || true
+          printf '{"run":"%s","sha":"%s","zipSha256":"%s","mode":"%s","job":"t5-%s","scaleRequested":%s,"outcome":"%s"}\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" "${{ needs.package.outputs.zip_sha256 }}" "${{ needs.package.outputs.mode }}" "${{ matrix.n }}" "${{ matrix.scale }}" "${{ steps.t5.outcome }}" > "$dest/run.json"
+          cd "$dest" && git init -q && git config core.longpaths true && git checkout -q -b "m32-results/$GITHUB_RUN_ID-t5-${{ matrix.n }}" && git add -A && git -c user.name="eightmax-ci" -c user.email="eightmax-ci@users.noreply.github.com" commit -q -m "Milestone 3.2 standalone T5, job ${{ matrix.n }}, run $GITHUB_RUN_ID ($GITHUB_SHA)"
+          for i in 1 2 3 4; do git push -q "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" "HEAD:refs/heads/m32-results/$GITHUB_RUN_ID-t5-${{ matrix.n }}" && echo "results pushed to m32-results/$GITHUB_RUN_ID-t5-${{ matrix.n }}" && break; sleep $((i * 5)); done
+      - name: Outcome
+        if: always()
+        shell: bash
+        run: '[ "${{ steps.t5.outcome }}" = "success" ]'
+
+  full:
+    needs: package
+    if: needs.package.outputs.run_full != 'no'
+    runs-on: windows-latest
+    timeout-minutes: 200
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: m32-release-zip
+          path: zipdir
+      - name: Check the ZIP is the packaged one; extract it into a new folder (spaces, parentheses, non-ASCII)
+        shell: powershell
+        run: |
+          $zip = Join-Path $env:GITHUB_WORKSPACE ('zipdir\' + $env:M32_ZIP)
+          $h = (Get-FileHash -LiteralPath $zip -Algorithm SHA256).Hash.ToLowerInvariant(); "zip sha256 $h (package job: ${{ needs.package.outputs.zip_sha256 }})"
+          if ($h -ne '${{ needs.package.outputs.zip_sha256 }}') { throw 'the ZIP differs from the packaged one' }
+          $base = Join-Path $env:RUNNER_TEMP ('EightMax CI (full) ' + [char]0x00e9); Add-Type -AssemblyName System.IO.Compression.FileSystem
+          [IO.Compression.ZipFile]::ExtractToDirectory($zip, $base)
+          [IO.File]::AppendAllText($env:GITHUB_ENV, ("APP=" + (Join-Path $base 'EightMax-Test-Workbench') + "`n"), (New-Object Text.UTF8Encoding($false)))
+      - name: Desktop 1920x1080 (test environment only)
+        shell: powershell
+        run: |
+          & powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $env:APP 'tests\windows\M32-Display.ps1') -Width 1920 -Height 1080 -ScalePercent 100 -Out (Join-Path $env:RUNNER_TEMP 'display.json')
+          exit 0
+      - name: "Full acceptance: RUN-0362-MILESTONE3.1-TESTS.cmd C (complete regression suite, real windows, multi-table 1/2/5/8)"
+        id: full
+        continue-on-error: true
+        timeout-minutes: 180
+        shell: powershell
+        run: |
+          $out = Join-Path $env:RUNNER_TEMP 'm32-full'; $log = Join-Path $env:RUNNER_TEMP 'm32-full.log'; $err = Join-Path $env:RUNNER_TEMP 'm32-full.err.log'
+          $env:EIGHTMAX_NONINTERACTIVE = '1'; $env:EIGHTMAX_M31_ARGS = '-FullSuite -StabilitySeconds ${{ needs.package.outputs.stability }}'
+          $p = Start-Process -FilePath cmd.exe -ArgumentList ('/d /c ""' + (Join-Path $env:APP 'RUN-0362-MILESTONE3.1-TESTS.cmd') + '" C "' + $out + '""') -WorkingDirectory $env:APP -RedirectStandardOutput $log -RedirectStandardError $err -NoNewWindow -PassThru; $null = $p.Handle; $p.WaitForExit()
+          Get-Content $log; if ((Get-Item $err).Length -gt 0) { '--- stderr ---'; Get-Content $err }
+          $d = @(Get-ChildItem $out -Directory | Where-Object { $_.Name -like 'Milestone3.1-*' } | Sort-Object LastWriteTime -Descending)[0]
+          if ($d) { '===== milestone3-results.txt'; Get-Content (Join-Path $d.FullName 'milestone3-results.txt') }
+          "launcher exit $($p.ExitCode)"; exit $p.ExitCode
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: m32-full
+          path: |
+            ${{ runner.temp }}\m32-full
+            ${{ runner.temp }}\m32-full.log
+            ${{ runner.temp }}\m32-full.err.log
+      - name: Push the results to branch m32-results/<run id>-full
+        if: always()
+        shell: bash
+        run: |
+          set -u
+          res="$RUNNER_TEMP/m32-full"; dest="$RUNNER_TEMP/branch"; mkdir -p "$dest/results"
+          if [ -d "$res" ]; then (cd "$res" && find . -type f -size -8M ! -name '*.zip' -print0 | xargs -0 -I{} cp --parents {} "$dest/results/") ; fi
+          cp "$RUNNER_TEMP/m32-full.log" "$RUNNER_TEMP/m32-full.err.log" "$RUNNER_TEMP/display.json" "$dest/" 2>/dev/null || true
+          printf '{"run":"%s","sha":"%s","zipSha256":"%s","mode":"%s","job":"full","outcome":"%s"}\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" "${{ needs.package.outputs.zip_sha256 }}" "${{ needs.package.outputs.mode }}" "${{ steps.full.outcome }}" > "$dest/run.json"
+          cd "$dest" && git init -q && git config core.longpaths true && git checkout -q -b "m32-results/$GITHUB_RUN_ID-full" && git add -A && git -c user.name="eightmax-ci" -c user.email="eightmax-ci@users.noreply.github.com" commit -q -m "Milestone 3.2 Windows full acceptance, run $GITHUB_RUN_ID ($GITHUB_SHA)"
+          for i in 1 2 3 4; do git push -q "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" "HEAD:refs/heads/m32-results/$GITHUB_RUN_ID-full" && echo "results pushed to m32-results/$GITHUB_RUN_ID-full" && break; sleep $((i * 5)); done
+      - name: Outcome
+        if: always()
+        shell: bash
+        run: '[ "${{ steps.full.outcome }}" = "success" ]'
+
+  scenarios:
+    needs: package
+    if: needs.package.outputs.run_scenarios != 'no'
+    runs-on: windows-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: m32-release-zip
+          path: zipdir
+      - name: Check the ZIP is the packaged one; extract it into a new folder (spaces, parentheses, non-ASCII)
+        shell: powershell
+        run: |
+          $zip = Join-Path $env:GITHUB_WORKSPACE ('zipdir\' + $env:M32_ZIP)
+          $h = (Get-FileHash -LiteralPath $zip -Algorithm SHA256).Hash.ToLowerInvariant(); "zip sha256 $h (package job: ${{ needs.package.outputs.zip_sha256 }})"
+          if ($h -ne '${{ needs.package.outputs.zip_sha256 }}') { throw 'the ZIP differs from the packaged one' }
+          $base = Join-Path $env:RUNNER_TEMP ('EightMax CI (scenarios) ' + [char]0x00fc); Add-Type -AssemblyName System.IO.Compression.FileSystem
+          [IO.Compression.ZipFile]::ExtractToDirectory($zip, $base)
+          [IO.File]::AppendAllText($env:GITHUB_ENV, ("APP=" + (Join-Path $base 'EightMax-Test-Workbench') + "`n"), (New-Object Text.UTF8Encoding($false)))
+      - name: Parse every PowerShell script with the Windows PowerShell 5.1 parser
+        shell: powershell
+        run: |
+          $errs = @(); $n = 0
+          foreach ($f in Get-ChildItem (Join-Path $env:APP 'windows'), (Join-Path $env:APP 'native'), (Join-Path $env:APP 'tests\windows'), (Join-Path $env:APP 'tests\fixtures\m31') -Filter *.ps1) { $n++; $t = $null; $e = $null; [void][System.Management.Automation.Language.Parser]::ParseFile($f.FullName, [ref]$t, [ref]$e); foreach ($x in $e) { $errs += ($f.Name + ':' + $x.Extent.StartLineNumber + ': ' + $x.Message) } }
+          "parsed $n scripts with PowerShell $($PSVersionTable.PSVersion); $($errs.Count) errors"; if ($errs.Count) { $errs; throw 'PowerShell parse errors' }
+      - name: Desktop 1920x1080 (test environment only)
+        shell: powershell
+        run: |
+          & powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $env:APP 'tests\windows\M32-Display.ps1') -Width 1920 -Height 1080 -ScalePercent 100 -Out (Join-Path $env:RUNNER_TEMP 'display.json')
+          exit 0
+      - name: Milestone 3.1 scenario suite on the Milestone 3.2 ZIP (Windows PowerShell 5.1, real desktop host, real launchers)
+        id: scen
+        continue-on-error: true
+        timeout-minutes: 120
+        shell: powershell
+        run: |
+          $out = Join-Path $env:RUNNER_TEMP 'm32-scenarios'; $log = Join-Path $env:RUNNER_TEMP 'm32-scenarios.log'; $err = Join-Path $env:RUNNER_TEMP 'm32-scenarios.err.log'
+          $env:EIGHTMAX_NONINTERACTIVE = '1'
+          $p = Start-Process -FilePath powershell.exe -ArgumentList ('-NoProfile -ExecutionPolicy Bypass -File "' + (Join-Path $env:APP 'tests\windows\M31-Scenarios.ps1') + '" -App "' + $env:APP + '" -Out "' + $out + '" -M3Zip "' + (Join-Path $env:GITHUB_WORKSPACE $env:M3_ZIP) + '" -Work "' + (Join-Path $env:RUNNER_TEMP 'm32-work') + '"') -WorkingDirectory $env:APP -RedirectStandardOutput $log -RedirectStandardError $err -NoNewWindow -PassThru; $null = $p.Handle; $p.WaitForExit()
+          Get-Content $log; if ((Get-Item $err).Length -gt 0) { '--- stderr ---'; Get-Content $err }
+          "exit $($p.ExitCode)"; exit $p.ExitCode
+      - name: Publish the scenario results into the job log
+        if: always()
+        shell: powershell
+        run: |
+          $f = Join-Path $env:RUNNER_TEMP 'm32-scenarios\scenarios.json'
+          if (Test-Path $f) { $d = Get-Content $f -Raw | ConvertFrom-Json; foreach ($s in $d.scenarios) { '{0,-5} {1,-4} {2}' -f $s.id, $(if ($s.ok) { 'PASS' } else { 'FAIL' }), $s.title; '      observed: ' + $s.observed }; ''; 'passed ' + $d.counts.passed + ' of ' + $d.counts.total } else { 'no scenarios.json' }
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: m32-scenarios
+          path: |
+            ${{ runner.temp }}\m32-scenarios
+            ${{ runner.temp }}\m32-scenarios.log
+            ${{ runner.temp }}\m32-scenarios.err.log
+      - name: Push the results to branch m32-results/<run id>-scenarios
+        if: always()
+        shell: bash
+        run: |
+          set -u
+          res="$RUNNER_TEMP/m32-scenarios"; dest="$RUNNER_TEMP/branch"; mkdir -p "$dest/results"
+          if [ -d "$res" ]; then (cd "$res" && find . -type f -size -6M ! -name '*.zip' -print0 | xargs -0 -I{} cp --parents {} "$dest/results/"; find . -type f -name 'milestone3-results.zip' -size -2M -print0 | xargs -0 -I{} cp --parents {} "$dest/results/") ; fi
+          cp "$RUNNER_TEMP/m32-scenarios.log" "$RUNNER_TEMP/m32-scenarios.err.log" "$dest/" 2>/dev/null || true
+          printf '{"run":"%s","sha":"%s","zipSha256":"%s","mode":"%s","job":"scenarios","outcome":"%s"}\n' "$GITHUB_RUN_ID" "$GITHUB_SHA" "${{ needs.package.outputs.zip_sha256 }}" "${{ needs.package.outputs.mode }}" "${{ steps.scen.outcome }}" > "$dest/run.json"
+          cd "$dest" && git init -q && git config core.longpaths true && git checkout -q -b "m32-results/$GITHUB_RUN_ID-scenarios" && git add -A && git -c user.name="eightmax-ci" -c user.email="eightmax-ci@users.noreply.github.com" commit -q -m "Milestone 3.2 Windows scenarios, run $GITHUB_RUN_ID ($GITHUB_SHA)"
+          for i in 1 2 3 4; do git push -q "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" "HEAD:refs/heads/m32-results/$GITHUB_RUN_ID-scenarios" && echo "results pushed to m32-results/$GITHUB_RUN_ID-scenarios" && break; sleep $((i * 5)); done
+      - name: Outcome
+        if: always()
+        shell: bash
+        run: '[ "${{ steps.scen.outcome }}" = "success" ]'

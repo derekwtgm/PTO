@@ -1,0 +1,190 @@
+{
+ "format": "eightmax-m32-operator-t5-timeline",
+ "version": 2,
+ "source": "Logs/desktop-requests.log from the operator PC (collector ZIP EightMax-Windows-Test-Results-20261123-172312.zip, collected 2026-11-24T00:23:12Z): one line per desktop-host HTTP request with completion time, request id, route, status and duration. No window handle and no driver command name are logged: every attribution to table 1 / table 2 is an INFERENCE from timing and the Milestone 3.1 code, and is labelled as such. The Milestone 3.1 results ZIP with diag-acceptance-T5.json and the oracle files was NOT among the uploaded files.",
+ "phases": {
+  "gameplayHostSession": [
+   "2026-11-24T00:01:58.3165629Z",
+   "2026-11-24T00:05:28.1110295Z"
+  ],
+  "T5": [
+   "2026-11-24T00:04:16.1266794Z",
+   "2026-11-24T00:05:07.5405477Z"
+  ],
+  "T5Requests": 207
+ },
+ "facts": {
+  "captureOpensInT5": [
+   "2026-11-24T00:04:16.1296800Z",
+   "2026-11-24T00:04:16.1336783Z"
+  ],
+  "captureClosesInT5": [],
+  "noCaptureCloseMeaning": "SimulatorTable.targetLost() always issues /api/capture/close; none was issued, so no table of T5 ever reached TARGET_LOST.",
+  "allStatusOk": true,
+  "pollingWindow": {
+   "first": "2026-11-24T00:04:46.0873080Z",
+   "last": "2026-11-24T00:04:50.0397348Z",
+   "captures": 53,
+   "note": "captures at a steady ~100 ms cadence from r858 to r919 (4.2 s); from 00:04:47.5 the other table's captures interleave"
+  },
+  "lastRequestBeforeCleanup": "2026-11-24T00:04:56.6874566Z",
+  "silenceSeconds": 10.8,
+  "cleanupRequests": [
+   {
+    "request": "r958",
+    "path": "/api/input/command",
+    "completed": "2026-11-24T00:05:07.5324774Z",
+    "ms": 2.7,
+    "startedAtSec": 51.403,
+    "completedAtSec": 51.406,
+    "fact": "input/command (fast)",
+    "inference": "disarm (s.done())"
+   },
+   {
+    "request": "r959",
+    "path": "/api/input/command",
+    "completed": "2026-11-24T00:05:07.5374841Z",
+    "ms": 1.5,
+    "startedAtSec": 51.409,
+    "completedAtSec": 51.411,
+    "fact": "input/command (fast)",
+    "inference": "unregister-target table 1"
+   },
+   {
+    "request": "r960",
+    "path": "/api/input/command",
+    "completed": "2026-11-24T00:05:07.5405477Z",
+    "ms": 0.9,
+    "startedAtSec": 51.413,
+    "completedAtSec": 51.414,
+    "fact": "input/command (fast)",
+    "inference": "unregister-target table 2"
+   }
+  ]
+ },
+ "timeline": [
+  {
+   "request": "r755",
+   "path": "/api/capture/open",
+   "completed": "2026-11-24T00:04:16.1296800Z",
+   "ms": 0.5,
+   "startedAtSec": 0.003,
+   "completedAtSec": 0.003,
+   "fact": "capture/open",
+   "inference": "T5 starts: table 1 capture session"
+  },
+  {
+   "request": "r757",
+   "path": "/api/capture/open",
+   "completed": "2026-11-24T00:04:16.1336783Z",
+   "ms": 0.4,
+   "startedAtSec": 0.007,
+   "completedAtSec": 0.007,
+   "fact": "capture/open",
+   "inference": "table 2 capture session"
+  },
+  {
+   "request": "r851",
+   "path": "/api/input/command",
+   "completed": "2026-11-24T00:04:45.8382606Z",
+   "ms": 1372.0,
+   "startedAtSec": 28.34,
+   "completedAtSec": 29.712,
+   "fact": "input/command, 1 372 ms, ok",
+   "inference": "table 2: move-click (cursor travel + press + hold + release) on Call - the driver reported success"
+  },
+  {
+   "request": "r853",
+   "path": "/api/input/command",
+   "completed": "2026-11-24T00:04:45.8382606Z",
+   "ms": 1314.7,
+   "startedAtSec": 28.397,
+   "completedAtSec": 29.712,
+   "fact": "input/command, 1 314.7 ms, ok, completed in the same millisecond as r851",
+   "inference": "table 1: periodic identity probe (window-info) queued in the driver behind r851 (the driver executes one command at a time)"
+  },
+  {
+   "request": "r854",
+   "path": "/api/capture/frame",
+   "completed": "2026-11-24T00:04:45.8542524Z",
+   "ms": 13.1,
+   "startedAtSec": 29.714,
+   "completedAtSec": 29.728,
+   "fact": "capture/frame",
+   "inference": "table 1 reads its table"
+  },
+  {
+   "request": "r855",
+   "path": "/api/capture/frame",
+   "completed": "2026-11-24T00:04:46.0431269Z",
+   "ms": 42.5,
+   "startedAtSec": 29.874,
+   "completedAtSec": 29.916,
+   "fact": "capture/frame",
+   "inference": "table 1: in-lease revalidation capture"
+  },
+  {
+   "request": "r856",
+   "path": "/api/input/command",
+   "completed": "2026-11-24T00:04:46.0521273Z",
+   "ms": 0.8,
+   "startedAtSec": 29.925,
+   "completedAtSec": 29.925,
+   "fact": "input/command, 0.8 ms",
+   "inference": "table 1: window-info inside its lease (driver client checks the client rectangle)"
+  },
+  {
+   "request": "r857",
+   "path": "/api/input/command",
+   "completed": "2026-11-24T00:04:47.5030558Z",
+   "ms": 1450.8,
+   "startedAtSec": 29.926,
+   "completedAtSec": 31.376,
+   "fact": "input/command, 1 450.8 ms",
+   "inference": "table 1: its move-click"
+  },
+  {
+   "request": "r858",
+   "path": "/api/capture/frame",
+   "completed": "2026-11-24T00:04:46.0873080Z",
+   "ms": 27.2,
+   "startedAtSec": 29.933,
+   "completedAtSec": 29.961,
+   "fact": "capture/frame (first of the ~100 ms cadence)",
+   "inference": "table 2: first confirmation poll = click done (45.838) + 150 ms post-click settle + 60 ms poll delay"
+  },
+  {
+   "request": "r919",
+   "path": "/api/capture/frame",
+   "completed": "2026-11-24T00:04:50.0397348Z",
+   "ms": 27.3,
+   "startedAtSec": 33.886,
+   "completedAtSec": 33.913,
+   "fact": "capture/frame (last of the cadence)",
+   "inference": "table 2: end of the 4 000 ms confirmation window, then one fresh reading: same actor still to act -> \"rejected\" -> executor pauses table 2; lifecycle stays ACTIVE"
+  },
+  {
+   "request": "r957",
+   "path": "/api/capture/frame",
+   "completed": "2026-11-24T00:04:56.6874566Z",
+   "ms": 21.7,
+   "startedAtSec": 40.539,
+   "completedAtSec": 40.561,
+   "fact": "capture/frame - last request before a 10.8 s silence",
+   "inference": "table 1 finished its tournament (run() ends normally); table 2 paused: no request at all (the defect)"
+  }
+ ],
+ "inferredSequence": [
+  "00:04:44.466 table 2 move-click starts (r851); 00:04:45.838 the driver reports the click done.",
+  "00:04:45.99 table 2 confirmation starts; ~100 ms polls (r858..r919); the status-strip revision of table 2 never changes.",
+  "~00:04:50.04 4 000 ms elapsed: a fresh reading shows the same actor still to act -> classified rejected (clean) -> gameplay paused; lifecycle ACTIVE.",
+  "after 00:04:50.04 no request can be attributed to table 2 (consistent with the code: a paused run loop makes no host request).",
+  "~00:04:52.5 (derived: the 15 s wait for TARGET_LOST ended at 00:05:07.5) table 2's window has been closed by the test.",
+  "00:04:56.687 table 1's last request (tournament finished).",
+  "00:05:07.53 the 15 s wait expired: check \"table 2 TARGET_LOST\" failed with \"ACTIVE\", check \"the scheduler blocks only table 2\" failed with []; cleanup."
+ ],
+ "whatThisLogCannotShow": [
+  "whether the Call press reached the table window (mouse-down/up), whether its button fired, whether the dealer refused or never received it, and when the table displayed each frame - those are in the oracle file oracle-table-02.jsonl of the missing results ZIP; Milestone 3.2 records them in the oracle (shown frames, window clock) and in an evidence record per unconfirmed input"
+ ],
+ "inputCommandsAfterPollingWindow": 15
+}

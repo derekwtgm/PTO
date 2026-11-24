@@ -1,0 +1,114 @@
+{
+ "format": "eightmax-m32-ci-click-analysis",
+ "version": 1,
+ "method": "Every mouse-down on a button control (fold/check/call/raise/all-in) in every oracle-table-*.jsonl of the Windows CI result branches is paired with the window's next \"action\" event for the same control within 2 s; the action's result is the dealer's verdict (accepted / stale-click / not-available / wager-rejected / engine-refused). Environment: GitHub-hosted Windows Server 2025, 1920x1080, 100 % scaling, Defender real-time protection off.",
+ "runs": [
+  {
+   "branch": "m31-results/45272448662-full",
+   "oracleFiles": 48,
+   "buttonPresses": 836,
+   "withAction": 836,
+   "withoutAction": [],
+   "results": {
+    "accepted": 837
+   }
+  },
+  {
+   "branch": "m31-results/45275384911-full",
+   "oracleFiles": 46,
+   "buttonPresses": 848,
+   "withAction": 848,
+   "withoutAction": [],
+   "results": {
+    "accepted": 849
+   }
+  },
+  {
+   "branch": "m31-results/45277279723-full",
+   "oracleFiles": 47,
+   "buttonPresses": 858,
+   "withAction": 858,
+   "withoutAction": [],
+   "results": {
+    "accepted": 859
+   }
+  },
+  {
+   "branch": "m31-results/45284015577-full",
+   "oracleFiles": 47,
+   "buttonPresses": 851,
+   "withAction": 851,
+   "withoutAction": [],
+   "results": {
+    "accepted": 852
+   }
+  },
+  {
+   "branch": "m3-results/45203097931",
+   "oracleFiles": 94,
+   "buttonPresses": 399,
+   "withAction": 399,
+   "withoutAction": [],
+   "results": {
+    "accepted": 400
+   }
+  },
+  {
+   "branch": "m3-results/45217637720",
+   "oracleFiles": 53,
+   "buttonPresses": 1289,
+   "withAction": 1289,
+   "withoutAction": [],
+   "results": {
+    "accepted": 1290
+   }
+  },
+  {
+   "branch": "m3-results/45225443410",
+   "oracleFiles": 58,
+   "buttonPresses": 1528,
+   "withAction": 1527,
+   "withoutAction": [
+    {
+     "file": "fx-2/oracle-table-02-g1.jsonl",
+     "t": 1795455325922,
+     "control": "call",
+     "rev": 31,
+     "enabled": true,
+     "x": 700,
+     "y": 477,
+     "next": [
+      [
+       "closed",
+       null,
+       null,
+       16
+      ]
+     ]
+    }
+   ],
+   "results": {
+    "accepted": 1528
+   }
+  },
+  {
+   "branch": "m3-results/45236322220",
+   "oracleFiles": 56,
+   "buttonPresses": 1532,
+   "withAction": 1532,
+   "withoutAction": [],
+   "results": {
+    "accepted": 1533
+   }
+  }
+ ],
+ "totals": {
+  "buttonPresses": 8141,
+  "withAction": 8140,
+  "presssesWithoutAction": 1,
+  "results": {
+   "accepted": 8148
+  }
+ },
+ "conclusion": "On Windows CI every button press produced an action that the dealer accepted, except one press whose window was closed 16 ms later by the test itself (lifecycle close-during-action). The operator's unapplied Call has not occurred on CI under these conditions."
+}

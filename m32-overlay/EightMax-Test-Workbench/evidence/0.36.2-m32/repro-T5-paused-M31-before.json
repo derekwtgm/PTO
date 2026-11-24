@@ -1,0 +1,361 @@
+{
+  "format": "eightmax-m32-repro-paused-target-lost",
+  "version": 1,
+  "app": "0.36.2-dev",
+  "root": "/home/user/work/m31-extract/EightMax-Test-Workbench",
+  "environment": "fake host (logic reproduction, not Windows evidence)",
+  "at": "2026-11-24T00:43:38.683Z",
+  "beforeClose": {
+    "t2Lifecycle": "ACTIVE",
+    "t2Paused": "Action visibly rejected by the simulator: no change within 400 ms; same actor still to act",
+    "t2LastAction": {
+      "status": "rejected",
+      "reason": "no change within 400 ms; same actor still to act",
+      "intended": {
+        "type": "fold"
+      }
+    },
+    "droppedClick": {
+      "ms": 2865,
+      "control": "fold",
+      "rev": 4
+    }
+  },
+  "afterClose": {
+    "waitedMs": 15000,
+    "t2Lifecycle": "ACTIVE",
+    "t2Terminal": false,
+    "detectMs": null,
+    "t2LostReason": null,
+    "t2LostSource": null,
+    "schedulerUnavailableTables": [],
+    "schedulerInvalidations": [],
+    "requestsForTable2AfterClose": {
+      "captures": 0,
+      "identityProbes": 0
+    },
+    "inputsToTable2AfterClose": 0,
+    "table1": {
+      "lifecycle": "ACTIVE",
+      "confirmedAfterClose": 136,
+      "completed": false
+    }
+  },
+  "t5Checks": [
+    {
+      "name": "table 2 TARGET_LOST after its window closed",
+      "pass": false,
+      "detail": "ACTIVE"
+    },
+    {
+      "name": "the scheduler blocks only table 2",
+      "pass": false,
+      "detail": []
+    },
+    {
+      "name": "no input to the closed window",
+      "pass": true,
+      "detail": 0
+    },
+    {
+      "name": "table 1 keeps playing (or finished its tournament)",
+      "pass": true,
+      "detail": {
+        "lifecycle": "ACTIVE",
+        "confirmedAfterClose": 136,
+        "completed": false
+      }
+    }
+  ],
+  "reproduced": true,
+  "verdict": "DEFECT REPRODUCED: the paused table never noticed its window closed (lifecycle ACTIVE, scheduler unavailable [])",
+  "events": [
+    {
+      "ms": 2255,
+      "kind": "lifecycle",
+      "table": 1,
+      "from": "REGISTERED",
+      "to": "ACTIVE",
+      "cause": "first-reading"
+    },
+    {
+      "ms": 2288,
+      "kind": "lifecycle",
+      "table": 2,
+      "from": "REGISTERED",
+      "to": "ACTIVE",
+      "cause": "first-reading"
+    },
+    {
+      "ms": 2776,
+      "kind": "both-tables-playing",
+      "t1": 3,
+      "t2": 3
+    },
+    {
+      "ms": 2865,
+      "kind": "dealer-dropped-click",
+      "table": 2,
+      "control": "fold"
+    },
+    {
+      "ms": 3366,
+      "kind": "table-2-paused",
+      "paused": "Action visibly rejected by the simulator: no change within 400 ms; same actor still to act",
+      "lifecycle": "ACTIVE",
+      "lastAction": "rejected",
+      "reason": "no change within 400 ms; same actor still to act"
+    },
+    {
+      "ms": 3366,
+      "kind": "table-2-window-closed"
+    },
+    {
+      "ms": 18369,
+      "kind": "table-2-NOT-lost-within-wait",
+      "waitedMs": 15003
+    },
+    {
+      "ms": 18369,
+      "kind": "lifecycle",
+      "table": 1,
+      "from": "ACTIVE",
+      "to": "STOPPED",
+      "cause": "stopped"
+    },
+    {
+      "ms": 18369,
+      "kind": "lifecycle",
+      "table": 2,
+      "from": "ACTIVE",
+      "to": "STOPPED",
+      "cause": "stopped"
+    },
+    {
+      "ms": 18385,
+      "kind": "lifecycle",
+      "table": 1,
+      "from": "STOPPED",
+      "to": "SAFETY_PAUSED",
+      "cause": "unconfirmed-input"
+    }
+  ],
+  "schedulerEvents": [
+    {
+      "ms": 3130,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 3171,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 3651,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 3676,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 3705,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 4131,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 4468,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 4685,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 5978,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 6718,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 7327,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 10493,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 10526,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 10654,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 10996,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 11025,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 11262,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 11285,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 12031,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 12055,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 12185,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 12317,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 12521,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 12821,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 13080,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 13305,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 13330,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 13675,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 14288,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 14823,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 14966,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 15114,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 15263,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 16131,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 17619,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    },
+    {
+      "ms": 17740,
+      "kind": "rejected",
+      "table": 1,
+      "code": "deadline"
+    }
+  ]
+}

@@ -1,3 +1,12 @@
+# EightMax Test Workbench 0.36.2 - Milestone 3.2 (in development): paused-window monitoring, target-loss recovery, multi-table isolation
+
+Work in progress on branch `milestone-3.2-0362`. `m32-overlay/EightMax-Test-Workbench/` holds every file Milestone 3.2 adds or changes relative to
+`EightMax-Test-Workbench-0.36.2-Milestone-3.1.zip` (unchanged in this branch); `.github/workflows/windows-0362-m32.yml` packages the Milestone 3.1 ZIP +
+overlay (or, once committed, the Milestone 3.2 ZIP) and tests it on Windows: standalone T5 on separate machines, the full acceptance, the Milestone 3.1
+scenario suite and the Linux regression suite. Results: branches `m32-results/<run id>-*`.
+
+---
+
 # EightMax Test Workbench 0.36.2 - Milestone 3.1 (Windows test-runner repair, startup diagnostics, crash recovery, reliable reports)
 
 | File | Contents |

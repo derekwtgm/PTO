@@ -1,0 +1,75 @@
+{
+ "format": "eightmax-m32-stage1-baseline",
+ "version": 1,
+ "at": "2026-11-24",
+ "baselineZip": {
+  "file": "EightMax-Test-Workbench-0.36.2-Milestone-3.1.zip",
+  "source": "branch milestone-3.1-0362 of derekwtgm/PTO (commit e9faef6)",
+  "sha256": "49d0d7a4cf3c4e1e130b5d0a2d08f9dc9fe97419cd3651deae9460aa642bdf1f",
+  "expected": "49d0d7a4cf3c4e1e130b5d0a2d08f9dc9fe97419cd3651deae9460aa642bdf1f",
+  "matches": true,
+  "entries": 1444,
+  "crcOk": true
+ },
+ "manifest": {
+  "tool": "sha256sum -c SHA256SUMS.txt (extracted copy)",
+  "exitCode": 0,
+  "failures": [],
+  "entries": 1443
+ },
+ "executables": {
+  "desktop/bin/EightMaxWorkbench.exe": {
+   "recorded": "845578b9a6596009e68ce6f182d47ae20ddd511f58b9c37a3d4b12e1c7f32290",
+   "actual": "845578b9a6596009e68ce6f182d47ae20ddd511f58b9c37a3d4b12e1c7f32290",
+   "matches": true
+  },
+  "desktop/bin/EightMaxInput.exe": {
+   "recorded": "2c4d7b739ceb617925600c663848d51d21570d5fe566e10fa15713d6d390c91c",
+   "actual": "2c4d7b739ceb617925600c663848d51d21570d5fe566e10fa15713d6d390c91c",
+   "matches": true
+  },
+  "desktop/bin/EightMaxTestTable.exe": {
+   "recorded": "3e5a76995a24d169336179e7e3805ddeb57271d951029226b43653c217464348",
+   "actual": "3e5a76995a24d169336179e7e3805ddeb57271d951029226b43653c217464348",
+   "matches": true
+  },
+  "desktop/bin/EightMaxCapture.exe": {
+   "recorded": "8180c32910bfd1d5053c42f8c9ccf484bb6146022dc1284e45dbbde622124da0",
+   "actual": "8180c32910bfd1d5053c42f8c9ccf484bb6146022dc1284e45dbbde622124da0",
+   "matches": true
+  },
+  "desktop/bin/EightMaxWgc.exe": {
+   "recorded": "bc001504382306e180af0f76abf0836d561faa07e8c210317df73048e55cafc1",
+   "actual": "bc001504382306e180af0f76abf0836d561faa07e8c210317df73048e55cafc1",
+   "matches": true
+  },
+  "native/mwcli.exe": {
+   "recorded": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+   "actual": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+   "matches": true
+  },
+  "runtime/node/node.exe": {
+   "recorded": "247e9693d316da9857e44990e5e11709f596f18112251b8026ec6eed80bdf38a",
+   "actual": "247e9693d316da9857e44990e5e11709f596f18112251b8026ec6eed80bdf38a",
+   "matches": true
+  }
+ },
+ "nativeEngine": {
+  "file": "native/mwcli.exe",
+  "sha256": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+  "expected": "b3e675bfe2ae231e7d637de07886af6b511905d5225db96fe12ce2c3ccab2f72",
+  "build": "7d08acc7eb4577ee (recorded; the build id is read with mwcli --build-id on Windows by the runner)"
+ },
+ "operatorEvidence": {
+  "uploaded": "EightMax-Windows-Test-Results-20261123-172312.zip (collector, 111 files) - contains Logs/desktop-requests.log of the failing run (requests up to 2026-11-24T00:09:50Z)",
+  "notUploaded": "milestone3-results(2).zip of the Milestone 3.1 run (work-gameplay/diag-acceptance-T5.json, oracle-table-02.jsonl) - not among the uploaded files; its content is known only from the failure text in the brief"
+ },
+ "linuxBaselineSuite": {
+  "file": "baseline-M31-linux-node-tests.tap",
+  "tests": 1001,
+  "passed": 913,
+  "failed": 0,
+  "skipped": 88,
+  "note": "this development machine has no PowerShell 7 (the M3.1 report ran with it: 934/67), so 21 PowerShell runner tests skip here"
+ }
+}
